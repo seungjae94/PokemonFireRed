@@ -7,6 +7,7 @@
 // 이름이 있고, 매 틱마다 특정 동작을 하며, 레벨 상에서 Transform을 갖는 오브젝트.
 class AActor : public UNameObject, public UTickObject
 {
+	friend ULevel;		// ULevel에 SetWorld 공개
 public:
 	// constructor destructor
 	AActor();
@@ -58,6 +59,9 @@ private:
 	ULevel* World = nullptr;
 	FTransform Transform = FTransform();
 
+	// 레벨이 액터를 생성할 때 호출되어 액터의 World를 해당 레벨로 설정해주는 함수
+	// - 레벨에서만 호출할 함수이므로 private으로 설정한다.
+	// - 레벨이 호출할 수 있어야 하므로 ULevel에 friend를 걸어준다.
 	void SetWorld(ULevel* _World)
 	{
 		World = _World;

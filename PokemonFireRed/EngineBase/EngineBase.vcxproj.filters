@@ -10,6 +10,9 @@
     <Filter Include="Math">
       <UniqueIdentifier>{5498d356-577b-4f14-9623-cfb3bbba6ef7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="String">
+      <UniqueIdentifier>{b2b83267-6d52-4b37-9c1d-37feb6aa39a0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EngineDebug.h">
@@ -24,6 +27,9 @@
     <ClInclude Include="Transform.h">
       <Filter>Math</Filter>
     </ClInclude>
+    <ClInclude Include="EngineString.h">
+      <Filter>String</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineDebug.cpp">
@@ -37,6 +43,9 @@
     </ClCompile>
     <ClCompile Include="Transform.cpp">
       <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineString.cpp">
+      <Filter>String</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

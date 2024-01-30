@@ -4,15 +4,24 @@
     <Filter Include="Core">
       <UniqueIdentifier>{8d77ac80-c255-418f-8c3e-06569a2c5dfc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Level">
+      <UniqueIdentifier>{eb8e903a-114a-4e5f-9718-0cc29052aa04}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PokemonCore.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="TitleLevel.h">
+      <Filter>Level</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PokemonCore.cpp">
       <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleLevel.cpp">
+      <Filter>Level</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
