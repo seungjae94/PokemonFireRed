@@ -3,6 +3,7 @@
 
 // static 멤버 변수
 HINSTANCE EngineWindow::hInstance = nullptr;
+bool EngineWindow::WindowLive = true;
 
 // 생성자, 소멸자
 EngineWindow::EngineWindow()
@@ -52,16 +53,40 @@ void EngineWindow::Open(std::string_view _Title)
 
 int EngineWindow::WindowMessageLoop(void(*_UpdateCallback)(), void(*_EndCallback)())
 {
-	MSG msg;
+	MSG msg = {};
 
-	while (GetMessage(&msg, nullptr, 0, 0))
+	while (WindowLive)
 	{
-		// hAccTable = nullptr : 메뉴 단축키는 사용하지 않는다.
-		if (!TranslateAccelerator(msg.hwnd, nullptr, &msg))
+		/*
+		* GetMessage 함수는 윈도우 메시지 큐에 메시지가 들어올 때까지 계속 대기한다.
+		* 따라서 윈도우 메시지가 들어올 때까지 코드 실행이 중단된다.
+		* GetMessage 함수는 WM_QUIT 메시지를 읽었을 때만 false를 반환한다.
+		* 
+		* 반면 PeekMessage 함수는 윈도우 메시지 큐에 메시지가 없으면 바로 false를 반환한다.
+		* 
+		*/
+
+		// 윈도우 메시지가 있는지 확인한다.
+		// - PM_REMOVE: 읽은 메시지를 큐에서 제거한다.
+		// - PM_NOREMOVE: 읽은 메시지를 큐에서 제거하지 않는다.
+		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
 		{
+			// EngineWindow::WndProc로 윈도우 메시지를 처리한다.
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
+
+		// 업데이트 콜백
+		if (_UpdateCallback != nullptr)
+		{
+			_UpdateCallback();
+		}
+	}
+
+	// 종료 콜백
+	if (_EndCallback != nullptr)
+	{
+		_EndCallback();
 	}
 
 	return static_cast<int>(msg.wParam);
@@ -72,7 +97,7 @@ LRESULT CALLBACK EngineWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, L
 	switch (message)
 	{
 	case WM_DESTROY:
-		PostQuitMessage(0);
+		WindowLive = false;
 		break;
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);

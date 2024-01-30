@@ -49,6 +49,9 @@ private:
 	// - 모든 윈도우가 공유할 것이기 때문에 static으로 선언했다.
 	static HINSTANCE hInstance;
 
+	// 메시지 루프의 지속 여부
+	static bool WindowLive;
+
 	// 윈도우 핸들
 	HWND hWnd = nullptr;
 };
