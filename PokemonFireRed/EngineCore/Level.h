@@ -2,6 +2,7 @@
 #include <map>
 #include <list>
 #include <EngineBase/NameObject.h>
+#include <EngineCore/EngineCore.h>
 
 // 상위 개념인 레벨이 하위 개념인 액터를 직접 참조하면 순환 참조 문제가 발생할 수 있다.
 // 클래스 전방 선언으로 순환 참조 문제를 회피한다.
@@ -10,6 +11,7 @@ class AActor;
 // 액터들이 활동할 무대
 class ULevel : public UNameObject
 {
+	friend EngineCore;
 public:
 	// constructor destructor
 	ULevel();
@@ -50,5 +52,14 @@ private:
 
 	// 액터의 월드를 현재 레벨로 설정하고, 액터의 BeginPlay를 호출한다.
 	void ActorInit(AActor* _Actor);
+
+	// 오브젝트(액터) 틱 호출
+	void LevelTick(float _DeltaTime);
+
+	// 렌더링: 차후 구현
+	void LevelRender(float _DeltaTime);
+
+	// Destroy한 오브젝트(액터) 릴리즈
+	void LevelRelease(float _DeltaTime);
 };
 

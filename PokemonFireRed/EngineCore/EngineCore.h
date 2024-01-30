@@ -31,6 +31,8 @@ public:
 	void CoreInit(HINSTANCE _hInstance);
 
 	virtual void BeginPlay() {}
+	virtual void Tick(float _DeltaTime) {}
+	virtual void End() {}
 
 	// 레벨을 생성하는 함수
 	// - 레벨의 BeginPlay 함수를 호출해준다.

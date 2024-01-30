@@ -61,6 +61,17 @@ void EngineCore::LevelInit(ULevel* _Level)
 
 void EngineCore::EngineTick()
 {
+	// 업데이트 구조 1: 레벨이 매 틱마다 할 행동
+	GEngine->CurLevel->Tick(0.0f);
+
+	// 업데이트 구조 2: 레벨에 포함된 오브젝트(e.g. 액터)들이 매 틱마다 할 행동 
+	GEngine->CurLevel->LevelTick(0.0f);
+
+	// 렌더링 구조 (차후 구현)
+	GEngine->CurLevel->LevelRender(0.0f);
+	
+	// 릴리즈 구조: Destroy한 오브젝트 릴리즈
+	GEngine->CurLevel->LevelRelease(0.0f);
 }
 
 void EngineCore::EngineEnd()
