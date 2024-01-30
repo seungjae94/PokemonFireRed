@@ -5,6 +5,7 @@
 #include <Windows.h>
 #include <EngineBase/EngineDebug.h>
 #include <EngineBase/EngineString.h>
+#include <EngineBase/EngineTime.h>
 #include <EnginePlatform/EngineWindow.h>
 
 // 하위 개념인 레벨을 헤더로 직접 참조할 때 발생할 수 있는 순환 참조를 방지하기 위해 클래스 전방 선언
@@ -14,6 +15,11 @@ class ULevel;
 class EngineCore
 {
 public:
+	// MainWindow, MainTimer는 객체로서 스스로를 보호할 능력을 갖고 있다.
+	// 따라서 public으로 외부에 공개해도 큰 문제 없다.
+	EngineWindow MainWindow;
+	EngineTime MainTimer;
+
 	// constructor destructor
 	virtual ~EngineCore();
 
@@ -58,7 +64,6 @@ public:
 protected:
 	EngineCore();
 private:
-	EngineWindow MainWindow;
 	bool EngineInit = false;
 
 	// 레벨 관련

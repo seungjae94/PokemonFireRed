@@ -1,5 +1,13 @@
 #include "EngineString.h"
 
+UEngineString::UEngineString()
+{
+}
+
+UEngineString::~UEngineString()
+{
+}
+
 std::string UEngineString::ToUpper(std::string_view _View)
 {
 	std::string Str = _View.data();
@@ -10,12 +18,4 @@ std::string UEngineString::ToUpper(std::string_view _View)
 	}
 
 	return Str;
-}
-
-UEngineString::UEngineString()
-{
-}
-
-UEngineString::~UEngineString()
-{
 }
