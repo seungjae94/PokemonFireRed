@@ -29,7 +29,7 @@ public:
 	/// <param name="_EndCallback">
 	///		루프가 종료된 뒤 호출할 콜백
 	/// </param>
-	static int WindowMessageLoop(void (*_UpdateCallback)(), void (*_EndCallback)());
+	static unsigned __int64 WindowMessageLoop(void (*_Update)(), void (*_End)());
 
 	// static 멤버 변수 hInstance를 초기화한다.
 	static void Init(HINSTANCE _hInstance)

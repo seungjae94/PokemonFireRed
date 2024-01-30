@@ -56,6 +56,36 @@ public:
 
 
 public:
+	int iX()
+	{
+		return static_cast<int>(X);
+	}
+
+	int iY()
+	{
+		return static_cast<int>(Y);
+	}
+
+	float hX()
+	{
+		return X * 0.5f;
+	}
+
+	float hY()
+	{
+		return Y * 0.5f;
+	}
+
+	int ihY()
+	{
+		return static_cast<int>(hY());
+	}
+
+	int ihX()
+	{
+		return static_cast<int>(hX());
+	}
+
 	float4 operator+(const float4& _Other)
 	{
 		float4 Result = *this;

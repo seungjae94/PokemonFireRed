@@ -51,7 +51,7 @@ void EngineWindow::Open(std::string_view _Title)
 }
 
 
-int EngineWindow::WindowMessageLoop(void(*_UpdateCallback)(), void(*_EndCallback)())
+unsigned __int64 EngineWindow::WindowMessageLoop(void(*_Update)(), void(*_End)())
 {
 	MSG msg = {};
 
@@ -77,19 +77,19 @@ int EngineWindow::WindowMessageLoop(void(*_UpdateCallback)(), void(*_EndCallback
 		}
 
 		// 업데이트 콜백
-		if (_UpdateCallback != nullptr)
+		if (_Update != nullptr)
 		{
-			_UpdateCallback();
+			_Update();
 		}
 	}
 
 	// 종료 콜백
-	if (_EndCallback != nullptr)
+	if (_End != nullptr)
 	{
-		_EndCallback();
+		_End();
 	}
 
-	return static_cast<int>(msg.wParam);
+	return msg.wParam;
 }
 
 LRESULT CALLBACK EngineWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
