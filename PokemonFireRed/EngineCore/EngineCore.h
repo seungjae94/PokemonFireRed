@@ -37,13 +37,13 @@ private:
 
 extern EngineCore* GEngine;
 
-//#define ENGINESTART(USERCORE) \
-//int APIENTRY wWinMain(_In_ HINSTANCE hInstance, \
-//	_In_opt_ HINSTANCE hPrevInstance, \
-//	_In_ LPWSTR    lpCmdLine, \
-//	_In_ int       nCmdShow) \
-//{ \
-//	LeakCheck; \
-//	USERCORE MainCore = USERCORE(); \
-//	EngineCore::EngineStart(hInstance, &MainCore); \	
-//}
+#define ENGINESTART(USERCORE) \
+int APIENTRY wWinMain(_In_ HINSTANCE hInstance, \
+	_In_opt_ HINSTANCE hPrevInstance, \
+	_In_ LPWSTR    lpCmdLine, \
+	_In_ int       nCmdShow) \
+{ \
+	LeakCheck; \
+	USERCORE MainCore = USERCORE(); \
+	EngineCore::EngineStart(hInstance, &MainCore); \
+}
