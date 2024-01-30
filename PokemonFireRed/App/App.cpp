@@ -1,10 +1,4 @@
-#include <Windows.h>
-#include <EngineBase/EngineDebug.h>
+#include <EngineCore/EngineCore.h>
+#include <Pokemon/PokemonCore.h>
 
-int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
-	_In_opt_ HINSTANCE hPrevInstance,
-	_In_ LPWSTR    lpCmdLine,
-	_In_ int       nCmdShow)
-{
-	LeakCheck;
-}
+ENGINESTART(PokemonCore);
