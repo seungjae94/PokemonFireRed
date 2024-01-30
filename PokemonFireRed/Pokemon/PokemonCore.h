@@ -15,6 +15,7 @@ public:
 	PokemonCore& operator=(const PokemonCore& _Other) = delete;
 	PokemonCore& operator=(PokemonCore&& _Other) noexcept = delete;
 
+	void BeginPlay() override;
 protected:
 
 private:
