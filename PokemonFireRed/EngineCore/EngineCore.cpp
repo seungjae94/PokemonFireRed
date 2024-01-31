@@ -38,6 +38,9 @@ void EngineCore::CoreInit(HINSTANCE _hInstance)
 		return;
 	}
 
+	// 시간 측정 시작
+	MainTimer.TimeCheckStart();
+
 	// 윈도우 띄우기
 	EngineWindow::Init(_hInstance);
 	MainWindow.Open("Title");
