@@ -4,15 +4,24 @@
     <Filter Include="Window">
       <UniqueIdentifier>{4e17b109-4cb8-429d-b643-a0942caa6521}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Input">
+      <UniqueIdentifier>{2047dd4b-eacb-4625-bb81-f962760c8edc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineWindow.cpp">
       <Filter>Window</Filter>
     </ClCompile>
+    <ClCompile Include="EngineInput.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EngineWindow.h">
       <Filter>Window</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineInput.h">
+      <Filter>Input</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

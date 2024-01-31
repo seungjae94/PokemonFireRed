@@ -1,5 +1,6 @@
 #include "EngineCore.h"
 
+#include <EnginePlatform/EngineInput.h>
 #include "Level.h"
 
 EngineCore* GEngine = nullptr;
@@ -63,6 +64,16 @@ void EngineCore::LevelInit(ULevel* _Level)
 void EngineCore::EngineTick()
 {
 	float DeltaTime = GEngine->MainTimer.TimeCheck();
+
+	// 키 입력 체크
+	EngineInput::KeyCheckTick(DeltaTime);
+
+	// 예외 처리: 현재 레벨이 설정되지 않은 경우
+	if (GEngine->CurLevel == nullptr)
+	{
+		MsgBoxAssert("엔진을 시작할 레벨이 지정되지 않았습니다.");
+		return;
+	}
 
 	// 업데이트 구조 1: 레벨이 매 틱마다 할 행동
 	GEngine->CurLevel->Tick(DeltaTime);

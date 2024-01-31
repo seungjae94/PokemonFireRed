@@ -1,0 +1,181 @@
+#include "EngineInput.h"
+
+std::map<int, EngineInput::EngineKey> EngineInput::AllKeys;
+
+EngineInput::EngineInput() 
+{
+}
+
+EngineInput::~EngineInput() 
+{
+}
+
+void EngineInput::KeyCheckTick(float _DeltaTime)
+{
+	for (std::pair<const int, EngineKey>& KeyPair : AllKeys)
+	{
+		EngineKey& Key = KeyPair.second;
+		Key.KeyCheck();
+	}
+}
+
+void EngineInput::InputInit()
+{
+	AllKeys[VK_LBUTTON] = EngineKey(VK_LBUTTON);
+	AllKeys[VK_RBUTTON] = EngineKey(VK_RBUTTON);
+	AllKeys[VK_CANCEL] = EngineKey(VK_CANCEL);
+	AllKeys[VK_MBUTTON] = EngineKey(VK_MBUTTON);
+	AllKeys[VK_BACK] = EngineKey(VK_BACK);
+	AllKeys[VK_TAB] = EngineKey(VK_TAB);
+	AllKeys[VK_CLEAR] = EngineKey(VK_CLEAR);
+	AllKeys[VK_RETURN] = EngineKey(VK_RETURN);
+	AllKeys[VK_SHIFT] = EngineKey(VK_SHIFT);
+	AllKeys[VK_LSHIFT] = EngineKey(VK_LSHIFT);
+	AllKeys[VK_CONTROL] = EngineKey(VK_CONTROL);
+	AllKeys[VK_MENU] = EngineKey(VK_MENU);
+	AllKeys[VK_PAUSE] = EngineKey(VK_PAUSE);
+	AllKeys[VK_CAPITAL] = EngineKey(VK_CAPITAL);
+	AllKeys[VK_KANA] = EngineKey(VK_KANA);
+	AllKeys[VK_HANGEUL] = EngineKey(VK_HANGEUL);
+	AllKeys[VK_HANGUL] = EngineKey(VK_HANGUL);
+	AllKeys[VK_IME_ON] = EngineKey(VK_IME_ON);
+	AllKeys[VK_JUNJA] = EngineKey(VK_JUNJA);
+	AllKeys[VK_FINAL] = EngineKey(VK_FINAL);
+	AllKeys[VK_HANJA] = EngineKey(VK_HANJA);
+	AllKeys[VK_KANJI] = EngineKey(VK_KANJI);
+	AllKeys[VK_IME_OFF] = EngineKey(VK_IME_OFF);
+	AllKeys[VK_ESCAPE] = EngineKey(VK_ESCAPE);
+	AllKeys[VK_CONVERT] = EngineKey(VK_CONVERT);
+	AllKeys[VK_NONCONVERT] = EngineKey(VK_NONCONVERT);
+	AllKeys[VK_ACCEPT] = EngineKey(VK_ACCEPT);
+	AllKeys[VK_MODECHANGE] = EngineKey(VK_MODECHANGE);
+	AllKeys[VK_SPACE] = EngineKey(VK_SPACE);
+	AllKeys[VK_PRIOR] = EngineKey(VK_PRIOR);
+	AllKeys[VK_NEXT] = EngineKey(VK_NEXT);
+	AllKeys[VK_END] = EngineKey(VK_END);
+	AllKeys[VK_HOME] = EngineKey(VK_HOME);
+	AllKeys[VK_LEFT] = EngineKey(VK_LEFT);
+	AllKeys[VK_UP] = EngineKey(VK_UP);
+	AllKeys[VK_RIGHT] = EngineKey(VK_RIGHT);
+	AllKeys[VK_DOWN] = EngineKey(VK_DOWN);
+	AllKeys[VK_SELECT] = EngineKey(VK_SELECT);
+	AllKeys[VK_PRINT] = EngineKey(VK_PRINT);
+	AllKeys[VK_EXECUTE] = EngineKey(VK_EXECUTE);
+	AllKeys[VK_SNAPSHOT] = EngineKey(VK_SNAPSHOT);
+	AllKeys[VK_INSERT] = EngineKey(VK_INSERT);
+	AllKeys[VK_DELETE] = EngineKey(VK_DELETE);
+	AllKeys[VK_HELP] = EngineKey(VK_HELP);
+	AllKeys[VK_LWIN] = EngineKey(VK_LWIN);
+	AllKeys[VK_RWIN] = EngineKey(VK_RWIN);
+	AllKeys[VK_APPS] = EngineKey(VK_APPS);
+	AllKeys[VK_SLEEP] = EngineKey(VK_SLEEP);
+	AllKeys[VK_NUMPAD0] = EngineKey(VK_NUMPAD0);
+	AllKeys[VK_NUMPAD1] = EngineKey(VK_NUMPAD1);
+	AllKeys[VK_NUMPAD2] = EngineKey(VK_NUMPAD2);
+	AllKeys[VK_NUMPAD3] = EngineKey(VK_NUMPAD3);
+	AllKeys[VK_NUMPAD4] = EngineKey(VK_NUMPAD4);
+	AllKeys[VK_NUMPAD5] = EngineKey(VK_NUMPAD5);
+	AllKeys[VK_NUMPAD6] = EngineKey(VK_NUMPAD6);
+	AllKeys[VK_NUMPAD7] = EngineKey(VK_NUMPAD7);
+	AllKeys[VK_NUMPAD8] = EngineKey(VK_NUMPAD8);
+	AllKeys[VK_NUMPAD9] = EngineKey(VK_NUMPAD9);
+	AllKeys[VK_MULTIPLY] = EngineKey(VK_MULTIPLY);
+	AllKeys[VK_ADD] = EngineKey(VK_ADD);
+	AllKeys[VK_SEPARATOR] = EngineKey(VK_SEPARATOR);
+	AllKeys[VK_SUBTRACT] = EngineKey(VK_SUBTRACT);
+	AllKeys[VK_DECIMAL] = EngineKey(VK_DECIMAL);
+	AllKeys[VK_DIVIDE] = EngineKey(VK_DIVIDE);
+	AllKeys[VK_F1] = EngineKey(VK_F1);
+	AllKeys[VK_F2] = EngineKey(VK_F2);
+	AllKeys[VK_F3] = EngineKey(VK_F3);
+	AllKeys[VK_F4] = EngineKey(VK_F4);
+	AllKeys[VK_F5] = EngineKey(VK_F5);
+	AllKeys[VK_F6] = EngineKey(VK_F6);
+	AllKeys[VK_F7] = EngineKey(VK_F7);
+	AllKeys[VK_F8] = EngineKey(VK_F8);
+	AllKeys[VK_F9] = EngineKey(VK_F9);
+	AllKeys[VK_F10] = EngineKey(VK_F10);
+	AllKeys[VK_F11] = EngineKey(VK_F11);
+	AllKeys[VK_F12] = EngineKey(VK_F12);
+	AllKeys[VK_F13] = EngineKey(VK_F13);
+	AllKeys[VK_F14] = EngineKey(VK_F14);
+	AllKeys[VK_F15] = EngineKey(VK_F15);
+	AllKeys[VK_F16] = EngineKey(VK_F16);
+	AllKeys[VK_F17] = EngineKey(VK_F17);
+	AllKeys[VK_F18] = EngineKey(VK_F18);
+	AllKeys[VK_F19] = EngineKey(VK_F19);
+	AllKeys[VK_F20] = EngineKey(VK_F20);
+	AllKeys[VK_F21] = EngineKey(VK_F21);
+	AllKeys[VK_F22] = EngineKey(VK_F22);
+	AllKeys[VK_F23] = EngineKey(VK_F23);
+	AllKeys[VK_F24] = EngineKey(VK_F24);
+	AllKeys['-'] = EngineKey(VK_OEM_MINUS);
+	AllKeys['+'] = EngineKey(VK_OEM_PLUS);
+	AllKeys[VK_OEM_4] = EngineKey(VK_OEM_4);
+	AllKeys[VK_OEM_6] = EngineKey(VK_OEM_6);
+
+	for (int i = 'A'; i <= 'Z'; ++i)
+	{
+		AllKeys[i] = EngineKey(i);
+	}
+	
+	for (int i = '0'; i <= '9'; ++i)
+	{
+		AllKeys[i] = EngineKey(i);
+	}
+}
+
+void EngineInput::EngineKey::KeyCheck()
+{
+	// 실제로 키가 눌려있는 경우
+	if (GetAsyncKeyState(Key) != 0)
+	{
+		if (Free == true)
+		{
+			// 키가 막 눌린 경우
+			Down = true;
+			Up = false;
+			Press = true;
+			Free = false;
+		}
+		else if (Down == true)
+		{
+			// Down의 다음 프레임인 경우
+			Down = false;
+			Up = false;
+			Press = true;
+			Free = false;
+		}
+	}
+	// 실제로 키가 눌려있지 않은 경우
+	else
+	{
+		if (Press == true)
+		{
+			// 키가 막 떼어진 경우
+			Down = false;
+			Up = true;
+			Press = false;
+			Free = true;
+		}
+		else if (Up == true)
+		{
+			// Up 다음 프레임인 경우
+			Down = false;
+			Up = false;
+			Press = false;
+			Free = true;
+		}
+	}
+}
+
+// CPP 파일에 정의된 클래스는 다른 CPP 파일에서 볼 수 없다.
+class InputInitCreator
+{
+public:
+	InputInitCreator()
+	{
+		EngineInput::InputInit();
+	}
+};
+InputInitCreator CreateValue = InputInitCreator();
