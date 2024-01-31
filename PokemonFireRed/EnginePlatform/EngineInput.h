@@ -15,7 +15,7 @@ private:
 		bool Down = false;	// 이번 프레임에 키를 눌렀는가?
 		bool Up = false;	// 이번 프레임에 키를 뗐는가?
 		bool Press = false; // 키가 눌려있는가?
-		bool Free = false;  // 키가 떼어져있는가?
+		bool Free = true;  // 키가 떼어져있는가?
 
 		int Key = -1;		// 키의 이름
 

@@ -34,4 +34,5 @@ void UOutdoorLevel::BeginPlay()
 	// 액터 생성
 	APlayer* Player = SpawnActor<APlayer>();
 	AGround* Ground = SpawnActor<AGround>();
+	Player->SetGround(Ground);
 }
