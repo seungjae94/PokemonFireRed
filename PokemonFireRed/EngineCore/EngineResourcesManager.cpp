@@ -2,6 +2,7 @@
 
 #include <EngineBase/EngineDebug.h>
 #include <EngineBase/EngineString.h>
+#include <EngineCore/EngineCore.h>
 
 UEngineResourcesManager::UEngineResourcesManager() 
 {
@@ -27,6 +28,10 @@ UWindowImage* UEngineResourcesManager::LoadImg(std::string_view _Path, std::stri
 	}
 
 	UWindowImage* NewImage = new UWindowImage();
+	NewImage->SetName(_Name);
+	NewImage->SetPath(_Path);
+	NewImage->Load(GEngine->MainWindow.GetWindowImage());
+
 	Images[UpperName] = NewImage;
 	return NewImage;
 }

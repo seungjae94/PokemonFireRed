@@ -1,4 +1,5 @@
 #pragma once
+
 #include <string>
 #include <string_view>
 
@@ -8,6 +9,7 @@ class UEngineString
 {
 public:
 	static std::string ToUpper(std::string_view _View);
+	static std::wstring AnsiToUnicode(std::string_view _View);
 
 protected:
 

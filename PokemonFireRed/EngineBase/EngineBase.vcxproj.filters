@@ -33,9 +33,6 @@
     <ClInclude Include="Transform.h">
       <Filter>Math</Filter>
     </ClInclude>
-    <ClInclude Include="EngineString.h">
-      <Filter>String</Filter>
-    </ClInclude>
     <ClInclude Include="EngineTime.h">
       <Filter>Time</Filter>
     </ClInclude>
@@ -51,6 +48,9 @@
     <ClInclude Include="EngineFile.h">
       <Filter>IO</Filter>
     </ClInclude>
+    <ClInclude Include="EngineString.h">
+      <Filter>String</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineDebug.cpp">
@@ -64,9 +64,6 @@
     </ClCompile>
     <ClCompile Include="Transform.cpp">
       <Filter>Math</Filter>
-    </ClCompile>
-    <ClCompile Include="EngineString.cpp">
-      <Filter>String</Filter>
     </ClCompile>
     <ClCompile Include="EngineTime.cpp">
       <Filter>Time</Filter>
@@ -82,6 +79,9 @@
     </ClCompile>
     <ClCompile Include="EngineFile.cpp">
       <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineString.cpp">
+      <Filter>String</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

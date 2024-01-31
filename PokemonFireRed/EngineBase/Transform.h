@@ -7,6 +7,10 @@ struct FTransform
 public:
 	// constructor destructor
 	FTransform();
+	FTransform(const FVector& _Pos, const FVector& _Scale)
+		: Position(_Pos), Scale(_Scale)
+	{
+	}
 	~FTransform();
 
 	// delete Function
@@ -16,7 +20,7 @@ public:
 	//FTransform& operator=(FTransform&& _Other) noexcept = delete;
 
 public:
-	FVector GetScale()
+	FVector GetScale() const
 	{
 		return Scale;
 	}
@@ -26,7 +30,7 @@ public:
 		Scale = _Value;
 	}
 
-	FVector GetPosition()
+	FVector GetPosition() const
 	{
 		return Position;
 	}
@@ -41,36 +45,42 @@ public:
 		Position += _Value;
 	}
 
-	float Left()
+	float Left() const
 	{
 		return Position.X - Scale.hX();
 	}
-	float Right()
+
+	float Right() const
 	{
 		return Position.X + Scale.hX();
 	}
-	float Top()
+
+	float Top() const
 	{
 		return Position.Y - Scale.hY();
 	}
-	float Bottom()
+
+	float Bottom() const
 	{
 		return Position.Y + Scale.hY();
 	}
 
-	int iLeft()
+	int iLeft() const
 	{
 		return static_cast<int>(Left());
 	}
-	int iRight()
+
+	int iRight() const
 	{
 		return static_cast<int>(Right());
 	}
-	int iTop()
+
+	int iTop() const
 	{
 		return static_cast<int>(Top());
 	}
-	int iBottom()
+
+	int iBottom() const
 	{
 		return static_cast<int>(Bottom());
 	}

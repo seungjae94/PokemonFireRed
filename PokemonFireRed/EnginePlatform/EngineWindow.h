@@ -1,6 +1,9 @@
 #pragma once
 #include <string_view>
 #include <Windows.h>
+#include <EngineBase\EngineMath.h>
+
+class UWindowImage;
 
 // 윈도우(창)는 여러 개 존재할 가능성이 있다.
 class UEngineWindow
@@ -37,6 +40,21 @@ public:
 		hInstance = _hInstance;
 	}
 
+	UWindowImage* GetWindowImage()
+	{
+		return WindowImage;
+	}
+
+	UWindowImage* GetBackBufferImage()
+	{
+		return BackBufferImage;
+	}
+
+	void SetWindowScale(const FVector& _Scale);
+
+	void ScreenClear();
+	void ScreenUpdate();
+
 protected:
 
 private:
@@ -54,5 +72,12 @@ private:
 
 	// 윈도우 핸들
 	HWND hWnd = nullptr;
+
+	// 윈도우 이미지, 백버퍼 이미지 (더블 버퍼링)
+	UWindowImage* WindowImage = nullptr;
+	UWindowImage* BackBufferImage = nullptr;
+
+	// 윈도우 크기
+	FVector Scale;
 };
 
