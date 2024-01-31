@@ -79,6 +79,8 @@ public:
 	/// </param>
 	void TransCopy(UWindowImage* _CopyImage, const FTransform& _CopyTrans, const FTransform& _ImageTrans, Color8Bit _Color = Color8Bit::Black);
 
+	FVector GetScale();
+
 protected:
 
 private:

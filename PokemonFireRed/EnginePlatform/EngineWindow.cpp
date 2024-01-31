@@ -1,7 +1,6 @@
 #include "EngineWindow.h"
 
 #include <EngineBase/EngineDebug.h>
-#include <EngineBase/Transform.h>
 #include "WindowImage.h"
 
 // static 멤버 변수
@@ -47,7 +46,7 @@ void UEngineWindow::Open(std::string_view _Title)
 	wcex.hIconSm = nullptr;								// 아이콘은 사용하지 않는다.
 
 	RegisterClassExA(&wcex);							// 멀티바이트 문자를 사용할 것이기 때문에 WNDCLASSEXW 대신 WNDCLASSEXA를 사용
-	
+
 	// 기본 옵션으로 윈도우 생성
 	int Style = WS_OVERLAPPED |
 		WS_CAPTION |
@@ -60,7 +59,7 @@ void UEngineWindow::Open(std::string_view _Title)
 		CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
 
 	// 예외 처리: 윈도우 생성 실패
-	if (hWnd == nullptr)
+	if (!hWnd)
 	{
 		MsgBoxAssert("윈도우 생성에 실패했습니다.");
 		return;
@@ -89,9 +88,9 @@ unsigned __int64 UEngineWindow::WindowMessageLoop(void(*_Update)(), void(*_End)(
 		* GetMessage 함수는 윈도우 메시지 큐에 메시지가 들어올 때까지 계속 대기한다.
 		* 따라서 윈도우 메시지가 들어올 때까지 코드 실행이 중단된다.
 		* GetMessage 함수는 WM_QUIT 메시지를 읽었을 때만 false를 반환한다.
-		* 
+		*
 		* 반면 PeekMessage 함수는 윈도우 메시지 큐에 메시지가 없으면 바로 false를 반환한다.
-		* 
+		*
 		*/
 
 		// 윈도우 메시지가 있는지 확인한다.
@@ -120,10 +119,22 @@ unsigned __int64 UEngineWindow::WindowMessageLoop(void(*_Update)(), void(*_End)(
 	return msg.wParam;
 }
 
+void UEngineWindow::Init(HINSTANCE _hInstance)
+{
+	hInstance = _hInstance;
+}
+
 LRESULT CALLBACK UEngineWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
 	{
+	case WM_PAINT:
+	{
+		PAINTSTRUCT ps;
+		HDC hdc = BeginPaint(hWnd, &ps);
+		EndPaint(hWnd, &ps);
+	}
+	break;
 	case WM_DESTROY:
 		WindowLive = false;
 		break;

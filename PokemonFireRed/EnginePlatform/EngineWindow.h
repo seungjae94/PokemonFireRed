@@ -1,5 +1,5 @@
 #pragma once
-#include <string_view>
+#include <string>
 #include <Windows.h>
 #include <EngineBase\EngineMath.h>
 
@@ -35,10 +35,7 @@ public:
 	static unsigned __int64 WindowMessageLoop(void (*_Update)(), void (*_End)());
 
 	// static 멤버 변수 hInstance를 초기화한다.
-	static void Init(HINSTANCE _hInstance)
-	{
-		hInstance = _hInstance;
-	}
+	static void Init(HINSTANCE _hInstance);
 
 	UWindowImage* GetWindowImage()
 	{

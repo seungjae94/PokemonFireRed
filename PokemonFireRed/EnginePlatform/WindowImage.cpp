@@ -1,5 +1,6 @@
 #include "WindowImage.h"
 
+#include <Windows.h>
 #include <EngineBase/EngineDebug.h>
 #include <EngineBase/EngineString.h>
 
@@ -15,6 +16,9 @@ UWindowImage::UWindowImage()
 
 UWindowImage::~UWindowImage() 
 {
+	// 커널 오브젝트 릴리즈
+	DeleteObject(hBitMap);
+	DeleteDC(ImageDC);
 }
 
 bool UWindowImage::Load(UWindowImage* _Image)
@@ -25,7 +29,8 @@ bool UWindowImage::Load(UWindowImage* _Image)
 
 	if (".BMP" == UpperExt)
 	{
-		hBitMap = reinterpret_cast<HBITMAP>(LoadImageA(nullptr, Path.GetFullPath().c_str(), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE));
+		HANDLE ImageHandle = LoadImageA(nullptr, Path.GetFullPath().c_str(), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
+		hBitMap = reinterpret_cast<HBITMAP>(ImageHandle);
 		ImageType = EWIndowImageType::IMG_BMP;
 	}
 	else if (".PNG" == UpperExt)
@@ -175,4 +180,9 @@ bool UWindowImage::Create(HDC _MainDC)
 	}
 
 	return true;
+}
+
+FVector UWindowImage::GetScale()
+{
+	return FVector(BitMapInfo.bmWidth, BitMapInfo.bmHeight);
 }
