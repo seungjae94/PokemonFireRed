@@ -12,28 +12,28 @@
 class ULevel;
 
 // 설명 :
-class EngineCore
+class UEngineCore
 {
 public:
 	// MainWindow, MainTimer는 객체로서 스스로를 보호할 능력을 갖고 있다.
 	// 따라서 public으로 외부에 공개해도 큰 문제 없다.
-	EngineWindow MainWindow;
+	UEngineWindow MainWindow;
 	EngineTime MainTimer;
 
 	// constructor destructor
-	virtual ~EngineCore();
+	virtual ~UEngineCore();
 
 	// delete Function
-	EngineCore(const EngineCore& _Other) = delete;
-	EngineCore(EngineCore&& _Other) noexcept = delete;
-	EngineCore& operator=(const EngineCore& _Other) = delete;
-	EngineCore& operator=(EngineCore&& _Other) noexcept = delete;
+	UEngineCore(const UEngineCore& _Other) = delete;
+	UEngineCore(UEngineCore&& _Other) noexcept = delete;
+	UEngineCore& operator=(const UEngineCore& _Other) = delete;
+	UEngineCore& operator=(UEngineCore&& _Other) noexcept = delete;
 
 	// 엔진을 시작한다. 
 	// - MainTimer, MainWindow 초기 작업
 	// - 유저 코어의 BeginPlay 호출
 	// - 윈도우 메시지 루프 시작
-	static void EngineStart(HINSTANCE _hInstance, EngineCore* _UserCore);
+	static void EngineStart(HINSTANCE _hInstance, UEngineCore* _UserCore);
 
 	void CoreInit(HINSTANCE _hInstance);
 
@@ -70,7 +70,7 @@ public:
 	}
 
 protected:
-	EngineCore();
+	UEngineCore();
 private:
 	bool EngineInit = false;
 
@@ -94,7 +94,7 @@ private:
 	float CurFrameTime = 0.0f;
 };
 
-extern EngineCore* GEngine;
+extern UEngineCore* GEngine;
 
 #define ENGINESTART(USERCORE) \
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance, \
@@ -104,5 +104,5 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, \
 { \
 	LeakCheck; \
 	USERCORE MainCore = USERCORE(); \
-	EngineCore::EngineStart(hInstance, &MainCore); \
+	UEngineCore::EngineStart(hInstance, &MainCore); \
 }

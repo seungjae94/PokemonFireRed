@@ -2,19 +2,19 @@
 #include <EngineBase/EngineDebug.h>
 
 // static 멤버 변수
-HINSTANCE EngineWindow::hInstance = nullptr;
-bool EngineWindow::WindowLive = true;
+HINSTANCE UEngineWindow::hInstance = nullptr;
+bool UEngineWindow::WindowLive = true;
 
 // 생성자, 소멸자
-EngineWindow::EngineWindow()
+UEngineWindow::UEngineWindow()
 {
 }
 
-EngineWindow::~EngineWindow()
+UEngineWindow::~UEngineWindow()
 {
 }
 
-void EngineWindow::Open(std::string_view _Title)
+void UEngineWindow::Open(std::string_view _Title)
 {
 	// 윈도우 정보 등록
 	WNDCLASSEXA wcex;									// 멀티바이트 문자를 사용할 것이기 때문에 WNDCLASSEXW 대신 WNDCLASSEXA를 사용
@@ -51,7 +51,7 @@ void EngineWindow::Open(std::string_view _Title)
 }
 
 
-unsigned __int64 EngineWindow::WindowMessageLoop(void(*_Update)(), void(*_End)())
+unsigned __int64 UEngineWindow::WindowMessageLoop(void(*_Update)(), void(*_End)())
 {
 	MSG msg = {};
 
@@ -92,7 +92,7 @@ unsigned __int64 EngineWindow::WindowMessageLoop(void(*_Update)(), void(*_End)()
 	return msg.wParam;
 }
 
-LRESULT CALLBACK EngineWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK UEngineWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
 	{

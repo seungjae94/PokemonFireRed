@@ -3,17 +3,17 @@
 #include <EnginePlatform/EngineInput.h>
 #include "Level.h"
 
-EngineCore* GEngine = nullptr;
+UEngineCore* GEngine = nullptr;
 
-EngineCore::EngineCore()
+UEngineCore::UEngineCore()
 {
 }
 
-EngineCore::~EngineCore()
+UEngineCore::~UEngineCore()
 {
 }
 
-void EngineCore::EngineStart(HINSTANCE _hInstance, EngineCore* _UserCore)
+void UEngineCore::EngineStart(HINSTANCE _hInstance, UEngineCore* _UserCore)
 {
 	GEngine = _UserCore;
 
@@ -26,11 +26,11 @@ void EngineCore::EngineStart(HINSTANCE _hInstance, EngineCore* _UserCore)
 	GEngine->BeginPlay();
 
 	// 메시지 루프 시작
-	EngineWindow::WindowMessageLoop(EngineTick, EngineEnd);
+	UEngineWindow::WindowMessageLoop(EngineTick, EngineEnd);
 }
 
 
-void EngineCore::CoreInit(HINSTANCE _hInstance)
+void UEngineCore::CoreInit(HINSTANCE _hInstance)
 {
 	// CoreInit은 한 번만 호출되어야 한다.
 	if (EngineInit)
@@ -42,13 +42,13 @@ void EngineCore::CoreInit(HINSTANCE _hInstance)
 	MainTimer.TimeCheckStart();
 
 	// 윈도우 띄우기
-	EngineWindow::Init(_hInstance);
+	UEngineWindow::Init(_hInstance);
 	MainWindow.Open("Title");
 
 	EngineInit = true;
 }
 
-void EngineCore::ChangeLevel(std::string_view _View)
+void UEngineCore::ChangeLevel(std::string_view _View)
 {
 	std::string UpperName = UEngineString::ToUpper(_View);
 
@@ -61,12 +61,12 @@ void EngineCore::ChangeLevel(std::string_view _View)
 	CurLevel = AllLevel[UpperName];
 }
 
-void EngineCore::LevelInit(ULevel* _Level)
+void UEngineCore::LevelInit(ULevel* _Level)
 {
 	_Level->BeginPlay();
 }
 
-void EngineCore::CoreTick()
+void UEngineCore::CoreTick()
 {
 	float DeltaTime = MainTimer.TimeCheck();
 
@@ -111,12 +111,12 @@ void EngineCore::CoreTick()
 	CurLevel->LevelRelease(DeltaTime);
 }
 
-void EngineCore::EngineTick()
+void UEngineCore::EngineTick()
 {
 	GEngine->CoreTick();
 }
 
-void EngineCore::EngineEnd()
+void UEngineCore::EngineEnd()
 {
 	for (std::pair<const std::string, ULevel*>& Pair : GEngine->AllLevel)
 	{

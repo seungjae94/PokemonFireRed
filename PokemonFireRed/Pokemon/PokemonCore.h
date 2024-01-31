@@ -2,7 +2,7 @@
 #include <EngineCore/EngineCore.h>
 
 // Ό³Έν :
-class PokemonCore : public EngineCore
+class PokemonCore : public UEngineCore
 {
 public:
 	// constructor destructor

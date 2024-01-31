@@ -3,18 +3,18 @@
 #include <Windows.h>
 
 // 윈도우(창)는 여러 개 존재할 가능성이 있다.
-class EngineWindow
+class UEngineWindow
 {
 public:
 	// constructor destructor
-	EngineWindow();
-	~EngineWindow();
+	UEngineWindow();
+	~UEngineWindow();
 
 	// delete Function
-	EngineWindow(const EngineWindow& _Other) = delete;
-	EngineWindow(EngineWindow&& _Other) noexcept = delete;
-	EngineWindow& operator=(const EngineWindow& _Other) = delete;
-	EngineWindow& operator=(EngineWindow&& _Other) noexcept = delete;
+	UEngineWindow(const UEngineWindow& _Other) = delete;
+	UEngineWindow(UEngineWindow&& _Other) noexcept = delete;
+	UEngineWindow& operator=(const UEngineWindow& _Other) = delete;
+	UEngineWindow& operator=(UEngineWindow&& _Other) noexcept = delete;
 
 	// 실제 윈도우를 화면에 띄운다.
 	void Open(std::string_view _Title = "Title");

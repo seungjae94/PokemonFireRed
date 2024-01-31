@@ -12,7 +12,7 @@ class UImageRenderer;
 // 액터들이 활동할 무대
 class ULevel : public UNameObject
 {
-	friend EngineCore;
+	friend UEngineCore;
 	friend UImageRenderer; // 렌더러에서 Renderers 맵을 수정
 public:
 	// constructor destructor
