@@ -18,7 +18,7 @@ void EngineCore::EngineStart(HINSTANCE _hInstance, EngineCore* _UserCore)
 	GEngine = _UserCore;
 
 	// 엔진 초기 작업
-	// - MainTime 시간 측정 시작
+	// - MainTimer 시간 측정 시작
 	// - MainWindow 윈도우 띄우기
 	GEngine->CoreInit(_hInstance);
 
@@ -69,6 +69,24 @@ void EngineCore::LevelInit(ULevel* _Level)
 void EngineCore::CoreTick()
 {
 	float DeltaTime = MainTimer.TimeCheck();
+
+	// 프레임 제한
+	if (Frame >= 1)
+	{
+		CurFrameTime += DeltaTime;
+
+		if (CurFrameTime <= FrameTime)
+		{
+			return;
+		}
+
+		// CurFrameTime이 FrameTime을 초과하는 경우 잔여 수치를 보존한다.
+		CurFrameTime -= FrameTime;
+
+		// 보통 프레임 제한을 걸 때는 모든 프레임에서 일정한 수치만큼 업데이트 하길 원한다.
+		DeltaTime = FrameTime;
+	}
+
 
 	// 키 입력 체크
 	EngineInput::KeyCheckTick(DeltaTime);

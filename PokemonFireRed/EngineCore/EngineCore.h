@@ -30,8 +30,9 @@ public:
 	EngineCore& operator=(EngineCore&& _Other) noexcept = delete;
 
 	// 엔진을 시작한다. 
-	// 1. 엔진이 MainWindow를 생성하고, MainWindow.Open 함수를 호출한다.
-	// 2. 
+	// - MainTimer, MainWindow 초기 작업
+	// - 유저 코어의 BeginPlay 호출
+	// - 윈도우 메시지 루프 시작
 	static void EngineStart(HINSTANCE _hInstance, EngineCore* _UserCore);
 
 	void CoreInit(HINSTANCE _hInstance);
@@ -61,6 +62,13 @@ public:
 
 	void ChangeLevel(std::string_view _View);
 
+	// 프레임 제한 관련
+	void SetFrame(int _Frame)
+	{
+		Frame = _Frame;
+		FrameTime = 1 / static_cast<float>(Frame);
+	}
+
 protected:
 	EngineCore();
 private:
@@ -79,6 +87,11 @@ private:
 	// 코어가 레벨을 생성했기 때문에 코어가 레벨을 릴리즈해야 한다.
 	static void EngineEnd();
 
+
+	// 프레임 제한 기능 관련
+	int Frame = -1;					// 프레임 제한 수치. Frame <= 0은 프레임을 제한하지 않음을 의미.
+	float FrameTime = 0.0f;			// (1 / Frame)과 동일.
+	float CurFrameTime = 0.0f;
 };
 
 extern EngineCore* GEngine;

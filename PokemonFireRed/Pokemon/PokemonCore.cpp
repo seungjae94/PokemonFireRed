@@ -11,6 +11,8 @@ PokemonCore::~PokemonCore()
 
 void PokemonCore::BeginPlay()
 {
+	SetFrame(60);
+
 	CreateLevel<UTitleLevel>("TitleLevel");
 
 	ChangeLevel("TitleLevel");
