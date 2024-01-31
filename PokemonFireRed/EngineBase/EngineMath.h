@@ -14,7 +14,7 @@ public:
 		struct
 		{
 			float X;
-			float Y;
+			float Y; 
 			float Z;
 			float W;
 		};
@@ -80,6 +80,7 @@ public:
 		return static_cast<int>(Y);
 	}
 
+
 	float hX() const
 	{
 		return X * 0.5f;
@@ -89,6 +90,7 @@ public:
 	{
 		return Y * 0.5f;
 	}
+
 
 	int ihY() const
 	{

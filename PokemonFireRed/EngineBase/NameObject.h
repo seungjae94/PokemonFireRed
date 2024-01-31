@@ -1,6 +1,5 @@
 #pragma once
 #include <string>
-#include <string_view>
 
 // 이름이 있는 오브젝트
 // - 굉장히 광범위한 개념이기 때문에 EngineBase에 둔다.

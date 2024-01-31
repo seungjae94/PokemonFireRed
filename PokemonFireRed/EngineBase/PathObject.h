@@ -1,5 +1,4 @@
 #pragma once
-
 #include "NameObject.h"
 #include "EnginePath.h"
 
