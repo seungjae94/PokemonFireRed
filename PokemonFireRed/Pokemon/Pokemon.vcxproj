@@ -162,6 +162,18 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Ground.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="OutdoorLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="PokemonCore.h">
       <SubType>
       </SubType>
@@ -172,6 +184,18 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Ground.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="OutdoorLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="PokemonCore.cpp">
       <SubType>
       </SubType>

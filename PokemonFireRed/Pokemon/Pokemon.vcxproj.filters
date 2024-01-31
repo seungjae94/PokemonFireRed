@@ -4,24 +4,48 @@
     <Filter Include="Core">
       <UniqueIdentifier>{8d77ac80-c255-418f-8c3e-06569a2c5dfc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Level">
+    <Filter Include="OutdoorLevel">
       <UniqueIdentifier>{eb8e903a-114a-4e5f-9718-0cc29052aa04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TitleLevel">
+      <UniqueIdentifier>{bdf06483-65f9-421f-b9ce-c1f2eea53612}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OutdoorLevel\Actor">
+      <UniqueIdentifier>{3b88d292-f9a2-4d41-863e-4b9d2397e54a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PokemonCore.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="OutdoorLevel.h">
+      <Filter>OutdoorLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="Ground.h">
+      <Filter>OutdoorLevel\Actor</Filter>
+    </ClInclude>
     <ClInclude Include="TitleLevel.h">
-      <Filter>Level</Filter>
+      <Filter>TitleLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>OutdoorLevel\Actor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PokemonCore.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="OutdoorLevel.cpp">
+      <Filter>OutdoorLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="Ground.cpp">
+      <Filter>OutdoorLevel\Actor</Filter>
+    </ClCompile>
     <ClCompile Include="TitleLevel.cpp">
-      <Filter>Level</Filter>
+      <Filter>TitleLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>OutdoorLevel\Actor</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

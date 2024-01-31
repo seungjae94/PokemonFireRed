@@ -1,5 +1,6 @@
 #include "PokemonCore.h"
 #include "TitleLevel.h"
+#include "OutdoorLevel.h"
 
 PokemonCore::PokemonCore()
 {
@@ -15,7 +16,10 @@ void PokemonCore::BeginPlay()
 	MainWindow.SetWindowScale({ 720, 480 });
 	SetFrame(60);
 	
-	// 레벨 설정
+	// 레벨 생성
 	CreateLevel<UTitleLevel>("TitleLevel");
-	ChangeLevel("TitleLevel");
+	CreateLevel<UOutdoorLevel>("OutdoorLevel");
+
+	// 시작 레벨 설정
+	ChangeLevel("OutdoorLevel");
 }
