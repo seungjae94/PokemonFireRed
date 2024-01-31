@@ -1,5 +1,4 @@
 #include "EngineDirectory.h"
-
 #include "EngineString.h"
 #include "EngineFile.h"
 
@@ -25,7 +24,11 @@ std::list<UEngineFile> UEngineDirectory::AllFile(std::vector<std::string> _Ext, 
 	return Result;
 }
 
-void UEngineDirectory::AllFileRecursive(const std::string_view _Path, std::list<UEngineFile>& _Result, std::vector<std::string> _Ext, bool _Recursive)
+void UEngineDirectory::AllFileRecursive(
+	const std::string_view _Path, 
+	std::list<UEngineFile>& _Result, 
+	std::vector<std::string> _Ext, 
+	bool _Recursive)
 {
 	std::filesystem::directory_iterator DirIter = std::filesystem::directory_iterator(_Path);
 
@@ -53,13 +56,18 @@ void UEngineDirectory::AllFileRecursive(const std::string_view _Path, std::list<
 		}
 
 		// UpperExt가 _Ext에 포함되어 있는지 체크한다.
+		bool Check = false;
 		for (size_t i = 0; i < _Ext.size(); i++)
 		{
 			if (UpperExt == _Ext[i])
 			{
-				_Result.push_back(UEngineFile(Path.string()));
-				break;
+				Check = true;
 			}
+		}
+
+		if (true == Check)
+		{
+			_Result.push_back(UEngineFile(Path.string()));
 		}
 	}
 }

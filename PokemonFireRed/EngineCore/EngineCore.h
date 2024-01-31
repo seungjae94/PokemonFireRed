@@ -77,15 +77,13 @@ private:
 	// 레벨 관련
 	std::map<std::string, ULevel*> AllLevel;
 	ULevel* CurLevel = nullptr;
-	// 레벨의 BeginPlay 함수를 호출해주는 함수
-	void LevelInit(ULevel* _Level);
+	void LevelInit(ULevel* _Level); // 레벨의 BeginPlay 함수를 호출해주는 함수
 
 
 	// 메시지 루프 콜백 함수
 	void CoreTick();
 	static void EngineTick();
-	// 코어가 레벨을 생성했기 때문에 코어가 레벨을 릴리즈해야 한다.
-	static void EngineEnd();
+	static void EngineEnd(); // 코어가 레벨을 생성했기 때문에 코어가 레벨을 릴리즈해야 한다.
 
 
 	// 프레임 제한 기능 관련

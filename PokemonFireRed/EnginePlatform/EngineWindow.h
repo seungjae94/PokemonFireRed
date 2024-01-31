@@ -50,6 +50,7 @@ public:
 		return BackBufferImage;
 	}
 
+	void SetWindowPosition(const FVector& _Pos) = delete;
 	void SetWindowScale(const FVector& _Scale);
 
 	void ScreenClear();

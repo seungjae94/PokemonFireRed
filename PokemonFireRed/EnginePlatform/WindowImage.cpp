@@ -3,6 +3,7 @@
 #include <EngineBase/EngineDebug.h>
 #include <EngineBase/EngineString.h>
 
+// GDI 관련 라이브러리
 #pragma comment(lib, "Msimg32.lib")
 #pragma comment(lib, "Gdiplus.lib")
 #include <objidl.h>
@@ -50,7 +51,7 @@ bool UWindowImage::Load(UWindowImage* _Image)
 		ImageType = EWIndowImageType::IMG_PNG;
 	}
 
-	// 입력으로 들어온 이미지와 호환되는 DC를 생성한다.
+	// 윈도우 DC와 호환되는 DC를 생성한다.
 	ImageDC = CreateCompatibleDC(_Image->ImageDC);
 
 	if (nullptr == ImageDC)
@@ -59,10 +60,13 @@ bool UWindowImage::Load(UWindowImage* _Image)
 		return false;
 	}
 
-	// ImageDC가 hBitMap을 선택하게 한다.
-	// 생성된 DC가 갖고 있던 1x1 비트맵은 제거한다.
+	// ImageDC가 hBitMap을 선택한다.
+	// ImageDC가 갖고 있던 1x1 비트맵은 제거한다.
 	HBITMAP OldBitMap = reinterpret_cast<HBITMAP>(SelectObject(ImageDC, hBitMap));
 	DeleteObject(OldBitMap);
+
+	// 비트맵 정보 갱신
+	GetObject(hBitMap, sizeof(BITMAP), &BitMapInfo);
 
 	return true;
 }
@@ -91,6 +95,8 @@ bool UWindowImage::Create(UWindowImage* _Image, const FVector& _Scale)
 	HBITMAP OldBitMap = reinterpret_cast<HBITMAP>(SelectObject(ImageDC, hBitMap));
 	DeleteObject(OldBitMap);
 
+	GetObject(hBitMap, sizeof(BITMAP), &BitMapInfo);
+
 	return true;
 }
 
@@ -101,10 +107,10 @@ void UWindowImage::BitCopy(UWindowImage* _CopyImage, const FTransform& _Trans)
 		MsgBoxAssert("nullptr 인 이미지를 복사할 수 없습니다");
 	}
 
-	// 대상 이미지 (dest)
+	// 대상 이미지 DC (dest)
 	HDC hdc = ImageDC;
 
-	// 소스 이미지 (src)
+	// 소스 이미지 DC (src)
 	HDC hdcSrc = _CopyImage->ImageDC;
 
 	BitBlt(
@@ -137,12 +143,13 @@ void UWindowImage::TransCopy(UWindowImage* _CopyImage, const FTransform& _Trans,
 	int ImageScaleX = _ImageTrans.GetScale().iX();
 	int ImageScaleY = _ImageTrans.GetScale().iY();
 
-	// 대상 이미지 (dest)
+	// 대상 이미지 DC (dest)
 	HDC hdc = ImageDC;
 
-	// 소스 이미지 (src)
+	// 소스 이미지 DC (src)
 	HDC hdcSrc = _CopyImage->ImageDC;
 
+	// Transparent bit Block transfer
 	TransparentBlt(
 		hdc, 							 
 		RenderLeft, 		  

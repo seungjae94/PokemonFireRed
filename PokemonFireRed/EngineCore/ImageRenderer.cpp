@@ -1,7 +1,10 @@
 #include "ImageRenderer.h"
 
+#include <EngineBase/EngineDebug.h>
 #include "Level.h"
 #include "Actor.h"
+#include "EngineCore.h"
+#include "EngineResourcesManager.h"
 
 UImageRenderer::UImageRenderer() 
 {
@@ -29,12 +32,29 @@ void UImageRenderer::SetOrder(int _Order)
 
 void UImageRenderer::Render(float _DeltaTime)
 {
+	if (nullptr == Image)
+	{
+		MsgBoxAssert("렌더러에 이미지가 존재하지 않습니다.");
+		return;
+	}
+
 	FTransform ThisTrans = GetTransform();
 	FTransform OwnerTrans = GetOwner()->GetTransform();
 
 	ThisTrans.AddPosition(OwnerTrans.GetPosition());
 
-	// TODO: ThisTrans에 갖고 있는 이미지를 그리는 동작
+	GEngine->MainWindow.GetBackBufferImage()->TransCopy(Image, ThisTrans, ImageCuttingTransform);
+}
+
+void UImageRenderer::SetImage(std::string_view _Name)
+{
+	Image = UEngineResourcesManager::GetInst().FindImg(_Name);
+
+	if (nullptr == Image)
+	{
+		MsgBoxAssert(std::string(_Name) + " 이미지가 존재하지 않습니다.");
+		return;
+	}
 }
 
 void UImageRenderer::BeginPlay()

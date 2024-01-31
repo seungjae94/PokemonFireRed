@@ -19,7 +19,7 @@ class UEngineWindow;
 // - Name, Path를 가지기 때문에 UPathObject 상속
 class UWindowImage : public UPathObject 
 {
-	friend UEngineWindow; // ImageDC
+	friend UEngineWindow; // 윈도우 이미지, 백버퍼 이미지 생성
 public:
 	// constructor destructor
 	UWindowImage();
@@ -32,21 +32,52 @@ public:
 	UWindowImage& operator=(UWindowImage&& _Other) noexcept = delete;
 
 	/// <summary>
-	/// Path에 위치한 실제 이미지를 hBitMap 필드에 로드한다. 또 hBitMap 필드를 사용하는 ImageDC를 생성한다.
+	/// Path에 위치한 리소스 이미지를 비트맵으로 로드한다. 
+	/// 또 생성한 비트맵을 사용하는 DC를 만든다.
 	/// </summary>
 	/// <param name="_Image">
+	/// 최종적으로 이미지를 그릴 대상 이미지.
+	/// _Image 인자로는 윈도우 이미지가 사실상 강제된다.
 	/// </param>
 	/// <returns>
 	/// 이미지 로드 성공 여부
 	/// </returns>
 	bool Load(UWindowImage* _Image);
 
-	// 
+	// 주 사용처: 백버퍼 이미지 생성
+	// - 리소스 이미지는 Load로 생성한다.
 	bool Create(UWindowImage* _Image, const FVector& _Scale);
 
+	/// <summary>
+	/// 이미지 this에 이미지 _CopyImage를 그려주는 함수.
+	/// 주 사용처: 윈도우 이미지에 백버퍼 이미지를 그릴 때 사용.
+	/// </summary>
+	/// <param name="_CopyImage">
+	/// this에 복사할 이미지
+	/// </param>
+	/// <param name="_Trans">
+	/// this(백버퍼)의 트랜스폼
+	/// </param>
 	void BitCopy(UWindowImage* _CopyImage, const FTransform& _Trans);
 
-	void TransCopy(UWindowImage* _CopyImage, const FTransform& _Trans, const FTransform& _ImageTrans, Color8Bit _Color);
+	/// <summary>
+	/// 이미지 this에 이미지 _CopyImage를 그려주는 함수.
+	/// 주 사용처: 백버퍼 이미지에 렌더러가 갖고 있는 이미지를 그릴 때 사용.
+	/// </summary>
+	/// <param name="_CopyImage">
+	/// this에 그릴 이미지
+	/// </param>
+	/// <param name="_CopyTrans">
+	/// this의 트랜스폼
+	/// </param>
+	/// <param name="_ImageTrans">
+	/// 이미지를 그릴 영역을 나타내는 트랜스폼.
+	/// 위치는 영역 좌상단의 좌표를, 크기는 영역의 크기를 의미한다.
+	/// </param>
+	/// <param name="_Color">
+	/// 투명으로 취급할 색상
+	/// </param>
+	void TransCopy(UWindowImage* _CopyImage, const FTransform& _CopyTrans, const FTransform& _ImageTrans, Color8Bit _Color = Color8Bit::Black);
 
 protected:
 
@@ -57,6 +88,8 @@ private:
 
 	EWIndowImageType ImageType = EWIndowImageType::IMG_NONE;
 
+	// 주 사용처: 윈도우 이미지 생성
+	// - 리소스 이미지는 Load로 생성한다.
 	bool Create(HDC _MainDC);
 };
 

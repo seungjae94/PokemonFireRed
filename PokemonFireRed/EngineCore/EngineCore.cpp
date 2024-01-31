@@ -17,9 +17,10 @@ void UEngineCore::EngineStart(HINSTANCE _hInstance, UEngineCore* _UserCore)
 {
 	GEngine = _UserCore;
 
-	// 엔진 초기 작업
-	// - MainTimer 시간 측정 시작
-	// - MainWindow 윈도우 띄우기
+	// MainTimer 시간 측정 시작
+	GEngine->MainTimer.TimeCheckStart();
+
+	// MainWindow 윈도우 띄우기
 	GEngine->CoreInit(_hInstance);
 
 	// 유저가 정의한 게임 로직 시작
@@ -37,9 +38,6 @@ void UEngineCore::CoreInit(HINSTANCE _hInstance)
 	{
 		return;
 	}
-
-	// 시간 측정 시작
-	MainTimer.TimeCheckStart();
 
 	// 윈도우 띄우기
 	UEngineWindow::Init(_hInstance);
@@ -105,7 +103,9 @@ void UEngineCore::CoreTick()
 	CurLevel->LevelTick(DeltaTime);
 
 	// 렌더링 구조 (차후 구현)
+	MainWindow.ScreenClear();
 	CurLevel->LevelRender(DeltaTime);
+	MainWindow.ScreenUpdate();
 
 	// 릴리즈 구조: Destroy한 오브젝트 릴리즈
 	CurLevel->LevelRelease(DeltaTime);

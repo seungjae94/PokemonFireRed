@@ -11,5 +11,5 @@
 // assert: https://learn.microsoft.com/en-us/cpp/c-runtime-library/reference/assert-macro-assert-wassert?view=msvc-170
 #define MsgBoxAssert(TEXT) \
 std::string STR_TEXT = std::string(TEXT); \
-MessageBoxA(nullptr, STR_TEXT.c_str(), "치명적 에러가 발생했습니다.", MB_OK); \
+MessageBoxA(nullptr, STR_TEXT.c_str(), "치명적 에러", MB_OK); \
 assert(false);

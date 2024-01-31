@@ -1,5 +1,7 @@
 #include "Actor.h"
 
+#include <EngineBase/EngineDebug.h>
+
 AActor::AActor()
 {
 }

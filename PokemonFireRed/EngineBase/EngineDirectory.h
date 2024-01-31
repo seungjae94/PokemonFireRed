@@ -1,5 +1,6 @@
 #pragma once
 
+#include <list>
 #include "EnginePath.h"
 
 class UEngineFile;

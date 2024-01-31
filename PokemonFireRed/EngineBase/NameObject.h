@@ -22,9 +22,9 @@ public:
 		return Name;
 	}
 
-	void SetName(std::string_view _NameView)
+	void SetName(std::string_view _View)
 	{
-		Name = _NameView;
+		Name = _View;
 	}
 
 protected:

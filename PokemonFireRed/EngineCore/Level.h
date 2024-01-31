@@ -2,11 +2,11 @@
 #include <map>
 #include <list>
 #include <EngineBase/NameObject.h>
-#include <EngineCore/EngineCore.h>
 
 // 상위 개념인 레벨이 하위 개념인 액터, 렌더러를 직접 참조하면 순환 참조 문제가 발생할 수 있다.
 // 클래스 전방 선언으로 순환 참조 문제를 회피한다.
 class AActor;
+class UEngineCore;
 class UImageRenderer;
 
 // 액터들이 활동할 무대

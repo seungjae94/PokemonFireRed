@@ -3,9 +3,13 @@
 #include <list>
 #include <EngineBase/NameObject.h>
 #include <EngineBase/Transform.h>
-#include <EngineCore/Level.h>
 #include "ImageRenderer.h"
 #include "TickObject.h"
+#include "Level.h"
+
+class ULevel;
+class UActorComponent;
+class UImageRenderer;
 
 // 이름이 있고, 매 틱마다 특정 동작을 하며, 레벨 상에서 Transform을 갖는 오브젝트.
 class AActor : public UNameObject, public UTickObject

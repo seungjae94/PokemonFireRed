@@ -9,10 +9,24 @@ public:
 	static const float4 Up;
 	static const float4 Down;
 
-	float X;
-	float Y;
-	float Z;
-	float W;
+	union
+	{
+		struct
+		{
+			float X;
+			float Y;
+			float Z;
+			float W;
+		};
+
+		struct
+		{
+			float R;
+			float G;
+			float B;
+			float A;
+		};
+	};
 
 	// 생성자를 하나라도 만들게 되면 리스트 초기화가 불가능해진다.
 	// 따라서 필요한 모든 생성자를 직접 만들어 줘야 한다.
