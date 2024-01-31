@@ -16,6 +16,9 @@
     <Filter Include="Object\Component\Renderer">
       <UniqueIdentifier>{4bfaab9f-87be-45ab-b259-e9a7db69665a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{739767ec-6d38-4196-8110-2edb103f98c4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EngineCore.h">
@@ -39,6 +42,9 @@
     <ClInclude Include="ImageRenderer.h">
       <Filter>Object\Component\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="EngineResourcesManager.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineCore.cpp">
@@ -61,6 +67,9 @@
     </ClCompile>
     <ClCompile Include="ImageRenderer.cpp">
       <Filter>Object\Component\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineResourcesManager.cpp">
+      <Filter>Resources</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
