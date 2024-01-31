@@ -18,6 +18,7 @@ void EngineCore::EngineStart(HINSTANCE _hInstance, EngineCore* _UserCore)
 	GEngine = _UserCore;
 
 	// 엔진 초기 작업
+	// - MainTime 시간 측정 시작
 	// - MainWindow 윈도우 띄우기
 	GEngine->CoreInit(_hInstance);
 
@@ -37,6 +38,7 @@ void EngineCore::CoreInit(HINSTANCE _hInstance)
 		return;
 	}
 
+	// 윈도우 띄우기
 	EngineWindow::Init(_hInstance);
 	MainWindow.Open("Title");
 
@@ -61,31 +63,36 @@ void EngineCore::LevelInit(ULevel* _Level)
 	_Level->BeginPlay();
 }
 
-void EngineCore::EngineTick()
+void EngineCore::CoreTick()
 {
-	float DeltaTime = GEngine->MainTimer.TimeCheck();
+	float DeltaTime = MainTimer.TimeCheck();
 
 	// 키 입력 체크
 	EngineInput::KeyCheckTick(DeltaTime);
 
 	// 예외 처리: 현재 레벨이 설정되지 않은 경우
-	if (GEngine->CurLevel == nullptr)
+	if (CurLevel == nullptr)
 	{
 		MsgBoxAssert("엔진을 시작할 레벨이 지정되지 않았습니다.");
 		return;
 	}
 
 	// 업데이트 구조 1: 레벨이 매 틱마다 할 행동
-	GEngine->CurLevel->Tick(DeltaTime);
+	CurLevel->Tick(DeltaTime);
 
 	// 업데이트 구조 2: 레벨에 포함된 오브젝트(e.g. 액터)들이 매 틱마다 할 행동 
-	GEngine->CurLevel->LevelTick(DeltaTime);
+	CurLevel->LevelTick(DeltaTime);
 
 	// 렌더링 구조 (차후 구현)
-	GEngine->CurLevel->LevelRender(DeltaTime);
-	
+	CurLevel->LevelRender(DeltaTime);
+
 	// 릴리즈 구조: Destroy한 오브젝트 릴리즈
-	GEngine->CurLevel->LevelRelease(DeltaTime);
+	CurLevel->LevelRelease(DeltaTime);
+}
+
+void EngineCore::EngineTick()
+{
+	GEngine->CoreTick();
 }
 
 void EngineCore::EngineEnd()

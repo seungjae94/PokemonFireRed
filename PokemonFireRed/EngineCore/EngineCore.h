@@ -74,9 +74,8 @@ private:
 
 
 	// 메시지 루프 콜백 함수
-
+	void CoreTick();
 	static void EngineTick();
-
 	// 코어가 레벨을 생성했기 때문에 코어가 레벨을 릴리즈해야 한다.
 	static void EngineEnd();
 
