@@ -4,14 +4,16 @@
 #include <EngineBase/NameObject.h>
 #include <EngineCore/EngineCore.h>
 
-// 상위 개념인 레벨이 하위 개념인 액터를 직접 참조하면 순환 참조 문제가 발생할 수 있다.
+// 상위 개념인 레벨이 하위 개념인 액터, 렌더러를 직접 참조하면 순환 참조 문제가 발생할 수 있다.
 // 클래스 전방 선언으로 순환 참조 문제를 회피한다.
 class AActor;
+class UImageRenderer;
 
 // 액터들이 활동할 무대
 class ULevel : public UNameObject
 {
 	friend EngineCore;
+	friend UImageRenderer; // 렌더러에서 Renderers 맵을 수정
 public:
 	// constructor destructor
 	ULevel();
@@ -49,6 +51,7 @@ protected:
 
 private:
 	std::map<int, std::list<AActor*>> AllActor;
+	std::map<int, std::list<UImageRenderer*>> Renderers;
 
 	// 액터의 월드를 현재 레벨로 설정하고, 액터의 BeginPlay를 호출한다.
 	void ActorInit(AActor* _Actor);

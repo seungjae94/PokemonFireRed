@@ -10,6 +10,12 @@
     <Filter Include="Object\Actor">
       <UniqueIdentifier>{47da6146-c663-4ae2-8475-697745bd0af2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Component">
+      <UniqueIdentifier>{62088b3c-9a30-4756-a932-8813fb4ed95c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Renderer">
+      <UniqueIdentifier>{4bfaab9f-87be-45ab-b259-e9a7db69665a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EngineCore.h">
@@ -24,6 +30,15 @@
     <ClInclude Include="Actor.h">
       <Filter>Object\Actor</Filter>
     </ClInclude>
+    <ClInclude Include="ActorComponent.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneComponent.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageRenderer.h">
+      <Filter>Component\Renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineCore.cpp">
@@ -37,6 +52,15 @@
     </ClCompile>
     <ClCompile Include="Actor.cpp">
       <Filter>Object\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="ActorComponent.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneComponent.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageRenderer.cpp">
+      <Filter>Component\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -2,6 +2,7 @@
 
 #include <EngineBase/EngineDebug.h>
 #include "Actor.h"
+#include "ImageRenderer.h"
 
 ULevel::ULevel()
 {
@@ -58,6 +59,24 @@ void ULevel::LevelTick(float _DeltaTime)
 
 void ULevel::LevelRender(float _DeltaTime)
 {
+	for (std::pair<const int, std::list<UImageRenderer*>>& Pair : Renderers)
+	{
+		std::list<UImageRenderer*>& RendererList = Pair.second;
+		for (UImageRenderer* Renderer : RendererList)
+		{
+			if (Renderer == nullptr)
+			{
+				MsgBoxAssert("렌더링 구조에서 렌더러가 nullptr인 경우가 존재합니다.")
+			}
+
+			if (false == Renderer->IsActive())
+			{
+				continue;
+			}
+
+			Renderer->Render(_DeltaTime);
+		}
+	}
 }
 
 void ULevel::LevelRelease(float _DeltaTime)

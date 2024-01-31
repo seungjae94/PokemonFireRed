@@ -52,7 +52,7 @@ public:
 		return IsDestroyValue;
 	}
 
-	void Destroy()
+	virtual void Destroy()
 	{
 		IsDestroyValue = true;
 	}
@@ -64,7 +64,10 @@ public:
 		return Order;
 	}
 
-	void SetOrder(int _Order)
+	// UTickObject를 상속한 액터와 렌더러는 순서를 변경하는 것 외에도 추가 작업을 해야 하므로 가상 함수로 선언
+	// - 액터: 레벨의 AllActor 맵을 수정
+	// - 렌더러: 레벨의 Renderers 맵을 수정
+	virtual void SetOrder(int _Order)
 	{
 		Order = _Order;
 	}
@@ -78,7 +81,9 @@ private:
 	// 영구적으로 삭제되었는지 여부
 	bool IsDestroyValue = false;
 
-	// 업데이트 순서
+	// 순서
+	// - 액터에서는 업데이트 순서로 사용
+	// - 렌더러에서는 렌더링 순서로 사용
 	int Order = 0;
 };
 

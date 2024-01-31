@@ -1,7 +1,10 @@
 #pragma once
+
+#include <list>
 #include <EngineBase/NameObject.h>
 #include <EngineBase/Transform.h>
 #include <EngineCore/Level.h>
+#include "ImageRenderer.h"
 #include "TickObject.h"
 
 // 이름이 있고, 매 틱마다 특정 동작을 하며, 레벨 상에서 Transform을 갖는 오브젝트.
@@ -11,6 +14,8 @@ class AActor : public UNameObject, public UTickObject
 public:
 	// constructor destructor
 	AActor();
+
+	// 렌더러를 생성한게 액터이므로 렌더러를 릴리즈하는 책임은 액터에게 있다.
 	~AActor();
 
 	// delete Function
@@ -53,9 +58,22 @@ public:
 		return World;
 	}
 
+	// 렌더러를 생성한다.
+	// - 렌더러의 Owner를 현재 액터로 설정한다.
+	// - 렌더러의 SetOrder를 호출한다. 이 때 렌더러가 레벨이 갖고 있는 렌더러 맵에 자신을 추가한다.
+	// - 렌더러의 BeginPlay를 호출한다.
+	// - 액터가 갖고 이쓴ㄴ 렌더러 리스트에 렌더러를 추가한다.
+	UImageRenderer* CreateImageRenderer(int _Order = 0);
+
+	// 자신이 Destroy할 때 갖고 있는 렌더러도 Destroy 해야 한다.
+	// - 레벨도 렌더러 맵을 갖고 있기 때문에 렌더러도 메모리에서 지우기 전에 레벨의 렌더러 맵에서 지워줘야 한다.
+	void Destroy() override;
+
 protected:
 
 private:
+	std::list<UImageRenderer*> Renderers;
+
 	ULevel* World = nullptr;
 	FTransform Transform = FTransform();
 

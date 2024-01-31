@@ -163,11 +163,20 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="ActorComponent.h" />
     <ClInclude Include="EngineCore.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="Level.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ImageRenderer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="SceneComponent.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -181,11 +190,20 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="ActorComponent.cpp" />
     <ClCompile Include="EngineCore.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="Level.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ImageRenderer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="SceneComponent.cpp">
       <SubType>
       </SubType>
     </ClCompile>
