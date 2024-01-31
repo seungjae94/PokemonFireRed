@@ -46,15 +46,38 @@ public:
 		return IsActiveValue && IsDestroyValue == false;
 	}
 
-	// IsDestroyValue 관련 함수
+	// 액터의 경우 Destroy를 할 때 갖고 있는 렌더러도 전부 Destroy를 한다.
+	// 그래서 가상 함수로 선언한다.
+	virtual void Destroy(float _DestroyTime = 0.0f)
+	{
+		IsDestroyUpdate = true;
+		_DestroyTime = DestroyTime;
+
+		if (DestroyTime <= 0.0f)
+		{
+			IsDestroyValue = true;
+		}
+	}
+
+	// DestroyTime을 갱신하고 Destroy 할 때가 되었는지 체크한다.
+	virtual void DestroyUpdate(float _DeltaTime)
+	{
+		if (IsDestroyUpdate == false)
+		{
+			return;
+		}
+
+		DestroyTime -= _DeltaTime;
+
+		if (DestroyTime <= 0.0f)
+		{
+			Destroy(0.0f);
+		}
+	}
+
 	bool IsDestroy()
 	{
 		return IsDestroyValue;
-	}
-
-	virtual void Destroy()
-	{
-		IsDestroyValue = true;
 	}
 
 	// Order 관련 함수
@@ -75,13 +98,18 @@ public:
 protected:
 
 private:
+	// [Active 관련]
+	
 	// 현재 활성화중인지 여부
 	bool IsActiveValue = true;
 
-	// 영구적으로 삭제되었는지 여부
-	bool IsDestroyValue = false;
+	// [Destroy 관련]
+	
+	bool IsDestroyValue = false;		// 영구적으로 삭제되었는지 여부
+	float DestroyTime = 0.0f;			// Destroy까지 남은 시간
+	bool IsDestroyUpdate = false;		// IsDestroyUpdate == true인 경우 DestroyUpdate의 로직이 실행되어 IsDestroyValue가 변경된다.
 
-	// 순서
+	// [순서 관련]
 	// - 액터에서는 업데이트 순서로 사용
 	// - 렌더러에서는 렌더링 순서로 사용
 	int Order = 0;

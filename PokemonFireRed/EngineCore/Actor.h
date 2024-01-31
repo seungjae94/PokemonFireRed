@@ -67,10 +67,12 @@ public:
 
 	// 자신이 Destroy할 때 갖고 있는 렌더러도 Destroy 해야 한다.
 	// - 레벨도 렌더러 맵을 갖고 있기 때문에 렌더러도 메모리에서 지우기 전에 레벨의 렌더러 맵에서 지워줘야 한다.
-	void Destroy() override;
+	void Destroy(float _DestroyTime) override;
+
+	void DestroyUpdate(float _DeltaTime) override;
 
 protected:
-
+	void Tick(float _DeltaTime) override;
 private:
 	std::list<UImageRenderer*> Renderers;
 
