@@ -10,12 +10,6 @@ public:
 	// constructor destructor
 	UEngineDirectory();
 	~UEngineDirectory();
-
-	// delete Function
-	UEngineDirectory(const UEngineDirectory& _Other) = delete;
-	UEngineDirectory(UEngineDirectory&& _Other) noexcept = delete;
-	UEngineDirectory& operator=(const UEngineDirectory& _Other) = delete;
-	UEngineDirectory& operator=(UEngineDirectory&& _Other) noexcept = delete;
 	
 	/// <summary>
 	/// 경로 내의 모든 파일을 찾아서 반환.
@@ -31,7 +25,7 @@ public:
 protected:
 	
 private:
-	// 
+	// 재귀적으로 경로 내의 모든 파일을 찾는 함수 
 	void AllFileRecursive(const std::string_view _Path, std::list<UEngineFile>& _Result, std::vector<std::string> _Ext = std::vector<std::string>(), bool _Recursive = false);
 };
 
