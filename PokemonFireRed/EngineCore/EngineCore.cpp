@@ -1,11 +1,13 @@
 #include "EngineCore.h"
 
+#include <Windows.h>
 #include <EnginePlatform/EngineInput.h>
 #include "Level.h"
 
 UEngineCore* GEngine = nullptr;
 
 UEngineCore::UEngineCore()
+	: MainWindow()
 {
 }
 
@@ -46,13 +48,13 @@ void UEngineCore::CoreInit(HINSTANCE _hInstance)
 	EngineInit = true;
 }
 
-void UEngineCore::ChangeLevel(std::string_view _View)
+void UEngineCore::ChangeLevel(std::string_view _Name)
 {
-	std::string UpperName = UEngineString::ToUpper(_View);
+	std::string UpperName = UEngineString::ToUpper(_Name);
 
-	if (!AllLevel.contains(UpperName))
+	if (false == AllLevel.contains(UpperName))
 	{
-		MsgBoxAssert(UpperName + "는 존재하지 않는 레벨입니다. 레벨을 변경할 수 없습니다.");
+		MsgBoxAssert(std::string(_Name) + "는 존재하지 않는 레벨입니다. 레벨을 변경할 수 없습니다.");
 		return;
 	}
 
@@ -93,7 +95,6 @@ void UEngineCore::CoreTick()
 	if (CurLevel == nullptr)
 	{
 		MsgBoxAssert("엔진을 시작할 레벨이 지정되지 않았습니다.");
-		return;
 	}
 
 	// 업데이트 구조 1: 레벨이 매 틱마다 할 행동

@@ -1,4 +1,5 @@
 #pragma once
+#include <EngineBase\EngineDebug.h>
 
 // 레벨에 존재하면서 매 틱마다 특정한 동작을 하는 오브젝트
 // - Transform을 갖지 않을 수 있다는 점에서 액터와 차이가 있다.
@@ -8,7 +9,7 @@ class UTickObject
 public:
 	// constructor destructor
 	UTickObject();
-	~UTickObject();
+	virtual ~UTickObject();
 
 	// delete Function
 	UTickObject(const UTickObject& _Other) = delete;

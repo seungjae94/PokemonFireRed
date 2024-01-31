@@ -1,8 +1,9 @@
 #include "EngineResourcesManager.h"
 
+#include <EnginePlatform\WindowImage.h>
 #include <EngineBase/EngineDebug.h>
 #include <EngineBase/EngineString.h>
-#include <EngineCore/EngineCore.h>
+#include "EngineCore.h"
 
 UEngineResourcesManager::UEngineResourcesManager() 
 {
@@ -49,7 +50,7 @@ UWindowImage* UEngineResourcesManager::FindImg(std::string_view _Name)
 {
 	std::string UpperName = UEngineString::ToUpper(_Name);
 
-	if (!Images.contains(UpperName))
+	if (false == Images.contains(UpperName))
 	{
 		MsgBoxAssert("파일명 : " + std::string(_Name) + "\n존재하지 않는 이미지입니다");
 		return nullptr;

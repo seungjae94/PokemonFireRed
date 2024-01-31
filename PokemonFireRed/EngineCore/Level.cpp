@@ -2,7 +2,6 @@
 
 #include <EngineBase/EngineDebug.h>
 #include "Actor.h"
-#include "ImageRenderer.h"
 
 ULevel::ULevel()
 {
@@ -42,10 +41,10 @@ void ULevel::LevelTick(float _DeltaTime)
 		std::list<AActor*>& ActorList = Pair.second;
 		for (AActor* Actor : ActorList)
 		{
-			if (Actor == nullptr)
+			/*if (Actor == nullptr)
 			{
 				MsgBoxAssert("업데이트 구조에서 액터가 nullptr인 경우가 존재합니다.")
-			}
+			}*/
 
 			if (false == Actor->IsActive())
 			{
@@ -64,10 +63,10 @@ void ULevel::LevelRender(float _DeltaTime)
 		std::list<UImageRenderer*>& RendererList = Pair.second;
 		for (UImageRenderer* Renderer : RendererList)
 		{
-			if (Renderer == nullptr)
+			/*if (Renderer == nullptr)
 			{
 				MsgBoxAssert("렌더링 구조에서 렌더러가 nullptr인 경우가 존재합니다.")
-			}
+			}*/
 
 			if (false == Renderer->IsActive())
 			{
@@ -92,7 +91,7 @@ void ULevel::LevelRelease(float _DeltaTime)
 		{
 			UImageRenderer* Renderer = *StartIter;
 
-			if (!Renderer->IsDestroy())
+			if (false == Renderer->IsDestroy())
 			{
 				++StartIter;
 				continue;
@@ -115,7 +114,8 @@ void ULevel::LevelRelease(float _DeltaTime)
 
 			if (Actor == nullptr)
 			{
-				MsgBoxAssert("릴리즈 구조에서 액터가 nullptr인 경우가 존재합니다.")
+				MsgBoxAssert("릴리즈 구조에서 액터가 nullptr인 경우가 존재합니다.");
+				return;
 			}
 
 			if (false == Actor->IsDestroy())

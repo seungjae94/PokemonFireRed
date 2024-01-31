@@ -1,10 +1,8 @@
 #pragma once
-
-#include <list>
-#include <EngineBase/NameObject.h>
-#include <EngineBase/Transform.h>
-#include "ImageRenderer.h"
+#include <EngineBase\Transform.h>
 #include "TickObject.h"
+#include <EngineBase\NameObject.h>
+#include "ImageRenderer.h"
 #include "Level.h"
 
 class ULevel;

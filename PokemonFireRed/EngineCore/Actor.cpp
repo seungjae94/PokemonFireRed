@@ -1,6 +1,5 @@
 #include "Actor.h"
-
-#include <EngineBase/EngineDebug.h>
+#include "ImageRenderer.h"
 
 AActor::AActor()
 {
@@ -13,7 +12,6 @@ AActor::~AActor()
 		if (nullptr == Renderer)
 		{
 			MsgBoxAssert("이미지 렌더러가 nullptr인 상황이 존재합니다.");
-			return;
 		}
 
 		delete Renderer;

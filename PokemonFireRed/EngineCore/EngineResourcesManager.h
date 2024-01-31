@@ -3,7 +3,8 @@
 #include <map>
 #include <string>
 #include <string_view>
-#include <EnginePlatform/WindowImage.h>
+
+class UWindowImage;
 
 // 리소스를 관리하는 싱글톤 객체
 // - 굳이 싱글톤을 사용하지 않고 static 멤버만 사용해도 되지만 연습삼아 싱글톤으로 구현했다.

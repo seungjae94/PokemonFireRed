@@ -1,10 +1,8 @@
 #include "ImageRenderer.h"
-
-#include <EngineBase/EngineDebug.h>
-#include "Level.h"
-#include "Actor.h"
 #include "EngineCore.h"
-#include "EngineResourcesManager.h"
+#include "Actor.h"
+#include "Level.h"
+#include <EngineCore\EngineResourcesManager.h>
 
 UImageRenderer::UImageRenderer() 
 {
@@ -35,7 +33,6 @@ void UImageRenderer::Render(float _DeltaTime)
 	if (nullptr == Image)
 	{
 		MsgBoxAssert("렌더러에 이미지가 존재하지 않습니다.");
-		return;
 	}
 
 	FTransform ThisTrans = GetTransform();

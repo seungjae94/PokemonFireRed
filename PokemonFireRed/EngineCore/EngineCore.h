@@ -52,7 +52,6 @@ public:
 		if (AllLevel.contains(UpperName))
 		{
 			MsgBoxAssert(std::string(_View) + " 레벨을 반복해서 생성하려고 했습니다.");
-			return;
 		}
 
 		LevelType* NewLevel = new LevelType();
