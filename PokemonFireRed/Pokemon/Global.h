@@ -12,6 +12,14 @@ public:
 	static const int HALF_SCREEN_X;
 	static const int HALF_SCREEN_Y;
 
+	static const float F_PIXEL_SIZE;
+	static const float F_SCREEN_X;
+	static const float F_SCREEN_Y;
+	static const float F_IMAGE_TILE_SIZE;
+	static const float F_TILE_SIZE;
+	static const float F_HALF_SCREEN_X;
+	static const float F_HALF_SCREEN_Y;
+
 	// delete Function
 	Global(const Global& _Other) = delete;
 	Global(Global&& _Other) noexcept = delete;
