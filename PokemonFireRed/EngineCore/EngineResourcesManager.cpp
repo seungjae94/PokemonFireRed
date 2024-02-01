@@ -43,7 +43,7 @@ UWindowImage* UEngineResourcesManager::LoadImg(std::string_view _Path, std::stri
 	NewImage->Load(GEngine->MainWindow.GetWindowImage());
 
 	Images[UpperName] = NewImage;
-	return NewImage;
+	return nullptr;
 }
 
 UWindowImage* UEngineResourcesManager::FindImg(std::string_view _Name)
