@@ -1,27 +1,20 @@
 #pragma once
+#include <EngineBase\EngineDebug.h>
+#include <EngineBase\EngineString.h>
+#include <EngineBase\EngineTime.h>
+
+#include <EnginePlatform\EngineWindow.h>
+#include <EnginePlatform\EngineInput.h>
 #include <map>
-#include <string>
-#include <string_view>
-#include <Windows.h>
-#include <EngineBase/EngineDebug.h>
-#include <EngineBase/EngineString.h>
-#include <EngineBase/EngineTime.h>
-#include <EnginePlatform/EngineWindow.h>
+
 
 // 하위 개념인 레벨을 헤더로 직접 참조할 때 발생할 수 있는 순환 참조를 방지하기 위해 클래스 전방 선언
 class ULevel;
 
-// 설명 :
 class UEngineCore
 {
 public:
-	// MainWindow, MainTimer는 객체로서 스스로를 보호할 능력을 갖고 있다.
-	// 따라서 public으로 외부에 공개해도 큰 문제 없다.
-	UEngineWindow MainWindow;
-	EngineTime MainTimer;
-
-	// constructor destructor
-	virtual ~UEngineCore();
+	~UEngineCore();
 
 	// delete Function
 	UEngineCore(const UEngineCore& _Other) = delete;
@@ -29,29 +22,34 @@ public:
 	UEngineCore& operator=(const UEngineCore& _Other) = delete;
 	UEngineCore& operator=(UEngineCore&& _Other) noexcept = delete;
 
+	// MainWindow, MainTimer는 객체로서 스스로를 보호할 능력을 갖고 있다.
+	// 따라서 public으로 외부에 공개해도 큰 문제 없다.
+	UEngineWindow MainWindow;
+	EngineTime MainTimer;
+
 	// 엔진을 시작한다. 
 	// - MainTimer, MainWindow 초기 작업
 	// - 유저 코어의 BeginPlay 호출
 	// - 윈도우 메시지 루프 시작
-	static void EngineStart(HINSTANCE _hInstance, UEngineCore* _UserCore);
+	void EngineStart(HINSTANCE _hInstance);
 
-	void CoreInit(HINSTANCE _hInstance);
+	void CoreInit(HINSTANCE _Init);
 
-	virtual void BeginPlay() {}
-	virtual void Tick(float _DeltaTime) {}
-	virtual void End() {}
+	virtual void BeginPlay();
+	virtual void Tick(float _DeltaTime);
+	virtual void End();
 
 	// 레벨을 생성하는 함수
 	// - 레벨의 BeginPlay 함수를 호출해준다.
-	// - 레벨을 맵에 저장한다.
+	// - 레벨을 맵에 저장한다.		
 	template<typename LevelType>
-	void CreateLevel(std::string_view _View)
+	void CreateLevel(std::string_view _Name)
 	{
-		std::string UpperName = UEngineString::ToUpper(_View);
+		std::string UpperName = UEngineString::ToUpper(_Name);
 
-		if (AllLevel.contains(UpperName))
+		if (true == AllLevel.contains(UpperName))
 		{
-			MsgBoxAssert(std::string(_View) + " 레벨을 반복해서 생성하려고 했습니다.");
+			MsgBoxAssert(std::string(_Name) + "이라는 이름의 Level을 또 만들려고 했습니다");
 		}
 
 		LevelType* NewLevel = new LevelType();
@@ -59,9 +57,8 @@ public:
 		AllLevel.insert(std::pair<std::string, ULevel*>(UpperName, NewLevel));
 	}
 
-	void ChangeLevel(std::string_view _View);
+	void ChangeLevel(std::string_view _Name);
 
-	// 프레임 제한 관련
 	void SetFrame(int _Frame)
 	{
 		Frame = _Frame;
@@ -70,28 +67,28 @@ public:
 
 protected:
 	UEngineCore();
+
 private:
-	bool EngineInit = false;
-
-	// 레벨 관련
-	std::map<std::string, ULevel*> AllLevel;
-	ULevel* CurLevel = nullptr;
-	void LevelInit(ULevel* _Level); // 레벨의 BeginPlay 함수를 호출해주는 함수
-
-
-	// 메시지 루프 콜백 함수
-	void CoreTick();
-	static void EngineTick();
-	static void EngineEnd(); // 코어가 레벨을 생성했기 때문에 코어가 레벨을 릴리즈해야 한다.
-
-
 	// 프레임 제한 기능 관련
 	int Frame = -1;					// 프레임 제한 수치. Frame <= 0은 프레임을 제한하지 않음을 의미.
 	float FrameTime = 0.0f;			// (1 / Frame)과 동일.
 	float CurFrameTime = 0.0f;
+
+	// 레벨 관련
+	bool EngineInit = false;
+	std::map<std::string, ULevel*> AllLevel;
+	ULevel* CurLevel = nullptr;
+	void LevelInit(ULevel* _Level); // 레벨의 BeginPlay 함수를 호출해주는 함수
+
+	// 메시지 루프 콜백 함수
+	static void EngineTick();
+	void CoreTick();
+	static void EngineEnd();		// 코어가 레벨을 생성했기 때문에 코어가 레벨을 릴리즈해야 한다.
+
 };
 
 extern UEngineCore* GEngine;
+
 
 #define ENGINESTART(USERCORE) \
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance, \
@@ -99,7 +96,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, \
 	_In_ LPWSTR    lpCmdLine, \
 	_In_ int       nCmdShow) \
 { \
-	LeakCheck; \
-	USERCORE MainCore = USERCORE(); \
-	UEngineCore::EngineStart(hInstance, &MainCore); \
+    LeakCheck; \
+	USERCORE NewUserCore = USERCORE(); \
+	NewUserCore.EngineStart(hInstance); \
 }

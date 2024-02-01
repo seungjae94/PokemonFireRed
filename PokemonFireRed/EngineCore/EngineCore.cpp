@@ -1,8 +1,8 @@
 #include "EngineCore.h"
-
 #include <Windows.h>
-#include <EnginePlatform/EngineInput.h>
 #include "Level.h"
+#include "EnginePlatform\EngineInput.h"
+
 
 UEngineCore* GEngine = nullptr;
 
@@ -15,63 +15,13 @@ UEngineCore::~UEngineCore()
 {
 }
 
-void UEngineCore::EngineStart(HINSTANCE _hInstance, UEngineCore* _UserCore)
-{
-	GEngine = _UserCore;
-
-	// MainTimer 시간 측정 시작
-	GEngine->MainTimer.TimeCheckStart();
-
-	// MainWindow 윈도우 띄우기
-	GEngine->CoreInit(_hInstance);
-
-	// 유저가 정의한 게임 로직 시작
-	GEngine->BeginPlay();
-
-	// 메시지 루프 시작
-	UEngineWindow::WindowMessageLoop(EngineTick, EngineEnd);
-}
-
-
-void UEngineCore::CoreInit(HINSTANCE _hInstance)
-{
-	// CoreInit은 한 번만 호출되어야 한다.
-	if (EngineInit)
-	{
-		return;
-	}
-
-	// 윈도우 띄우기
-	UEngineWindow::Init(_hInstance);
-	MainWindow.Open("Title");
-
-	EngineInit = true;
-}
-
-void UEngineCore::ChangeLevel(std::string_view _Name)
-{
-	std::string UpperName = UEngineString::ToUpper(_Name);
-
-	if (false == AllLevel.contains(UpperName))
-	{
-		MsgBoxAssert(std::string(_Name) + "는 존재하지 않는 레벨입니다. 레벨을 변경할 수 없습니다.");
-		return;
-	}
-
-	CurLevel = AllLevel[UpperName];
-}
-
-void UEngineCore::LevelInit(ULevel* _Level)
-{
-	_Level->BeginPlay();
-}
-
 void UEngineCore::CoreTick()
 {
 	float DeltaTime = MainTimer.TimeCheck();
+	double dDeltaTime = MainTimer.GetDeltaTime();
 
 	// 프레임 제한
-	if (Frame >= 1)
+	if (1 <= Frame)
 	{
 		CurFrameTime += DeltaTime;
 
@@ -87,23 +37,22 @@ void UEngineCore::CoreTick()
 		DeltaTime = FrameTime;
 	}
 
-
 	// 키 입력 체크
 	EngineInput::KeyCheckTick(DeltaTime);
 
 	// 예외 처리: 현재 레벨이 설정되지 않은 경우
-	if (CurLevel == nullptr)
+	if (nullptr == CurLevel)
 	{
-		MsgBoxAssert("엔진을 시작할 레벨이 지정되지 않았습니다.");
+		MsgBoxAssert("엔진을 시작할 레벨이 지정되지 않았습니다 치명적인 오류입니다");
 	}
 
 	// 업데이트 구조 1: 레벨이 매 틱마다 할 행동
 	CurLevel->Tick(DeltaTime);
-
+	
 	// 업데이트 구조 2: 레벨에 포함된 오브젝트(e.g. 액터)들이 매 틱마다 할 행동 
 	CurLevel->LevelTick(DeltaTime);
 
-	// 렌더링 구조 (차후 구현)
+	// 렌더링 구조
 	MainWindow.ScreenClear();
 	CurLevel->LevelRender(DeltaTime);
 	MainWindow.ScreenUpdate();
@@ -119,18 +68,79 @@ void UEngineCore::EngineTick()
 
 void UEngineCore::EngineEnd()
 {
-	for (std::pair<const std::string, ULevel*>& Pair : GEngine->AllLevel)
+	for (std::pair<const std::string, ULevel*>& _Pair : GEngine->AllLevel)
 	{
-		ULevel* Level = Pair.second;
-
-		if (Level == nullptr)
+		if (nullptr == _Pair.second)
 		{
 			continue;
 		}
 
-		delete Level;
-		Pair.second = nullptr;
+		delete _Pair.second;
+		_Pair.second = nullptr;
 	}
 
 	GEngine->AllLevel.clear();
+}
+
+void UEngineCore::EngineStart(HINSTANCE _hInstance)
+{
+	GEngine = this;
+	// MainTimer 시간 측정 시작
+	MainTimer.TimeCheckStart();
+
+	// MainWindow 윈도우 띄우기
+	CoreInit(_hInstance);
+
+	// 유저가 정의한 게임 로직 시작
+	BeginPlay();
+
+	// 메시지 루프 시작
+	UEngineWindow::WindowMessageLoop(EngineTick, EngineEnd);
+}
+
+void UEngineCore::CoreInit(HINSTANCE _HINSTANCE)
+{
+	// CoreInit은 한 번만 호출되어야 한다.
+	if (true == EngineInit)
+	{
+		return;
+	}
+
+	// 윈도우 띄우기
+	UEngineWindow::Init(_HINSTANCE);
+	MainWindow.Open();
+
+	EngineInit = true;
+}
+
+void UEngineCore::BeginPlay()
+{
+
+}
+
+void UEngineCore::Tick(float _DeltaTime)
+{
+
+}
+
+void UEngineCore::End()
+{
+
+}
+
+void UEngineCore::ChangeLevel(std::string_view _Name)
+{
+	std::string UpperName = UEngineString::ToUpper(_Name);
+
+	if (false == AllLevel.contains(UpperName))
+	{
+		MsgBoxAssert(std::string(_Name) + "라는 존재하지 않는 레벨로 체인지 하려고 했습니다");
+	}
+
+	CurLevel = AllLevel[UpperName];
+}
+
+void UEngineCore::LevelInit(ULevel* _Level)
+{
+	_Level->BeginPlay();
 }
