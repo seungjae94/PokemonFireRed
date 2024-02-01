@@ -6,6 +6,12 @@ UEngineDirectory::UEngineDirectory()
 {
 }
 
+UEngineDirectory::UEngineDirectory(const UEnginePath& _Path)
+	: UEnginePath(_Path.GetFullPath())
+{
+
+}
+
 UEngineDirectory::~UEngineDirectory()
 {
 }
@@ -59,7 +65,7 @@ void UEngineDirectory::AllFileRecursive(
 }
 
 std::list<UEngineFile> UEngineDirectory::AllFile(
-	std::vector<std::string> _Ext,
+	std::vector<std::string> _Ext ,
 	bool _Rescursive
 )
 {

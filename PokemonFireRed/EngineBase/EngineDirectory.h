@@ -1,17 +1,16 @@
 #pragma once
-
-#include <list>
 #include "EnginePath.h"
+#include <list>
 
 class UEngineFile;
 
 class UEngineDirectory : public UEnginePath
 {
 public:
-	// constructor destructor
 	UEngineDirectory();
+	UEngineDirectory(const UEnginePath& _Path);
 	~UEngineDirectory();
-	
+
 	/// <summary>
 	/// 경로 내의 모든 파일을 찾아서 반환.
 	/// </summary>
@@ -24,7 +23,7 @@ public:
 	std::list<UEngineFile> AllFile(std::vector<std::string> _Ext = std::vector<std::string>(), bool _Recursive = false);
 
 protected:
-	
+
 private:
 	// 재귀적으로 경로 내의 모든 파일을 찾는 함수 
 	void AllFileRecursive(const std::string_view _Path, std::list<UEngineFile>& _Result, std::vector<std::string> _Ext = std::vector<std::string>(), bool _Recursive = false);
