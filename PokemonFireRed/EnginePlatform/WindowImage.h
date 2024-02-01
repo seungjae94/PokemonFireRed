@@ -1,10 +1,14 @@
 #pragma once
-
+#include <EngineBase\PathObject.h>
+#include <EngineBase\EngineMath.h>
+#include <EngineBase\Transform.h>
 #include <Windows.h>
-#include <EngineBase/EngineMath.h>
-#include <EngineBase/Transform.h>
-#include <EngineBase/PathObject.h>
-#include <string>
+
+enum class EImageLoadType
+{
+	IMG_Folder,
+	IMG_Cutting,
+};
 
 enum class EWIndowImageType
 {
@@ -13,17 +17,26 @@ enum class EWIndowImageType
 	IMG_PNG
 };
 
+class ImageInfo
+{
+public:
+	HBITMAP hBitMap;
+	HDC ImageDC = nullptr;
+	FTransform CuttingTrans;
+	EWIndowImageType ImageType = EWIndowImageType::IMG_NONE;
+};
+
 class UEngineWindow;
 
 // 이미지 정보를 저장하는 객체
 // - Name, Path를 가지기 때문에 UPathObject 상속
-class UWindowImage : public UPathObject 
+class UWindowImage : public UPathObject
 {
-	friend UEngineWindow; // 윈도우 이미지, 백버퍼 이미지 생성
+	friend UEngineWindow;	// 윈도우 이미지, 백버퍼 이미지 생성
+
 public:
-	// constructor destructor
 	UWindowImage();
-	~UWindowImage();
+	~UWindowImage();		// 커널 오브젝트 릴리즈
 
 	// delete Function
 	UWindowImage(const UWindowImage& _Other) = delete;
@@ -44,9 +57,9 @@ public:
 	/// </returns>
 	bool Load(UWindowImage* _Image);
 
-	// 주 사용처: 백버퍼 이미지 생성
-	// - 리소스 이미지는 Load로 생성한다.
-	bool Create(UWindowImage* _Image, const FVector& _Scale);
+	bool LoadFolder(UWindowImage* _Image);
+
+	FVector GetScale();
 
 	/// <summary>
 	/// 이미지 this에 이미지 _CopyImage를 그려주는 함수.
@@ -76,18 +89,25 @@ public:
 	/// <param name="_Color">
 	/// 투명으로 취급할 색상
 	/// </param>
-	void TransCopy(UWindowImage* _CopyImage, const FTransform& _CopyTrans, const FTransform& _ImageCuttingTrans, Color8Bit _Color = Color8Bit::Black);
+	void TransCopy(UWindowImage* _CopyImage, const FTransform& _CopyTrans, int _Index, Color8Bit _Color = Color8Bit::Black);
 
-	FVector GetScale();
+	// 주 사용처: 백버퍼 이미지 생성
+	// - 리소스 이미지는 Load로 생성한다.
+	bool Create(UWindowImage* _Image, const FVector& _Scale);
+
+	void Cutting(int _X, int _Y);
 
 protected:
 
 private:
-	HBITMAP hBitMap = nullptr;
-	HDC ImageDC = nullptr;
-	BITMAP BitMapInfo = BITMAP();
+	EImageLoadType LoadType = EImageLoadType::IMG_Cutting;
 
+	HBITMAP hBitMap = 0;
+	HDC ImageDC = 0;
+	BITMAP BitMapInfo = BITMAP(); 
 	EWIndowImageType ImageType = EWIndowImageType::IMG_NONE;
+
+	std::vector<ImageInfo> Infos;
 
 	// 주 사용처: 윈도우 이미지 생성
 	// - 리소스 이미지는 Load로 생성한다.

@@ -1,6 +1,6 @@
 #pragma once
-#include <string>
 #include <Windows.h>
+#include <string>
 #include <EngineBase\EngineMath.h>
 
 class UWindowImage;
@@ -9,7 +9,6 @@ class UWindowImage;
 class UEngineWindow
 {
 public:
-	// constructor destructor
 	UEngineWindow();
 	~UEngineWindow();
 
@@ -22,6 +21,9 @@ public:
 	// 실제 윈도우를 화면에 띄운다.
 	void Open(std::string_view _Title = "Title");
 
+	// static 멤버 변수 hInstance를 초기화한다.
+	static void Init(HINSTANCE _hInst);
+
 	/// <summary>
 	/// 윈도우 메시지 루프를 돌리는 함수.
 	/// 프로그램에 메시지 루프는 하나만 존재하기 때문에 static으로 선언했다.
@@ -32,10 +34,7 @@ public:
 	/// <param name="_EndCallback">
 	///		루프가 종료된 뒤 호출할 콜백
 	/// </param>
-	static unsigned __int64 WindowMessageLoop(void (*_Update)(), void (*_End)());
-
-	// static 멤버 변수 hInstance를 초기화한다.
-	static void Init(HINSTANCE _hInstance);
+	static unsigned __int64 WindowMessageLoop(void(*_Update)(), void(*_End)());
 
 	UWindowImage* GetWindowImage()
 	{
@@ -47,7 +46,7 @@ public:
 		return BackBufferImage;
 	}
 
-	void SetWindowPosition(const FVector& _Pos) = delete;
+	void SetWindowPosition(const FVector& _Pos);
 	void SetWindowScale(const FVector& _Scale);
 
 	void ScreenClear();
@@ -56,17 +55,17 @@ public:
 protected:
 
 private:
-	// 윈도우 메시지를 처리하는 기본 프로시저
-	// - 모든 윈도우가 공유할 것이기 때문에 static으로 선언했다.
-	static LRESULT WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+	// 메시지 루프의 지속 여부
+	static bool WindowLive;	
 
 	// 인스턴스 핸들
 	// - 윈도우 정보를 등록할 때 사용한다.
 	// - 모든 윈도우가 공유할 것이기 때문에 static으로 선언했다.
 	static HINSTANCE hInstance;
 
-	// 메시지 루프의 지속 여부
-	static bool WindowLive;
+	// 윈도우 메시지를 처리하는 기본 프로시저
+	// - 모든 윈도우가 공유할 것이기 때문에 static으로 선언했다.
+	static LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
 	// 윈도우 핸들
 	HWND hWnd = nullptr;

@@ -1,5 +1,7 @@
 #pragma once
 
+#pragma once
+
 #include <string>
 #include <string_view>
 
@@ -8,13 +10,12 @@
 class UEngineString
 {
 public:
-	static std::string ToUpper(std::string_view _View);
-	static std::wstring AnsiToUnicode(std::string_view _View);
+	static std::string ToUpper(std::string_view View);
+	static std::wstring AnsiToUniCode(std::string_view View);
 
 protected:
 
 private:
-	// constructor destructor
 	UEngineString();
 	~UEngineString();
 

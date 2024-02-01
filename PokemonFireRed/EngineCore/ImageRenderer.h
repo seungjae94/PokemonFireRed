@@ -1,29 +1,45 @@
 #pragma once
-
-#include <EnginePlatform/WindowImage.h>
 #include "SceneComponent.h"
+#include <EnginePlatform\WindowImage.h>
+#include <map>
 
-// 설명 :
-class UImageRenderer : public USceneComponent
+class UAnimationInfo
 {
 public:
-	// constructor destructor
+	UWindowImage* Image = nullptr;
+	int Start = -1;
+	int End = -1;
+	int CurFrame = 0;
+	float CurTime = 0.0f;
+	bool Loop = false;
+	std::vector<float> Times;
+	std::vector<int> Indexs;
+
+	int Update(float _DeltaTime);
+};
+
+class UWindowImage;
+
+class UImageRenderer : public USceneComponent
+{
+
+public:
 	UImageRenderer();
 	~UImageRenderer();
 
-	// delete Function
 	UImageRenderer(const UImageRenderer& _Other) = delete;
 	UImageRenderer(UImageRenderer&& _Other) noexcept = delete;
 	UImageRenderer& operator=(const UImageRenderer& _Other) = delete;
 	UImageRenderer& operator=(UImageRenderer&& _Other) noexcept = delete;
 
 	void SetOrder(int _Order) override;
-
-	// 렌더링 함수
 	void Render(float _DeltaTime);
+	void SetImage(std::string_view _Name, int _InfoIndex = 0);
 
-	// Setter
-	void SetImage(std::string_view _Name);
+	void SetImageIndex(int _InfoIndex)
+	{
+		InfoIndex = _InfoIndex;
+	}
 
 	void SetTransform(const FTransform& _Value)
 	{
@@ -35,12 +51,27 @@ public:
 		ImageCuttingTransform = _Value;
 	}
 
+	void CreateAnimation(
+		std::string_view _AnimationName,
+		std::string_view _ImageName,
+		int _Start,
+		int _End,
+		float _Inter,
+		bool Loop = true
+	);
+
+	void ChangeAnimation(std::string_view _AnimationName);
+	void AnimationReset();
+
 protected:
-	// UTickObject 함수 
 	void BeginPlay() override;
 
 private:
+	int InfoIndex = 0;
 	UWindowImage* Image;
 	FTransform ImageCuttingTransform;
+
+	std::map<std::string, UAnimationInfo> AnimationInfos;
+	UAnimationInfo* CurAnimation = nullptr;
 };
 
