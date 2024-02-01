@@ -14,8 +14,7 @@ PokemonCore::~PokemonCore()
 void PokemonCore::BeginPlay()
 {
 	// 게임 기본 설정
-	MainWindow.SetWindowScale({ SCREEN_X, SCREEN_Y });
-	SetFrame(FRAME_RATE);
+	MainWindow.SetWindowScale({ Global::SCREEN_X, Global::SCREEN_Y });
 	
 	// 레벨 생성
 	CreateLevel<UTitleLevel>("TitleLevel");

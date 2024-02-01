@@ -162,6 +162,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Global.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Ground.h">
       <SubType>
       </SubType>
@@ -182,9 +186,12 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Global.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Global.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Ground.cpp">
       <SubType>
       </SubType>

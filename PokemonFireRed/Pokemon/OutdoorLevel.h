@@ -1,7 +1,8 @@
 #pragma once
 #include <EngineCore/Level.h>
+#include "Player.h"
+#include "Ground.h"
 
-// Ό³Έν :
 class UOutdoorLevel : public ULevel
 {
 public:
@@ -18,6 +19,5 @@ public:
 protected:
 	void BeginPlay() override;
 private:
-	
 };
 

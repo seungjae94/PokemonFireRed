@@ -3,8 +3,6 @@
 #include <EngineBase/EngineDirectory.h>
 #include <EngineBase/EngineFile.h>
 #include <EngineCore/EngineResourcesManager.h>
-#include "Player.h"
-#include "Ground.h"
 
 UOutdoorLevel::UOutdoorLevel()
 {
@@ -32,7 +30,9 @@ void UOutdoorLevel::BeginPlay()
 	}
 
 	// 액터 생성
-	APlayer* Player = SpawnActor<APlayer>();
-	AGround* Ground = SpawnActor<AGround>();
+	APlayer* Player = SpawnActor<APlayer>(0);
+	AGround* Ground = SpawnActor<AGround>(1);
+
 	Player->SetGround(Ground);
+	Ground->SetPlayer(Player);
 }

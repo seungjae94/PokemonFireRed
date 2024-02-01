@@ -48,5 +48,6 @@
     <ClCompile Include="Player.cpp">
       <Filter>OutdoorLevel\Actor</Filter>
     </ClCompile>
+    <ClCompile Include="Global.cpp" />
   </ItemGroup>
 </Project>

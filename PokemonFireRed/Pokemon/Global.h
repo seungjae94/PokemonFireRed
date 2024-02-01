@@ -1,8 +1,27 @@
 #pragma once
 
-#define FRAME_RATE 60
-#define PIXEL_SIZE 3
-#define SCREEN_X 240 * PIXEL_SIZE
-#define SCREEN_Y 160 * PIXEL_SIZE
-#define IMAGE_TILE_SIZE 16
-#define TILE_SIZE IMAGE_TILE_SIZE * PIXEL_SIZE
+// 전역으로 사용할 상수를 정의한다.
+class Global
+{
+public:
+	static const int PIXEL_SIZE;
+	static const int SCREEN_X;
+	static const int SCREEN_Y;
+	static const int IMAGE_TILE_SIZE;
+	static const int TILE_SIZE;
+	static const int HALF_SCREEN_X;
+	static const int HALF_SCREEN_Y;
+
+	// delete Function
+	Global(const Global& _Other) = delete;
+	Global(Global&& _Other) noexcept = delete;
+	Global& operator=(const Global& _Other) = delete;
+	Global& operator=(Global&& _Other) noexcept = delete;
+
+protected:
+
+private:
+	Global() {}
+	~Global() {}
+};
+
