@@ -37,5 +37,12 @@ private:
 
 	// 지면
 	AGround* Ground = nullptr;
+	
+	// 애니메이션 관련
+	float WalkInterval = 1.0f / 6;
+	float WalkTime = 1.0f / 3;
+	float CurWalkTime = WalkTime;
+	FVector Direction = FVector::Zero;
+	bool IsIdle = false;
 };
 
