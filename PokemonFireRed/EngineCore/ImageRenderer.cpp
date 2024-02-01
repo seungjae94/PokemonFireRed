@@ -138,7 +138,6 @@ void UImageRenderer::CreateAnimation(
 	Info.CurTime = 0.0f;
 	Info.Loop = _Loop;
 
-	//          12         0
 	int Size = Info.End - Info.Start;
 	Info.Times.reserve(Size);
 	Info.Indexs.reserve(Size);

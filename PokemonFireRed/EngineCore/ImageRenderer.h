@@ -11,9 +11,9 @@ public:
 	int End = -1;
 	int CurFrame = 0;
 	float CurTime = 0.0f;
-	bool Loop = false;
-	std::vector<float> Times;
-	std::vector<int> Indexs;
+	bool Loop = false;					// 애니메이션 반복 여부
+	std::vector<float> Times;			// Times[CurFrame]: 애니메이션 프레임의 시간 길이
+	std::vector<int> Indexs;			// Indexs[CurFrame]: 애니메이션 프레임에 대응하는 이미지 인덱스
 
 	int Update(float _DeltaTime);
 };
