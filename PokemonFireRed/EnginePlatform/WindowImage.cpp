@@ -131,22 +131,24 @@ void UWindowImage::BitCopy(UWindowImage* _CopyImage, const FTransform& _Trans)
 	);
 }
 
-void UWindowImage::TransCopy(UWindowImage* _CopyImage, const FTransform& _Trans, const FTransform& _ImageTrans, Color8Bit _Color)
+void UWindowImage::TransCopy(UWindowImage* _CopyImage, const FTransform& _CopyTrans, const FTransform& _ImageCuttingTrans, Color8Bit _Color)
 {
 	if (nullptr == _CopyImage)
 	{
 		MsgBoxAssert("nullptr인 이미지를 복사할 수 없습니다");
 	}
 
-	int RenderLeft = _Trans.iLeft();
-	int RenderTop = _Trans.iTop();
-	int RenderScaleX = _Trans.GetScale().iX();
-	int RenderScaleY = _Trans.GetScale().iY();
+	// 윈도우의 (RenderLeft, RenderTop)에서 (RenderLeft + RenderScaleX, RenderTop + RenderScaleY)까지의 영역에 그림을 그린다.
+	int RenderLeft = _CopyTrans.iLeft();
+	int RenderTop = _CopyTrans.iTop();
+	int RenderScaleX = _CopyTrans.GetScale().iX();
+	int RenderScaleY = _CopyTrans.GetScale().iY();
 
-	int ImageLeft = _ImageTrans.GetPosition().iX();
-	int ImageTop = _ImageTrans.GetPosition().iY();
-	int ImageScaleX = _ImageTrans.GetScale().iX();
-	int ImageScaleY = _ImageTrans.GetScale().iY();
+	// 이미지 리소스의 (ImageLeft, ImageTop)에서 (ImageLeft + ImageScaleX, ImageRight + ImageScaleY)까지의 영역을 잘라낸다.
+	int ImageLeft = _ImageCuttingTrans.GetPosition().iX();
+	int ImageTop = _ImageCuttingTrans.GetPosition().iY();
+	int ImageScaleX = _ImageCuttingTrans.GetScale().iX();
+	int ImageScaleY = _ImageCuttingTrans.GetScale().iY();
 
 	// 대상 이미지 DC (dest)
 	HDC hdc = ImageDC;

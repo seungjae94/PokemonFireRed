@@ -68,16 +68,15 @@ public:
 	/// this에 그릴 이미지
 	/// </param>
 	/// <param name="_CopyTrans">
-	/// this의 트랜스폼
+	/// (이미지 렌더러의 절대 위치, 이미지 렌더러의 크기)를 나타내는 트랜스폼.
 	/// </param>
-	/// <param name="_ImageTrans">
-	/// 이미지를 그릴 영역을 나타내는 트랜스폼.
-	/// 위치는 영역 좌상단의 좌표를, 크기는 영역의 크기를 의미한다.
+	/// <param name="_ImageCuttingTrans">
+	/// 이미지에서 잘라낼 영역을 의미하는 트랜스폼.
 	/// </param>
 	/// <param name="_Color">
 	/// 투명으로 취급할 색상
 	/// </param>
-	void TransCopy(UWindowImage* _CopyImage, const FTransform& _CopyTrans, const FTransform& _ImageTrans, Color8Bit _Color = Color8Bit::Black);
+	void TransCopy(UWindowImage* _CopyImage, const FTransform& _CopyTrans, const FTransform& _ImageCuttingTrans, Color8Bit _Color = Color8Bit::Black);
 
 	FVector GetScale();
 
