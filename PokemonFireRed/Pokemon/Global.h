@@ -1,0 +1,8 @@
+#pragma once
+
+#define FRAME_RATE 60
+#define PIXEL_SIZE 3
+#define SCREEN_X 240 * PIXEL_SIZE
+#define SCREEN_Y 160 * PIXEL_SIZE
+#define IMAGE_TILE_SIZE 16
+#define TILE_SIZE IMAGE_TILE_SIZE * PIXEL_SIZE

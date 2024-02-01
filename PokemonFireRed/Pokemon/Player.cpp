@@ -1,6 +1,7 @@
 #include "Player.h"
 #include <EnginePlatform/EngineInput.h>
 #include "Ground.h"
+#include "Global.h"
 
 APlayer::APlayer()
 {
@@ -14,17 +15,17 @@ void APlayer::BeginPlay()
 {
 	AActor::BeginPlay();
 
-	SetActorLocation({ 360, 240 });
+	SetActorLocation({ SCREEN_X/2, SCREEN_Y/2});
 
 	Renderer = CreateImageRenderer(1);
 	Renderer->SetImage("Player.bmp");
-	Renderer->SetTransform({ {0, 0}, {48, 96} });
-	Renderer->SetImageCuttingTransform({{0, 0}, {16, 32}});
+	Renderer->SetTransform({ {0, -TILE_SIZE / 2}, {TILE_SIZE, 2 * TILE_SIZE} });
+	Renderer->SetImageCuttingTransform({{0, 0}, {IMAGE_TILE_SIZE, 2*IMAGE_TILE_SIZE}});
 }
 
 void APlayer::Tick(float _DeltaTime)
 {
-	static float speed = 3 * 48.0f;
+	static float speed = 3 * TILE_SIZE;
 
 	FVector MoveVec = FVector::Zero;
 	if (EngineInput::IsPress(VK_LEFT))
