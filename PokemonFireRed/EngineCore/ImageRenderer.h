@@ -63,6 +63,11 @@ public:
 	void ChangeAnimation(std::string_view _AnimationName);
 	void AnimationReset();
 
+	void SetTransColor(Color8Bit _Color)
+	{
+		TransColor = _Color;
+	}
+
 protected:
 	void BeginPlay() override;
 
@@ -70,6 +75,7 @@ private:
 	int InfoIndex = 0;
 	UWindowImage* Image;
 	FTransform ImageCuttingTransform;
+	Color8Bit TransColor;
 
 	std::map<std::string, UAnimationInfo> AnimationInfos;
 	UAnimationInfo* CurAnimation = nullptr;

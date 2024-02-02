@@ -76,13 +76,21 @@ void UImageRenderer::Render(float _DeltaTime)
 
 	RendererTrans.AddPosition(ActorTrans.GetPosition());
 
-	std::string Out = std::to_string(InfoIndex);
+	EWIndowImageType ImageType = Image->GetImageType();
 
-	Out += "\n";
-	OutputDebugStringA(Out.c_str());
+	GEngine->MainWindow.GetBackBufferImage()->TransCopy(Image, RendererTrans, InfoIndex, TransColor);
 
-	GEngine->MainWindow.GetBackBufferImage()->TransCopy(Image, RendererTrans, InfoIndex);
-
+	switch (ImageType)
+	{
+	case EWIndowImageType::IMG_BMP:
+		// bmp일때는 일반적으로 Transcopy로 투명처리를 한다.
+		break;
+	case EWIndowImageType::IMG_PNG:
+		break;
+	default:
+		MsgBoxAssert("투명처리가 불가능한 이미지 입니다.");
+		break;
+	}
 }
 
 void UImageRenderer::BeginPlay()

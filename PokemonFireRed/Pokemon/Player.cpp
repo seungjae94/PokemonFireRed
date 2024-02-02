@@ -20,6 +20,7 @@ void APlayer::BeginPlay()
 
 	Renderer = CreateImageRenderer(1);
 	Renderer->SetImage("Player.bmp");
+	Renderer->SetTransColor(Color8Bit::White.ZeroAlphaColor());
 	Renderer->SetTransform({ {0, -Global::TILE_SIZE / 2}, {Global::TILE_SIZE, 2 * Global::TILE_SIZE} });
 	Renderer->SetImageCuttingTransform({{0, 0}, {Global::IMAGE_TILE_SIZE, 2* Global::IMAGE_TILE_SIZE}});
 

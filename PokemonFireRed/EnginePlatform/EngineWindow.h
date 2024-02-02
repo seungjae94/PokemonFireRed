@@ -52,6 +52,11 @@ public:
 	void ScreenClear();
 	void ScreenUpdate();
 
+	FVector GetWindowScale()
+	{
+		return Scale;
+	}
+
 protected:
 
 private:
