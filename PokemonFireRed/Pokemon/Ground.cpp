@@ -16,7 +16,7 @@ void AGround::BeginPlay()
 {
 	AActor::BeginPlay();
 
-	Renderer = CreateImageRenderer(0);
+	Renderer = CreateImageRenderer(-100);
 	Renderer->SetImage("PalletTown.png");
 
 	UWindowImage* Image = UEngineResourcesManager::GetInst().FindImg("PalletTown.png");
@@ -32,12 +32,19 @@ void AGround::BeginPlay()
 
 void AGround::Tick(float _DeltaTime)
 {
+	static bool FirstUpdate = false;
+
 	AActor::Tick(_DeltaTime);
+
+	if (false == FirstUpdate)
+	{
+		FirstUpdate = true;
+		SyncGroundScreenPosToPlayerWorldPos();
+	}
 	
-	UpdateScreenPos();
 }
 
-void AGround::UpdateScreenPos()
+void AGround::SyncGroundScreenPosToPlayerWorldPos()
 {
 	FVector ScreenPos = { Global::HALF_SCREEN_X, Global::HALF_SCREEN_Y };
 	ScreenPos += RenderScale * 0.5f;										// 배경 좌상단과 화면 중앙을 일치시킨다.

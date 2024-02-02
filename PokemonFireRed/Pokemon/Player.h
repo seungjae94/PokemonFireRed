@@ -38,10 +38,12 @@ private:
 	// 지면
 	AGround* Ground = nullptr;
 	
-	// 애니메이션 관련
-	float WalkInterval = 1.0f / 6;
-	float WalkTime = 1.0f / 3;
-	float CurWalkTime = WalkTime;
+	// 이동 관련
+	float speed = 3.6f;
+	float WalkInterval = 1.0f / 6;		// 걷기 애니메이션 프레임 재생 시간
+
+	float WalkTime = 1.0f / speed;
+	float DelayInputTime = 1.0f / 10;
 	FVector Direction = FVector::Zero;
 	bool IsIdle = false;
 };

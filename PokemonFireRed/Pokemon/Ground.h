@@ -43,6 +43,6 @@ private:
 	/// <summary>
 	/// 플레이어의 월드 좌표를 기준으로 스크린 좌표를 갱신한다.
 	/// </summary>
-	void UpdateScreenPos();
+	void SyncGroundScreenPosToPlayerWorldPos();
 };
 
