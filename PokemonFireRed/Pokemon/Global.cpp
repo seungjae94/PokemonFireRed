@@ -1,4 +1,5 @@
 #include "Global.h"
+#include <Windows.h>
 
 const int Global::PIXEL_SIZE = 3;
 const int Global::SCREEN_X = (240 * PIXEL_SIZE);
@@ -15,3 +16,8 @@ const float Global::F_IMAGE_TILE_SIZE = static_cast<float>(16);
 const float Global::F_TILE_SIZE = static_cast<float>(IMAGE_TILE_SIZE * PIXEL_SIZE);
 const float Global::F_HALF_SCREEN_X = static_cast<float>(SCREEN_X / 2);
 const float Global::F_HALF_SCREEN_Y = static_cast<float>(SCREEN_Y / 2);
+
+const int Global::MONITOR_X = GetSystemMetrics(SM_CXSCREEN);
+const int Global::MONITOR_Y = GetSystemMetrics(SM_CYSCREEN);
+const int Global::HALF_MONITOR_X = MONITOR_X / 2;
+const int Global::HALF_MONITOR_Y = MONITOR_Y / 2;

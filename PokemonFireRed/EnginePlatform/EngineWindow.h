@@ -81,7 +81,8 @@ private:
 	UWindowImage* WindowImage = nullptr;
 	UWindowImage* BackBufferImage = nullptr;
 
-	// 윈도우 크기
+	// 윈도우 데이터
 	FVector Scale;
+	FVector Position;
 };
 

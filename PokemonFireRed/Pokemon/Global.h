@@ -20,6 +20,11 @@ public:
 	static const float F_HALF_SCREEN_X;
 	static const float F_HALF_SCREEN_Y;
 
+	static const int MONITOR_X;
+	static const int MONITOR_Y;
+	static const int HALF_MONITOR_X;
+	static const int HALF_MONITOR_Y;
+
 	// delete Function
 	Global(const Global& _Other) = delete;
 	Global(Global&& _Other) noexcept = delete;
