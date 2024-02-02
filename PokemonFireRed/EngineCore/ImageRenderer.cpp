@@ -84,8 +84,10 @@ void UImageRenderer::Render(float _DeltaTime)
 	{
 	case EWIndowImageType::IMG_BMP:
 		// bmp일때는 일반적으로 Transcopy로 투명처리를 한다.
+		GEngine->MainWindow.GetBackBufferImage()->TransCopy(Image, RendererTrans, InfoIndex, TransColor);
 		break;
 	case EWIndowImageType::IMG_PNG:
+		GEngine->MainWindow.GetBackBufferImage()->AlphaCopy(Image, RendererTrans, InfoIndex, TransColor);
 		break;
 	default:
 		MsgBoxAssert("투명처리가 불가능한 이미지 입니다.");

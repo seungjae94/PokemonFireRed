@@ -80,7 +80,7 @@ public:
 	/// <param name="_CopyImage">
 	/// this에 그릴 이미지
 	/// </param>
-	/// <param name="_CopyTrans">
+	/// <param name="_Trans">
 	/// (이미지 렌더러의 절대 위치, 이미지 렌더러의 크기)를 나타내는 트랜스폼.
 	/// </param>
 	/// <param name="_ImageCuttingTrans">
@@ -89,7 +89,10 @@ public:
 	/// <param name="_Color">
 	/// 투명으로 취급할 색상
 	/// </param>
-	void TransCopy(UWindowImage* _CopyImage, const FTransform& _CopyTrans, int _Index, Color8Bit _Color = Color8Bit::Black);
+	void TransCopy(UWindowImage* _CopyImage, const FTransform& _Trans, int _Index, Color8Bit _Color = Color8Bit::Black);
+
+	void AlphaCopy(UWindowImage* _CopyImage, const FTransform& _Trans, int _Index, Color8Bit _Color = Color8Bit::Black);
+
 
 	// 주 사용처: 백버퍼 이미지 생성
 	// - 리소스 이미지는 Load로 생성한다.
