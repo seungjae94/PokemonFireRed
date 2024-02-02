@@ -186,3 +186,12 @@ void UEngineWindow::ScreenUpdate()
 	// 윈도우 이미지 전체에 백버퍼 이미지를 그린다.
 	WindowImage->BitCopy(BackBufferImage, CopyTrans);
 }
+
+FVector UEngineWindow::GetMousePosition()
+{
+	POINT MousePoint;
+	GetCursorPos(&MousePoint);
+	ScreenToClient(hWnd, &MousePoint);
+
+	return FVector(MousePoint.x, MousePoint.y);
+}
