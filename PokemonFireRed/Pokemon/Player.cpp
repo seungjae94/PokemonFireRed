@@ -30,10 +30,10 @@ void APlayer::BeginPlay()
 	Renderer->CreateAnimation("IdleRight", "IdleRight.png", 0, 0, 0.0f, false);
 	Renderer->CreateAnimation("IdleUp", "IdleUp.png", 0, 0, 0.0f, false);
 	Renderer->CreateAnimation("IdleDown", "IdleDown.png", 0, 0, 0.0f, false);
-	Renderer->CreateAnimation("WalkLeft", "WalkLeft.png", 0, 2, WalkInterval, true);
-	Renderer->CreateAnimation("WalkRight", "WalkRight.png", 0, 2, WalkInterval, true);
-	Renderer->CreateAnimation("WalkUp", "WalkUp.png", 0, 2, WalkInterval, true);
-	Renderer->CreateAnimation("WalkDown", "WalkDown.png", 0, 2, WalkInterval, true);
+	Renderer->CreateAnimation("WalkLeft", "WalkLeft.png", 0, 3, WalkInterval, true);
+	Renderer->CreateAnimation("WalkRight", "WalkRight.png", 0, 3, WalkInterval, true);
+	Renderer->CreateAnimation("WalkUp", "WalkUp.png", 0, 3, WalkInterval, true);
+	Renderer->CreateAnimation("WalkDown", "WalkDown.png", 0, 3, WalkInterval, true);
 }
 
 void APlayer::Tick(float _DeltaTime)

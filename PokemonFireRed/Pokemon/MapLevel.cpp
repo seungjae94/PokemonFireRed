@@ -31,10 +31,10 @@ void UMapLevel::BeginPlay()
 	}
 
 	// 플레이어 애니메이션 리소스 로드
-	UEngineResourcesManager::GetInst().CuttingImage("WalkDown.png", 3, 1);
-	UEngineResourcesManager::GetInst().CuttingImage("WalkUp.png", 3, 1);
-	UEngineResourcesManager::GetInst().CuttingImage("WalkLeft.png", 3, 1);
-	UEngineResourcesManager::GetInst().CuttingImage("WalkRight.png", 3, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("WalkDown.png", 4, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("WalkUp.png", 4, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("WalkLeft.png", 4, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("WalkRight.png", 4, 1);
 
 	// 액터 생성
 	Player = SpawnActor<APlayer>();
