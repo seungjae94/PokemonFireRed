@@ -20,9 +20,10 @@ void UTitleLevelIntroImage::BeginPlay()
 
 	UWindowImage* Image = UEngineResourcesManager::GetInst().FindImg("IntroTempImage.png");
 	FVector ImageScale = Image->GetScale();
+	FVector ImageRenderScale = ImageScale * Global::PIXEL_SIZE;
 
 	Renderer->SetImage("IntroTempImage.png");
-	Renderer->SetTransform({ ScreenCenter, {ImageScale * Global::PIXEL_SIZE} });
+	Renderer->SetTransform({ ImageRenderScale.Half2D(), {ImageRenderScale}});
 	Renderer->SetImageCuttingTransform({ {0, 0}, ImageScale });
 }
 
