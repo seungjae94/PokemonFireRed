@@ -23,6 +23,7 @@ void UTitleLevelIntroImage::BeginPlay()
 	FVector ImageRenderScale = ImageScale * Global::PIXEL_SIZE;
 
 	Renderer->SetImage("IntroTempImage.png");
+	Renderer->SetTransColor(Color8Bit::White);
 	Renderer->SetTransform({ ImageRenderScale.Half2D(), {ImageRenderScale}});
 	Renderer->SetImageCuttingTransform({ {0, 0}, ImageScale });
 }

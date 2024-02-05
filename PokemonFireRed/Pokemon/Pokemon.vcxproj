@@ -182,10 +182,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="OutdoorLevel.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="Player.h">
       <SubType>
       </SubType>
@@ -217,10 +213,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="MapLevel.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="OutdoorLevel.cpp">
       <SubType>
       </SubType>
     </ClCompile>

@@ -36,9 +36,6 @@
     <ClInclude Include="PokemonCore.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="OutdoorLevel.h">
-      <Filter>MapLevel</Filter>
-    </ClInclude>
     <ClInclude Include="Map.h">
       <Filter>MapLevel\Actor</Filter>
     </ClInclude>
@@ -62,9 +59,6 @@
   <ItemGroup>
     <ClCompile Include="PokemonCore.cpp">
       <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="OutdoorLevel.cpp">
-      <Filter>MapLevel</Filter>
     </ClCompile>
     <ClCompile Include="Map.cpp">
       <Filter>MapLevel\Actor</Filter>
