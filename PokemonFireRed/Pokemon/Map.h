@@ -17,9 +17,14 @@ public:
 	AMap& operator=(const AMap& _Other) = delete;
 	AMap& operator=(AMap&& _Other) noexcept = delete;
 
+	FVector GetWorldPos() const
+	{
+		return WorldPos;
+	}
+
 	void SetWorldPos(const FVector& _WorldPos)
 	{
-		LTWorldPos = _WorldPos;
+		WorldPos = _WorldPos;
 	}
 
 	void SetPlayer(APlayer* _Player)
@@ -31,6 +36,23 @@ public:
 
 	void SetForegroundImage(std::string_view _Name);
 
+	void SetCollisionImage(std::string_view _Name);
+
+	UWindowImage* GetCollisionImage()
+	{
+		return CollisionRenderer->GetImage();
+	}
+
+	bool IsCollisionRendererActive()
+	{
+		return CollisionRenderer->IsActive();
+	}
+
+	void SetCollisionRendererActive(bool _Value)
+	{
+		CollisionRenderer->SetActive(_Value);
+	}
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
@@ -38,13 +60,15 @@ protected:
 private:
 	UImageRenderer* BackgroundRenderer = nullptr;
 	UImageRenderer* ForegroundRenderer = nullptr;
+	UImageRenderer* CollisionRenderer = nullptr;
 
 	FVector TileCount = FVector::Zero;
 
 	/// <summary>
-	/// 배경 이미지 좌상단(Left Top)의 월드 좌표
+	/// 맵의 월드 좌표
+	/// 맵 이미지의 좌상단을 기준으로 한다.
 	/// </summary>
-	FVector LTWorldPos = FVector::Zero;
+	FVector WorldPos = FVector::Zero;
 
 	// 배경의 크기
 	FVector RenderScale = FVector::Zero;

@@ -20,6 +20,7 @@ public:
 	UMapLevel& operator=(UMapLevel&& _Other) noexcept = delete;
 
 	void BeginPlay() override;
+	void Tick(float _DeltaTime) override;
 
 protected:
 	// 하위 클래스에서 너무 많이 사용할 것 같아서 protected로 설정

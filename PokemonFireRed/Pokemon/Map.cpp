@@ -30,17 +30,25 @@ void AMap::SetBackgroundImage(std::string_view _Name)
 void AMap::SetForegroundImage(std::string_view _Name)
 {
 	ForegroundRenderer->SetImage(_Name);
-	//ForegroundRenderer->SetTransColor(Color8Bit::White.ZeroAlphaColor());
 
 	UWindowImage* Image = UEngineResourcesManager::GetInst().FindImg(_Name);
 	FVector Scale = Image->GetScale();
 	RenderScale = Scale;
 
-	TileCount.X = RenderScale.X / Global::TILE_SIZE;
-	TileCount.Y = RenderScale.Y / Global::TILE_SIZE;
-
 	ForegroundRenderer->SetTransform({ {0, 0}, RenderScale });
 	ForegroundRenderer->SetImageCuttingTransform({ {0, 0}, Scale });
+}
+
+void AMap::SetCollisionImage(std::string_view _Name)
+{
+	CollisionRenderer->SetImage(_Name);
+
+	UWindowImage* Image = UEngineResourcesManager::GetInst().FindImg(_Name);
+	FVector Scale = Image->GetScale();
+	RenderScale = Scale;
+
+	CollisionRenderer->SetTransform({ {0, 0}, RenderScale });
+	CollisionRenderer->SetImageCuttingTransform({ {0, 0}, Scale });
 }
 
 void AMap::BeginPlay()
@@ -49,6 +57,7 @@ void AMap::BeginPlay()
 
 	BackgroundRenderer = CreateImageRenderer(-1000);
 	ForegroundRenderer = CreateImageRenderer(1000);
+	CollisionRenderer = CreateImageRenderer(0);
 }
 
 void AMap::Tick(float _DeltaTime)
@@ -69,7 +78,7 @@ void AMap::SyncGroundScreenPosToPlayerWorldPos()
 {
 	FVector ScreenPos = { Global::HALF_SCREEN_X, Global::HALF_SCREEN_Y };
 	ScreenPos += RenderScale * 0.5f;										// 배경 좌상단과 화면 중앙을 일치시킨다.
-	ScreenPos += LTWorldPos * Global::F_TILE_SIZE;							// 배경 좌상단의 월드 좌표를 더한다.
+	ScreenPos += WorldPos * Global::F_TILE_SIZE;							// 배경 좌상단의 월드 좌표를 더한다.
 	ScreenPos -= Player->GetWorldPos().ToFVector() * Global::F_TILE_SIZE;				// 플레이어의 월드 좌표를 뺀다.
 	SetActorLocation(ScreenPos);
 }

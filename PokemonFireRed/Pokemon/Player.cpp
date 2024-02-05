@@ -99,8 +99,16 @@ void APlayer::Idle(float _DeltaTime)
 		// - 다음 방향의 걷기 애니메이션을 재생한다.
 		std::string DirectionStr = Direction.ToString();
 		Renderer->ChangeAnimation("Walk" + DirectionStr);
-		WorldPos += Direction;
 		State = EPlayerState::Walk;
+
+		// 충돌이 있을 경우 이동하지 않는다.
+		if (true == CheckCollision())
+		{
+			return;
+		}
+
+		WorldPos += Direction;
+		IsMoving = true;
 	}
 	else
 	{
@@ -174,9 +182,24 @@ void APlayer::Walk(float _DeltaTime)
 		Renderer->ChangeAnimation("Walk" + DirectionStr);
 	}
 
-	WorldPos += Direction;
+	// 충돌이 있을 경우 이동하지 않는다.
+	if (true == CheckCollision())
+	{
+		return;
+	}
 
+	WorldPos += Direction;
 	IsMoving = true;
+}
+
+bool APlayer::CheckCollision()
+{
+	FIntPoint TargetWorldPos = WorldPos + Direction;
+	FVector MapRelativeWorldPos = TargetWorldPos.ToFVector() - Map->GetWorldPos(); // 맵의 좌상단을 원점으로 두고 계산한 좌표
+	FVector MapRelativePixelPos = MapRelativeWorldPos * Global::TILE_SIZE;
+	Color8Bit Color = Map->GetCollisionImage()->GetColor(MapRelativePixelPos.iX(), MapRelativePixelPos.iY());
+
+	return Color == Color8Bit(255, 0, 255, 0);
 }
 
 

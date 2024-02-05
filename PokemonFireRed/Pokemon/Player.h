@@ -43,6 +43,9 @@ protected:
 	void Idle(float _DeltaTime);
 	void Walk(float _DeltaTime);
 	void Jump(float _DeltaTime) = delete;
+
+	// 충돌 체크
+	bool CheckCollision();
 private:
 	UImageRenderer* Renderer = nullptr;
 

@@ -1,4 +1,5 @@
 #include "MapLevel.h"
+#include <EnginePlatform/EngineInput.h>
 
 UMapLevel::UMapLevel() 
 {
@@ -42,5 +43,14 @@ void UMapLevel::BeginPlay()
 
 	Player->SetMap(Map);
 	Map->SetPlayer(Player);
+}
+
+void UMapLevel::Tick(float _DeltaTime)
+{
+	if (EngineInput::IsDown(VK_F1))
+	{
+		bool ActiveValue = Map->IsCollisionRendererActive();
+		Map->SetCollisionRendererActive(!ActiveValue);
+	}
 }
 

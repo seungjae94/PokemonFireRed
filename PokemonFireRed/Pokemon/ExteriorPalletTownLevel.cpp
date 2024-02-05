@@ -23,9 +23,10 @@ void UExteriorPalletTownLevel::BeginPlay()
 
 	Map->SetBackgroundImage("ExteriorPalletTownBackground.png");
 	Map->SetForegroundImage("ExteriorPalletTownForeground.png");
+	Map->SetCollisionImage("ExteriorPalletTownCollision.png");
+	Map->SetCollisionRendererActive(false);
 
 	// 월드 좌표 설정
-	//Map->SetWorldPos({ -6.5f, -8.5f });
 	Map->SetWorldPos({ -70.5f, -142.5f });
 }
 
