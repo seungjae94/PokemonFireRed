@@ -40,6 +40,19 @@ void UEngineCore::CoreTick()
 	// 키 입력 체크
 	EngineInput::KeyCheckTick(DeltaTime);
 
+	// 레벨 변경
+	// - 한 프레임 동안에는 레벨이 유지되어야 동작을 예상하기 쉽다.
+	if (nullptr != NextLevel)
+	{
+		if (nullptr != CurLevel)
+		{
+			CurLevel->LevelEnd(NextLevel);
+		}
+		NextLevel->LevelStart(CurLevel);
+		CurLevel = NextLevel;
+		NextLevel = nullptr;
+	}
+
 	// 예외 처리: 현재 레벨이 설정되지 않은 경우
 	if (nullptr == CurLevel)
 	{
@@ -137,7 +150,7 @@ void UEngineCore::ChangeLevel(std::string_view _Name)
 		MsgBoxAssert(std::string(_Name) + "라는 존재하지 않는 레벨로 체인지 하려고 했습니다");
 	}
 
-	CurLevel = AllLevel[UpperName];
+	NextLevel = AllLevel[UpperName];
 }
 
 void UEngineCore::LevelInit(ULevel* _Level)

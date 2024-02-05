@@ -83,12 +83,17 @@ public:
 		TransColor.A = static_cast<char>(_Alpha * 255.0f);
 	}
 
+	UWindowImage* GetImage()
+	{
+		return Image;
+	}
+
 protected:
 	void BeginPlay() override;
 
 private:
 	int InfoIndex = 0;
-	UWindowImage* Image;
+	UWindowImage* Image = nullptr;
 	FTransform ImageCuttingTransform;
 	Color8Bit TransColor;
 

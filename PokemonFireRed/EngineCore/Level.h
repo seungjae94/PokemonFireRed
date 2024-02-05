@@ -47,6 +47,9 @@ public:
 		return NewActor;
 	}
 
+	virtual void LevelStart(ULevel* _PrevLevel) {};
+	virtual void LevelEnd(ULevel* _NextLevel) {};
+
 protected:
 
 private:
