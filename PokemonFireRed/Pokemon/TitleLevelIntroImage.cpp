@@ -31,6 +31,6 @@ void UTitleLevelIntroImage::Tick(float _DeltaTime)
 {
 	if (EngineInput::IsDown('Z'))
 	{
-		GEngine->ChangeLevel("OutdoorLevel");
+		GEngine->ChangeLevel("ExteriorPalletTownLevel");
 	}
 }

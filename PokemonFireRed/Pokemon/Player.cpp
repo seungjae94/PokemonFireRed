@@ -1,6 +1,6 @@
 #include "Player.h"
 #include <EnginePlatform/EngineInput.h>
-#include "Ground.h"
+#include "Map.h"
 #include "Global.h"
 
 APlayer::APlayer()
@@ -63,7 +63,7 @@ void APlayer::Tick(float _DeltaTime)
 	if (IsWalking)
 	{
 		CurWalkTime -= _DeltaTime;
-		Ground->AddActorLocation(Direction * -speed * Global::TILE_SIZE * _DeltaTime);
+		Map->AddActorLocation(Direction * -speed * Global::TILE_SIZE * _DeltaTime);
 
 		if (CurWalkTime <= 0.0f)
 		{

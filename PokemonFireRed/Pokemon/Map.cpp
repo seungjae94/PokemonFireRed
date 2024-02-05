@@ -1,36 +1,40 @@
-#include "Ground.h"
+#include "Map.h"
 
 #include <EngineCore/EngineResourcesManager.h>
 #include "Global.h"
 #include "Player.h"
 
-AGround::AGround()
+AMap::AMap()
 {
 }
 
-AGround::~AGround()
+AMap::~AMap()
 {
 }
 
-void AGround::BeginPlay()
+void AMap::SetBackgroundImage(std::string_view _Name)
 {
-	AActor::BeginPlay();
+	BackgroundRenderer->SetImage(_Name);
 
-	Renderer = CreateImageRenderer(-100);
-	Renderer->SetImage("PalletTown.png");
-
-	UWindowImage* Image = UEngineResourcesManager::GetInst().FindImg("PalletTown.png");
-	FVector Scale =  Image->GetScale();
+	UWindowImage* Image = UEngineResourcesManager::GetInst().FindImg(_Name);
+	FVector Scale = Image->GetScale();
 	RenderScale = Scale * Global::F_PIXEL_SIZE;
 
 	TileCount.X = RenderScale.X / Global::TILE_SIZE;
 	TileCount.Y = RenderScale.Y / Global::TILE_SIZE;
 
-	Renderer->SetTransform({ {0, 0}, RenderScale });
-	Renderer->SetImageCuttingTransform({ {0, 0}, Scale });
+	BackgroundRenderer->SetTransform({ {0, 0}, RenderScale });
+	BackgroundRenderer->SetImageCuttingTransform({ {0, 0}, Scale });
 }
 
-void AGround::Tick(float _DeltaTime)
+void AMap::BeginPlay()
+{
+	AActor::BeginPlay();
+
+	BackgroundRenderer = CreateImageRenderer(-1000);
+}
+
+void AMap::Tick(float _DeltaTime)
 {
 	static bool FirstUpdate = false;
 
@@ -41,10 +45,10 @@ void AGround::Tick(float _DeltaTime)
 		FirstUpdate = true;
 		SyncGroundScreenPosToPlayerWorldPos();
 	}
-	
+
 }
 
-void AGround::SyncGroundScreenPosToPlayerWorldPos()
+void AMap::SyncGroundScreenPosToPlayerWorldPos()
 {
 	FVector ScreenPos = { Global::HALF_SCREEN_X, Global::HALF_SCREEN_Y };
 	ScreenPos += RenderScale * 0.5f;										// 배경 좌상단과 화면 중앙을 일치시킨다.

@@ -3,30 +3,38 @@
 
 class APlayer;
 
-// 플레이어가 돌아다닐 바닥
-class AGround : public AActor
+// 맵의 배경과 전경
+class AMap : public AActor
 {
 public:
 	// constructor destructor
-	AGround();
-	~AGround();
+	AMap();
+	~AMap();
 
 	// delete Function
-	AGround(const AGround& _Other) = delete;
-	AGround(AGround&& _Other) noexcept = delete;
-	AGround& operator=(const AGround& _Other) = delete;
-	AGround& operator=(AGround&& _Other) noexcept = delete;
+	AMap(const AMap& _Other) = delete;
+	AMap(AMap&& _Other) noexcept = delete;
+	AMap& operator=(const AMap& _Other) = delete;
+	AMap& operator=(AMap&& _Other) noexcept = delete;
 
 	void SetPlayer(APlayer* _Player)
 	{
 		Player = _Player;
 	}
 
+	void SetBackgroundImage(std::string_view _Name);
+
+	void SetForegroundImage(std::string_view _Name)
+	{
+		ForegroundRenderer->SetImage(_Name, 1000);
+	}
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 private:
-	UImageRenderer* Renderer = nullptr;
+	UImageRenderer* BackgroundRenderer = nullptr;
+	UImageRenderer* ForegroundRenderer = nullptr;
 
 	/// <summary>
 	/// 배경 이미지 좌상단(Left Top)의 월드 좌표

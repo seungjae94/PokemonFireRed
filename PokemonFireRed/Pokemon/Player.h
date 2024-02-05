@@ -1,7 +1,7 @@
 #pragma once
 #include <EngineCore/Actor.h>
 
-class AGround;
+class AMap;
 
 class APlayer : public AActor
 {
@@ -21,9 +21,9 @@ public:
 		return WorldPos;
 	}
 
-	void SetGround(AGround* _Ground)
+	void SetMap(AMap* _Map)
 	{
-		Ground = _Ground;
+		Map = _Map;
 	}
 
 protected:
@@ -36,7 +36,7 @@ private:
 	FVector WorldPos = FVector::Zero;
 
 	// 지면
-	AGround* Ground = nullptr;
+	AMap* Map = nullptr;
 	
 	// 이동 관련
 	float speed = 3.6f;
