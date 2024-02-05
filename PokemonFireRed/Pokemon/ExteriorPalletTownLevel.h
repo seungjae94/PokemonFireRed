@@ -17,8 +17,6 @@ public:
 
 	void BeginPlay() override;
 
-protected:
-
 private:
 
 };

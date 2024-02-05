@@ -18,7 +18,7 @@ void AMap::SetBackgroundImage(std::string_view _Name)
 
 	UWindowImage* Image = UEngineResourcesManager::GetInst().FindImg(_Name);
 	FVector Scale = Image->GetScale();
-	RenderScale = Scale * Global::F_PIXEL_SIZE;
+	RenderScale = Scale;
 
 	TileCount.X = RenderScale.X / Global::TILE_SIZE;
 	TileCount.Y = RenderScale.Y / Global::TILE_SIZE;
@@ -27,11 +27,28 @@ void AMap::SetBackgroundImage(std::string_view _Name)
 	BackgroundRenderer->SetImageCuttingTransform({ {0, 0}, Scale });
 }
 
+void AMap::SetForegroundImage(std::string_view _Name)
+{
+	ForegroundRenderer->SetImage(_Name);
+	//ForegroundRenderer->SetTransColor(Color8Bit::White.ZeroAlphaColor());
+
+	UWindowImage* Image = UEngineResourcesManager::GetInst().FindImg(_Name);
+	FVector Scale = Image->GetScale();
+	RenderScale = Scale;
+
+	TileCount.X = RenderScale.X / Global::TILE_SIZE;
+	TileCount.Y = RenderScale.Y / Global::TILE_SIZE;
+
+	ForegroundRenderer->SetTransform({ {0, 0}, RenderScale });
+	ForegroundRenderer->SetImageCuttingTransform({ {0, 0}, Scale });
+}
+
 void AMap::BeginPlay()
 {
 	AActor::BeginPlay();
 
 	BackgroundRenderer = CreateImageRenderer(-1000);
+	ForegroundRenderer = CreateImageRenderer(1000);
 }
 
 void AMap::Tick(float _DeltaTime)

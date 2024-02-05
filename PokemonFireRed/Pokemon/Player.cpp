@@ -86,6 +86,12 @@ void APlayer::Idle(float _DeltaTime)
 		return;
 	}
 
+	if (NextDirection == FIntPoint::Zero)
+	{
+		// 키를 누르지 않은 경우
+		return;
+	}
+
 	if (Direction == NextDirection)
 	{
 		// 바라보는 방향의 키를 누른 경우
@@ -140,13 +146,15 @@ void APlayer::Walk(float _DeltaTime)
 		{
 			CurWalkTime = WalkTime;
 			IsMoving = false;
-
-			if (NextDirection == FIntPoint::Zero)
-			{
-				State = EPlayerState::Idle;
-			}
 		}
 
+		return;
+	}
+
+	if (NextDirection == FIntPoint::Zero)
+	{
+		// 키를 누르지 않은 경우
+		State = EPlayerState::Idle;
 		return;
 	}
 
