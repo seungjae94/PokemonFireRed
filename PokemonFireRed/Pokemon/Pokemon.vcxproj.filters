@@ -13,6 +13,9 @@
     <Filter Include="OutdoorLevel\Actor">
       <UniqueIdentifier>{3b88d292-f9a2-4d41-863e-4b9d2397e54a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="TitleLevel\Actor">
+      <UniqueIdentifier>{6cca5fec-8768-4bb5-b4c6-002f4f8625d8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PokemonCore.h">
@@ -31,6 +34,9 @@
       <Filter>OutdoorLevel\Actor</Filter>
     </ClInclude>
     <ClInclude Include="Global.h" />
+    <ClInclude Include="TitleLevelIntroImage.h">
+      <Filter>TitleLevel\Actor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PokemonCore.cpp">
@@ -49,5 +55,8 @@
       <Filter>OutdoorLevel\Actor</Filter>
     </ClCompile>
     <ClCompile Include="Global.cpp" />
+    <ClCompile Include="TitleLevelIntroImage.cpp">
+      <Filter>TitleLevel\Actor</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

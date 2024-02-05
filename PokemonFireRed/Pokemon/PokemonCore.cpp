@@ -21,5 +21,5 @@ void PokemonCore::BeginPlay()
 	CreateLevel<UOutdoorLevel>("OutdoorLevel");
 
 	// 시작 레벨 설정
-	ChangeLevel("OutdoorLevel");
+	ChangeLevel("TitleLevel");
 }
