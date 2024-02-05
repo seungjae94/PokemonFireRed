@@ -166,11 +166,19 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ExteriorPalletTownLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Global.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Ground.h">
+    <ClInclude Include="Map.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="MapLevel.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -190,13 +198,25 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="TitleLevelIntroImage.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ExteriorPalletTownLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Global.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Ground.cpp">
+    <ClCompile Include="Map.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="MapLevel.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -213,6 +233,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="TitleLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="TitleLevelIntroImage.cpp">
       <SubType>
       </SubType>
     </ClCompile>

@@ -1,7 +1,7 @@
 #pragma once
 #include <EngineCore/Level.h>
 #include "Player.h"
-#include "Ground.h"
+#include "Map.h"
 
 class UOutdoorLevel : public ULevel
 {
