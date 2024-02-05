@@ -31,6 +31,9 @@
     <Filter Include="MapLevel\Actor\Tile">
       <UniqueIdentifier>{7135e491-4edb-44ca-9af1-729ccfdf5776}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Util">
+      <UniqueIdentifier>{363b44f9-6ba5-4290-afb2-239aea3b0006}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PokemonCore.h">
@@ -45,7 +48,6 @@
     <ClInclude Include="Player.h">
       <Filter>MapLevel\Actor</Filter>
     </ClInclude>
-    <ClInclude Include="Global.h" />
     <ClInclude Include="TitleLevelIntroImage.h">
       <Filter>TitleLevel\Actor</Filter>
     </ClInclude>
@@ -54,6 +56,12 @@
     </ClInclude>
     <ClInclude Include="ExteriorPalletTownLevel.h">
       <Filter>MapLevel\Level\Exterior</Filter>
+    </ClInclude>
+    <ClInclude Include="Global.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="PokemonMath.h">
+      <Filter>Util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -69,7 +77,6 @@
     <ClCompile Include="Player.cpp">
       <Filter>MapLevel\Actor</Filter>
     </ClCompile>
-    <ClCompile Include="Global.cpp" />
     <ClCompile Include="TitleLevelIntroImage.cpp">
       <Filter>TitleLevel\Actor</Filter>
     </ClCompile>
@@ -78,6 +85,12 @@
     </ClCompile>
     <ClCompile Include="ExteriorPalletTownLevel.cpp">
       <Filter>MapLevel\Level\Exterior</Filter>
+    </ClCompile>
+    <ClCompile Include="Global.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="PokemonMath.cpp">
+      <Filter>Util</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

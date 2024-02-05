@@ -53,6 +53,6 @@ void AMap::SyncGroundScreenPosToPlayerWorldPos()
 	FVector ScreenPos = { Global::HALF_SCREEN_X, Global::HALF_SCREEN_Y };
 	ScreenPos += RenderScale * 0.5f;										// 배경 좌상단과 화면 중앙을 일치시킨다.
 	ScreenPos += LTWorldPos * Global::F_TILE_SIZE;							// 배경 좌상단의 월드 좌표를 더한다.
-	ScreenPos -= Player->GetWorldPos() * Global::F_TILE_SIZE;				// 플레이어의 월드 좌표를 뺀다.
+	ScreenPos -= Player->GetWorldPos().ToFVector() * Global::F_TILE_SIZE;				// 플레이어의 월드 좌표를 뺀다.
 	SetActorLocation(ScreenPos);
 }

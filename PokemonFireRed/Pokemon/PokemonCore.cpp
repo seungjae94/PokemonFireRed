@@ -21,5 +21,6 @@ void PokemonCore::BeginPlay()
 	CreateLevel<UExteriorPalletTownLevel>("ExteriorPalletTownLevel");
 
 	// 시작 레벨 설정
-	ChangeLevel("TitleLevel");
+	//ChangeLevel("TitleLevel");
+	ChangeLevel("ExteriorPalletTownLevel");
 }
