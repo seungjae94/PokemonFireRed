@@ -37,6 +37,13 @@ void UEngineCore::CoreTick()
 		DeltaTime = FrameTime;
 	}
 
+	// 디버깅 편의성을 위한 옵션 기능
+	// - 디버깅으로 코드를 멈춰놓았을 때 DeltaTime이 커지면서 캐릭터가 한 번에 움직이는 문제를 해결
+	/*if (1.0f / 60.0f <= DeltaTime)
+	{
+		DeltaTime = 1.0f / 60.0f;
+	}*/
+
 	// 키 입력 체크
 	EngineInput::KeyCheckTick(DeltaTime);
 

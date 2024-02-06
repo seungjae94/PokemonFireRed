@@ -7,6 +7,7 @@ class UAnimationInfo
 {
 public:
 	UWindowImage* Image = nullptr;
+	std::string Name;
 	int Start = -1;
 	int End = -1;
 	int CurFrame = 0;
@@ -60,7 +61,7 @@ public:
 		bool Loop = true
 	);
 
-	void ChangeAnimation(std::string_view _AnimationName);
+	void ChangeAnimation(std::string_view _AnimationName, bool _IsForce = false);
 	void AnimationReset();
 
 	void SetTransColor(Color8Bit _Color)
