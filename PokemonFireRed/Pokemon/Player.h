@@ -24,11 +24,6 @@ public:
 	APlayer& operator=(const APlayer& _Other) = delete;
 	APlayer& operator=(APlayer&& _Other) noexcept = delete;
 
-	FIntPoint GetWorldPos() const
-	{
-		return WorldPos;
-	}
-
 	void SetMap(AMap* _Map)
 	{
 		Map = _Map;
@@ -50,8 +45,8 @@ protected:
 private:
 	UImageRenderer* Renderer = nullptr;
 
-	// 월드 좌표
-	FIntPoint WorldPos = FIntPoint::Zero;
+	// 정수형 월드 좌표
+	//FIntPoint WorldPos = FIntPoint::Zero;
 	FIntPoint Direction = FIntPoint::Down;
 
 	// 지면

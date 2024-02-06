@@ -15,8 +15,10 @@ void APlayer::BeginPlay()
 {
 	AActor::BeginPlay();
 
-	WorldPos = { 0, 0 };
-	SetActorLocation({ Global::SCREEN_X / 2, Global::SCREEN_Y / 2 });
+	SetActorLocation({ 0, 0 });
+
+	FVector CameraInitialPos = { -Global::F_HALF_SCREEN_X, -Global::F_HALF_SCREEN_Y };
+	GetWorld()->SetCameraPos(CameraInitialPos);
 
 	// 플레이어 이미지 세팅
 	Renderer = CreateImageRenderer(0);
@@ -109,7 +111,6 @@ void APlayer::Idle(float _DeltaTime)
 			return;
 		}
 
-		WorldPos += Direction;
 		IsMoving = true;
 	}
 	else
@@ -156,7 +157,8 @@ void APlayer::Walk(float _DeltaTime)
 		CurWalkTime -= _DeltaTime;
 
 		FVector MoveVector = Direction.ToFVector() * speed * Global::TILE_SIZE * _DeltaTime;
-		Map->AddActorLocation(MoveVector * (-1));
+		AddActorLocation(MoveVector);
+		GetWorld()->AddCameraPos(MoveVector);
 
 		if (CurWalkTime <= 0.0f)
 		{
@@ -203,7 +205,6 @@ void APlayer::Walk(float _DeltaTime)
 		return;
 	}
 
-	WorldPos += Direction;
 	IsMoving = true;
 }
 
@@ -221,14 +222,13 @@ void APlayer::Jump(float _DeltaTime)
 		CurJumpTime -= _DeltaTime;
 
 		FVector MoveVector = Direction.ToFVector() * speed * Global::TILE_SIZE * _DeltaTime;
-		Map->AddActorLocation(MoveVector * (-1));
+		AddActorLocation(MoveVector);
+		GetWorld()->AddCameraPos(MoveVector);
 
 		if (CurJumpTime <= 0.0f)
 		{
 			CurJumpTime = JumpTime;
 			IsMoving = false;
-			WorldPos += Direction;
-			WorldPos += Direction;
 			State = EPlayerState::Walk;
 		}
 
@@ -239,10 +239,9 @@ void APlayer::Jump(float _DeltaTime)
 
 bool APlayer::CheckCollision()
 {
-	FIntPoint TargetWorldPos = WorldPos + Direction;
-	FVector MapRelativeWorldPos = TargetWorldPos.ToFVector() - Map->GetWorldPos(); // 맵의 좌상단을 원점으로 두고 계산한 좌표
-	FVector MapRelativePixelPos = MapRelativeWorldPos * Global::TILE_SIZE;
-	Color8Bit Color = Map->GetCollisionImage()->GetColor(MapRelativePixelPos.iX(), MapRelativePixelPos.iY(), Color8Bit::MagentaA);
+	FVector TargetPos = GetActorLocation() + Direction.ToFVector() * Global::F_TILE_SIZE;
+	FVector MapRelativePos = TargetPos - Map->GetActorLocation();
+	Color8Bit Color = Map->GetCollisionImage()->GetColor(MapRelativePos.iX(), MapRelativePos.iY(), Color8Bit::MagentaA);
 
 	return Color == Color8Bit(255, 0, 255, 0)
 		|| (Color.R == 255 && Color.G == 255 );
@@ -250,11 +249,9 @@ bool APlayer::CheckCollision()
 
 bool APlayer::CheckJump()
 {
-	FIntPoint TargetWorldPos = WorldPos + Direction;
-	FVector MapRelativeWorldPos = TargetWorldPos.ToFVector() - Map->GetWorldPos(); // 맵의 좌상단을 원점으로 두고 계산한 좌표
-	FVector MapRelativePixelPos = MapRelativeWorldPos * Global::TILE_SIZE;
-
-	Color8Bit Color = Map->GetCollisionImage()->GetColor(MapRelativePixelPos.iX(), MapRelativePixelPos.iY(), Color8Bit::WhiteA);
+	FVector TargetPos = GetActorLocation() + Direction.ToFVector() * Global::F_TILE_SIZE;
+	FVector MapRelativePos = TargetPos - Map->GetActorLocation();
+	Color8Bit Color = Map->GetCollisionImage()->GetColor(MapRelativePos.iX(), MapRelativePos.iY(), Color8Bit::WhiteA);
 
 	if (Direction == FIntPoint::Down)
 	{

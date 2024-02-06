@@ -25,16 +25,6 @@ public:
 	AMap& operator=(const AMap& _Other) = delete;
 	AMap& operator=(AMap&& _Other) noexcept = delete;
 
-	FVector GetWorldPos() const
-	{
-		return WorldPos;
-	}
-
-	void SetWorldPos(const FVector& _WorldPos)
-	{
-		WorldPos = _WorldPos;
-	}
-
 	void SetPlayer(APlayer* _Player)
 	{
 		Player = _Player;
@@ -70,23 +60,7 @@ private:
 	UImageRenderer* ForegroundRenderer = nullptr;
 	UImageRenderer* CollisionRenderer = nullptr;
 
-	FVector TileCount = FVector::Zero;
-
-	/// <summary>
-	/// 맵의 월드 좌표
-	/// 맵 이미지의 좌상단을 기준으로 한다.
-	/// </summary>
-	FVector WorldPos = FVector::Zero;
-
-	// 배경의 크기
-	FVector RenderScale = FVector::Zero;
-
 	// 플레이어
 	APlayer* Player = nullptr;
-	
-	/// <summary>
-	/// 플레이어의 월드 좌표를 기준으로 스크린 좌표를 갱신한다.
-	/// </summary>
-	void SyncGroundScreenPosToPlayerWorldPos();
 };
 

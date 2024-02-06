@@ -2,6 +2,15 @@
 #include <string>
 #include <EngineBase/EngineMath.h>
 
+enum class EDirection
+{
+	Down,
+	Up,
+	Left,
+	Right,
+	None
+};
+
 struct FIntPoint
 {
 public:

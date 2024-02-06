@@ -1,5 +1,7 @@
 #include "ExteriorPalletTownLevel.h"
 
+#include "Global.h"
+
 UExteriorPalletTownLevel::UExteriorPalletTownLevel() 
 {
 }
@@ -26,7 +28,9 @@ void UExteriorPalletTownLevel::BeginPlay()
 	Map->SetCollisionImage("ExteriorPalletTownCollision.png");
 	Map->SetCollisionRendererActive(false);
 
-	// ¿ùµå ÁÂÇ¥ ¼³Á¤
-	Map->SetWorldPos({ -70.5f, -142.5f });
+	// ¸ÊÀÇ ÁÂÇ¥ ¼³Á¤
+	FVector MapInitialPos = { -70.5f, -142.5f };
+	MapInitialPos *= Global::F_TILE_SIZE;
+	Map->SetActorLocation(MapInitialPos);
 }
 

@@ -18,12 +18,8 @@ void AMap::SetBackgroundImage(std::string_view _Name)
 
 	UWindowImage* Image = UEngineResourcesManager::GetInst().FindImg(_Name);
 	FVector Scale = Image->GetScale();
-	RenderScale = Scale;
 
-	TileCount.X = RenderScale.X / Global::TILE_SIZE;
-	TileCount.Y = RenderScale.Y / Global::TILE_SIZE;
-
-	BackgroundRenderer->SetTransform({ {0, 0}, RenderScale });
+	BackgroundRenderer->SetTransform({ Scale.Half2D(), Scale});
 	BackgroundRenderer->SetImageCuttingTransform({ {0, 0}, Scale });
 }
 
@@ -33,9 +29,8 @@ void AMap::SetForegroundImage(std::string_view _Name)
 
 	UWindowImage* Image = UEngineResourcesManager::GetInst().FindImg(_Name);
 	FVector Scale = Image->GetScale();
-	RenderScale = Scale;
 
-	ForegroundRenderer->SetTransform({ {0, 0}, RenderScale });
+	ForegroundRenderer->SetTransform({ Scale.Half2D(), Scale });
 	ForegroundRenderer->SetImageCuttingTransform({ {0, 0}, Scale });
 }
 
@@ -45,9 +40,8 @@ void AMap::SetCollisionImage(std::string_view _Name)
 
 	UWindowImage* Image = UEngineResourcesManager::GetInst().FindImg(_Name);
 	FVector Scale = Image->GetScale();
-	RenderScale = Scale;
 
-	CollisionRenderer->SetTransform({ {0, 0}, RenderScale });
+	CollisionRenderer->SetTransform({ Scale.Half2D(), Scale });
 	CollisionRenderer->SetImageCuttingTransform({ {0, 0}, Scale });
 }
 
@@ -62,23 +56,5 @@ void AMap::BeginPlay()
 
 void AMap::Tick(float _DeltaTime)
 {
-	static bool FirstUpdate = false;
-
 	AActor::Tick(_DeltaTime);
-
-	if (false == FirstUpdate)
-	{
-		FirstUpdate = true;
-		SyncGroundScreenPosToPlayerWorldPos();
-	}
-
-}
-
-void AMap::SyncGroundScreenPosToPlayerWorldPos()
-{
-	FVector ScreenPos = { Global::HALF_SCREEN_X, Global::HALF_SCREEN_Y };
-	ScreenPos += RenderScale * 0.5f;										// 배경 좌상단과 화면 중앙을 일치시킨다.
-	ScreenPos += WorldPos * Global::F_TILE_SIZE;							// 배경 좌상단의 월드 좌표를 더한다.
-	ScreenPos -= Player->GetWorldPos().ToFVector() * Global::F_TILE_SIZE;				// 플레이어의 월드 좌표를 뺀다.
-	SetActorLocation(ScreenPos);
 }

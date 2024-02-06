@@ -52,7 +52,7 @@ public:
 	virtual void LevelEnd(ULevel* _NextLevel) {};
 
 	// 카메라 관련 함수
-	void SddCameraPos(FVector _CameraPos)
+	void SetCameraPos(FVector _CameraPos)
 	{
 		CameraPos = _CameraPos;
 	}
