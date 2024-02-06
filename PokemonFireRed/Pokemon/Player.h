@@ -45,9 +45,10 @@ protected:
 private:
 	UImageRenderer* Renderer = nullptr;
 
-	// 정수형 월드 좌표
-	//FIntPoint WorldPos = FIntPoint::Zero;
+	// 월드 좌표
 	FIntPoint Direction = FIntPoint::Down;
+	FVector PrevPos = FVector::Zero;
+	FVector NextPos = FVector::Zero;
 
 	// 지면
 	AMap* Map = nullptr;
@@ -61,8 +62,8 @@ private:
 
 	// 이동 관련
 	float speed = 3.6f;
-	float WalkTime = 1.0f / speed;
-	float JumpTime = 2.0f / speed;
+	float WalkTime = 1.0f / speed; // 1칸 걷는데 걸리는 시간
+	float JumpTime = 2.0f / speed; // 2칸 점프하는데 걸리는 시간
 	bool IsMoving = false;
 };
 

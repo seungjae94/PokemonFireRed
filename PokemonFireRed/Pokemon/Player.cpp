@@ -105,12 +105,23 @@ void APlayer::Idle(float _DeltaTime)
 		Renderer->ChangeAnimation("Walk" + DirectionStr);
 		State = EPlayerState::Walk;
 
+		// 점프가 가능할 경우 점프한다.
+		if (true == CheckJump())
+		{
+			PrevPos = GetActorLocation();
+			NextPos = GetActorLocation() + Direction.ToFVector() * 2 * Global::F_TILE_SIZE;
+			State = EPlayerState::Jump;
+			return;
+		}
+
 		// 충돌이 있을 경우 이동하지 않는다.
 		if (true == CheckCollision())
 		{
 			return;
 		}
 
+		PrevPos = GetActorLocation();
+		NextPos = GetActorLocation() + Direction.ToFVector() * Global::F_TILE_SIZE;
 		IsMoving = true;
 	}
 	else
@@ -121,12 +132,6 @@ void APlayer::Idle(float _DeltaTime)
 		Direction = NextDirection;
 		std::string DirectionStr = Direction.ToString();
 		Renderer->ChangeAnimation("Idle" + DirectionStr);
-	}
-
-	if (true == CheckJump())
-	{
-		State = EPlayerState::Jump;
-		return;
 	}
 }
 
@@ -156,9 +161,13 @@ void APlayer::Walk(float _DeltaTime)
 	{
 		CurWalkTime -= _DeltaTime;
 
-		FVector MoveVector = Direction.ToFVector() * speed * Global::TILE_SIZE * _DeltaTime;
-		AddActorLocation(MoveVector);
-		GetWorld()->AddCameraPos(MoveVector);
+		float t = 1.0f - (CurWalkTime / WalkTime);
+		
+		FVector TargetPos = PokemonMath::Lerp(PrevPos, NextPos, t);
+		FVector PlayerPos = GetActorLocation();
+		FVector AddPos = TargetPos - PlayerPos;
+		AddActorLocation(AddPos);
+		GetWorld()->AddCameraPos(AddPos);
 
 		if (CurWalkTime <= 0.0f)
 		{
@@ -196,6 +205,8 @@ void APlayer::Walk(float _DeltaTime)
 
 	if (true == CheckJump())
 	{
+		PrevPos = GetActorLocation();
+		NextPos = GetActorLocation() + Direction.ToFVector() * 2 * Global::F_TILE_SIZE;
 		State = EPlayerState::Jump;
 		return;
 	}
@@ -206,6 +217,8 @@ void APlayer::Walk(float _DeltaTime)
 		return;
 	}
 
+	PrevPos = GetActorLocation();
+	NextPos = GetActorLocation() + Direction.ToFVector() * Global::F_TILE_SIZE;
 	IsMoving = true;
 }
 
@@ -222,9 +235,10 @@ void APlayer::Jump(float _DeltaTime)
 	{
 		CurJumpTime -= _DeltaTime;
 
-		FVector MoveVector = Direction.ToFVector() * speed * Global::TILE_SIZE * _DeltaTime;
-		AddActorLocation(MoveVector);
-		GetWorld()->AddCameraPos(MoveVector);
+		float t = 1 - CurJumpTime / JumpTime;
+		FVector AddPos = PokemonMath::Lerp(PrevPos, NextPos, t) - GetActorLocation();
+		AddActorLocation(AddPos);
+		GetWorld()->AddCameraPos(AddPos);
 
 		if (CurJumpTime <= 0.0f)
 		{

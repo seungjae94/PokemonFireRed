@@ -99,6 +99,8 @@ public:
 	PokemonMath& operator=(const PokemonMath& _Other) = delete;
 	PokemonMath& operator=(PokemonMath&& _Other) noexcept = delete;
 
+	static FVector Lerp(const FVector& _Start, const FVector& _End, float _t);
+
 protected:
 
 private:
