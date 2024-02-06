@@ -42,10 +42,11 @@ protected:
 	void StateUpdate(float _DeltaTime);
 	void Idle(float _DeltaTime);
 	void Walk(float _DeltaTime);
-	void Jump(float _DeltaTime) = delete;
+	void Jump(float _DeltaTime);
 
 	// 충돌 체크
 	bool CheckCollision();
+	bool CheckJump();
 private:
 	UImageRenderer* Renderer = nullptr;
 
@@ -61,10 +62,12 @@ private:
 
 	// 걷기 애니메이션 프레임당 재생 시간
 	float WalkInterval = 1.0f / 6;
+	float JumpInterval = WalkInterval / 8;
 
 	// 이동 관련
 	float speed = 3.6f;
 	float WalkTime = 1.0f / speed;
+	float JumpTime = 2.0f / speed;
 	bool IsMoving = false;
 };
 

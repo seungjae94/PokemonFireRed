@@ -34,6 +34,7 @@ void APlayer::BeginPlay()
 	Renderer->CreateAnimation("WalkRight", "WalkRight.png", 0, 3, WalkInterval, true);
 	Renderer->CreateAnimation("WalkUp", "WalkUp.png", 0, 3, WalkInterval, true);
 	Renderer->CreateAnimation("WalkDown", "WalkDown.png", 0, 3, WalkInterval, true);
+	Renderer->CreateAnimation("JumpDown", "JumpDown.png", 0, 52, WalkInterval / 8.0f, true);
 }
 
 void APlayer::Tick(float _DeltaTime)
@@ -54,6 +55,7 @@ void APlayer::StateUpdate(float _DeltaTime)
 		Walk(_DeltaTime);
 		break;
 	case EPlayerState::Jump:
+		Jump(_DeltaTime);
 		break;
 	default:
 		break;
@@ -119,6 +121,12 @@ void APlayer::Idle(float _DeltaTime)
 		std::string DirectionStr = Direction.ToString();
 		Renderer->ChangeAnimation("Idle" + DirectionStr);
 	}
+
+	if (true == CheckJump())
+	{
+		State = EPlayerState::Jump;
+		return;
+	}
 }
 
 void APlayer::Walk(float _DeltaTime)
@@ -182,6 +190,13 @@ void APlayer::Walk(float _DeltaTime)
 		Renderer->ChangeAnimation("Walk" + DirectionStr);
 	}
 
+
+	if (true == CheckJump())
+	{
+		State = EPlayerState::Jump;
+		return;
+	}
+
 	// 충돌이 있을 경우 이동하지 않는다.
 	if (true == CheckCollision())
 	{
@@ -192,6 +207,36 @@ void APlayer::Walk(float _DeltaTime)
 	IsMoving = true;
 }
 
+void APlayer::Jump(float _DeltaTime)
+{
+	static float CurJumpTime = JumpTime;
+
+	if (false == IsMoving)
+	{
+		Renderer->ChangeAnimation("JumpDown");
+		IsMoving = true;
+	}
+	else
+	{
+		CurJumpTime -= _DeltaTime;
+
+		FVector MoveVector = Direction.ToFVector() * speed * Global::TILE_SIZE * _DeltaTime;
+		Map->AddActorLocation(MoveVector * (-1));
+
+		if (CurJumpTime <= 0.0f)
+		{
+			CurJumpTime = JumpTime;
+			IsMoving = false;
+			WorldPos += Direction;
+			WorldPos += Direction;
+			State = EPlayerState::Walk;
+		}
+
+		return;
+	}
+	
+}
+
 bool APlayer::CheckCollision()
 {
 	FIntPoint TargetWorldPos = WorldPos + Direction;
@@ -199,7 +244,24 @@ bool APlayer::CheckCollision()
 	FVector MapRelativePixelPos = MapRelativeWorldPos * Global::TILE_SIZE;
 	Color8Bit Color = Map->GetCollisionImage()->GetColor(MapRelativePixelPos.iX(), MapRelativePixelPos.iY());
 
-	return Color == Color8Bit(255, 0, 255, 0);
+	return Color == Color8Bit(255, 0, 255, 0)
+		|| (Color.R == 255 && Color.G == 255 );
+}
+
+bool APlayer::CheckJump()
+{
+	FIntPoint TargetWorldPos = WorldPos + Direction;
+	FVector MapRelativeWorldPos = TargetWorldPos.ToFVector() - Map->GetWorldPos(); // 맵의 좌상단을 원점으로 두고 계산한 좌표
+	FVector MapRelativePixelPos = MapRelativeWorldPos * Global::TILE_SIZE;
+
+	Color8Bit Color = Map->GetCollisionImage()->GetColor(MapRelativePixelPos.iX(), MapRelativePixelPos.iY());
+
+	if (Direction == FIntPoint::Down)
+	{
+		return Color == Color8Bit(255, 255, 0, 0);
+	}
+
+	return false;
 }
 
 

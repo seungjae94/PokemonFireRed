@@ -36,6 +36,7 @@ void UMapLevel::BeginPlay()
 	UEngineResourcesManager::GetInst().CuttingImage("WalkUp.png", 4, 1);
 	UEngineResourcesManager::GetInst().CuttingImage("WalkLeft.png", 4, 1);
 	UEngineResourcesManager::GetInst().CuttingImage("WalkRight.png", 4, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("JumpDown.png", 53, 1);
 
 	// 액터 생성
 	Player = SpawnActor<APlayer>();

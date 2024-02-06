@@ -3,6 +3,14 @@
 
 class APlayer;
 
+enum class EMapLedgeType
+{
+	Down,
+	Up,
+	Left,
+	Right
+};
+
 // 맵의 배경과 전경
 class AMap : public AActor
 {
