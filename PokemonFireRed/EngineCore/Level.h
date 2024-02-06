@@ -2,6 +2,7 @@
 #include <map>
 #include <list>
 #include <EngineBase/NameObject.h>
+#include <EngineBase\EngineMath.h>
 
 // 상위 개념인 레벨이 하위 개념인 액터, 렌더러를 직접 참조하면 순환 참조 문제가 발생할 수 있다.
 // 클래스 전방 선언으로 순환 참조 문제를 회피한다.
@@ -50,6 +51,23 @@ public:
 	virtual void LevelStart(ULevel* _PrevLevel) {};
 	virtual void LevelEnd(ULevel* _NextLevel) {};
 
+	// 카메라 관련 함수
+	void SddCameraPos(FVector _CameraPos)
+	{
+		CameraPos = _CameraPos;
+	}
+
+
+	void AddCameraPos(FVector _CameraPos)
+	{
+		CameraPos += _CameraPos;
+	}
+
+	FVector GetCameraPos()
+	{
+		return CameraPos;
+	}
+
 protected:
 
 private:
@@ -67,5 +85,8 @@ private:
 
 	// Destroy한 오브젝트(액터) 릴리즈
 	void LevelRelease(float _DeltaTime);
+
+	// 카메라 위치
+	FVector CameraPos = FVector::Zero;
 };
 

@@ -70,11 +70,18 @@ void UImageRenderer::Render(float _DeltaTime)
 		InfoIndex = CurAnimation->Update(_DeltaTime);
 	}
 
+	// 렌더링할 위치를 계산한다.
 	FTransform RendererTrans = GetTransform();
 
 	FTransform ActorTrans = GetOwner()->GetTransform();
 
 	RendererTrans.AddPosition(ActorTrans.GetPosition());
+
+	AActor* Actor = GetOwner();
+	ULevel* World = Actor->GetWorld();
+	FVector CameraPos = World->GetCameraPos();
+
+	RendererTrans.AddPosition(-CameraPos);
 
 	EWIndowImageType ImageType = Image->GetImageType();
 

@@ -242,7 +242,7 @@ bool APlayer::CheckCollision()
 	FIntPoint TargetWorldPos = WorldPos + Direction;
 	FVector MapRelativeWorldPos = TargetWorldPos.ToFVector() - Map->GetWorldPos(); // ¸ÊÀÇ ÁÂ»ó´ÜÀ» ¿øÁ¡À¸·Î µÎ°í °è»êÇÑ ÁÂÇ¥
 	FVector MapRelativePixelPos = MapRelativeWorldPos * Global::TILE_SIZE;
-	Color8Bit Color = Map->GetCollisionImage()->GetColor(MapRelativePixelPos.iX(), MapRelativePixelPos.iY());
+	Color8Bit Color = Map->GetCollisionImage()->GetColor(MapRelativePixelPos.iX(), MapRelativePixelPos.iY(), Color8Bit::MagentaA);
 
 	return Color == Color8Bit(255, 0, 255, 0)
 		|| (Color.R == 255 && Color.G == 255 );
@@ -254,7 +254,7 @@ bool APlayer::CheckJump()
 	FVector MapRelativeWorldPos = TargetWorldPos.ToFVector() - Map->GetWorldPos(); // ¸ÊÀÇ ÁÂ»ó´ÜÀ» ¿øÁ¡À¸·Î µÎ°í °è»êÇÑ ÁÂÇ¥
 	FVector MapRelativePixelPos = MapRelativeWorldPos * Global::TILE_SIZE;
 
-	Color8Bit Color = Map->GetCollisionImage()->GetColor(MapRelativePixelPos.iX(), MapRelativePixelPos.iY());
+	Color8Bit Color = Map->GetCollisionImage()->GetColor(MapRelativePixelPos.iX(), MapRelativePixelPos.iY(), Color8Bit::WhiteA);
 
 	if (Direction == FIntPoint::Down)
 	{

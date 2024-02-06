@@ -364,8 +364,29 @@ void UWindowImage::Cutting(int _X, int _Y)
 	}
 }
 
-Color8Bit UWindowImage::GetColor(int _X, int _Y)
+Color8Bit UWindowImage::GetColor(int _X, int _Y, Color8Bit _DefaultColor)
 {
+	// 이미지 바깥의 픽셀 색을 요구하는 경우 디폴트 컬러를 반환한다.
+	if (0 > _X)
+	{
+		return _DefaultColor;
+	}
+
+	if (0 > _Y)
+	{
+		return _DefaultColor;
+	}
+
+	if (GetScale().iX() <= _X)
+	{
+		return _DefaultColor;
+	}
+
+	if (GetScale().iY() <= _Y)
+	{
+		return _DefaultColor;
+	}
+
 	Color8Bit Color;
 	Color.Color = ::GetPixel(ImageDC, _X, _Y);
 	return Color;
