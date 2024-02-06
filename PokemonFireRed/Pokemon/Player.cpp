@@ -36,7 +36,7 @@ void APlayer::BeginPlay()
 	Renderer->CreateAnimation("WalkRight", "WalkRight.png", 0, 3, WalkInterval, true);
 	Renderer->CreateAnimation("WalkUp", "WalkUp.png", 0, 3, WalkInterval, true);
 	Renderer->CreateAnimation("WalkDown", "WalkDown.png", 0, 3, WalkInterval, true);
-	Renderer->CreateAnimation("JumpDown", "JumpDown.png", 0, 52, WalkInterval / 8.0f, false);
+	Renderer->CreateAnimation("JumpDown", "JumpDown.png", 0, 52, JumpInterval, false);
 }
 
 void APlayer::Tick(float _DeltaTime)
@@ -127,10 +127,18 @@ void APlayer::IdleStart(bool _ResetAnimation)
 	{
 		ChangeAnimation(EPlayerState::Idle, Direction);
 	}
+	CurIdleTime = IdleTime;
 }
 
 void APlayer::Idle(float _DeltaTime)
 {
+	if (CurIdleTime > 0.0f)
+	{
+		// 이동 로직
+		CurIdleTime -= _DeltaTime;
+		return;
+	}
+
 	FTileVector InputDirection = PokemonInput::GetPressingDirection();
 
 	// 1. 방향키를 누르지 않고 있다.
@@ -244,10 +252,17 @@ void APlayer::WalkInPlaceStart(bool _ResetAnimation)
 	{
 		ChangeAnimation(EPlayerState::Walk, Direction);
 	}
+	CurWalkInPlaceTime = WalkInPlaceTime;
 }
 
 void APlayer::WalkInPlace(float _DeltaTime)
 {
+	if (CurWalkInPlaceTime > 0.0f)
+	{
+		CurWalkInPlaceTime -= _DeltaTime;
+		return;
+	}
+
 	FTileVector InputDirection = PokemonInput::GetPressingDirection();
 
 	// 1. 방향키를 누르고 있지 않다.

@@ -57,27 +57,33 @@ protected:
 private:
 	UImageRenderer* Renderer = nullptr;
 
-	// 이동 관련
+	// 지면
+	AMap* Map = nullptr;
+	
+	// 상태
+	EPlayerState State = EPlayerState::Idle;
+
+	// 애니메이션 1프레임 재생 시간
+	float WalkInterval = 1.0f / 6;
+	float JumpInterval = 1.0f / 48;
+
+	// 이동 관련 변수
 	FTileVector Direction = FTileVector::Down;
 	FTileVector MemoryDirection = FTileVector::Zero;
 	FVector PrevPos;
 	FVector NextPos;
 
-	// 지면
-	AMap* Map = nullptr;
-	
-	// 상태 관리
-	EPlayerState State = EPlayerState::Idle;
+	// 원작과 비슷한 걷기 속도는 3.6f
+	float WalkSpeed = 6.4f;
+	float JumpSpeed = 1.2f;
 
-	// 걷기 애니메이션 프레임당 재생 시간
-	float WalkInterval = 1.0f / 6;
-	float JumpInterval = WalkInterval / 8;
-
-	// 이동 관련
-	float speed = 3.6f;
-	float WalkTime = 1.0f / speed; // 1칸 걷는데 걸리는 시간
+	float IdleTime = 0.05f; // Idle 상태를 유지하는 최소 시간
+	float CurIdleTime = IdleTime;
+	float WalkTime = 1.0f / WalkSpeed; // 1칸 걷는데 걸리는 시간
 	float CurWalkTime = WalkTime;
-	float JumpTime = 3.0f / speed; // 2칸 점프하는데 걸리는 시간
+	float WalkInPlaceTime = 0.05f; // WalkInPlace 상태를 유지하는 최소 시간
+	float CurWalkInPlaceTime = WalkTime; 
+	float JumpTime = 1.0f / JumpSpeed; // 2칸 점프하는데 걸리는 시간
 	float CurJumpTime = JumpTime;
 	float WalkInputLatency = 0.9f; // 걷기 동작을 몇 퍼센트나 수행했을 때부터 입력을 받기 시작할 것인지.
 	float JumpInputLatency = 0.95f; // 걷기 동작을 몇 퍼센트나 수행했을 때부터 입력을 받기 시작할 것인지.
