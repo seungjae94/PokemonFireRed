@@ -14,7 +14,7 @@ UTitleLevelIntroImage::~UTitleLevelIntroImage()
 
 void UTitleLevelIntroImage::BeginPlay()
 {
-	Renderer = CreateImageRenderer();
+	Renderer = CreateImageRenderer(ERenderingOrder::Background);
 
 	FVector ScreenCenter = GEngine->MainWindow.GetWindowScale() * 0.5f;
 

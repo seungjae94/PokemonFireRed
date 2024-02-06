@@ -49,9 +49,9 @@ void AMap::BeginPlay()
 {
 	AActor::BeginPlay();
 
-	BackgroundRenderer = CreateImageRenderer(-1000);
-	ForegroundRenderer = CreateImageRenderer(1000);
-	CollisionRenderer = CreateImageRenderer(0);
+	BackgroundRenderer = CreateImageRenderer(ERenderingOrder::Background);
+	ForegroundRenderer = CreateImageRenderer(ERenderingOrder::Foreground);
+	CollisionRenderer = CreateImageRenderer(ERenderingOrder::None);
 }
 
 void AMap::Tick(float _DeltaTime)

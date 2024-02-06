@@ -21,7 +21,7 @@ void APlayer::BeginPlay()
 	GetWorld()->SetCameraPos(CameraInitialPos);
 
 	// 플레이어 이미지 세팅
-	Renderer = CreateImageRenderer(0);
+	Renderer = CreateImageRenderer(ERenderingOrder::Lower);
 	Renderer->SetImage("Player.bmp");
 	Renderer->SetTransColor(Color8Bit::White.ZeroAlphaColor());
 	Renderer->SetTransform({ {0, -Global::TILE_SIZE / 2}, {Global::TILE_SIZE, 2 * Global::TILE_SIZE} });
