@@ -1,10 +1,10 @@
 #include "PokemonMath.h"
 
-const FIntPoint FIntPoint::Zero = { 0, 0 };
-const FIntPoint FIntPoint::Up = { 0, -1 };
-const FIntPoint FIntPoint::Down = { 0, 1 };
-const FIntPoint FIntPoint::Left = { -1, 0 };
-const FIntPoint FIntPoint::Right = { 1, 0 };
+const FTileVector FTileVector::Zero = { 0, 0 };
+const FTileVector FTileVector::Up = { 0, -1 };
+const FTileVector FTileVector::Down = { 0, 1 };
+const FTileVector FTileVector::Left = { -1, 0 };
+const FTileVector FTileVector::Right = { 1, 0 };
 
 PokemonMath::PokemonMath()
 {

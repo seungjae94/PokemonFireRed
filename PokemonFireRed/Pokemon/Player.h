@@ -8,7 +8,8 @@ enum class EPlayerState
 {
 	Idle,
 	Walk,
-	Jump,		// Ledge를 넘을 때
+	WalkInPlace,
+	Jump,
 };
 
 class APlayer : public AActor
@@ -35,20 +36,32 @@ protected:
 
 	// FSM (Finite State Machine)
 	void StateUpdate(float _DeltaTime);
+	void StateChange(EPlayerState _State);
+	void ChangeAnimation(EPlayerState _State, FTileVector _Direction);
+	
+	void IdleStart(bool _ResetAnimation = true);
 	void Idle(float _DeltaTime);
+
+	void WalkStart(bool _ResetAnimation = true);
 	void Walk(float _DeltaTime);
+
+	void WalkInPlaceStart(bool _ResetAnimation = true);
+	void WalkInPlace(float _DeltaTime);
+
+	void JumpStart(bool _ResetAnimation = true);
 	void Jump(float _DeltaTime);
 
 	// 충돌 체크
-	bool CheckCollision();
-	bool CheckJump();
+	bool IsLedge(FTileVector _Direction);
+	bool IsCollider(FTileVector _Direction);
 private:
 	UImageRenderer* Renderer = nullptr;
 
-	// 월드 좌표
-	FIntPoint Direction = FIntPoint::Down;
-	FVector PrevPos = FVector::Zero;
-	FVector NextPos = FVector::Zero;
+	// 이동 관련
+	FTileVector Direction = FTileVector::Down;
+	FTileVector MemoryDirection = FTileVector::Zero;
+	FVector PrevPos;
+	FVector NextPos;
 
 	// 지면
 	AMap* Map = nullptr;
@@ -63,7 +76,10 @@ private:
 	// 이동 관련
 	float speed = 3.6f;
 	float WalkTime = 1.0f / speed; // 1칸 걷는데 걸리는 시간
-	float JumpTime = 2.0f / speed; // 2칸 점프하는데 걸리는 시간
-	bool IsMoving = false;
+	float CurWalkTime = WalkTime;
+	float JumpTime = 3.0f / speed; // 2칸 점프하는데 걸리는 시간
+	float CurJumpTime = JumpTime;
+	float WalkInputLatency = 0.9f; // 걷기 동작을 몇 퍼센트나 수행했을 때부터 입력을 받기 시작할 것인지.
+	float JumpInputLatency = 0.95f; // 걷기 동작을 몇 퍼센트나 수행했을 때부터 입력을 받기 시작할 것인지.
 };
 

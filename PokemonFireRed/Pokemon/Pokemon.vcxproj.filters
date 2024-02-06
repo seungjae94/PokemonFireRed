@@ -63,6 +63,9 @@
     <ClInclude Include="PokemonMath.h">
       <Filter>Util</Filter>
     </ClInclude>
+    <ClInclude Include="PokemonInput.h">
+      <Filter>Util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PokemonCore.cpp">
@@ -90,6 +93,9 @@
       <Filter>Util</Filter>
     </ClCompile>
     <ClCompile Include="PokemonMath.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="PokemonInput.cpp">
       <Filter>Util</Filter>
     </ClCompile>
   </ItemGroup>

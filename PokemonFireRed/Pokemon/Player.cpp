@@ -1,5 +1,5 @@
 #include "Player.h"
-#include <EnginePlatform/EngineInput.h>
+#include "PokemonInput.h"
 #include "Map.h"
 #include "Global.h"
 
@@ -36,7 +36,7 @@ void APlayer::BeginPlay()
 	Renderer->CreateAnimation("WalkRight", "WalkRight.png", 0, 3, WalkInterval, true);
 	Renderer->CreateAnimation("WalkUp", "WalkUp.png", 0, 3, WalkInterval, true);
 	Renderer->CreateAnimation("WalkDown", "WalkDown.png", 0, 3, WalkInterval, true);
-	Renderer->CreateAnimation("JumpDown", "JumpDown.png", 0, 52, WalkInterval / 8.0f, true);
+	Renderer->CreateAnimation("JumpDown", "JumpDown.png", 0, 52, WalkInterval / 8.0f, false);
 }
 
 void APlayer::Tick(float _DeltaTime)
@@ -56,6 +56,9 @@ void APlayer::StateUpdate(float _DeltaTime)
 	case EPlayerState::Walk:
 		Walk(_DeltaTime);
 		break;
+	case EPlayerState::WalkInPlace:
+		WalkInPlace(_DeltaTime);
+		break;
 	case EPlayerState::Jump:
 		Jump(_DeltaTime);
 		break;
@@ -64,218 +67,326 @@ void APlayer::StateUpdate(float _DeltaTime)
 	}
 }
 
+void APlayer::StateChange(EPlayerState _State)
+{
+	if (State == _State)
+	{
+		return;
+	}
+
+	switch (_State)
+	{
+	case EPlayerState::Idle:
+		IdleStart();
+		break;
+	case EPlayerState::Walk:
+		WalkStart();
+		break;
+	case EPlayerState::WalkInPlace:
+		WalkInPlaceStart();
+		break;
+	case EPlayerState::Jump:
+		JumpStart();
+		break;
+	default:
+		break;
+	}
+
+	State = _State;
+}
+
+void APlayer::ChangeAnimation(EPlayerState _State, FTileVector _Direction)
+{
+	std::string AniName;
+
+	switch (_State)
+	{
+	case EPlayerState::Idle:
+		AniName = "Idle";
+		break;
+	case EPlayerState::Walk:
+		AniName = "Walk";
+		break;
+	case EPlayerState::WalkInPlace:
+		AniName = "WalkInPlace";
+		break;
+	case EPlayerState::Jump:
+		AniName = "Jump";
+		break;
+	default:
+		break;
+	}
+
+	std::string DirectionStr = _Direction.ToString();
+	Renderer->ChangeAnimation(AniName + DirectionStr);
+}
+
+void APlayer::IdleStart(bool _ResetAnimation)
+{
+	if (_ResetAnimation == true)
+	{
+		ChangeAnimation(EPlayerState::Idle, Direction);
+	}
+}
+
 void APlayer::Idle(float _DeltaTime)
 {
-	FIntPoint NextDirection = FIntPoint::Zero;
-	if (EngineInput::IsPress(VK_DOWN))
+	FTileVector InputDirection = PokemonInput::GetPressingDirection();
+
+	// 1. 방향키를 누르지 않고 있다.
+	if (InputDirection == FTileVector::Zero)
 	{
-		NextDirection = FIntPoint::Down;
-	}
-	else if (EngineInput::IsPress(VK_UP))
-	{
-		NextDirection = FIntPoint::Up;
-	}
-	else if (EngineInput::IsPress(VK_LEFT))
-	{
-		NextDirection = FIntPoint::Left;
-	}
-	else if (EngineInput::IsPress(VK_RIGHT))
-	{
-		NextDirection = FIntPoint::Right;
-	}
-	else
-	{
-		std::string DirectionStr = Direction.ToString();
-		Renderer->ChangeAnimation("Idle" + DirectionStr);
+		IdleStart(false);
 		return;
 	}
 
-	if (NextDirection == FIntPoint::Zero)
+	// 2. 지금 보고 있는 방향과 다른 방향키를 누르고 있다.
+	if (InputDirection != Direction)
 	{
-		// 키를 누르지 않은 경우
+		Direction = InputDirection;
+		IdleStart(true);
 		return;
 	}
 
-	if (Direction == NextDirection)
+	// 3. 앞에 Ledge가 있다.
+	if (IsLedge(Direction) == true)
 	{
-		// 바라보는 방향의 키를 누른 경우
-		// - 한 칸 이동한다.
-		// - 다음 방향의 걷기 애니메이션을 재생한다.
-		std::string DirectionStr = Direction.ToString();
-		Renderer->ChangeAnimation("Walk" + DirectionStr);
-		State = EPlayerState::Walk;
-
-		// 점프가 가능할 경우 점프한다.
-		if (true == CheckJump())
-		{
-			PrevPos = GetActorLocation();
-			NextPos = GetActorLocation() + Direction.ToFVector() * 2 * Global::F_TILE_SIZE;
-			State = EPlayerState::Jump;
-			return;
-		}
-
-		// 충돌이 있을 경우 이동하지 않는다.
-		if (true == CheckCollision())
-		{
-			return;
-		}
-
-		PrevPos = GetActorLocation();
-		NextPos = GetActorLocation() + Direction.ToFVector() * Global::F_TILE_SIZE;
-		IsMoving = true;
+		StateChange(EPlayerState::Jump);
+		return;
 	}
-	else
+
+	// 4. 앞에 충돌체가 있다.
+	if (IsCollider(Direction) == true)
 	{
-		// 바라보지 않는 방향의 키를 누른 경우
-		// - 방향을 바꾼다.
-		// - 다음 방향의 정지 애니메이션을 재생한다.
-		Direction = NextDirection;
-		std::string DirectionStr = Direction.ToString();
-		Renderer->ChangeAnimation("Idle" + DirectionStr);
+		StateChange(EPlayerState::WalkInPlace);
+		return;
 	}
+
+	// 5. 그 외의 경우
+	StateChange(EPlayerState::Walk);
+}
+
+void APlayer::WalkStart(bool _ResetAnimation)
+{
+	if (_ResetAnimation == true)
+	{
+		ChangeAnimation(EPlayerState::Walk, Direction);
+	}
+	MemoryDirection = FTileVector::Zero;
+	CurWalkTime = WalkTime;
+	PrevPos = GetActorLocation();
+	NextPos = PrevPos + Direction.ToFVector();
 }
 
 void APlayer::Walk(float _DeltaTime)
 {
-	static float CurWalkTime = WalkTime;
-
-	FIntPoint NextDirection = FIntPoint::Zero;
-	if (EngineInput::IsPress(VK_DOWN))
+	// 1. 아직 이동 중이다.
+	if (CurWalkTime > 0.0f)
 	{
-		NextDirection = FIntPoint::Down;
-	}
-	else if (EngineInput::IsPress(VK_UP))
-	{
-		NextDirection = FIntPoint::Up;
-	}
-	else if (EngineInput::IsPress(VK_LEFT))
-	{
-		NextDirection = FIntPoint::Left;
-	}
-	else if (EngineInput::IsPress(VK_RIGHT))
-	{
-		NextDirection = FIntPoint::Right;
-	}
-
-	if (true == IsMoving)
-	{
+		// 이동 로직
 		CurWalkTime -= _DeltaTime;
 
-		float t = 1.0f - (CurWalkTime / WalkTime);
-		
+		float t = (WalkTime - CurWalkTime) / WalkTime;
+
 		FVector TargetPos = PokemonMath::Lerp(PrevPos, NextPos, t);
 		FVector PlayerPos = GetActorLocation();
 		FVector AddPos = TargetPos - PlayerPos;
 		AddActorLocation(AddPos);
 		GetWorld()->AddCameraPos(AddPos);
 
-		if (CurWalkTime <= 0.0f)
+		if (t >= WalkInputLatency)
 		{
-			CurWalkTime = WalkTime;
-			IsMoving = false;
-			EngineDebug::OutPutDebugText(std::string("Walk End\n") + GetActorLocation().ToString());
+			MemoryDirection = PokemonInput::GetPressingDirection();
 		}
 
 		return;
 	}
+	EngineDebug::OutPutDebugText(std::string("Walk End\n") + GetActorLocation().ToString());
 
-	if (NextDirection == FIntPoint::Zero)
+	// 2. 기억하고 있는 입력 방향이 없다.
+	if (MemoryDirection == FTileVector::Zero)
 	{
-		// 키를 누르지 않은 경우
-		State = EPlayerState::Idle;
+		StateChange(EPlayerState::Idle);
 		return;
 	}
 
-	if (Direction == NextDirection)
+	// 3. 입력 방향에 Ledge가 있다.
+	if (IsLedge(MemoryDirection) == true)
 	{
-		// 바라보는 방향의 키를 누른 경우
-		// - 한 칸 이동한다.
-	}
-	else
-	{
-		// 바라보지 않는 방향의 키를 누른 경우
-		// - 방향을 바꾼다.
-		// - 새로운 걷기 애니메이션을 재생한다.
-		// - 앞으로 한 칸 이동한다.
-		Direction = NextDirection;
-		std::string DirectionStr = Direction.ToString();
-		Renderer->ChangeAnimation("Walk" + DirectionStr);
-	}
-
-
-	if (true == CheckJump())
-	{
-		PrevPos = GetActorLocation();
-		NextPos = GetActorLocation() + Direction.ToFVector() * 2 * Global::F_TILE_SIZE;
-		State = EPlayerState::Jump;
+		Direction = MemoryDirection;
+		StateChange(EPlayerState::Jump);
 		return;
 	}
 
-	// 충돌이 있을 경우 이동하지 않는다.
-	if (true == CheckCollision())
+	// 4. 입력 방향에 충돌체가 있다.
+	if (IsCollider(MemoryDirection) == true)
 	{
+		Direction = MemoryDirection;
+		StateChange(EPlayerState::WalkInPlace);
 		return;
 	}
 
+	// 5. 보고 있는 방향과 입력 방향이 다르다.
+	if (MemoryDirection != Direction)
+	{
+		Direction = MemoryDirection;
+		WalkStart(true);
+		return;
+	}
+
+	// 6. 그 외의 경우
+	WalkStart(false);
+}
+
+void APlayer::WalkInPlaceStart(bool _ResetAnimation)
+{
+	if (_ResetAnimation == true)
+	{
+		ChangeAnimation(EPlayerState::Walk, Direction);
+	}
+}
+
+void APlayer::WalkInPlace(float _DeltaTime)
+{
+	FTileVector InputDirection = PokemonInput::GetPressingDirection();
+
+	// 1. 방향키를 누르고 있지 않다.
+	if (InputDirection == FTileVector::Zero)
+	{
+		StateChange(EPlayerState::Idle);
+		return;
+	}
+
+	// 2. 지금 보고 있는 방향과 입력 방향이 같다.
+	if (InputDirection == Direction)
+	{
+		WalkInPlaceStart(false);
+		return;
+	}
+
+	// 3. 입력 방향에 Ledge가 있다.
+	if (IsLedge(InputDirection))
+	{
+		Direction = InputDirection;
+		StateChange(EPlayerState::Jump);
+		return;
+	}
+
+	// 4. 입력 방향에 충돌체가 있다.
+	if (IsCollider(InputDirection))
+	{
+		Direction = InputDirection;
+		WalkInPlaceStart(true);
+		return;
+	}
+
+	// 5. 그 외의 경우
+	Direction = InputDirection;
+	StateChange(EPlayerState::Walk);
+}
+
+void APlayer::JumpStart(bool _ResetAnimation)
+{
+	if (_ResetAnimation == true)
+	{
+		ChangeAnimation(EPlayerState::Jump, Direction);
+	}
+	MemoryDirection = FTileVector::Zero;
+	CurJumpTime = JumpTime;
 	PrevPos = GetActorLocation();
-	NextPos = GetActorLocation() + Direction.ToFVector() * Global::F_TILE_SIZE;
-	IsMoving = true;
+	NextPos = PrevPos + Direction.ToFVector() * 2;
 }
 
 void APlayer::Jump(float _DeltaTime)
 {
-	static float CurJumpTime = JumpTime;
-
-	if (false == IsMoving)
+	// 1. 아직 점프 중이다.
+	if (CurJumpTime > 0.0f)
 	{
-		Renderer->ChangeAnimation("JumpDown");
-		IsMoving = true;
-	}
-	else
-	{
+		// 이동 로직
 		CurJumpTime -= _DeltaTime;
 
-		float t = 1 - CurJumpTime / JumpTime;
-		FVector AddPos = PokemonMath::Lerp(PrevPos, NextPos, t) - GetActorLocation();
+		float t = (JumpTime - CurJumpTime) / JumpTime;
+
+		FVector TargetPos = PokemonMath::Lerp(PrevPos, NextPos, t);
+		FVector PlayerPos = GetActorLocation();
+		FVector AddPos = TargetPos - PlayerPos;
 		AddActorLocation(AddPos);
 		GetWorld()->AddCameraPos(AddPos);
 
-		if (CurJumpTime <= 0.0f)
+		if (t >= JumpInputLatency)
 		{
-			CurJumpTime = JumpTime;
-			IsMoving = false;
-			State = EPlayerState::Walk;
-			EngineDebug::OutPutDebugText(std::string("Jump End\n") + GetActorLocation().ToString());
+			MemoryDirection = PokemonInput::GetPressingDirection();
 		}
 
 		return;
 	}
-	
+	EngineDebug::OutPutDebugText(std::string("Jump End\n") + GetActorLocation().ToString());
+
+	// 2. 기억하고 있는 입력 방향이 없다.
+	if (MemoryDirection == FTileVector::Zero)
+	{
+		StateChange(EPlayerState::Idle);
+		return;
+	}
+
+	// 3. 입력 방향에 Ledge가 있고 바라보는 방향과 입력 방향이 다르다.
+	if (IsLedge(MemoryDirection) == true && MemoryDirection != Direction)
+	{
+		Direction = MemoryDirection;
+		JumpStart(true);
+		return;
+	}
+
+	// 4. 입력 방향에 Ledge가 있고 바라보는 방향이 입력 방향과 같다.
+	if (IsLedge(MemoryDirection) == true && MemoryDirection == Direction)
+	{
+		JumpStart(false);
+		return;
+	}
+
+	// 5. 입력 방향에 충돌체가 있다.
+	if (IsCollider(MemoryDirection) == true)
+	{
+		Direction = MemoryDirection;
+		StateChange(EPlayerState::WalkInPlace);
+		return;
+	}
+
+	// 6. 그 외의 경우
+	Direction = MemoryDirection;
+	StateChange(EPlayerState::Walk);
 }
 
-bool APlayer::CheckCollision()
+bool APlayer::IsLedge(FTileVector _Direction)
 {
-	FVector TargetPos = GetActorLocation() + Direction.ToFVector() * Global::F_TILE_SIZE;
-	FVector MapRelativePos = TargetPos - Map->GetActorLocation();
-	Color8Bit Color = Map->GetCollisionImage()->GetColor(MapRelativePos.iX(), MapRelativePos.iY(), Color8Bit::MagentaA);
+	// 맵(이미지 좌상단)을 기준으로 한 타겟의 상대 좌표
+	FVector MapRelativeTargetPos = (GetActorLocation() - Map->GetActorLocation()) + _Direction.ToFVector();
+	Color8Bit Color = Map->GetCollisionImage()->GetColor(
+		MapRelativeTargetPos.iX(), 
+		MapRelativeTargetPos.iY(), 
+		Color8Bit::WhiteA
+	);
 
-	return Color == Color8Bit(255, 0, 255, 0)
-		|| (Color.R == 255 && Color.G == 255 );
-}
-
-bool APlayer::CheckJump()
-{
-	FVector TargetPos = GetActorLocation() + Direction.ToFVector() * Global::F_TILE_SIZE;
-	FVector MapRelativePos = TargetPos - Map->GetActorLocation();
-	Color8Bit Color = Map->GetCollisionImage()->GetColor(MapRelativePos.iX(), MapRelativePos.iY(), Color8Bit::WhiteA);
-
-	if (Direction == FIntPoint::Down)
+	if (_Direction == FTileVector::Down)
 	{
 		return Color == Color8Bit(255, 255, 0, 0);
 	}
 
 	return false;
 }
+
+bool APlayer::IsCollider(FTileVector _Direction)
+{
+	FVector MapRelativeTargetPos = (GetActorLocation() - Map->GetActorLocation()) + _Direction.ToFVector();
+	Color8Bit Color = Map->GetCollisionImage()->GetColor(
+		MapRelativeTargetPos.iX(),
+		MapRelativeTargetPos.iY(),
+		Color8Bit::MagentaA
+	);
+
+	return Color == Color8Bit(255, 0, 255, 0) || (Color.R == 255 && Color.G == 255);
+}
+
 
 
 

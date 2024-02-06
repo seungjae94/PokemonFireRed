@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <EngineBase/EngineMath.h>
+#include "Global.h"
 
 enum class EDirection
 {
@@ -11,46 +12,46 @@ enum class EDirection
 	None
 };
 
-struct FIntPoint
+struct FTileVector
 {
 public:
-	const static FIntPoint Zero;
-	const static FIntPoint Up;
-	const static FIntPoint Down;
-	const static FIntPoint Left;
-	const static FIntPoint Right;
+	const static FTileVector Zero;
+	const static FTileVector Up;
+	const static FTileVector Down;
+	const static FTileVector Left;
+	const static FTileVector Right;
 
 	int X = 0;
 	int Y = 0;
 
-	FIntPoint()
+	FTileVector()
 	{
 	}
 
-	FIntPoint(int _X, int _Y)
+	FTileVector(int _X, int _Y)
 		: X(_X), Y(_Y)
 	{
 	}
 
-	bool operator ==(const FIntPoint& _Other) const
+	bool operator ==(const FTileVector& _Other) const
 	{
 		return X == _Other.X && Y == _Other.Y;
 	}
 
-	bool operator !=(const FIntPoint& _Other) const
+	bool operator !=(const FTileVector& _Other) const
 	{
 		return X != _Other.X || Y != _Other.Y;
 	}
 
-	FIntPoint operator +(const FIntPoint& _Other) const
+	FTileVector operator +(const FTileVector& _Other) const
 	{
-		FIntPoint NewPoint = *this;
+		FTileVector NewPoint = *this;
 		NewPoint.X += _Other.X;
 		NewPoint.Y += _Other.Y;
 		return NewPoint;
 	}
 
-	FIntPoint& operator +=(const FIntPoint& _Other)
+	FTileVector& operator +=(const FTileVector& _Other)
 	{
 		X += _Other.X;
 		Y += _Other.Y;
@@ -60,7 +61,7 @@ public:
 
 	FVector ToFVector() const
 	{
-		return FVector(X, Y);
+		return FVector(Global::TILE_SIZE * X, Global::TILE_SIZE * Y);
 	}
 
 	std::string ToString() const
