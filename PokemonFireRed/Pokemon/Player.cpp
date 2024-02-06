@@ -164,6 +164,7 @@ void APlayer::Walk(float _DeltaTime)
 		{
 			CurWalkTime = WalkTime;
 			IsMoving = false;
+			EngineDebug::OutPutDebugText(std::string("Walk End\n") + GetActorLocation().ToString());
 		}
 
 		return;
@@ -230,6 +231,7 @@ void APlayer::Jump(float _DeltaTime)
 			CurJumpTime = JumpTime;
 			IsMoving = false;
 			State = EPlayerState::Walk;
+			EngineDebug::OutPutDebugText(std::string("Jump End\n") + GetActorLocation().ToString());
 		}
 
 		return;
