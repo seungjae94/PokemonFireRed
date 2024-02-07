@@ -209,7 +209,6 @@ void APlayer::Walk(float _DeltaTime)
 
 		return;
 	}
-	EngineDebug::OutPutDebugText(std::string("Walk End\n") + GetActorLocation().ToString());
 
 	// 2. 기억하고 있는 입력 방향이 없다.
 	if (MemoryDirection == FTileVector::Zero)
@@ -335,8 +334,7 @@ void APlayer::Jump(float _DeltaTime)
 
 		return;
 	}
-	EngineDebug::OutPutDebugText(std::string("Jump End\n") + GetActorLocation().ToString());
-
+	
 	// 2. 기억하고 있는 입력 방향이 없다.
 	if (MemoryDirection == FTileVector::Zero)
 	{
