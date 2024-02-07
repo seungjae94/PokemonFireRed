@@ -53,7 +53,7 @@ public:
 		}
 
 		LevelType* NewLevel = new LevelType();
-		LevelInit(NewLevel);
+		LevelInit(NewLevel, _Name);
 		AllLevel.insert(std::pair<std::string, ULevel*>(UpperName, NewLevel));
 	}
 
@@ -79,7 +79,7 @@ private:
 	std::map<std::string, ULevel*> AllLevel;
 	ULevel* CurLevel = nullptr;
 	ULevel* NextLevel = nullptr;
-	void LevelInit(ULevel* _Level); // 레벨의 BeginPlay 함수를 호출해주는 함수
+	void LevelInit(ULevel* _Level, std::string_view _Name); // 레벨의 BeginPlay 함수를 호출해주는 함수
 
 	// 메시지 루프 콜백 함수
 	static void EngineTick();
