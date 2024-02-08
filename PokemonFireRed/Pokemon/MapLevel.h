@@ -43,12 +43,29 @@ public:
 		return NewEventActor;
 	}
 
+	bool IsEventActor(const FTileVector& _Point)
+	{
+		return AllEventActor.contains(_Point);
+	}
+
+	AEventActor* FindEventActor(const FTileVector& _Point)
+	{
+		if (!IsEventActor(_Point))
+		{
+			MsgBoxAssert(_Point.ToString() + "에는 이벤트 액터가 존재하지 않습니다.");
+		}
+
+		return AllEventActor[_Point];
+	}
+
 protected:
 	// 하위 클래스에서 너무 많이 사용할 것 같아서 protected로 설정
 	AMap* Map = nullptr;
-	APlayer* Player = nullptr;
+	APlayer* Player;
 	UEngineDirectory CurDir;
 
 	std::map<FTileVector, AEventActor*> AllEventActor;
+
+	void LevelStart(ULevel* _PrevLevel) override;
 };
 

@@ -1,6 +1,7 @@
 #include "PokemonCore.h"
 #include "TitleLevel.h"
 #include "ExteriorPalletTownLevel.h"
+#include "InteriorOaksLabLevel.h"
 #include "Global.h"
 
 PokemonCore::PokemonCore()
@@ -19,6 +20,7 @@ void PokemonCore::BeginPlay()
 	// 레벨 생성
 	CreateLevel<UTitleLevel>("TitleLevel");
 	CreateLevel<UExteriorPalletTownLevel>("ExteriorPalletTownLevel");
+	CreateLevel<UInteriorOaksLabLevel>("InteriorOaksLabLevel");
 
 	// 시작 레벨 설정
 	//ChangeLevel("TitleLevel");

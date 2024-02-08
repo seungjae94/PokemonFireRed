@@ -2,6 +2,8 @@
 #include "PokemonInput.h"
 #include "Map.h"
 #include "Global.h"
+#include "MapLevel.h"
+#include "EventActor.h"
 
 APlayer::APlayer()
 {
@@ -56,6 +58,9 @@ void APlayer::StateUpdate(float _DeltaTime)
 		break;
 	case EPlayerState::Jump:
 		Jump(_DeltaTime);
+		break;
+	case EPlayerState::Warp:
+		Warp(_DeltaTime);
 		break;
 	default:
 		break;
@@ -141,6 +146,18 @@ void APlayer::Idle(float _DeltaTime)
 	if (InputDirection == FTileVector::Zero)
 	{
 		IdleStart(false);
+		return;
+	}
+
+	// 1.5 앞에 이벤트 액터가 있다.
+	FTileVector Point = FTileVector(GetActorLocation());
+	FTileVector TargetPoint = Point + Direction;
+	if (MapLevel->IsEventActor(TargetPoint))
+	{
+		EngineDebug::OutPutDebugText("이벤트 액터가 앞에 있다");
+
+		AEventActor* EventActor = MapLevel->FindEventActor(TargetPoint);
+		EventActor->TriggerEvent();
 		return;
 	}
 
@@ -364,6 +381,10 @@ void APlayer::Jump(float _DeltaTime)
 	// 6. 그 외의 경우
 	Direction = MemoryDirection;
 	StateChange(EPlayerState::Walk);
+}
+
+void APlayer::Warp(float _DeltaTime)
+{
 }
 
 bool APlayer::IsLedge(FTileVector _Direction)

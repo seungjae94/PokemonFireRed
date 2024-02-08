@@ -29,15 +29,9 @@ void UExteriorPalletTownLevel::BeginPlay()
 	Map->SetCollisionImage("ExteriorPalletTownCollision.png");
 	Map->SetCollisionRendererActive(false);
 
-	// 맵의 좌표 설정
-	FVector MapInitialPos = { -0.5f, -0.5f };
-	MapInitialPos *= Global::F_TILE_SIZE;
-	Map->SetActorLocation(MapInitialPos);
-
 	// 이벤트 액터 생성
-	AWarp* NewWarp = SpawnEventActor<AWarp>({80, 147});
-
-	// 플레이어 위치 지정
-	Player->SetTilePoint({70, 142});
+	AWarp* OaksLabWarp = SpawnEventActor<AWarp>({80, 147});
+	OaksLabWarp->SetPlayer(Player);
+	OaksLabWarp->SetTargetLevelName("InteriorOaksLabLevel");
+	OaksLabWarp->SetTargetPoint({ 6, 12 });
 }
-

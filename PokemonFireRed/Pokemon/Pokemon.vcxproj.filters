@@ -72,6 +72,9 @@
     <ClInclude Include="PokemonDebug.h">
       <Filter>Util</Filter>
     </ClInclude>
+    <ClInclude Include="InteriorOaksLabLevel.h">
+      <Filter>MapLevel\Level\Interior</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PokemonCore.cpp">
@@ -112,6 +115,9 @@
     </ClCompile>
     <ClCompile Include="PokemonDebug.cpp">
       <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="InteriorOaksLabLevel.cpp">
+      <Filter>MapLevel\Level\Interior</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

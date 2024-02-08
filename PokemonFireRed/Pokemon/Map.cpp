@@ -52,7 +52,7 @@ void AMap::BeginPlay()
 	// ¸Ê ·»´õ¸µ
 	BackgroundRenderer = CreateImageRenderer(ERenderingOrder::Background);
 	ForegroundRenderer = CreateImageRenderer(ERenderingOrder::Foreground);
-	CollisionRenderer = CreateImageRenderer(ERenderingOrder::None);
+	CollisionRenderer = CreateImageRenderer(ERenderingOrder::Super);
 }
 
 void AMap::Tick(float _DeltaTime)

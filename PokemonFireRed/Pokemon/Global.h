@@ -43,9 +43,11 @@ private:
 
 enum ERenderingOrder
 {
-	None = 0,
-	Background = 1,
-	Lower = 2,
-	Upper = 3,
-	Foreground = 4
+	None,
+	Background,
+	Lower,
+	Upper,
+	Foreground,
+	UI,
+	Super
 };

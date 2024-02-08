@@ -30,6 +30,7 @@ public:
 	}
 
 	virtual void TriggerEvent() {};
+
 	void SetTilePoint(const FTileVector& _Point);
 
 	void SetMapLevel(UMapLevel* _MapLevel)
@@ -38,9 +39,8 @@ public:
 	}
 
 protected:
-
-private:
 	APlayer* Player;
+private:
 	UMapLevel* MapLevel;
 };
 

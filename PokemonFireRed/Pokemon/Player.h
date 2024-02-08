@@ -3,6 +3,7 @@
 #include "PokemonMath.h"
 
 class AMap;
+class UMapLevel;
 
 enum class EPlayerState
 {
@@ -10,6 +11,7 @@ enum class EPlayerState
 	Walk,
 	WalkInPlace,
 	Jump,
+	Warp
 };
 
 class APlayer : public AActor
@@ -25,6 +27,11 @@ public:
 	APlayer& operator=(const APlayer& _Other) = delete;
 	APlayer& operator=(APlayer&& _Other) noexcept = delete;
 
+	void SetMapLevel(UMapLevel* _MapLevel)
+	{
+		MapLevel = _MapLevel;
+	}
+
 	void SetMap(AMap* _Map)
 	{
 		Map = _Map;
@@ -35,13 +42,25 @@ public:
 		SetActorLocation(_Point.ToFVector());
 	}
 
+	FTileVector GetDirection() const
+	{
+		return Direction;
+	}
+
+	void SetDirection(const FTileVector& _Direction)
+	{
+		Direction = _Direction;
+	}
+
+	// FSM (Finite State Machine)
+	void StateChange(EPlayerState _State);
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
 	// FSM (Finite State Machine)
 	void StateUpdate(float _DeltaTime);
-	void StateChange(EPlayerState _State);
 	void ChangeAnimation(EPlayerState _State, FTileVector _Direction);
 	
 	void IdleStart(bool _ResetAnimation = true);
@@ -56,11 +75,16 @@ protected:
 	void JumpStart(bool _ResetAnimation = true);
 	void Jump(float _DeltaTime);
 
+	void Warp(float _DeltaTime);
+
 	// 충돌 체크
 	bool IsLedge(FTileVector _Direction);
 	bool IsCollider(FTileVector _Direction);
 private:
 	UImageRenderer* Renderer = nullptr;
+
+	// 레벨
+	UMapLevel* MapLevel = nullptr;
 
 	// 지면
 	AMap* Map = nullptr;

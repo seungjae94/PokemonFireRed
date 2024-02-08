@@ -15,8 +15,8 @@ public:
 	UExteriorPalletTownLevel& operator=(const UExteriorPalletTownLevel& _Other) = delete;
 	UExteriorPalletTownLevel& operator=(UExteriorPalletTownLevel&& _Other) noexcept = delete;
 
+protected:
 	void BeginPlay() override;
-
 private:
 
 };
