@@ -1,6 +1,10 @@
 #include "EngineInput.h"
 
 std::map<int, EngineInput::EngineKey> EngineInput::AllKeys;
+bool EngineInput::AnykeyDown = false;
+bool EngineInput::AnykeyPress = false;
+bool EngineInput::AnykeyUp = false;
+bool EngineInput::AnykeyFree = true;
 
 EngineInput::EngineInput() 
 {
@@ -12,10 +16,58 @@ EngineInput::~EngineInput()
 
 void EngineInput::KeyCheckTick(float _DeltaTime)
 {
+	bool KeyCheck = false;
+
 	for (std::pair<const int, EngineKey>& KeyPair : AllKeys)
 	{
-		EngineKey& Key = KeyPair.second;
-		Key.KeyCheck();
+		EngineKey& CurKey = KeyPair.second;
+		CurKey.KeyCheck();
+
+		if (true == CurKey.Press)
+		{
+			KeyCheck = true;
+		}
+	}
+
+	// 적어도 하나의 키가 눌려져 있다.
+	if (true == KeyCheck)
+	{
+		if (true == AnykeyFree)
+		{
+			// 이전 프레임에 아무 키도 눌려있지 않았다.
+			AnykeyDown = true;
+			AnykeyPress = true;
+			AnykeyUp = false;
+			AnykeyFree = false;
+		}
+		else if (true == AnykeyDown)
+		{
+			// 이전 프레임에 처음으로 키 입력이 들어왔다.
+			AnykeyDown = false;
+			AnykeyPress = true;
+			AnykeyUp = false;
+			AnykeyFree = false;
+		}
+	}
+	else
+	{
+		if (true == AnykeyPress)
+		{
+			// 이전 프레임에 적어도 하나의 키가 눌려 있었다.
+			AnykeyDown = false;
+			AnykeyPress = false;
+			AnykeyUp = true;
+			AnykeyFree = false;
+		}
+		else if (true == AnykeyUp)
+		{
+			// 이전 프레임에 처음으로 키 입력이 사라졌다.
+			AnykeyDown = false;
+			AnykeyPress = false;
+			AnykeyUp = false;
+			AnykeyFree = true;
+		}
+
 	}
 }
 
@@ -35,9 +87,9 @@ void EngineInput::InputInit()
 	AllKeys[VK_MENU] = EngineKey(VK_MENU);
 	AllKeys[VK_PAUSE] = EngineKey(VK_PAUSE);
 	AllKeys[VK_CAPITAL] = EngineKey(VK_CAPITAL);
-	AllKeys[VK_KANA] = EngineKey(VK_KANA);
-	AllKeys[VK_HANGEUL] = EngineKey(VK_HANGEUL);
-	AllKeys[VK_HANGUL] = EngineKey(VK_HANGUL);
+	//AllKeys[VK_KANA] = EngineKey(VK_KANA);
+	//AllKeys[VK_HANGEUL] = EngineKey(VK_HANGEUL);
+	//AllKeys[VK_HANGUL] = EngineKey(VK_HANGUL);
 	AllKeys[VK_IME_ON] = EngineKey(VK_IME_ON);
 	AllKeys[VK_JUNJA] = EngineKey(VK_JUNJA);
 	AllKeys[VK_FINAL] = EngineKey(VK_FINAL);

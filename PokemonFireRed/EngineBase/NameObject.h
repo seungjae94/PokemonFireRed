@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "EngineString.h"
 
 // 이름이 있는 오브젝트
 // - 굉장히 광범위한 개념이기 때문에 EngineBase에 둔다.
@@ -23,7 +24,7 @@ public:
 
 	void SetName(std::string_view _View)
 	{
-		Name = _View;
+		Name = UEngineString::ToUpper(_View);
 	}
 
 protected:

@@ -110,7 +110,7 @@ bool UWindowImage::Load(UWindowImage* _Image)
 	// BitMapInfo에 실제 비트맵 정보를 담아줄 수 있다.
 	GetObject(hBitMap, sizeof(BITMAP), &BitMapInfo);
 
-	ImageInfo Info;
+	UImageInfo Info;
 	Info.hBitMap = hBitMap;
 	Info.ImageDC = ImageDC;
 	Info.CuttingTrans.SetPosition({ 0,0 });
@@ -178,7 +178,7 @@ bool UWindowImage::LoadFolder(UWindowImage* _Image)
 		DeleteObject(OldBitMap);
 		GetObject(hBitMap, sizeof(BITMAP), &BitMapInfo);
 
-		ImageInfo Info;
+		UImageInfo Info;
 		Info.hBitMap = hBitMap;
 		Info.ImageDC = ImageDC;
 		Info.CuttingTrans.SetPosition({ 0,0 });
@@ -353,7 +353,7 @@ void UWindowImage::Cutting(int _X, int _Y)
 	{
 		for (int i = 0; i < _X; i++)
 		{
-			ImageInfo Info;
+			UImageInfo Info;
 			Info.ImageDC = ImageDC;
 			Info.CuttingTrans.SetPosition(CuttingPos);
 			Info.CuttingTrans.SetScale(CuttingScale);

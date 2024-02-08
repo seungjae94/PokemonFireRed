@@ -90,8 +90,31 @@ public:
 	// 매 프레임마다 EngineCore::EngineTick에서 호출해주는 함수
 	static void KeyCheckTick(float _DeltaTime);
 
+	// '아무 키나 누르세요' 기능을 위한 함수
+	static bool IsAnykeyDown()
+	{
+		return AnykeyDown;
+	}
+	static bool IsAnykeyPress()
+	{
+		return AnykeyPress;
+	}
+	static bool IsAnykeyUp()
+	{
+		return AnykeyUp;
+	}
+	static bool IsAnykeyFree()
+	{
+		return AnykeyFree;
+	}
+
 protected:
 	static std::map<int, EngineKey> AllKeys;
+
+	static bool AnykeyDown;
+	static bool AnykeyPress;
+	static bool AnykeyUp;
+	static bool AnykeyFree;
 
 private:
 	// AllKeys에 키 객체를 매핑해주는 함수

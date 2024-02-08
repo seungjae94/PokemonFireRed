@@ -17,7 +17,7 @@ enum class EWIndowImageType
 	IMG_PNG
 };
 
-class ImageInfo
+class UImageInfo
 {
 public:
 	HBITMAP hBitMap;
@@ -117,7 +117,7 @@ private:
 	BITMAP BitMapInfo = BITMAP(); 
 	EWIndowImageType ImageType = EWIndowImageType::IMG_NONE;
 
-	std::vector<ImageInfo> Infos;
+	std::vector<UImageInfo> Infos;
 
 	// 주 사용처: 윈도우 이미지 생성
 	// - 리소스 이미지는 Load로 생성한다.
