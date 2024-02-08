@@ -104,7 +104,10 @@ bool UWindowImage::Load(UWindowImage* _Image)
 	HBITMAP OldBitMap = reinterpret_cast<HBITMAP>(SelectObject(ImageDC, hBitMap));
 	DeleteObject(OldBitMap);
 
-	// 비트맵 정보 갱신
+	// BitMapInfo는 비트맵의 너비, 높이 등의 정보를 담을 수 있는 BITMAP 구조체이다.
+	// 실제 비트맵 객체는 커널 오브젝트라서 우리가 접근할 수 없다.
+	// 그래서 hBitMap이 가리키는 커널 오브젝트의 정보를 BitMapInfo에 담아주는 함수인 GetObject를 호출해야지만
+	// BitMapInfo에 실제 비트맵 정보를 담아줄 수 있다.
 	GetObject(hBitMap, sizeof(BITMAP), &BitMapInfo);
 
 	ImageInfo Info;
