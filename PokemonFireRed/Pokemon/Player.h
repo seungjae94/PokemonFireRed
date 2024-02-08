@@ -30,6 +30,11 @@ public:
 		Map = _Map;
 	}
 
+	void SetTilePoint(const FTileVector& _Point)
+	{
+		SetActorLocation(_Point.ToFVector());
+	}
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;

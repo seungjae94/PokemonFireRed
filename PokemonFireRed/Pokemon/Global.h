@@ -1,4 +1,5 @@
 #pragma once
+#include <EngineBase/EngineMath.h>
 
 // 전역으로 사용할 상수를 정의한다.
 class Global
@@ -24,6 +25,8 @@ public:
 	static const int MONITOR_Y;
 	static const int HALF_MONITOR_X;
 	static const int HALF_MONITOR_Y;
+
+	static const FVector HALF_SCREEN;
 
 	// delete Function
 	Global(const Global& _Other) = delete;

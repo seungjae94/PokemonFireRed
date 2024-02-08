@@ -2,6 +2,7 @@
 #include <string>
 #include <EngineBase/EngineDebug.h>
 #include <EnginePlatform/EngineInput.h>
+#include "PokemonDebug.h"
 
 UMapLevel::UMapLevel() 
 {
@@ -58,26 +59,12 @@ void UMapLevel::Tick(float _DeltaTime)
 
 	if (EngineInput::IsDown(VK_F2))
 	{
-		FVector PlayerWorldPos = Player->GetActorLocation();
-		FVector PlayerTilePos = PlayerWorldPos * (1.0f / Global::F_TILE_SIZE);
-		FVector PlayerScreenPos = PlayerWorldPos - GetCameraPos();
-	
-		EngineDebug::OutPutDebugText("PlayerWorld: " + PlayerWorldPos.ToString());
-		EngineDebug::OutPutDebugText("PlayerTile: " + PlayerTilePos.ToString());
-		EngineDebug::OutPutDebugText("PlayerScreen: " + PlayerScreenPos.ToString());
-		EngineDebug::OutPutDebugText("PlayerScreenInt: " + FVector(PlayerScreenPos.iX(), PlayerScreenPos.iY()).ToString());
+		PokemonDebug::ReportPosition(Player, "Player");
 	}
 
 	if (EngineInput::IsDown(VK_F3))
 	{
-		FVector MapWorldPos = Map->GetActorLocation();
-		FVector MapTilePos = MapWorldPos * (1.0f / Global::F_TILE_SIZE);
-		FVector MapScreenPos = MapWorldPos - GetCameraPos();
-
-		EngineDebug::OutPutDebugText("MapWorld: " + MapWorldPos.ToString());
-		EngineDebug::OutPutDebugText("MapTile: " + MapTilePos.ToString());
-		EngineDebug::OutPutDebugText("MapScreen: " + MapScreenPos.ToString());
-		EngineDebug::OutPutDebugText("MapScreenInt: " + FVector(MapScreenPos.iX(), MapScreenPos.iY()).ToString());
+		PokemonDebug::ReportPosition(Map, "Map");
 	}
 }
 

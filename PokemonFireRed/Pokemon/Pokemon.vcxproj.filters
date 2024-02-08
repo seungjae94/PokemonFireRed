@@ -25,14 +25,11 @@
     <Filter Include="MapLevel\Level\Interior">
       <UniqueIdentifier>{9aa64607-bb92-499d-8ea4-58531c624887}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MapLevel\Actor\NPC">
-      <UniqueIdentifier>{90534d3f-513a-4990-9f4b-e981d1191cf6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MapLevel\Actor\Tile">
-      <UniqueIdentifier>{7135e491-4edb-44ca-9af1-729ccfdf5776}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Util">
       <UniqueIdentifier>{363b44f9-6ba5-4290-afb2-239aea3b0006}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MapLevel\Actor\EventActor">
+      <UniqueIdentifier>{90534d3f-513a-4990-9f4b-e981d1191cf6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -66,6 +63,15 @@
     <ClInclude Include="PokemonInput.h">
       <Filter>Util</Filter>
     </ClInclude>
+    <ClInclude Include="EventActor.h">
+      <Filter>MapLevel\Actor\EventActor</Filter>
+    </ClInclude>
+    <ClInclude Include="Warp.h">
+      <Filter>MapLevel\Actor\EventActor</Filter>
+    </ClInclude>
+    <ClInclude Include="PokemonDebug.h">
+      <Filter>Util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PokemonCore.cpp">
@@ -96,6 +102,15 @@
       <Filter>Util</Filter>
     </ClCompile>
     <ClCompile Include="PokemonInput.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="EventActor.cpp">
+      <Filter>MapLevel\Actor\EventActor</Filter>
+    </ClCompile>
+    <ClCompile Include="Warp.cpp">
+      <Filter>MapLevel\Actor\EventActor</Filter>
+    </ClCompile>
+    <ClCompile Include="PokemonDebug.cpp">
       <Filter>Util</Filter>
     </ClCompile>
   </ItemGroup>

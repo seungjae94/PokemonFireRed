@@ -15,11 +15,6 @@ void APlayer::BeginPlay()
 {
 	AActor::BeginPlay();
 
-	SetActorLocation({ 0, 0 });
-
-	FVector CameraInitialPos = { -Global::F_HALF_SCREEN_X, -Global::F_HALF_SCREEN_Y };
-	GetWorld()->SetCameraPos(CameraInitialPos);
-
 	// 플레이어 이미지 세팅
 	Renderer = CreateImageRenderer(ERenderingOrder::Lower);
 	Renderer->SetImage("Player.bmp");
@@ -117,7 +112,7 @@ void APlayer::ChangeAnimation(EPlayerState _State, FTileVector _Direction)
 		break;
 	}
 
-	std::string DirectionStr = _Direction.ToString();
+	std::string DirectionStr = _Direction.ToDirectionString();
 	Renderer->ChangeAnimation(AniName + DirectionStr);
 }
 
@@ -132,9 +127,10 @@ void APlayer::IdleStart(bool _ResetAnimation)
 
 void APlayer::Idle(float _DeltaTime)
 {
+	GetWorld()->SetCameraPos(GetActorLocation() - Global::HALF_SCREEN);
 	if (CurIdleTime > 0.0f)
 	{
-		// 이동 로직
+		// Idle 상태 유지
 		CurIdleTime -= _DeltaTime;
 		return;
 	}
@@ -200,7 +196,7 @@ void APlayer::Walk(float _DeltaTime)
 		FVector PlayerPos = GetActorLocation();
 		FVector AddPos = TargetPos - PlayerPos;
 		AddActorLocation(AddPos);
-		GetWorld()->AddCameraPos(AddPos);
+		GetWorld()->SetCameraPos(GetActorLocation() - Global::HALF_SCREEN);
 
 		if (t >= WalkInputLatency)
 		{
@@ -325,7 +321,7 @@ void APlayer::Jump(float _DeltaTime)
 		FVector PlayerPos = GetActorLocation();
 		FVector AddPos = TargetPos - PlayerPos;
 		AddActorLocation(AddPos);
-		GetWorld()->AddCameraPos(AddPos);
+		GetWorld()->SetCameraPos(GetActorLocation() - Global::HALF_SCREEN);
 
 		if (t >= JumpInputLatency)
 		{

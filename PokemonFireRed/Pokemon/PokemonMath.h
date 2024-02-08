@@ -33,6 +33,11 @@ public:
 	{
 	}
 
+	FTileVector(const FVector& _Vector)
+		: X(std::lround(_Vector.X) / Global::TILE_SIZE), Y(std::lround(_Vector.Y) / Global::TILE_SIZE)
+	{
+	}
+
 	bool operator ==(const FTileVector& _Other) const
 	{
 		return X == _Other.X && Y == _Other.Y;
@@ -58,13 +63,37 @@ public:
 		return *this;
 	}
 
+	FTileVector operator *(int _Value) const
+	{
+		return FTileVector(X * _Value, Y * _Value);
+	}
+
+	bool operator <(const FTileVector& _Other) const
+	{
+		if (X == _Other.X)
+		{
+			if (Y == _Other.Y)
+			{
+				return false;
+			}
+
+			return Y < _Other.Y;
+		}
+
+		return X < _Other.X;
+	}
+
+	bool operator >(const FTileVector& _Other) const
+	{
+		return (*this != _Other) && !(*this < _Other);
+	}
 
 	FVector ToFVector() const
 	{
 		return FVector(Global::TILE_SIZE * X, Global::TILE_SIZE * Y);
 	}
 
-	std::string ToString() const
+	std::string ToDirectionString() const
 	{
 		if (*this == Up)
 		{
@@ -84,6 +113,11 @@ public:
 		}
 
 		return "None";
+	}
+
+	std::string ToString() const
+	{
+		return "[X : " + std::to_string(X) + " Y : " + std::to_string(Y) + "]";
 	}
 };
 
