@@ -52,6 +52,16 @@ void AActor::DestroyUpdate(float _DeltaTime)
 	}
 }
 
+void AActor::ActiveUpdate(float _DeltaTime)
+{
+	UTickObject::ActiveUpdate(_DeltaTime);
+
+	for (UImageRenderer* Renderer : Renderers)
+	{
+		Renderer->ActiveUpdate(_DeltaTime);
+	}
+}
+
 void AActor::Tick(float _DeltaTime)
 {
 	UTickObject::Tick(_DeltaTime);

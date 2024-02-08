@@ -18,19 +18,19 @@ public:
 	static FTileVector GetPressingDirection()
 	{
 		FTileVector NextDirection = FTileVector::Zero;
-		if (EngineInput::IsPress(VK_DOWN))
+		if (UEngineInput::IsPress(VK_DOWN))
 		{
 			NextDirection = FTileVector::Down;
 		}
-		else if (EngineInput::IsPress(VK_UP))
+		else if (UEngineInput::IsPress(VK_UP))
 		{
 			NextDirection = FTileVector::Up;
 		}
-		else if (EngineInput::IsPress(VK_LEFT))
+		else if (UEngineInput::IsPress(VK_LEFT))
 		{
 			NextDirection = FTileVector::Left;
 		}
-		else if (EngineInput::IsPress(VK_RIGHT))
+		else if (UEngineInput::IsPress(VK_RIGHT))
 		{
 			NextDirection = FTileVector::Right;
 		}

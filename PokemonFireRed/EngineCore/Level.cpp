@@ -46,6 +46,9 @@ void ULevel::LevelTick(float _DeltaTime)
 				MsgBoxAssert("업데이트 구조에서 액터가 nullptr인 경우가 존재합니다.")
 			}*/
 
+			Actor->ActiveUpdate(_DeltaTime);
+			Actor->DestroyUpdate(_DeltaTime);
+
 			if (false == Actor->IsActive())
 			{
 				continue;

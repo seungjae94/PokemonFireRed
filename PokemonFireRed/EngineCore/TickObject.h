@@ -37,9 +37,33 @@ public:
 		IsActiveValue = false;
 	}
 
-	void SetActive(bool _IsActiveValue)
+	void SetActive(bool _Active, float _ActiveTime = 0.0f)
 	{
-		IsActiveValue = _IsActiveValue;
+		ActiveTime = _ActiveTime;
+
+		if (true == _Active && 0.0f == ActiveTime)
+		{
+			IsActiveValue = _Active;
+			return;
+		}
+
+		IsActiveUpdate = true;
+		IsActiveValue = false;
+	}
+
+	virtual void ActiveUpdate(float _DeltaTime)
+	{
+		ActiveTime -= _DeltaTime;
+
+		if (true == IsActiveUpdate)
+		{
+			if (0.0f >= ActiveTime)
+			{
+				IsActiveUpdate = false;
+				IsActiveValue = true;
+				return;
+			}
+		}
 	}
 
 	bool IsActive()
@@ -101,14 +125,16 @@ protected:
 private:
 	// [Active 관련]
 	
-	// 현재 활성화중인지 여부
 	bool IsActiveValue = true;
+	float ActiveTime = 0.0f;
+	bool IsActiveUpdate = false;
 
 	// [Destroy 관련]
 	
 	bool IsDestroyValue = false;		// 영구적으로 삭제되었는지 여부
 	float DestroyTime = 0.0f;			// Destroy까지 남은 시간
-	bool IsDestroyUpdate = false;		// IsDestroyUpdate == true인 경우 DestroyUpdate의 로직이 실행되어 IsDestroyValue가 변경된다.
+	bool IsDestroyUpdate = false;		// DestroyUpdate 실행 여부를 결정
+
 
 	// [순서 관련]
 	// - 액터에서는 업데이트 순서로 사용

@@ -34,7 +34,7 @@ void AWarp::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
 
-	if (EngineInput::IsDown(VK_F4))
+	if (UEngineInput::IsDown(VK_F4))
 	{
 		PokemonDebug::ReportPosition(this, "Warp");
 	}

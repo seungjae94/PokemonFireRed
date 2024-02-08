@@ -45,7 +45,7 @@ void UEngineCore::CoreTick()
 	}*/
 
 	// 키 입력 체크
-	EngineInput::KeyCheckTick(DeltaTime);
+	UEngineInput::KeyCheckTick(DeltaTime);
 
 	// 레벨 변경
 	// - 한 프레임 동안에는 레벨이 유지되어야 동작을 예상하기 쉽다.

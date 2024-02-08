@@ -16,6 +16,7 @@ void PokemonCore::BeginPlay()
 {
 	// 게임 기본 설정
 	MainWindow.SetWindowScale({ Global::SCREEN_X, Global::SCREEN_Y });
+	MainWindow.SetClearColor(Color8Bit::BlackA);
 
 	// 레벨 생성
 	CreateLevel<UTitleLevel>("TitleLevel");

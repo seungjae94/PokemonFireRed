@@ -48,7 +48,14 @@ public:
 
 	void SetCollisionRendererActive(bool _Value)
 	{
-		CollisionRenderer->SetActive(_Value);
+		if (false == _Value)
+		{
+			CollisionRenderer->ActiveOff();
+		}
+		else
+		{
+			CollisionRenderer->ActiveOn();
+		}
 	}
 
 protected:

@@ -20,7 +20,7 @@ void UTitleLevelIntroImage::BeginPlay()
 
 	UWindowImage* Image = UEngineResourcesManager::GetInst().FindImg("IntroTempImage.png");
 	FVector ImageScale = Image->GetScale();
-	FVector ImageRenderScale = ImageScale * Global::PIXEL_SIZE;
+	FVector ImageRenderScale = ImageScale * Global::F_PIXEL_SIZE;
 
 	Renderer->SetImage("IntroTempImage.png");
 	Renderer->SetTransColor(Color8Bit::White);
@@ -30,7 +30,7 @@ void UTitleLevelIntroImage::BeginPlay()
 
 void UTitleLevelIntroImage::Tick(float _DeltaTime)
 {
-	if (EngineInput::IsDown('Z'))
+	if (UEngineInput::IsDown('Z'))
 	{
 		GEngine->ChangeLevel("ExteriorPalletTownLevel");
 	}

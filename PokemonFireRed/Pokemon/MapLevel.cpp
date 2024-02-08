@@ -60,23 +60,23 @@ void UMapLevel::BeginPlay()
 
 void UMapLevel::Tick(float _DeltaTime)
 {
-	if (EngineInput::IsDown(VK_F1))
+	if (UEngineInput::IsDown(VK_F1))
 	{
 		bool ActiveValue = Map->IsCollisionRendererActive();
 		Map->SetCollisionRendererActive(!ActiveValue);
 	}
 
-	if (EngineInput::IsDown(VK_F2))
+	if (UEngineInput::IsDown(VK_F2))
 	{
 		PokemonDebug::ReportPosition(Player, "Player");
 	}
 
-	if (EngineInput::IsDown(VK_F3))
+	if (UEngineInput::IsDown(VK_F3))
 	{
 		PokemonDebug::ReportPosition(Map, "Map");
 	}
 
-	if (EngineInput::IsDown('O'))
+	if (UEngineInput::IsDown('O'))
 	{
 		bool ActiveValue = Map->IsCollisionRendererActive();
 		Map->SetCollisionRendererActive(!ActiveValue);

@@ -48,6 +48,11 @@ public:
 
 	void SetWindowPosition(const FVector& _Pos);
 	void SetWindowScale(const FVector& _Scale);
+	void SetClearColor(Color8Bit _Color)
+	{
+		_Color.A = 0;
+		ClearColor = _Color;
+	}
 
 	void ScreenClear();
 	void ScreenUpdate();
@@ -84,5 +89,8 @@ private:
 	// 윈도우 데이터
 	FVector Scale;
 	FVector Position;
+
+	// 윈도우 배경 색상
+	Color8Bit ClearColor = Color8Bit::WhiteA;
 };
 

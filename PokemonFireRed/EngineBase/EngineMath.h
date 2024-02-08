@@ -227,6 +227,7 @@ public:
 			unsigned char A;
 		};
 
+		unsigned char Arr1D[4] = { 0,0,0,255 };
 		unsigned int Color;
 	};
 

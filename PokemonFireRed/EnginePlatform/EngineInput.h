@@ -5,13 +5,13 @@
 #include <EngineBase/EngineDebug.h>
 
 // 설명 :
-class EngineInput
+class UEngineInput
 {
 	friend class InputInitCreator;
 private:
 	class EngineKey
 	{
-		friend EngineInput;
+		friend UEngineInput;
 	public:
 		bool Down = false;	// 이번 프레임에 키를 눌렀는가?
 		bool Up = false;	// 이번 프레임에 키를 뗐는가?
@@ -36,14 +36,14 @@ private:
 	};
 public:
 	// constructor destructor
-	EngineInput();
-	~EngineInput();
+	UEngineInput();
+	~UEngineInput();
 
 	// delete Function
-	EngineInput(const EngineInput& _Other) = delete;
-	EngineInput(EngineInput&& _Other) noexcept = delete;
-	EngineInput& operator=(const EngineInput& _Other) = delete;
-	EngineInput& operator=(EngineInput&& _Other) noexcept = delete;
+	UEngineInput(const UEngineInput& _Other) = delete;
+	UEngineInput(UEngineInput&& _Other) noexcept = delete;
+	UEngineInput& operator=(const UEngineInput& _Other) = delete;
+	UEngineInput& operator=(UEngineInput&& _Other) noexcept = delete;
 
 	// 키 상태 확인 함수
 

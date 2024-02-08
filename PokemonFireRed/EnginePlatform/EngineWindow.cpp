@@ -174,8 +174,14 @@ void UEngineWindow::SetWindowScale(const FVector& _Scale)
 
 void UEngineWindow::ScreenClear()
 {
-	// 백버퍼 이미지를 흰색으로 채운다.
+	HBRUSH myBrush = (HBRUSH)CreateSolidBrush(ClearColor.Color);
+	HBRUSH oldBrush = (HBRUSH)SelectObject(BackBufferImage->ImageDC, myBrush);
+
+	// 백버퍼 이미지를 ClearColor.Color 색으로 채운다.
 	Rectangle(BackBufferImage->ImageDC, -1, -1, Scale.iX() + 1, Scale.iY() + 1);
+	
+	SelectObject(BackBufferImage->ImageDC, oldBrush);
+	DeleteObject(myBrush);
 }
 
 void UEngineWindow::ScreenUpdate()
