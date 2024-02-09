@@ -1,4 +1,5 @@
 #include "EventProcessor.h"
+#include <EngineBase/EngineDebug.h>
 
 UEventProcessor::UEventProcessor()
 {
@@ -10,7 +11,13 @@ UEventProcessor::~UEventProcessor()
 
 void UEventProcessor::Tick(float _DeltaTime)
 {
-	bool EventEnd = AllEvents[CurEventIndex](_DeltaTime);
+	if (CurEventIndex >= AllEvents.size())
+	{
+		MsgBoxAssert("트리거에 이벤트를 등록하지 않았습니다.");
+		return;
+	}
+
+	bool EventEnd = AllEvents[CurEventIndex]();
 
 	if (true == EventEnd)
 	{

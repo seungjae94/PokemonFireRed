@@ -3,7 +3,7 @@
 #include "Map.h"
 #include "Global.h"
 #include "MapLevel.h"
-#include "EventActor.h"
+#include "EventTarget.h"
 
 APlayer::APlayer()
 {
@@ -15,7 +15,7 @@ APlayer::~APlayer()
 
 void APlayer::BeginPlay()
 {
-	AMovable::BeginPlay();
+	AEventTarget::BeginPlay();
 	SetName("Player");
 
 	// 플레이어 이미지 세팅
@@ -39,7 +39,7 @@ void APlayer::BeginPlay()
 
 void APlayer::Tick(float _DeltaTime)
 {
-	AMovable::Tick(_DeltaTime);
+	AEventTarget::Tick(_DeltaTime);
 
 	StateUpdate(_DeltaTime);
 }
@@ -153,11 +153,11 @@ void APlayer::Idle(float _DeltaTime)
 	// 1.5 입력 방향에 이벤트 액터가 있다.
 	FTileVector Point = FTileVector(GetActorLocation());
 	FTileVector TargetPoint = Point + InputDirection;
-	if (MapLevel->IsEventActor(TargetPoint))
+	std::string WorldName = GetWorld()->GetName();
+	if (UEventManager::IsTrigger(WorldName, TargetPoint))
 	{
 		Direction = InputDirection;
-		AEventActor* EventActor = MapLevel->FindEventActor(TargetPoint);
-		EventActor->TriggerEvent();
+		UEventManager::Trigger(WorldName, TargetPoint);
 		StateChange(EPlayerState::Event);
 		return;
 	}
@@ -234,12 +234,11 @@ void APlayer::Walk(float _DeltaTime)
 	// 2.5 입력 방향에 이벤트 액터가 있다.
 	FTileVector Point = FTileVector(GetActorLocation());
 	FTileVector TargetPoint = Point + MemoryDirection;
-	if (MapLevel->IsEventActor(TargetPoint))
+	std::string WorldName = GetWorld()->GetName();
+	if (UEventManager::IsTrigger(WorldName, TargetPoint))
 	{
 		Direction = MemoryDirection;
-
-		AEventActor* EventActor = MapLevel->FindEventActor(TargetPoint);
-		EventActor->TriggerEvent();
+		UEventManager::Trigger(WorldName, TargetPoint);
 		StateChange(EPlayerState::Event);
 		return;
 	}

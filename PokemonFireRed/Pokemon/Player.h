@@ -1,6 +1,6 @@
 #pragma once
 #include "PokemonMath.h"
-#include "Movable.h"
+#include "EventTarget.h"
 
 class AMap;
 class UMapLevel;
@@ -16,7 +16,7 @@ enum class EPlayerState
 };
 
 // 사용자 입력에 따라 이동하는 액터
-class APlayer : public AMovable
+class APlayer : public AEventTarget
 {
 public:
 	// constructor destructor
@@ -82,7 +82,7 @@ private:
 	// 이동 관련 변수
 	FTileVector MemoryDirection = FTileVector::Zero;
 	
-	float WalkSpeed = 3.6f;  // 원작과 비슷한 걷기 속도는 3.6f
+	float WalkSpeed = 10.0f;  // 원작과 비슷한 걷기 속도는 3.6f
 	float JumpSpeed = 1.5f;
 
 	float IdleTime = 0.05f;  // Idle 상태를 유지하는 최소 시간

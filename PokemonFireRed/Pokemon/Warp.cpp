@@ -4,12 +4,7 @@
 #include "PokemonMath.h"
 #include <EngineCore/EngineCore.h>
 
-std::string AWarp::CurTargetMapName;
-FTileVector AWarp::CurTargetPoint = { 70, 142 };			// 주인공 집 앞
-FTileVector AWarp::CurTargetDirection = { 0, 1 };  // 아래 방향
-
 AWarp::AWarp() 
-	: AEventActor()
 {
 }
 
@@ -17,44 +12,30 @@ AWarp::~AWarp()
 {
 }
 
-void AWarp::TriggerEvent()
+void AWarp::RegisterEvents()
 {
-	CurTargetMapName = TargetMapName;
-	CurTargetPoint = TargetPoint;
-	CurTargetDirection = Player->GetDirection();
-	EventProcessor->Work();
+	UEventManager::Register(this, [this]() {return Event1();});
+	UEventManager::Register(this, [this]() {return Event2();});
+	UEventManager::Register(this, [this]() {return Event3();});
+	UEventManager::Register(this, [this]() {return Event4();});
 }
 
-void AWarp::BeginPlay()
+bool AWarp::Event1()
 {
-	AEventActor::BeginPlay();
-
-	EventProcessor->Register([this](float _DeltaTime) {return Event1(_DeltaTime);});
-	EventProcessor->Register([this](float _DeltaTime) {return Event2(_DeltaTime);});
-	EventProcessor->Register([this](float _DeltaTime) {return Event3(_DeltaTime);});
-	EventProcessor->Register([this](float _DeltaTime) {return Event4(_DeltaTime);});
+	return UEventManager::MoveActor(GetWorld()->GetName(), "Player", { MoveDirection.ToFVector() }, 1.8f);
 }
 
-bool AWarp::Event1(float _DeltaTime)
+bool AWarp::Event2()
 {
-	EngineDebug::OutPutDebugText("E1");
-	return EventDelegate.MoveActor(_DeltaTime, Player, { CurTargetDirection.ToFVector() }, 1.8f);
+	return UEventManager::ChangeMap(GetWorld()->GetName(), TargetMapName, TargetPoint);
 }
 
-bool AWarp::Event2(float _DeltaTime)
+bool AWarp::Event3()
 {
-	GEngine->ChangeLevel(TargetMapName);
-	return true;
+	return UEventManager::MoveActor(TargetMapName, "Player", { MoveDirection.ToFVector() }, 1.8f);
 }
 
-bool AWarp::Event3(float _DeltaTime)
+bool AWarp::Event4()
 {
-	EngineDebug::OutPutDebugText("E3");
-	return EventDelegate.MoveActor(_DeltaTime, Player, { CurTargetDirection.ToFVector() }, 1.8f);
-}
-
-bool AWarp::Event4(float _DeltaTime)
-{
-	Player->StateChange(EPlayerState::Idle);
-	return true;
+	return UEventManager::Finish(TargetMapName);
 }

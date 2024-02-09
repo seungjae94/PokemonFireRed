@@ -1,14 +1,22 @@
 #pragma once
 #include <map>
+#include <vector>
+#include <functional>
+#include "PokemonMath.h"
 
 class UPokemonLevel;
-class AEventActor;
+class AEventTarget;
+class AEventTrigger;
 class UEventProcessor;
+class APlayer;
+class UEventManagerReleaser;
 
-// 설명 :
+using Event = std::function<bool()>;
+
 class UEventManager
 {
 	friend UPokemonLevel;
+	friend UEventManagerReleaser;
 public:
 	// delete Function
 	UEventManager(const UEventManager& _Other) = delete;
@@ -16,13 +24,65 @@ public:
 	UEventManager& operator=(const UEventManager& _Other) = delete;
 	UEventManager& operator=(UEventManager&& _Other) noexcept = delete;
 
-	static UEventProcessor* CreateEventProcessor(AEventActor* _Caller);
+	static void Register(AEventTrigger* _Trigger, Event _Event);
+
+	static bool IsTrigger(std::string_view _LevelName, const FTileVector& _Point);
+
+	static void Trigger(std::string_view _LevelName, const FTileVector& _Point);
+
+	/// <summary>
+	/// 액터를 지정한 경로를 따라 이동시킨다.
+	/// </summary>
+	/// <param name="_Path">이동 경로</param>
+	/// <param name="_MoveSpeed">이동 속도</param>
+	/// <returns>EventEnd 이벤트 종료 여부</returns>
+	static bool MoveActor(std::string_view _MapName, std::string_view _TargetName, std::vector<FTileVector> _Path, float _MoveSpeed = 3.6f);
+
+	//static bool Wait(float _DeltaTime, float _WaitTime);
+
+	static bool ChangeMap(std::string_view _CurMapName, std::string_view _NextMapName, const FTileVector& _Point);
+
+	static bool ChangePoint(std::string_view _MapName, std::string_view _TargetName, const FTileVector& _Point);
+
+	/// <summary>
+	/// 이벤트를 종료해 플레이어가 다시 캐릭터를 컨트롤 할 수 있는 상태로 만든다.
+	/// </summary>
+	/// <param name="_LevelName"></param>
+	/// <returns></returns>
+	static bool Finish(std::string_view _LevelName);
 
 protected:
 	// constructor destructor
 	UEventManager();
 	~UEventManager();
 private:
-	static std::map<AEventActor*, UEventProcessor*> AllProcessors;
+	// AllPlayers[LevelName]
+	// - 플레이어는 상태 변경 등 플레이어 타입으로 다뤄야 할 일이 있기 때문에 추가로 보관한다.
+	static std::map<std::string, APlayer*> AllPlayers;
+
+	// AllTargets[LevelName][TargetName]
+	// - 'A레벨의 B라는 이름의 액터를 이동시켜줘'라는 요청을 처리하려면 A레벨의 B라는 이름의 액터를 찾을 수 있어야 한다.
+	static std::map<std::string, std::map<std::string, AEventTarget*>> AllTargets;
+
+	// AllTriggers[LevelName][Point]
+	// - 플레이어가 특정 위치에 트리거가 있는지 확인할 때 사용
+	// - 해당 트리거를 동작시킬 때 사용
+	static std::map<std::string, std::map<FTileVector, AEventTrigger*>> AllTriggers;
+
+	// AllProcessors[Trigger]
+	// - 이벤트 매니저는 레벨 변경과 무관하게 계속 존재할 수 있지만 모든 트리거의 콜백(이벤트)을 저장하기에 적합하지는 않다.
+	// - 트리거와 일대일로 대응해서 콜백을 기억하고 레벨 변경과 무관하게 존재하면서 실행해주는 객체가 필요하다.
+	// - 이벤트 프로세서가 바로 이 역할을 맡게 된다.
+	static std::map<AEventTrigger*, UEventProcessor*> AllProcessors;
+	
 	static void Tick(float _DeltaTime);
+
+	static void AddTarget(AEventTarget* _Target, std::string_view _Name, const FTileVector& _Point);
+	static void AddTrigger(AEventTrigger* _Trigger, std::string_view _Name, const FTileVector& _Point);
+	static void AddPlayer(APlayer* _Player, const FTileVector& _Point);
+
+	// DeltaTime 기록
+	static float DeltaTime;
+
+	static void Release();
 };

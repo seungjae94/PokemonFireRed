@@ -32,10 +32,10 @@ void UInteriorOaksLabLevel::BeginPlay()
 	Map->SetCollisionRendererActive(false);
 	
 	// 이벤트 액터 생성
-	AWarp* PalletTownWarp = SpawnEventActor<AWarp>({ 6, 13 });
-	PalletTownWarp->SetPlayer(Player);
+	AWarp* PalletTownWarp = SpawnEventTrigger<AWarp>("PalletTownWarp", { 6, 13 });
 	PalletTownWarp->SetTargetLevelName("ExteriorPalletTownLevel");
 	PalletTownWarp->SetTargetPoint({ 80, 148 });
+	PalletTownWarp->SetMoveDirection(FTileVector::Down);
 }
 
 

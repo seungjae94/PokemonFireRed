@@ -45,7 +45,7 @@ void UMapLevel::BeginPlay()
 	}
 	
 	// 액터 생성
-	Player = SpawnActor<APlayer>();
+	Player = SpawnPlayer({0, 0});
 	Map = SpawnActor<AMap>();
 
 	// 맵의 좌표 설정
@@ -55,7 +55,6 @@ void UMapLevel::BeginPlay()
 
 	// 액터의 멤버 설정
 	Player->SetMap(Map);
-	Player->SetMapLevel(this);
 
 	IsPlayerResourceLoaded = true;
 }
@@ -91,14 +90,5 @@ void UMapLevel::Tick(float _DeltaTime)
 void UMapLevel::LevelStart(ULevel* _PrevLevel)
 {
 	UPokemonLevel::LevelStart(_PrevLevel);
-
-	// 플레이어 위치 지정
-	const FTileVector& CurTargetPoint = AWarp::GetCurTargetPoint();
-	Player->SetTilePoint(CurTargetPoint);
-
-	const FTileVector& CurTargetDirection = AWarp::GetCurTargetDirection();
-	Player->SetDirection(CurTargetDirection);
-
-	Player->StateChange(EPlayerState::Idle, true);
 }
 

@@ -1,24 +1,24 @@
-#include "Movable.h"
+#include "EventTarget.h"
 
-AMovable::AMovable()
+AEventTarget::AEventTarget()
 {
 }
 
-AMovable::~AMovable()
+AEventTarget::~AEventTarget()
 {
 }
 
 
-void AMovable::ChangeAnimation(EMovableState _State, const FTileVector& _Direction)
+void AEventTarget::ChangeAnimation(ETargetMoveState _State, const FTileVector& _Direction)
 {
 	std::string StateName;
 
 	switch (_State)
 	{
-	case EMovableState::Idle:
+	case ETargetMoveState::Idle:
 		StateName = "Idle";
 		break;
-	case EMovableState::Walk:
+	case ETargetMoveState::Walk:
 		StateName = "Walk";
 		break;
 	default:

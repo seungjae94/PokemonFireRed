@@ -1,7 +1,7 @@
 #pragma once
-#include "EventActor.h"
+#include "EventTrigger.h"
 
-class AWarp : public AEventActor
+class AWarp : public AEventTrigger
 {
 public:
 	// constructor destructor
@@ -24,36 +24,22 @@ public:
 		TargetPoint = _Point;
 	}
 
-	static std::string GetCurTargetMapName()
+	void SetMoveDirection(const FTileVector& _Direction)
 	{
-		return CurTargetMapName;
-	}
-
-	static FTileVector GetCurTargetPoint()
-	{
-		return CurTargetPoint;
-	}
-
-	static FTileVector GetCurTargetDirection()
-	{
-		return CurTargetDirection;
+		MoveDirection = _Direction;
 	}
 
 protected:
-	void TriggerEvent() override;
-	void BeginPlay() override;
+	void RegisterEvents() override;
 private:
 	UImageRenderer* Renderer = nullptr;
 	std::string TargetMapName;
 	FTileVector TargetPoint;
+	FTileVector MoveDirection;
 
-	static std::string CurTargetMapName;
-	static FTileVector CurTargetPoint;
-	static FTileVector CurTargetDirection;
-
-	bool Event1(float _DeltaTime);
-	bool Event2(float _DeltaTime);
-	bool Event3(float _DeltaTime);
-	bool Event4(float _DeltaTime);
+	bool Event1();
+	bool Event2();
+	bool Event3();
+	bool Event4();
 };
 

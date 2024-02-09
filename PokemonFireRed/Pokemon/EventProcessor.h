@@ -1,11 +1,9 @@
 #pragma once
 #include <functional>
 #include <map>
+#include "EventManager.h"
 
-class AEventActor;
-class UEventManager;
-
-using Event = std::function<bool(float)>;
+class AEventTrigger;
 
 // 매 프레임마다 이벤트 액터 대신 이벤트를 처리해주는 객체
 // 현재 레벨과 무관하게 틱이 돌아간다.
@@ -46,7 +44,7 @@ private:
 	bool IsWorkingValue = false;
 
 	int CurEventIndex = 0;
-	std::vector<Event> AllEvents = {};
+	std::vector<Event> AllEvents;
 	//int EventSetIndex = 0;
 	//std::map<int, Event>> AllEvents;
 

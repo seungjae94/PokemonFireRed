@@ -174,15 +174,11 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Npc.h">
+    <ClInclude Include="DialogueActor.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="EventActor.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="EventHelper.h">
+    <ClInclude Include="EventTrigger.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -206,7 +202,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Movable.h">
+    <ClInclude Include="EventTarget.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -256,15 +252,11 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Npc.cpp">
+    <ClCompile Include="DialogueActor.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="EventActor.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="EventHelper.cpp">
+    <ClCompile Include="EventTrigger.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -288,7 +280,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Movable.cpp">
+    <ClCompile Include="EventTarget.cpp">
       <SubType>
       </SubType>
     </ClCompile>
