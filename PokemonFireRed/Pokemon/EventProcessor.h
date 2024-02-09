@@ -23,8 +23,6 @@ public:
 
 	void Register(Event _Event)
 	{
-		int Size = AllEvents.size();
-
 		AllEvents.push_back(_Event);
 	}
 	

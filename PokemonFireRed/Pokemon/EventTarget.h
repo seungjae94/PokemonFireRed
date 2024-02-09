@@ -56,7 +56,7 @@ protected:
 	ETargetMoveState MoveState = ETargetMoveState::Idle;
 	float MoveTime = 0.0f;
 	float Timer = 0.0f;
-	float MoveIndex = -1;
+	int MoveIndex = -1;
 	
 	// ·»´õ·¯
 	UImageRenderer* Renderer = nullptr;
