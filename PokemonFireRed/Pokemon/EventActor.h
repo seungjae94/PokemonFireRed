@@ -3,15 +3,14 @@
 #include "PokemonMath.h"
 #include "MapLevel.h"
 #include "Movable.h"
-#include "EventDelegate.h"
+#include "EventHelper.h"
+#include "EventProcessor.h"
 
 class APlayer;
 
 // 항상 플레이어에 관한 조건 변화를 관찰하면서 자신의 상태를 변경하고 플레이어와 상호 작용하는 액터
 class AEventActor : public AMovable
 {
-public:
-	using Event = std::function<bool(AEventActor*, float)>;
 public:
 	// constructor destructor
 	AEventActor();
@@ -42,24 +41,14 @@ public:
 		MapLevel = _MapLevel;
 	}
 
-	void RegisterEvent(Event _Event)
-	{
-		AllEvents.push_back(_Event);
-	}
-
 protected:
 	APlayer* Player;
-	bool IsTriggered = false;
+	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
-	UEventDelegate EventDelegate;
+	UEventHelper EventDelegate;
+	UEventProcessor* EventProcessor;
 private:
 	UMapLevel* MapLevel;
-
-	int CurEventIndex = 0;
-	std::vector<Event> AllEvents;
-
-	//int EventSetType = 0;
-	//std::map<int, Event>> AllEvents;
 };
 

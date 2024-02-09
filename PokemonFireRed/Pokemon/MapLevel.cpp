@@ -4,6 +4,7 @@
 #include <EnginePlatform/EngineInput.h>
 #include "Warp.h"
 #include "PokemonDebug.h"
+#include "EventManager.h"
 
 
 UMapLevel::UMapLevel() 
@@ -17,6 +18,8 @@ UMapLevel::~UMapLevel()
 void UMapLevel::BeginPlay()
 {
 	static bool IsPlayerResourceLoaded = false;
+
+	UPokemonLevel::BeginPlay();
 
 	// 기본 경로 설정
 	CurDir.MoveParent();
@@ -57,10 +60,11 @@ void UMapLevel::BeginPlay()
 	IsPlayerResourceLoaded = true;
 }
 
-
-
 void UMapLevel::Tick(float _DeltaTime)
 {
+	UPokemonLevel::Tick(_DeltaTime);
+
+	// 디버깅 기능
 	if (UEngineInput::IsDown(VK_F1))
 	{
 		bool ActiveValue = Map->IsCollisionRendererActive();
@@ -86,7 +90,7 @@ void UMapLevel::Tick(float _DeltaTime)
 
 void UMapLevel::LevelStart(ULevel* _PrevLevel)
 {
-	ULevel::LevelStart(_PrevLevel);
+	UPokemonLevel::LevelStart(_PrevLevel);
 
 	// 플레이어 위치 지정
 	const FTileVector& CurTargetPoint = AWarp::GetCurTargetPoint();

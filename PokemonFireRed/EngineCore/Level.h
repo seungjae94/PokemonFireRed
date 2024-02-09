@@ -80,7 +80,7 @@ private:
 	// 오브젝트(액터) 틱 호출
 	void LevelTick(float _DeltaTime);
 
-	// 렌더링: 차후 구현
+	// 렌더링
 	void LevelRender(float _DeltaTime);
 
 	// Destroy한 오브젝트(액터) 릴리즈

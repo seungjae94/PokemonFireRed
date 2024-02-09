@@ -53,5 +53,7 @@ private:
 
 	bool Event1(float _DeltaTime);
 	bool Event2(float _DeltaTime);
+	bool Event3(float _DeltaTime);
+	bool Event4(float _DeltaTime);
 };
 

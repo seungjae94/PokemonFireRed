@@ -1,14 +1,14 @@
 #pragma once
-#include <EngineCore/Level.h>
-#include "Player.h"
-#include "Map.h"
 #include <EngineBase/EngineDirectory.h>
 #include <EngineBase/EngineFile.h>
 #include <EngineCore/EngineResourcesManager.h>
+#include "PokemonLevel.h"
+#include "Player.h"
+#include "Map.h"
 
 class AEventActor;
 
-class UMapLevel : public ULevel
+class UMapLevel : public UPokemonLevel
 {
 	friend AEventActor;
 public:
@@ -61,7 +61,7 @@ public:
 protected:
 	// 하위 클래스에서 너무 많이 사용할 것 같아서 protected로 설정
 	AMap* Map = nullptr;
-	APlayer* Player;
+	APlayer* Player = nullptr;
 	UEngineDirectory CurDir;
 
 	std::map<FTileVector, AEventActor*> AllEventActor;

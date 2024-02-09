@@ -1,17 +1,17 @@
-#include "EventDelegate.h"
+#include "EventHelper.h"
 
 #include <EngineBase/EngineMath.h>
 #include "Movable.h"
 
-UEventDelegate::UEventDelegate()
+UEventHelper::UEventHelper()
 {
 }
 
-UEventDelegate::~UEventDelegate()
+UEventHelper::~UEventHelper()
 {
 }
 
-bool UEventDelegate::MoveActor(float _DeltaTime, AMovable* _Mover, std::vector<FTileVector> _Path, float _MoveSpeed)
+bool UEventHelper::MoveActor(float _DeltaTime, AMovable* _Mover, std::vector<FTileVector> _Path, float _MoveSpeed)
 {
 	if (_Path.size() <= 0)
 	{

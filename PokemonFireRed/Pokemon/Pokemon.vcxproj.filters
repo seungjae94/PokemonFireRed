@@ -31,11 +31,11 @@
     <Filter Include="Object\TitleLevel\Actor">
       <UniqueIdentifier>{6cca5fec-8768-4bb5-b4c6-002f4f8625d8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Manager">
-      <UniqueIdentifier>{b9f8bc97-2c8d-41ff-9bd0-27e6a7174106}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Object\MapLevel\EventActor">
       <UniqueIdentifier>{90534d3f-513a-4990-9f4b-e981d1191cf6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\EventSystem">
+      <UniqueIdentifier>{b9f8bc97-2c8d-41ff-9bd0-27e6a7174106}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -81,14 +81,23 @@
     <ClInclude Include="InteriorOaksLabLevel.h">
       <Filter>Object\MapLevel\Level\Interior</Filter>
     </ClInclude>
-    <ClInclude Include="EventDelegate.h">
-      <Filter>Object\Manager</Filter>
+    <ClInclude Include="EventHelper.h">
+      <Filter>Object\EventSystem</Filter>
     </ClInclude>
     <ClInclude Include="Movable.h">
       <Filter>Object\MapLevel\Actor</Filter>
     </ClInclude>
     <ClInclude Include="Npc.h">
       <Filter>Object\MapLevel\EventActor</Filter>
+    </ClInclude>
+    <ClInclude Include="EventProcessor.h">
+      <Filter>Object\EventSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="EventManager.h">
+      <Filter>Object\EventSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="PokemonLevel.h">
+      <Filter>Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -134,14 +143,23 @@
     <ClCompile Include="InteriorOaksLabLevel.cpp">
       <Filter>Object\MapLevel\Level\Interior</Filter>
     </ClCompile>
-    <ClCompile Include="EventDelegate.cpp">
-      <Filter>Object\Manager</Filter>
+    <ClCompile Include="EventHelper.cpp">
+      <Filter>Object\EventSystem</Filter>
     </ClCompile>
     <ClCompile Include="Movable.cpp">
       <Filter>Object\MapLevel\Actor</Filter>
     </ClCompile>
     <ClCompile Include="Npc.cpp">
       <Filter>Object\MapLevel\EventActor</Filter>
+    </ClCompile>
+    <ClCompile Include="EventProcessor.cpp">
+      <Filter>Object\EventSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="EventManager.cpp">
+      <Filter>Object\EventSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="PokemonLevel.cpp">
+      <Filter>Object</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

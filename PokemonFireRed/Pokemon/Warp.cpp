@@ -22,24 +22,39 @@ void AWarp::TriggerEvent()
 	CurTargetMapName = TargetMapName;
 	CurTargetPoint = TargetPoint;
 	CurTargetDirection = Player->GetDirection();
-	IsTriggered = true;
+	EventProcessor->Work();
 }
 
 void AWarp::BeginPlay()
 {
-	AActor::BeginPlay();
-	RegisterEvent([this](AEventActor* _Actor, float _DeltaTime) {return Event1(_DeltaTime);});
-	RegisterEvent([this](AEventActor* _Actor, float _DeltaTime) {return Event2(_DeltaTime);});
+	AEventActor::BeginPlay();
+
+	EventProcessor->Register([this](float _DeltaTime) {return Event1(_DeltaTime);});
+	EventProcessor->Register([this](float _DeltaTime) {return Event2(_DeltaTime);});
+	EventProcessor->Register([this](float _DeltaTime) {return Event3(_DeltaTime);});
+	EventProcessor->Register([this](float _DeltaTime) {return Event4(_DeltaTime);});
 }
 
 bool AWarp::Event1(float _DeltaTime)
 {
+	EngineDebug::OutPutDebugText("E1");
 	return EventDelegate.MoveActor(_DeltaTime, Player, { CurTargetDirection.ToFVector() }, 1.8f);
 }
 
 bool AWarp::Event2(float _DeltaTime)
 {
-	Player->StateChange(EPlayerState::Idle);
 	GEngine->ChangeLevel(TargetMapName);
+	return true;
+}
+
+bool AWarp::Event3(float _DeltaTime)
+{
+	EngineDebug::OutPutDebugText("E3");
+	return EventDelegate.MoveActor(_DeltaTime, Player, { CurTargetDirection.ToFVector() }, 1.8f);
+}
+
+bool AWarp::Event4(float _DeltaTime)
+{
+	Player->StateChange(EPlayerState::Idle);
 	return true;
 }
