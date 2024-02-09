@@ -16,15 +16,15 @@ UMapLevel::~UMapLevel()
 
 void UMapLevel::BeginPlay()
 {
-	static bool IsCalled = false;
+	static bool IsPlayerResourceLoaded = false;
 
 	// 기본 경로 설정
 	CurDir.MoveParent();
 	CurDir.Move("Resources");
 	CurDir.Move("MapLevel");
 
-	// 플레이어 리소스 로드
-	if (false == IsCalled)
+	// 플레이어 리소스 로드 (전 게임에 걸쳐 1번만 실행)
+	if (false == IsPlayerResourceLoaded)
 	{
 		std::list<UEngineFile> AllFiles = CurDir.AllFile({ ".png", ".bmp" }, false);
 		for (UEngineFile& File : AllFiles)
@@ -34,11 +34,11 @@ void UMapLevel::BeginPlay()
 		}
 
 		// 플레이어 애니메이션 리소스 로드
-		UEngineResourcesManager::GetInst().CuttingImage("WalkDown.png", 4, 1);
-		UEngineResourcesManager::GetInst().CuttingImage("WalkUp.png", 4, 1);
-		UEngineResourcesManager::GetInst().CuttingImage("WalkLeft.png", 4, 1);
-		UEngineResourcesManager::GetInst().CuttingImage("WalkRight.png", 4, 1);
-		UEngineResourcesManager::GetInst().CuttingImage("JumpDown.png", 53, 1);
+		UEngineResourcesManager::GetInst().CuttingImage("PlayerWalkDown.png", 4, 1);
+		UEngineResourcesManager::GetInst().CuttingImage("PlayerWalkUp.png", 4, 1);
+		UEngineResourcesManager::GetInst().CuttingImage("PlayerWalkLeft.png", 4, 1);
+		UEngineResourcesManager::GetInst().CuttingImage("PlayerWalkRight.png", 4, 1);
+		UEngineResourcesManager::GetInst().CuttingImage("PlayerJumpDown.png", 53, 1);
 	}
 	
 	// 액터 생성
@@ -50,10 +50,11 @@ void UMapLevel::BeginPlay()
 	Map->SetActorLocation(MapInitialPos);
 	Map->SetPlayer(Player);
 
+	// 액터의 멤버 설정
 	Player->SetMap(Map);
 	Player->SetMapLevel(this);
 
-	IsCalled = true;
+	IsPlayerResourceLoaded = true;
 }
 
 
@@ -93,5 +94,7 @@ void UMapLevel::LevelStart(ULevel* _PrevLevel)
 
 	const FTileVector& CurTargetDirection = AWarp::GetCurTargetDirection();
 	Player->SetDirection(CurTargetDirection);
+
+	Player->StateChange(EPlayerState::Idle, true);
 }
 

@@ -4,31 +4,37 @@
     <Filter Include="Core">
       <UniqueIdentifier>{8d77ac80-c255-418f-8c3e-06569a2c5dfc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="TitleLevel">
-      <UniqueIdentifier>{bdf06483-65f9-421f-b9ce-c1f2eea53612}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="TitleLevel\Actor">
-      <UniqueIdentifier>{6cca5fec-8768-4bb5-b4c6-002f4f8625d8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MapLevel">
-      <UniqueIdentifier>{eb8e903a-114a-4e5f-9718-0cc29052aa04}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MapLevel\Actor">
-      <UniqueIdentifier>{3b88d292-f9a2-4d41-863e-4b9d2397e54a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MapLevel\Level">
-      <UniqueIdentifier>{a7bf09f9-ec02-48d4-b516-083226d8841b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MapLevel\Level\Exterior">
-      <UniqueIdentifier>{3fc26597-d68c-41ee-99cf-0110f105e3ac}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MapLevel\Level\Interior">
-      <UniqueIdentifier>{9aa64607-bb92-499d-8ea4-58531c624887}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Util">
       <UniqueIdentifier>{363b44f9-6ba5-4290-afb2-239aea3b0006}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MapLevel\Actor\EventActor">
+    <Filter Include="Object">
+      <UniqueIdentifier>{eeb5e36f-7b5a-4290-ae5b-1f20dc01b5f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\MapLevel">
+      <UniqueIdentifier>{eb8e903a-114a-4e5f-9718-0cc29052aa04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\MapLevel\Actor">
+      <UniqueIdentifier>{3b88d292-f9a2-4d41-863e-4b9d2397e54a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\MapLevel\Level">
+      <UniqueIdentifier>{a7bf09f9-ec02-48d4-b516-083226d8841b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\MapLevel\Level\Exterior">
+      <UniqueIdentifier>{3fc26597-d68c-41ee-99cf-0110f105e3ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\MapLevel\Level\Interior">
+      <UniqueIdentifier>{9aa64607-bb92-499d-8ea4-58531c624887}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\TitleLevel">
+      <UniqueIdentifier>{bdf06483-65f9-421f-b9ce-c1f2eea53612}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\TitleLevel\Actor">
+      <UniqueIdentifier>{6cca5fec-8768-4bb5-b4c6-002f4f8625d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Manager">
+      <UniqueIdentifier>{b9f8bc97-2c8d-41ff-9bd0-27e6a7174106}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\MapLevel\EventActor">
       <UniqueIdentifier>{90534d3f-513a-4990-9f4b-e981d1191cf6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -37,22 +43,22 @@
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="Map.h">
-      <Filter>MapLevel\Actor</Filter>
+      <Filter>Object\MapLevel\Actor</Filter>
     </ClInclude>
     <ClInclude Include="TitleLevel.h">
-      <Filter>TitleLevel</Filter>
+      <Filter>Object\TitleLevel</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>MapLevel\Actor</Filter>
+      <Filter>Object\MapLevel\Actor</Filter>
     </ClInclude>
     <ClInclude Include="TitleLevelIntroImage.h">
-      <Filter>TitleLevel\Actor</Filter>
+      <Filter>Object\TitleLevel\Actor</Filter>
     </ClInclude>
     <ClInclude Include="MapLevel.h">
-      <Filter>MapLevel\Level</Filter>
+      <Filter>Object\MapLevel\Level</Filter>
     </ClInclude>
     <ClInclude Include="ExteriorPalletTownLevel.h">
-      <Filter>MapLevel\Level\Exterior</Filter>
+      <Filter>Object\MapLevel\Level\Exterior</Filter>
     </ClInclude>
     <ClInclude Include="Global.h">
       <Filter>Util</Filter>
@@ -64,16 +70,22 @@
       <Filter>Util</Filter>
     </ClInclude>
     <ClInclude Include="EventActor.h">
-      <Filter>MapLevel\Actor\EventActor</Filter>
+      <Filter>Object\MapLevel\EventActor</Filter>
     </ClInclude>
     <ClInclude Include="Warp.h">
-      <Filter>MapLevel\Actor\EventActor</Filter>
+      <Filter>Object\MapLevel\EventActor</Filter>
     </ClInclude>
     <ClInclude Include="PokemonDebug.h">
       <Filter>Util</Filter>
     </ClInclude>
     <ClInclude Include="InteriorOaksLabLevel.h">
-      <Filter>MapLevel\Level\Interior</Filter>
+      <Filter>Object\MapLevel\Level\Interior</Filter>
+    </ClInclude>
+    <ClInclude Include="EventManager.h">
+      <Filter>Object\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Movable.h">
+      <Filter>Object\MapLevel\Actor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -81,22 +93,22 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="Map.cpp">
-      <Filter>MapLevel\Actor</Filter>
+      <Filter>Object\MapLevel\Actor</Filter>
     </ClCompile>
     <ClCompile Include="TitleLevel.cpp">
-      <Filter>TitleLevel</Filter>
+      <Filter>Object\TitleLevel</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>MapLevel\Actor</Filter>
+      <Filter>Object\MapLevel\Actor</Filter>
     </ClCompile>
     <ClCompile Include="TitleLevelIntroImage.cpp">
-      <Filter>TitleLevel\Actor</Filter>
+      <Filter>Object\TitleLevel\Actor</Filter>
     </ClCompile>
     <ClCompile Include="MapLevel.cpp">
-      <Filter>MapLevel\Level</Filter>
+      <Filter>Object\MapLevel\Level</Filter>
     </ClCompile>
     <ClCompile Include="ExteriorPalletTownLevel.cpp">
-      <Filter>MapLevel\Level\Exterior</Filter>
+      <Filter>Object\MapLevel\Level\Exterior</Filter>
     </ClCompile>
     <ClCompile Include="Global.cpp">
       <Filter>Util</Filter>
@@ -108,16 +120,22 @@
       <Filter>Util</Filter>
     </ClCompile>
     <ClCompile Include="EventActor.cpp">
-      <Filter>MapLevel\Actor\EventActor</Filter>
+      <Filter>Object\MapLevel\EventActor</Filter>
     </ClCompile>
     <ClCompile Include="Warp.cpp">
-      <Filter>MapLevel\Actor\EventActor</Filter>
+      <Filter>Object\MapLevel\EventActor</Filter>
     </ClCompile>
     <ClCompile Include="PokemonDebug.cpp">
       <Filter>Util</Filter>
     </ClCompile>
     <ClCompile Include="InteriorOaksLabLevel.cpp">
-      <Filter>MapLevel\Level\Interior</Filter>
+      <Filter>Object\MapLevel\Level\Interior</Filter>
+    </ClCompile>
+    <ClCompile Include="EventManager.cpp">
+      <Filter>Object\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Movable.cpp">
+      <Filter>Object\MapLevel\Actor</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

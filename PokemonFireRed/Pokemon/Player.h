@@ -1,20 +1,22 @@
 #pragma once
-#include <EngineCore/Actor.h>
 #include "PokemonMath.h"
+#include "Movable.h"
 
 class AMap;
 class UMapLevel;
 
 enum class EPlayerState
 {
+	None,
 	Idle,
 	Walk,
 	WalkInPlace,
 	Jump,
-	Warp
+	Event
 };
 
-class APlayer : public AActor
+// 사용자 입력에 따라 이동하는 액터
+class APlayer : public AMovable
 {
 public:
 	// constructor destructor
@@ -37,23 +39,8 @@ public:
 		Map = _Map;
 	}
 
-	void SetTilePoint(const FTileVector& _Point)
-	{
-		SetActorLocation(_Point.ToFVector());
-	}
-
-	FTileVector GetDirection() const
-	{
-		return Direction;
-	}
-
-	void SetDirection(const FTileVector& _Direction)
-	{
-		Direction = _Direction;
-	}
-
 	// FSM (Finite State Machine)
-	void StateChange(EPlayerState _State);
+	void StateChange(EPlayerState _State, bool _Restart = false);
 
 protected:
 	void BeginPlay() override;
@@ -75,14 +62,10 @@ protected:
 	void JumpStart(bool _ResetAnimation = true);
 	void Jump(float _DeltaTime);
 
-	void Warp(float _DeltaTime);
-
 	// 충돌 체크
 	bool IsLedge(FTileVector _Direction);
 	bool IsCollider(FTileVector _Direction);
 private:
-	UImageRenderer* Renderer = nullptr;
-
 	// 레벨
 	UMapLevel* MapLevel = nullptr;
 
@@ -90,25 +73,21 @@ private:
 	AMap* Map = nullptr;
 	
 	// 상태
-	EPlayerState State = EPlayerState::Idle;
+	EPlayerState State = EPlayerState::None;
 
 	// 애니메이션 1프레임 재생 시간
-	float WalkInterval = 1.0f / 6;
+	float WalkInterval = 1.0f / 4;
 	float JumpInterval = 1.0f / 48;
 
 	// 이동 관련 변수
-	FTileVector Direction = FTileVector::Down;
 	FTileVector MemoryDirection = FTileVector::Zero;
-	FVector PrevPos;
-	FVector NextPos;
+	
+	float WalkSpeed = 3.6f;  // 원작과 비슷한 걷기 속도는 3.6f
+	float JumpSpeed = 1.5f;
 
-	// 원작과 비슷한 걷기 속도는 3.6f
-	float WalkSpeed = 6.4f;
-	float JumpSpeed = 1.2f;
-
-	float IdleTime = 0.05f; // Idle 상태를 유지하는 최소 시간
+	float IdleTime = 0.05f;  // Idle 상태를 유지하는 최소 시간
 	float CurIdleTime = IdleTime;
-	float WalkTime = 1.0f / WalkSpeed; // 1칸 걷는데 걸리는 시간
+	float WalkTime = 1.0f / WalkSpeed;
 	float CurWalkTime = WalkTime;
 	float WalkInPlaceTime = 0.05f; // WalkInPlace 상태를 유지하는 최소 시간
 	float CurWalkInPlaceTime = WalkTime; 

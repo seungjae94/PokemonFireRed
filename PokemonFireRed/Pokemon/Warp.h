@@ -42,7 +42,6 @@ public:
 protected:
 	void TriggerEvent() override;
 	void BeginPlay() override;
-	void Tick(float _DeltaTime) override;
 private:
 	UImageRenderer* Renderer = nullptr;
 	std::string TargetMapName;
@@ -51,5 +50,8 @@ private:
 	static std::string CurTargetMapName;
 	static FTileVector CurTargetPoint;
 	static FTileVector CurTargetDirection;
+
+	bool Event1(float _DeltaTime);
+	bool Event2(float _DeltaTime);
 };
 

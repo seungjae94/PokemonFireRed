@@ -15,30 +15,31 @@ APlayer::~APlayer()
 
 void APlayer::BeginPlay()
 {
-	AActor::BeginPlay();
+	AMovable::BeginPlay();
+	SetName("Player");
 
 	// 플레이어 이미지 세팅
 	Renderer = CreateImageRenderer(ERenderingOrder::Lower);
-	Renderer->SetImage("Player.bmp");
+	Renderer->SetImage(GetName() + "IdleDown.png");
 	Renderer->SetTransColor(Color8Bit::White.ZeroAlphaColor());
 	Renderer->SetTransform({ {0, -Global::TILE_SIZE / 2}, {Global::TILE_SIZE, 2 * Global::TILE_SIZE} });
 	Renderer->SetImageCuttingTransform({ {0, 0}, {Global::IMAGE_TILE_SIZE, 2 * Global::IMAGE_TILE_SIZE} });
 
 	// 애니메이션 생성
-	Renderer->CreateAnimation("IdleLeft", "IdleLeft.png", 0, 0, 0.0f, false);
-	Renderer->CreateAnimation("IdleRight", "IdleRight.png", 0, 0, 0.0f, false);
-	Renderer->CreateAnimation("IdleUp", "IdleUp.png", 0, 0, 0.0f, false);
-	Renderer->CreateAnimation("IdleDown", "IdleDown.png", 0, 0, 0.0f, false);
-	Renderer->CreateAnimation("WalkLeft", "WalkLeft.png", 0, 3, WalkInterval, true);
-	Renderer->CreateAnimation("WalkRight", "WalkRight.png", 0, 3, WalkInterval, true);
-	Renderer->CreateAnimation("WalkUp", "WalkUp.png", 0, 3, WalkInterval, true);
-	Renderer->CreateAnimation("WalkDown", "WalkDown.png", 0, 3, WalkInterval, true);
-	Renderer->CreateAnimation("JumpDown", "JumpDown.png", 0, 52, JumpInterval, false);
+	Renderer->CreateAnimation(GetName() + "IdleLeft", GetName() + "IdleLeft.png", 0, 0, 0.0f, false);
+	Renderer->CreateAnimation(GetName() + "IdleRight", GetName() + "IdleRight.png", 0, 0, 0.0f, false);
+	Renderer->CreateAnimation(GetName() + "IdleUp", GetName() + "IdleUp.png", 0, 0, 0.0f, false);
+	Renderer->CreateAnimation(GetName() + "IdleDown", GetName() + "IdleDown.png", 0, 0, 0.0f, false);
+	Renderer->CreateAnimation(GetName() + "WalkLeft", GetName() + "WalkLeft.png", 0, 3, WalkInterval, true);
+	Renderer->CreateAnimation(GetName() + "WalkRight", GetName() + "WalkRight.png", 0, 3, WalkInterval, true);
+	Renderer->CreateAnimation(GetName() + "WalkUp", GetName() + "WalkUp.png", 0, 3, WalkInterval, true);
+	Renderer->CreateAnimation(GetName() + "WalkDown", GetName() + "WalkDown.png", 0, 3, WalkInterval, true);
+	Renderer->CreateAnimation(GetName() + "JumpDown", GetName() + "JumpDown.png", 0, 52, JumpInterval, false);
 }
 
 void APlayer::Tick(float _DeltaTime)
 {
-	AActor::Tick(_DeltaTime);
+	AMovable::Tick(_DeltaTime);
 
 	StateUpdate(_DeltaTime);
 }
@@ -47,6 +48,9 @@ void APlayer::StateUpdate(float _DeltaTime)
 {
 	switch (State)
 	{
+	case EPlayerState::None:
+		StateChange(EPlayerState::Idle);
+		break;
 	case EPlayerState::Idle:
 		Idle(_DeltaTime);
 		break;
@@ -59,17 +63,14 @@ void APlayer::StateUpdate(float _DeltaTime)
 	case EPlayerState::Jump:
 		Jump(_DeltaTime);
 		break;
-	case EPlayerState::Warp:
-		Warp(_DeltaTime);
-		break;
 	default:
 		break;
 	}
 }
 
-void APlayer::StateChange(EPlayerState _State)
+void APlayer::StateChange(EPlayerState _State, bool _Restart)
 {
-	if (State == _State)
+	if (false == _Restart && State == _State)
 	{
 		return;
 	}
@@ -97,21 +98,21 @@ void APlayer::StateChange(EPlayerState _State)
 
 void APlayer::ChangeAnimation(EPlayerState _State, FTileVector _Direction)
 {
-	std::string AniName;
+	std::string AniName = GetName();
 
 	switch (_State)
 	{
 	case EPlayerState::Idle:
-		AniName = "Idle";
+		AniName += "Idle";
 		break;
 	case EPlayerState::Walk:
-		AniName = "Walk";
+		AniName += "Walk";
 		break;
 	case EPlayerState::WalkInPlace:
-		AniName = "WalkInPlace";
+		AniName += "WalkInPlace";
 		break;
 	case EPlayerState::Jump:
-		AniName = "Jump";
+		AniName += "Jump";
 		break;
 	default:
 		break;
@@ -149,15 +150,15 @@ void APlayer::Idle(float _DeltaTime)
 		return;
 	}
 
-	// 1.5 앞에 이벤트 액터가 있다.
+	// 1.5 입력 방향에 이벤트 액터가 있다.
 	FTileVector Point = FTileVector(GetActorLocation());
-	FTileVector TargetPoint = Point + Direction;
+	FTileVector TargetPoint = Point + InputDirection;
 	if (MapLevel->IsEventActor(TargetPoint))
 	{
-		EngineDebug::OutPutDebugText("이벤트 액터가 앞에 있다");
-
+		Direction = InputDirection;
 		AEventActor* EventActor = MapLevel->FindEventActor(TargetPoint);
 		EventActor->TriggerEvent();
+		StateChange(EPlayerState::Event);
 		return;
 	}
 
@@ -227,6 +228,19 @@ void APlayer::Walk(float _DeltaTime)
 	if (MemoryDirection == FTileVector::Zero)
 	{
 		StateChange(EPlayerState::Idle);
+		return;
+	}
+
+	// 2.5 입력 방향에 이벤트 액터가 있다.
+	FTileVector Point = FTileVector(GetActorLocation());
+	FTileVector TargetPoint = Point + MemoryDirection;
+	if (MapLevel->IsEventActor(TargetPoint))
+	{
+		Direction = MemoryDirection;
+
+		AEventActor* EventActor = MapLevel->FindEventActor(TargetPoint);
+		EventActor->TriggerEvent();
+		StateChange(EPlayerState::Event);
 		return;
 	}
 
@@ -383,10 +397,6 @@ void APlayer::Jump(float _DeltaTime)
 	StateChange(EPlayerState::Walk);
 }
 
-void APlayer::Warp(float _DeltaTime)
-{
-}
-
 bool APlayer::IsLedge(FTileVector _Direction)
 {
 	// 맵(이미지 좌상단)을 기준으로 한 타겟의 상대 좌표
@@ -416,8 +426,3 @@ bool APlayer::IsCollider(FTileVector _Direction)
 
 	return Color == Color8Bit(255, 0, 255, 0) || (Color.R == 255 && Color.G == 255);
 }
-
-
-
-
-

@@ -38,6 +38,13 @@ public:
 	{
 	}
 
+	FTileVector& operator =(const FTileVector& _Other)
+	{
+		X = _Other.X;
+		Y = _Other.Y;
+		return *this;
+	}
+
 	bool operator ==(const FTileVector& _Other) const
 	{
 		return X == _Other.X && Y == _Other.Y;
