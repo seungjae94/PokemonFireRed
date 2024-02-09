@@ -16,7 +16,7 @@ void UInteriorOaksLabLevel::BeginPlay()
 {
 	UMapLevel::BeginPlay();
 
-	CurDir.Move("InteriorOaksLabLevel");
+	/*CurDir.Move("InteriorOaksLabLevel");
 
 	std::list<UEngineFile> Files = CurDir.AllFile();
 
@@ -29,9 +29,9 @@ void UInteriorOaksLabLevel::BeginPlay()
 	Map->SetBackgroundImage("InteriorOaksLabBackground.png");
 	Map->SetForegroundImage("InteriorOaksLabForeground.png");
 	Map->SetCollisionImage("InteriorOaksLabCollision.png");
-	Map->SetCollisionRendererActive(false);
+	Map->SetCollisionRendererActive(false);*/
 	
-	// 이벤트 액터 생성
+	// 이벤트 트리거 생성
 	AWarp* PalletTownWarp = SpawnEventTrigger<AWarp>("PalletTownWarp", { 6, 13 });
 	PalletTownWarp->SetTargetLevelName("ExteriorPalletTownLevel");
 	PalletTownWarp->SetTargetPoint({ 80, 148 });

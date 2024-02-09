@@ -44,16 +44,32 @@ void UMapLevel::BeginPlay()
 		UEngineResourcesManager::GetInst().CuttingImage("PlayerJumpDown.png", 53, 1);
 	}
 	
+	// 맵 리소스 로드
+	std::string MapName = GetName();
+	CurDir.Move(MapName);
+
+	std::list<UEngineFile> Files = CurDir.AllFile();
+
+	for (UEngineFile& File : Files)
+	{
+		std::string Path = File.GetFullPath();
+		UEngineResourcesManager::GetInst().LoadImg(Path);
+	}
+
 	// 액터 생성
 	Player = SpawnPlayer({0, 0});
 	Map = SpawnActor<AMap>();
 
-	// 맵의 좌표 설정
+	// 맵 설정
 	FVector MapInitialPos = { -Global::F_TILE_SIZE * 0.5f, -Global::F_TILE_SIZE * 0.5f };
 	Map->SetActorLocation(MapInitialPos);
 	Map->SetPlayer(Player);
+	Map->SetBackgroundImage(MapName + "Background.png");
+	Map->SetForegroundImage(MapName + "Foreground.png");
+	Map->SetCollisionImage(MapName + "Collision.png");
+	Map->SetCollisionRendererActive(false);
 
-	// 액터의 멤버 설정
+	// 플레이어가 맵을 가지게 설정
 	Player->SetMap(Map);
 
 	IsPlayerResourceLoaded = true;

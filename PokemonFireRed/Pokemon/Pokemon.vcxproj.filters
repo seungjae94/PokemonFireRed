@@ -96,6 +96,15 @@
     <ClInclude Include="Warp.h">
       <Filter>Object\MapLevel\EventTrigger</Filter>
     </ClInclude>
+    <ClInclude Include="InteriorPlayersHouse1FLevel.h">
+      <Filter>Object\MapLevel\Level\Interior</Filter>
+    </ClInclude>
+    <ClInclude Include="InteriorPlayersHouse2FLevel.h">
+      <Filter>Object\MapLevel\Level\Interior</Filter>
+    </ClInclude>
+    <ClInclude Include="InteriorRivalsHouseLevel.h">
+      <Filter>Object\MapLevel\Level\Interior</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PokemonCore.cpp">
@@ -154,6 +163,15 @@
     </ClCompile>
     <ClCompile Include="Warp.cpp">
       <Filter>Object\MapLevel\EventTrigger</Filter>
+    </ClCompile>
+    <ClCompile Include="InteriorPlayersHouse1FLevel.cpp">
+      <Filter>Object\MapLevel\Level\Interior</Filter>
+    </ClCompile>
+    <ClCompile Include="InteriorPlayersHouse2FLevel.cpp">
+      <Filter>Object\MapLevel\Level\Interior</Filter>
+    </ClCompile>
+    <ClCompile Include="InteriorRivalsHouseLevel.cpp">
+      <Filter>Object\MapLevel\Level\Interior</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

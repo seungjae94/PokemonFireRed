@@ -194,6 +194,18 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="InteriorPlayersHouse1FLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="InteriorPlayersHouse2FLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="InteriorRivalsHouseLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Map.h">
       <SubType>
       </SubType>
@@ -269,6 +281,18 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="InteriorOaksLabLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="InteriorPlayersHouse1FLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="InteriorPlayersHouse2FLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="InteriorRivalsHouseLevel.cpp">
       <SubType>
       </SubType>
     </ClCompile>

@@ -32,7 +32,7 @@ bool AWarp::Event2()
 
 bool AWarp::Event3()
 {
-	return UEventManager::MoveActor(TargetMapName, "Player", { MoveDirection.ToFVector() }, 1.8f);
+	return UEventManager::ChangeDirection(TargetMapName, "Player", { MoveDirection.ToFVector() });
 }
 
 bool AWarp::Event4()

@@ -28,11 +28,6 @@ public:
 
 	void ChangeAnimation(ETargetMoveState _State, const FTileVector& _Direction);
 
-	virtual void SetTilePoint(const FTileVector& _Point)
-	{
-		SetActorLocation(_Point.ToFVector());
-	}
-
 	FTileVector GetDirection() const
 	{
 		return Direction;
@@ -48,6 +43,11 @@ public:
 		MoveState = _MoveState;
 	}
 
+	ETargetMoveState GetMoveState() const
+	{
+		return MoveState;
+	}
+
 protected:
 	// 이동 관련 변수
 	FTileVector Direction = FTileVector::Down;
@@ -57,6 +57,7 @@ protected:
 	float MoveTime = 0.0f;
 	float Timer = 0.0f;
 	int MoveIndex = -1;
+	bool Rotatable = false;
 	
 	// 렌더러
 	UImageRenderer* Renderer = nullptr;

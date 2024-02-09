@@ -2,8 +2,8 @@
 #include "PokemonInput.h"
 #include "Map.h"
 #include "Global.h"
-#include "MapLevel.h"
 #include "EventTarget.h"
+#include "EventManager.h"
 
 APlayer::APlayer()
 {

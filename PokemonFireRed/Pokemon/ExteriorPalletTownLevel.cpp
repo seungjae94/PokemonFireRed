@@ -15,26 +15,23 @@ void UExteriorPalletTownLevel::BeginPlay()
 {
 	UMapLevel::BeginPlay();
 
-	CurDir.Move("ExteriorPalletTownLevel");
-
-	std::list<UEngineFile> AllFiles = CurDir.AllFile();
-	for (UEngineFile& File : AllFiles)
-	{
-		std::string Path = File.GetFullPath();
-		UEngineResourcesManager::GetInst().LoadImg(Path);
-	}
-
-	Map->SetBackgroundImage("ExteriorPalletTownBackground.png");
-	Map->SetForegroundImage("ExteriorPalletTownForeground.png");
-	Map->SetCollisionImage("ExteriorPalletTownCollision.png");
-	Map->SetCollisionRendererActive(false);
-
-	// 플레이어 시작 위치 설정
-	UEventManager::ChangePoint(GetName(), "Player", { 70, 148 });
+	// 플레이어 시작 위치 설정 (디버깅 용도)
+	UEventManager::ChangePoint(GetName(), "Player", { 70, 142 });
+	UEventManager::ChangeDirection(GetName(), "Player", FTileVector::Down);
 
 	// 이벤트 트리거 생성
 	AWarp* OaksLabWarp = SpawnEventTrigger<AWarp>("OaksLabWarp", {80, 147});
 	OaksLabWarp->SetTargetLevelName("InteriorOaksLabLevel");
 	OaksLabWarp->SetTargetPoint({ 6, 12 });
 	OaksLabWarp->SetMoveDirection(FTileVector::Up);
+
+	AWarp* PlayersHouseWarp = SpawnEventTrigger<AWarp>("PlayersHouseWarp", { 70, 141 });
+	PlayersHouseWarp->SetTargetLevelName("InteriorPlayersHouse1FLevel");
+	PlayersHouseWarp->SetTargetPoint({ 3, 8 });
+	PlayersHouseWarp->SetMoveDirection(FTileVector::Up);
+
+	AWarp* RivalsHouseWarp = SpawnEventTrigger<AWarp>("RivalsHouseWarp", { 79, 141 });
+	RivalsHouseWarp->SetTargetLevelName("InteriorRivalsHouseLevel");
+	RivalsHouseWarp->SetTargetPoint({ 4, 8 });
+	RivalsHouseWarp->SetMoveDirection(FTileVector::Up);
 }

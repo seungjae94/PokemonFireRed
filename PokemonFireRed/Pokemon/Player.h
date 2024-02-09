@@ -29,11 +29,6 @@ public:
 	APlayer& operator=(const APlayer& _Other) = delete;
 	APlayer& operator=(APlayer&& _Other) noexcept = delete;
 
-	void SetMapLevel(UMapLevel* _MapLevel)
-	{
-		MapLevel = _MapLevel;
-	}
-
 	void SetMap(AMap* _Map)
 	{
 		Map = _Map;
@@ -66,9 +61,6 @@ protected:
 	bool IsLedge(FTileVector _Direction);
 	bool IsCollider(FTileVector _Direction);
 private:
-	// 레벨
-	UMapLevel* MapLevel = nullptr;
-
 	// 지면
 	AMap* Map = nullptr;
 	
@@ -82,7 +74,7 @@ private:
 	// 이동 관련 변수
 	FTileVector MemoryDirection = FTileVector::Zero;
 	
-	float WalkSpeed = 10.0f;  // 원작과 비슷한 걷기 속도는 3.6f
+	float WalkSpeed = 3.6f;  // 원작과 비슷한 걷기 속도는 3.6f
 	float JumpSpeed = 1.5f;
 
 	float IdleTime = 0.05f;  // Idle 상태를 유지하는 최소 시간

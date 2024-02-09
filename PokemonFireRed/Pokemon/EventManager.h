@@ -13,6 +13,8 @@ class UEventManagerReleaser;
 
 using Event = std::function<bool()>;
 
+// 모든 이벤트 처리를 담당하는 클래스
+// - 맵 레벨에서 액터를 조작하려면 반드시 EventManager 클래스를 통해서 조작해야 한다.
 class UEventManager
 {
 	friend UPokemonLevel;
@@ -43,6 +45,8 @@ public:
 	static bool ChangeMap(std::string_view _CurMapName, std::string_view _NextMapName, const FTileVector& _Point);
 
 	static bool ChangePoint(std::string_view _MapName, std::string_view _TargetName, const FTileVector& _Point);
+
+	static bool ChangeDirection(std::string_view _MapName, std::string_view _TargetName, const FTileVector& _Direction);
 
 	/// <summary>
 	/// 이벤트를 종료해 플레이어가 다시 캐릭터를 컨트롤 할 수 있는 상태로 만든다.
@@ -76,7 +80,7 @@ private:
 	static std::map<AEventTrigger*, UEventProcessor*> AllProcessors;
 	
 	static void Tick(float _DeltaTime);
-
+	
 	static void AddTarget(AEventTarget* _Target, std::string_view _Name, const FTileVector& _Point);
 	static void AddTrigger(AEventTrigger* _Trigger, std::string_view _Name, const FTileVector& _Point);
 	static void AddPlayer(APlayer* _Player, const FTileVector& _Point);

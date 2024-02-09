@@ -139,7 +139,7 @@ bool UEventManager::MoveActor(std::string_view _MapName, std::string_view _Targe
 		return false;
 	}
 
-	if (false == AllTargets[MapName].contains(TargetName))
+	if (false == AllTargets.contains(MapName) || false == AllTargets[MapName].contains(TargetName))
 	{
 		MsgBoxAssert(MapName + ":" + TargetName + "는 존재하지 않는 이벤트 타겟입니다.존재하지 않는 이벤트 타겟을 이동시키려고 했습니다.");
 		return false;
@@ -180,6 +180,13 @@ bool UEventManager::MoveActor(std::string_view _MapName, std::string_view _Targe
 		Target->PrevPos = Target->GetActorLocation();
 		Target->NextPos = Target->PrevPos + _Path[Target->MoveIndex + 1].ToFVector();
 		Target->Timer = Target->MoveTime;
+
+		if (_Path[Target->MoveIndex + 1] == FTileVector::Zero)
+		{
+			MsgBoxAssert("MoveActor 함수에서 Path 값이 FTileVector::Zero 입니다.");
+			return false;
+		}
+
 		if (Target->Direction != _Path[Target->MoveIndex + 1])
 		{
 			Target->SetDirection(_Path[Target->MoveIndex + 1]);
@@ -196,6 +203,13 @@ bool UEventManager::ChangeMap(std::string_view _CurMapName, std::string_view _Ne
 	std::string NextMapName = UEngineString::ToUpper(_NextMapName);
 
 	APlayer* NextMapPlayer = AllPlayers[NextMapName];
+
+	if (nullptr == NextMapPlayer)
+	{
+		MsgBoxAssert("다음 맵에 플레이어가 존재하지 않습니다. 맵 이름 " + CurMapName + ", " + NextMapName + "을 제대로 입력했는지 확인하세요.");
+		return false;
+	}
+
 	NextMapPlayer->StateChange(EPlayerState::Event);
 	ChangePoint(NextMapName, NextMapPlayer->GetName(), _Point);
 
@@ -213,7 +227,7 @@ bool UEventManager::ChangePoint(std::string_view _MapName, std::string_view _Tar
 
 	if (nullptr == Target)
 	{
-		MsgBoxAssert("존재하지 않는 타겟" + TargetName + "을 이동시리켜고 했습니다.");
+		MsgBoxAssert("존재하지 않는 타겟" + MapName + ":" + TargetName + "을 이동시키려고 했습니다.");
 		return false;
 	}
 
@@ -229,6 +243,25 @@ bool UEventManager::ChangePoint(std::string_view _MapName, std::string_view _Tar
 
 		AllTriggers[MapName][FTileVector(TargetPosition)] = Trigger;
 	}
+
+	return true;
+}
+
+bool UEventManager::ChangeDirection(std::string_view _MapName, std::string_view _TargetName, const FTileVector& _Direction)
+{
+	std::string MapName = UEngineString::ToUpper(_MapName);
+	std::string TargetName = UEngineString::ToUpper(_TargetName);
+
+	AEventTarget* Target = AllTargets[MapName][TargetName];
+
+	if (nullptr == Target)
+	{
+		MsgBoxAssert("존재하지 않는 타겟" + MapName + ":" + TargetName + "을 회전시키려고 했습니다.");
+		return false;
+	}
+
+	Target->SetDirection(_Direction);
+	Target->ChangeAnimation(Target->GetMoveState(), _Direction);
 
 	return true;
 }
