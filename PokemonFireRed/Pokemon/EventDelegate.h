@@ -4,18 +4,18 @@
 
 class AMovable;
 
-class UEventManager
+class UEventDelegate
 {
 public:
 	// constructor destructor
-	UEventManager();
-	~UEventManager();
+	UEventDelegate();
+	~UEventDelegate();
 
 	// delete Function
-	UEventManager(const UEventManager& _Other) = delete;
-	UEventManager(UEventManager&& _Other) noexcept = delete;
-	UEventManager& operator=(const UEventManager& _Other) = delete;
-	UEventManager& operator=(UEventManager&& _Other) noexcept = delete;
+	UEventDelegate(const UEventDelegate& _Other) = delete;
+	UEventDelegate(UEventDelegate&& _Other) noexcept = delete;
+	UEventDelegate& operator=(const UEventDelegate& _Other) = delete;
+	UEventDelegate& operator=(UEventDelegate&& _Other) noexcept = delete;
 
 	/// <summary>
 	/// 액터를 지정한 경로를 따라 이동시킨다.

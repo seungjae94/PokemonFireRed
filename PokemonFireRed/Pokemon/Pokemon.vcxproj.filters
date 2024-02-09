@@ -81,11 +81,14 @@
     <ClInclude Include="InteriorOaksLabLevel.h">
       <Filter>Object\MapLevel\Level\Interior</Filter>
     </ClInclude>
-    <ClInclude Include="EventManager.h">
+    <ClInclude Include="EventDelegate.h">
       <Filter>Object\Manager</Filter>
     </ClInclude>
     <ClInclude Include="Movable.h">
       <Filter>Object\MapLevel\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Npc.h">
+      <Filter>Object\MapLevel\EventActor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -131,11 +134,14 @@
     <ClCompile Include="InteriorOaksLabLevel.cpp">
       <Filter>Object\MapLevel\Level\Interior</Filter>
     </ClCompile>
-    <ClCompile Include="EventManager.cpp">
+    <ClCompile Include="EventDelegate.cpp">
       <Filter>Object\Manager</Filter>
     </ClCompile>
     <ClCompile Include="Movable.cpp">
       <Filter>Object\MapLevel\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Npc.cpp">
+      <Filter>Object\MapLevel\EventActor</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

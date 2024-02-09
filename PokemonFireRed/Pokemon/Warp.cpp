@@ -34,7 +34,7 @@ void AWarp::BeginPlay()
 
 bool AWarp::Event1(float _DeltaTime)
 {
-	return EventManager.MoveActor(_DeltaTime, Player, { CurTargetDirection.ToFVector() }, 1.8f);
+	return EventDelegate.MoveActor(_DeltaTime, Player, { CurTargetDirection.ToFVector() }, 1.8f);
 }
 
 bool AWarp::Event2(float _DeltaTime)

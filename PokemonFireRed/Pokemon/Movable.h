@@ -2,7 +2,7 @@
 #include <EngineCore/Actor.h>
 #include "PokemonMath.h"
 
-class UEventManager;
+class UEventDelegate;
 
 enum class EMovableState
 {
@@ -13,7 +13,7 @@ enum class EMovableState
 // 이벤트에 의해 강제로 이동하는 액터
 class AMovable : public AActor
 {
-	friend UEventManager;
+	friend UEventDelegate;
 public:
 	// constructor destructor
 	AMovable();

@@ -166,11 +166,15 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Npc.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="EventActor.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="EventManager.h">
+    <ClInclude Include="EventDelegate.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -232,11 +236,15 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Npc.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="EventActor.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="EventManager.cpp">
+    <ClCompile Include="EventDelegate.cpp">
       <SubType>
       </SubType>
     </ClCompile>

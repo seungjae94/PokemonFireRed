@@ -3,7 +3,7 @@
 #include "PokemonMath.h"
 #include "MapLevel.h"
 #include "Movable.h"
-#include "EventManager.h"
+#include "EventDelegate.h"
 
 class APlayer;
 
@@ -52,14 +52,14 @@ protected:
 	bool IsTriggered = false;
 	void Tick(float _DeltaTime) override;
 
-	UEventManager EventManager;
+	UEventDelegate EventDelegate;
 private:
 	UMapLevel* MapLevel;
 
-	//int EventSetType = 0;
-	//std::map<int, std::vector<bool(*)(float)>> AllEvents;
-
 	int CurEventIndex = 0;
 	std::vector<Event> AllEvents;
+
+	//int EventSetType = 0;
+	//std::map<int, Event>> AllEvents;
 };
 
