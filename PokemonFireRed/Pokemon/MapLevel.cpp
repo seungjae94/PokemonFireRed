@@ -49,6 +49,9 @@ void UMapLevel::BeginPlay()
 	Player = SpawnPlayer({0, 0});
 	Map = SpawnActor<AMap>();
 
+	// 플레이어가 맵을 가지게 설정
+	Player->SetMap(Map);
+
 	// 맵 설정
 	FVector MapInitialPos = { -Global::F_TILE_SIZE * 0.5f, -Global::F_TILE_SIZE * 0.5f };
 	Map->SetActorLocation(MapInitialPos);
@@ -58,9 +61,6 @@ void UMapLevel::BeginPlay()
 	Map->SetForegroundImage(MapName + "Foreground.png");
 	Map->SetCollisionImage(MapName + "Collision.png");
 	Map->SetCollisionRendererActive(false);
-
-	// 플레이어가 맵을 가지게 설정
-	Player->SetMap(Map);
 
 	IsCharacterResourceLoaded = true;
 }

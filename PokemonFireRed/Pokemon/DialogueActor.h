@@ -1,9 +1,8 @@
 #pragma once
 #include "EventTrigger.h"
-#include "EventTarget.h"
 
 // Ό³Έν :
-class ADialogueActor : public AEventTrigger, AEventTarget
+class ADialogueActor : public AEventTrigger
 {
 public:
 	// constructor destructor
@@ -18,8 +17,11 @@ public:
 
 protected:
 	void BeginPlay() override;
+	void RegisterEvents() override;
 private:
 	UImageRenderer* Renderer = nullptr;
 	std::vector<std::string> Dialogues;
+
+	bool Event1();
 };
 

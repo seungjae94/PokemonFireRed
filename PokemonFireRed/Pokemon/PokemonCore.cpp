@@ -30,7 +30,8 @@ void PokemonCore::BeginPlay()
 	CreateLevel<UInteriorRivalsHouseLevel>("InteriorRivalsHouseLevel");
 
 	// 시작 레벨 설정
-	//ChangeLevel("TitleLevel");
-	//ChangeLevel("ExteriorPalletTownLevel");
-	ChangeLevel("InteriorPlayersHouse2FLevel");
+	//ChangeLevel("TitleLevel");					// 실제 릴리즈 때 시작할 레벨
+	//ChangeLevel("InteriorPlayersHouse2FLevel");   // 맵 레벨 최초 시작 위치 
+
+	ChangeLevel("ExteriorPalletTownLevel");
 }

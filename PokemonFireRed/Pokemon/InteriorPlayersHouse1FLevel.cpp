@@ -14,12 +14,20 @@ void UInteriorPlayersHouse1FLevel::BeginPlay()
 	UMapLevel::BeginPlay();
 
 	// 이벤트 트리거 생성
-	AWarp* StairTo2FWarp = SpawnEventTrigger<AWarp>("StairTo2FWarp", { 10, 2 });
+	UEventTargetInitialSetting StairTo2FWarpSetting = UEventTargetInitialSetting(
+		"StairTo2FWarp",
+		{ 10, 2 }
+	);
+	AWarp* StairTo2FWarp = SpawnEventTrigger<AWarp>(StairTo2FWarpSetting);
 	StairTo2FWarp->SetTargetLevelName("InteriorPlayersHouse2FLevel");
 	StairTo2FWarp->SetTargetPoint({ 9, 2 });
 	StairTo2FWarp->SetMoveDirection(FTileVector::Right);
 
-	AWarp* PalletTownWarp = SpawnEventTrigger<AWarp>("PalletTownWarp", { 3, 9 });
+	UEventTargetInitialSetting PalletTownWarpSetting = UEventTargetInitialSetting(
+		"PalletTownWarp",
+		{ 3, 9 }
+	);
+	AWarp* PalletTownWarp = SpawnEventTrigger<AWarp>(PalletTownWarpSetting);
 	PalletTownWarp->SetTargetLevelName("ExteriorPalletTownLevel");
 	PalletTownWarp->SetTargetPoint({ 70, 142 });
 	PalletTownWarp->SetMoveDirection(FTileVector::Down);

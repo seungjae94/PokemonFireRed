@@ -4,11 +4,11 @@
 #include <EngineCore/EngineResourcesManager.h>
 #include "Warp.h"
 
-UInteriorOaksLabLevel::UInteriorOaksLabLevel() 
+UInteriorOaksLabLevel::UInteriorOaksLabLevel()
 {
 }
 
-UInteriorOaksLabLevel::~UInteriorOaksLabLevel() 
+UInteriorOaksLabLevel::~UInteriorOaksLabLevel()
 {
 }
 
@@ -16,23 +16,12 @@ void UInteriorOaksLabLevel::BeginPlay()
 {
 	UMapLevel::BeginPlay();
 
-	/*CurDir.Move("InteriorOaksLabLevel");
-
-	std::list<UEngineFile> Files = CurDir.AllFile();
-
-	for (UEngineFile& File : Files)
-	{
-		std::string Path = File.GetFullPath();
-		UEngineResourcesManager::GetInst().LoadImg(Path);
-	}
-
-	Map->SetBackgroundImage("InteriorOaksLabBackground.png");
-	Map->SetForegroundImage("InteriorOaksLabForeground.png");
-	Map->SetCollisionImage("InteriorOaksLabCollision.png");
-	Map->SetCollisionRendererActive(false);*/
-	
 	// 이벤트 트리거 생성
-	AWarp* PalletTownWarp = SpawnEventTrigger<AWarp>("PalletTownWarp", { 6, 13 });
+	UEventTargetInitialSetting PalletTownWarpSetting = UEventTargetInitialSetting(
+		"PalletTownWarp",
+		{ 6, 13 }
+	);
+	AWarp * PalletTownWarp = SpawnEventTrigger<AWarp>(PalletTownWarpSetting);
 	PalletTownWarp->SetTargetLevelName("ExteriorPalletTownLevel");
 	PalletTownWarp->SetTargetPoint({ 80, 148 });
 	PalletTownWarp->SetMoveDirection(FTileVector::Down);

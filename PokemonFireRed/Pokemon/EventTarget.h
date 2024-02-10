@@ -10,6 +10,50 @@ enum class ETargetMoveState
 	Walk
 };
 
+class UEventTargetInitialSetting
+{
+	friend UEventManager;
+public:
+	UEventTargetInitialSetting(
+		std::string_view _Name,
+		const FTileVector& _Point = FTileVector::Zero,
+		const FTileVector& _Direction = FTileVector::Zero,
+		bool _Rotatable = false,
+		bool _Walkable = false,
+		bool _HasImage = false,
+		std::string_view _ImageName = ""
+	)
+		: Name(UEngineString::ToUpper(_Name)),
+		Point(_Point),
+		Direction(_Direction),
+		Rotatable(_Rotatable),
+		Walkable(_Walkable),
+		HasImage(_HasImage),
+		ImageName(UEngineString::ToUpper(_ImageName))
+	{
+		if (true == _HasImage && ImageName == "")
+		{
+			if (true == _Rotatable)
+			{
+				ImageName = Name + UEngineString::ToUpper("Idle.png");
+			}
+			else
+			{
+				ImageName = Name + UEngineString::ToUpper(".png");
+			}
+		}
+	}
+	
+private:
+	std::string Name;
+	FTileVector Point = FTileVector::Zero;
+	FTileVector Direction = FTileVector::Zero;
+	bool Rotatable = false;
+	bool Walkable = false;
+	bool HasImage = false;
+	std::string ImageName;
+};
+
 // 이벤트에 의해 강제로 행동할 수 있는 액터
 // - ex) 플레이어, NPC, 표지판, 바위 등
 class AEventTarget : public AActor
@@ -59,14 +103,10 @@ protected:
 	int MoveIndex = -1;
 	bool Rotatable = false;
 	bool Walkable = false;
+	bool HasImage = false;
 
 	// 렌더러
 	UImageRenderer* Renderer = nullptr;
-
-	// 초기화 함수
-	// - BeginPlay는 SpawnActor를 실행할 때 자동으로 호출되기 때문에 이름, 위치 등 내가 원하는 값을 세팅하기 전에 호출된다.
-	// - InitEventTarget으로 명시적으로 
-	virtual void InitEventTarget(FTileVector _Direction, bool _Rotatable, bool _Walkable) {};
 private:
 };
 

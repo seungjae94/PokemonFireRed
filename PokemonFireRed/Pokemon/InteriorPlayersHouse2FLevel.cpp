@@ -18,7 +18,11 @@ void UInteriorPlayersHouse2FLevel::BeginPlay()
 	UEventManager::ChangeDirection(GetName(), "Player", FTileVector::Up);
 
 	// 이벤트 트리거 생성
-	AWarp* StairTo1FWarp = SpawnEventTrigger<AWarp>("StairTo1FWarp", {8, 2});
+	UEventTargetInitialSetting StairTo1FWarpSetting = UEventTargetInitialSetting(
+		"StairTo1FWarp",
+		{ 8, 2 }
+	);
+	AWarp* StairTo1FWarp = SpawnEventTrigger<AWarp>(StairTo1FWarpSetting);
 	StairTo1FWarp->SetTargetLevelName("InteriorPlayersHouse1FLevel");
 	StairTo1FWarp->SetTargetPoint({9, 2});
 	StairTo1FWarp->SetMoveDirection(FTileVector::Left);

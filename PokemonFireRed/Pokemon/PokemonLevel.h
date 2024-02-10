@@ -20,16 +20,10 @@ public:
 	UPokemonLevel& operator=(UPokemonLevel&& _Other) noexcept = delete;
 
 	template <typename EventTargetType>
-	EventTargetType* SpawnEventTarget(
-		std::string_view _Name, 
-		const FTileVector& _Point, 
-		const FTileVector& _Direction = FTileVector::Zero, 
-		bool _Rotatable = false,
-		bool _Walkable = false
-	)
+	EventTargetType* SpawnEventTarget(UEventTargetInitialSetting _Setting)
 	{
 		EventTargetType* EventTarget = SpawnActor<EventTargetType>();
-		UEventManager::AddTarget(EventTarget, UEngineString::ToUpper(_Name), _Point, _Direction, _Rotatable, _Walkable);
+		UEventManager::AddTarget(EventTarget, _Setting);
 		return EventTarget;
 	}
 
@@ -41,34 +35,16 @@ public:
 	}
 
 	template <typename EventTriggerType>
-	EventTriggerType* SpawnEventTrigger(std::string_view _Name, const FTileVector& _Point)
+	EventTriggerType* SpawnEventTrigger(UEventTargetInitialSetting _Setting)
 	{
 		EventTriggerType* EventTrigger = SpawnActor<EventTriggerType>();
-		UEventManager::AddTrigger(EventTrigger, UEngineString::ToUpper(_Name), _Point);
-
-		AEventTrigger* UpEventTrigger = EventTrigger;
-		UpEventTrigger->RegisterEvents();
-
-		return EventTrigger;
-	}
-
-	template <typename EventTriggerTargetType>
-	EventTriggerTargetType SpawnEventTriggerTarget(
-		std::string_view _Name, 
-		const FTileVector& _Point,
-		const FTileVector& _Direction = FTileVector::Zero,
-		bool _Rotatable = false,
-		bool _Walkable = false
-	)
-	{
-		EventTriggerTargetType* EventTriggerTarget = SpawnActor<EventTriggerTargetType>();
-		UEventManager::AddTarget(EventTriggerTarget, UEngineString::ToUpper(_Name), _Point, _Direction, _Rotatable, _Walkable);
-		UEventManager::AddTrigger(EventTriggerTarget, UEngineString::ToUpper(_Name), _Point);
+		UEventManager::AddTarget(EventTrigger, _Setting);
+		UEventManager::AddTrigger(EventTrigger, _Setting);
 		
-		AEventTrigger* UpEventTriggerTarget = EventTriggerTarget;
+		AEventTrigger* UpEventTriggerTarget = EventTrigger;
 		UpEventTriggerTarget->RegisterEvents();
 
-		return EventTriggerTarget;
+		return EventTrigger;
 	}
 
 protected:

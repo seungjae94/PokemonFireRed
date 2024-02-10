@@ -3,11 +3,12 @@
 #include <EngineCore/Actor.h>
 #include "PokemonMath.h"
 #include "EventManager.h"
+#include "EventTarget.h"
 
 class APlayer;
 
 // 플레이어와의 상호 작용을 통해 이벤트를 발생시키는 액터
-class AEventTrigger : public AActor
+class AEventTrigger : public AEventTarget
 {
 	friend UPokemonLevel;
 public:
@@ -21,7 +22,6 @@ public:
 	AEventTrigger& operator=(const AEventTrigger& _Other) = delete;
 	AEventTrigger& operator=(AEventTrigger&& _Other) noexcept = delete;
 protected:
-	virtual void Initialize() {};
 	virtual void RegisterEvents() {};
 private:
 };

@@ -14,6 +14,8 @@ AWarp::~AWarp()
 
 void AWarp::RegisterEvents()
 {
+	AEventTrigger::RegisterEvents();
+
 	UEventManager::Register(this, [this]() {return Event1();});
 	UEventManager::Register(this, [this]() {return Event2();});
 	UEventManager::Register(this, [this]() {return Event3();});
