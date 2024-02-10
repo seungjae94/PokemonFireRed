@@ -6,6 +6,7 @@ class Global
 {
 public:
 	static const int PIXEL_SIZE;
+	static const int MAP_RUNTIME_SCALE_FACTOR;
 	static const int SCREEN_X;
 	static const int SCREEN_Y;
 	static const int IMAGE_TILE_SIZE;
@@ -14,6 +15,7 @@ public:
 	static const int HALF_SCREEN_Y;
 
 	static const float F_PIXEL_SIZE;
+	static const float F_MAP_RUNTIME_SCALE_FACTOR;
 	static const float F_SCREEN_X;
 	static const float F_SCREEN_Y;
 	static const float F_IMAGE_TILE_SIZE;

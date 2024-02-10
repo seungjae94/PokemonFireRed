@@ -26,5 +26,5 @@ void PokemonDebug::ReportPosition(AActor* _Actor, std::string_view _Name)
 void PokemonDebug::ReportFrameRate(float _DeltaTime)
 {
 	float FPS = 1.0f / _DeltaTime;
-	EngineDebug::OutPutDebugText("FPS: " + std::to_string(FPS));
+	EngineDebug::OutPutDebugText(std::to_string(FPS));
 }

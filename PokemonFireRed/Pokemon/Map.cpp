@@ -18,7 +18,7 @@ void AMap::SetBackgroundImage(std::string_view _Name)
 
 	UWindowImage* Image = UEngineResourcesManager::GetInst().FindImg(_Name);
 	FVector Scale = Image->GetScale();
-	FVector RenderScale = Scale * Global::F_PIXEL_SIZE;
+	FVector RenderScale = Scale * Global::F_MAP_RUNTIME_SCALE_FACTOR;
 
 	BackgroundRenderer->SetTransform({ RenderScale.Half2D(), RenderScale });
 	BackgroundRenderer->SetImageCuttingTransform({ {0, 0}, Scale });
@@ -30,7 +30,7 @@ void AMap::SetForegroundImage(std::string_view _Name)
 
 	UWindowImage* Image = UEngineResourcesManager::GetInst().FindImg(_Name);
 	FVector Scale = Image->GetScale();
-	FVector RenderScale = Scale * Global::F_PIXEL_SIZE;
+	FVector RenderScale = Scale * Global::F_MAP_RUNTIME_SCALE_FACTOR;
 
 	ForegroundRenderer->SetTransform({ RenderScale.Half2D(), RenderScale });
 	ForegroundRenderer->SetImageCuttingTransform({ {0, 0}, Scale });
@@ -42,7 +42,7 @@ void AMap::SetCollisionImage(std::string_view _Name)
 
 	UWindowImage* Image = UEngineResourcesManager::GetInst().FindImg(_Name);
 	FVector Scale = Image->GetScale();
-	FVector RenderScale = Scale * Global::F_PIXEL_SIZE;
+	FVector RenderScale = Scale * Global::F_MAP_RUNTIME_SCALE_FACTOR;
 
 	CollisionRenderer->SetTransform({ RenderScale.Half2D(), RenderScale });
 	CollisionRenderer->SetImageCuttingTransform({ {0, 0}, Scale });
