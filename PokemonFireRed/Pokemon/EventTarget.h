@@ -58,9 +58,15 @@ protected:
 	float Timer = 0.0f;
 	int MoveIndex = -1;
 	bool Rotatable = false;
-	
+	bool Walkable = false;
+
 	// 렌더러
 	UImageRenderer* Renderer = nullptr;
+
+	// 초기화 함수
+	// - BeginPlay는 SpawnActor를 실행할 때 자동으로 호출되기 때문에 이름, 위치 등 내가 원하는 값을 세팅하기 전에 호출된다.
+	// - InitEventTarget으로 명시적으로 
+	virtual void InitEventTarget(FTileVector _Direction, bool _Rotatable, bool _Walkable) {};
 private:
 };
 

@@ -5,6 +5,11 @@
 class Global
 {
 public:
+	static const float CHARACTER_WALK_SPEED;
+	static const float CHARACTER_JUMP_SPEED;
+	static const float CHARACTER_WALK_ANIMATION_FRAME_INTERVAL;
+	static const float CHARACTER_JUMP_ANIMATION_FRAME_INTERVAL;
+
 	static const int PIXEL_SIZE;
 	static const int MAP_RUNTIME_SCALE_FACTOR;
 	static const int SCREEN_X;

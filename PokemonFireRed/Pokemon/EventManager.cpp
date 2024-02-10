@@ -62,12 +62,24 @@ void UEventManager::Trigger(std::string_view _LevelName, const FTileVector& _Poi
 	Processor->Work();
 }
 
-void UEventManager::AddTarget(AEventTarget* _Target, std::string_view _Name, const FTileVector& _Point)
+void UEventManager::AddTarget(
+	AEventTarget* _Target,
+	std::string_view _Name,
+	const FTileVector& _Point,
+	const FTileVector& _Direction,
+	bool _Rotatable,
+	bool _Walkable
+)
 {
-	std::string Name = UEngineString::ToUpper(_Name);
+	std::string ReadableName = _Name.data();
+	std::string UpperName = UEngineString::ToUpper(_Name);
 
-	_Target->SetName(Name);
+	// 멤버 변수 초기화
+	_Target->SetName(UpperName);
 	_Target->SetActorLocation(_Point.ToFVector());
+	_Target->Rotatable = _Rotatable;
+	_Target->Walkable = _Walkable;
+	_Target->Direction = _Direction;
 
 	std::string LevelName = _Target->GetWorld()->GetName();
 	std::string TargetName = _Target->GetName();
@@ -79,6 +91,31 @@ void UEventManager::AddTarget(AEventTarget* _Target, std::string_view _Name, con
 	}
 
 	AllTargets[LevelName][TargetName] = _Target;
+
+	// 렌더러 초기화
+	_Target->Renderer = _Target->CreateImageRenderer(ERenderingOrder::Lower);
+	UImageRenderer* Renderer = _Target->Renderer;
+	Renderer->SetImage(ReadableName + "Idle.png");
+	Renderer->SetTransform({ {0, -Global::TILE_SIZE / 2}, {Global::TILE_SIZE, 2 * Global::TILE_SIZE} });
+	Renderer->SetImageCuttingTransform({ {0, 0}, {Global::IMAGE_TILE_SIZE, 2 * Global::IMAGE_TILE_SIZE} });
+	
+	// 애니메이션 생성
+	if (true == _Rotatable)
+	{
+		Renderer->CreateAnimation(ReadableName + "IdleDown", ReadableName + "Idle.png", 0, 0, 0.0f, false);
+		Renderer->CreateAnimation(ReadableName + "IdleUp", ReadableName + "Idle.png", 1, 1, 0.0f, false);
+		Renderer->CreateAnimation(ReadableName + "IdleLeft", ReadableName + "Idle.png", 2, 2, 0.0f, false);
+		Renderer->CreateAnimation(ReadableName + "IdleRight", ReadableName + "Idle.png", 3, 3, 0.0f, false);
+	}
+
+	if (true == _Walkable)
+	{
+		float WalkInterval = Global::CHARACTER_WALK_ANIMATION_FRAME_INTERVAL;
+		Renderer->CreateAnimation(ReadableName + "WalkDown", ReadableName + "WalkDown.png", 0, 3, WalkInterval, true);
+		Renderer->CreateAnimation(ReadableName + "WalkUp", ReadableName + "WalkUp.png", 0, 3, WalkInterval, true);
+		Renderer->CreateAnimation(ReadableName + "WalkLeft", ReadableName + "WalkLeft.png", 0, 3, WalkInterval, true);
+		Renderer->CreateAnimation(ReadableName + "WalkRight", ReadableName + "WalkRight.png", 0, 3, WalkInterval, true);
+	}
 }
 
 void UEventManager::AddTrigger(AEventTrigger* _Trigger, std::string_view _Name, const FTileVector& _Point)
@@ -111,9 +148,14 @@ void UEventManager::AddTrigger(AEventTrigger* _Trigger, std::string_view _Name, 
 
 void UEventManager::AddPlayer(APlayer* _Player, const FTileVector& _Point)
 {
-	AddTarget(_Player, "Player", _Point);
+	AddTarget(_Player, "Player", _Point, FTileVector::Down, true, true);
+
+	// 플레이어 고유의 멤버 초기화
 	_Player->StateChange(EPlayerState::Idle);
-	_Player->SetDirection(FTileVector::Down);
+
+	// 플레이어 점프 애니메이션 생성
+	float JumpInterval = Global::CHARACTER_JUMP_ANIMATION_FRAME_INTERVAL;
+	_Player->Renderer->CreateAnimation("PlayerJumpDown", "PlayerJumpDown.png", 0, 52, JumpInterval, false);
 
 	std::string LevelName = _Player->GetWorld()->GetName();
 

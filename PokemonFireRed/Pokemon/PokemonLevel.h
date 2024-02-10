@@ -20,10 +20,16 @@ public:
 	UPokemonLevel& operator=(UPokemonLevel&& _Other) noexcept = delete;
 
 	template <typename EventTargetType>
-	EventTargetType* SpawnEventTarget(std::string_view _Name, const FTileVector& _Point)
+	EventTargetType* SpawnEventTarget(
+		std::string_view _Name, 
+		const FTileVector& _Point, 
+		const FTileVector& _Direction = FTileVector::Zero, 
+		bool _Rotatable = false,
+		bool _Walkable = false
+	)
 	{
 		EventTargetType* EventTarget = SpawnActor<EventTargetType>();
-		UEventManager::AddTarget(EventTarget, UEngineString::ToUpper(_Name), _Point);
+		UEventManager::AddTarget(EventTarget, UEngineString::ToUpper(_Name), _Point, _Direction, _Rotatable, _Walkable);
 		return EventTarget;
 	}
 
@@ -47,10 +53,16 @@ public:
 	}
 
 	template <typename EventTriggerTargetType>
-	EventTriggerTargetType SpawnEventTriggerTarget(std::string_view _Name, const FTileVector& _Point)
+	EventTriggerTargetType SpawnEventTriggerTarget(
+		std::string_view _Name, 
+		const FTileVector& _Point,
+		const FTileVector& _Direction = FTileVector::Zero,
+		bool _Rotatable = false,
+		bool _Walkable = false
+	)
 	{
 		EventTriggerTargetType* EventTriggerTarget = SpawnActor<EventTriggerTargetType>();
-		UEventManager::AddTarget(EventTriggerTarget, UEngineString::ToUpper(_Name), _Point);
+		UEventManager::AddTarget(EventTriggerTarget, UEngineString::ToUpper(_Name), _Point, _Direction, _Rotatable, _Walkable);
 		UEventManager::AddTrigger(EventTriggerTarget, UEngineString::ToUpper(_Name), _Point);
 		
 		AEventTrigger* UpEventTriggerTarget = EventTriggerTarget;

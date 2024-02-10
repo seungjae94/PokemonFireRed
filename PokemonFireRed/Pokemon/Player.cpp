@@ -16,25 +16,7 @@ APlayer::~APlayer()
 void APlayer::BeginPlay()
 {
 	AEventTarget::BeginPlay();
-	SetName("Player");
 
-	// 플레이어 이미지 세팅
-	Renderer = CreateImageRenderer(ERenderingOrder::Lower);
-	Renderer->SetImage(GetName() + "IdleDown.png");
-	Renderer->SetTransColor(Color8Bit::White.ZeroAlphaColor());
-	Renderer->SetTransform({ {0, -Global::TILE_SIZE / 2}, {Global::TILE_SIZE, 2 * Global::TILE_SIZE} });
-	Renderer->SetImageCuttingTransform({ {0, 0}, {Global::IMAGE_TILE_SIZE, 2 * Global::IMAGE_TILE_SIZE} });
-
-	// 애니메이션 생성
-	Renderer->CreateAnimation(GetName() + "IdleLeft", GetName() + "IdleLeft.png", 0, 0, 0.0f, false);
-	Renderer->CreateAnimation(GetName() + "IdleRight", GetName() + "IdleRight.png", 0, 0, 0.0f, false);
-	Renderer->CreateAnimation(GetName() + "IdleUp", GetName() + "IdleUp.png", 0, 0, 0.0f, false);
-	Renderer->CreateAnimation(GetName() + "IdleDown", GetName() + "IdleDown.png", 0, 0, 0.0f, false);
-	Renderer->CreateAnimation(GetName() + "WalkLeft", GetName() + "WalkLeft.png", 0, 3, WalkInterval, true);
-	Renderer->CreateAnimation(GetName() + "WalkRight", GetName() + "WalkRight.png", 0, 3, WalkInterval, true);
-	Renderer->CreateAnimation(GetName() + "WalkUp", GetName() + "WalkUp.png", 0, 3, WalkInterval, true);
-	Renderer->CreateAnimation(GetName() + "WalkDown", GetName() + "WalkDown.png", 0, 3, WalkInterval, true);
-	Renderer->CreateAnimation(GetName() + "JumpDown", GetName() + "JumpDown.png", 0, 52, JumpInterval, false);
 }
 
 void APlayer::Tick(float _DeltaTime)

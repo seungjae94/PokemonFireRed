@@ -1,6 +1,11 @@
 #include "Global.h"
 #include <Windows.h>
 
+const float Global::CHARACTER_WALK_SPEED = 3.6f;
+const float Global::CHARACTER_JUMP_SPEED = 1.4f;
+const float Global::CHARACTER_WALK_ANIMATION_FRAME_INTERVAL = 1.0f / 4;
+const float Global::CHARACTER_JUMP_ANIMATION_FRAME_INTERVAL = 1.0f / 48;
+
 const int Global::PIXEL_SIZE = 3;
 const int Global::MAP_RUNTIME_SCALE_FACTOR = 1;
 const int Global::SCREEN_X = (240 * PIXEL_SIZE);

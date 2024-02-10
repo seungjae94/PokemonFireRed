@@ -81,7 +81,16 @@ private:
 	
 	static void Tick(float _DeltaTime);
 	
-	static void AddTarget(AEventTarget* _Target, std::string_view _Name, const FTileVector& _Point);
+	static void AddTarget(
+		AEventTarget* _Target, 
+		std::string_view _Name, 
+		const FTileVector& _Point,
+		const FTileVector& _Direction,
+		bool _Rotatable,
+		bool _Walkable
+	);
+
+
 	static void AddTrigger(AEventTrigger* _Trigger, std::string_view _Name, const FTileVector& _Point);
 	static void AddPlayer(APlayer* _Player, const FTileVector& _Point);
 

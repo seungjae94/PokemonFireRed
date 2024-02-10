@@ -1,5 +1,6 @@
 #include "MapLevel.h"
 #include <string>
+#include <vector>
 #include <EngineBase/EngineDebug.h>
 #include <EnginePlatform/EngineInput.h>
 #include "Warp.h"
@@ -17,7 +18,7 @@ UMapLevel::~UMapLevel()
 
 void UMapLevel::BeginPlay()
 {
-	static bool IsPlayerResourceLoaded = false;
+	static bool IsCharacterResourceLoaded = false;
 
 	UPokemonLevel::BeginPlay();
 
@@ -26,22 +27,10 @@ void UMapLevel::BeginPlay()
 	CurDir.Move("Resources");
 	CurDir.Move("MapLevel");
 
-	// 플레이어 리소스 로드 (전 게임에 걸쳐 1번만 실행)
-	if (false == IsPlayerResourceLoaded)
+	// 플레이어, Npc 리소스 로드 (전 게임에 걸쳐 1번만 실행)
+	if (false == IsCharacterResourceLoaded)
 	{
-		std::list<UEngineFile> AllFiles = CurDir.AllFile({ ".png", ".bmp" }, false);
-		for (UEngineFile& File : AllFiles)
-		{
-			std::string Path = File.GetFullPath();
-			UEngineResourcesManager::GetInst().LoadImg(Path);
-		}
-
-		// 플레이어 애니메이션 리소스 로드
-		UEngineResourcesManager::GetInst().CuttingImage("PlayerWalkDown.png", 4, 1);
-		UEngineResourcesManager::GetInst().CuttingImage("PlayerWalkUp.png", 4, 1);
-		UEngineResourcesManager::GetInst().CuttingImage("PlayerWalkLeft.png", 4, 1);
-		UEngineResourcesManager::GetInst().CuttingImage("PlayerWalkRight.png", 4, 1);
-		UEngineResourcesManager::GetInst().CuttingImage("PlayerJumpDown.png", 53, 1);
+		LoadCharacterResources();
 	}
 	
 	// 맵 리소스 로드
@@ -73,7 +62,7 @@ void UMapLevel::BeginPlay()
 	// 플레이어가 맵을 가지게 설정
 	Player->SetMap(Map);
 
-	IsPlayerResourceLoaded = true;
+	IsCharacterResourceLoaded = true;
 }
 
 void UMapLevel::Tick(float _DeltaTime)
@@ -112,5 +101,50 @@ void UMapLevel::Tick(float _DeltaTime)
 void UMapLevel::LevelStart(ULevel* _PrevLevel)
 {
 	UPokemonLevel::LevelStart(_PrevLevel);
+}
+
+void UMapLevel::LoadCharacterResources()
+{
+	CurDir.Move("Character");
+
+	std::list<UEngineFile> AllFiles = CurDir.AllFile({ ".png", ".bmp" }, false);
+	for (UEngineFile& File : AllFiles)
+	{
+		std::string Path = File.GetFullPath();
+		UEngineResourcesManager::GetInst().LoadImg(Path);
+	}
+
+	// Idle 애니메이션을 로드할 캐릭터 이름을 정의
+	std::vector<std::string> IdleCharacterNames = {
+		"Player",
+		"FatMan",
+		"PlayersMom"
+	};
+
+	// Idle 애니메이션 리소스 로드
+	for (std::string& Name : IdleCharacterNames)
+	{
+		UEngineResourcesManager::GetInst().CuttingImage(Name + "Idle.png", 4, 1);
+	}
+
+	// Walk 애니메이션을 로드할 캐릭터 이름을 정의
+	std::vector<std::string> WalkCharacterNames = {
+		"Player",
+		"FatMan"
+	};
+
+	// Walk 애니메이션 리소스 로드
+	for (std::string& Name : WalkCharacterNames)
+	{
+		UEngineResourcesManager::GetInst().CuttingImage(Name + "WalkDown.png", 4, 1);
+		UEngineResourcesManager::GetInst().CuttingImage(Name + "WalkUp.png", 4, 1);
+		UEngineResourcesManager::GetInst().CuttingImage(Name + "WalkLeft.png", 4, 1);
+		UEngineResourcesManager::GetInst().CuttingImage(Name + "WalkRight.png", 4, 1);
+	}
+	
+	// 플레이어 점프 애니메이션 리소스 로드
+	UEngineResourcesManager::GetInst().CuttingImage("PlayerJumpDown.png", 53, 1);
+
+	CurDir.MoveParent();
 }
 

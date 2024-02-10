@@ -21,6 +21,7 @@ public:
 	AEventTrigger& operator=(const AEventTrigger& _Other) = delete;
 	AEventTrigger& operator=(AEventTrigger&& _Other) noexcept = delete;
 protected:
+	virtual void Initialize() {};
 	virtual void RegisterEvents() {};
 private:
 };

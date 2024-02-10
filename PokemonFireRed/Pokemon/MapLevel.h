@@ -32,5 +32,8 @@ protected:
 	UEngineDirectory CurDir;
 
 	void LevelStart(ULevel* _PrevLevel) override;
+
+private:
+	void LoadCharacterResources();
 };
 

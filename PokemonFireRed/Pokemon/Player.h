@@ -67,15 +67,12 @@ private:
 	// 상태
 	EPlayerState State = EPlayerState::None;
 
-	// 애니메이션 1프레임 재생 시간
-	float WalkInterval = 1.0f / 4;
-	float JumpInterval = 1.0f / 48;
-
 	// 이동 관련 변수
 	FTileVector MemoryDirection = FTileVector::Zero;
 	
-	float WalkSpeed = 3.6f;  // 원작과 비슷한 걷기 속도는 3.6f
-	float JumpSpeed = 1.5f;
+	// 원작과 비슷한 걷기 속도는 3.6f
+	float WalkSpeed = Global::CHARACTER_WALK_SPEED;
+	float JumpSpeed = Global::CHARACTER_JUMP_SPEED;
 
 	float IdleTime = 0.05f;  // Idle 상태를 유지하는 최소 시간
 	float CurIdleTime = IdleTime;

@@ -17,7 +17,7 @@ public:
 	ADialogueActor& operator=(ADialogueActor&& _Other) noexcept = delete;
 
 protected:
-
+	void BeginPlay() override;
 private:
 	UImageRenderer* Renderer = nullptr;
 	std::vector<std::string> Dialogues;
