@@ -102,6 +102,8 @@ void UEventManager::AddTarget(AEventTarget* _Target, const UEventTargetInitialSe
 			Renderer->CreateAnimation(TargetName + "IdleUp", TargetName + "Idle.png", 1, 1, 0.0f, false);
 			Renderer->CreateAnimation(TargetName + "IdleLeft", TargetName + "Idle.png", 2, 2, 0.0f, false);
 			Renderer->CreateAnimation(TargetName + "IdleRight", TargetName + "Idle.png", 3, 3, 0.0f, false);
+
+			Renderer->ChangeAnimation(TargetName + "Idle" + _Target->Direction.ToDirectionString());
 		}
 
 		if (true == _Target->Walkable)
@@ -119,10 +121,6 @@ void UEventManager::AddTrigger(AEventTrigger* _Trigger, const UEventTargetInitia
 {
 	std::string TriggerName = _Setting.Name;
 	FTileVector Point = _Setting.Point;
-
-	_Trigger->SetName(TriggerName);
-	_Trigger->SetActorLocation(Point.ToFVector());
-
 	std::string LevelName = _Trigger->GetWorld()->GetName();
 
 	if (true == AllTriggers[LevelName].contains(Point))

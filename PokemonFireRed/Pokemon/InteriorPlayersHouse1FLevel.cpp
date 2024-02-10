@@ -1,5 +1,6 @@
 #include "InteriorPlayersHouse1FLevel.h"
 #include "Warp.h"
+#include "DialogueActor.h"
 
 UInteriorPlayersHouse1FLevel::UInteriorPlayersHouse1FLevel()
 {
@@ -31,4 +32,14 @@ void UInteriorPlayersHouse1FLevel::BeginPlay()
 	PalletTownWarp->SetTargetLevelName("ExteriorPalletTownLevel");
 	PalletTownWarp->SetTargetPoint({ 70, 142 });
 	PalletTownWarp->SetMoveDirection(FTileVector::Down);
+
+	UEventTargetInitialSetting PlayersMomSetting = UEventTargetInitialSetting(
+		"PlayersMom",
+		{ 7, 4 },
+		FTileVector::Left,
+		true,
+		false,
+		true
+	);
+	ADialogueActor* PlayersMom = SpawnEventTrigger<ADialogueActor>(PlayersMomSetting);
 }
