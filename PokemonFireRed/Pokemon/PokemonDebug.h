@@ -17,7 +17,7 @@ public:
 	PokemonDebug& operator=(PokemonDebug&& _Other) noexcept = delete;
 
 	static void ReportPosition(AActor* _Actor, std::string_view _Name);
-
+	static void ReportFrameRate(float _DeltaTime);
 protected:
 
 private:

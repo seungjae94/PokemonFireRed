@@ -17,7 +17,14 @@ void PokemonDebug::ReportPosition(AActor* _Actor, std::string_view _Name)
 
 	std::string NameStr = _Name.data();
 	EngineDebug::OutPutDebugText("<" + NameStr + ">");
+	EngineDebug::OutPutDebugText("Name: " + _Actor->GetName());
 	EngineDebug::OutPutDebugText("World: " + WorldPos.ToString());
 	EngineDebug::OutPutDebugText("World(Tile): " + FTileVector(WorldPos).ToString());
 	EngineDebug::OutPutDebugText("Screen: " + FTileVector(ScreenPos * Global::F_TILE_SIZE).ToString());
+}
+
+void PokemonDebug::ReportFrameRate(float _DeltaTime)
+{
+	float FPS = 1.0f / _DeltaTime;
+	EngineDebug::OutPutDebugText("FPS: " + std::to_string(FPS));
 }

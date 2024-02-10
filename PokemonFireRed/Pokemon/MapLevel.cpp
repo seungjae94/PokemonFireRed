@@ -64,6 +64,7 @@ void UMapLevel::BeginPlay()
 	FVector MapInitialPos = { -Global::F_TILE_SIZE * 0.5f, -Global::F_TILE_SIZE * 0.5f };
 	Map->SetActorLocation(MapInitialPos);
 	Map->SetPlayer(Player);
+	Map->SetName(MapName + "Map");
 	Map->SetBackgroundImage(MapName + "Background.png");
 	Map->SetForegroundImage(MapName + "Foreground.png");
 	Map->SetCollisionImage(MapName + "Collision.png");
@@ -100,6 +101,11 @@ void UMapLevel::Tick(float _DeltaTime)
 	{
 		bool ActiveValue = Map->IsCollisionRendererActive();
 		Map->SetCollisionRendererActive(!ActiveValue);
+	}
+
+	if (UEngineInput::IsDown('F'))
+	{
+		PokemonDebug::ReportFrameRate(_DeltaTime);
 	}
 }
 

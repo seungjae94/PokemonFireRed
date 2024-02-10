@@ -400,9 +400,10 @@ bool APlayer::IsLedge(FTileVector _Direction)
 {
 	// ¸Ê(ÀÌ¹ÌÁö ÁÂ»ó´Ü)À» ±âÁØÀ¸·Î ÇÑ Å¸°ÙÀÇ »ó´ë ÁÂÇ¥
 	FVector MapRelativeTargetPos = (GetActorLocation() - Map->GetActorLocation()) + _Direction.ToFVector();
+	FVector MapRelativeTargetPosInImage = MapRelativeTargetPos * (1 / Global::F_PIXEL_SIZE);
 	Color8Bit Color = Map->GetCollisionImage()->GetColor(
-		MapRelativeTargetPos.iX(), 
-		MapRelativeTargetPos.iY(), 
+		MapRelativeTargetPosInImage.iX(), 
+		MapRelativeTargetPosInImage.iY(), 
 		Color8Bit::WhiteA
 	);
 
@@ -417,9 +418,10 @@ bool APlayer::IsLedge(FTileVector _Direction)
 bool APlayer::IsCollider(FTileVector _Direction)
 {
 	FVector MapRelativeTargetPos = (GetActorLocation() - Map->GetActorLocation()) + _Direction.ToFVector();
+	FVector MapRelativeTargetPosInImage = MapRelativeTargetPos * (1 / Global::F_PIXEL_SIZE);
 	Color8Bit Color = Map->GetCollisionImage()->GetColor(
-		MapRelativeTargetPos.iX(),
-		MapRelativeTargetPos.iY(),
+		MapRelativeTargetPosInImage.iX(),
+		MapRelativeTargetPosInImage.iY(),
 		Color8Bit::MagentaA
 	);
 
