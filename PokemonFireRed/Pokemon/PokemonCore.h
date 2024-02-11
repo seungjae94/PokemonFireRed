@@ -2,20 +2,21 @@
 #include <EngineCore/EngineCore.h>
 
 // Ό³Έν :
-class PokemonCore : public UEngineCore
+class UPokemonCore : public UEngineCore
 {
 public:
 	// constructor destructor
-	PokemonCore();
-	~PokemonCore();
+	UPokemonCore();
+	~UPokemonCore();
 
 	// delete Function
-	PokemonCore(const PokemonCore& _Other) = delete;
-	PokemonCore(PokemonCore&& _Other) noexcept = delete;
-	PokemonCore& operator=(const PokemonCore& _Other) = delete;
-	PokemonCore& operator=(PokemonCore&& _Other) noexcept = delete;
+	UPokemonCore(const UPokemonCore& _Other) = delete;
+	UPokemonCore(UPokemonCore&& _Other) noexcept = delete;
+	UPokemonCore& operator=(const UPokemonCore& _Other) = delete;
+	UPokemonCore& operator=(UPokemonCore&& _Other) noexcept = delete;
 
 protected:
 	void BeginPlay() override;
 };
+
 

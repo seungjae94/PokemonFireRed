@@ -104,6 +104,7 @@ protected:
 	bool Rotatable = false;
 	bool Walkable = false;
 	bool HasImage = false;
+	bool IsExecutingMovingLogic = false;
 
 	// ·»´õ·¯
 	UImageRenderer* Renderer = nullptr;

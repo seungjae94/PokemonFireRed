@@ -166,6 +166,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="EventCondition.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="EventManager.h">
       <SubType>
       </SubType>
@@ -256,6 +260,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="EventCondition.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="EventManager.cpp">
       <SubType>
       </SubType>

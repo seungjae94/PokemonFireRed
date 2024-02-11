@@ -1,5 +1,6 @@
 #include "DialogueActor.h"
 #include "EventManager.h"
+#include "EventCondition.h"
 
 ADialogueActor::ADialogueActor()
 {
@@ -18,12 +19,19 @@ void ADialogueActor::RegisterEvents()
 {
 	AEventTrigger::RegisterEvents();
 
-	UEventManager::Register(this, [this]() {return Event1();});
+	UEventCondition Cond1 = UEventCondition(EEventTriggerAction::Click);
+	UEventManager::Register(this, Cond1, [this]() {return Event0();});
+	UEventManager::Register(this, Cond1, [this]() {return Event1();});
+}
+
+bool ADialogueActor::Event0()
+{
+	return UEventManager::StealPlayerControl();
 }
 
 bool ADialogueActor::Event1()
 {
 	EngineDebug::OutPutDebugText("대화 이벤트");
-	return UEventManager::Finish(GetWorld()->GetName());
+	return UEventManager::GiveBackPlayerControl();
 }
 

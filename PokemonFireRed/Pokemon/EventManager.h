@@ -11,6 +11,7 @@ class AEventTrigger;
 class UEventProcessor;
 class APlayer;
 class UEventManagerReleaser;
+class UEventCondition;
 
 using Event = std::function<bool()>;
 
@@ -27,11 +28,15 @@ public:
 	UEventManager& operator=(const UEventManager& _Other) = delete;
 	UEventManager& operator=(UEventManager&& _Other) noexcept = delete;
 
-	static void Register(AEventTrigger* _Trigger, Event _Event);
+	// 이벤트 등록
+	static void Register(AEventTrigger* _Trigger, const UEventCondition& _Condition, Event _Event);
 
-	static bool IsTrigger(std::string_view _LevelName, const FTileVector& _Point);
+	// 이벤트 함수
+	static bool ChangeLevel(std::string_view _LevelName);
 
-	static void Trigger(std::string_view _LevelName, const FTileVector& _Point);
+	static bool StealPlayerControl();
+
+	static bool GiveBackPlayerControl();
 
 	/// <summary>
 	/// 액터를 지정한 경로를 따라 이동시킨다.
@@ -43,24 +48,19 @@ public:
 
 	//static bool Wait(float _DeltaTime, float _WaitTime);
 
-	static bool ChangeMap(std::string_view _CurMapName, std::string_view _NextMapName, const FTileVector& _Point);
+	static bool ChangeMap(std::string_view _NextMapName, const FTileVector& _Point);
 
 	static bool ChangePoint(std::string_view _MapName, std::string_view _TargetName, const FTileVector& _Point);
 
 	static bool ChangeDirection(std::string_view _MapName, std::string_view _TargetName, const FTileVector& _Direction);
-
-	/// <summary>
-	/// 이벤트를 종료해 플레이어가 다시 캐릭터를 컨트롤 할 수 있는 상태로 만든다.
-	/// </summary>
-	/// <param name="_LevelName"></param>
-	/// <returns></returns>
-	static bool Finish(std::string_view _LevelName);
 
 protected:
 	// constructor destructor
 	UEventManager();
 	~UEventManager();
 private:
+	static std::string CurLevelName;
+
 	// AllPlayers[LevelName]
 	// - 플레이어는 상태 변경 등 플레이어 타입으로 다뤄야 할 일이 있기 때문에 추가로 보관한다.
 	static std::map<std::string, APlayer*> AllPlayers;
@@ -89,5 +89,9 @@ private:
 	// DeltaTime 기록
 	static float DeltaTime;
 
+	// 이벤트 프로세서 릴리즈
 	static void Release();
+
+	// 이벤트 감지
+	static void CheckPlayerEvent();
 };

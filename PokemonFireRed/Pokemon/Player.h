@@ -4,6 +4,7 @@
 
 class AMap;
 class UMapLevel;
+class UEventManager;
 
 enum class EPlayerState
 {
@@ -18,6 +19,7 @@ enum class EPlayerState
 // 사용자 입력에 따라 이동하는 액터
 class APlayer : public AEventTarget
 {
+	friend UEventManager;
 public:
 	// constructor destructor
 	APlayer();

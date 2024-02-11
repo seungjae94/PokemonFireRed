@@ -1,8 +1,9 @@
 #include "Warp.h"
 #include <EnginePlatform/EngineInput.h>
+#include <EngineCore/EngineCore.h>
 #include "PokemonDebug.h"
 #include "PokemonMath.h"
-#include <EngineCore/EngineCore.h>
+#include "EventCondition.h"
 
 AWarp::AWarp() 
 {
@@ -16,10 +17,17 @@ void AWarp::RegisterEvents()
 {
 	AEventTrigger::RegisterEvents();
 
-	UEventManager::Register(this, [this]() {return Event1();});
-	UEventManager::Register(this, [this]() {return Event2();});
-	UEventManager::Register(this, [this]() {return Event3();});
-	UEventManager::Register(this, [this]() {return Event4();});
+	UEventCondition Cond1 = UEventCondition(EEventTriggerAction::Notice);
+	UEventManager::Register(this, Cond1, [this]() {return Event0();});
+	UEventManager::Register(this, Cond1, [this]() {return Event1();});
+	UEventManager::Register(this, Cond1, [this]() {return Event2();});
+	UEventManager::Register(this, Cond1, [this]() {return Event3();});
+	UEventManager::Register(this, Cond1, [this]() {return Event4();});
+}
+
+bool AWarp::Event0()
+{
+	return UEventManager::StealPlayerControl();
 }
 
 bool AWarp::Event1()
@@ -29,7 +37,7 @@ bool AWarp::Event1()
 
 bool AWarp::Event2()
 {
-	return UEventManager::ChangeMap(GetWorld()->GetName(), TargetMapName, TargetPoint);
+	return UEventManager::ChangeMap(TargetMapName, TargetPoint);
 }
 
 bool AWarp::Event3()
@@ -39,5 +47,5 @@ bool AWarp::Event3()
 
 bool AWarp::Event4()
 {
-	return UEventManager::Finish(TargetMapName);
+	return UEventManager::GiveBackPlayerControl();
 }

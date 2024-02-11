@@ -37,6 +37,7 @@ private:
 	FTileVector TargetPoint;
 	FTileVector MoveDirection;
 
+	bool Event0();
 	bool Event1();
 	bool Event2();
 	bool Event3();

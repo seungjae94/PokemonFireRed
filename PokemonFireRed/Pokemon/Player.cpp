@@ -132,18 +132,6 @@ void APlayer::Idle(float _DeltaTime)
 		return;
 	}
 
-	// 1.5 입력 방향에 이벤트 액터가 있다.
-	FTileVector Point = FTileVector(GetActorLocation());
-	FTileVector TargetPoint = Point + InputDirection;
-	std::string WorldName = GetWorld()->GetName();
-	if (UEventManager::IsTrigger(WorldName, TargetPoint))
-	{
-		Direction = InputDirection;
-		UEventManager::Trigger(WorldName, TargetPoint);
-		StateChange(EPlayerState::Event);
-		return;
-	}
-
 	// 2. 지금 보고 있는 방향과 다른 방향키를 누르고 있다.
 	if (InputDirection != Direction)
 	{
@@ -187,6 +175,8 @@ void APlayer::Walk(float _DeltaTime)
 	// 1. 아직 이동 중이다.
 	if (CurWalkTime > 0.0f)
 	{
+		IsExecutingMovingLogic = true;
+
 		// 이동 로직
 		CurWalkTime -= _DeltaTime;
 
@@ -205,23 +195,12 @@ void APlayer::Walk(float _DeltaTime)
 
 		return;
 	}
+	IsExecutingMovingLogic = false;
 
 	// 2. 기억하고 있는 입력 방향이 없다.
 	if (MemoryDirection == FTileVector::Zero)
 	{
 		StateChange(EPlayerState::Idle);
-		return;
-	}
-
-	// 2.5 입력 방향에 이벤트 액터가 있다.
-	FTileVector Point = FTileVector(GetActorLocation());
-	FTileVector TargetPoint = Point + MemoryDirection;
-	std::string WorldName = GetWorld()->GetName();
-	if (UEventManager::IsTrigger(WorldName, TargetPoint))
-	{
-		Direction = MemoryDirection;
-		UEventManager::Trigger(WorldName, TargetPoint);
-		StateChange(EPlayerState::Event);
 		return;
 	}
 
@@ -324,6 +303,8 @@ void APlayer::Jump(float _DeltaTime)
 	// 1. 아직 점프 중이다.
 	if (CurJumpTime > 0.0f)
 	{
+		bool IsExecutingMovingLogic = true;
+
 		// 이동 로직
 		CurJumpTime -= _DeltaTime;
 
@@ -342,7 +323,8 @@ void APlayer::Jump(float _DeltaTime)
 
 		return;
 	}
-	
+	bool IsExecutingMovingLogic = false;
+
 	// 2. 기억하고 있는 입력 방향이 없다.
 	if (MemoryDirection == FTileVector::Zero)
 	{

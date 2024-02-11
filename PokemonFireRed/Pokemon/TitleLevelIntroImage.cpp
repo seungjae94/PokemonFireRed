@@ -2,6 +2,7 @@
 #include <EngineCore/EngineCore.h>
 #include <EngineCore/EngineResourcesManager.h>
 #include <EngineCore/ImageRenderer.h>
+#include "EventManager.h"
 #include "Global.h"
 
 UTitleLevelIntroImage::UTitleLevelIntroImage() 
@@ -32,6 +33,6 @@ void UTitleLevelIntroImage::Tick(float _DeltaTime)
 {
 	if (UEngineInput::IsDown('Z'))
 	{
-		GEngine->ChangeLevel("ExteriorPalletTownLevel");
+		UEventManager::ChangeLevel("ExteriorPalletTownLevel");
 	}
 }

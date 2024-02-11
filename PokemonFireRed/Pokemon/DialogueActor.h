@@ -22,6 +22,7 @@ private:
 	UImageRenderer* Renderer = nullptr;
 	std::vector<std::string> Dialogues;
 
+	bool Event0();
 	bool Event1();
 };
 

@@ -31,11 +31,11 @@
     <Filter Include="Object\TitleLevel\Actor">
       <UniqueIdentifier>{6cca5fec-8768-4bb5-b4c6-002f4f8625d8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\EventSystem">
-      <UniqueIdentifier>{b9f8bc97-2c8d-41ff-9bd0-27e6a7174106}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Object\MapLevel\EventTrigger">
       <UniqueIdentifier>{90534d3f-513a-4990-9f4b-e981d1191cf6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EventSystem">
+      <UniqueIdentifier>{b9f8bc97-2c8d-41ff-9bd0-27e6a7174106}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -79,10 +79,10 @@
       <Filter>Object\MapLevel\Actor</Filter>
     </ClInclude>
     <ClInclude Include="EventProcessor.h">
-      <Filter>Object\EventSystem</Filter>
+      <Filter>EventSystem</Filter>
     </ClInclude>
     <ClInclude Include="EventManager.h">
-      <Filter>Object\EventSystem</Filter>
+      <Filter>EventSystem</Filter>
     </ClInclude>
     <ClInclude Include="PokemonLevel.h">
       <Filter>Object</Filter>
@@ -104,6 +104,9 @@
     </ClInclude>
     <ClInclude Include="InteriorRivalsHouseLevel.h">
       <Filter>Object\MapLevel\Level\Interior</Filter>
+    </ClInclude>
+    <ClInclude Include="EventCondition.h">
+      <Filter>EventSystem</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -147,10 +150,10 @@
       <Filter>Object\MapLevel\Actor</Filter>
     </ClCompile>
     <ClCompile Include="EventProcessor.cpp">
-      <Filter>Object\EventSystem</Filter>
+      <Filter>EventSystem</Filter>
     </ClCompile>
     <ClCompile Include="EventManager.cpp">
-      <Filter>Object\EventSystem</Filter>
+      <Filter>EventSystem</Filter>
     </ClCompile>
     <ClCompile Include="PokemonLevel.cpp">
       <Filter>Object</Filter>
@@ -172,6 +175,9 @@
     </ClCompile>
     <ClCompile Include="InteriorRivalsHouseLevel.cpp">
       <Filter>Object\MapLevel\Level\Interior</Filter>
+    </ClCompile>
+    <ClCompile Include="EventCondition.cpp">
+      <Filter>EventSystem</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

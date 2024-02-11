@@ -7,15 +7,15 @@
 #include "InteriorRivalsHouseLevel.h"
 #include "Global.h"
 
-PokemonCore::PokemonCore()
+UPokemonCore::UPokemonCore()
 {
 }
 
-PokemonCore::~PokemonCore()
+UPokemonCore::~UPokemonCore()
 {
 }
 
-void PokemonCore::BeginPlay()
+void UPokemonCore::BeginPlay()
 {
 	// 게임 기본 설정
 	MainWindow.SetWindowScale({ Global::SCREEN_X, Global::SCREEN_Y });
@@ -30,8 +30,7 @@ void PokemonCore::BeginPlay()
 	CreateLevel<UInteriorRivalsHouseLevel>("InteriorRivalsHouseLevel");
 
 	// 시작 레벨 설정
-	//ChangeLevel("TitleLevel");					// 실제 릴리즈 때 시작할 레벨
-	//ChangeLevel("InteriorPlayersHouse2FLevel");   // 맵 레벨 최초 시작 위치 
-
-	ChangeLevel("ExteriorPalletTownLevel");
+	//UEventManager::ChangeLevel("TitleLevel");					// 실제 릴리즈 때 시작할 레벨
+	//UEventManager::ChangeLevel("InteriorPlayersHouse2FLevel");   // 맵 레벨 최초 시작 위치 
+	UEventManager::ChangeLevel("ExteriorPalletTownLevel");
 }

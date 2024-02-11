@@ -3,8 +3,11 @@
 #include "EventTarget.h"
 #include "EventTrigger.h"
 #include "EventProcessor.h"
+#include "EventCondition.h"
 #include "Player.h"
+#include "PokemonLevel.h"
 
+std::string UEventManager::CurLevelName;
 std::map<std::string, APlayer*> UEventManager::AllPlayers;
 std::map<std::string, std::map<std::string, AEventTarget*>> UEventManager::AllTargets;
 std::map<std::string, std::map<FTileVector, AEventTrigger*>> UEventManager::AllTriggers;
@@ -20,46 +23,96 @@ UEventManager::~UEventManager()
 	
 }
 
+// 이벤트 감지
+
+void UEventManager::CheckPlayerEvent()
+{
+	APlayer* Player = AllPlayers[CurLevelName];
+
+	if (nullptr == Player)
+	{
+		// 플레이어가 없는 맵인 경우
+		return;
+	}
+
+	// 플레이어가 이동 로직을 실행중이라면 이벤트를 감지하지 않는다.
+	if (true == Player->IsExecutingMovingLogic)
+	{
+		return;
+	}
+
+	// 이미 이벤트를 실행 중이라면 새로운 이벤트를 실행하지 않는다.
+	if (Player->State == EPlayerState::Event)
+	{
+		return;
+	}
+
+	// 클릭 이벤트 감지
+	FTileVector CurPoint = FTileVector(Player->GetActorLocation());
+	FTileVector TargetPoint = CurPoint + Player->Direction;
+	if (true == AllTriggers[CurLevelName].contains(TargetPoint) && UEngineInput::IsDown('Z'))
+	{
+		AEventTrigger* EventTrigger = AllTriggers[CurLevelName][TargetPoint];
+		UEventProcessor* Processor = AllProcessors[EventTrigger];
+
+		bool RunResult = Processor->TryRun(EEventTriggerAction::Click);
+		if (true == RunResult)
+		{
+			Player->StateChange(EPlayerState::Event);
+			return;
+		}
+	}
+
+	// Notice 이벤트 감지
+	if (true == AllTriggers[CurLevelName].contains(TargetPoint))
+	{
+		AEventTrigger* EventTrigger = AllTriggers[CurLevelName][TargetPoint];
+		UEventProcessor* Processor = AllProcessors[EventTrigger];
+		
+		bool RunResult = Processor->TryRun(EEventTriggerAction::Notice);
+		if (true == RunResult)
+		{
+			Player->StateChange(EPlayerState::Event);
+			return;
+		}
+	}
+
+	// Step On 이벤트 감지
+	if (true == AllTriggers[CurLevelName].contains(CurPoint))
+	{
+		AEventTrigger* EventTrigger = AllTriggers[CurLevelName][CurPoint];
+		UEventProcessor* Processor = AllProcessors[EventTrigger];
+		
+		bool RunResult = Processor->TryRun(EEventTriggerAction::StepOn);
+		if (true == RunResult)
+		{
+			Player->StateChange(EPlayerState::Event);
+			return;
+		}
+	}
+}
+
 void UEventManager::Tick(float _DeltaTime)
 {
 	DeltaTime = _DeltaTime;
+
+	CheckPlayerEvent();
 
 	for (std::pair<AEventTrigger* const, UEventProcessor*>& Pair: AllProcessors)
 	{
 		UEventProcessor* Processor = Pair.second;
 
-		if (Processor->IsWorking())
+		if (Processor->IsRunning())
 		{
 			Processor->Tick(_DeltaTime);
 		}
 	}
 }
 
-void UEventManager::Register(AEventTrigger* _Trigger, Event _Event)
+void UEventManager::Register(AEventTrigger* _Trigger, const UEventCondition& _Condition, Event _Event)
 {
 	UEventProcessor* Processor = AllProcessors[_Trigger];
-	Processor->Register(_Event);
-}
-
-bool UEventManager::IsTrigger(std::string_view _LevelName, const FTileVector& _Point)
-{
-	std::string LevelName = UEngineString::ToUpper(_LevelName);
-	return AllTriggers[LevelName].contains(_Point);
-}
-
-void UEventManager::Trigger(std::string_view _LevelName, const FTileVector& _Point)
-{
-	std::string LevelName = UEngineString::ToUpper(_LevelName);
-
-	if (false == IsTrigger(LevelName, _Point))
-	{
-		MsgBoxAssert(_Point.ToString() + "위치에는 이벤트 트리거가 존재하지 않습니다. 트리거를 할 수 없습니다.");
-		return;
-	}
-
-	AEventTrigger* EventTrigger = AllTriggers[LevelName][_Point];
-	UEventProcessor* Processor = AllProcessors[EventTrigger];
-	Processor->Work();
+	Processor ->Register(_Condition, _Event);
 }
 
 void UEventManager::AddTarget(AEventTarget* _Target, const UEventTargetInitialSetting& _Setting)
@@ -243,9 +296,32 @@ bool UEventManager::MoveActor(std::string_view _MapName, std::string_view _Targe
 	return false;
 }
 
-bool UEventManager::ChangeMap(std::string_view _CurMapName, std::string_view _NextMapName, const FTileVector& _Point)
+// 이벤트 함수
+
+bool UEventManager::ChangeLevel(std::string_view _LevelName)
 {
-	std::string CurMapName = UEngineString::ToUpper(_CurMapName);
+	CurLevelName = UEngineString::ToUpper(_LevelName);
+	GEngine->UEngineCore::ChangeLevel(_LevelName);
+	return true;
+}
+
+bool UEventManager::StealPlayerControl()
+{
+	APlayer* Player = AllPlayers[CurLevelName];
+	Player->StateChange(EPlayerState::Event);
+	return true;
+}
+
+bool UEventManager::GiveBackPlayerControl()
+{
+	APlayer* Player = AllPlayers[CurLevelName];
+	Player->StateChange(EPlayerState::Idle);
+	return true;
+}
+
+bool UEventManager::ChangeMap(std::string_view _NextMapName, const FTileVector& _Point)
+{
+	std::string CurMapName = UEngineString::ToUpper(CurLevelName);
 	std::string NextMapName = UEngineString::ToUpper(_NextMapName);
 
 	APlayer* NextMapPlayer = AllPlayers[NextMapName];
@@ -259,7 +335,7 @@ bool UEventManager::ChangeMap(std::string_view _CurMapName, std::string_view _Ne
 	NextMapPlayer->StateChange(EPlayerState::Event);
 	ChangePoint(NextMapName, NextMapPlayer->GetName(), _Point);
 
-	GEngine->ChangeLevel(NextMapName);
+	UEventManager::ChangeLevel(NextMapName);
 
 	return true;
 }
@@ -308,16 +384,6 @@ bool UEventManager::ChangeDirection(std::string_view _MapName, std::string_view 
 
 	Target->SetDirection(_Direction);
 	Target->ChangeAnimation(Target->GetMoveState(), _Direction);
-
-	return true;
-}
-
-bool UEventManager::Finish(std::string_view _LevelName)
-{
-	std::string LevelName = UEngineString::ToUpper(_LevelName);
-
-	APlayer* Player = AllPlayers[LevelName];
-	Player->StateChange(EPlayerState::Idle);
 
 	return true;
 }
