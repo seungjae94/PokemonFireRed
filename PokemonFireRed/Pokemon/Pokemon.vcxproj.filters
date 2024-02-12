@@ -37,6 +37,9 @@
     <Filter Include="EventSystem">
       <UniqueIdentifier>{b9f8bc97-2c8d-41ff-9bd0-27e6a7174106}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{d532086a-b686-4205-996f-c10b622e7632}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PokemonCore.h">
@@ -108,6 +111,12 @@
     <ClInclude Include="EventCondition.h">
       <Filter>EventSystem</Filter>
     </ClInclude>
+    <ClInclude Include="MenuWindow.h">
+      <Filter>Object\MapLevel\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="PokemonUtil.h">
+      <Filter>Util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PokemonCore.cpp">
@@ -178,6 +187,12 @@
     </ClCompile>
     <ClCompile Include="EventCondition.cpp">
       <Filter>EventSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuWindow.cpp">
+      <Filter>Object\MapLevel\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="PokemonUtil.cpp">
+      <Filter>Util</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

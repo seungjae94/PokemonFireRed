@@ -33,6 +33,7 @@ public:
 	static const int HALF_MONITOR_X;
 	static const int HALF_MONITOR_Y;
 
+	static const FVector SCREEN;
 	static const FVector HALF_SCREEN;
 
 	// delete Function

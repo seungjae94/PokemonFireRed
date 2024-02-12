@@ -1,11 +1,15 @@
 #include "MapLevel.h"
 #include <string>
 #include <vector>
+#include <EngineCore/EngineCore.h>
 #include <EngineBase/EngineDebug.h>
 #include <EnginePlatform/EngineInput.h>
 #include "Warp.h"
 #include "PokemonDebug.h"
 #include "EventManager.h"
+#include "Player.h"
+#include "Map.h"
+#include "MenuWindow.h"
 
 
 UMapLevel::UMapLevel() 
@@ -18,7 +22,7 @@ UMapLevel::~UMapLevel()
 
 void UMapLevel::BeginPlay()
 {
-	static bool IsCharacterResourceLoaded = false;
+	static bool IsCommonResourceLoaded = false;
 
 	UPokemonLevel::BeginPlay();
 
@@ -27,10 +31,12 @@ void UMapLevel::BeginPlay()
 	CurDir.Move("Resources");
 	CurDir.Move("MapLevel");
 
-	// 플레이어, Npc 리소스 로드 (전 게임에 걸쳐 1번만 실행)
-	if (false == IsCharacterResourceLoaded)
+	// 플레이어, Npc, UI 리소스 로드 (전 게임에 걸쳐 1번만 실행)
+	if (false == IsCommonResourceLoaded)
 	{
 		LoadCharacterResources();
+		LoadUIResources();
+		IsCommonResourceLoaded = true;
 	}
 	
 	// 맵 리소스 로드
@@ -49,10 +55,10 @@ void UMapLevel::BeginPlay()
 	Player = SpawnPlayer({0, 0});
 	Map = SpawnActor<AMap>();
 
-	// 플레이어가 맵을 가지게 설정
+	// 플레이어 데이터 바인딩
 	Player->SetMap(Map);
 
-	// 맵 설정
+	// 맵 데이터 바인딩
 	FVector MapInitialPos = { -Global::F_TILE_SIZE * 0.5f, -Global::F_TILE_SIZE * 0.5f };
 	Map->SetActorLocation(MapInitialPos);
 	Map->SetPlayer(Player);
@@ -62,7 +68,15 @@ void UMapLevel::BeginPlay()
 	Map->SetCollisionImage(MapName + "Collision.png");
 	Map->SetCollisionRendererActive(false);
 
-	IsCharacterResourceLoaded = true;
+	// 메뉴창 생성
+	MenuWindow = SpawnMenuWindow();
+
+	// 메뉴창 데이터 바인딩
+	MenuWindow->SetName("MenuWindow");
+
+	// 메뉴창 Off
+	MenuWindow->ActiveOff();
+	MenuWindow->AllRenderersActiveOff();
 }
 
 void UMapLevel::Tick(float _DeltaTime)
@@ -148,3 +162,16 @@ void UMapLevel::LoadCharacterResources()
 	CurDir.MoveParent();
 }
 
+void UMapLevel::LoadUIResources()
+{
+	CurDir.Move("UI");
+
+	std::list<UEngineFile> AllFiles = CurDir.AllFile({ ".png", ".bmp" }, true);
+	for (UEngineFile& File : AllFiles)
+	{
+		std::string Path = File.GetFullPath();
+		UEngineResourcesManager::GetInst().LoadImg(Path);
+	}
+
+	CurDir.MoveParent();
+}

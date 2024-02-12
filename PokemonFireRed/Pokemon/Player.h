@@ -13,7 +13,7 @@ enum class EPlayerState
 	Walk,
 	WalkInPlace,
 	Jump,
-	Event
+	OutOfControl
 };
 
 // 사용자 입력에 따라 이동하는 액터

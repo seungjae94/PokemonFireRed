@@ -6,9 +6,11 @@
 #include "EventCondition.h"
 #include "Player.h"
 #include "PokemonLevel.h"
+#include "MenuWindow.h"
 
 std::string UEventManager::CurLevelName;
 std::map<std::string, APlayer*> UEventManager::AllPlayers;
+std::map<std::string, AMenuWindow*> UEventManager::AllMenuWindows;
 std::map<std::string, std::map<std::string, AEventTarget*>> UEventManager::AllTargets;
 std::map<std::string, std::map<FTileVector, AEventTrigger*>> UEventManager::AllTriggers;
 std::map<AEventTrigger*, UEventProcessor*> UEventManager::AllProcessors;
@@ -28,6 +30,7 @@ UEventManager::~UEventManager()
 void UEventManager::CheckPlayerEvent()
 {
 	APlayer* Player = AllPlayers[CurLevelName];
+	AMenuWindow* MenuWindow = AllMenuWindows[CurLevelName];
 
 	if (nullptr == Player)
 	{
@@ -42,7 +45,7 @@ void UEventManager::CheckPlayerEvent()
 	}
 
 	// 이미 이벤트를 실행 중이라면 새로운 이벤트를 실행하지 않는다.
-	if (Player->State == EPlayerState::Event)
+	if (Player->State == EPlayerState::OutOfControl)
 	{
 		return;
 	}
@@ -92,6 +95,8 @@ void UEventManager::CheckPlayerEvent()
 	if (true == UEngineInput::IsDown(VK_RETURN))
 	{
 		StealPlayerControl();
+		MenuWindow->ActiveOn();
+		MenuWindow->AllRenderersActiveOn();
 	}
 }
 
@@ -228,6 +233,19 @@ void UEventManager::AddPlayer(APlayer* _Player, const FTileVector& _Point)
 	AllPlayers[LevelName] = _Player;
 }
 
+void UEventManager::AddMenuWindow(AMenuWindow* _MenuWindow)
+{
+	std::string LevelName = _MenuWindow->GetWorld()->GetName();
+
+	if (true == AllMenuWindows.contains(LevelName))
+	{
+		MsgBoxAssert("이미 등록된 메뉴창을 다시 등록하려고 했습니다.");
+		return;
+	}
+
+	AllMenuWindows[LevelName] = _MenuWindow;
+}
+
 // 이벤트 구현
 
 bool UEventManager::MoveActor(std::string_view _MapName, std::string_view _TargetName, std::vector<FTileVector> _Path, float _MoveSpeed)
@@ -311,7 +329,7 @@ bool UEventManager::ChangeLevel(std::string_view _LevelName)
 bool UEventManager::StealPlayerControl()
 {
 	APlayer* Player = AllPlayers[CurLevelName];
-	Player->StateChange(EPlayerState::Event);
+	Player->StateChange(EPlayerState::OutOfControl);
 	return true;
 }
 
@@ -335,7 +353,7 @@ bool UEventManager::ChangeMap(std::string_view _NextMapName, const FTileVector& 
 		return false;
 	}
 
-	NextMapPlayer->StateChange(EPlayerState::Event);
+	NextMapPlayer->StateChange(EPlayerState::OutOfControl);
 	ChangePoint(NextMapName, NextMapPlayer->GetName(), _Point);
 
 	UEventManager::ChangeLevel(NextMapName);

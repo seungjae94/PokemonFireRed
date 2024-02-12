@@ -3,9 +3,10 @@
 #include <EngineBase/EngineFile.h>
 #include <EngineCore/EngineResourcesManager.h>
 #include "PokemonLevel.h"
-#include "Player.h"
-#include "Map.h"
 
+class APlayer;
+class AMap;
+class AMenuWindow;
 class AEventTrigger;
 
 class UMapLevel : public UPokemonLevel
@@ -29,11 +30,13 @@ protected:
 	// 하위 클래스에서 너무 많이 사용할 것 같아서 protected로 설정
 	AMap* Map = nullptr;
 	APlayer* Player = nullptr;
+	AMenuWindow* MenuWindow = nullptr;
 	UEngineDirectory CurDir;
 
 	void LevelStart(ULevel* _PrevLevel) override;
 
 private:
 	void LoadCharacterResources();
+	void LoadUIResources();
 };
 

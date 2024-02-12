@@ -29,4 +29,5 @@ const int Global::MONITOR_Y = GetSystemMetrics(SM_CYSCREEN);
 const int Global::HALF_MONITOR_X = MONITOR_X / 2;
 const int Global::HALF_MONITOR_Y = MONITOR_Y / 2;
 
+const FVector Global::SCREEN = FVector(SCREEN_X, SCREEN_Y);
 const FVector Global::HALF_SCREEN = FVector(HALF_SCREEN_X, HALF_SCREEN_Y);
