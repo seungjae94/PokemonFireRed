@@ -34,11 +34,11 @@
     <Filter Include="Object\MapLevel\EventTrigger">
       <UniqueIdentifier>{90534d3f-513a-4990-9f4b-e981d1191cf6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="EventSystem">
-      <UniqueIdentifier>{b9f8bc97-2c8d-41ff-9bd0-27e6a7174106}</UniqueIdentifier>
+    <Filter Include="Object\Global">
+      <UniqueIdentifier>{14dfdc14-0d12-4cbe-a0bb-70edbbcdf166}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UI">
-      <UniqueIdentifier>{d532086a-b686-4205-996f-c10b622e7632}</UniqueIdentifier>
+    <Filter Include="Event">
+      <UniqueIdentifier>{b9f8bc97-2c8d-41ff-9bd0-27e6a7174106}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -82,13 +82,10 @@
       <Filter>Object\MapLevel\Actor</Filter>
     </ClInclude>
     <ClInclude Include="EventProcessor.h">
-      <Filter>EventSystem</Filter>
+      <Filter>Event</Filter>
     </ClInclude>
     <ClInclude Include="EventManager.h">
-      <Filter>EventSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="PokemonLevel.h">
-      <Filter>Object</Filter>
+      <Filter>Event</Filter>
     </ClInclude>
     <ClInclude Include="EventTrigger.h">
       <Filter>Object\MapLevel\EventTrigger</Filter>
@@ -109,13 +106,19 @@
       <Filter>Object\MapLevel\Level\Interior</Filter>
     </ClInclude>
     <ClInclude Include="EventCondition.h">
-      <Filter>EventSystem</Filter>
+      <Filter>Event</Filter>
     </ClInclude>
     <ClInclude Include="MenuWindow.h">
       <Filter>Object\MapLevel\Actor</Filter>
     </ClInclude>
     <ClInclude Include="PokemonUtil.h">
       <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="PokemonLevel.h">
+      <Filter>Object\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="PokemonText.h">
+      <Filter>Object\Global</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -159,13 +162,10 @@
       <Filter>Object\MapLevel\Actor</Filter>
     </ClCompile>
     <ClCompile Include="EventProcessor.cpp">
-      <Filter>EventSystem</Filter>
+      <Filter>Event</Filter>
     </ClCompile>
     <ClCompile Include="EventManager.cpp">
-      <Filter>EventSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="PokemonLevel.cpp">
-      <Filter>Object</Filter>
+      <Filter>Event</Filter>
     </ClCompile>
     <ClCompile Include="EventTrigger.cpp">
       <Filter>Object\MapLevel\EventTrigger</Filter>
@@ -186,13 +186,19 @@
       <Filter>Object\MapLevel\Level\Interior</Filter>
     </ClCompile>
     <ClCompile Include="EventCondition.cpp">
-      <Filter>EventSystem</Filter>
+      <Filter>Event</Filter>
     </ClCompile>
     <ClCompile Include="MenuWindow.cpp">
       <Filter>Object\MapLevel\Actor</Filter>
     </ClCompile>
     <ClCompile Include="PokemonUtil.cpp">
       <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="PokemonLevel.cpp">
+      <Filter>Object\Global</Filter>
+    </ClCompile>
+    <ClCompile Include="PokemonText.cpp">
+      <Filter>Object\Global</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

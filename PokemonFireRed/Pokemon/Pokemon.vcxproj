@@ -250,6 +250,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="PokemonText.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="PokemonUtil.h">
       <SubType>
       </SubType>
@@ -349,6 +353,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="PokemonMath.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PokemonText.cpp">
       <SubType>
       </SubType>
     </ClCompile>

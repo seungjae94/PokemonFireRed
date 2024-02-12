@@ -4,6 +4,7 @@
 #include "Global.h"
 #include "PokemonUtil.h"
 #include "EventManager.h"
+#include "PokemonText.h"
 
 AMenuWindow::AMenuWindow()
 {
@@ -18,6 +19,7 @@ void AMenuWindow::AllRenderersActiveOn()
 	MenuWindowRenderer->ActiveOn();
 	MenuWindowExplainRenderer->ActiveOn();
 	ArrowRenderer->ActiveOn();
+	MenuExplainText->SetVisible();
 }
 
 void AMenuWindow::AllRenderersActiveOff()
@@ -25,6 +27,7 @@ void AMenuWindow::AllRenderersActiveOff()
 	MenuWindowRenderer->ActiveOff();
 	MenuWindowExplainRenderer->ActiveOff();
 	ArrowRenderer->ActiveOff();
+	MenuExplainText->SetInvisible();
 }
 
 void AMenuWindow::BeginPlay()
@@ -32,20 +35,20 @@ void AMenuWindow::BeginPlay()
 	AActor::BeginPlay();
 
 	// 우상단 메뉴창
-	MenuWindowRenderer = CreateImageRenderer(ERenderingOrder::UI);
+	MenuWindowRenderer = CreateImageRenderer(ERenderingOrder::LowerUI);
 	MenuWindowRenderer->CameraEffectOff();
 	MenuWindowRenderer->SetImage("MenuWindowFirstClean.png");
 
 	UWindowImage* MenuWindowImage = UEngineResourcesManager::GetInst().FindImg("MenuWindowFirst.png");
 	FVector MenuWindowScale = MenuWindowImage->GetScale();
 	FVector MenuWindowRenderScale = MenuWindowScale * Global::F_PIXEL_SIZE;
-	FVector MenuWindowPos = MenuWindowRenderScale.Half2D() + FVector(Global::F_SCREEN_X - MenuWindowRenderScale.X, 0.0f); 
+	FVector MenuWindowPos = MenuWindowRenderScale.Half2D() + FVector(Global::F_SCREEN_X - MenuWindowRenderScale.X, 0.0f);
 	MenuWindowPos += FVector(-Global::F_PIXEL_SIZE, Global::F_PIXEL_SIZE);
-	MenuWindowRenderer->SetTransform({MenuWindowPos, MenuWindowRenderScale});
-	MenuWindowRenderer->SetImageCuttingTransform({{0, 0}, MenuWindowScale});
+	MenuWindowRenderer->SetTransform({ MenuWindowPos, MenuWindowRenderScale });
+	MenuWindowRenderer->SetImageCuttingTransform({ {0, 0}, MenuWindowScale });
 
 	// 하단 메뉴 설명창
-	MenuWindowExplainRenderer = CreateImageRenderer(ERenderingOrder::UI);
+	MenuWindowExplainRenderer = CreateImageRenderer(ERenderingOrder::LowerUI);
 	MenuWindowExplainRenderer->CameraEffectOff();
 	MenuWindowExplainRenderer->SetImage("MenuWindowExplain.png");
 
@@ -57,7 +60,7 @@ void AMenuWindow::BeginPlay()
 	MenuWindowExplainRenderer->SetImageCuttingTransform({ {0, 0}, MenuWindowExplainScale });
 
 	// 메뉴 커서 화살표
-	ArrowRenderer = CreateImageRenderer(ERenderingOrder::UI);
+	ArrowRenderer = CreateImageRenderer(ERenderingOrder::LowerUI);
 	ArrowRenderer->CameraEffectOff();
 	ArrowRenderer->SetImage("MenuWindowArrow.png");
 
@@ -65,11 +68,19 @@ void AMenuWindow::BeginPlay()
 	FVector ArrowScale = ArrowImage->GetScale();
 	FVector ArrowRenderScale = ArrowScale * Global::F_PIXEL_SIZE;
 	ArrowRenderer->SetScale(ArrowRenderScale);
-	
+
 	FVector ArrowPos = GetArrowPos(Cursor);
 	ArrowRenderer->SetPosition(ArrowPos);
 
 	ArrowRenderer->SetImageCuttingTransform({ {0, 0}, ArrowScale });
+
+	// 메뉴 설명
+	MenuExplainText = GetWorld()->SpawnActor<APokemonText>();
+	MenuExplainText->SetActorLocation(FVector(2, 137) * Global::F_PIXEL_SIZE);
+	MenuExplainText->SetLines({
+		L"Equipped with pockets for storing items",
+		L"you bought, received, or found."
+		});
 }
 
 void AMenuWindow::Tick(float _DeltaTime)
@@ -80,6 +91,7 @@ void AMenuWindow::Tick(float _DeltaTime)
 	// - ActiveOn한 틱에는 UEngineInput::IsDown(VK_RETURN) 값이 true로 들어가 있기 때문이다.
 	if (IsFirstTick)
 	{
+		MenuExplainText->ActiveOn();
 		IsFirstTick = false;
 		return;
 	}

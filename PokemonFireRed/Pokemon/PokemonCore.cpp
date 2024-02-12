@@ -21,6 +21,20 @@ void UPokemonCore::BeginPlay()
 	MainWindow.SetWindowScale({ Global::SCREEN_X, Global::SCREEN_Y });
 	MainWindow.SetClearColor(Color8Bit::BlackA);
 
+
+	// UI 리소스 로딩
+	UEngineDirectory CurDir;
+	CurDir.MoveParent();
+	CurDir.Move("Resources");
+	CurDir.Move("UI");
+
+	std::list<UEngineFile> AllFiles = CurDir.AllFile({ ".png", ".bmp" }, true);
+	for (UEngineFile& File : AllFiles)
+	{
+		std::string Path = File.GetFullPath();
+		UEngineResourcesManager::GetInst().LoadImg(Path);
+	}
+
 	// 레벨 생성
 	CreateLevel<UTitleLevel>("TitleLevel");
 	CreateLevel<UExteriorPalletTownLevel>("ExteriorPalletTownLevel");

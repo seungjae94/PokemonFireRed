@@ -1,6 +1,8 @@
 #pragma once
 #include <EngineCore/Actor.h>
 
+class APokemonText;
+
 class AMenuWindow : public AActor
 {
 public:
@@ -24,6 +26,9 @@ private:
 	UImageRenderer* MenuWindowRenderer = nullptr;
 	UImageRenderer* MenuWindowExplainRenderer = nullptr;
 	UImageRenderer* ArrowRenderer = nullptr;
+
+	std::vector<APokemonText*> MenuTexts;
+	APokemonText* MenuExplainText = nullptr;
 
 	int Cursor = 0;
 	int OptionCount = 3;

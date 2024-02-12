@@ -35,6 +35,7 @@ public:
 
 	static const FVector SCREEN;
 	static const FVector HALF_SCREEN;
+	static const Color8Bit GLYPH_BACKGROUND_COLOR;
 
 	// delete Function
 	Global(const Global& _Other) = delete;
@@ -56,6 +57,7 @@ enum ERenderingOrder
 	Lower,
 	Upper,
 	Foreground,
-	UI,
+	LowerUI,
+	UpperUI,
 	Super
 };
