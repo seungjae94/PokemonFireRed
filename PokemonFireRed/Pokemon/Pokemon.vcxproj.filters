@@ -40,6 +40,15 @@
     <Filter Include="Event">
       <UniqueIdentifier>{b9f8bc97-2c8d-41ff-9bd0-27e6a7174106}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{3dd8a652-4bdb-4aa3-8532-0c7042e63c4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\MapLevel">
+      <UniqueIdentifier>{a767999c-4057-4c0c-88fa-424f76111dbf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Text">
+      <UniqueIdentifier>{4ad2ed03-b526-45ec-a208-db6d84427ae1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PokemonCore.h">
@@ -108,17 +117,20 @@
     <ClInclude Include="EventCondition.h">
       <Filter>Event</Filter>
     </ClInclude>
-    <ClInclude Include="MenuWindow.h">
-      <Filter>Object\MapLevel\Actor</Filter>
-    </ClInclude>
     <ClInclude Include="PokemonUtil.h">
       <Filter>Util</Filter>
     </ClInclude>
     <ClInclude Include="PokemonLevel.h">
       <Filter>Object\Global</Filter>
     </ClInclude>
+    <ClInclude Include="MenuWindow.h">
+      <Filter>UI\MapLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="DialogueWindow.h">
+      <Filter>UI\MapLevel</Filter>
+    </ClInclude>
     <ClInclude Include="PokemonText.h">
-      <Filter>Object\Global</Filter>
+      <Filter>UI\Text</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -188,17 +200,20 @@
     <ClCompile Include="EventCondition.cpp">
       <Filter>Event</Filter>
     </ClCompile>
-    <ClCompile Include="MenuWindow.cpp">
-      <Filter>Object\MapLevel\Actor</Filter>
-    </ClCompile>
     <ClCompile Include="PokemonUtil.cpp">
       <Filter>Util</Filter>
     </ClCompile>
     <ClCompile Include="PokemonLevel.cpp">
       <Filter>Object\Global</Filter>
     </ClCompile>
+    <ClCompile Include="DialogueWindow.cpp">
+      <Filter>UI\MapLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuWindow.cpp">
+      <Filter>UI\MapLevel</Filter>
+    </ClCompile>
     <ClCompile Include="PokemonText.cpp">
-      <Filter>Object\Global</Filter>
+      <Filter>UI\Text</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

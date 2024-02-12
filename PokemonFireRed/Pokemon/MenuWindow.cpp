@@ -45,7 +45,6 @@ void AMenuWindow::BeginPlay()
 	FVector MenuWindowPos = MenuWindowRenderScale.Half2D() + FVector(Global::F_SCREEN_X - MenuWindowRenderScale.X, 0.0f);
 	MenuWindowPos += FVector(-Global::F_PIXEL_SIZE, Global::F_PIXEL_SIZE);
 	MenuWindowRenderer->SetTransform({ MenuWindowPos, MenuWindowRenderScale });
-	MenuWindowRenderer->SetImageCuttingTransform({ {0, 0}, MenuWindowScale });
 
 	// 하단 메뉴 설명창
 	MenuWindowExplainRenderer = CreateImageRenderer(ERenderingOrder::LowerUI);
@@ -57,7 +56,6 @@ void AMenuWindow::BeginPlay()
 	FVector MenuWindowExplainRenderScale = MenuWindowExplainScale * Global::F_PIXEL_SIZE;
 	FVector MenuWindowExplainPos = MenuWindowExplainRenderScale.Half2D() + FVector(0.0f, Global::F_SCREEN_Y - MenuWindowExplainRenderScale.Y);
 	MenuWindowExplainRenderer->SetTransform({ MenuWindowExplainPos, MenuWindowExplainRenderScale });
-	MenuWindowExplainRenderer->SetImageCuttingTransform({ {0, 0}, MenuWindowExplainScale });
 
 	// 메뉴 커서 화살표
 	ArrowRenderer = CreateImageRenderer(ERenderingOrder::LowerUI);

@@ -135,6 +135,7 @@ void APokemonText::InitAlignRuleMap()
 	AlignRuleMap[L'!'] = { "SpecialExclamation", 6, 11, 0 };
 	AlignRuleMap[L'?'] = { "SpecialQuestion", 6, 11, 0 };
 	AlignRuleMap[L'\''] = { "SpecialApostrophe", 3, 5, -7 };
+	AlignRuleMap[L':'] = { "SpecialColon", 5, 9, 0 };
 
 	// 라틴 소문자
 	AlignRuleMap[L'é'] = { "LatinLowerE", 6, 9, 0 };

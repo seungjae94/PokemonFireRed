@@ -7,6 +7,7 @@
 class APlayer;
 class AMap;
 class AMenuWindow;
+class ADialogueWindow;
 class AEventTrigger;
 
 class UMapLevel : public UPokemonLevel
@@ -31,12 +32,12 @@ protected:
 	AMap* Map = nullptr;
 	APlayer* Player = nullptr;
 	AMenuWindow* MenuWindow = nullptr;
+	ADialogueWindow* DialogueWindow = nullptr;
 	UEngineDirectory CurDir;
 
 	void LevelStart(ULevel* _PrevLevel) override;
 
 private:
 	void LoadCharacterResources();
-	void LoadUIResources();
 };
 

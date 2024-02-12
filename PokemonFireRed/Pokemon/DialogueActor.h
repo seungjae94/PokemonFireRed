@@ -24,5 +24,6 @@ private:
 
 	bool Event0();
 	bool Event1();
+	bool Event2();
 };
 

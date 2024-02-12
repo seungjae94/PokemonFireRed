@@ -7,10 +7,12 @@
 #include "Player.h"
 #include "PokemonLevel.h"
 #include "MenuWindow.h"
+#include "DialogueWindow.h"
 
 std::string UEventManager::CurLevelName;
 std::map<std::string, APlayer*> UEventManager::AllPlayers;
 std::map<std::string, AMenuWindow*> UEventManager::AllMenuWindows;
+std::map<std::string, ADialogueWindow*> UEventManager::AllDialogueWindows;
 std::map<std::string, std::map<std::string, AEventTarget*>> UEventManager::AllTargets;
 std::map<std::string, std::map<FTileVector, AEventTrigger*>> UEventManager::AllTriggers;
 std::map<AEventTrigger*, UEventProcessor*> UEventManager::AllProcessors;
@@ -246,6 +248,19 @@ void UEventManager::AddMenuWindow(AMenuWindow* _MenuWindow)
 	AllMenuWindows[LevelName] = _MenuWindow;
 }
 
+void UEventManager::AddDialogueWindow(ADialogueWindow* _DialogueWindow)
+{
+	std::string LevelName = _DialogueWindow->GetWorld()->GetName();
+
+	if (true == AllDialogueWindows.contains(LevelName))
+	{
+		MsgBoxAssert("이미 등록된 메뉴창을 다시 등록하려고 했습니다.");
+		return;
+	}
+
+	AllDialogueWindows[LevelName] = _DialogueWindow;
+}
+
 // 이벤트 구현
 
 bool UEventManager::MoveActor(std::string_view _MapName, std::string_view _TargetName, std::vector<FTileVector> _Path, float _MoveSpeed)
@@ -407,6 +422,27 @@ bool UEventManager::ChangeDirection(std::string_view _MapName, std::string_view 
 	Target->ChangeAnimation(Target->GetMoveState(), _Direction);
 
 	return true;
+}
+
+bool UEventManager::Chat(const std::vector<std::wstring>& _Dialogues, EFontColor _Color, bool _HasNext)
+{
+	if (false == AllDialogueWindows[CurLevelName]->IsActive())
+	{
+		AllDialogueWindows[CurLevelName]->ActiveOn();
+		AllDialogueWindows[CurLevelName]->AllRenderersActiveOn();
+		AllDialogueWindows[CurLevelName]->SetDialogues(_Dialogues, _Color);
+		return false;
+	}
+
+	if (true == UEngineInput::IsDown('Z') || true == UEngineInput::IsDown('X'))
+	{
+		AllDialogueWindows[CurLevelName]->ActiveOff();
+		AllDialogueWindows[CurLevelName]->AllRenderersActiveOff();
+		return true;
+	}
+
+
+	return false;
 }
 
 // 메모리 릴리즈

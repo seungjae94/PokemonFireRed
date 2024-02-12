@@ -10,6 +10,7 @@
 #include "Player.h"
 #include "Map.h"
 #include "MenuWindow.h"
+#include "DialogueWindow.h"
 
 
 UMapLevel::UMapLevel() 
@@ -35,7 +36,6 @@ void UMapLevel::BeginPlay()
 	if (false == IsCommonResourceLoaded)
 	{
 		LoadCharacterResources();
-		LoadUIResources();
 		IsCommonResourceLoaded = true;
 	}
 	
@@ -70,13 +70,17 @@ void UMapLevel::BeginPlay()
 
 	// 메뉴창 생성
 	MenuWindow = SpawnMenuWindow();
-
-	// 메뉴창 데이터 바인딩
 	MenuWindow->SetName("MenuWindow");
 
-	// 메뉴창 Off
+	// 대화창 생성
+	DialogueWindow = SpawnDialogueWindow();
+	DialogueWindow->SetName("DialogueWindow");
+
+	// UI Off
 	MenuWindow->ActiveOff();
 	MenuWindow->AllRenderersActiveOff();
+	DialogueWindow->ActiveOff();
+	DialogueWindow->AllRenderersActiveOff();
 }
 
 void UMapLevel::Tick(float _DeltaTime)
@@ -158,20 +162,6 @@ void UMapLevel::LoadCharacterResources()
 	
 	// 플레이어 점프 애니메이션 리소스 로드
 	UEngineResourcesManager::GetInst().CuttingImage("PlayerJumpDown.png", 53, 1);
-
-	CurDir.MoveParent();
-}
-
-void UMapLevel::LoadUIResources()
-{
-	CurDir.Move("UI");
-
-	std::list<UEngineFile> AllFiles = CurDir.AllFile({ ".png", ".bmp" }, true);
-	for (UEngineFile& File : AllFiles)
-	{
-		std::string Path = File.GetFullPath();
-		UEngineResourcesManager::GetInst().LoadImg(Path);
-	}
 
 	CurDir.MoveParent();
 }
