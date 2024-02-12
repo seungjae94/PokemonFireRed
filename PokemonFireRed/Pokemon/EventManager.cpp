@@ -58,7 +58,6 @@ void UEventManager::CheckPlayerEvent()
 		bool RunResult = Processor->TryRun(EEventTriggerAction::Click);
 		if (true == RunResult)
 		{
-			Player->StateChange(EPlayerState::Event);
 			return;
 		}
 	}
@@ -72,7 +71,6 @@ void UEventManager::CheckPlayerEvent()
 		bool RunResult = Processor->TryRun(EEventTriggerAction::Notice);
 		if (true == RunResult)
 		{
-			Player->StateChange(EPlayerState::Event);
 			return;
 		}
 	}
@@ -86,9 +84,14 @@ void UEventManager::CheckPlayerEvent()
 		bool RunResult = Processor->TryRun(EEventTriggerAction::StepOn);
 		if (true == RunResult)
 		{
-			Player->StateChange(EPlayerState::Event);
 			return;
 		}
+	}
+
+	// 메뉴창 열기 이벤트 감지
+	if (true == UEngineInput::IsDown(VK_RETURN))
+	{
+		StealPlayerControl();
 	}
 }
 
