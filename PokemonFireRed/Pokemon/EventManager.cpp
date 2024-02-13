@@ -172,10 +172,10 @@ void UEventManager::AddTarget(AEventTarget* _Target, const UEventTargetInitialSe
 		if (true == _Target->Walkable)
 		{
 			float WalkInterval = Global::CHARACTER_WALK_ANIMATION_FRAME_INTERVAL;
-			Renderer->CreateAnimation(TargetName + "WalkDown", TargetName + "WalkDown.png", 0, 3, WalkInterval, true);
-			Renderer->CreateAnimation(TargetName + "WalkUp", TargetName + "WalkUp.png", 0, 3, WalkInterval, true);
-			Renderer->CreateAnimation(TargetName + "WalkLeft", TargetName + "WalkLeft.png", 0, 3, WalkInterval, true);
-			Renderer->CreateAnimation(TargetName + "WalkRight", TargetName + "WalkRight.png", 0, 3, WalkInterval, true);
+			Renderer->CreateAnimation(TargetName + "WalkDown", TargetName + "WalkDown.png", {1, 2, 3, 0}, WalkInterval, true);
+			Renderer->CreateAnimation(TargetName + "WalkUp", TargetName + "WalkUp.png", { 1, 2, 3, 0 }, WalkInterval, true);
+			Renderer->CreateAnimation(TargetName + "WalkLeft", TargetName + "WalkLeft.png", { 1, 2, 3, 0 }, WalkInterval, true);
+			Renderer->CreateAnimation(TargetName + "WalkRight", TargetName + "WalkRight.png", { 1, 2, 3, 0 }, WalkInterval, true);
 		}
 	}
 }
