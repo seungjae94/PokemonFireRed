@@ -32,6 +32,9 @@ public:
 	UMainLevel& operator=(const UMainLevel& _Other) = delete;
 	UMainLevel& operator=(UMainLevel&& _Other) noexcept = delete;
 
+	static const int ImageContainerLeft;
+	static const int ImageContainerTop;
+
 	static int ImageX;
 	static int ImageY;
 	static int TileCountX;

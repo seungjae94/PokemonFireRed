@@ -8,6 +8,8 @@
 #include "Button.h"
 #include "Background.h"
 
+const int UMainLevel::ImageContainerLeft = 0;
+const int UMainLevel::ImageContainerTop = 0;
 int UMainLevel::ImageX;
 int UMainLevel::ImageY;
 int UMainLevel::TileCountX;
@@ -74,8 +76,8 @@ void UMainLevel::BeginPlay()
 	TileCountX = TileCounts.iX();
 	TileCountY = TileCounts.iY();
 
-	ClipCountX = (TileCountX-1) / 20 + 1;
-	ClipCountY = (TileCountY-1) / 20 + 1;
+	ClipCountX = (TileCountX - 1) / 20 + 1;
+	ClipCountY = (TileCountY - 1) / 20 + 1;
 
 	for (int i = 0; i < TileCountX; i++)
 	{
@@ -92,7 +94,7 @@ void UMainLevel::BeginPlay()
 	UEngineResourcesManager::GetInst().CuttingImage(InputImageName, ClipCountX, ClipCountY);
 
 	ABackground* Background = SpawnActor<ABackground>();
-	Background->SetActorLocation(GEngine->MainWindow.GetWindowScale().Half2D());
+	Background->SetActorLocation(FVector(ImageContainerLeft + ImageX / 2, ImageContainerTop + ImageY / 2));
 	Background->SetImageName(InputImageName);
 }
 
@@ -100,27 +102,34 @@ void UMainLevel::Tick(float _DeltaTime)
 {
 	FVector MousePos = GEngine->MainWindow.GetMousePosition();
 
-	if (true == UEngineInput::IsDown(VK_LBUTTON))
+	if (false == UEngineInput::IsDown(VK_LBUTTON))
 	{
-		for (AButton* Button : AllButtons)
-		{
-			if (true == Button->IsClicked(MousePos))
-			{
-				if (SelectedButton == Button)
-				{
-					Button->ToggleHighlight();
-					SelectedButton = nullptr;
-					return;
-				}
+		// 액션이 발생하지 않은 경우
+		return;
+	}
 
-				if (nullptr != SelectedButton)
-				{
-					SelectedButton->ToggleHighlight();
-				}
+	// 버튼 클릭 액션 체크
+	for (AButton* Button : AllButtons)
+	{
+		if (true == Button->IsClicked(MousePos))
+		{
+			if (SelectedButton == Button)
+			{
 				Button->ToggleHighlight();
-				SelectedButton = Button;
+				SelectedButton = nullptr;
 				return;
 			}
+
+			if (nullptr != SelectedButton)
+			{
+				SelectedButton->ToggleHighlight();
+			}
+			Button->ToggleHighlight();
+			SelectedButton = Button;
+			return;
 		}
 	}
+
+	// 타일 클릭 액션 체크
+
 }
