@@ -1,8 +1,8 @@
 #pragma once
-#include <EngineCore/Level.h>
+#include "PokemonLevel.h"
 
 // Ό³Έν :
-class UTitleLevel : public ULevel
+class UTitleLevel : public UPokemonLevel
 {
 public:
 	// constructor destructor

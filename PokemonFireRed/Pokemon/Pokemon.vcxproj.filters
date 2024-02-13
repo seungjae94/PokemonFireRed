@@ -63,7 +63,7 @@
     <ClInclude Include="Player.h">
       <Filter>Object\MapLevel\Actor</Filter>
     </ClInclude>
-    <ClInclude Include="TitleLevelIntroImage.h">
+    <ClInclude Include="TitleLevelManager.h">
       <Filter>Object\TitleLevel\Actor</Filter>
     </ClInclude>
     <ClInclude Include="MapLevel.h">
@@ -146,7 +146,7 @@
     <ClCompile Include="Player.cpp">
       <Filter>Object\MapLevel\Actor</Filter>
     </ClCompile>
-    <ClCompile Include="TitleLevelIntroImage.cpp">
+    <ClCompile Include="TitleLevelManager.cpp">
       <Filter>Object\TitleLevel\Actor</Filter>
     </ClCompile>
     <ClCompile Include="MapLevel.cpp">

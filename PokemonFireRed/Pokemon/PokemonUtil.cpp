@@ -9,6 +9,23 @@ UPokemonUtil::~UPokemonUtil()
 {
 }
 
+std::vector<int> UPokemonUtil::FrameCountVectorToIndexVector(std::vector<int> _FrameCounts)
+{
+	std::vector<int> Indexes;
+
+	int Index = 0;
+	for (int FrameCount : _FrameCounts)
+	{
+		for (int i = 0; i < FrameCount; i++)
+		{
+			Indexes.push_back(Index);
+		}
+		Index++;
+	}
+
+	return Indexes;
+}
+
 std::vector<std::string> UPokemonUtil::StringSplit(const std::string& _Str, char _Delimeter)
 {
 	std::vector<std::string> Result;
