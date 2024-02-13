@@ -1,5 +1,6 @@
 #include "DialogueWindow.h"
 #include <vector>
+#include <EnginePlatform/EngineInput.h>
 #include <EngineCore/ImageRenderer.h>
 #include <EngineCore/EngineResourcesManager.h>
 #include "PokemonText.h"
@@ -25,10 +26,13 @@ void ADialogueWindow::AllRenderersActiveOff()
 	Text->SetInvisible();
 }
 
-void ADialogueWindow::SetDialogues(const std::vector<std::wstring>& _Dialogues, EFontColor _Color)
+void ADialogueWindow::SetDialogue(const std::vector<std::wstring>& _Dialogue, EFontColor _Color, bool _IsSequential)
 {
+	Dialogue = _Dialogue;
 	Text->SetColor(_Color);
-	Text->SetLines(_Dialogues);
+	Text->SetSequential(_IsSequential);
+	Text->SetText(Dialogue[0]);
+	State = EDialogueWindowState::Show;
 }
 
 void ADialogueWindow::BeginPlay()
@@ -49,12 +53,27 @@ void ADialogueWindow::BeginPlay()
 	// 대화 내용
 	Text = GetWorld()->SpawnActor<APokemonText>();
 	Text->SetActorLocation(FVector(16, 132) * Global::F_PIXEL_SIZE);
-	Text->SetLines({
-		L"This Text Is Not Initialized...",
-	});
+	Text->SetText(LR"(Not Initialized...)");
 }
 
 void ADialogueWindow::Tick(float _DeltaTime)
 {
-	this;
+	if (true == UEngineInput::IsDown('Z') || true == UEngineInput::IsDown('X'))
+	{
+		Index++;
+
+		// 대화 종료
+		if (Index >= Dialogue.size())
+		{
+			Index = 0;
+			State = EDialogueWindowState::End;
+			Dialogue.clear();
+			ActiveOff();
+			AllRenderersActiveOff();
+			return;
+		}
+
+		Text->SetText(Dialogue[Index]);
+		return;
+	}
 }

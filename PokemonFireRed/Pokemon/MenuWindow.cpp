@@ -75,10 +75,10 @@ void AMenuWindow::BeginPlay()
 	// 메뉴 설명
 	MenuExplainText = GetWorld()->SpawnActor<APokemonText>();
 	MenuExplainText->SetActorLocation(FVector(2, 137) * Global::F_PIXEL_SIZE);
-	MenuExplainText->SetLines({
-		L"Equipped with pockets for storing items",
-		L"you bought, received, or found."
-		});
+	MenuExplainText->SetText(
+		LR"(Equipped with pockets for storing items
+you bought, received, or found.)"
+	);
 }
 
 void AMenuWindow::Tick(float _DeltaTime)

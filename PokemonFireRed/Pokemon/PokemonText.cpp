@@ -1,5 +1,6 @@
 ﻿#include "PokemonText.h"
 #include "Global.h"
+#include "PokemonUtil.h"
 
 std::map<wchar_t, APokemonText::GlyphAlignRule> APokemonText::AlignRuleMap;
 
@@ -11,8 +12,10 @@ APokemonText::~APokemonText()
 {
 }
 
-void APokemonText::SetLines(const std::vector<std::wstring>& _Lines, int LineSpace)
+void APokemonText::SetText(const std::wstring& _Text, int LineSpace)
 {
+	std::vector<std::wstring> Lines = UPokemonUtil::StringSplit(_Text, L'\n');
+	
 	if (GlyphRenderers.size() > 0)
 	{
 		for (UImageRenderer* Renderer : GlyphRenderers)
@@ -26,12 +29,20 @@ void APokemonText::SetLines(const std::vector<std::wstring>& _Lines, int LineSpa
 
 	int Bot = 0;
 
-	Lines = _Lines;
-
 	for (std::wstring& Line : Lines)
 	{
 		PrepareLine(Line, Bot);
 		Bot += LineSpace * Global::PIXEL_SIZE;
+	}
+
+	if (true == IsSequential)
+	{
+		CharShowIndex = 0;
+		CurCharShowInterval = 0.0f;
+		for (UImageRenderer* Renderer : GlyphRenderers)
+		{
+			Renderer->ActiveOff();
+		}
 	}
 }
 
@@ -74,6 +85,29 @@ void APokemonText::SetInvisible()
 	{
 		Renderer->ActiveOff();
 	}
+}
+
+void APokemonText::Tick(float _DeltaTime)
+{
+	if (false == IsSequential)
+	{
+		return;
+	}
+
+	if (CharShowIndex >= GlyphRenderers.size())
+	{
+		return;
+	}
+
+	if (CurCharShowInterval > 0.0f)
+	{
+		CurCharShowInterval -= _DeltaTime;
+		return;
+	}
+
+	CurCharShowInterval = CharShowInterval;
+	GlyphRenderers[CharShowIndex]->ActiveOn();
+	++CharShowIndex;
 }
 
 

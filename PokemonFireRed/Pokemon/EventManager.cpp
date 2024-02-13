@@ -424,23 +424,30 @@ bool UEventManager::ChangeDirection(std::string_view _MapName, std::string_view 
 	return true;
 }
 
-bool UEventManager::Chat(const std::vector<std::wstring>& _Dialogues, EFontColor _Color, bool _HasNext)
+bool UEventManager::Chat(const std::vector<std::wstring>& _Dialogue, EFontColor _Color, bool _IsSequential)
 {
-	if (false == AllDialogueWindows[CurLevelName]->IsActive())
-	{
-		AllDialogueWindows[CurLevelName]->ActiveOn();
-		AllDialogueWindows[CurLevelName]->AllRenderersActiveOn();
-		AllDialogueWindows[CurLevelName]->SetDialogues(_Dialogues, _Color);
-		return false;
-	}
+	ADialogueWindow* CurDialogueWindow = AllDialogueWindows[CurLevelName];
 
-	if (true == UEngineInput::IsDown('Z') || true == UEngineInput::IsDown('X'))
+	EDialogueWindowState State = CurDialogueWindow->GetState();
+	
+	if (State == EDialogueWindowState::End)
 	{
-		AllDialogueWindows[CurLevelName]->ActiveOff();
-		AllDialogueWindows[CurLevelName]->AllRenderersActiveOff();
+		CurDialogueWindow->SetState(EDialogueWindowState::Hide);
 		return true;
 	}
 
+	if (State == EDialogueWindowState::Show)
+	{
+		return false;
+	}
+
+	if (false == CurDialogueWindow->IsActive())
+	{
+		CurDialogueWindow->ActiveOn();
+		CurDialogueWindow->AllRenderersActiveOn();
+		CurDialogueWindow->SetDialogue(_Dialogue, _Color, _IsSequential);
+		return false;
+	}
 
 	return false;
 }

@@ -59,13 +59,13 @@ public:
 		IsSequential = _IsSequential;
 	}
 
-	void SetLines(const std::vector<std::wstring>& _Lines, int LineSpace = 14);
+	void SetText(const std::wstring& _Text, int LineSpace = 14);
 
 	void SetVisible();
 	void SetInvisible();
 
 protected:
-	
+	void Tick(float _DeltaTime) override;
 private:
 	class GlyphAlignRule
 	{
@@ -79,6 +79,9 @@ private:
 	EFontColor Color = EFontColor::White;
 	std::string GlyphImageNamePrefix = "WhiteGlyph";
 	bool IsSequential = false;
+	float CharShowInterval = 0.05f;
+	float CurCharShowInterval = CharShowInterval;
+	int CharShowIndex = 0;
 
 	static std::map<wchar_t, GlyphAlignRule> AlignRuleMap;
 

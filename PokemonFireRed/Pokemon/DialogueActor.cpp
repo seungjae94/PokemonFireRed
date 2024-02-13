@@ -33,7 +33,8 @@ bool ADialogueActor::Event0()
 
 bool ADialogueActor::Event1()
 {
-	return UEventManager::Chat({L"MOM: ...Right.", L"All boys leave home someday."}, EFontColor::Red, true);
+	return UEventManager::Chat({ LR"(MOM: ...Right.
+All boys leave home someday.)"}, EFontColor::Red, true);
 }
 
 bool ADialogueActor::Event2()

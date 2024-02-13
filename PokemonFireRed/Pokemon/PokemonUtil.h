@@ -43,6 +43,9 @@ public:
 		}
 	}
 
+	static std::vector<std::string> StringSplit(const std::string& _Str, char _Delimeter = '\n');
+	static std::vector<std::wstring> StringSplit(const std::wstring& _Str, wchar_t _Delimeter = L'\n');
+
 protected:
 
 private:
