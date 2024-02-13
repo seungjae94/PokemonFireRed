@@ -12,7 +12,7 @@ APokemonText::~APokemonText()
 {
 }
 
-void APokemonText::SetText(const std::wstring& _Text, int LineSpace)
+void APokemonText::SetText(const std::wstring& _Text)
 {
 	std::vector<std::wstring> Lines = UPokemonUtil::StringSplit(_Text, L'\n');
 	

@@ -55,7 +55,7 @@ public:
 
 	static bool ChangeDirection(std::string_view _MapName, std::string_view _TargetName, const FTileVector& _Direction);
 
-	static bool Chat(const std::vector<std::wstring>& _Dialogue, EFontColor _Color,  bool _IsSequential = false);
+	static bool Chat(const std::vector<std::wstring>& _Dialogue, EFontColor _Color, int _LineSpace = 14, bool _IsSequential = false);
 
 protected:
 	// constructor destructor

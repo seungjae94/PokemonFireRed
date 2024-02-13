@@ -33,7 +33,7 @@ bool ADialogueActor::Event0()
 
 bool ADialogueActor::Event1()
 {
-	return UEventManager::Chat( Dialogue, TextColor, true);
+	return UEventManager::Chat( Dialogue, TextColor, 16, true);
 }
 
 bool ADialogueActor::Event2()

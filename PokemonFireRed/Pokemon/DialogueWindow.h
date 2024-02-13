@@ -38,7 +38,7 @@ public:
 	void AllRenderersActiveOn();
 	void AllRenderersActiveOff();
 
-	void SetDialogue(const std::vector<std::wstring>& _Dialogue, EFontColor _Color, bool _IsSequential = false);
+	void SetDialogue(const std::vector<std::wstring>& _Dialogue, EFontColor _Color, int _LineSpace = 14, bool _IsSequential = false);
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;

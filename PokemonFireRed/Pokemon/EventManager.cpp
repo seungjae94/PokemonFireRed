@@ -424,7 +424,7 @@ bool UEventManager::ChangeDirection(std::string_view _MapName, std::string_view 
 	return true;
 }
 
-bool UEventManager::Chat(const std::vector<std::wstring>& _Dialogue, EFontColor _Color, bool _IsSequential)
+bool UEventManager::Chat(const std::vector<std::wstring>& _Dialogue, EFontColor _Color, int _LineSpace, bool _IsSequential)
 {
 	ADialogueWindow* CurDialogueWindow = AllDialogueWindows[CurLevelName];
 
@@ -445,7 +445,7 @@ bool UEventManager::Chat(const std::vector<std::wstring>& _Dialogue, EFontColor 
 	{
 		CurDialogueWindow->ActiveOn();
 		CurDialogueWindow->AllRenderersActiveOn();
-		CurDialogueWindow->SetDialogue(_Dialogue, _Color, _IsSequential);
+		CurDialogueWindow->SetDialogue(_Dialogue, _Color, _LineSpace, _IsSequential);
 		return false;
 	}
 

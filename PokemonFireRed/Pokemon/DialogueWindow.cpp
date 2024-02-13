@@ -26,10 +26,11 @@ void ADialogueWindow::AllRenderersActiveOff()
 	Text->SetInvisible();
 }
 
-void ADialogueWindow::SetDialogue(const std::vector<std::wstring>& _Dialogue, EFontColor _Color, bool _IsSequential)
+void ADialogueWindow::SetDialogue(const std::vector<std::wstring>& _Dialogue, EFontColor _Color, int _LineSpace, bool _IsSequential)
 {
 	Dialogue = _Dialogue;
 	Text->SetColor(_Color);
+	Text->SetLineSpace(_LineSpace);
 	Text->SetSequential(_IsSequential);
 	Text->SetText(Dialogue[0]);
 	State = EDialogueWindowState::Show;

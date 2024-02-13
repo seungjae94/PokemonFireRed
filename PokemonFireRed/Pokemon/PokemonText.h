@@ -75,7 +75,12 @@ public:
 	}
 
 
-	void SetText(const std::wstring& _Text, int LineSpace = 14);
+	void SetLineSpace(int _LineSpace)
+	{
+		LineSpace = _LineSpace;
+	}
+
+	void SetText(const std::wstring& _Text);
 
 	void SetVisible();
 	void SetInvisible();
@@ -92,6 +97,7 @@ private:
 		int Base = 0;
 	};
 
+	int LineSpace = 14;
 	EFontColor Color = EFontColor::White;
 	std::string GlyphImageNamePrefix = "WhiteGlyph";
 
