@@ -60,6 +60,12 @@ void ADialogueWindow::Tick(float _DeltaTime)
 {
 	if (true == UEngineInput::IsDown('Z') || true == UEngineInput::IsDown('X'))
 	{
+		if (false == Text->IsRenderEnd())
+		{
+			Text->Skip();
+			return;
+		}
+
 		Index++;
 
 		// 대화 종료

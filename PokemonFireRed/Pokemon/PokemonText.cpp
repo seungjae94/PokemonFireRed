@@ -39,10 +39,15 @@ void APokemonText::SetText(const std::wstring& _Text, int LineSpace)
 	{
 		CharShowIndex = 0;
 		CurCharShowInterval = 0.0f;
+		RenderEnd = false;
 		for (UImageRenderer* Renderer : GlyphRenderers)
 		{
 			Renderer->ActiveOff();
 		}
+	}
+	else
+	{
+		RenderEnd = true;
 	}
 }
 
@@ -89,13 +94,14 @@ void APokemonText::SetInvisible()
 
 void APokemonText::Tick(float _DeltaTime)
 {
-	if (false == IsSequential)
+	if (false == IsSequential || true == RenderEnd) 
 	{
 		return;
 	}
 
 	if (CharShowIndex >= GlyphRenderers.size())
 	{
+		RenderEnd = true;
 		return;
 	}
 

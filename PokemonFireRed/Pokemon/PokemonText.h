@@ -59,6 +59,22 @@ public:
 		IsSequential = _IsSequential;
 	}
 
+	bool IsRenderEnd() const
+	{
+		return RenderEnd;
+	}
+
+	void Skip()
+	{
+		RenderEnd = true;
+
+		for (UImageRenderer* Renderer : GlyphRenderers)
+		{
+			Renderer->ActiveOn();
+		}
+	}
+
+
 	void SetText(const std::wstring& _Text, int LineSpace = 14);
 
 	void SetVisible();
@@ -78,10 +94,15 @@ private:
 
 	EFontColor Color = EFontColor::White;
 	std::string GlyphImageNamePrefix = "WhiteGlyph";
+
+	// 텍스트를 천천히 출력할 때 사용
 	bool IsSequential = false;
 	float CharShowInterval = 0.05f;
 	float CurCharShowInterval = CharShowInterval;
 	int CharShowIndex = 0;
+
+	// 렌더링 완료 여부 (스킵에 사용)
+	bool RenderEnd = false;
 
 	static std::map<wchar_t, GlyphAlignRule> AlignRuleMap;
 
