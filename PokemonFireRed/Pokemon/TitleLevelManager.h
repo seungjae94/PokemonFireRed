@@ -26,7 +26,8 @@ private:
 	UImageRenderer* WhiteScreenRenderer = nullptr;
 
 	bool IsEnd = false;
-	float EndTime = 1.0f;
+	float EndTime = 2.0f;
+	float CurAlpha = 0.0f;
 
 	float Video3PlayTime = 48.0f;
 	float CurVideo3PlayTime = Video3PlayTime;

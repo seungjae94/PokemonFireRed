@@ -34,11 +34,11 @@ void ATitleLevelManager::BeginPlay()
 	Renderer->ChangeAnimation(VideoName[0]);
 
 	// 하얀 배경 화면
-	WhiteScreenRenderer = CreateImageRenderer(ERenderingOrder::Background);
+	WhiteScreenRenderer = CreateImageRenderer(ERenderingOrder::Foreground);
 	WhiteScreenRenderer->CameraEffectOff();
 	WhiteScreenRenderer->SetImage("WhiteScreen.png");
 	WhiteScreenRenderer->SetAlpha(0.0f);
-	WhiteScreenRenderer->SetActive(false);
+	WhiteScreenRenderer->SetTransColor(Color8Bit::WhiteA);
 	WhiteScreenRenderer->SetTransform({ {0, 0}, Global::SCREEN });
 }
 
@@ -47,7 +47,9 @@ void ATitleLevelManager::Tick(float _DeltaTime)
 	if (true == IsEnd)
 	{
 		EndTime -= _DeltaTime;
-		WhiteScreenRenderer->SetAlpha(1.0f - EndTime);
+		CurAlpha += _DeltaTime;
+		WhiteScreenRenderer->SetAlpha(CurAlpha);
+
 		if (EndTime <= 0.0f)
 		{
 			UEventManager::ChangeLevel("InteriorPlayersHouse2FLevel");
@@ -112,7 +114,6 @@ void ATitleLevelManager::Video3Logic(float _DeltaTime)
 	{
 		// 아무 키나 누르면 타이틀 레벨을 종료한다.
 		IsEnd = true;
-		WhiteScreenRenderer->SetActive(true);
 		return;
 	}
 

@@ -89,7 +89,7 @@ void UImageRenderer::Render(float _DeltaTime)
 
 	EWIndowImageType ImageType = Image->GetImageType();
 
-	GEngine->MainWindow.GetBackBufferImage()->TransCopy(Image, RendererTrans, InfoIndex, TransColor);
+	//GEngine->MainWindow.GetBackBufferImage()->TransCopy(Image, RendererTrans, InfoIndex, TransColor);
 
 	switch (ImageType)
 	{
