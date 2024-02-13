@@ -47,9 +47,9 @@ void APokemonText::PrepareLine(const std::wstring& _Line, int _Bot)
 		Renderer->CameraEffectOff();
 
 		FVector RenderPos = FVector(Left + Global::F_PIXEL_SIZE * Rule.Width / 2, _Bot - Global::F_PIXEL_SIZE * Rule.Height / 2 + Global::F_PIXEL_SIZE * Rule.Base);
-		FVector RenderScale = FVector(Rule.Width, Rule.Height) * Global::F_PIXEL_SIZE;
+		FVector GlyphScale = { Rule.Width, Rule.Height };
+		FVector RenderScale = GlyphScale * Global::F_PIXEL_SIZE;
 		Renderer->SetTransform({ RenderPos, RenderScale });
-		Renderer->SetImageCuttingTransform({ {0, 0}, {Rule.Width, Rule.Height} });
 		Left += Rule.Width * Global::PIXEL_SIZE;
 
 		GlyphRenderers.push_back(Renderer);
