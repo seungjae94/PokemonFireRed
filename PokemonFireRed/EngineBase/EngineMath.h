@@ -72,6 +72,27 @@ public:
 
 
 public:
+	float Size2D()
+	{
+		return std::sqrtf((X * X) + (Y * Y));
+	}
+
+	void Normalize2D()
+	{
+		float Size = Size2D();
+		X /= Size;
+		Y /= Size;
+		Z = 0.0f;
+		W = 0.0f;
+	}
+
+	float4 Normalize2DReturn()
+	{
+		float4 Result = *this;
+		Result.Normalize2D();
+		return Result;
+	}
+
 	std::string ToString()
 	{
 		return "[X : " + std::to_string(X) + " Y : " + std::to_string(Y) + " Z : " + std::to_string(Z) + " W : " + std::to_string(W) + "]";

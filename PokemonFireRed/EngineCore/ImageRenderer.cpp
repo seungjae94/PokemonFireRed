@@ -31,6 +31,7 @@ void UImageRenderer::SetOrder(int _Order)
 
 int UAnimationInfo::Update(float _DeltaTime)
 {
+	IsEnd = false;
 	CurTime -= _DeltaTime;
 
 	if (0.0f >= CurTime)
@@ -41,6 +42,7 @@ int UAnimationInfo::Update(float _DeltaTime)
 
 	if (Indexs.size() <= CurFrame)
 	{
+		IsEnd = true;
 		if (true == Loop)
 		{
 			CurFrame = 0;
@@ -133,6 +135,26 @@ void UImageRenderer::CreateAnimation(
 	bool _Loop 
 )
 {
+	std::vector<int> Indexs;
+
+	int Size = _End - _Start;
+
+	for (int i = _Start; i <= _End; i++)
+	{
+		Indexs.push_back(i);
+	}
+
+	CreateAnimation(_AnimationName, _ImageName, Indexs, _Inter, _Loop);
+}
+
+void UImageRenderer::CreateAnimation(
+	std::string_view _AnimationName, 
+	std::string_view _ImageName, 
+	std::vector<int> _Indexs, 
+	float _Inter, 
+	bool _Loop
+)
+{
 	UWindowImage* FindImage = UEngineResourcesManager::GetInst().FindImg(_ImageName);
 
 	if (nullptr == FindImage)
@@ -153,26 +175,25 @@ void UImageRenderer::CreateAnimation(
 	Info.Name = UpperAniName;
 	Info.Image = FindImage;
 	Info.CurFrame = 0;
-	Info.Start = _Start;
-	Info.End = _End;
 	Info.CurTime = 0.0f;
 	Info.Loop = _Loop;
 
-	int Size = Info.End - Info.Start;
+	int Size = static_cast<int>(_Indexs.size());
 	Info.Times.reserve(Size);
-	Info.Indexs.reserve(Size);
-	for (int i = _Start; i <= _End; i++)
+	for (int i = 0; i <= Size; i++)
 	{
 		Info.Times.push_back(_Inter);
 	}
 
-	for (int i = _Start; i <= _End; i++)
-	{
-		Info.Indexs.push_back(i);
-	}
+	Info.Indexs = _Indexs;
 }
 
-void UImageRenderer::ChangeAnimation(std::string_view _AnimationName, bool _IsForce)
+void UImageRenderer::ChangeAnimation(
+	std::string_view _AnimationName, 
+	bool _IsForce,
+	int _StartIndex,
+	float _Time
+)
 {
 	std::string UpperAniName = UEngineString::ToUpper(_AnimationName);
 
@@ -182,7 +203,7 @@ void UImageRenderer::ChangeAnimation(std::string_view _AnimationName, bool _IsFo
 		return;
 	}
 
-	// _IsForce가 false일 경우 애니메이션을 다시 재생하지 않는다.
+	// _IsForce가 false일 경우 동일한 애니메이션은 다시 재생하지 않는다.
 	if (false == _IsForce && nullptr != CurAnimation && CurAnimation->Name == UpperAniName)
 	{
 		return;
@@ -190,8 +211,13 @@ void UImageRenderer::ChangeAnimation(std::string_view _AnimationName, bool _IsFo
 
 	UAnimationInfo& Info = AnimationInfos[UpperAniName];
 	CurAnimation = &Info;
-	CurAnimation->CurFrame = 0;
-	CurAnimation->CurTime = CurAnimation->Times[0];
+	CurAnimation->CurFrame = _StartIndex;
+	CurAnimation->CurTime = _Time;
+	if (0.0f >= _Time)
+	{
+		CurAnimation->CurTime = _Time;
+	}
+	CurAnimation->IsEnd = false;
 }
 
 void UImageRenderer::AnimationReset()
