@@ -1,7 +1,7 @@
 #pragma once
 #include <EngineCore/Actor.h>
 
-// Ό³Έν :
+
 class AButton : public AActor
 {
 public:
@@ -14,6 +14,10 @@ public:
 	AButton(AButton&& _Other) noexcept = delete;
 	AButton& operator=(const AButton& _Other) = delete;
 	AButton& operator=(AButton&& _Other) noexcept = delete;
+
+	bool IsClicked(const FVector& _MousePos);
+	void SetIcon(std::string_view _IconName);
+	void ToggleHighlight();
 
 protected:
 	void BeginPlay() override;

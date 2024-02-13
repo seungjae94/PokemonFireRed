@@ -156,6 +156,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
+    <ClCompile Include="Background.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Button.cpp">
       <SubType>
       </SubType>
@@ -168,8 +172,16 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="MapEditorUtil.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Background.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Button.h">
       <SubType>
       </SubType>
@@ -179,6 +191,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="MapEditorCore.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="MapEditorUtil.h">
       <SubType>
       </SubType>
     </ClInclude>
