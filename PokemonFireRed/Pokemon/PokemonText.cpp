@@ -166,7 +166,7 @@ void APokemonText::InitAlignRuleMap()
 	AlignRuleMap[L' '] = { "SpecialSpace", 6, 6, 0 };
 	AlignRuleMap[L'.'] = { "SpecialPeriod", 4, 3, 0 };
 	AlignRuleMap[L','] = { "SpecialComma", 4, 5, 2 };
-	AlignRuleMap[L'!'] = { "SpecialExclamation", 6, 11, 0 };
+	AlignRuleMap[L'!'] = { "SpecialExclamation", 4, 11, 0 };
 	AlignRuleMap[L'?'] = { "SpecialQuestion", 6, 11, 0 };
 	AlignRuleMap[L'\''] = { "SpecialApostrophe", 3, 5, -7 };
 	AlignRuleMap[L':'] = { "SpecialColon", 5, 9, 0 };

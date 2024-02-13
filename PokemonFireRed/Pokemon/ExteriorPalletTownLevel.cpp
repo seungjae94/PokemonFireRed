@@ -1,8 +1,9 @@
-#include "ExteriorPalletTownLevel.h"
+ï»¿#include "ExteriorPalletTownLevel.h"
 
 #include "Global.h"
 #include "Warp.h"
 #include "DialogueActor.h"
+#include "PokemonText.h"
 
 UExteriorPalletTownLevel::UExteriorPalletTownLevel() 
 {
@@ -16,11 +17,11 @@ void UExteriorPalletTownLevel::BeginPlay()
 {
 	UMapLevel::BeginPlay();
 
-	// ÇÃ·¹ÀÌ¾î ½ÃÀÛ À§Ä¡ ¼³Á¤ (µğ¹ö±ë ¿ëµµ)
+	// í”Œë ˆì´ì–´ ì‹œì‘ ìœ„ì¹˜ ì„¤ì • (ë””ë²„ê¹… ìš©ë„)
 	UEventManager::ChangePoint(GetName(), "Player", { 70, 142 });
 	UEventManager::ChangeDirection(GetName(), "Player", FTileVector::Down);
 
-	// ÀÌº¥Æ® Æ®¸®°Å »ı¼º
+	// ì´ë²¤íŠ¸ íŠ¸ë¦¬ê±° ìƒì„±
 	UEventTargetInitialSetting OaksLabWarpSetting = UEventTargetInitialSetting(
 		"OaksLabWarp",
 		{ 80, 147 }
@@ -57,4 +58,10 @@ void UExteriorPalletTownLevel::BeginPlay()
 		true
 	);
 	ADialogueActor* FatMan = SpawnEventTrigger<ADialogueActor>(FatManSetting);
+	FatMan->SetDialogue({
+		LR"(Technology is incredible!)",
+		LR"(You can now store and recall items
+and POKÃ©MON as data via PC.)"
+		});
+	FatMan->SetTextColor(EFontColor::Blue);
 }

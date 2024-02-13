@@ -44,7 +44,7 @@ public:
 			GlyphImageNamePrefix = "WhiteGlyph";
 			break;
 		case EFontColor::Blue:
-			//GlyphImageNamePrefix = "BlueGlyph";
+			GlyphImageNamePrefix = "BlueGlyph";
 			break;
 		case EFontColor::Red:
 			GlyphImageNamePrefix = "RedGlyph";

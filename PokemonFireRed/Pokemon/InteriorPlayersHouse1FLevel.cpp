@@ -1,6 +1,7 @@
 #include "InteriorPlayersHouse1FLevel.h"
 #include "Warp.h"
 #include "DialogueActor.h"
+#include "PokemonText.h"
 
 UInteriorPlayersHouse1FLevel::UInteriorPlayersHouse1FLevel()
 {
@@ -42,4 +43,9 @@ void UInteriorPlayersHouse1FLevel::BeginPlay()
 		true
 	);
 	ADialogueActor* PlayersMom = SpawnEventTrigger<ADialogueActor>(PlayersMomSetting);
+	PlayersMom->SetDialogue({
+		LR"(MOM: ...Right.
+All boys leave home someday.)"
+		});
+	PlayersMom->SetTextColor(EFontColor::Red);
 }
