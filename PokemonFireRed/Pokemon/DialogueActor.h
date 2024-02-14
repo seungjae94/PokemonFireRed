@@ -34,8 +34,12 @@ private:
 	std::vector<std::wstring> Dialogue;
 	EFontColor TextColor = EFontColor::Black;
 
+	FTileVector BeforeChatDirection = FTileVector::Zero;
+
 	bool Event0();
 	bool Event1();
 	bool Event2();
+	bool Event3();
+	bool Event4();
 };
 
