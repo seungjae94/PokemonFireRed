@@ -32,7 +32,7 @@ private:
 		}
 
 		// GetAsyncKeyState 함수의 반환값을 이용해 키의 상태를 갱신해주는 함수
-		void KeyCheck();
+		void KeyCheck(float _DeltaTime);
 	};
 public:
 	// constructor destructor
@@ -55,6 +55,16 @@ public:
 		}
 
 		return AllKeys[_Key].Down;
+	}
+
+	static float GetPressTime(int _Key)
+	{
+		if (false == AllKeys.contains(_Key))
+		{
+			MsgBoxAssert("입력 설정이 존재하지 않는 키 입니다.");
+		}
+
+		return AllKeys[_Key].PressTime;
 	}
 
 	static bool IsPress(int _Key)

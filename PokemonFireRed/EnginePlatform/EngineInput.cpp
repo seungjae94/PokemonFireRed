@@ -21,7 +21,7 @@ void UEngineInput::KeyCheckTick(float _DeltaTime)
 	for (std::pair<const int, EngineKey>& KeyPair : AllKeys)
 	{
 		EngineKey& CurKey = KeyPair.second;
-		CurKey.KeyCheck();
+		CurKey.KeyCheck(_DeltaTime);
 
 		if (true == CurKey.Press)
 		{
@@ -177,13 +177,15 @@ void UEngineInput::InputInit()
 	}
 }
 
-void UEngineInput::EngineKey::KeyCheck()
+void UEngineInput::EngineKey::KeyCheck(float _DeltaTime)
 {
 	// 실제로 키가 눌려있는 경우
 	if (GetAsyncKeyState(Key) != 0)
 	{
 		if (Free == true)
 		{
+			PressTime = 0.0f;
+
 			// 키가 막 눌린 경우
 			Down = true;
 			Up = false;
@@ -192,6 +194,8 @@ void UEngineInput::EngineKey::KeyCheck()
 		}
 		else if (Down == true)
 		{
+			PressTime += _DeltaTime;
+
 			// Down의 다음 프레임인 경우
 			Down = false;
 			Up = false;
@@ -204,6 +208,8 @@ void UEngineInput::EngineKey::KeyCheck()
 	{
 		if (Press == true)
 		{
+			PressTime = 0.0f;
+
 			// 키가 막 떼어진 경우
 			Down = false;
 			Up = true;
@@ -212,6 +218,8 @@ void UEngineInput::EngineKey::KeyCheck()
 		}
 		else if (Up == true)
 		{
+			PressTime = 0.0f;
+
 			// Up 다음 프레임인 경우
 			Down = false;
 			Up = false;
