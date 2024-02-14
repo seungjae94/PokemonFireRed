@@ -461,17 +461,22 @@ APlayer* UEventManager::GetCurPlayer()
 
 AMenuWindow* UEventManager::GetCurMenuWindow()
 {
-	return dynamic_cast<AMenuWindow*>(AllUIElements[CurLevelName]["MenuWindow"]);;
+	return dynamic_cast<AMenuWindow*>(AllUIElements[CurLevelName]["MenuWindow"]);
 }
 
 ADialogueWindow* UEventManager::GetCurDialogueWindow()
 {
-	return dynamic_cast<ADialogueWindow*>(AllUIElements[CurLevelName]["DialogueWindow"]);;
+	return dynamic_cast<ADialogueWindow*>(AllUIElements[CurLevelName]["DialogueWindow"]);
 }
 
 ABlackScreen* UEventManager::GetCurBlackScreen()
 {
-	return dynamic_cast<ABlackScreen*>(AllUIElements[CurLevelName]["BlackScreen"]);;
+	return dynamic_cast<ABlackScreen*>(AllUIElements[CurLevelName]["BlackScreen"]);
+}
+
+ABlackScreen* UEventManager::GetBlackScreen(std::string_view _LevelName)
+{
+	return dynamic_cast<ABlackScreen*>(AllUIElements[_LevelName.data()]["BlackScreen"]);
 }
 
 bool UEventManager::Chat(const std::vector<std::wstring>& _Dialogue, EFontColor _Color, int _LineSpace, bool _IsSequential)
@@ -541,12 +546,12 @@ bool UEventManager::FadeOut(float _Time)
 	return false;
 }
 
-bool UEventManager::FadeIn(float _Time)
+bool UEventManager::FadeIn(std::string_view _LevelName, float _Time)
 {
 	static bool IsBegin = true;
 	static float Timer = 0.0f;
 
-	ABlackScreen* BlackScreen = GetCurBlackScreen();
+	ABlackScreen* BlackScreen = GetBlackScreen(_LevelName);
 
 	if (true == IsBegin)
 	{
@@ -566,6 +571,11 @@ bool UEventManager::FadeIn(float _Time)
 	Timer -= DeltaTime;
 	BlackScreen->Renderer->SetAlpha(Timer / _Time);
 	return false;
+}
+
+bool UEventManager::FadeIn(float _Time)
+{
+	return FadeIn(CurLevelName, _Time);
 }
 
 bool UEventManager::Wait(float _Time)

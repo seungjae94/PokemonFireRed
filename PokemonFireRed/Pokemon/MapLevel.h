@@ -24,10 +24,10 @@ public:
 	UMapLevel& operator=(const UMapLevel& _Other) = delete;
 	UMapLevel& operator=(UMapLevel&& _Other) noexcept = delete;
 
+protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
-protected:
 	// 하위 클래스에서 너무 많이 사용할 것 같아서 protected로 설정
 	AMap* Map = nullptr;
 	APlayer* Player = nullptr;

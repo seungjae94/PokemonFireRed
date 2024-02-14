@@ -65,6 +65,7 @@ public:
 	static bool FadeOut(float _Time);
 
 	static bool FadeIn(float _Time);
+	static bool FadeIn(std::string_view _LevelName, float _Time);
 
 	static bool Wait(float _Time);
 
@@ -73,6 +74,7 @@ public:
 	static AMenuWindow* GetCurMenuWindow();
 	static ADialogueWindow* GetCurDialogueWindow();
 	static ABlackScreen* GetCurBlackScreen();
+	static ABlackScreen* GetBlackScreen(std::string_view _LevelName);
 
 protected:
 	// constructor destructor
