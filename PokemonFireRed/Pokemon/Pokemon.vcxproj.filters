@@ -132,6 +132,12 @@
     <ClInclude Include="PokemonText.h">
       <Filter>UI\Text</Filter>
     </ClInclude>
+    <ClInclude Include="BlackScreen.h">
+      <Filter>UI\MapLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="UIElement.h">
+      <Filter>UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PokemonCore.cpp">
@@ -214,6 +220,12 @@
     </ClCompile>
     <ClCompile Include="PokemonText.cpp">
       <Filter>UI\Text</Filter>
+    </ClCompile>
+    <ClCompile Include="BlackScreen.cpp">
+      <Filter>UI\MapLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="UIElement.cpp">
+      <Filter>UI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

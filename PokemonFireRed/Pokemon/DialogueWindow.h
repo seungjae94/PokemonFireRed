@@ -1,5 +1,5 @@
 #pragma once
-#include <EngineCore/Actor.h>
+#include "UIElement.h"
 
 class UImageRenderer;
 class APokemonText;
@@ -12,7 +12,7 @@ enum class EDialogueWindowState
 	End
 };
 
-class ADialogueWindow : public AActor
+class ADialogueWindow : public AUIElement
 {
 public:
 	// constructor destructor

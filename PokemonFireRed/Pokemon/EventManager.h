@@ -78,6 +78,7 @@ private:
 	// - 메뉴창, 대화창도 커서 이동 등 플레이어 타입으로 다뤄야 할 일이 있기 때문에 추가로 보관한다.
 	static std::map<std::string, AMenuWindow*> AllMenuWindows;
 	static std::map<std::string, ADialogueWindow*> AllDialogueWindows;
+	// static std::map<std::string, std::map<AUIElement*>> AllUIElements;
 
 	// AllTargets[LevelName][TargetName]
 	// - 'A레벨의 B라는 이름의 액터를 이동시켜줘'라는 요청을 처리하려면 A레벨의 B라는 이름의 액터를 찾을 수 있어야 한다.

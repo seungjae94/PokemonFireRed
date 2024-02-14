@@ -22,11 +22,11 @@ void UTitleLevel::BeginPlay()
 	CurDir.Move("TitleLevel");
 
 	// 리소스 로드
-	std::list<UEngineFile> Files = CurDir.AllFile({ ".png" }, false);
+	/*std::list<UEngineFile> Files = CurDir.AllFile({ ".png" }, false);
 	for (UEngineFile& File : Files)
 	{
 		UEngineResourcesManager::GetInst().LoadImg(File.GetFullPath());
-	}
+	}*/
 
 	UEngineResourcesManager::GetInst().LoadFolder(CurDir.AppendPath("1st"));
 	UEngineResourcesManager::GetInst().LoadFolder(CurDir.AppendPath("2nd"));

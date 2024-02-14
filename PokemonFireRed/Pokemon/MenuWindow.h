@@ -1,9 +1,9 @@
 #pragma once
-#include <EngineCore/Actor.h>
+#include "UIElement.h"
 
 class APokemonText;
 
-class AMenuWindow : public AActor
+class AMenuWindow : public AUIElement
 {
 public:
 	// constructor destructor

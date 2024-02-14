@@ -166,6 +166,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BlackScreen.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="DialogueWindow.h">
       <SubType>
       </SubType>
@@ -270,12 +274,20 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="UIElement.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Warp.h">
       <SubType>
       </SubType>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BlackScreen.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="DialogueWindow.cpp">
       <SubType>
       </SubType>
@@ -377,6 +389,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="TitleLevelManager.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="UIElement.cpp">
       <SubType>
       </SubType>
     </ClCompile>
