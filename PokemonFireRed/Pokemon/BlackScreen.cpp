@@ -17,7 +17,10 @@ void ABlackScreen::BeginPlay()
 	Renderer = CreateImageRenderer(ERenderingOrder::UpperUI);
 	Renderer->CameraEffectOff();
 	Renderer->SetImage("BlackScreen.png");
-	Renderer->SetTransform({ {0, 0}, Global::SCREEN});
+	Renderer->SetTransform({ Global::HALF_SCREEN, Global::SCREEN});
+	Renderer->SetTransColor(Color8Bit::WhiteA);
+	Renderer->SetAlpha(0.0f);
+	Renderer->SetActive(false);
 }
 
 void ABlackScreen::Tick(float _DeltaTime)

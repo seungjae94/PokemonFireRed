@@ -8,11 +8,12 @@
 #include "PokemonLevel.h"
 #include "MenuWindow.h"
 #include "DialogueWindow.h"
+#include "BlackScreen.h"
 
+bool UEventManager::CameraFollowing = true;
 std::string UEventManager::CurLevelName;
 std::map<std::string, APlayer*> UEventManager::AllPlayers;
-std::map<std::string, AMenuWindow*> UEventManager::AllMenuWindows;
-std::map<std::string, ADialogueWindow*> UEventManager::AllDialogueWindows;
+std::map<std::string, std::map<std::string, AUIElement*>> UEventManager::AllUIElements;
 std::map<std::string, std::map<std::string, AEventTarget*>> UEventManager::AllTargets;
 std::map<std::string, std::map<FTileVector, AEventTrigger*>> UEventManager::AllTriggers;
 std::map<AEventTrigger*, UEventProcessor*> UEventManager::AllProcessors;
@@ -31,8 +32,8 @@ UEventManager::~UEventManager()
 
 void UEventManager::CheckPlayerEvent()
 {
-	APlayer* Player = AllPlayers[CurLevelName];
-	AMenuWindow* MenuWindow = AllMenuWindows[CurLevelName];
+	APlayer* Player = GetCurPlayer();
+	AMenuWindow* MenuWindow = GetCurMenuWindow();
 
 	if (nullptr == Player)
 	{
@@ -107,6 +108,12 @@ void UEventManager::Tick(float _DeltaTime)
 	DeltaTime = _DeltaTime;
 
 	CheckPlayerEvent();
+
+	if (true == CameraFollowing)
+	{
+		APlayer* Player = GetCurPlayer();
+		Player->GetWorld()->SetCameraPos(Player->GetActorLocation() - Global::HALF_SCREEN);
+	}
 
 	for (std::pair<AEventTrigger* const, UEventProcessor*>& Pair: AllProcessors)
 	{
@@ -266,30 +273,18 @@ void UEventManager::AddPlayer(APlayer* _Player, const FTileVector& _Point)
 	AllPlayers[LevelName] = _Player;
 }
 
-void UEventManager::AddMenuWindow(AMenuWindow* _MenuWindow)
+void UEventManager::AddUIElement(AUIElement* _UIElement, std::string_view _Name)
 {
-	std::string LevelName = _MenuWindow->GetWorld()->GetName();
+	std::string LevelName = _UIElement->GetWorld()->GetName();
+	std::string Name = _Name.data();
 
-	if (true == AllMenuWindows.contains(LevelName))
+	if (true == AllUIElements[LevelName].contains(Name))
 	{
-		MsgBoxAssert("이미 등록된 메뉴창을 다시 등록하려고 했습니다.");
+		MsgBoxAssert("이미 등록된 UI 엘리먼트" + Name + "을 다시 등록하려고 했습니다.");
 		return;
 	}
 
-	AllMenuWindows[LevelName] = _MenuWindow;
-}
-
-void UEventManager::AddDialogueWindow(ADialogueWindow* _DialogueWindow)
-{
-	std::string LevelName = _DialogueWindow->GetWorld()->GetName();
-
-	if (true == AllDialogueWindows.contains(LevelName))
-	{
-		MsgBoxAssert("이미 등록된 메뉴창을 다시 등록하려고 했습니다.");
-		return;
-	}
-
-	AllDialogueWindows[LevelName] = _DialogueWindow;
+	AllUIElements[LevelName][Name] = _UIElement;
 }
 
 // 이벤트 구현
@@ -460,9 +455,24 @@ APlayer* UEventManager::GetCurPlayer()
 	return AllPlayers[CurLevelName];
 }
 
+AMenuWindow* UEventManager::GetCurMenuWindow()
+{
+	return dynamic_cast<AMenuWindow*>(AllUIElements[CurLevelName]["MenuWindow"]);;
+}
+
+ADialogueWindow* UEventManager::GetCurDialogueWindow()
+{
+	return dynamic_cast<ADialogueWindow*>(AllUIElements[CurLevelName]["DialogueWindow"]);;
+}
+
+ABlackScreen* UEventManager::GetCurBlackScreen()
+{
+	return dynamic_cast<ABlackScreen*>(AllUIElements[CurLevelName]["BlackScreen"]);;
+}
+
 bool UEventManager::Chat(const std::vector<std::wstring>& _Dialogue, EFontColor _Color, int _LineSpace, bool _IsSequential)
 {
-	ADialogueWindow* CurDialogueWindow = AllDialogueWindows[CurLevelName];
+	ADialogueWindow* CurDialogueWindow = GetCurDialogueWindow();
 
 	EDialogueWindowState State = CurDialogueWindow->GetState();
 	
@@ -498,6 +508,82 @@ bool UEventManager::EndEvent(AEventTrigger* _Trigger, bool _GiveBackPlayerContro
 	}
 
 	return true;
+}
+
+bool UEventManager::FadeOut(float _Time)
+{
+	static bool IsBegin = true;
+	static float Timer = 0.0f;
+
+	ABlackScreen* BlackScreen = GetCurBlackScreen();
+
+	if (true == IsBegin)
+	{
+		Timer = _Time;
+		IsBegin = false;
+		BlackScreen->Renderer->SetActive(true);
+		BlackScreen->Renderer->SetAlpha(0.0f);
+	}
+
+	if (Timer <= 0.0f)
+	{
+		IsBegin = true;
+		BlackScreen->Renderer->SetAlpha(1.0f);
+		return true;
+	}
+
+	Timer -= DeltaTime;
+	BlackScreen->Renderer->SetAlpha((_Time - Timer) / _Time);
+	return false;
+}
+
+bool UEventManager::FadeIn(float _Time)
+{
+	static bool IsBegin = true;
+	static float Timer = 0.0f;
+
+	ABlackScreen* BlackScreen = GetCurBlackScreen();
+
+	if (true == IsBegin)
+	{
+		Timer = _Time;
+		IsBegin = false;
+		BlackScreen->Renderer->SetActive(true);
+		BlackScreen->Renderer->SetAlpha(1.0f);
+	}
+
+	if (Timer <= 0.0f)
+	{
+		IsBegin = true;
+		BlackScreen->Renderer->SetActive(false);
+		return true;
+	}
+
+	Timer -= DeltaTime;
+	BlackScreen->Renderer->SetAlpha(Timer / _Time);
+	return false;
+}
+
+bool UEventManager::Wait(float _Time)
+{
+	static bool IsBegin = true;
+	static float Timer = 0.0f;
+
+	if (true == IsBegin)
+	{
+		Timer = _Time;
+		IsBegin = false;
+	}
+
+	if (Timer <= 0.0f)
+	{
+		IsBegin = true;
+		return true;
+	}
+
+	Timer -= DeltaTime;
+
+	return false;
 }
 
 // 메모리 릴리즈

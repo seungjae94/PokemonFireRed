@@ -37,8 +37,8 @@ void ATitleLevelManager::BeginPlay()
 	WhiteScreenRenderer = CreateImageRenderer(ERenderingOrder::Foreground);
 	WhiteScreenRenderer->CameraEffectOff();
 	WhiteScreenRenderer->SetImage("WhiteScreen.png");
-	WhiteScreenRenderer->SetAlpha(0.0f);
 	WhiteScreenRenderer->SetTransColor(Color8Bit::WhiteA);
+	WhiteScreenRenderer->SetAlpha(0.0f);
 	WhiteScreenRenderer->SetTransform({ {0, 0}, Global::SCREEN });
 }
 

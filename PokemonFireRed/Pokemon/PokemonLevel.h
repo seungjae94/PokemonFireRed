@@ -36,18 +36,12 @@ public:
 		return Player;
 	}
 
-	AMenuWindow* SpawnMenuWindow()
+	template <typename UIElementType>
+	UIElementType* SpawnUIElement(std::string_view _Name)
 	{
-		AMenuWindow* MenuWindow = SpawnActor<AMenuWindow>();
-		UEventManager::AddMenuWindow(MenuWindow);
-		return MenuWindow;
-	}
-
-	ADialogueWindow* SpawnDialogueWindow()
-	{
-		ADialogueWindow* DialogueWindow = SpawnActor<ADialogueWindow>();
-		UEventManager::AddDialogueWindow(DialogueWindow);
-		return DialogueWindow;
+		UIElementType* UIElement = SpawnActor<UIElementType>();
+		UEventManager::AddUIElement(UIElement, _Name);
+		return UIElement;
 	}
 
 	template <typename EventTriggerType>

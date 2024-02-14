@@ -116,7 +116,6 @@ void APlayer::IdleStart(bool _ResetAnimation)
 
 void APlayer::Idle(float _DeltaTime)
 {
-	GetWorld()->SetCameraPos(GetActorLocation() - Global::HALF_SCREEN);
 	if (CurIdleTime > 0.0f)
 	{
 		// Idle 상태 유지

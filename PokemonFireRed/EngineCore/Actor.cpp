@@ -17,19 +17,41 @@ AActor::~AActor()
 		delete Renderer;
 		Renderer = nullptr;
 	}
-
 	Renderers.clear();
+
+	for (UCollision* Collision : Collisions)
+	{
+		if (nullptr == Collision)
+		{
+			MsgBoxAssert("콜리전이 nullptr인 상황이 존재합니다.");
+		}
+
+		delete Collision;
+		Collision = nullptr;
+	}
+	Collisions.clear();
 }
 
 UImageRenderer* AActor::CreateImageRenderer(int _Order)
 {
-	UImageRenderer* NewRenderer = new UImageRenderer();
-	UActorComponent* ActorCom = NewRenderer;
+	UImageRenderer* Component = new UImageRenderer();
+	UActorComponent* ActorCom = Component;
 	ActorCom->SetOwner(this);
 	ActorCom->SetOrder(_Order);
 	ActorCom->BeginPlay();
-	Renderers.push_back(NewRenderer);
-	return NewRenderer;
+	Renderers.push_back(Component);
+	return Component;
+}
+
+UCollision* AActor::CreateCollision(int _Order)
+{
+	UCollision* Component = new UCollision();
+	UActorComponent* ActorCom = Component;
+	ActorCom->SetOwner(this);
+	ActorCom->SetOrder(_Order);
+	ActorCom->BeginPlay();
+	Collisions.push_back(Component);
+	return Component;
 }
 
 void AActor::Destroy(float _DestroyTime)

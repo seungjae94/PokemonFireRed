@@ -144,7 +144,7 @@ public:
 		return *this;
 	}
 
-	float4 operator+(const float4& _Other)
+	float4 operator+(const float4& _Other) const
 	{
 		float4 Result = *this;
 		Result.X += _Other.X;
@@ -208,7 +208,7 @@ public:
 		return Result;
 	}
 
-	float4 operator-(const float4& _Other)
+	float4 operator-(const float4& _Other) const
 	{
 		float4 Result = *this;
 		Result.X -= _Other.X;

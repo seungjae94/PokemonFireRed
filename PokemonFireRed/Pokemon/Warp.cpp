@@ -26,6 +26,10 @@ void AWarp::RegisterEvents()
 	UEventManager::RegisterEvent(this, Cond1, ToEvent(Event2));
 	UEventManager::RegisterEvent(this, Cond1, ToEvent(Event3));
 	UEventManager::RegisterEvent(this, Cond1, ToEvent(Event4));
+	UEventManager::RegisterEvent(this, Cond1, ToEvent(Event5));
+	UEventManager::RegisterEvent(this, Cond1, ToEvent(Event6));
+	UEventManager::RegisterEvent(this, Cond1, ToEvent(Event7));
+	UEventManager::RegisterEvent(this, Cond1, ToEvent(Event8));
 }
 
 bool AWarp::Event0()
@@ -35,20 +39,58 @@ bool AWarp::Event0()
 
 bool AWarp::Event1()
 {
-	return UEventManager::MoveActor(GetWorld()->GetName(), "Player", { MoveDirection.ToFVector() }, 1.8f);
+	static bool MoveEnd = false;
+	static bool FadeOutEnd = false;
+
+	if (false == MoveEnd)
+	{
+		MoveEnd = UEventManager::MoveActor(GetWorld()->GetName(), "Player", { MoveDirection.ToFVector() }, 1.8f);
+	}
+
+	if (false == FadeOutEnd)
+	{
+		FadeOutEnd = UEventManager::FadeOut(0.5f);
+	}
+
+	if (true == MoveEnd && true == FadeOutEnd)
+	{
+		MoveEnd = false;
+		FadeOutEnd = false;
+		return true;
+	}
 }
 
 bool AWarp::Event2()
 {
-	return UEventManager::ChangeMap(TargetMapName, TargetPoint);
+	return true;
 }
 
 bool AWarp::Event3()
 {
-	return UEventManager::ChangeDirection(TargetMapName, "Player", { MoveDirection.ToFVector() });
+	return UEventManager::ChangeMap(TargetMapName, TargetPoint);
 }
 
 bool AWarp::Event4()
+{
+	return UEventManager::ChangeDirection(TargetMapName, "Player", { MoveDirection.ToFVector() });
+}
+
+bool AWarp::Event5()
+{
+	return UEventManager::FadeOut(0.0f);
+}
+
+bool AWarp::Event6()
+{
+	return UEventManager::Wait(0.5f);
+}
+
+bool AWarp::Event7()
+{
+	return UEventManager::FadeIn(0.5f);
+}
+
+bool AWarp::Event8()
 {
 	return UEventManager::GiveBackPlayerControl();
 }

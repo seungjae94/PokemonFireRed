@@ -9,12 +9,14 @@
 class AActor;
 class UEngineCore;
 class UImageRenderer;
+class UCollision;
 
 // 액터들이 활동할 무대
 class ULevel : public UNameObject
 {
 	friend UEngineCore;
-	friend UImageRenderer; // 렌더러에서 Renderers 맵을 수정
+	friend UImageRenderer; // Renderers로 찾은 Renderer를 편하게 다루기 위함
+	friend UCollision;
 public:
 	// constructor destructor
 	ULevel();
@@ -73,6 +75,7 @@ protected:
 private:
 	std::map<int, std::list<AActor*>> AllActor;
 	std::map<int, std::list<UImageRenderer*>> Renderers;
+	std::map<int, std::list<UCollision*>> Collisions;
 
 	// 액터의 월드를 현재 레벨로 설정하고, 액터의 BeginPlay를 호출한다.
 	void ActorInit(AActor* _Actor);

@@ -11,6 +11,7 @@
 #include "Map.h"
 #include "MenuWindow.h"
 #include "DialogueWindow.h"
+#include "BlackScreen.h"
 
 
 UMapLevel::UMapLevel() 
@@ -69,12 +70,13 @@ void UMapLevel::BeginPlay()
 	Map->SetCollisionRendererActive(false);
 
 	// 메뉴창 생성
-	MenuWindow = SpawnMenuWindow();
-	MenuWindow->SetName("MenuWindow");
+	MenuWindow = SpawnUIElement<AMenuWindow>("MenuWindow");
 
 	// 대화창 생성
-	DialogueWindow = SpawnDialogueWindow();
-	DialogueWindow->SetName("DialogueWindow");
+	DialogueWindow = SpawnUIElement<ADialogueWindow>("DialogueWindow");
+
+	// 검은창 생성
+	ABlackScreen* BlackScreen = SpawnUIElement<ABlackScreen>("BlackScreen");
 
 	// UI Off
 	MenuWindow->ActiveOff();

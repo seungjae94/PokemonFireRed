@@ -3,6 +3,7 @@
 #include "TickObject.h"
 #include <EngineBase\NameObject.h>
 #include "ImageRenderer.h"
+#include "Collision.h"
 #include "Level.h"
 
 class ULevel;
@@ -60,16 +61,38 @@ public:
 		return World;
 	}
 
+	template<typename EnumType>
+	UCollision* CreateCollision(int _Order = 0)
+	{
+
+	}
+
+
+	template<typename EnumType>
+	UCollision* CreateCollision(EnumType _Order = 0)
+	{
+		return CreateCollision(static_cast<int>(_Order));
+	}
+
+	template<typename EnumType>
+	UImageRenderer* CreateImageRenderer(EnumType _Order = 0)
+	{
+		return CreateImageRenderer(static_cast<int>(_Order));
+	}
+
+	UCollision* CreateCollision(int _Order = 0);
+
 	// 렌더러를 생성한다.
 	// - 렌더러의 Owner를 현재 액터로 설정한다.
 	// - 렌더러의 SetOrder를 호출한다. 이 때 렌더러가 레벨이 갖고 있는 렌더러 맵에 자신을 추가한다.
 	// - 렌더러의 BeginPlay를 호출한다.
-	// - 액터가 갖고 이쓴ㄴ 렌더러 리스트에 렌더러를 추가한다.
+	// - 액터가 갖고 있는 렌더러 리스트에 렌더러를 추가한다.
 	UImageRenderer* CreateImageRenderer(int _Order = 0);
+
 
 	// 자신이 Destroy할 때 갖고 있는 렌더러도 Destroy 해야 한다.
 	// - 레벨도 렌더러 맵을 갖고 있기 때문에 렌더러도 메모리에서 지우기 전에 레벨의 렌더러 맵에서 지워줘야 한다.
-	void Destroy(float _DestroyTime) override;
+	void Destroy(float _DestroyTime = 0.0f) override;
 
 	void DestroyUpdate(float _DeltaTime) override;
 
@@ -79,6 +102,7 @@ protected:
 	void Tick(float _DeltaTime) override;
 private:
 	std::list<UImageRenderer*> Renderers;
+	std::list<UCollision*> Collisions;
 
 	ULevel* World = nullptr;
 	FTransform Transform = FTransform();

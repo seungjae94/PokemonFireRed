@@ -1,8 +1,11 @@
 #pragma once
 #include "UIElement.h"
 
+class UEventManager;
+
 class ABlackScreen : public AUIElement
 {
+	friend UEventManager;
 public:
 	// constructor destructor
 	ABlackScreen();
