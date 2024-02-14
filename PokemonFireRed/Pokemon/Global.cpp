@@ -32,3 +32,6 @@ const int Global::HALF_MONITOR_Y = MONITOR_Y / 2;
 const FVector Global::SCREEN = FVector(SCREEN_X, SCREEN_Y);
 const FVector Global::HALF_SCREEN = FVector(HALF_SCREEN_X, HALF_SCREEN_Y);
 const Color8Bit Global::GLYPH_BACKGROUND_COLOR = Color8Bit(255, 100, 255, 0);
+
+const std::string Global::ANIMATION_NAME_SUFFIX_UPPER_BODY = "UpperBody";
+const std::string Global::ANIMATION_NAME_SUFFIX_LOWER_BODY = "LowerBody";

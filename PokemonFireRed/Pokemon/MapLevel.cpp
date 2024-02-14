@@ -142,7 +142,7 @@ void UMapLevel::LoadCharacterResources()
 	// Idle 애니메이션 리소스 로드
 	for (std::string& Name : IdleCharacterNames)
 	{
-		UEngineResourcesManager::GetInst().CuttingImage(Name + "Idle.png", 4, 1);
+		UEngineResourcesManager::GetInst().CuttingImage(Name + "Idle.png", 4, 2);
 	}
 
 	// Walk 애니메이션을 로드할 캐릭터 이름을 정의
@@ -154,14 +154,15 @@ void UMapLevel::LoadCharacterResources()
 	// Walk 애니메이션 리소스 로드
 	for (std::string& Name : WalkCharacterNames)
 	{
-		UEngineResourcesManager::GetInst().CuttingImage(Name + "WalkDown.png", 4, 1);
-		UEngineResourcesManager::GetInst().CuttingImage(Name + "WalkUp.png", 4, 1);
-		UEngineResourcesManager::GetInst().CuttingImage(Name + "WalkLeft.png", 4, 1);
-		UEngineResourcesManager::GetInst().CuttingImage(Name + "WalkRight.png", 4, 1);
+		UEngineResourcesManager::GetInst().CuttingImage(Name + "WalkDown.png", 4, 2);
+		UEngineResourcesManager::GetInst().CuttingImage(Name + "WalkUp.png", 4, 2);
+		UEngineResourcesManager::GetInst().CuttingImage(Name + "WalkLeft.png", 4, 2);
+		UEngineResourcesManager::GetInst().CuttingImage(Name + "WalkRight.png", 4, 2);
 	}
 	
 	// 플레이어 점프 애니메이션 리소스 로드
-	UEngineResourcesManager::GetInst().CuttingImage("PlayerJumpDown.png", 53, 1);
+	// - 상체 53개 프레임 + 하체 53개 프레임
+	UEngineResourcesManager::GetInst().CuttingImage("PlayerJumpDown.png", 53, 2);
 
 	CurDir.MoveParent();
 }

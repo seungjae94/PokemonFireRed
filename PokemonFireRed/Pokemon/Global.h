@@ -37,6 +37,9 @@ public:
 	static const FVector HALF_SCREEN;
 	static const Color8Bit GLYPH_BACKGROUND_COLOR;
 
+	static const std::string ANIMATION_NAME_SUFFIX_UPPER_BODY;
+	static const std::string ANIMATION_NAME_SUFFIX_LOWER_BODY;
+
 	// delete Function
 	Global(const Global& _Other) = delete;
 	Global(Global&& _Other) noexcept = delete;

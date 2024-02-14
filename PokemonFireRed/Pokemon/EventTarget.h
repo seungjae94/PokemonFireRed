@@ -107,7 +107,8 @@ protected:
 	bool IsExecutingMovingLogic = false;
 
 	// ·»´õ·¯
-	UImageRenderer* Renderer = nullptr;
+	UImageRenderer* UpperBodyRenderer = nullptr;
+	UImageRenderer* LowerBodyRenderer = nullptr;
 private:
 };
 

@@ -6,15 +6,15 @@ const FTileVector FTileVector::Down = { 0, 1 };
 const FTileVector FTileVector::Left = { -1, 0 };
 const FTileVector FTileVector::Right = { 1, 0 };
 
-PokemonMath::PokemonMath()
+UPokemonMath::UPokemonMath()
 {
 }
 
-PokemonMath::~PokemonMath()
+UPokemonMath::~UPokemonMath()
 {
 }
 
-FVector PokemonMath::Lerp(const FVector& _Start, const FVector& _End, float _t)
+FVector UPokemonMath::Lerp(const FVector& _Start, const FVector& _End, float _t)
 {
 	if (_t <= 0.0f)
 	{

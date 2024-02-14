@@ -11,6 +11,8 @@
     <ClCompile Include="Button.cpp">
       <Filter>Object\MainLevel</Filter>
     </ClCompile>
+    <ClCompile Include="Background.cpp" />
+    <ClCompile Include="MapEditorUtil.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">
@@ -33,5 +35,7 @@
     <ClInclude Include="Button.h">
       <Filter>Object\MainLevel</Filter>
     </ClInclude>
+    <ClInclude Include="Background.h" />
+    <ClInclude Include="MapEditorUtil.h" />
   </ItemGroup>
 </Project>

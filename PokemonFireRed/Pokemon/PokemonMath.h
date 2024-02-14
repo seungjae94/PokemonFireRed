@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <vector>
 #include <EngineBase/EngineMath.h>
 #include "Global.h"
 
@@ -122,24 +123,29 @@ public:
 		return "None";
 	}
 
+	static std::vector<std::string> AllDirectionNames()
+	{
+		return {"Down", "Up", "Left", "Right"};
+	}
+
 	std::string ToString() const
 	{
 		return "[X : " + std::to_string(X) + " Y : " + std::to_string(Y) + "]";
 	}
 };
 
-class PokemonMath
+class UPokemonMath
 {
 public:
 	// constructor destructor
-	PokemonMath();
-	~PokemonMath();
+	UPokemonMath();
+	~UPokemonMath();
 
 	// delete Function
-	PokemonMath(const PokemonMath& _Other) = delete;
-	PokemonMath(PokemonMath&& _Other) noexcept = delete;
-	PokemonMath& operator=(const PokemonMath& _Other) = delete;
-	PokemonMath& operator=(PokemonMath&& _Other) noexcept = delete;
+	UPokemonMath(const UPokemonMath& _Other) = delete;
+	UPokemonMath(UPokemonMath&& _Other) noexcept = delete;
+	UPokemonMath& operator=(const UPokemonMath& _Other) = delete;
+	UPokemonMath& operator=(UPokemonMath&& _Other) noexcept = delete;
 
 	static FVector Lerp(const FVector& _Start, const FVector& _End, float _t);
 

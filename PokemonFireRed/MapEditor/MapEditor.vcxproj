@@ -209,6 +209,9 @@
     <ProjectReference Include="..\EnginePlatform\EnginePlatform.vcxproj">
       <Project>{cdcb82d3-b4c1-4d34-9312-55dbdb8dd82e}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\Pokemon\Pokemon.vcxproj">
+      <Project>{361ef10b-5e74-4f5d-ace8-c464e576bd32}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

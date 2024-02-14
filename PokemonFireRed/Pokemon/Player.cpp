@@ -101,7 +101,8 @@ void APlayer::ChangeAnimation(EPlayerState _State, FTileVector _Direction)
 	}
 
 	std::string DirectionStr = _Direction.ToDirectionString();
-	Renderer->ChangeAnimation(AniName + DirectionStr);
+	UpperBodyRenderer->ChangeAnimation(AniName + DirectionStr + Global::ANIMATION_NAME_SUFFIX_UPPER_BODY);
+	LowerBodyRenderer->ChangeAnimation(AniName + DirectionStr + Global::ANIMATION_NAME_SUFFIX_LOWER_BODY);
 }
 
 void APlayer::IdleStart(bool _ResetAnimation)
@@ -182,7 +183,7 @@ void APlayer::Walk(float _DeltaTime)
 
 		float t = (WalkTime - CurWalkTime) / WalkTime;
 
-		FVector TargetPos = PokemonMath::Lerp(PrevPos, NextPos, t);
+		FVector TargetPos = UPokemonMath::Lerp(PrevPos, NextPos, t);
 		FVector PlayerPos = GetActorLocation();
 		FVector AddPos = TargetPos - PlayerPos;
 		AddActorLocation(AddPos);
@@ -310,7 +311,7 @@ void APlayer::Jump(float _DeltaTime)
 
 		float t = (JumpTime - CurJumpTime) / JumpTime;
 
-		FVector TargetPos = PokemonMath::Lerp(PrevPos, NextPos, t);
+		FVector TargetPos = UPokemonMath::Lerp(PrevPos, NextPos, t);
 		FVector PlayerPos = GetActorLocation();
 		FVector AddPos = TargetPos - PlayerPos;
 		AddActorLocation(AddPos);

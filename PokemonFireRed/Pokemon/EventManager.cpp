@@ -151,31 +151,59 @@ void UEventManager::AddTarget(AEventTarget* _Target, const UEventTargetInitialSe
 	// 렌더러 초기화
 	if (true == _Target->HasImage)
 	{
-		_Target->Renderer = _Target->CreateImageRenderer(ERenderingOrder::Lower);
+		_Target->UpperBodyRenderer = _Target->CreateImageRenderer(ERenderingOrder::Upper);
+		_Target->LowerBodyRenderer = _Target->CreateImageRenderer(ERenderingOrder::Lower);
 
-		UImageRenderer* Renderer = _Target->Renderer;
-		Renderer->SetImage(ImageName);
-		Renderer->SetTransform({ {0, -Global::TILE_SIZE / 2}, {Global::TILE_SIZE, 2 * Global::TILE_SIZE} });
-		Renderer->SetImageCuttingTransform({ {0, 0}, {Global::IMAGE_TILE_SIZE, 2 * Global::IMAGE_TILE_SIZE} });
+		UImageRenderer* UpperBodyRenderer = _Target->UpperBodyRenderer;
+		UImageRenderer* LowerBodyRenderer = _Target->LowerBodyRenderer;
+
+		UpperBodyRenderer->SetImage(ImageName);
+		UpperBodyRenderer->SetTransform({ {0, -Global::TILE_SIZE}, {Global::TILE_SIZE, Global::TILE_SIZE} });
+		UpperBodyRenderer->SetImageCuttingTransform({ {0, 0}, {Global::IMAGE_TILE_SIZE, Global::IMAGE_TILE_SIZE} });
+
+		LowerBodyRenderer->SetImage(ImageName);
+		LowerBodyRenderer->SetTransform({ {0, 0}, {Global::TILE_SIZE, Global::TILE_SIZE} });
+		LowerBodyRenderer->SetImageCuttingTransform({ {0, 0}, {Global::IMAGE_TILE_SIZE, Global::IMAGE_TILE_SIZE} });
 
 		// 애니메이션 생성
+		std::vector<std::string> AllDirectionNames = FTileVector::AllDirectionNames();
+
 		if (true == _Target->Rotatable)
 		{
-			Renderer->CreateAnimation(TargetName + "IdleDown", TargetName + "Idle.png", 0, 0, 0.0f, false);
-			Renderer->CreateAnimation(TargetName + "IdleUp", TargetName + "Idle.png", 1, 1, 0.0f, false);
-			Renderer->CreateAnimation(TargetName + "IdleLeft", TargetName + "Idle.png", 2, 2, 0.0f, false);
-			Renderer->CreateAnimation(TargetName + "IdleRight", TargetName + "Idle.png", 3, 3, 0.0f, false);
+			int FrameIndex = 0;
+			for (std::string& DirectionName : AllDirectionNames)
+			{
+				std::string ImageName = TargetName + "Idle.png";
 
-			Renderer->ChangeAnimation(TargetName + "Idle" + _Target->Direction.ToDirectionString());
+				std::string UpperBodyAnimName = TargetName + "Idle" + DirectionName + Global::ANIMATION_NAME_SUFFIX_UPPER_BODY;
+				UpperBodyRenderer->CreateAnimation(UpperBodyAnimName, ImageName, FrameIndex, FrameIndex, 0.0f, false);
+
+				std::string LowerBodyAnimName = TargetName + "Idle" + DirectionName + Global::ANIMATION_NAME_SUFFIX_LOWER_BODY;
+				LowerBodyRenderer->CreateAnimation(LowerBodyAnimName, ImageName, FrameIndex + 4, FrameIndex + 4, 0.0f, false);
+
+				FrameIndex++;
+			}
+
+			std::string TargetDirectionName = _Target->Direction.ToDirectionString();
+			std::string InitialIdleAnimNamePrefix = TargetName + "Idle" + TargetDirectionName;
+			UpperBodyRenderer->ChangeAnimation(InitialIdleAnimNamePrefix + Global::ANIMATION_NAME_SUFFIX_UPPER_BODY);
+			LowerBodyRenderer->ChangeAnimation(InitialIdleAnimNamePrefix + Global::ANIMATION_NAME_SUFFIX_LOWER_BODY);
 		}
 
 		if (true == _Target->Walkable)
 		{
 			float WalkInterval = Global::CHARACTER_WALK_ANIMATION_FRAME_INTERVAL;
-			Renderer->CreateAnimation(TargetName + "WalkDown", TargetName + "WalkDown.png", {1, 2, 3, 0}, WalkInterval, true);
-			Renderer->CreateAnimation(TargetName + "WalkUp", TargetName + "WalkUp.png", { 1, 2, 3, 0 }, WalkInterval, true);
-			Renderer->CreateAnimation(TargetName + "WalkLeft", TargetName + "WalkLeft.png", { 1, 2, 3, 0 }, WalkInterval, true);
-			Renderer->CreateAnimation(TargetName + "WalkRight", TargetName + "WalkRight.png", { 1, 2, 3, 0 }, WalkInterval, true);
+
+			for (std::string& DirectionName : AllDirectionNames)
+			{
+				std::string ImageName = TargetName + "Walk" + DirectionName + ".png";
+
+				std::string UpperBodyAnimName = TargetName + "Walk" + DirectionName + Global::ANIMATION_NAME_SUFFIX_UPPER_BODY;
+				UpperBodyRenderer->CreateAnimation(UpperBodyAnimName, ImageName, {1, 2, 3, 0}, WalkInterval, true);
+
+				std::string LowerBodyAnimName = TargetName + "Walk" + DirectionName + Global::ANIMATION_NAME_SUFFIX_LOWER_BODY;
+				LowerBodyRenderer->CreateAnimation(LowerBodyAnimName, ImageName, {5, 6, 7, 4}, WalkInterval, true);
+			}
 		}
 	}
 }
@@ -222,7 +250,10 @@ void UEventManager::AddPlayer(APlayer* _Player, const FTileVector& _Point)
 
 	// 플레이어 점프 애니메이션 생성
 	float JumpInterval = Global::CHARACTER_JUMP_ANIMATION_FRAME_INTERVAL;
-	_Player->Renderer->CreateAnimation("PlayerJumpDown", "PlayerJumpDown.png", 0, 52, JumpInterval, false);
+	_Player->UpperBodyRenderer->CreateAnimation("PlayerJumpDown" + Global::ANIMATION_NAME_SUFFIX_UPPER_BODY, 
+		"PlayerJumpDown.png", 0, 52, JumpInterval, false);
+	_Player->LowerBodyRenderer->CreateAnimation("PlayerJumpDown" + Global::ANIMATION_NAME_SUFFIX_LOWER_BODY, 
+		"PlayerJumpDown.png", 53 + 0, 53 + 52, JumpInterval, false);
 
 	std::string LevelName = _Player->GetWorld()->GetName();
 
@@ -297,7 +328,7 @@ bool UEventManager::MoveActor(std::string_view _MapName, std::string_view _Targe
 
 		float t = (Target->MoveTime - Target->Timer) / Target->MoveTime;
 
-		FVector TargetPos = PokemonMath::Lerp(Target->PrevPos, Target->NextPos, t);
+		FVector TargetPos = UPokemonMath::Lerp(Target->PrevPos, Target->NextPos, t);
 		FVector PlayerPos = Target->GetActorLocation();
 		FVector AddPos = TargetPos - PlayerPos;
 		Target->AddActorLocation(AddPos);
