@@ -112,7 +112,11 @@ void UEventManager::Tick(float _DeltaTime)
 	if (true == CameraFollowing)
 	{
 		APlayer* Player = GetCurPlayer();
-		Player->GetWorld()->SetCameraPos(Player->GetActorLocation() - Global::HALF_SCREEN);
+
+		if (nullptr != Player)
+		{
+			Player->GetWorld()->SetCameraPos(Player->GetActorLocation() - Global::HALF_SCREEN);
+		}
 	}
 
 	for (std::pair<AEventTrigger* const, UEventProcessor*>& Pair: AllProcessors)

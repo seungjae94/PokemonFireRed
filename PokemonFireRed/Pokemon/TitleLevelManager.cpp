@@ -16,7 +16,7 @@ ATitleLevelManager::~ATitleLevelManager()
 
 void ATitleLevelManager::BeginPlay()
 {
-	Renderer = CreateImageRenderer(ERenderingOrder::Background);
+	Renderer = CreateImageRenderer(ERenderingOrder::LowerUI);
 	Renderer->CameraEffectOff();
 
 	std::vector<int> FrameCounts0 = { 1, 22, 1, 1, 4 };
@@ -34,7 +34,7 @@ void ATitleLevelManager::BeginPlay()
 	Renderer->ChangeAnimation(VideoName[0]);
 
 	// 하얀 배경 화면
-	WhiteScreenRenderer = CreateImageRenderer(ERenderingOrder::Foreground);
+	WhiteScreenRenderer = CreateImageRenderer(ERenderingOrder::UpperUI);
 	WhiteScreenRenderer->CameraEffectOff();
 	WhiteScreenRenderer->SetImage("WhiteScreen.png");
 	WhiteScreenRenderer->SetTransColor(Color8Bit::WhiteA);
@@ -52,7 +52,7 @@ void ATitleLevelManager::Tick(float _DeltaTime)
 
 		if (EndTime <= 0.0f)
 		{
-			UEventManager::ChangeLevel("InteriorPlayersHouse2FLevel");
+			UEventManager::ChangeLevel("TutorialLevel");
 		}
 		return;
 	}
@@ -90,7 +90,7 @@ void ATitleLevelManager::Video0Logic()
 
 void ATitleLevelManager::Video1Logic()
 {
-	if (UEngineInput::IsDown('Z') || true == Renderer->IsCurAnimationEnd())
+	if (true == IsAnyKeyboardDown() || true == Renderer->IsCurAnimationEnd())
 	{
 		// 아무 키나 누르면 즉시 다음 영상으로 넘어간다.
 		// 비디오 재생이 끝난 경우에도 다음 영상으로 넘어간다.
@@ -100,7 +100,7 @@ void ATitleLevelManager::Video1Logic()
 
 void ATitleLevelManager::Video2Logic()
 {
-	if (UEngineInput::IsDown('Z') || true == Renderer->IsCurAnimationEnd())
+	if (true == IsAnyKeyboardDown() || true == Renderer->IsCurAnimationEnd())
 	{
 		// 아무 키나 누르면 즉시 다음 영상으로 넘어간다.
 		// 비디오 재생이 끝난 경우에도 다음 영상으로 넘어간다.
@@ -110,7 +110,7 @@ void ATitleLevelManager::Video2Logic()
 
 void ATitleLevelManager::Video3Logic(float _DeltaTime)
 {
-	if (UEngineInput::IsDown('Z'))
+	if (true == IsAnyKeyboardDown())
 	{
 		// 아무 키나 누르면 타이틀 레벨을 종료한다.
 		IsEnd = true;
@@ -139,4 +139,9 @@ void ATitleLevelManager::PlayNextVideo()
 {
 	VideoIndex = (VideoIndex + 1) % 5;
 	Renderer->ChangeAnimation(VideoName[VideoIndex]);
+}
+
+bool ATitleLevelManager::IsAnyKeyboardDown()
+{
+	return true == UEngineInput::IsAnykeyDown() && false == UEngineInput::IsDown(VK_LBUTTON) && false == UEngineInput::IsDown(VK_RBUTTON);
 }

@@ -1,5 +1,6 @@
 #include "PokemonCore.h"
 #include "TitleLevel.h"
+#include "TutorialLevel.h"
 #include "ExteriorPalletTownLevel.h"
 #include "InteriorOaksLabLevel.h"
 #include "InteriorPlayersHouse1FLevel.h"
@@ -37,6 +38,7 @@ void UPokemonCore::BeginPlay()
 
 	// 레벨 생성
 	CreateLevel<UTitleLevel>("TitleLevel");
+	CreateLevel<UTutorialLevel>("TutorialLevel");
 	CreateLevel<UExteriorPalletTownLevel>("ExteriorPalletTownLevel");
 	CreateLevel<UInteriorOaksLabLevel>("InteriorOaksLabLevel");
 	CreateLevel<UInteriorPlayersHouse1FLevel>("InteriorPlayersHouse1FLevel");
@@ -44,7 +46,8 @@ void UPokemonCore::BeginPlay()
 	CreateLevel<UInteriorRivalsHouseLevel>("InteriorRivalsHouseLevel");
 
 	// 시작 레벨 설정
-	//UEventManager::ChangeLevel("TitleLevel");					 // 실제 릴리즈 때 시작할 레벨
-	UEventManager::ChangeLevel("InteriorPlayersHouse2FLevel");   // 맵 레벨 최초 시작 위치 
+	UEventManager::ChangeLevel("TitleLevel");					 // 실제 릴리즈 때 시작할 레벨
+	//UEventManager::ChangeLevel("TutorialLevel");
+	//UEventManager::ChangeLevel("InteriorPlayersHouse2FLevel");   // 맵 레벨 최초 시작 위치 
 	//UEventManager::ChangeLevel("ExteriorPalletTownLevel");
 }

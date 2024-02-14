@@ -16,12 +16,11 @@ public:
 	ATitleLevelManager& operator=(const ATitleLevelManager& _Other) = delete;
 	ATitleLevelManager& operator=(ATitleLevelManager&& _Other) noexcept = delete;
 
+protected:
+private:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
-protected:
-
-private:
 	UImageRenderer* Renderer = nullptr;
 	UImageRenderer* WhiteScreenRenderer = nullptr;
 
@@ -42,5 +41,7 @@ private:
 	void Video4Logic();
 
 	void PlayNextVideo();
+
+	bool IsAnyKeyboardDown();
 };
 

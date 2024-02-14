@@ -49,6 +49,12 @@
     <Filter Include="UI\Text">
       <UniqueIdentifier>{4ad2ed03-b526-45ec-a208-db6d84427ae1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\TutorialLevel">
+      <UniqueIdentifier>{ab2603f4-b49f-4cce-bbee-1f484ffb3e1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\TutorialLevel\Actor">
+      <UniqueIdentifier>{23378bf3-ee2f-42ae-9c85-d7d649d31738}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PokemonCore.h">
@@ -138,6 +144,12 @@
     <ClInclude Include="UIElement.h">
       <Filter>UI</Filter>
     </ClInclude>
+    <ClInclude Include="TutorialLevel.h">
+      <Filter>Object\TutorialLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="TutorialLevelManager.h">
+      <Filter>Object\TutorialLevel\Actor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PokemonCore.cpp">
@@ -226,6 +238,12 @@
     </ClCompile>
     <ClCompile Include="UIElement.cpp">
       <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="TutorialLevel.cpp">
+      <Filter>Object\TutorialLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="TutorialLevelManager.cpp">
+      <Filter>Object\TutorialLevel\Actor</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
