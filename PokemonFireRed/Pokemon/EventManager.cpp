@@ -59,9 +59,8 @@ void UEventManager::CheckPlayerEvent()
 	if (true == AllTriggers[CurLevelName].contains(TargetPoint) && UEngineInput::IsDown('Z'))
 	{
 		AEventTrigger* EventTrigger = AllTriggers[CurLevelName][TargetPoint];
-		UEventProcessor* Processor = AllProcessors[EventTrigger];
 
-		bool RunResult = Processor->TryRun(EEventTriggerAction::Click);
+		bool RunResult = TriggerEvent(EventTrigger, EEventTriggerAction::Click);
 		if (true == RunResult)
 		{
 			return;
@@ -72,9 +71,8 @@ void UEventManager::CheckPlayerEvent()
 	if (true == AllTriggers[CurLevelName].contains(TargetPoint))
 	{
 		AEventTrigger* EventTrigger = AllTriggers[CurLevelName][TargetPoint];
-		UEventProcessor* Processor = AllProcessors[EventTrigger];
 		
-		bool RunResult = Processor->TryRun(EEventTriggerAction::Notice);
+		bool RunResult = TriggerEvent(EventTrigger, EEventTriggerAction::Notice);
 		if (true == RunResult)
 		{
 			return;
@@ -85,9 +83,8 @@ void UEventManager::CheckPlayerEvent()
 	if (true == AllTriggers[CurLevelName].contains(CurPoint))
 	{
 		AEventTrigger* EventTrigger = AllTriggers[CurLevelName][CurPoint];
-		UEventProcessor* Processor = AllProcessors[EventTrigger];
-		
-		bool RunResult = Processor->TryRun(EEventTriggerAction::StepOn);
+
+		bool RunResult = TriggerEvent(EventTrigger, EEventTriggerAction::StepOn);
 		if (true == RunResult)
 		{
 			return;
@@ -134,6 +131,12 @@ void UEventManager::RegisterEvent(AEventTrigger* _Trigger, const UEventCondition
 {
 	UEventProcessor* Processor = AllProcessors[_Trigger];
 	Processor ->Register(_Condition, _Event);
+}
+
+bool UEventManager::TriggerEvent(AEventTrigger* _Trigger, EEventTriggerAction _Action)
+{
+	UEventProcessor* Processor = AllProcessors[_Trigger];
+	return Processor->TryRun(_Action);
 }
 
 void UEventManager::AddTarget(AEventTarget* _Target, const UEventTargetInitialSetting& _Setting)

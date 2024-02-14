@@ -33,6 +33,9 @@ protected:
 	APlayer* Player = nullptr;
 	AMenuWindow* MenuWindow = nullptr;
 	ADialogueWindow* DialogueWindow = nullptr;
+
+	AEventTrigger* FadeInTrigger = nullptr;
+
 	UEngineDirectory CurDir;
 
 	void LevelStart(ULevel* _PrevLevel) override;

@@ -3,6 +3,7 @@
 #include <vector>
 #include <functional>
 #include "PokemonMath.h"
+#include "EventCondition.h"
 
 class UPokemonLevel;
 class AEventTarget;
@@ -25,6 +26,7 @@ using Event = std::function<bool()>;
 // - 맵 레벨에서 액터를 조작하려면 반드시 EventManager 클래스를 통해서 조작해야 한다.
 class UEventManager
 {
+	friend AEventTrigger; // 일정 시간 동안 동작하는 유틸 함수는 이벤트 트리거에게만 공개
 	friend UPokemonLevel;
 	friend UEventManagerReleaser;
 public:
@@ -37,8 +39,17 @@ public:
 	// 이벤트 등록
 	static void RegisterEvent(AEventTrigger* _Trigger, const UEventCondition& _Condition, Event _Event);
 
-	// 이벤트 함수
+	// 이벤트 트리거
+	static bool TriggerEvent(AEventTrigger* _Trigger, EEventTriggerAction _Action = EEventTriggerAction::Direct);
+
+	// 즉발 이벤트 함수
 	static bool ChangeLevel(std::string_view _LevelName);
+
+	static bool ChangeMap(std::string_view _NextMapName, const FTileVector& _Point);
+
+	static bool ChangePoint(std::string_view _MapName, std::string_view _TargetName, const FTileVector& _Point);
+
+	static bool ChangeDirection(std::string_view _MapName, std::string_view _TargetName, const FTileVector& _Direction);
 
 	static bool StealPlayerControl();
 
@@ -51,12 +62,6 @@ public:
 	/// <param name="_MoveSpeed">이동 속도</param>
 	/// <returns>EventEnd 이벤트 종료 여부</returns>
 	static bool MoveActor(std::string_view _MapName, std::string_view _TargetName, std::vector<FTileVector> _Path, float _MoveSpeed = 3.6f);
-
-	static bool ChangeMap(std::string_view _NextMapName, const FTileVector& _Point);
-
-	static bool ChangePoint(std::string_view _MapName, std::string_view _TargetName, const FTileVector& _Point);
-
-	static bool ChangeDirection(std::string_view _MapName, std::string_view _TargetName, const FTileVector& _Direction);
 
 	static bool Chat(const std::vector<std::wstring>& _Dialogue, EFontColor _Color, int _LineSpace = 14, bool _IsSequential = false);
 

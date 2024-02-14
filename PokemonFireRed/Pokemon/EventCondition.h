@@ -8,9 +8,10 @@ class EventManager;
 
 enum class EEventTriggerAction
 {
-	Click,
-	Notice,
-	StepOn
+	Click,  // 플레이어가 Z키 입력
+	Notice, // 플레이어가 붙어서 바라볼 경우
+	StepOn, // 플레이어가 해당 위치에 올라갈 경우
+	Direct  // 레벨 등이 이벤트를 직접 발생시킬 경우 
 };
 
 using CheckFunc = std::function<bool(void)>;

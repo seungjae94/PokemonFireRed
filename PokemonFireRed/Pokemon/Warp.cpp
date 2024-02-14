@@ -27,9 +27,6 @@ void AWarp::RegisterEvents()
 	UEventManager::RegisterEvent(this, Cond1, ToEvent(Event3));
 	UEventManager::RegisterEvent(this, Cond1, ToEvent(Event4));
 	UEventManager::RegisterEvent(this, Cond1, ToEvent(Event5));
-	UEventManager::RegisterEvent(this, Cond1, ToEvent(Event6));
-	UEventManager::RegisterEvent(this, Cond1, ToEvent(Event7));
-	UEventManager::RegisterEvent(this, Cond1, ToEvent(Event8));
 }
 
 bool AWarp::Event0()
@@ -58,39 +55,26 @@ bool AWarp::Event1()
 		FadeOutEnd = false;
 		return true;
 	}
+
+	return false;
 }
 
 bool AWarp::Event2()
 {
-	return true;
+	return UEventManager::ChangeMap(TargetMapName, TargetPoint);
 }
 
 bool AWarp::Event3()
 {
-	return UEventManager::ChangeMap(TargetMapName, TargetPoint);
+	return UEventManager::ChangeDirection(TargetMapName, "Player", { MoveDirection.ToFVector() });
 }
 
 bool AWarp::Event4()
 {
-	return UEventManager::ChangeDirection(TargetMapName, "Player", { MoveDirection.ToFVector() });
+	return UEventManager::Wait(0.8f);
 }
 
 bool AWarp::Event5()
-{
-	return UEventManager::FadeOut(0.0f);
-}
-
-bool AWarp::Event6()
-{
-	return UEventManager::Wait(0.5f);
-}
-
-bool AWarp::Event7()
-{
-	return UEventManager::FadeIn(0.5f);
-}
-
-bool AWarp::Event8()
 {
 	return UEventManager::GiveBackPlayerControl();
 }

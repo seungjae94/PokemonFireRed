@@ -7,6 +7,7 @@
 #include "Warp.h"
 #include "PokemonDebug.h"
 #include "EventManager.h"
+#include "EventCondition.h"
 #include "Player.h"
 #include "Map.h"
 #include "MenuWindow.h"
@@ -14,11 +15,11 @@
 #include "BlackScreen.h"
 
 
-UMapLevel::UMapLevel() 
+UMapLevel::UMapLevel()
 {
 }
 
-UMapLevel::~UMapLevel() 
+UMapLevel::~UMapLevel()
 {
 }
 
@@ -39,7 +40,7 @@ void UMapLevel::BeginPlay()
 		LoadCharacterResources();
 		IsCommonResourceLoaded = true;
 	}
-	
+
 	// 맵 리소스 로드
 	std::string MapName = GetName();
 	CurDir.Move(MapName);
@@ -53,7 +54,7 @@ void UMapLevel::BeginPlay()
 	}
 
 	// 액터 생성
-	Player = SpawnPlayer({0, 0});
+	Player = SpawnPlayer({ 0, 0 });
 	Map = SpawnActor<AMap>();
 
 	// 플레이어 데이터 바인딩
@@ -83,6 +84,16 @@ void UMapLevel::BeginPlay()
 	MenuWindow->AllRenderersActiveOff();
 	DialogueWindow->ActiveOff();
 	DialogueWindow->AllRenderersActiveOff();
+
+	// 페이드 인 이벤트용 트리거 생성
+	UEventTargetInitialSetting Setting = UEventTargetInitialSetting(GetName() + "MapFadeInTrigger");
+	FadeInTrigger = SpawnEventTrigger<AEventTrigger>(Setting);
+
+	UEventCondition Cond = UEventCondition(EEventTriggerAction::Direct);
+	UEventManager::RegisterEvent(FadeInTrigger, Cond,
+		[this]() {
+			return UEventManager::FadeIn(0.75f);
+		});
 }
 
 void UMapLevel::Tick(float _DeltaTime)
@@ -121,6 +132,8 @@ void UMapLevel::Tick(float _DeltaTime)
 void UMapLevel::LevelStart(ULevel* _PrevLevel)
 {
 	UPokemonLevel::LevelStart(_PrevLevel);
+
+	UEventManager::TriggerEvent(FadeInTrigger);
 }
 
 void UMapLevel::LoadCharacterResources()
@@ -161,7 +174,7 @@ void UMapLevel::LoadCharacterResources()
 		UEngineResourcesManager::GetInst().CuttingImage(Name + "WalkLeft.png", 4, 2);
 		UEngineResourcesManager::GetInst().CuttingImage(Name + "WalkRight.png", 4, 2);
 	}
-	
+
 	// 플레이어 점프 애니메이션 리소스 로드
 	// - 상체 53개 프레임 + 하체 53개 프레임
 	UEngineResourcesManager::GetInst().CuttingImage("PlayerJumpDown.png", 53, 2);
