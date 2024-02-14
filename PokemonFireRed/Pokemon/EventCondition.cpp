@@ -16,5 +16,18 @@ UEventCondition::~UEventCondition()
 
 bool UEventCondition::Check(EEventTriggerAction _TriggerAction) const
 {
-	return TriggerAction == _TriggerAction;
+	if (TriggerAction != _TriggerAction)
+	{
+		return false;
+	}
+
+	for (CheckFunc Func : AllCheckFunctions)
+	{
+		if (false == Func())
+		{
+			return false;
+		}
+	}
+
+	return true;
 }

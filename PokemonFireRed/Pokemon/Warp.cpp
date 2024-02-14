@@ -4,6 +4,7 @@
 #include "PokemonDebug.h"
 #include "PokemonMath.h"
 #include "EventCondition.h"
+#include "Player.h"
 
 AWarp::AWarp() 
 {
@@ -18,11 +19,16 @@ void AWarp::RegisterEvents()
 	AEventTrigger::RegisterEvents();
 
 	UEventCondition Cond1 = UEventCondition(EEventTriggerAction::Notice);
-	UEventManager::Register(this, Cond1, [this]() {return Event0();});
-	UEventManager::Register(this, Cond1, [this]() {return Event1();});
-	UEventManager::Register(this, Cond1, [this]() {return Event2();});
-	UEventManager::Register(this, Cond1, [this]() {return Event3();});
-	UEventManager::Register(this, Cond1, [this]() {return Event4();});
+	Cond1.RegisterCheckFunc([this](){
+		FTileVector CurPlayerDirection = UEventManager::GetCurPlayer()->GetDirection();
+		return CurPlayerDirection == MoveDirection;
+	});
+
+	UEventManager::RegisterEvent(this, Cond1, [this]() {return Event0();});
+	UEventManager::RegisterEvent(this, Cond1, [this]() {return Event1();});
+	UEventManager::RegisterEvent(this, Cond1, [this]() {return Event2();});
+	UEventManager::RegisterEvent(this, Cond1, [this]() {return Event3();});
+	UEventManager::RegisterEvent(this, Cond1, [this]() {return Event4();});
 }
 
 bool AWarp::Event0()

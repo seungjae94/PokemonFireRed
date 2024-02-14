@@ -32,7 +32,7 @@ public:
 	UEventManager& operator=(UEventManager&& _Other) noexcept = delete;
 
 	// 이벤트 등록
-	static void Register(AEventTrigger* _Trigger, const UEventCondition& _Condition, Event _Event);
+	static void RegisterEvent(AEventTrigger* _Trigger, const UEventCondition& _Condition, Event _Event);
 
 	// 이벤트 함수
 	static bool ChangeLevel(std::string_view _LevelName);
@@ -56,6 +56,11 @@ public:
 	static bool ChangeDirection(std::string_view _MapName, std::string_view _TargetName, const FTileVector& _Direction);
 
 	static bool Chat(const std::vector<std::wstring>& _Dialogue, EFontColor _Color, int _LineSpace = 14, bool _IsSequential = false);
+
+	static bool EndEvent(AEventTrigger* _Trigger, bool _GiveBackPlayerControl = true);
+
+	// 편의 함수
+	static APlayer* GetCurPlayer();
 
 protected:
 	// constructor destructor

@@ -39,6 +39,12 @@ public:
 	{
 	}
 
+	// 단항 연산자
+	FTileVector operator -()
+	{
+		return FTileVector(-X, -Y);
+	}
+
 	FTileVector& operator =(const FTileVector& _Other)
 	{
 		X = _Other.X;

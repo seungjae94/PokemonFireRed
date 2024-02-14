@@ -119,7 +119,7 @@ void UEventManager::Tick(float _DeltaTime)
 	}
 }
 
-void UEventManager::Register(AEventTrigger* _Trigger, const UEventCondition& _Condition, Event _Event)
+void UEventManager::RegisterEvent(AEventTrigger* _Trigger, const UEventCondition& _Condition, Event _Event)
 {
 	UEventProcessor* Processor = AllProcessors[_Trigger];
 	Processor ->Register(_Condition, _Event);
@@ -455,6 +455,11 @@ bool UEventManager::ChangeDirection(std::string_view _MapName, std::string_view 
 	return true;
 }
 
+APlayer* UEventManager::GetCurPlayer()
+{
+	return AllPlayers[CurLevelName];
+}
+
 bool UEventManager::Chat(const std::vector<std::wstring>& _Dialogue, EFontColor _Color, int _LineSpace, bool _IsSequential)
 {
 	ADialogueWindow* CurDialogueWindow = AllDialogueWindows[CurLevelName];
@@ -481,6 +486,18 @@ bool UEventManager::Chat(const std::vector<std::wstring>& _Dialogue, EFontColor 
 	}
 
 	return false;
+}
+
+bool UEventManager::EndEvent(AEventTrigger* _Trigger, bool _GiveBackPlayerControl)
+{
+	AllProcessors[_Trigger]->EndRun();
+
+	if (true == _GiveBackPlayerControl)
+	{
+		GiveBackPlayerControl();
+	}
+
+	return true;
 }
 
 // 메모리 릴리즈
