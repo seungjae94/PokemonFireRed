@@ -22,11 +22,11 @@ void ADialogueActor::RegisterEvents()
 	AEventTrigger::RegisterEvents();
 
 	UEventCondition Cond1 = UEventCondition(EEventTriggerAction::Click);
-	UEventManager::RegisterEvent(this, Cond1, [this]() {return Event0();});
-	UEventManager::RegisterEvent(this, Cond1, [this]() {return Event1();});
-	UEventManager::RegisterEvent(this, Cond1, [this]() {return Event2();});
-	UEventManager::RegisterEvent(this, Cond1, [this]() {return Event3();});
-	UEventManager::RegisterEvent(this, Cond1, [this]() {return Event4();});
+	UEventManager::RegisterEvent(this, Cond1, ToEvent(Event0));
+	UEventManager::RegisterEvent(this, Cond1, ToEvent(Event1));
+	UEventManager::RegisterEvent(this, Cond1, ToEvent(Event2));
+	UEventManager::RegisterEvent(this, Cond1, ToEvent(Event3));
+	UEventManager::RegisterEvent(this, Cond1, ToEvent(Event4));
 }
 
 bool ADialogueActor::Event0()

@@ -19,16 +19,13 @@ void AWarp::RegisterEvents()
 	AEventTrigger::RegisterEvents();
 
 	UEventCondition Cond1 = UEventCondition(EEventTriggerAction::Notice);
-	Cond1.RegisterCheckFunc([this](){
-		FTileVector CurPlayerDirection = UEventManager::GetCurPlayer()->GetDirection();
-		return CurPlayerDirection == MoveDirection;
-	});
+	Cond1.RegisterCheckFunc(ToCheckFunc(CheckPlayerDirection));
 
-	UEventManager::RegisterEvent(this, Cond1, [this]() {return Event0();});
-	UEventManager::RegisterEvent(this, Cond1, [this]() {return Event1();});
-	UEventManager::RegisterEvent(this, Cond1, [this]() {return Event2();});
-	UEventManager::RegisterEvent(this, Cond1, [this]() {return Event3();});
-	UEventManager::RegisterEvent(this, Cond1, [this]() {return Event4();});
+	UEventManager::RegisterEvent(this, Cond1, ToEvent(Event0));
+	UEventManager::RegisterEvent(this, Cond1, ToEvent(Event1));
+	UEventManager::RegisterEvent(this, Cond1, ToEvent(Event2));
+	UEventManager::RegisterEvent(this, Cond1, ToEvent(Event3));
+	UEventManager::RegisterEvent(this, Cond1, ToEvent(Event4));
 }
 
 bool AWarp::Event0()
@@ -54,4 +51,10 @@ bool AWarp::Event3()
 bool AWarp::Event4()
 {
 	return UEventManager::GiveBackPlayerControl();
+}
+
+bool AWarp::CheckPlayerDirection()
+{
+	FTileVector CurPlayerDirection = UEventManager::GetCurPlayer()->GetDirection();
+	return CurPlayerDirection == MoveDirection;
 }

@@ -42,5 +42,7 @@ private:
 	bool Event2();
 	bool Event3();
 	bool Event4();
+
+	bool CheckPlayerDirection();
 };
 
