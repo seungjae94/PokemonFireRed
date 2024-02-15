@@ -64,6 +64,12 @@ void UEventProcessor::Tick(float _DeltaTime)
 		return;
 	}
 
+	if (CurCommandIndex >= CurStream->EventTypeList.size())
+	{
+		MsgBoxAssert(Trigger->GetName() + "의 이벤트를 실행하는 중 에러가 발생했습니다. 이벤트 프로세서의 명령 인덱스가 이벤트 개수보다 크거나 같습니다. 이벤트 스트림은 항상 ES::End로 끝나야 합니다.");
+		return;
+	}
+
 	EEventType CurEventType = CurStream->EventTypeList[CurCommandIndex];
 
 	if (CurEventType == EEventType::End)

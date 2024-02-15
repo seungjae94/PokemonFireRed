@@ -98,7 +98,7 @@ you bought, received, or found.)"
 	UEventCondition Cond = UEventCondition(EEventTriggerAction::Direct);
 	MenuWindowOpenTrigger = CurLevel->SpawnEventTrigger<AEventTrigger>(OpenSetting);
 	UEventManager::RegisterEvent(MenuWindowOpenTrigger, Cond,
-		ES::Start(true)
+		ES::Start(true) >> ES::End(false)
 	);
 
 	UEventTargetInitialSetting CloseSetting 

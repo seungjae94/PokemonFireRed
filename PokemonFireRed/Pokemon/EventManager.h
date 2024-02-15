@@ -20,9 +20,6 @@ class ABlackScreen;
 class AUIElement;
 enum class EFontColor;
 
-using Event = std::function<bool()>;
-#define ToEvent(Func) [this](){return Func();}
-
 // 모든 이벤트 처리를 담당하는 클래스
 // - 맵 레벨에서 액터를 조작하려면 반드시 EventManager 클래스를 통해서 조작해야 한다.
 class UEventManager
