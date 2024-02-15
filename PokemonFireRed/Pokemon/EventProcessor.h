@@ -42,10 +42,10 @@ public:
 protected:
 
 private:
+	AEventTrigger* Trigger = nullptr;
+	
 	bool IsRunningValue = false;
 
-	// UEventTrigger* Trigger;
-	// UEventCondition CurrentCondition;
 	int CurCommandIndex = 0;
 	std::map<EEventType, int> CurIndexOfTypeMap;
 	UEventStream* CurStream = nullptr;

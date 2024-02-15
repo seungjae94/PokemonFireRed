@@ -247,6 +247,7 @@ void UEventManager::AddTrigger(AEventTrigger* _Trigger, const UEventTargetInitia
 	}
 
 	UEventProcessor* NewProcessor = new UEventProcessor();
+	NewProcessor->Trigger = _Trigger;
 	AllProcessors[_Trigger] = NewProcessor;
 }
 

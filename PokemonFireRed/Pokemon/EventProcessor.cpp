@@ -2,6 +2,7 @@
 #include <EngineBase/EngineDebug.h>
 #include "EventStream.h"
 #include "EventTarget.h"
+#include "EventTrigger.h"
 #include "Player.h"
 #include "BlackScreen.h"
 #include "DialogueWindow.h"
@@ -332,6 +333,7 @@ bool UEventProcessor::ProcessChangeLevel()
 	int CurIndexOfType = GetCurIndexOfType(EEventType::ChangeLevel);
 	ES::ChangeLevel& Data = CurStream->ChangeLevelDataSet[CurIndexOfType];
 	UEventManager::SetLevel(Data.LevelName);
+	DeactivatePlayerControl();
 	return true;
 }
 

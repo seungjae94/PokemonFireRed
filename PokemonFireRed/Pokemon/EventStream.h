@@ -200,18 +200,20 @@ public:
 
 	class End
 	{
+		friend UEventStream;
 	public:
 		End(bool _ActivatePlayer)
 			: ActivatePlayer(_ActivatePlayer)
 		{
 		}
 	private:
-		bool ActivatePlayer;
+		bool ActivatePlayer = true;
 	};
 
 	UEventStream& operator>>(const End& _End)
 	{
 		EventTypeList.push_back(EEventType::End);
+		ActivatePlayer = _End.ActivatePlayer;
 		return *this;
 	}
 
