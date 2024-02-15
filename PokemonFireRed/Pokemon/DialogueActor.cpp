@@ -1,6 +1,7 @@
 #include "DialogueActor.h"
 #include "EventManager.h"
 #include "EventCondition.h"
+#include "EventStream.h"
 #include "PokemonText.h"
 #include "Player.h"
 
@@ -17,41 +18,17 @@ void ADialogueActor::BeginPlay()
 	AEventTrigger::BeginPlay();
 }
 
-void ADialogueActor::RegisterEvents()
+void ADialogueActor::RegisterPredefinedEvent()
 {
-	AEventTrigger::RegisterEvents();
+	AEventTrigger::RegisterPredefinedEvent();
 
 	UEventCondition Cond1 = UEventCondition(EEventTriggerAction::Click);
-	UEventManager::RegisterEvent(this, Cond1, ToEvent(Event0));
-	UEventManager::RegisterEvent(this, Cond1, ToEvent(Event1));
-	UEventManager::RegisterEvent(this, Cond1, ToEvent(Event2));
-	UEventManager::RegisterEvent(this, Cond1, ToEvent(Event3));
-	UEventManager::RegisterEvent(this, Cond1, ToEvent(Event4));
-}
-
-bool ADialogueActor::Event0()
-{
-	BeforeChatDirection = Direction;
-	return UEventManager::StealPlayerControl();
-}
-
-bool ADialogueActor::Event1()
-{
-	APlayer* CurPlayer = UEventManager::GetCurPlayer();
-	return UEventManager::ChangeDirection(GetWorld()->GetName(), GetName(), -CurPlayer->GetDirection());
-}
-
-bool ADialogueActor::Event2()
-{
-	return UEventManager::Chat( Dialogue, TextColor, 16, true);
-}
-
-bool ADialogueActor::Event3()
-{
-	return UEventManager::ChangeDirection(GetWorld()->GetName(), GetName(), BeforeChatDirection);
-}
-
-bool ADialogueActor::Event4()
-{
-	return UEventManager::GiveBackPlayerControl();
+	UEventManager::RegisterEvent(this, Cond1,
+		ES::Start() 
+		>> ES::DeactivatePlayerControl()
+		// >> ES::LookPlayer()
+		>> ES::Chat(Dialogue, TextColor, 16, true) 
+		>> ES::ActivatePlayerControl()
+		>> ES::End()
+	);
 }

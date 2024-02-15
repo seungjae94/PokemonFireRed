@@ -52,7 +52,7 @@ void ATitleLevelManager::Tick(float _DeltaTime)
 
 		if (EndTime <= 0.0f)
 		{
-			UEventManager::ChangeLevel("TutorialLevel");
+			UEventManager::SetLevel("TutorialLevel");
 		}
 		return;
 	}

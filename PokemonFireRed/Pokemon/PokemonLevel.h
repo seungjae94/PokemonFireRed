@@ -52,7 +52,7 @@ public:
 		UEventManager::AddTrigger(EventTrigger, _Setting);
 		
 		AEventTrigger* UpEventTriggerTarget = EventTrigger;
-		UpEventTriggerTarget->RegisterEvents();
+		UpEventTriggerTarget->RegisterPredefinedEvent();
 
 		return EventTrigger;
 	}

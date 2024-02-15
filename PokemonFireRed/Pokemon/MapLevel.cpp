@@ -8,6 +8,7 @@
 #include "PokemonDebug.h"
 #include "EventManager.h"
 #include "EventCondition.h"
+#include "EventStream.h"
 #include "Player.h"
 #include "Map.h"
 #include "MenuWindow.h"
@@ -90,10 +91,7 @@ void UMapLevel::BeginPlay()
 	FadeInTrigger = SpawnEventTrigger<AEventTrigger>(Setting);
 
 	UEventCondition Cond = UEventCondition(EEventTriggerAction::Direct);
-	UEventManager::RegisterEvent(FadeInTrigger, Cond,
-		[this]() {
-			return UEventManager::FadeIn(0.75f);
-		});
+	UEventManager::RegisterEvent(FadeInTrigger, Cond, ES::Start() >> ES::FadeIn(0.75f) >> ES::End());
 }
 
 void UMapLevel::Tick(float _DeltaTime)

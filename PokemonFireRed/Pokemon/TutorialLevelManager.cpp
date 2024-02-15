@@ -2,8 +2,11 @@
 #include <EnginePlatform/EngineInput.h>
 #include <EngineCore/EngineResourcesManager.h>
 #include "Global.h"
+#include "EventTrigger.h"
 #include "EventManager.h"
+#include "EventStream.h"
 #include "PokemonMath.h"
+#include "TutorialLevel.h"
 
 ATutorialLevelManager::ATutorialLevelManager()
 {
@@ -29,22 +32,16 @@ void ATutorialLevelManager::BeginPlay()
 	ArrowDownPos = Global::SCREEN - ArrowScale.Half2D() - FVector(15, 15);
 	ArrowRenderer->SetTransform({ArrowDownPos, ArrowScale});
 
+	UEventTargetInitialSetting Setting = UEventTargetInitialSetting("TutorialLevelEndTriger");
+	UEventCondition Cond = UEventCondition(EEventTriggerAction::Direct);
+	LevelEndTrigger = dynamic_cast<UTutorialLevel*>(GetWorld())->SpawnEventTrigger<AEventTrigger>(Setting);
+	UEventManager::RegisterEvent(LevelEndTrigger, Cond, 
+		ES::Start() >> ES::FadeOut(1.0f) >> ES::ChangeLevel("InteriorPlayersHouse2FLevel") >> ES::End()
+	);
 }
 
 void ATutorialLevelManager::Tick(float _DeltaTime)
 {
-	// 튜토리얼 레벨 종료 처리
-	if (true == IsEnd)
-	{
-		bool FadeOutFinish = UEventManager::FadeOut(1.0f);
-
-		if (true == FadeOutFinish)
-		{
-			UEventManager::ChangeLevel("InteriorPlayersHouse2FLevel");
-			return;
-		}
-	}
-
 	// 화살표 이동
 	if (true == IsArrowMoveUpward)
 	{
@@ -88,7 +85,9 @@ void ATutorialLevelManager::Tick(float _DeltaTime)
 
 		if (PageIndex >= 6)
 		{
-			IsEnd = true;
+			// 튜토리얼 레벨 종료
+			UEventManager::TriggerEvent(LevelEndTrigger);
+			SetActive(false);
 			return;
 		}
 

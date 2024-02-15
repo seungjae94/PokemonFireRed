@@ -6,6 +6,8 @@
 
 class AEventTrigger;
 class UEventCondition;
+class UEventStream;
+enum class EEventType;
 enum class EEventTriggerAction;
 
 // 매 프레임마다 이벤트 액터 대신 이벤트를 처리해주는 객체
@@ -24,10 +26,7 @@ public:
 	UEventProcessor& operator=(const UEventProcessor& _Other) = delete;
 	UEventProcessor& operator=(UEventProcessor&& _Other) noexcept = delete;
 
-	void Register(const UEventCondition& _Condition, Event _Event)
-	{
-		AllEvents[_Condition].push_back(_Event);
-	}
+	void RegisterStream(const UEventCondition& _Condition, UEventStream _Stream);
 	
 	/// <summary>
 	/// 이벤트 실행을 시도한다.
@@ -44,14 +43,45 @@ protected:
 private:
 	bool IsRunningValue = false;
 
-	UEventCondition CurrentCondition;
-	int CurEventIndex = 0;
-	std::map<UEventCondition, std::vector<Event>> AllEvents;
+	// UEventTrigger* Trigger;
+	// UEventCondition CurrentCondition;
+	int CurCommandIndex = 0;
+	std::map<EEventType, int> CurIndexOfTypeMap;
+	UEventStream* CurStream = nullptr;
 
-	//int EventSetIndex = 0;
-	//std::map<int, Event>> AllEvents;
+	std::map<UEventCondition, UEventStream> AllStreams;
 
 	void Tick(float _DeltaTime);
 	void EndRun();
+
+	// 편의 함수
+	int GetCurIndexOfType(EEventType _Type)
+	{
+		if (false == CurIndexOfTypeMap.contains(_Type))
+		{
+			CurIndexOfTypeMap[_Type] = 0;
+		}
+
+		return CurIndexOfTypeMap[_Type];
+	}
+
+	void IncCurIndexOfType(EEventType _Type)
+	{
+		int CurIndexOfType = GetCurIndexOfType(_Type);
+		CurIndexOfTypeMap[_Type] = CurIndexOfType + 1;
+	}
+
+	// 프로세싱 함수
+	/// <return>이벤트 명령 종료 여부</return>
+	bool ProcessActivatePlayerControl();
+	bool ProcessDeactivatePlayerControl();
+	bool ProcessMoveActor();
+	bool ProcessFadeIn();
+	bool ProcessFadeOut();
+	bool ProcessWait();
+	bool ProcessChat();
+	bool ProcessChangeLevel();
+	bool ProcessChangePoint();
+	bool ProcessChangeDirection();
 };
 

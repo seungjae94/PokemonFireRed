@@ -29,20 +29,14 @@ public:
 		MoveDirection = _Direction;
 	}
 
+	void RegisterPredefinedEvent() override;
+
 protected:
-	void RegisterEvents() override;
 private:
 	UImageRenderer* Renderer = nullptr;
 	std::string TargetMapName;
 	FTileVector TargetPoint;
 	FTileVector MoveDirection;
-
-	bool Event0();
-	bool Event1();
-	bool Event2();
-	bool Event3();
-	bool Event4();
-	bool Event5();
 
 	bool CheckPlayerDirection();
 };

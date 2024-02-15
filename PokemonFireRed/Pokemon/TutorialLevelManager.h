@@ -1,6 +1,8 @@
 #pragma once
 #include <EngineCore/Actor.h>
 
+class AEventTrigger;
+
 class ATutorialLevelManager : public AActor
 {
 public:
@@ -19,6 +21,9 @@ protected:
 private:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
+	void SetArrowPos(const FVector& _Pos);
+
+	AEventTrigger* LevelEndTrigger = nullptr;
 
 	int PageIndex = 0;
 	bool IsEnd = false;
@@ -34,6 +39,6 @@ private:
 	UImageRenderer* ArrowRenderer = nullptr;
 	UImageRenderer* PikachuRenderer = nullptr;
 
-	void SetArrowPos(const FVector& _Pos);
+	
 };
 

@@ -21,8 +21,10 @@ public:
 	AEventTrigger(AEventTrigger&& _Other) noexcept = delete;
 	AEventTrigger& operator=(const AEventTrigger& _Other) = delete;
 	AEventTrigger& operator=(AEventTrigger&& _Other) noexcept = delete;
+
+	virtual void RegisterPredefinedEvent() {};
+
 protected:
-	virtual void RegisterEvents() {};
 private:
 };
 

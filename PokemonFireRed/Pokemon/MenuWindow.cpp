@@ -5,6 +5,10 @@
 #include "PokemonUtil.h"
 #include "EventManager.h"
 #include "PokemonText.h"
+#include "MapLevel.h"
+#include "EventTrigger.h"
+#include "EventCondition.h"
+#include "EventStream.h"
 
 AMenuWindow::AMenuWindow()
 {
@@ -12,6 +16,13 @@ AMenuWindow::AMenuWindow()
 
 AMenuWindow::~AMenuWindow()
 {
+}
+
+void AMenuWindow::Open()
+{
+	ActiveOn();
+	AllRenderersActiveOn();
+	UEventManager::TriggerEvent(MenuWindowOpenTrigger, EEventTriggerAction::Direct);
 }
 
 void AMenuWindow::AllRenderersActiveOn()
@@ -79,6 +90,23 @@ void AMenuWindow::BeginPlay()
 		LR"(Equipped with pockets for storing items
 you bought, received, or found.)"
 	);
+
+	// 트리거 설정
+	UMapLevel* CurLevel = dynamic_cast<UMapLevel*>(GetWorld());
+	UEventTargetInitialSetting OpenSetting
+		= UEventTargetInitialSetting("MainWindowOpenTriggerSetting", FTileVector(1000, 1000));
+	UEventCondition Cond = UEventCondition(EEventTriggerAction::Direct);
+	MenuWindowOpenTrigger = CurLevel->SpawnEventTrigger<AEventTrigger>(OpenSetting);
+	UEventManager::RegisterEvent(MenuWindowOpenTrigger, Cond,
+		ES::Start() >> ES::DeactivatePlayerControl()
+	);
+
+	UEventTargetInitialSetting CloseSetting 
+		= UEventTargetInitialSetting("MainWindowCloseTriggerSetting", FTileVector(2000, 2000));
+	MenuWindowCloseTrigger = CurLevel->SpawnEventTrigger<AEventTrigger>(CloseSetting);
+	UEventManager::RegisterEvent(MenuWindowCloseTrigger, Cond,
+		ES::Start() >> ES::ActivatePlayerControl() 
+		);
 }
 
 void AMenuWindow::Tick(float _DeltaTime)
@@ -96,10 +124,11 @@ void AMenuWindow::Tick(float _DeltaTime)
 
 	if (true == UEngineInput::IsDown(VK_RETURN) || true == UEngineInput::IsDown('X'))
 	{
-		UEventManager::GiveBackPlayerControl();
 		ActiveOff();
 		AllRenderersActiveOff();
 		IsFirstTick = true;
+
+		UEventManager::TriggerEvent(MenuWindowCloseTrigger, EEventTriggerAction::Direct);
 		return;
 	}
 

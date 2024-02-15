@@ -150,6 +150,9 @@
     <ClInclude Include="TutorialLevelManager.h">
       <Filter>Object\TutorialLevel\Actor</Filter>
     </ClInclude>
+    <ClInclude Include="EventStream.h">
+      <Filter>Event</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PokemonCore.cpp">
@@ -244,6 +247,9 @@
     </ClCompile>
     <ClCompile Include="TutorialLevelManager.cpp">
       <Filter>Object\TutorialLevel\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="EventStream.cpp">
+      <Filter>Event</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

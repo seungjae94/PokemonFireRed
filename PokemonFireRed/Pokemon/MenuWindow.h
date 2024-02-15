@@ -2,6 +2,7 @@
 #include "UIElement.h"
 
 class APokemonText;
+class AEventTrigger;
 
 class AMenuWindow : public AUIElement
 {
@@ -15,6 +16,8 @@ public:
 	AMenuWindow(AMenuWindow&& _Other) noexcept = delete;
 	AMenuWindow& operator=(const AMenuWindow& _Other) = delete;
 	AMenuWindow& operator=(AMenuWindow&& _Other) noexcept = delete;
+
+	void Open();
 
 	void AllRenderersActiveOn();
 	void AllRenderersActiveOff();
@@ -37,5 +40,8 @@ private:
 	void DecCursor();
 	void MoveCursor(int _Cursor);
 	FVector GetArrowPos(int _Cursor);
+
+	AEventTrigger* MenuWindowOpenTrigger = nullptr;
+	AEventTrigger* MenuWindowCloseTrigger = nullptr;
 };
 

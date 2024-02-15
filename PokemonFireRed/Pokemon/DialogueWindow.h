@@ -44,6 +44,7 @@ protected:
 	void Tick(float _DeltaTime) override;
 private:
 	EDialogueWindowState State = EDialogueWindowState::Hide;
+	bool IsFirstTick = true;
 	int Index = 0;
 	std::vector<std::wstring> Dialogue;
 

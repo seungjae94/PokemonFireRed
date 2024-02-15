@@ -14,8 +14,8 @@ void UInteriorPlayersHouse2FLevel::BeginPlay()
 	UMapLevel::BeginPlay();
 
 	// 플레이어 시작 위치 설정
-	UEventManager::ChangePoint(GetName(), "Player", { 5, 6 });
-	UEventManager::ChangeDirection(GetName(), "Player", FTileVector::Up);
+	UEventManager::SetPoint(GetName(), "Player", { 5, 6 });
+	UEventManager::SetDirection(GetName(), "Player", FTileVector::Up);
 
 	// 이벤트 트리거 생성
 	UEventTargetInitialSetting StairTo1FWarpSetting = UEventTargetInitialSetting(
@@ -26,4 +26,5 @@ void UInteriorPlayersHouse2FLevel::BeginPlay()
 	StairTo1FWarp->SetTargetLevelName("InteriorPlayersHouse1FLevel");
 	StairTo1FWarp->SetTargetPoint({9, 2});
 	StairTo1FWarp->SetMoveDirection(FTileVector::Left);
+	StairTo1FWarp->RegisterPredefinedEvent();
 }

@@ -25,6 +25,7 @@ void UInteriorOaksLabLevel::BeginPlay()
 	PalletTownWarp->SetTargetLevelName("ExteriorPalletTownLevel");
 	PalletTownWarp->SetTargetPoint({ 80, 148 });
 	PalletTownWarp->SetMoveDirection(FTileVector::Down);
+	PalletTownWarp->RegisterPredefinedEvent();
 }
 
 

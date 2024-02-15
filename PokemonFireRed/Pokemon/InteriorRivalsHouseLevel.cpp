@@ -22,4 +22,5 @@ void UInteriorRivalsHouseLevel::BeginPlay()
 	PalletTownWarp->SetTargetLevelName("ExteriorPalletTownLevel");
 	PalletTownWarp->SetTargetPoint({ 79, 142 });
 	PalletTownWarp->SetMoveDirection(FTileVector::Down);
+	PalletTownWarp->RegisterPredefinedEvent();
 }

@@ -10,6 +10,7 @@ class AEventTarget;
 class UEventTargetInitialSetting;
 class AEventTrigger;
 class UEventProcessor;
+class UEventStream;
 class APlayer;
 class UEventManagerReleaser;
 class UEventCondition;
@@ -37,42 +38,20 @@ public:
 	UEventManager& operator=(UEventManager&& _Other) noexcept = delete;
 
 	// 이벤트 등록
-	static void RegisterEvent(AEventTrigger* _Trigger, const UEventCondition& _Condition, Event _Event);
+	static void RegisterEvent(AEventTrigger* _Trigger, const UEventCondition& _Condition, UEventStream _Stream);
 
 	// 이벤트 트리거
 	static bool TriggerEvent(AEventTrigger* _Trigger, EEventTriggerAction _Action = EEventTriggerAction::Direct);
 
 	// 즉발 이벤트 함수
-	static bool ChangeLevel(std::string_view _LevelName);
+	// - 사이드 이펙트가 없는 이벤트 명령은 
+	//   이벤트 트리거를 만들지 않고 즉시 실행해도 문제가 되지 않는다.
 
-	static bool ChangeMap(std::string_view _NextMapName, const FTileVector& _Point);
+	static void SetLevel(std::string_view _LevelName);
 
-	static bool ChangePoint(std::string_view _MapName, std::string_view _TargetName, const FTileVector& _Point);
+	static void SetPoint(std::string_view _MapName, std::string_view _TargetName, const FTileVector& _Point);
 
-	static bool ChangeDirection(std::string_view _MapName, std::string_view _TargetName, const FTileVector& _Direction);
-
-	static bool StealPlayerControl();
-
-	static bool GiveBackPlayerControl();
-
-	/// <summary>
-	/// 액터를 지정한 경로를 따라 이동시킨다.
-	/// </summary>
-	/// <param name="_Path">이동 경로</param>
-	/// <param name="_MoveSpeed">이동 속도</param>
-	/// <returns>EventEnd 이벤트 종료 여부</returns>
-	static bool MoveActor(std::string_view _MapName, std::string_view _TargetName, std::vector<FTileVector> _Path, float _MoveSpeed = 3.6f);
-
-	static bool Chat(const std::vector<std::wstring>& _Dialogue, EFontColor _Color, int _LineSpace = 14, bool _IsSequential = false);
-
-	static bool EndEvent(AEventTrigger* _Trigger, bool _GiveBackPlayerControl = true);
-
-	static bool FadeOut(float _Time);
-
-	static bool FadeIn(float _Time);
-	static bool FadeIn(std::string_view _LevelName, float _Time);
-
-	static bool Wait(float _Time);
+	static void SetDirection(std::string_view _MapName, std::string_view _TargetName, const FTileVector& _Direction);
 
 	// 찾기 편의 함수
 	static APlayer* GetCurPlayer();
@@ -80,6 +59,22 @@ public:
 	static ADialogueWindow* GetCurDialogueWindow();
 	static ABlackScreen* GetCurBlackScreen();
 	static ABlackScreen* GetBlackScreen(std::string_view _LevelName);
+	static AEventTarget* FindTarget(std::string_view _LevelName, std::string_view _TargetName);
+
+	static std::string GetCurLevelName()
+	{
+		return CurLevelName;
+	}
+
+	static float GetDeltaTime()
+	{
+		return DeltaTime;
+	}
+
+	static void PlayerEventProcessingOff()
+	{
+		PlayerEventProcessing = false;
+	}
 
 protected:
 	// constructor destructor
@@ -87,6 +82,7 @@ protected:
 	~UEventManager();
 private:
 	static bool CameraFollowing;
+	static bool PlayerEventProcessing;
 
 	static std::string CurLevelName;
 

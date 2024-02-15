@@ -34,6 +34,8 @@ void ADialogueWindow::SetDialogue(const std::vector<std::wstring>& _Dialogue, EF
 	Text->SetSequential(_IsSequential);
 	Text->SetText(Dialogue[0]);
 	State = EDialogueWindowState::Show;
+
+	IsFirstTick = true;
 }
 
 void ADialogueWindow::BeginPlay()
@@ -59,6 +61,12 @@ void ADialogueWindow::BeginPlay()
 
 void ADialogueWindow::Tick(float _DeltaTime)
 {
+	if (true == IsFirstTick)
+	{
+		IsFirstTick = false;
+		return;
+	}
+
 	if (true == UEngineInput::IsDown('Z') || true == UEngineInput::IsDown('X'))
 	{
 		if (false == Text->IsRenderEnd())

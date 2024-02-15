@@ -3,6 +3,7 @@
 #include "PokemonMath.h"
 
 class UEventManager;
+class UEventProcessor;
 
 enum class ETargetMoveState
 {
@@ -59,6 +60,7 @@ private:
 class AEventTarget : public AActor
 {
 	friend UEventManager;
+	friend UEventProcessor;
 public:
 	// constructor destructor
 	AEventTarget();

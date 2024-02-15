@@ -4,6 +4,7 @@
 #include "EventTrigger.h"
 #include "EventProcessor.h"
 #include "EventCondition.h"
+#include "EventStream.h"
 #include "Player.h"
 #include "PokemonLevel.h"
 #include "MenuWindow.h"
@@ -11,6 +12,7 @@
 #include "BlackScreen.h"
 
 bool UEventManager::CameraFollowing = true;
+bool UEventManager::PlayerEventProcessing = false;
 std::string UEventManager::CurLevelName;
 std::map<std::string, APlayer*> UEventManager::AllPlayers;
 std::map<std::string, std::map<std::string, AUIElement*>> UEventManager::AllUIElements;
@@ -48,7 +50,7 @@ void UEventManager::CheckPlayerEvent()
 	}
 
 	// 이미 이벤트를 실행 중이라면 새로운 이벤트를 실행하지 않는다.
-	if (Player->State == EPlayerState::OutOfControl)
+	if (Player->State == EPlayerState::OutOfControl || true == PlayerEventProcessing)
 	{
 		return;
 	}
@@ -63,6 +65,7 @@ void UEventManager::CheckPlayerEvent()
 		bool RunResult = TriggerEvent(EventTrigger, EEventTriggerAction::Click);
 		if (true == RunResult)
 		{
+			PlayerEventProcessing = true;
 			return;
 		}
 	}
@@ -75,6 +78,7 @@ void UEventManager::CheckPlayerEvent()
 		bool RunResult = TriggerEvent(EventTrigger, EEventTriggerAction::Notice);
 		if (true == RunResult)
 		{
+			PlayerEventProcessing = true;
 			return;
 		}
 	}
@@ -87,6 +91,7 @@ void UEventManager::CheckPlayerEvent()
 		bool RunResult = TriggerEvent(EventTrigger, EEventTriggerAction::StepOn);
 		if (true == RunResult)
 		{
+			PlayerEventProcessing = true;
 			return;
 		}
 	}
@@ -94,9 +99,8 @@ void UEventManager::CheckPlayerEvent()
 	// 메뉴창 열기 이벤트 감지
 	if (true == UEngineInput::IsDown(VK_RETURN))
 	{
-		StealPlayerControl();
-		MenuWindow->ActiveOn();
-		MenuWindow->AllRenderersActiveOn();
+		PlayerEventProcessing = true;
+		MenuWindow->Open();
 	}
 }
 
@@ -127,10 +131,10 @@ void UEventManager::Tick(float _DeltaTime)
 	}
 }
 
-void UEventManager::RegisterEvent(AEventTrigger* _Trigger, const UEventCondition& _Condition, Event _Event)
+void UEventManager::RegisterEvent(AEventTrigger* _Trigger, const UEventCondition& _Condition, UEventStream _Stream)
 {
 	UEventProcessor* Processor = AllProcessors[_Trigger];
-	Processor ->Register(_Condition, _Event);
+	Processor->RegisterStream(_Condition, _Stream);
 }
 
 bool UEventManager::TriggerEvent(AEventTrigger* _Trigger, EEventTriggerAction _Action)
@@ -296,120 +300,13 @@ void UEventManager::AddUIElement(AUIElement* _UIElement, std::string_view _Name)
 
 // 이벤트 구현
 
-bool UEventManager::MoveActor(std::string_view _MapName, std::string_view _TargetName, std::vector<FTileVector> _Path, float _MoveSpeed)
-{
-	std::string MapName = UEngineString::ToUpper(_MapName);
-	std::string TargetName = UEngineString::ToUpper(_TargetName);
-
-	if (_Path.size() <= 0)
-	{
-		MsgBoxAssert("강제 이동 경로의 크기가 0 이하입니다.");
-		return false;
-	}
-
-	if (false == AllTargets.contains(MapName) || false == AllTargets[MapName].contains(TargetName))
-	{
-		MsgBoxAssert(MapName + ":" + TargetName + "는 존재하지 않는 이벤트 타겟입니다.존재하지 않는 이벤트 타겟을 이동시키려고 했습니다.");
-		return false;
-	}
-
-	AEventTarget* Target = AllTargets[MapName][TargetName];
-
-	// 이동 이벤트 시작
-	if (Target->MoveIndex == -1)
-	{
-		Target->MoveTime = 1.0f / _MoveSpeed;
-		Target->Timer = 0.0f;
-		Target->SetMoveState(ETargetMoveState::Walk);
-		Target->ChangeAnimation(Target->MoveState, Target->Direction);
-	}
-
-	if (Target->Timer > 0.0f)
-	{
-		Target->Timer -= DeltaTime;
-
-		float t = (Target->MoveTime - Target->Timer) / Target->MoveTime;
-
-		FVector TargetPos = UPokemonMath::Lerp(Target->PrevPos, Target->NextPos, t);
-		FVector PlayerPos = Target->GetActorLocation();
-		FVector AddPos = TargetPos - PlayerPos;
-		Target->AddActorLocation(AddPos);
-		Target->GetWorld()->SetCameraPos(Target->GetActorLocation() - Global::HALF_SCREEN);
-	}
-	else if (Target->MoveIndex + 1 >= _Path.size())
-	{
-		Target->MoveIndex = -1;
-		Target->SetMoveState(ETargetMoveState::Idle);
-		Target->ChangeAnimation(Target->MoveState, Target->Direction);
-		return true;
-	}
-	else
-	{
-		Target->PrevPos = Target->GetActorLocation();
-		Target->NextPos = Target->PrevPos + _Path[Target->MoveIndex + 1].ToFVector();
-		Target->Timer = Target->MoveTime;
-
-		if (_Path[Target->MoveIndex + 1] == FTileVector::Zero)
-		{
-			MsgBoxAssert("MoveActor 함수에서 Path 값이 FTileVector::Zero 입니다.");
-			return false;
-		}
-
-		if (Target->Direction != _Path[Target->MoveIndex + 1])
-		{
-			Target->SetDirection(_Path[Target->MoveIndex + 1]);
-			Target->ChangeAnimation(Target->MoveState, Target->Direction);
-		}
-		Target->MoveIndex++;
-	}
-	return false;
-}
-
-// 이벤트 함수
-
-bool UEventManager::ChangeLevel(std::string_view _LevelName)
+void UEventManager::SetLevel(std::string_view _LevelName)
 {
 	CurLevelName = UEngineString::ToUpper(_LevelName);
 	GEngine->UEngineCore::ChangeLevel(_LevelName);
-	return true;
 }
 
-bool UEventManager::StealPlayerControl()
-{
-	APlayer* Player = AllPlayers[CurLevelName];
-	Player->StateChange(EPlayerState::OutOfControl);
-	return true;
-}
-
-bool UEventManager::GiveBackPlayerControl()
-{
-	APlayer* Player = AllPlayers[CurLevelName];
-	Player->StateChange(EPlayerState::Idle);
-	return true;
-}
-
-bool UEventManager::ChangeMap(std::string_view _NextMapName, const FTileVector& _Point)
-{
-	std::string CurMapName = UEngineString::ToUpper(CurLevelName);
-	std::string NextMapName = UEngineString::ToUpper(_NextMapName);
-
-	APlayer* NextMapPlayer = AllPlayers[NextMapName];
-
-	if (nullptr == NextMapPlayer)
-	{
-		MsgBoxAssert("다음 맵에 플레이어가 존재하지 않습니다. 맵 이름 " + CurMapName + ", " + NextMapName + "을 제대로 입력했는지 확인하세요.");
-		return false;
-	}
-
-	NextMapPlayer->StateChange(EPlayerState::OutOfControl);
-	ChangePoint(NextMapName, NextMapPlayer->GetName(), _Point);
-
-	UEventManager::ChangeLevel(NextMapName);
-
-	return true;
-}
-
-bool UEventManager::ChangePoint(std::string_view _MapName, std::string_view _TargetName , const FTileVector& _Point)
+void UEventManager::SetPoint(std::string_view _MapName, std::string_view _TargetName , const FTileVector& _Point)
 {
 	std::string MapName = UEngineString::ToUpper(_MapName);
 	std::string TargetName = UEngineString::ToUpper(_TargetName);
@@ -419,7 +316,7 @@ bool UEventManager::ChangePoint(std::string_view _MapName, std::string_view _Tar
 	if (nullptr == Target)
 	{
 		MsgBoxAssert("존재하지 않는 타겟" + MapName + ":" + TargetName + "을 이동시키려고 했습니다.");
-		return false;
+		return;
 	}
 
 	FVector TargetPosition = _Point.ToFVector();
@@ -434,11 +331,9 @@ bool UEventManager::ChangePoint(std::string_view _MapName, std::string_view _Tar
 
 		AllTriggers[MapName][FTileVector(TargetPosition)] = Trigger;
 	}
-
-	return true;
 }
 
-bool UEventManager::ChangeDirection(std::string_view _MapName, std::string_view _TargetName, const FTileVector& _Direction)
+void UEventManager::SetDirection(std::string_view _MapName, std::string_view _TargetName, const FTileVector& _Direction)
 {
 	std::string MapName = UEngineString::ToUpper(_MapName);
 	std::string TargetName = UEngineString::ToUpper(_TargetName);
@@ -448,14 +343,15 @@ bool UEventManager::ChangeDirection(std::string_view _MapName, std::string_view 
 	if (nullptr == Target)
 	{
 		MsgBoxAssert("존재하지 않는 타겟" + MapName + ":" + TargetName + "을 회전시키려고 했습니다.");
-		return false;
+		return;
 	}
 
 	Target->SetDirection(_Direction);
 	Target->ChangeAnimation(Target->GetMoveState(), _Direction);
-
-	return true;
 }
+
+
+// 찾기 편의 함수
 
 APlayer* UEventManager::GetCurPlayer()
 {
@@ -482,125 +378,14 @@ ABlackScreen* UEventManager::GetBlackScreen(std::string_view _LevelName)
 	return dynamic_cast<ABlackScreen*>(AllUIElements[_LevelName.data()]["BlackScreen"]);
 }
 
-bool UEventManager::Chat(const std::vector<std::wstring>& _Dialogue, EFontColor _Color, int _LineSpace, bool _IsSequential)
+AEventTarget* UEventManager::FindTarget(std::string_view _LevelName, std::string_view _TargetName)
 {
-	ADialogueWindow* CurDialogueWindow = GetCurDialogueWindow();
-
-	EDialogueWindowState State = CurDialogueWindow->GetState();
-	
-	if (State == EDialogueWindowState::End)
+	if (false == AllTargets.contains(_LevelName.data()) || false == AllTargets[_LevelName.data()].contains(_TargetName.data()))
 	{
-		CurDialogueWindow->SetState(EDialogueWindowState::Hide);
-		return true;
+		return nullptr;
 	}
 
-	if (State == EDialogueWindowState::Show)
-	{
-		return false;
-	}
-
-	if (false == CurDialogueWindow->IsActive())
-	{
-		CurDialogueWindow->ActiveOn();
-		CurDialogueWindow->AllRenderersActiveOn();
-		CurDialogueWindow->SetDialogue(_Dialogue, _Color, _LineSpace, _IsSequential);
-		return false;
-	}
-
-	return false;
-}
-
-bool UEventManager::EndEvent(AEventTrigger* _Trigger, bool _GiveBackPlayerControl)
-{
-	AllProcessors[_Trigger]->EndRun();
-
-	if (true == _GiveBackPlayerControl)
-	{
-		GiveBackPlayerControl();
-	}
-
-	return true;
-}
-
-bool UEventManager::FadeOut(float _Time)
-{
-	static bool IsBegin = true;
-	static float Timer = 0.0f;
-
-	ABlackScreen* BlackScreen = GetCurBlackScreen();
-
-	if (true == IsBegin)
-	{
-		Timer = _Time;
-		IsBegin = false;
-		BlackScreen->Renderer->SetActive(true);
-		BlackScreen->Renderer->SetAlpha(0.0f);
-	}
-
-	if (Timer <= 0.0f)
-	{
-		IsBegin = true;
-		BlackScreen->Renderer->SetAlpha(1.0f);
-		return true;
-	}
-
-	Timer -= DeltaTime;
-	BlackScreen->Renderer->SetAlpha((_Time - Timer) / _Time);
-	return false;
-}
-
-bool UEventManager::FadeIn(std::string_view _LevelName, float _Time)
-{
-	static bool IsBegin = true;
-	static float Timer = 0.0f;
-
-	ABlackScreen* BlackScreen = GetBlackScreen(_LevelName);
-
-	if (true == IsBegin)
-	{
-		Timer = _Time;
-		IsBegin = false;
-		BlackScreen->Renderer->SetActive(true);
-		BlackScreen->Renderer->SetAlpha(1.0f);
-	}
-
-	if (Timer <= 0.0f)
-	{
-		IsBegin = true;
-		BlackScreen->Renderer->SetActive(false);
-		return true;
-	}
-
-	Timer -= DeltaTime;
-	BlackScreen->Renderer->SetAlpha(Timer / _Time);
-	return false;
-}
-
-bool UEventManager::FadeIn(float _Time)
-{
-	return FadeIn(CurLevelName, _Time);
-}
-
-bool UEventManager::Wait(float _Time)
-{
-	static bool IsBegin = true;
-	static float Timer = 0.0f;
-
-	if (true == IsBegin)
-	{
-		Timer = _Time;
-		IsBegin = false;
-	}
-
-	if (Timer <= 0.0f)
-	{
-		IsBegin = true;
-		return true;
-	}
-
-	Timer -= DeltaTime;
-
-	return false;
+	return AllTargets[_LevelName.data()][_TargetName.data()];
 }
 
 // 메모리 릴리즈

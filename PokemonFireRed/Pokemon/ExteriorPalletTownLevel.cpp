@@ -18,8 +18,8 @@ void UExteriorPalletTownLevel::BeginPlay()
 	UMapLevel::BeginPlay();
 
 	// 플레이어 시작 위치 설정 (디버깅 용도)
-	UEventManager::ChangePoint(GetName(), "Player", { 70, 142 });
-	UEventManager::ChangeDirection(GetName(), "Player", FTileVector::Down);
+	UEventManager::SetPoint(GetName(), "Player", { 70, 142 });
+	UEventManager::SetDirection(GetName(), "Player", FTileVector::Down);
 
 	// 이벤트 트리거 생성
 	UEventTargetInitialSetting OaksLabWarpSetting = UEventTargetInitialSetting(
@@ -30,6 +30,7 @@ void UExteriorPalletTownLevel::BeginPlay()
 	OaksLabWarp->SetTargetLevelName("InteriorOaksLabLevel");
 	OaksLabWarp->SetTargetPoint({ 6, 12 });
 	OaksLabWarp->SetMoveDirection(FTileVector::Up);
+	OaksLabWarp->RegisterPredefinedEvent();
 
 	UEventTargetInitialSetting PlayersHouseWarpSetting = UEventTargetInitialSetting(
 		"PlayersHouseWarp",
@@ -39,6 +40,7 @@ void UExteriorPalletTownLevel::BeginPlay()
 	PlayersHouseWarp->SetTargetLevelName("InteriorPlayersHouse1FLevel");
 	PlayersHouseWarp->SetTargetPoint({ 3, 8 });
 	PlayersHouseWarp->SetMoveDirection(FTileVector::Up);
+	PlayersHouseWarp->RegisterPredefinedEvent();
 
 	UEventTargetInitialSetting RivalsHouseWarpSetting = UEventTargetInitialSetting(
 		"RivalsHouseWarp",
@@ -48,6 +50,7 @@ void UExteriorPalletTownLevel::BeginPlay()
 	RivalsHouseWarp->SetTargetLevelName("InteriorRivalsHouseLevel");
 	RivalsHouseWarp->SetTargetPoint({ 4, 8 });
 	RivalsHouseWarp->SetMoveDirection(FTileVector::Up);
+	RivalsHouseWarp->RegisterPredefinedEvent();
 
 	UEventTargetInitialSetting FatManSetting = UEventTargetInitialSetting(
 		"FatMan",
@@ -64,4 +67,5 @@ void UExteriorPalletTownLevel::BeginPlay()
 and POKéMON as data via PC.)"
 		});
 	FatMan->SetTextColor(EFontColor::Blue);
+	FatMan->RegisterPredefinedEvent();
 }

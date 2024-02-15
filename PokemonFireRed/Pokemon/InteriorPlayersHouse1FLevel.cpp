@@ -24,6 +24,7 @@ void UInteriorPlayersHouse1FLevel::BeginPlay()
 	StairTo2FWarp->SetTargetLevelName("InteriorPlayersHouse2FLevel");
 	StairTo2FWarp->SetTargetPoint({ 9, 2 });
 	StairTo2FWarp->SetMoveDirection(FTileVector::Right);
+	StairTo2FWarp->RegisterPredefinedEvent();
 
 	UEventTargetInitialSetting PalletTownWarpSetting = UEventTargetInitialSetting(
 		"PalletTownWarp",
@@ -33,6 +34,7 @@ void UInteriorPlayersHouse1FLevel::BeginPlay()
 	PalletTownWarp->SetTargetLevelName("ExteriorPalletTownLevel");
 	PalletTownWarp->SetTargetPoint({ 70, 142 });
 	PalletTownWarp->SetMoveDirection(FTileVector::Down);
+	PalletTownWarp->RegisterPredefinedEvent();
 
 	UEventTargetInitialSetting PlayersMomSetting = UEventTargetInitialSetting(
 		"PlayersMom",
@@ -51,4 +53,5 @@ LR"(Oh, yes. PROF. OAK, next door, was
 looking for you.)"
 		});
 	PlayersMom->SetTextColor(EFontColor::Red);
+	PlayersMom->RegisterPredefinedEvent();
 }

@@ -5,6 +5,7 @@
 class AMap;
 class UMapLevel;
 class UEventManager;
+class UEventProcessor;
 
 enum class EPlayerState
 {
@@ -20,6 +21,7 @@ enum class EPlayerState
 class APlayer : public AEventTarget
 {
 	friend UEventManager;
+	friend UEventProcessor;
 public:
 	// constructor destructor
 	APlayer();
