@@ -98,15 +98,15 @@ you bought, received, or found.)"
 	UEventCondition Cond = UEventCondition(EEventTriggerAction::Direct);
 	MenuWindowOpenTrigger = CurLevel->SpawnEventTrigger<AEventTrigger>(OpenSetting);
 	UEventManager::RegisterEvent(MenuWindowOpenTrigger, Cond,
-		ES::Start()
+		ES::Start(true)
 	);
 
 	UEventTargetInitialSetting CloseSetting 
 		= UEventTargetInitialSetting("MainWindowCloseTriggerSetting", FTileVector(2000, 2000));
 	MenuWindowCloseTrigger = CurLevel->SpawnEventTrigger<AEventTrigger>(CloseSetting);
 	UEventManager::RegisterEvent(MenuWindowCloseTrigger, Cond,
-		ES::Start() >> ES::End()
-		);
+		ES::Start(false) >> ES::End(true)
+	);
 }
 
 void AMenuWindow::Tick(float _DeltaTime)

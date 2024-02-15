@@ -23,9 +23,7 @@ void AWarp::RegisterPredefinedEvent()
 	WarpCond.RegisterCheckFunc(ToCheckFunc(CheckPlayerDirection));
 
 	UEventManager::RegisterEvent(this, WarpCond,
-		ES::Start()
-		
-		>> ES::DeactivatePlayerControl()
+		ES::Start(true)
 		// >> ES::FadeOutAsync(0.5f)
 		>> ES::MoveActor(GetWorld()->GetName(), "Player", { MoveDirection.ToFVector() }, 1.8f)
 		>> ES::FadeOut(0.5f) // delete
@@ -33,8 +31,7 @@ void AWarp::RegisterPredefinedEvent()
 		>> ES::ChangePoint(TargetMapName, "Player", TargetPoint)
 		>> ES::ChangeDirection(TargetMapName, "Player", MoveDirection.ToFVector())
 		>> ES::Wait(0.5f)
-		>> ES::ActivatePlayerControl()
-		>> ES::End()
+		>> ES::End(true)
 	);
 }
 

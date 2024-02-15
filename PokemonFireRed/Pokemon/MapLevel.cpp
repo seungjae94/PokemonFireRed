@@ -91,7 +91,7 @@ void UMapLevel::BeginPlay()
 	FadeInTrigger = SpawnEventTrigger<AEventTrigger>(Setting);
 
 	UEventCondition Cond = UEventCondition(EEventTriggerAction::Direct);
-	UEventManager::RegisterEvent(FadeInTrigger, Cond, ES::Start() >> ES::FadeIn(0.75f) >> ES::End());
+	UEventManager::RegisterEvent(FadeInTrigger, Cond, ES::Start(false) >> ES::FadeIn(0.75f) >> ES::End(false));
 }
 
 void UMapLevel::Tick(float _DeltaTime)
