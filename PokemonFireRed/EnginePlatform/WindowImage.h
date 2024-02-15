@@ -93,6 +93,7 @@ public:
 
 	void AlphaCopy(UWindowImage* _CopyImage, const FTransform& _Trans, int _Index, Color8Bit _Color = Color8Bit::Black);
 
+	void TextCopy(const std::string& _Text, const std::string& _Font, float _Size, const FTransform& _Trans, Color8Bit _Color);
 
 	// 주 사용처: 백버퍼 이미지 생성
 	// - 리소스 이미지는 Load로 생성한다.

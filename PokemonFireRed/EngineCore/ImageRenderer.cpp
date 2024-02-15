@@ -61,6 +61,28 @@ int UAnimationInfo::Update(float _DeltaTime)
 
 void UImageRenderer::Render(float _DeltaTime)
 {
+	if (false == Text.empty())
+	{
+		TextRender(_DeltaTime);
+	}
+	else
+	{
+		ImageRender(_DeltaTime);
+	}
+}
+
+void UImageRenderer::TextRender(float _DeltaTime)
+{
+	FTransform RendererTrans = GetRenderTransForm();
+
+	float TextCount = static_cast<float>(Text.size());
+
+	GEngine->MainWindow.GetBackBufferImage()->TextCopy(Text, Font, Size, RendererTrans, TextColor);
+}
+
+void UImageRenderer::ImageRender(float _DeltaTime)
+{
+
 	if (nullptr == Image)
 	{
 		MsgBoxAssert("이미지가 존재하지 않는 랜더러 입니다");
@@ -72,29 +94,13 @@ void UImageRenderer::Render(float _DeltaTime)
 		InfoIndex = CurAnimation->Update(_DeltaTime);
 	}
 
-	// 렌더링할 위치를 계산한다.
-	FTransform RendererTrans = GetTransform();
-
-	FTransform ActorTrans = GetOwner()->GetTransform();
-
-	RendererTrans.AddPosition(ActorTrans.GetPosition());
-
-	if (true == CameraEffect)
-	{
-		AActor* Actor = GetOwner();
-		ULevel* World = Actor->GetWorld();
-		FVector CameraPos = World->GetCameraPos();
-		RendererTrans.AddPosition(-CameraPos);
-	}
+	FTransform RendererTrans = GetRenderTransForm();
 
 	EWIndowImageType ImageType = Image->GetImageType();
-
-	//GEngine->MainWindow.GetBackBufferImage()->TransCopy(Image, RendererTrans, InfoIndex, TransColor);
 
 	switch (ImageType)
 	{
 	case EWIndowImageType::IMG_BMP:
-		// bmp일때는 일반적으로 Transcopy로 투명처리를 한다.
 		GEngine->MainWindow.GetBackBufferImage()->TransCopy(Image, RendererTrans, InfoIndex, TransColor);
 		break;
 	case EWIndowImageType::IMG_PNG:
@@ -104,6 +110,21 @@ void UImageRenderer::Render(float _DeltaTime)
 		MsgBoxAssert("투명처리가 불가능한 이미지 입니다.");
 		break;
 	}
+}
+
+FTransform UImageRenderer::GetRenderTransForm()
+{
+	FTransform RendererTrans = GetActorBaseTransform();
+
+	if (true == CameraEffect)
+	{
+		AActor* Actor = GetOwner();
+		ULevel* World = Actor->GetWorld();
+		FVector CameraPos = World->GetCameraPos();
+		RendererTrans.AddPosition(-CameraPos);
+	}
+
+	return RendererTrans;
 }
 
 void UImageRenderer::BeginPlay()
