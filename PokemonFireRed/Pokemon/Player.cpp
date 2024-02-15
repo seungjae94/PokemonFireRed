@@ -166,8 +166,8 @@ void APlayer::WalkStart(bool _ResetAnimation)
 	}
 	MemoryDirection = FTileVector::Zero;
 	CurWalkTime = WalkTime;
-	PrevPos = GetActorLocation();
-	NextPos = PrevPos + Direction.ToFVector();
+	PrevPoint = FTileVector(GetActorLocation());
+	NextPoint = PrevPoint + Direction;
 }
 
 void APlayer::Walk(float _DeltaTime)
@@ -182,10 +182,8 @@ void APlayer::Walk(float _DeltaTime)
 
 		float t = (WalkTime - CurWalkTime) / WalkTime;
 
-		FVector TargetPos = UPokemonMath::Lerp(PrevPos, NextPos, t);
-		FVector PlayerPos = GetActorLocation();
-		FVector AddPos = TargetPos - PlayerPos;
-		AddActorLocation(AddPos);
+		FVector TargetPos = UPokemonMath::Lerp(PrevPoint, NextPoint, t);
+		SetActorLocation(TargetPos);
 		GetWorld()->SetCameraPos(GetActorLocation() - Global::HALF_SCREEN);
 
 		if (t >= WalkInputLatency)
@@ -196,6 +194,7 @@ void APlayer::Walk(float _DeltaTime)
 		return;
 	}
 	IsExecutingMovingLogic = false;
+	UEventManager::SetPoint(GetWorld()->GetName(), GetName(), NextPoint);
 
 	// 2. 기억하고 있는 입력 방향이 없다.
 	if (MemoryDirection == FTileVector::Zero)
@@ -294,8 +293,8 @@ void APlayer::JumpStart(bool _ResetAnimation)
 	}
 	MemoryDirection = FTileVector::Zero;
 	CurJumpTime = JumpTime;
-	PrevPos = GetActorLocation();
-	NextPos = PrevPos + Direction.ToFVector() * 2;
+	PrevPoint = FTileVector(GetActorLocation());
+	NextPoint = PrevPoint + Direction.ToFVector() * 2;
 }
 
 void APlayer::Jump(float _DeltaTime)
@@ -310,10 +309,8 @@ void APlayer::Jump(float _DeltaTime)
 
 		float t = (JumpTime - CurJumpTime) / JumpTime;
 
-		FVector TargetPos = UPokemonMath::Lerp(PrevPos, NextPos, t);
-		FVector PlayerPos = GetActorLocation();
-		FVector AddPos = TargetPos - PlayerPos;
-		AddActorLocation(AddPos);
+		FVector TargetPos = UPokemonMath::Lerp(PrevPoint, NextPoint, t);
+		SetActorLocation(TargetPos);
 		GetWorld()->SetCameraPos(GetActorLocation() - Global::HALF_SCREEN);
 
 		if (t >= JumpInputLatency)
@@ -324,6 +321,7 @@ void APlayer::Jump(float _DeltaTime)
 		return;
 	}
 	bool IsExecutingMovingLogic = false;
+	UEventManager::SetPoint(GetWorld()->GetName(), GetName(), NextPoint);
 
 	// 2. 기억하고 있는 입력 방향이 없다.
 	if (MemoryDirection == FTileVector::Zero)

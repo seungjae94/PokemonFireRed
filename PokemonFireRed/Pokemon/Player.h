@@ -73,6 +73,8 @@ private:
 
 	// 이동 관련 변수
 	FTileVector MemoryDirection = FTileVector::Zero;
+	FTileVector PrevPoint;
+	FTileVector NextPoint;
 	
 	// 원작과 비슷한 걷기 속도는 3.6f
 	float WalkSpeed = Global::CHARACTER_WALK_SPEED;

@@ -145,56 +145,62 @@ bool UEventProcessor::ProcessMoveActor()
 	}
 
 	// 이동 이벤트 시작
-	if (Target->MoveIndex == -1)
+	if (MoveActorPathIndex == -1)
 	{
-		Target->MoveTime = 1.0f / Data.MoveSpeed;
-		Target->Timer = 0.0f;
+		MoveActorMoveTime = 1.0f / Data.MoveSpeed;
+		MoveActorTimer = 0.0f;
 		Target->SetMoveState(ETargetMoveState::Walk);
-		Target->ChangeAnimation(Target->MoveState, Target->Direction);
+		Target->ChangeAnimation(Target->GetMoveState(), Target->GetDirection());
 	}
 
-	if (Target->Timer > 0.0f)
+	if (MoveActorTimer > 0.0f)
 	{
-		Target->Timer -= DeltaTime;
+		MoveActorTimer -= DeltaTime;
 
-		float t = (Target->MoveTime - Target->Timer) / Target->MoveTime;
-		FVector TargetPos = UPokemonMath::Lerp(Target->PrevPos, Target->NextPos, t);
-		FVector PlayerPos = Target->GetActorLocation();
-		FVector AddPos = TargetPos - PlayerPos;
-
-		EngineDebug::OutPutDebugText("t: " + std::to_string(t));
-		EngineDebug::OutPutDebugText("PlayerPos: " + PlayerPos.ToString());
-
-		Target->AddActorLocation(AddPos);
+		float t = (MoveActorMoveTime - MoveActorTimer) / MoveActorMoveTime;
+		FVector TargetPos = UPokemonMath::Lerp(MoveActorPrevPoint.ToFVector(), MoveActorNextPoint.ToFVector(), t);
+		Target->SetActorLocation(TargetPos);
 		Target->GetWorld()->SetCameraPos(Target->GetActorLocation() - Global::HALF_SCREEN);
 	}
-	else if (Target->MoveIndex + 1 >= Data.Path.size())
+	else if (MoveActorPathIndex + 1 >= Data.Path.size())
 	{
-		Target->MoveIndex = -1;
-		Target->SetMoveState(ETargetMoveState::Idle);
-		Target->ChangeAnimation(Target->MoveState, Target->Direction);
+		// 이동 종료
+		PostProcessMoveActor(Target);
 		return true;
 	}
 	else
 	{
-		Target->PrevPos = Target->GetActorLocation();
-		Target->NextPos = Target->PrevPos + Data.Path[Target->MoveIndex + 1].ToFVector();
-		Target->Timer = Target->MoveTime;
+		UEventManager::SetPoint(MapName, TargetName, FTileVector(Target->GetActorLocation()));
 
-		if (Data.Path[Target->MoveIndex + 1] == FTileVector::Zero)
+		MoveActorPrevPoint = Target->GetPoint();
+		MoveActorNextPoint = MoveActorPrevPoint + Data.Path[MoveActorPathIndex + 1];
+		MoveActorTimer = MoveActorMoveTime;
+
+		if (Data.Path[MoveActorPathIndex + 1] == FTileVector::Zero)
 		{
 			MsgBoxAssert("MoveActor 함수에서 Path 값이 FTileVector::Zero 입니다.");
 			return false;
 		}
 
-		if (Target->Direction != Data.Path[Target->MoveIndex + 1])
+		if (Target->GetDirection() != Data.Path[MoveActorPathIndex + 1])
 		{
-			Target->SetDirection(Data.Path[Target->MoveIndex + 1]);
-			Target->ChangeAnimation(Target->MoveState, Target->Direction);
+			Target->SetDirection(Data.Path[MoveActorPathIndex + 1]);
+			Target->ChangeAnimation(Target->GetMoveState(), Target->GetDirection());
 		}
-		Target->MoveIndex++;
+		MoveActorPathIndex++;
 	}
 	return false;
+}
+
+void UEventProcessor::PostProcessMoveActor(AEventTarget* _Target)
+{
+	MoveActorPrevPoint = FTileVector::Zero;
+	MoveActorNextPoint = FTileVector::Zero;
+	MoveActorPathIndex = -1;		// -1은 첫 번째 틱임을 의미한다.
+	MoveActorMoveTime = 0.0f;
+	MoveActorTimer = 0.0f;
+	_Target->SetMoveState(ETargetMoveState::Idle);
+	_Target->ChangeAnimation(_Target->GetMoveState(), _Target->GetDirection());
 }
 
 bool UEventProcessor::ProcessFadeIn()
@@ -297,7 +303,7 @@ bool UEventProcessor::ProcessChat()
 	ES::Chat& Data = CurStream->ChatDataSet[CurIndexOfType];
 
 	EDialogueWindowState State = CurDialogueWindow->GetState();
-	
+
 	if (State == EDialogueWindowState::End)
 	{
 		CurDialogueWindow->SetState(EDialogueWindowState::Hide);

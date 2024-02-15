@@ -32,7 +32,7 @@ void AWarp::RegisterPredefinedEvent()
 		>> ES::ChangeLevel(TargetMapName)
 		>> ES::ChangePoint(TargetMapName, "Player", TargetPoint)
 		>> ES::ChangeDirection(TargetMapName, "Player", MoveDirection.ToFVector())
-		>> ES::Wait(0.8f)
+		>> ES::Wait(0.5f)
 		>> ES::ActivatePlayerControl()
 		>> ES::End()
 	);

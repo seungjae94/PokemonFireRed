@@ -4,6 +4,7 @@
 
 class UEventManager;
 class UEventProcessor;
+class PokemonDebug;
 
 enum class ETargetMoveState
 {
@@ -60,7 +61,7 @@ private:
 class AEventTarget : public AActor
 {
 	friend UEventManager;
-	friend UEventProcessor;
+	friend PokemonDebug;
 public:
 	// constructor destructor
 	AEventTarget();
@@ -73,6 +74,11 @@ public:
 	AEventTarget& operator=(AEventTarget&& _Other) noexcept = delete;
 
 	void ChangeAnimation(ETargetMoveState _State, const FTileVector& _Direction);
+
+	FTileVector GetPoint() const
+	{
+		return Point;
+	}
 
 	FTileVector GetDirection() const
 	{
@@ -96,9 +102,8 @@ public:
 
 protected:
 	// 이동 관련 변수
+	FTileVector Point = FTileVector::Zero;
 	FTileVector Direction = FTileVector::Down;
-	FVector PrevPos;
-	FVector NextPos;
 	ETargetMoveState MoveState = ETargetMoveState::Idle;
 	float MoveTime = 0.0f;
 	float Timer = 0.0f;

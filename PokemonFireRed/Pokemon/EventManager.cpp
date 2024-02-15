@@ -321,6 +321,7 @@ void UEventManager::SetPoint(std::string_view _MapName, std::string_view _Target
 
 	FVector TargetPosition = _Point.ToFVector();
 	Target->SetActorLocation(TargetPosition);
+	Target->Point = _Point;
 
 	if (true == AllTriggers[MapName].contains(_Point))
 	{

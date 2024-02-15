@@ -28,3 +28,8 @@ FVector UPokemonMath::Lerp(const FVector& _Start, const FVector& _End, float _t)
 
 	return _Start * (1 - _t) + _End * _t;
 }
+
+FVector UPokemonMath::Lerp(const FTileVector& _Start, const FTileVector& _End, float _t)
+{
+	return Lerp(_Start.ToFVector(), _End.ToFVector(), _t);
+}

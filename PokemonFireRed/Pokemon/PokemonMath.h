@@ -154,6 +154,7 @@ public:
 	UPokemonMath& operator=(UPokemonMath&& _Other) noexcept = delete;
 
 	static FVector Lerp(const FVector& _Start, const FVector& _End, float _t);
+	static FVector Lerp(const FTileVector& _Start, const FTileVector& _End, float _t);
 
 protected:
 
