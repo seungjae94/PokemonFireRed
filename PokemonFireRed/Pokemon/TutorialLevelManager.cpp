@@ -36,7 +36,7 @@ void ATutorialLevelManager::BeginPlay()
 	UEventCondition Cond = UEventCondition(EEventTriggerAction::Direct);
 	LevelEndTrigger = dynamic_cast<UTutorialLevel*>(GetWorld())->SpawnEventTrigger<AEventTrigger>(Setting);
 	UEventManager::RegisterEvent(LevelEndTrigger, Cond, 
-		ES::Start(false) >> ES::FadeOut(1.0f) >> ES::ChangeLevel("InteriorPlayersHouse2FLevel") >> ES::End(false)
+		ES::Start(false) >> ES::FadeOut(1.0f) >> ES::ChangeLevel("InteriorPlayersHouse2FLevel") >> ES::End(true)
 	);
 }
 
