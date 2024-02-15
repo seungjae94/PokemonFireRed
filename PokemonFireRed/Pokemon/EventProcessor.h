@@ -85,6 +85,7 @@ private:
 	bool ProcessChangeLevel();
 	bool ProcessChangePoint();
 	bool ProcessChangeDirection();
+	bool ProcessStarePlayer();
 
 	// 프로세싱 변수 - 이동
 	FTileVector MoveActorPrevPoint;

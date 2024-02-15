@@ -105,6 +105,9 @@ void UEventProcessor::Tick(float _DeltaTime)
 	case EEventType::ChangeDirection:
 		ProcessingResult = ProcessChangeDirection();
 		break;
+	case EEventType::StarePlayer:
+		ProcessingResult = ProcessStarePlayer();
+		break;
 	default:
 		break;
 	}
@@ -356,5 +359,16 @@ bool UEventProcessor::ProcessChangeDirection()
 	int CurIndexOfType = GetCurIndexOfType(EEventType::ChangeDirection);
 	ES::ChangeDirection& Data = CurStream->ChangeDirectionDataSet[CurIndexOfType];
 	UEventManager::SetDirection(Data.LevelName, Data.TargetName, Data.Direction);
+	return true;
+}
+
+bool UEventProcessor::ProcessStarePlayer()
+{
+	int CurIndexOfType = GetCurIndexOfType(EEventType::StarePlayer);
+	ES::StarePlayer& Data = CurStream->StarePlayerDataSet[CurIndexOfType];
+
+	std::string CurLevelName = UEventManager::GetCurLevelName();
+	APlayer* Player = UEventManager::GetCurPlayer();
+	UEventManager::SetDirection(CurLevelName, Data.TargetName, -Player->Direction);
 	return true;
 }

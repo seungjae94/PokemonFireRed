@@ -25,7 +25,7 @@ void ADialogueActor::RegisterPredefinedEvent()
 	UEventCondition Cond1 = UEventCondition(EEventTriggerAction::Click);
 	UEventManager::RegisterEvent(this, Cond1,
 		ES::Start(true) 
-		// >> ES::LookPlayer()
+		>> ES::StarePlayer(GetName())
 		>> ES::Chat(Dialogue, TextColor, 16, true) 
 		>> ES::End(true)
 	);

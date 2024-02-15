@@ -19,6 +19,7 @@ enum class EEventType
 	ChangeLevel,
 	ChangePoint,
 	ChangeDirection,
+	StarePlayer,
 	End,
 };
 
@@ -198,6 +199,25 @@ public:
 		return *this;
 	}
 
+	class StarePlayer
+	{
+		friend UEventProcessor;
+	public:
+		StarePlayer(std::string_view _TargetName)
+			: TargetName(_TargetName)
+		{
+		}
+	private:
+		std::string TargetName;
+	};
+
+	UEventStream& operator>>(const StarePlayer& _Data)
+	{
+		EventTypeList.push_back(EEventType::StarePlayer);
+		StarePlayerDataSet.push_back(_Data);
+		return *this;
+	}
+
 	class End
 	{
 		friend UEventStream;
@@ -237,5 +257,6 @@ private:
 	std::vector<ChangeLevel> ChangeLevelDataSet;
 	std::vector<ChangePoint> ChangePointDataSet;
 	std::vector<ChangeDirection> ChangeDirectionDataSet;
+	std::vector<StarePlayer> StarePlayerDataSet;
 };
 
