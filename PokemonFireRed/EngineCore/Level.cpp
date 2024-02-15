@@ -2,6 +2,7 @@
 
 #include <EngineBase/EngineDebug.h>
 #include "Actor.h"
+#include "EngineCore.h"
 
 ULevel::ULevel()
 {
@@ -66,17 +67,30 @@ void ULevel::LevelRender(float _DeltaTime)
 		std::list<UImageRenderer*>& RendererList = Pair.second;
 		for (UImageRenderer* Renderer : RendererList)
 		{
-			/*if (Renderer == nullptr)
-			{
-				MsgBoxAssert("렌더링 구조에서 렌더러가 nullptr인 경우가 존재합니다.")
-			}*/
-
 			if (false == Renderer->IsActive())
 			{
 				continue;
 			}
 
 			Renderer->Render(_DeltaTime);
+		}
+	}
+
+	// 디버그용 충돌체 렌더링 기능
+	if (true == GEngine->IsDebug())
+	{
+		for (std::pair<const int, std::list<UCollision*>>& OrderListPair : Collisions)
+		{
+			std::list<UCollision*>& RendererList = OrderListPair.second;
+			for (UCollision* Collision : RendererList)
+			{
+				if (false == Collision->IsActive())
+				{
+					continue;
+				}
+
+				Collision->DebugRender(CameraPos);
+			}
 		}
 	}
 }

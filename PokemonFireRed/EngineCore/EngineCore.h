@@ -65,10 +65,21 @@ public:
 		FrameTime = 1 / static_cast<float>(Frame);
 	}
 
+	static bool IsDebug()
+	{
+		return IsDebugValue;
+	}
+
+	static void EngineDebugSwitch() {
+		IsDebugValue = !IsDebugValue;
+	}
+
 protected:
 	UEngineCore();
 
 private:
+	static bool IsDebugValue;
+
 	// 프레임 제한 기능 관련
 	int Frame = -1;					// 프레임 제한 수치. Frame <= 0은 프레임을 제한하지 않음을 의미.
 	float FrameTime = 0.0f;			// (1 / Frame)과 동일.

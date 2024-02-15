@@ -5,6 +5,7 @@
 
 
 UEngineCore* GEngine = nullptr;
+bool UEngineCore::IsDebugValue = false;
 
 UEngineCore::UEngineCore()
 	: MainWindow()
@@ -65,6 +66,8 @@ void UEngineCore::CoreTick()
 	{
 		MsgBoxAssert("엔진을 시작할 레벨이 지정되지 않았습니다 치명적인 오류입니다");
 	}
+
+	GEngine->Tick(DeltaTime);
 
 	// 업데이트 구조 1: 레벨이 매 틱마다 할 행동
 	CurLevel->Tick(DeltaTime);
