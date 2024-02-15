@@ -74,8 +74,8 @@ private:
 
 	// 프로세싱 함수
 	/// <return>이벤트 명령 종료 여부</return>
-	bool ProcessActivatePlayerControl();
-	bool ProcessDeactivatePlayerControl();
+	void ActivatePlayerControl();
+	void DeactivatePlayerControl();
 	bool ProcessMoveActor();
 	void PostProcessMoveActor(AEventTarget* _Target);
 	bool ProcessFadeIn();

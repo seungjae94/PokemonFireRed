@@ -31,6 +31,10 @@ bool UEventProcessor::TryRun(EEventTriggerAction _TriggerAction)
 		{
 			CurCommandIndex = 0;
 			CurStream = &Pair.second;
+			if (true == CurStream->DeactivatePlayer)
+			{
+				DeactivatePlayerControl();
+			}
 			IsRunningValue = true;		// 실행
 			CurIndexOfTypeMap.clear();
 			return true;
@@ -42,6 +46,11 @@ bool UEventProcessor::TryRun(EEventTriggerAction _TriggerAction)
 
 void UEventProcessor::EndRun()
 {
+	if (true == CurStream->ActivatePlayer)
+	{
+		ActivatePlayerControl();
+	}
+
 	UEventManager::PlayerEventProcessingOff();
 	IsRunningValue = false;
 	CurIndexOfTypeMap.clear();
@@ -65,12 +74,6 @@ void UEventProcessor::Tick(float _DeltaTime)
 	bool ProcessingResult = false;
 	switch (CurEventType)
 	{
-	case EEventType::ActivatePlayerControl:
-		ProcessingResult = ProcessActivatePlayerControl();
-		break;
-	case EEventType::DeactivatePlayerControl:
-		ProcessingResult = ProcessDeactivatePlayerControl();
-		break;
 	case EEventType::MoveActor:
 		ProcessingResult = ProcessMoveActor();
 		break;
@@ -108,18 +111,16 @@ void UEventProcessor::Tick(float _DeltaTime)
 
 // 이벤트 명령 처리 함수
 
-bool UEventProcessor::ProcessActivatePlayerControl()
+void UEventProcessor::ActivatePlayerControl()
 {
 	APlayer* CurPlayer = UEventManager::GetCurPlayer();
 	CurPlayer->StateChange(EPlayerState::Idle);
-	return true;
 }
 
-bool UEventProcessor::ProcessDeactivatePlayerControl()
+void UEventProcessor::DeactivatePlayerControl()
 {
 	APlayer* CurPlayer = UEventManager::GetCurPlayer();
 	CurPlayer->StateChange(EPlayerState::OutOfControl);
-	return true;
 }
 
 bool UEventProcessor::ProcessMoveActor()

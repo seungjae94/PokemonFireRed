@@ -11,8 +11,6 @@ class UEventProcessor;
 
 enum class EEventType
 {
-	ActivatePlayerControl,
-	DeactivatePlayerControl,
 	MoveActor,
 	FadeIn,
 	FadeOut,
@@ -30,26 +28,6 @@ class UEventStream
 public:
 	UEventStream();
 	~UEventStream();
-
-	class ActivatePlayerControl
-	{
-	};
-
-	UEventStream& operator>>(const ActivatePlayerControl& _ActivatePlayerControl)
-	{
-		EventTypeList.push_back(EEventType::ActivatePlayerControl);
-		return *this;
-	}
-
-	class DeactivatePlayerControl
-	{
-	};
-
-	UEventStream& operator>>(const DeactivatePlayerControl& _DeActivatePlayerControl)
-	{
-		EventTypeList.push_back(EEventType::DeactivatePlayerControl);
-		return *this;
-	}
 
 	class MoveActor
 	{
@@ -222,6 +200,13 @@ public:
 
 	class End
 	{
+	public:
+		End(bool _ActivatePlayer)
+			: ActivatePlayer(_ActivatePlayer)
+		{
+		}
+	private:
+		bool ActivatePlayer;
 	};
 
 	UEventStream& operator>>(const End& _End)
@@ -230,14 +215,18 @@ public:
 		return *this;
 	}
 
-	static UEventStream Start()
+	static UEventStream Start(bool _DeactivatePlayer)
 	{
-		return UEventStream();
+		UEventStream StartStream = UEventStream();
+		StartStream.DeactivatePlayer = _DeactivatePlayer;
+		return StartStream;
 	}
 protected:
 
 private:
 	std::vector<EEventType> EventTypeList;
+	bool DeactivatePlayer = true;
+	bool ActivatePlayer = true;
 	std::vector<MoveActor> MoveActorDataSet;
 	std::vector<FadeIn> FadeInDataSet;
 	std::vector<FadeOut> FadeOutDataSet;

@@ -98,14 +98,14 @@ you bought, received, or found.)"
 	UEventCondition Cond = UEventCondition(EEventTriggerAction::Direct);
 	MenuWindowOpenTrigger = CurLevel->SpawnEventTrigger<AEventTrigger>(OpenSetting);
 	UEventManager::RegisterEvent(MenuWindowOpenTrigger, Cond,
-		ES::Start() >> ES::DeactivatePlayerControl() >> ES::End()
+		ES::Start()
 	);
 
 	UEventTargetInitialSetting CloseSetting 
 		= UEventTargetInitialSetting("MainWindowCloseTriggerSetting", FTileVector(2000, 2000));
 	MenuWindowCloseTrigger = CurLevel->SpawnEventTrigger<AEventTrigger>(CloseSetting);
 	UEventManager::RegisterEvent(MenuWindowCloseTrigger, Cond,
-		ES::Start() >> ES::ActivatePlayerControl() >> ES::End()
+		ES::Start() >> ES::End()
 		);
 }
 
