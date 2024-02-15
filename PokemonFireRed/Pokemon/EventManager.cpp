@@ -145,18 +145,27 @@ bool UEventManager::TriggerEvent(AEventTrigger* _Trigger, EEventTriggerAction _A
 
 void UEventManager::AddTarget(AEventTarget* _Target, const UEventTargetInitialSetting& _Setting)
 {
+	if (nullptr == _Target)
+	{
+		MsgBoxAssert("nullptr은 이벤트 타겟으로 추가할 수 없습니다.");
+		return;
+	}
+
 	std::string TargetName = _Setting.Name;
 	std::string ImageName = _Setting.ImageName;
+	std::string LevelName = _Target->GetWorld()->GetName();
 
 	// 멤버 변수 초기화
 	_Target->SetName(TargetName);
-	_Target->SetActorLocation(_Setting.Point.ToFVector());
+	
+	_Target->Point = _Setting.Point;						// 아직 등록하지 않은 타겟이라 SetPoint로 위치 설정이 불가능하다.
+	_Target->SetActorLocation(_Setting.Point.ToFVector());	// 아직 등록하지 않은 타겟이라 SetPoint로 위치 설정이 불가능하다.
+
+	_Target->Collidable = _Setting.Collidable;
 	_Target->Rotatable = _Setting.Rotatable;
 	_Target->Walkable = _Setting.Walkable;
 	_Target->Direction = _Setting.Direction;
 	_Target->HasImage = _Setting.HasImage;
-
-	std::string LevelName = _Target->GetWorld()->GetName();
 
 	if (true == AllTargets[LevelName].contains(TargetName))
 	{
@@ -224,6 +233,23 @@ void UEventManager::AddTarget(AEventTarget* _Target, const UEventTargetInitialSe
 			}
 		}
 	}
+
+	// 콜리전 초기화
+	if (true == _Target->Collidable)
+	{
+		ECollisionOrder Order = ECollisionOrder::NPC;
+
+		if (nullptr != dynamic_cast<APlayer*>(_Target))
+		{
+			Order = ECollisionOrder::Player;
+		}
+
+		_Target->Collision = _Target->CreateCollision(Order);
+
+		UCollision* Collision = _Target->Collision;
+		Collision->SetColType(ECollisionType::Rect);
+		Collision->SetScale({Global::F_TILE_SIZE, Global::F_TILE_SIZE });
+	}
 }
 
 void UEventManager::AddTrigger(AEventTrigger* _Trigger, const UEventTargetInitialSetting& _Setting)
@@ -257,6 +283,7 @@ void UEventManager::AddPlayer(APlayer* _Player, const FTileVector& _Point)
 		"Player",
 		_Point,
 		FTileVector::Down,
+		true,
 		true,
 		true,
 		true

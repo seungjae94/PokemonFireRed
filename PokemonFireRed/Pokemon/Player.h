@@ -63,6 +63,8 @@ protected:
 
 	// 충돌 체크
 	bool IsLedge(FTileVector _Direction);
+	bool IsPixelCollider(FTileVector _Direction);
+	bool IsComponentCollider(FTileVector _Direction);
 	bool IsCollider(FTileVector _Direction);
 private:
 	// 지면

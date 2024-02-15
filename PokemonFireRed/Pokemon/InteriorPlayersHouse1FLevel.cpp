@@ -41,6 +41,7 @@ void UInteriorPlayersHouse1FLevel::BeginPlay()
 		{ 7, 4 },
 		FTileVector::Left,
 		true,
+		true,
 		false,
 		true
 	);

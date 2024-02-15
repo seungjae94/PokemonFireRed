@@ -58,6 +58,7 @@ void UExteriorPalletTownLevel::BeginPlay()
 		FTileVector::Down,
 		true,
 		true,
+		true,
 		true
 	);
 	ADialogueActor* FatMan = SpawnEventTrigger<ADialogueActor>(FatManSetting);

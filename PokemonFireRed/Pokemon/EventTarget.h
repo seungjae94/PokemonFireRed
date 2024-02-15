@@ -20,6 +20,7 @@ public:
 		std::string_view _Name,
 		const FTileVector& _Point = FTileVector::Zero,
 		const FTileVector& _Direction = FTileVector::Zero,
+		bool _Collidable = false,
 		bool _Rotatable = false,
 		bool _Walkable = false,
 		bool _HasImage = false,
@@ -28,6 +29,7 @@ public:
 		: Name(UEngineString::ToUpper(_Name)),
 		Point(_Point),
 		Direction(_Direction),
+		Collidable(_Collidable),
 		Rotatable(_Rotatable),
 		Walkable(_Walkable),
 		HasImage(_HasImage),
@@ -50,6 +52,7 @@ private:
 	std::string Name;
 	FTileVector Point = FTileVector::Zero;
 	FTileVector Direction = FTileVector::Zero;
+	bool Collidable = false;
 	bool Rotatable = false;
 	bool Walkable = false;
 	bool HasImage = false;
@@ -108,6 +111,7 @@ protected:
 	float MoveTime = 0.0f;
 	float Timer = 0.0f;
 	int MoveIndex = -1;
+	bool Collidable = false;
 	bool Rotatable = false;
 	bool Walkable = false;
 	bool HasImage = false;
@@ -116,6 +120,9 @@ protected:
 	// 렌더러
 	UImageRenderer* UpperBodyRenderer = nullptr;
 	UImageRenderer* LowerBodyRenderer = nullptr;
+
+	// 콜리전
+	UCollision* Collision = nullptr;
 private:
 };
 

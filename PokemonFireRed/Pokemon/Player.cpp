@@ -147,8 +147,8 @@ void APlayer::Idle(float _DeltaTime)
 		return;
 	}
 
-	// 4. 앞에 충돌체가 있다.
-	if (IsCollider(Direction) == true)
+	// 4. 앞에 충돌체(픽셀 기반 or 컴포넌트 기반)가 있다.
+	if (true == IsCollider(Direction))
 	{
 		StateChange(EPlayerState::WalkInPlace);
 		return;
@@ -212,7 +212,7 @@ void APlayer::Walk(float _DeltaTime)
 	}
 
 	// 4. 입력 방향에 충돌체가 있다.
-	if (IsCollider(MemoryDirection) == true)
+	if (true == IsCollider(MemoryDirection))
 	{
 		Direction = MemoryDirection;
 		StateChange(EPlayerState::WalkInPlace);
@@ -273,7 +273,7 @@ void APlayer::WalkInPlace(float _DeltaTime)
 	}
 
 	// 4. 입력 방향에 충돌체가 있다.
-	if (IsCollider(InputDirection))
+	if (true == IsCollider(InputDirection))
 	{
 		Direction = InputDirection;
 		WalkInPlaceStart(true);
@@ -346,7 +346,7 @@ void APlayer::Jump(float _DeltaTime)
 	}
 
 	// 5. 입력 방향에 충돌체가 있다.
-	if (IsCollider(MemoryDirection) == true)
+	if (true == IsCollider(MemoryDirection))
 	{
 		Direction = MemoryDirection;
 		StateChange(EPlayerState::WalkInPlace);
@@ -377,7 +377,7 @@ bool APlayer::IsLedge(FTileVector _Direction)
 	return false;
 }
 
-bool APlayer::IsCollider(FTileVector _Direction)
+bool APlayer::IsPixelCollider(FTileVector _Direction)
 {
 	FVector MapRelativeTargetPos = (GetActorLocation() - Map->GetActorLocation()) + _Direction.ToFVector();
 	FVector MapRelativeTargetPosInImage = MapRelativeTargetPos * (1 / Global::F_MAP_RUNTIME_SCALE_FACTOR);
@@ -388,4 +388,35 @@ bool APlayer::IsCollider(FTileVector _Direction)
 	);
 
 	return Color == Color8Bit(255, 0, 255, 0) || (Color.R == 255 && Color.G == 255);
+}
+
+bool APlayer::IsComponentCollider(FTileVector _Direction)
+{
+	std::vector<UCollision*> CollisionResult;
+	
+	bool IsCollided = Collision->CollisionCheck(ECollisionOrder::NPC, CollisionResult);
+	
+	FTileVector TestPoint = GetPoint() + _Direction;
+	for (UCollision* Collision : CollisionResult)
+	{
+		AEventTarget* Target = dynamic_cast<AEventTarget*>(Collision->GetOwner());
+
+		if (nullptr == Target)
+		{
+			MsgBoxAssert("콜리전을 갖고 있지만 이벤트 타겟이 아닌 오브젝트" + Collision->GetOwner()->GetName() + "가 존재합니다.");
+			return false;
+		}
+
+		if (Target->GetPoint() == TestPoint)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+bool APlayer::IsCollider(FTileVector _Direction)
+{
+	return true == IsPixelCollider(_Direction) || true == IsComponentCollider(_Direction);
 }

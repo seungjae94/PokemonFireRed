@@ -64,3 +64,9 @@ enum ERenderingOrder
 	UpperUI,
 	Super
 };
+
+enum ECollisionOrder
+{
+	Player,
+	NPC,
+};
