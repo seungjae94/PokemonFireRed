@@ -96,10 +96,7 @@ void AMenuWindow::BeginPlay()
 	MenuExplainText = GetWorld()->SpawnActor<APokemonText>();
 	MenuExplainText->SetActorLocation(FVector(2, 137) * Global::F_PIXEL_SIZE);
 	MenuExplainText->SetColor(EFontColor::White);
-	MenuExplainText->SetText(
-		LR"(Equipped with pockets for storing items
-you bought, received, or found.)"
-	);
+	MenuExplainText->SetText(MenuExplains[GetMenuIndex()]);
 
 	for (int i = 0; i < MenuCount; i++)
 	{
@@ -155,12 +152,14 @@ void AMenuWindow::Tick(float _DeltaTime)
 	if (true == UEngineInput::IsDown(VK_DOWN))
 	{
 		IncCursor();
+		MenuExplainText->SetText(MenuExplains[GetMenuIndex()]);
 		return;
 	}
 
 	if (true == UEngineInput::IsDown(VK_UP))
 	{
 		DecCursor();
+		MenuExplainText->SetText(MenuExplains[GetMenuIndex()]);
 		return;
 	}
 }

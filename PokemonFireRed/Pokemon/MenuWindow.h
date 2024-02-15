@@ -33,6 +33,16 @@ private:
 	int MenuCount = 3;
 	std::vector<APokemonText*> MenuTexts;
 	std::vector<std::wstring> MenuNames = {L"POKéDEX", L"POKéMON", L"BAG", L"RED", L"EXIT"};
+	std::vector<std::wstring> MenuExplains = {
+		LR"(A device that records POKéMON secrets
+upon meeting or catching them.)",
+		LR"(Check and organize POKéMON that are
+traveling with you in your party.)",
+		LR"(Equipped with pockets for storing items
+you bought, received, or found.)",
+		LR"(Check your money and other game data.)",
+		LR"(Close this MENU window)"
+	};
 
 	APokemonText* MenuExplainText = nullptr;
 
@@ -42,6 +52,12 @@ private:
 	void IncCursor();
 	void DecCursor();
 	void MoveCursor(int _Cursor);
+	
+	int GetMenuIndex()
+	{
+		return static_cast<int>(MenuNames.size() - MenuCount + Cursor);
+	}
+	
 	FVector GetArrowPos(int _Cursor);
 
 	AEventTrigger* MenuWindowOpenTrigger = nullptr;
