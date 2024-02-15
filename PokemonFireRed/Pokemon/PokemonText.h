@@ -35,10 +35,10 @@ public:
 		switch (_Color)
 		{
 		case EFontColor::Black:
-			//GlyphImageNamePrefix = "BlackGlyph";
+			GlyphImageNamePrefix = "BlackGlyph";
 			break;
 		case EFontColor::Gray:
-			//GlyphImageNamePrefix = "GrayGlyph";
+			GlyphImageNamePrefix = "GrayGlyph";
 			break;
 		case EFontColor::White:
 			GlyphImageNamePrefix = "WhiteGlyph";

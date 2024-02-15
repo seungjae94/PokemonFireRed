@@ -9,6 +9,7 @@
 #include "EventTrigger.h"
 #include "EventCondition.h"
 #include "EventStream.h"
+#include "PokemonText.h"
 
 AMenuWindow::AMenuWindow()
 {
@@ -31,6 +32,10 @@ void AMenuWindow::AllRenderersActiveOn()
 	MenuWindowExplainRenderer->ActiveOn();
 	ArrowRenderer->ActiveOn();
 	MenuExplainText->SetVisible();
+	for (APokemonText* MenuText : MenuTexts)
+	{
+		MenuText->SetVisible();
+	}
 }
 
 void AMenuWindow::AllRenderersActiveOff()
@@ -39,6 +44,10 @@ void AMenuWindow::AllRenderersActiveOff()
 	MenuWindowExplainRenderer->ActiveOff();
 	ArrowRenderer->ActiveOff();
 	MenuExplainText->SetInvisible();
+	for (APokemonText* MenuText : MenuTexts)
+	{
+		MenuText->SetInvisible();
+	}
 }
 
 void AMenuWindow::BeginPlay()
@@ -83,13 +92,25 @@ void AMenuWindow::BeginPlay()
 
 	ArrowRenderer->SetImageCuttingTransform({ {0, 0}, ArrowScale });
 
-	// 메뉴 설명
+	// 텍스트 설정
 	MenuExplainText = GetWorld()->SpawnActor<APokemonText>();
 	MenuExplainText->SetActorLocation(FVector(2, 137) * Global::F_PIXEL_SIZE);
+	MenuExplainText->SetColor(EFontColor::White);
 	MenuExplainText->SetText(
 		LR"(Equipped with pockets for storing items
 you bought, received, or found.)"
 	);
+
+	for (int i = 0; i < MenuCount; i++)
+	{
+		APokemonText* MenuText = GetWorld()->SpawnActor<APokemonText>();
+		FVector MenuTextPos = MenuWindowRenderer->GetTransform().LeftTop();
+		MenuTextPos += FVector(15, 18 + 15 * i) * Global::F_PIXEL_SIZE;
+		MenuText->SetActorLocation(MenuTextPos);
+		MenuText->SetColor(EFontColor::Gray);
+		MenuText->SetText(MenuNames[(MenuNames.size() - MenuCount) + i]);
+		MenuTexts.push_back(MenuText);
+	}
 
 	// 트리거 설정
 	UMapLevel* CurLevel = dynamic_cast<UMapLevel*>(GetWorld());
@@ -117,7 +138,6 @@ void AMenuWindow::Tick(float _DeltaTime)
 	// - ActiveOn한 틱에는 UEngineInput::IsDown(VK_RETURN) 값이 true로 들어가 있기 때문이다.
 	if (IsFirstTick)
 	{
-		MenuExplainText->ActiveOn();
 		IsFirstTick = false;
 		return;
 	}

@@ -62,7 +62,7 @@ void APokemonText::PrepareLine(const std::wstring& _Line, int _Bot)
 		Renderer->SetImage(GlyphImageNamePrefix + Rule.ImageName + ".png");
 		Renderer->CameraEffectOff();
 
-		FVector RenderPos = FVector(Left + Global::F_PIXEL_SIZE * Rule.Width / 2, _Bot - Global::F_PIXEL_SIZE * Rule.Height / 2 + Global::F_PIXEL_SIZE * Rule.Base);
+		FVector RenderPos = FVector(Left + Global::F_PIXEL_SIZE * (Rule.Width / 2), _Bot - Global::F_PIXEL_SIZE * ((Rule.Height-1) / 2) + Global::F_PIXEL_SIZE * Rule.Base);
 		FVector GlyphScale = { Rule.Width, Rule.Height };
 		FVector RenderScale = GlyphScale * Global::F_PIXEL_SIZE;
 		Renderer->SetTransform({ RenderPos, RenderScale });
@@ -119,24 +119,18 @@ void APokemonText::Tick(float _DeltaTime)
 
 void APokemonText::InitAlignRuleMap()
 {
-	int Left = 72;
-	int Top = 31;
 	char NameCh = '0';
 	for (wchar_t Ch = L'0'; Ch <= L'9'; Ch++)
 	{
 		AlignRuleMap[Ch] = { std::string("Number") + NameCh, 6, 10, 0 };
-		Left += 6;
 		NameCh++;
 	}
 
 	// 영 대문자
-	Left = 64;
-	Top = 46;
 	NameCh = 'A';
 	for (wchar_t Ch = L'A'; Ch <= L'Z'; Ch++)
 	{
 		AlignRuleMap[Ch] = { std::string("Upper") + NameCh, 6, 9, 0 };
-		Left += 6;
 		NameCh++;
 	}
 

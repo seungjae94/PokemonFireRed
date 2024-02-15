@@ -31,9 +31,6 @@
     <Filter Include="Object\TitleLevel\Actor">
       <UniqueIdentifier>{6cca5fec-8768-4bb5-b4c6-002f4f8625d8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\MapLevel\EventTrigger">
-      <UniqueIdentifier>{90534d3f-513a-4990-9f4b-e981d1191cf6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Object\Global">
       <UniqueIdentifier>{14dfdc14-0d12-4cbe-a0bb-70edbbcdf166}</UniqueIdentifier>
     </Filter>
@@ -54,6 +51,9 @@
     </Filter>
     <Filter Include="Object\TutorialLevel\Actor">
       <UniqueIdentifier>{23378bf3-ee2f-42ae-9c85-d7d649d31738}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\MapLevel\Actor\EventTrigger">
+      <UniqueIdentifier>{90534d3f-513a-4990-9f4b-e981d1191cf6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -103,13 +103,13 @@
       <Filter>Event</Filter>
     </ClInclude>
     <ClInclude Include="EventTrigger.h">
-      <Filter>Object\MapLevel\EventTrigger</Filter>
+      <Filter>Object\MapLevel\Actor\EventTrigger</Filter>
     </ClInclude>
     <ClInclude Include="DialogueActor.h">
-      <Filter>Object\MapLevel\EventTrigger</Filter>
+      <Filter>Object\MapLevel\Actor\EventTrigger</Filter>
     </ClInclude>
     <ClInclude Include="Warp.h">
-      <Filter>Object\MapLevel\EventTrigger</Filter>
+      <Filter>Object\MapLevel\Actor\EventTrigger</Filter>
     </ClInclude>
     <ClInclude Include="InteriorPlayersHouse1FLevel.h">
       <Filter>Object\MapLevel\Level\Interior</Filter>
@@ -201,13 +201,13 @@
       <Filter>Event</Filter>
     </ClCompile>
     <ClCompile Include="EventTrigger.cpp">
-      <Filter>Object\MapLevel\EventTrigger</Filter>
+      <Filter>Object\MapLevel\Actor\EventTrigger</Filter>
     </ClCompile>
     <ClCompile Include="DialogueActor.cpp">
-      <Filter>Object\MapLevel\EventTrigger</Filter>
+      <Filter>Object\MapLevel\Actor\EventTrigger</Filter>
     </ClCompile>
     <ClCompile Include="Warp.cpp">
-      <Filter>Object\MapLevel\EventTrigger</Filter>
+      <Filter>Object\MapLevel\Actor\EventTrigger</Filter>
     </ClCompile>
     <ClCompile Include="InteriorPlayersHouse1FLevel.cpp">
       <Filter>Object\MapLevel\Level\Interior</Filter>

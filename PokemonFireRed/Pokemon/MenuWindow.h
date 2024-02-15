@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "UIElement.h"
 
 class APokemonText;
@@ -30,7 +30,10 @@ private:
 	UImageRenderer* MenuWindowExplainRenderer = nullptr;
 	UImageRenderer* ArrowRenderer = nullptr;
 
+	int MenuCount = 3;
 	std::vector<APokemonText*> MenuTexts;
+	std::vector<std::wstring> MenuNames = {L"POKéDEX", L"POKéMON", L"BAG", L"RED", L"EXIT"};
+
 	APokemonText* MenuExplainText = nullptr;
 
 	int Cursor = 0;
