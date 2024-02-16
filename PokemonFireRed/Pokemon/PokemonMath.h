@@ -155,6 +155,8 @@ public:
 
 	static FVector Lerp(const FVector& _Start, const FVector& _End, float _t);
 	static FVector Lerp(const FTileVector& _Start, const FTileVector& _End, float _t);
+	static FTileVector ProjectToTileVector(const FVector& _Vec);
+	static float Distance(const FVector& _Vec1, const FVector& _Vec2);
 
 protected:
 

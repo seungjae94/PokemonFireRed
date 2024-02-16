@@ -33,3 +33,39 @@ FVector UPokemonMath::Lerp(const FTileVector& _Start, const FTileVector& _End, f
 {
 	return Lerp(_Start.ToFVector(), _End.ToFVector(), _t);
 }
+
+FTileVector UPokemonMath::ProjectToTileVector(const FVector& _Vec)
+{
+	FVector Vec = _Vec;
+	float Size = Vec.Size2D();
+	float MinDist = 2 * Size;
+
+	std::vector<FVector> TestVectors = {
+		FVector::Left * std::abs(Vec.X), 
+		FVector::Right * std::abs(Vec.X),
+		FVector::Up * std::abs(Vec.Y),
+		FVector::Down * std::abs(Vec.Y)
+	};
+
+	FTileVector Result = FTileVector::Zero;
+	for (FVector& TestVector : TestVectors)
+	{
+		float Dist = UPokemonMath::Distance(TestVector, Vec);
+
+		if (Dist <= MinDist)
+		{
+			MinDist = Dist;
+			Result = TestVector.Normalize2DReturn() * Global::F_TILE_SIZE;
+		}
+	}
+
+	return Result;
+}
+
+float UPokemonMath::Distance(const FVector& _Vec1, const FVector& _Vec2)
+{
+	float Dx = (_Vec1.X - _Vec2.X);
+	float Dy = (_Vec1.Y - _Vec2.Y);
+
+	return std::sqrtf(Dx*Dx + Dy*Dy);
+}

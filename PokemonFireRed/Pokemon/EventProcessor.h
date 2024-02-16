@@ -76,8 +76,10 @@ private:
 	/// <return>이벤트 명령 종료 여부</return>
 	void ActivatePlayerControl();
 	void DeactivatePlayerControl();
-	bool ProcessMoveActor();
-	void PostProcessMoveActor(AEventTarget* _Target);
+	bool ProcessMove();
+	void PostProcessMove(AEventTarget* _Target);
+	bool ProcessMoveWithoutRestriction();
+	void PostProcessMoveWR(AEventTarget* _Target);
 	bool ProcessFadeIn();
 	bool ProcessFadeOut();
 	bool ProcessWait();
@@ -88,10 +90,17 @@ private:
 	bool ProcessStarePlayer();
 
 	// 프로세싱 변수 - 이동
-	FTileVector MoveActorPrevPoint;
-	FTileVector MoveActorNextPoint;
-	int MoveActorPathIndex = -1;		// -1은 첫 번째 틱임을 의미한다.
-	float MoveActorMoveTime = 0.0f;
-	float MoveActorTimer = 0.0f;
+	FTileVector MovePrevPoint;
+	FTileVector MoveNextPoint;
+	int MovePathIndex = -1;		// -1은 첫 번째 틱임을 의미한다.
+	float MoveTime = 0.0f;
+	float MoveTimer = 0.0f;
+
+	// 프로세싱 변수 - 이동 (타일 제약 X)
+	FVector MoveWRPrevPos;
+	FVector MoveWRNextPos;
+	int MoveWRPathIndex = -1;
+	float MoveWRTime = 0.0f;
+	float MoveWRTimer = 0.0f;
 };
 

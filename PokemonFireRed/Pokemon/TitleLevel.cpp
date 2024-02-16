@@ -21,7 +21,7 @@ void UTitleLevel::BeginPlay()
 	CurDir.Move("Resources");
 	CurDir.Move("TitleLevel");
 
-	// 리소스 로드
+	// 영상 로드
 	UEngineResourcesManager::GetInst().LoadFolder(CurDir.AppendPath("1st"));
 	UEngineResourcesManager::GetInst().LoadFolder(CurDir.AppendPath("2nd"));
 	UEngineResourcesManager::GetInst().LoadFolder(CurDir.AppendPath("3rd"));

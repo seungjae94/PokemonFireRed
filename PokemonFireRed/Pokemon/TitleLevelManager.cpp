@@ -18,16 +18,13 @@ void ATitleLevelManager::BeginPlay()
 {
 	Renderer = CreateImageRenderer(ERenderingOrder::LowerUI);
 	Renderer->CameraEffectOff();
+	Renderer->SetTransColor(Color8Bit::White);
 
-	std::vector<int> FrameCounts0 = { 1, 22, 1, 1, 4 };
-	std::vector<int> FrameCounts2 = { 1, 1, 1, 1, 1, 8, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
-	std::vector<int> FrameCounts4 = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 40 };
-
-	Renderer->CreateAnimation(VideoName[0], VideoName[0], UPokemonUtil::FrameCountVectorToIndexVector(FrameCounts0), 0.1f, false);
-	Renderer->CreateAnimation(VideoName[1], VideoName[1], 0, 301-1, 0.07f, false);
-	Renderer->CreateAnimation(VideoName[2], VideoName[2], UPokemonUtil::FrameCountVectorToIndexVector(FrameCounts2), 0.07f, false);
-	Renderer->CreateAnimation(VideoName[3], VideoName[3], 0, 44-1, 0.07f, true);
-	Renderer->CreateAnimation(VideoName[4], VideoName[4], UPokemonUtil::FrameCountVectorToIndexVector(FrameCounts4), 0.07f, true);
+	Renderer->CreateAnimation(VideoName[0], VideoName[0], 0, 202 - 1, 1 / 60.0f, false);
+	Renderer->CreateAnimation(VideoName[1], VideoName[1], 0, 1260 - 1, 1 / 60.0f, false);
+	Renderer->CreateAnimation(VideoName[2], VideoName[2], 0, 262 - 1, 1 / 60.0f, false);
+	Renderer->CreateAnimation(VideoName[3], VideoName[3], 0, 2442 - 1, 1 / 60.0f, false);
+	Renderer->CreateAnimation(VideoName[4], VideoName[4], 0, 180 - 1, 1 / 60.0f, false);
 
 	Renderer->SetImage(VideoName[0]);
 	Renderer->SetTransform({ {0, 0}, Global::SCREEN });
@@ -117,11 +114,9 @@ void ATitleLevelManager::Video3Logic(float _DeltaTime)
 		return;
 	}
 
-	CurVideo3PlayTime -= _DeltaTime;
-	if (CurVideo3PlayTime <= 0.0f)
+	if (true == Renderer->IsCurAnimationEnd())
 	{
-		// 48초가 지나면 다음 영상으로 넘어간다.
-		CurVideo3PlayTime = Video3PlayTime;
+		// 비디오 재생이 끝난 경우 다음 영상으로 넘어간다.
 		PlayNextVideo();
 	}
 }

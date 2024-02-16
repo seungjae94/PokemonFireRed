@@ -81,8 +81,11 @@ void UEventProcessor::Tick(float _DeltaTime)
 	bool ProcessingResult = false;
 	switch (CurEventType)
 	{
-	case EEventType::MoveActor:
-		ProcessingResult = ProcessMoveActor();
+	case EEventType::Move:
+		ProcessingResult = ProcessMove();
+		break;
+	case EEventType::MoveWithoutRestriction:
+		ProcessingResult = ProcessMoveWithoutRestriction();
 		break;
 	case EEventType::FadeIn:
 		ProcessingResult = ProcessFadeIn();
@@ -133,11 +136,11 @@ void UEventProcessor::DeactivatePlayerControl()
 	CurPlayer->StateChange(EPlayerState::OutOfControl);
 }
 
-bool UEventProcessor::ProcessMoveActor()
+bool UEventProcessor::ProcessMove()
 {
 	float DeltaTime = UEventManager::GetDeltaTime();
-	int CurIndexOfType = GetCurIndexOfType(EEventType::MoveActor);
-	ES::MoveActor& Data = CurStream->MoveActorDataSet[CurIndexOfType];
+	int CurIndexOfType = GetCurIndexOfType(EEventType::Move);
+	ES::Move& Data = CurStream->MoveDataSet[CurIndexOfType];
 
 	std::string MapName = UEngineString::ToUpper(Data.MapName);
 	std::string TargetName = UEngineString::ToUpper(Data.TargetName);
@@ -156,60 +159,140 @@ bool UEventProcessor::ProcessMoveActor()
 	}
 
 	// 이동 이벤트 시작
-	if (MoveActorPathIndex == -1)
+	if (MovePathIndex == -1)
 	{
-		MoveActorMoveTime = 1.0f / Data.MoveSpeed;
-		MoveActorTimer = 0.0f;
+		MoveTime = 1.0f / Data.MoveSpeed;
+		MoveTimer = 0.0f;
 		Target->SetMoveState(ETargetMoveState::Walk);
 		Target->ChangeAnimation(Target->GetMoveState(), Target->GetDirection());
 	}
 
-	if (MoveActorTimer > 0.0f)
+	if (MoveTimer > 0.0f)
 	{
-		MoveActorTimer -= DeltaTime;
+		MoveTimer -= DeltaTime;
 
-		float t = (MoveActorMoveTime - MoveActorTimer) / MoveActorMoveTime;
-		FVector TargetPos = UPokemonMath::Lerp(MoveActorPrevPoint.ToFVector(), MoveActorNextPoint.ToFVector(), t);
+		float t = (MoveTime - MoveTimer) / MoveTime;
+		FVector TargetPos = UPokemonMath::Lerp(MovePrevPoint.ToFVector(), MoveNextPoint.ToFVector(), t);
 		Target->SetActorLocation(TargetPos);
 		Target->GetWorld()->SetCameraPos(Target->GetActorLocation() - Global::HALF_SCREEN);
 	}
-	else if (MoveActorPathIndex + 1 >= Data.Path.size())
+	else if (MovePathIndex + 1 >= Data.Path.size())
 	{
 		// 이동 종료
-		PostProcessMoveActor(Target);
+		PostProcessMove(Target);
 		return true;
 	}
 	else
 	{
 		UEventManager::SetPoint(MapName, TargetName, FTileVector(Target->GetActorLocation()));
 
-		MoveActorPrevPoint = Target->GetPoint();
-		MoveActorNextPoint = MoveActorPrevPoint + Data.Path[MoveActorPathIndex + 1];
-		MoveActorTimer = MoveActorMoveTime;
+		MovePrevPoint = Target->GetPoint();
+		MoveNextPoint = MovePrevPoint + Data.Path[MovePathIndex + 1];
+		MoveTimer = MoveTime;
 
-		if (Data.Path[MoveActorPathIndex + 1] == FTileVector::Zero)
+		if (Data.Path[MovePathIndex + 1] == FTileVector::Zero)
 		{
 			MsgBoxAssert("MoveActor 함수에서 Path 값이 FTileVector::Zero 입니다.");
 			return false;
 		}
 
-		if (Target->GetDirection() != Data.Path[MoveActorPathIndex + 1])
+		if (Target->GetDirection() != Data.Path[MovePathIndex + 1])
 		{
-			Target->SetDirection(Data.Path[MoveActorPathIndex + 1]);
+			Target->SetDirection(Data.Path[MovePathIndex + 1]);
 			Target->ChangeAnimation(Target->GetMoveState(), Target->GetDirection());
 		}
-		MoveActorPathIndex++;
+		MovePathIndex++;
 	}
 	return false;
 }
 
-void UEventProcessor::PostProcessMoveActor(AEventTarget* _Target)
+void UEventProcessor::PostProcessMove(AEventTarget* _Target)
 {
-	MoveActorPrevPoint = FTileVector::Zero;
-	MoveActorNextPoint = FTileVector::Zero;
-	MoveActorPathIndex = -1;		// -1은 첫 번째 틱임을 의미한다.
-	MoveActorMoveTime = 0.0f;
-	MoveActorTimer = 0.0f;
+	MovePrevPoint = FTileVector::Zero;
+	MoveNextPoint = FTileVector::Zero;
+	MovePathIndex = -1;		// -1은 첫 번째 틱임을 의미한다.
+	MoveTime = 0.0f;
+	MoveTimer = 0.0f;
+	_Target->SetMoveState(ETargetMoveState::Idle);
+	_Target->ChangeAnimation(_Target->GetMoveState(), _Target->GetDirection());
+}
+
+bool UEventProcessor::ProcessMoveWithoutRestriction()
+{
+	float DeltaTime = UEventManager::GetDeltaTime();
+	int CurIndexOfType = GetCurIndexOfType(EEventType::MoveWithoutRestriction);
+	ES::MoveWithoutRestriction& Data = CurStream->MoveWithoutRestrictionDataSet[CurIndexOfType];
+
+	std::string MapName = UEngineString::ToUpper(Data.MapName);
+	std::string TargetName = UEngineString::ToUpper(Data.TargetName);
+
+	if (Data.Path.size() <= 0)
+	{
+		MsgBoxAssert("강제 이동(타일 제약 X) 경로의 크기가 0 이하입니다.");
+		return false;
+	}
+
+	AEventTarget* Target = UEventManager::FindTarget(MapName, TargetName);
+	if (nullptr == Target)
+	{
+		MsgBoxAssert(MapName + ":" + TargetName + "는 존재하지 않는 이벤트 타겟입니다.존재하지 않는 이벤트 타겟을 이동시키려고 했습니다.");
+		return false;
+	}
+
+	// 이동 이벤트 시작
+	if (MoveWRPathIndex == -1)
+	{
+		MoveWRTime = 1.0f / Data.MoveSpeed;
+		MoveWRTimer = 0.0f;
+		Target->SetMoveState(ETargetMoveState::Walk);
+		Target->ChangeAnimation(Target->GetMoveState(), Target->GetDirection());
+	}
+
+	if (MoveWRTimer > 0.0f)
+	{
+		MoveWRTimer -= DeltaTime;
+
+		float t = (MoveWRTime - MoveWRTimer) / MoveWRTime;
+		FVector TargetPos = UPokemonMath::Lerp(MoveWRPrevPos, MoveWRNextPos, t);
+		Target->SetActorLocation(TargetPos);
+		Target->GetWorld()->SetCameraPos(Target->GetActorLocation() - Global::HALF_SCREEN);
+	}
+	else if (MoveWRPathIndex + 1 >= Data.Path.size())
+	{
+		// 이동 종료
+		PostProcessMoveWR(Target);
+		return true;
+	}
+	else
+	{
+		MoveWRPrevPos = Target->GetActorLocation();
+		MoveWRNextPos = MoveWRPrevPos + Data.Path[MoveWRPathIndex + 1];
+		MoveWRTimer = MoveWRTime;
+
+		if (true == Data.Path[MoveWRPathIndex + 1].IsZeroVector2D())
+		{
+			MsgBoxAssert("MoveActor 함수에서 Path 값이 FTileVector::Zero 입니다.");
+			return false;
+		}
+
+		FTileVector ProjectedDirection = UPokemonMath::ProjectToTileVector(Data.Path[MoveWRPathIndex + 1]);
+		if (Target->GetDirection() != ProjectedDirection)
+		{
+			Target->SetDirection(ProjectedDirection);
+			Target->ChangeAnimation(Target->GetMoveState(), Target->GetDirection());
+		}
+		MoveWRPathIndex++;
+	}
+	return false;
+}
+
+void UEventProcessor::PostProcessMoveWR(AEventTarget* _Target)
+{
+	MoveWRPrevPos = FVector::Zero;
+	MoveWRNextPos = FVector::Zero;
+	MoveWRPathIndex = -1;		// -1은 첫 번째 틱임을 의미한다.
+	MoveWRTime = 0.0f;
+	MoveWRTimer = 0.0f;
 	_Target->SetMoveState(ETargetMoveState::Idle);
 	_Target->ChangeAnimation(_Target->GetMoveState(), _Target->GetDirection());
 }

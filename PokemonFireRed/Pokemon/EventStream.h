@@ -11,7 +11,8 @@ class UEventProcessor;
 
 enum class EEventType
 {
-	MoveActor,
+	Move,
+	MoveWithoutRestriction,
 	FadeIn,
 	FadeOut,
 	Wait,
@@ -30,11 +31,11 @@ public:
 	UEventStream();
 	~UEventStream();
 
-	class MoveActor
+	class Move
 	{
 		friend UEventProcessor;
 	public:
-		MoveActor(std::string_view _MapName, std::string_view _TargetName, const std::vector<FTileVector>& _Path, float _MoveSpeed = 3.6f)
+		Move(std::string_view _MapName, std::string_view _TargetName, const std::vector<FTileVector>& _Path, float _MoveSpeed = 3.6f)
 			: MapName(_MapName), TargetName(_TargetName), Path(_Path), MoveSpeed(_MoveSpeed)
 		{
 		}
@@ -45,10 +46,32 @@ public:
 		float MoveSpeed = 3.6f;
 	};
 
-	UEventStream& operator>>(const MoveActor& _MoveActor)
+	UEventStream& operator>>(const Move& _Data)
 	{
-		EventTypeList.push_back(EEventType::MoveActor);
-		MoveActorDataSet.push_back(_MoveActor);
+		EventTypeList.push_back(EEventType::Move);
+		MoveDataSet.push_back(_Data);
+		return *this;
+	}
+
+	class MoveWithoutRestriction
+	{
+		friend UEventProcessor;
+	public:
+		MoveWithoutRestriction(std::string_view _MapName, std::string_view _TargetName, const std::vector<FVector>& _Path, float _MoveSpeed = 3.6f)
+			: MapName(_MapName), TargetName(_TargetName), Path(_Path), MoveSpeed(_MoveSpeed)
+		{
+		}
+	private:
+		std::string MapName;
+		std::string TargetName;
+		std::vector<FVector> Path;
+		float MoveSpeed = 3.6f;
+	};
+
+	UEventStream& operator>>(const MoveWithoutRestriction& _Data)
+	{
+		EventTypeList.push_back(EEventType::MoveWithoutRestriction);
+		MoveWithoutRestrictionDataSet.push_back(_Data);
 		return *this;
 	}
 
@@ -64,10 +87,10 @@ public:
 		float Time;
 	};
 
-	UEventStream& operator>>(const FadeIn& _FadeIn)
+	UEventStream& operator>>(const FadeIn& _Data)
 	{
 		EventTypeList.push_back(EEventType::FadeIn);
-		FadeInDataSet.push_back(_FadeIn);
+		FadeInDataSet.push_back(_Data);
 		return *this;
 	}
 
@@ -83,10 +106,10 @@ public:
 		float Time;
 	};
 
-	UEventStream& operator>>(const FadeOut& _FadeOut)
+	UEventStream& operator>>(const FadeOut& _Data)
 	{
 		EventTypeList.push_back(EEventType::FadeOut);
-		FadeOutDataSet.push_back(_FadeOut);
+		FadeOutDataSet.push_back(_Data);
 		return *this;
 	}
 
@@ -103,10 +126,10 @@ public:
 
 	};
 
-	UEventStream& operator>>(const Wait& _Wait)
+	UEventStream& operator>>(const Wait& _Data)
 	{
 		EventTypeList.push_back(EEventType::Wait);
-		WaitDataSet.push_back(_Wait);
+		WaitDataSet.push_back(_Data);
 		return *this;
 	}
 
@@ -125,10 +148,10 @@ public:
 		bool IsSequential = true;
 	};
 
-	UEventStream& operator>>(const Chat& _Chat)
+	UEventStream& operator>>(const Chat& _Data)
 	{
 		EventTypeList.push_back(EEventType::Chat);
-		ChatDataSet.push_back(_Chat);
+		ChatDataSet.push_back(_Data);
 		return *this;
 	}
 
@@ -144,10 +167,10 @@ public:
 		std::string LevelName;
 	};
 
-	UEventStream& operator>>(const ChangeLevel& _ChangeLevel)
+	UEventStream& operator>>(const ChangeLevel& _Data)
 	{
 		EventTypeList.push_back(EEventType::ChangeLevel);
-		ChangeLevelDataSet.push_back(_ChangeLevel);
+		ChangeLevelDataSet.push_back(_Data);
 		return *this;
 	}
 
@@ -168,10 +191,10 @@ public:
 		FTileVector Point;
 	};
 
-	UEventStream& operator>>(const ChangePoint& _ChangePoint)
+	UEventStream& operator>>(const ChangePoint& _Data)
 	{
 		EventTypeList.push_back(EEventType::ChangePoint);
-		ChangePointDataSet.push_back(_ChangePoint);
+		ChangePointDataSet.push_back(_Data);
 		return *this;
 	}
 
@@ -192,10 +215,10 @@ public:
 		FTileVector Direction;
 	};
 
-	UEventStream& operator>>(const ChangeDirection& _ChangeDirection)
+	UEventStream& operator>>(const ChangeDirection& _Data)
 	{
 		EventTypeList.push_back(EEventType::ChangeDirection);
-		ChangeDirectionDataSet.push_back(_ChangeDirection);
+		ChangeDirectionDataSet.push_back(_Data);
 		return *this;
 	}
 
@@ -249,7 +272,8 @@ private:
 	std::vector<EEventType> EventTypeList;
 	bool DeactivatePlayer = true;
 	bool ActivatePlayer = true;
-	std::vector<MoveActor> MoveActorDataSet;
+	std::vector<Move> MoveDataSet;
+	std::vector<MoveWithoutRestriction> MoveWithoutRestrictionDataSet;
 	std::vector<FadeIn> FadeInDataSet;
 	std::vector<FadeOut> FadeOutDataSet;
 	std::vector<Wait> WaitDataSet;

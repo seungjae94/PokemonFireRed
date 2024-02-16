@@ -1,4 +1,5 @@
 #pragma once
+#include <EngineBase/EngineDirectory.h>
 #include <EngineCore/Actor.h>
 
 class UImageRenderer;
@@ -27,9 +28,6 @@ private:
 	bool IsEnd = false;
 	float EndTime = 2.0f;
 	float CurAlpha = 0.0f;
-
-	float Video3PlayTime = 48.0f;
-	float CurVideo3PlayTime = Video3PlayTime;
 
 	int VideoIndex = 0;
 	const std::string VideoName[5] = { "1st", "2nd", "3rd", "4th", "5th"};
