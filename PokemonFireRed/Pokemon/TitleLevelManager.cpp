@@ -27,7 +27,7 @@ void ATitleLevelManager::BeginPlay()
 	Renderer->CreateAnimation(VideoName[4], VideoName[4], 0, 180 - 1, 1 / 60.0f, false);
 
 	Renderer->SetImage(VideoName[0]);
-	Renderer->SetTransform({ {0, 0}, Global::SCREEN });
+	Renderer->SetTransform({ {0, 0}, Global::Screen });
 	Renderer->ChangeAnimation(VideoName[0]);
 
 	// 하얀 배경 화면
@@ -36,7 +36,7 @@ void ATitleLevelManager::BeginPlay()
 	WhiteScreenRenderer->SetImage("WhiteScreen.png");
 	WhiteScreenRenderer->SetTransColor(Color8Bit::WhiteA);
 	WhiteScreenRenderer->SetAlpha(0.0f);
-	WhiteScreenRenderer->SetTransform({ {0, 0}, Global::SCREEN });
+	WhiteScreenRenderer->SetTransform({ {0, 0}, Global::Screen });
 }
 
 void ATitleLevelManager::Tick(float _DeltaTime)
@@ -49,7 +49,7 @@ void ATitleLevelManager::Tick(float _DeltaTime)
 
 		if (EndTime <= 0.0f)
 		{
-			UEventManager::SetLevel("TutorialLevel");
+			UEventManager::SetLevel(Global::TutorialLevel);
 		}
 		return;
 	}

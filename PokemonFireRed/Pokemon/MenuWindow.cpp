@@ -61,9 +61,9 @@ void AMenuWindow::BeginPlay()
 
 	UWindowImage* MenuWindowImage = UEngineResourcesManager::GetInst().FindImg("MenuWindowFirst.png");
 	FVector MenuWindowScale = MenuWindowImage->GetScale();
-	FVector MenuWindowRenderScale = MenuWindowScale * Global::F_PIXEL_SIZE;
-	FVector MenuWindowPos = MenuWindowRenderScale.Half2D() + FVector(Global::F_SCREEN_X - MenuWindowRenderScale.X, 0.0f);
-	MenuWindowPos += FVector(-Global::F_PIXEL_SIZE, Global::F_PIXEL_SIZE);
+	FVector MenuWindowRenderScale = MenuWindowScale * Global::FloatPixelSize;
+	FVector MenuWindowPos = MenuWindowRenderScale.Half2D() + FVector(Global::FloatScreenX - MenuWindowRenderScale.X, 0.0f);
+	MenuWindowPos += FVector(-Global::FloatPixelSize, Global::FloatPixelSize);
 	MenuWindowRenderer->SetTransform({ MenuWindowPos, MenuWindowRenderScale });
 
 	// 하단 메뉴 설명창
@@ -73,8 +73,8 @@ void AMenuWindow::BeginPlay()
 
 	UWindowImage* MenuWindowExplainImage = UEngineResourcesManager::GetInst().FindImg("MenuWindowExplain.png");
 	FVector MenuWindowExplainScale = MenuWindowExplainImage->GetScale();
-	FVector MenuWindowExplainRenderScale = MenuWindowExplainScale * Global::F_PIXEL_SIZE;
-	FVector MenuWindowExplainPos = MenuWindowExplainRenderScale.Half2D() + FVector(0.0f, Global::F_SCREEN_Y - MenuWindowExplainRenderScale.Y);
+	FVector MenuWindowExplainRenderScale = MenuWindowExplainScale * Global::FloatPixelSize;
+	FVector MenuWindowExplainPos = MenuWindowExplainRenderScale.Half2D() + FVector(0.0f, Global::FloatScreenY - MenuWindowExplainRenderScale.Y);
 	MenuWindowExplainRenderer->SetTransform({ MenuWindowExplainPos, MenuWindowExplainRenderScale });
 
 	// 메뉴 커서 화살표
@@ -84,7 +84,7 @@ void AMenuWindow::BeginPlay()
 
 	UWindowImage* ArrowImage = UEngineResourcesManager::GetInst().FindImg("MenuWindowArrow.png");
 	FVector ArrowScale = ArrowImage->GetScale();
-	FVector ArrowRenderScale = ArrowScale * Global::F_PIXEL_SIZE;
+	FVector ArrowRenderScale = ArrowScale * Global::FloatPixelSize;
 	ArrowRenderer->SetScale(ArrowRenderScale);
 
 	FVector ArrowPos = GetArrowPos(Cursor);
@@ -94,7 +94,7 @@ void AMenuWindow::BeginPlay()
 
 	// 텍스트 설정
 	MenuExplainText = GetWorld()->SpawnActor<APokemonText>();
-	MenuExplainText->SetActorLocation(FVector(2, 137) * Global::F_PIXEL_SIZE);
+	MenuExplainText->SetActorLocation(FVector(2, 137) * Global::FloatPixelSize);
 	MenuExplainText->SetColor(EFontColor::White);
 	MenuExplainText->SetText(MenuExplains[GetMenuIndex()]);
 
@@ -102,7 +102,7 @@ void AMenuWindow::BeginPlay()
 	{
 		APokemonText* MenuText = GetWorld()->SpawnActor<APokemonText>();
 		FVector MenuTextPos = MenuWindowRenderer->GetTransform().LeftTop();
-		MenuTextPos += FVector(15, 18 + 15 * i) * Global::F_PIXEL_SIZE;
+		MenuTextPos += FVector(15, 18 + 15 * i) * Global::FloatPixelSize;
 		MenuText->SetActorLocation(MenuTextPos);
 		MenuText->SetColor(EFontColor::Gray);
 		MenuText->SetText(MenuNames[(MenuNames.size() - MenuCount) + i]);
@@ -193,6 +193,6 @@ FVector AMenuWindow::GetArrowPos(int _Cursor)
 {
 	FVector ArrowRenderScale = ArrowRenderer->GetTransform().GetScale();
 	FVector ArrowPos = UPokemonUtil::GetMatchLeftTop(ArrowRenderScale, MenuWindowRenderer->GetTransform());
-	ArrowPos += FVector(8, 9 + _Cursor * 15) * Global::F_PIXEL_SIZE;
+	ArrowPos += FVector(8, 9 + _Cursor * 15) * Global::FloatPixelSize;
 	return ArrowPos;
 }

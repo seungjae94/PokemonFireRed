@@ -35,7 +35,7 @@ public:
 	}
 
 	FTileVector(const FVector& _Vector)
-		: X(std::lround(_Vector.X) / Global::TILE_SIZE), Y(std::lround(_Vector.Y) / Global::TILE_SIZE)
+		: X(std::lround(_Vector.X) / Global::TileSize), Y(std::lround(_Vector.Y) / Global::TileSize)
 	{
 	}
 
@@ -104,7 +104,7 @@ public:
 
 	FVector ToFVector() const
 	{
-		return FVector(Global::TILE_SIZE * X, Global::TILE_SIZE * Y);
+		return FVector(Global::TileSize * X, Global::TileSize * Y);
 	}
 
 	std::string ToDirectionString() const

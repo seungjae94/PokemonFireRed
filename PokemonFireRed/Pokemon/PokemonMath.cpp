@@ -55,7 +55,7 @@ FTileVector UPokemonMath::ProjectToTileVector(const FVector& _Vec)
 		if (Dist <= MinDist)
 		{
 			MinDist = Dist;
-			Result = TestVector.Normalize2DReturn() * Global::F_TILE_SIZE;
+			Result = TestVector.Normalize2DReturn() * Global::FloatTileSize;
 		}
 	}
 

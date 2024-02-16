@@ -21,7 +21,7 @@ void ATutorialLevelManager::BeginPlay()
 	Renderer = CreateImageRenderer(ERenderingOrder::LowerUI);
 	Renderer->CameraEffectOff();
 	Renderer->SetImage(GetPageName());
-	Renderer->SetTransform({ Global::HALF_SCREEN, Global::SCREEN });
+	Renderer->SetTransform({ Global::HalfScreen, Global::Screen });
 
 	ArrowRenderer = CreateImageRenderer(ERenderingOrder::LowerUI);
 	ArrowRenderer->CameraEffectOff();
@@ -29,14 +29,14 @@ void ATutorialLevelManager::BeginPlay()
 
 	UWindowImage* ArrowImage = UEngineResourcesManager::GetInst().FindImg("RedArrowDown.png");
 	FVector ArrowScale = ArrowImage->GetScale();
-	ArrowDownPos = Global::SCREEN - ArrowScale.Half2D() - FVector(15, 15);
+	ArrowDownPos = Global::Screen - ArrowScale.Half2D() - FVector(15, 15);
 	ArrowRenderer->SetTransform({ArrowDownPos, ArrowScale});
 
 	UEventTargetInitialSetting Setting = UEventTargetInitialSetting("TutorialLevelEndTriger");
 	UEventCondition Cond = UEventCondition(EEventTriggerAction::Direct);
 	LevelEndTrigger = dynamic_cast<UTutorialLevel*>(GetWorld())->SpawnEventTrigger<AEventTrigger>(Setting);
 	UEventManager::RegisterEvent(LevelEndTrigger, Cond, 
-		ES::Start(false) >> ES::FadeOut(1.0f) >> ES::ChangeLevel("InteriorPlayersHouse2FLevel") >> ES::End(true)
+		ES::Start(false) >> ES::FadeOut(1.0f) >> ES::ChangeLevel(Global::InteriorPlayersHouse2FLevel) >> ES::End(true)
 	);
 }
 
@@ -79,7 +79,7 @@ void ATutorialLevelManager::Tick(float _DeltaTime)
 			FVector ArrowScale = ArrowRenderer->GetTransform().GetScale();
 			ArrowValue = 0.0f;
 			IsArrowMoveUpward = true;
-			ArrowDownPos = Global::SCREEN - ArrowScale.Half2D() - FVector(27, 27);
+			ArrowDownPos = Global::Screen - ArrowScale.Half2D() - FVector(27, 27);
 			ArrowRenderer->SetTransform({ ArrowDownPos, ArrowScale });
 		}
 

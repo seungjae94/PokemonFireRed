@@ -25,11 +25,11 @@ void AWarp::RegisterPredefinedEvent()
 	UEventManager::RegisterEvent(this, WarpCond,
 		ES::Start(true)
 		// >> ES::FadeOutAsync(0.5f)
-		>> ES::Move(GetWorld()->GetName(), "Player", { MoveDirection.ToFVector() }, 1.8f)
+		>> ES::Move(GetWorld()->GetName(), Global::PLAYER_NAME, { MoveDirection.ToFVector() }, 1.8f)
 		>> ES::FadeOut(0.5f) // delete
 		>> ES::ChangeLevel(TargetMapName)
-		>> ES::ChangePoint(TargetMapName, "Player", TargetPoint)
-		>> ES::ChangeDirection(TargetMapName, "Player", MoveDirection.ToFVector())
+		>> ES::ChangePoint(TargetMapName, Global::PLAYER_NAME, TargetPoint)
+		>> ES::ChangeDirection(TargetMapName, Global::PLAYER_NAME, MoveDirection.ToFVector())
 		>> ES::Wait(0.5f)
 		>> ES::End(true)
 	);

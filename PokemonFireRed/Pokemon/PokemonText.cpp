@@ -32,7 +32,7 @@ void APokemonText::SetText(const std::wstring& _Text)
 	for (std::wstring& Line : Lines)
 	{
 		PrepareLine(Line, Bot);
-		Bot += LineSpace * Global::PIXEL_SIZE;
+		Bot += LineSpace * Global::PixelSize;
 	}
 
 	if (true == IsSequential)
@@ -62,11 +62,11 @@ void APokemonText::PrepareLine(const std::wstring& _Line, int _Bot)
 		Renderer->SetImage(GlyphImageNamePrefix + Rule.ImageName + ".png");
 		Renderer->CameraEffectOff();
 
-		FVector RenderPos = FVector(Left + Global::F_PIXEL_SIZE * (Rule.Width / 2), _Bot - Global::F_PIXEL_SIZE * ((Rule.Height-1) / 2) + Global::F_PIXEL_SIZE * Rule.Base);
+		FVector RenderPos = FVector(Left + Global::FloatPixelSize * (Rule.Width / 2), _Bot - Global::FloatPixelSize * ((Rule.Height-1) / 2) + Global::FloatPixelSize * Rule.Base);
 		FVector GlyphScale = { Rule.Width, Rule.Height };
-		FVector RenderScale = GlyphScale * Global::F_PIXEL_SIZE;
+		FVector RenderScale = GlyphScale * Global::FloatPixelSize;
 		Renderer->SetTransform({ RenderPos, RenderScale });
-		Left += Rule.Width * Global::PIXEL_SIZE;
+		Left += Rule.Width * Global::PixelSize;
 
 		GlyphRenderers.push_back(Renderer);
 	}

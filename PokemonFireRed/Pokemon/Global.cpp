@@ -1,37 +1,39 @@
 #include "Global.h"
 #include <Windows.h>
 
-const float Global::CHARACTER_WALK_SPEED = 3.6f;
-const float Global::CHARACTER_JUMP_SPEED = 1.4f;
-const float Global::CHARACTER_WALK_ANIMATION_FRAME_INTERVAL = 1.0f / 8;
-const float Global::CHARACTER_JUMP_ANIMATION_FRAME_INTERVAL = 1.0f / 48;
+const float Global::CharacterWalkSpeed = 3.6f;
+const float Global::CharacterJumpSpeed = 1.4f;
+const float Global::CharacterWalkAnimFrameLength = 1.0f / 8;
+const float Global::CharacterJumpAnimFrameLength = 1.0f / 48;
 
-const int Global::PIXEL_SIZE = 3;
-const int Global::MAP_RUNTIME_SCALE_FACTOR = 1;
-const int Global::SCREEN_X = (240 * PIXEL_SIZE);
-const int Global::SCREEN_Y = (160 * PIXEL_SIZE);
-const int Global::IMAGE_TILE_SIZE = 16;
-const int Global::TILE_SIZE = (IMAGE_TILE_SIZE * PIXEL_SIZE);
-const int Global::HALF_SCREEN_X = (SCREEN_X / 2);
-const int Global::HALF_SCREEN_Y = (SCREEN_Y / 2);
+const int Global::PixelSize = 3;
+const int Global::ScreenX = (240 * PixelSize);
+const int Global::ScreenY = (160 * PixelSize);
+const int Global::ImageTileSize = 16;
+const int Global::TileSize = (ImageTileSize * PixelSize);
+const int Global::HalfScreenX = (ScreenX / 2);
+const int Global::HalfScreenY = (ScreenY / 2);
 
-const float Global::F_PIXEL_SIZE = static_cast<float>(3);
-const float Global::F_MAP_RUNTIME_SCALE_FACTOR = static_cast<float>(MAP_RUNTIME_SCALE_FACTOR);
-const float Global::F_SCREEN_X = static_cast<float>(240 * PIXEL_SIZE);
-const float Global::F_SCREEN_Y = static_cast<float>(160 * PIXEL_SIZE);
-const float Global::F_IMAGE_TILE_SIZE = static_cast<float>(16);
-const float Global::F_TILE_SIZE = static_cast<float>(IMAGE_TILE_SIZE * PIXEL_SIZE);
-const float Global::F_HALF_SCREEN_X = static_cast<float>(SCREEN_X / 2);
-const float Global::F_HALF_SCREEN_Y = static_cast<float>(SCREEN_Y / 2);
+const float Global::FloatPixelSize = static_cast<float>(3);
+const float Global::FloatScreenX = static_cast<float>(240 * PixelSize);
+const float Global::FloatScreenY = static_cast<float>(160 * PixelSize);
+const float Global::FloatImageTileSize = static_cast<float>(16);
+const float Global::FloatTileSize = static_cast<float>(ImageTileSize * PixelSize);
+const float Global::FloatHalfScreenX = static_cast<float>(ScreenX / 2);
+const float Global::FloatHalfScreenY = static_cast<float>(ScreenY / 2);
 
-const int Global::MONITOR_X = GetSystemMetrics(SM_CXSCREEN);
-const int Global::MONITOR_Y = GetSystemMetrics(SM_CYSCREEN);
-const int Global::HALF_MONITOR_X = MONITOR_X / 2;
-const int Global::HALF_MONITOR_Y = MONITOR_Y / 2;
+const FVector Global::Screen = FVector(ScreenX, ScreenY);
+const FVector Global::HalfScreen = FVector(HalfScreenX, HalfScreenY);
 
-const FVector Global::SCREEN = FVector(SCREEN_X, SCREEN_Y);
-const FVector Global::HALF_SCREEN = FVector(HALF_SCREEN_X, HALF_SCREEN_Y);
-const Color8Bit Global::GLYPH_BACKGROUND_COLOR = Color8Bit(255, 100, 255, 0);
+const std::string Global::SuffixUpperBody = "UpperBody";
+const std::string Global::SuffixLowerBody = "LowerBody";
 
-const std::string Global::ANIMATION_NAME_SUFFIX_UPPER_BODY = "UpperBody";
-const std::string Global::ANIMATION_NAME_SUFFIX_LOWER_BODY = "LowerBody";
+const std::string Global::TitleLevel = "TitleLevel";
+const std::string Global::TutorialLevel = "TutorialLevel";
+const std::string Global::ExteriorPalletTownLevel = "ExteriorPalletTownLevel";
+const std::string Global::InteriorOaksLabLevel = "InteriorOaksLabLevel";
+const std::string Global::InteriorRivalsHouseLevel = "InteriorRivalsHouseLevel";
+const std::string Global::InteriorPlayersHouse1FLevel = "InteriorPlayersHouse1FLevel";
+const std::string Global::InteriorPlayersHouse2FLevel = "InteriorPlayersHouse2FLevel";
+
+const std::string Global::PLAYER_NAME = "Player";

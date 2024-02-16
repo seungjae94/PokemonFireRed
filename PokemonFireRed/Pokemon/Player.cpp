@@ -101,8 +101,8 @@ void APlayer::ChangeAnimation(EPlayerState _State, FTileVector _Direction)
 	}
 
 	std::string DirectionStr = _Direction.ToDirectionString();
-	UpperBodyRenderer->ChangeAnimation(AniName + DirectionStr + Global::ANIMATION_NAME_SUFFIX_UPPER_BODY);
-	LowerBodyRenderer->ChangeAnimation(AniName + DirectionStr + Global::ANIMATION_NAME_SUFFIX_LOWER_BODY);
+	UpperBodyRenderer->ChangeAnimation(AniName + DirectionStr + Global::SuffixUpperBody);
+	LowerBodyRenderer->ChangeAnimation(AniName + DirectionStr + Global::SuffixLowerBody);
 }
 
 void APlayer::IdleStart(bool _ResetAnimation)
@@ -184,7 +184,7 @@ void APlayer::Walk(float _DeltaTime)
 
 		FVector TargetPos = UPokemonMath::Lerp(PrevPoint, NextPoint, t);
 		SetActorLocation(TargetPos);
-		GetWorld()->SetCameraPos(GetActorLocation() - Global::HALF_SCREEN);
+		GetWorld()->SetCameraPos(GetActorLocation() - Global::HalfScreen);
 
 		if (t >= WalkInputLatency)
 		{
@@ -311,7 +311,7 @@ void APlayer::Jump(float _DeltaTime)
 
 		FVector TargetPos = UPokemonMath::Lerp(PrevPoint, NextPoint, t);
 		SetActorLocation(TargetPos);
-		GetWorld()->SetCameraPos(GetActorLocation() - Global::HALF_SCREEN);
+		GetWorld()->SetCameraPos(GetActorLocation() - Global::HalfScreen);
 
 		if (t >= JumpInputLatency)
 		{
@@ -362,7 +362,7 @@ bool APlayer::IsLedge(FTileVector _Direction)
 {
 	// ¸Ê(ÀÌ¹ÌÁö ÁÂ»ó´Ü)À» ±âÁØÀ¸·Î ÇÑ Å¸°ÙÀÇ »ó´ë ÁÂÇ¥
 	FVector MapRelativeTargetPos = (GetActorLocation() - Map->GetActorLocation()) + _Direction.ToFVector();
-	FVector MapRelativeTargetPosInImage = MapRelativeTargetPos * (1 / Global::F_MAP_RUNTIME_SCALE_FACTOR);
+	FVector MapRelativeTargetPosInImage = MapRelativeTargetPos;
 	Color8Bit Color = Map->GetCollisionImage()->GetColor(
 		MapRelativeTargetPosInImage.iX(), 
 		MapRelativeTargetPosInImage.iY(), 
@@ -380,7 +380,7 @@ bool APlayer::IsLedge(FTileVector _Direction)
 bool APlayer::IsPixelCollider(FTileVector _Direction)
 {
 	FVector MapRelativeTargetPos = (GetActorLocation() - Map->GetActorLocation()) + _Direction.ToFVector();
-	FVector MapRelativeTargetPosInImage = MapRelativeTargetPos * (1 / Global::F_MAP_RUNTIME_SCALE_FACTOR);
+	FVector MapRelativeTargetPosInImage = MapRelativeTargetPos;
 	Color8Bit Color = Map->GetCollisionImage()->GetColor(
 		MapRelativeTargetPosInImage.iX(),
 		MapRelativeTargetPosInImage.iY(),

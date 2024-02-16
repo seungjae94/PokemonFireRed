@@ -5,40 +5,42 @@
 class Global
 {
 public:
-	static const float CHARACTER_WALK_SPEED;
-	static const float CHARACTER_JUMP_SPEED;
-	static const float CHARACTER_WALK_ANIMATION_FRAME_INTERVAL;
-	static const float CHARACTER_JUMP_ANIMATION_FRAME_INTERVAL;
+	static const float CharacterWalkSpeed;
+	static const float CharacterJumpSpeed;
+	static const float CharacterWalkAnimFrameLength;
+	static const float CharacterJumpAnimFrameLength;
 
-	static const int PIXEL_SIZE;
-	static const int MAP_RUNTIME_SCALE_FACTOR;
-	static const int SCREEN_X;
-	static const int SCREEN_Y;
-	static const int IMAGE_TILE_SIZE;
-	static const int TILE_SIZE;
-	static const int HALF_SCREEN_X;
-	static const int HALF_SCREEN_Y;
+	static const int PixelSize;
+	static const int ScreenX;
+	static const int ScreenY;
+	static const int ImageTileSize;
+	static const int TileSize;
+	static const int HalfScreenX;
+	static const int HalfScreenY;
 
-	static const float F_PIXEL_SIZE;
-	static const float F_MAP_RUNTIME_SCALE_FACTOR;
-	static const float F_SCREEN_X;
-	static const float F_SCREEN_Y;
-	static const float F_IMAGE_TILE_SIZE;
-	static const float F_TILE_SIZE;
-	static const float F_HALF_SCREEN_X;
-	static const float F_HALF_SCREEN_Y;
+	static const float FloatPixelSize;
+	static const float FloatScreenX;
+	static const float FloatScreenY;
+	static const float FloatImageTileSize;
+	static const float FloatTileSize;
+	static const float FloatHalfScreenX;
+	static const float FloatHalfScreenY;
 
-	static const int MONITOR_X;
-	static const int MONITOR_Y;
-	static const int HALF_MONITOR_X;
-	static const int HALF_MONITOR_Y;
+	static const FVector Screen;
+	static const FVector HalfScreen;
 
-	static const FVector SCREEN;
-	static const FVector HALF_SCREEN;
-	static const Color8Bit GLYPH_BACKGROUND_COLOR;
+	static const std::string SuffixUpperBody;
+	static const std::string SuffixLowerBody;
 
-	static const std::string ANIMATION_NAME_SUFFIX_UPPER_BODY;
-	static const std::string ANIMATION_NAME_SUFFIX_LOWER_BODY;
+	static const std::string TitleLevel;
+	static const std::string TutorialLevel;
+	static const std::string ExteriorPalletTownLevel;
+	static const std::string InteriorOaksLabLevel;
+	static const std::string InteriorRivalsHouseLevel;
+	static const std::string InteriorPlayersHouse1FLevel;
+	static const std::string InteriorPlayersHouse2FLevel;
+
+	static const std::string PLAYER_NAME;
 
 	// delete Function
 	Global(const Global& _Other) = delete;

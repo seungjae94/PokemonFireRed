@@ -26,6 +26,6 @@ void AEventTarget::ChangeAnimation(ETargetMoveState _State, const FTileVector& _
 	}
 
 	std::string AniName = GetName() + StateName + _Direction.ToDirectionString();
-	UpperBodyRenderer->ChangeAnimation(AniName + Global::ANIMATION_NAME_SUFFIX_UPPER_BODY);
-	LowerBodyRenderer->ChangeAnimation(AniName + Global::ANIMATION_NAME_SUFFIX_LOWER_BODY);
+	UpperBodyRenderer->ChangeAnimation(AniName + Global::SuffixUpperBody);
+	LowerBodyRenderer->ChangeAnimation(AniName + Global::SuffixLowerBody);
 }

@@ -62,7 +62,7 @@ void UMapLevel::BeginPlay()
 	Player->SetMap(Map);
 
 	// 맵 데이터 바인딩
-	FVector MapInitialPos = { -Global::F_TILE_SIZE * 0.5f, -Global::F_TILE_SIZE * 0.5f };
+	FVector MapInitialPos = { -Global::FloatTileSize * 0.5f, -Global::FloatTileSize * 0.5f };
 	Map->SetActorLocation(MapInitialPos);
 	Map->SetPlayer(Player);
 	Map->SetName(MapName + "Map");
@@ -107,7 +107,7 @@ void UMapLevel::Tick(float _DeltaTime)
 
 	if (UEngineInput::IsDown(VK_F2))
 	{
-		PokemonDebug::ReportPosition(Player, "Player");
+		PokemonDebug::ReportPosition(Player, Global::PLAYER_NAME);
 	}
 
 	if (UEngineInput::IsDown(VK_F3))
@@ -147,7 +147,7 @@ void UMapLevel::LoadCharacterResources()
 
 	// Idle 애니메이션을 로드할 캐릭터 이름을 정의
 	std::vector<std::string> IdleCharacterNames = {
-		"Player",
+		Global::PLAYER_NAME,
 		"FatMan",
 		"PlayersMom"
 	};
@@ -160,7 +160,7 @@ void UMapLevel::LoadCharacterResources()
 
 	// Walk 애니메이션을 로드할 캐릭터 이름을 정의
 	std::vector<std::string> WalkCharacterNames = {
-		"Player",
+		Global::PLAYER_NAME,
 		"FatMan"
 	};
 

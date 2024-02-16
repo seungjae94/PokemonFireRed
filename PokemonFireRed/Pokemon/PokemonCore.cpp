@@ -19,7 +19,7 @@ UPokemonCore::~UPokemonCore()
 void UPokemonCore::BeginPlay()
 {
 	// 게임 기본 설정
-	MainWindow.SetWindowScale({ Global::SCREEN_X, Global::SCREEN_Y });
+	MainWindow.SetWindowScale({ Global::ScreenX, Global::ScreenY });
 	MainWindow.SetClearColor(Color8Bit::BlackA);
 
 
@@ -37,17 +37,14 @@ void UPokemonCore::BeginPlay()
 	}
 
 	// 레벨 생성
-	CreateLevel<UTitleLevel>("TitleLevel");
-	CreateLevel<UTutorialLevel>("TutorialLevel");
-	CreateLevel<UExteriorPalletTownLevel>("ExteriorPalletTownLevel");
-	CreateLevel<UInteriorOaksLabLevel>("InteriorOaksLabLevel");
-	CreateLevel<UInteriorPlayersHouse1FLevel>("InteriorPlayersHouse1FLevel");
-	CreateLevel<UInteriorPlayersHouse2FLevel>("InteriorPlayersHouse2FLevel");
-	CreateLevel<UInteriorRivalsHouseLevel>("InteriorRivalsHouseLevel");
+	CreateLevel<UTitleLevel>(Global::TitleLevel);
+	CreateLevel<UTutorialLevel>(Global::TutorialLevel);
+	CreateLevel<UExteriorPalletTownLevel>(Global::ExteriorPalletTownLevel);
+	CreateLevel<UInteriorOaksLabLevel>(Global::InteriorOaksLabLevel);
+	CreateLevel<UInteriorPlayersHouse1FLevel>(Global::InteriorPlayersHouse1FLevel);
+	CreateLevel<UInteriorPlayersHouse2FLevel>(Global::InteriorPlayersHouse2FLevel);
+	CreateLevel<UInteriorRivalsHouseLevel>(Global::InteriorRivalsHouseLevel);
 
 	// 시작 레벨 설정
-	UEventManager::SetLevel("TitleLevel");					 // 실제 릴리즈 때 시작할 레벨
-	//UEventManager::SetLevel("TutorialLevel");
-	//UEventManager::SetLevel("InteriorPlayersHouse2FLevel");   // 맵 레벨 최초 시작 위치 
-	//UEventManager::SetLevel("ExteriorPalletTownLevel");
+	UEventManager::SetLevel(Global::InteriorPlayersHouse1FLevel);
 }

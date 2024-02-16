@@ -17,7 +17,7 @@ void ABlackScreen::BeginPlay()
 	Renderer = CreateImageRenderer(ERenderingOrder::UpperUI);
 	Renderer->CameraEffectOff();
 	Renderer->SetImage("BlackScreen.png");
-	Renderer->SetTransform({ Global::HALF_SCREEN, Global::SCREEN});
+	Renderer->SetTransform({ Global::HalfScreen, Global::Screen});
 	Renderer->SetTransColor(Color8Bit::WhiteA);
 	Renderer->SetAlpha(0.0f);
 	Renderer->SetActive(false);

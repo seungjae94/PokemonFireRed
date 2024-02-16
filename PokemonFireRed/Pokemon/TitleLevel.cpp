@@ -30,5 +30,5 @@ void UTitleLevel::BeginPlay()
 
 	// 액터 생성
 	ATitleLevelManager* Manager = SpawnActor<ATitleLevelManager>();
-	Manager->SetActorLocation(Global::HALF_SCREEN);
+	Manager->SetActorLocation(Global::HalfScreen);
 }

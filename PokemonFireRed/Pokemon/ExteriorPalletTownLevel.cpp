@@ -18,8 +18,8 @@ void UExteriorPalletTownLevel::BeginPlay()
 	UMapLevel::BeginPlay();
 
 	// 플레이어 시작 위치 설정 (디버깅 용도)
-	UEventManager::SetPoint(GetName(), "Player", { 70, 142 });
-	UEventManager::SetDirection(GetName(), "Player", FTileVector::Down);
+	UEventManager::SetPoint(GetName(), Global::PLAYER_NAME, { 70, 142 });
+	UEventManager::SetDirection(GetName(), Global::PLAYER_NAME, FTileVector::Down);
 
 	// 이벤트 트리거 생성
 	UEventTargetInitialSetting OaksLabWarpSetting = UEventTargetInitialSetting(
@@ -27,7 +27,7 @@ void UExteriorPalletTownLevel::BeginPlay()
 		{ 80, 147 }
 	);
 	AWarp* OaksLabWarp = SpawnEventTrigger<AWarp>(OaksLabWarpSetting);
-	OaksLabWarp->SetTargetLevelName("InteriorOaksLabLevel");
+	OaksLabWarp->SetTargetLevelName(Global::InteriorOaksLabLevel);
 	OaksLabWarp->SetTargetPoint({ 6, 12 });
 	OaksLabWarp->SetMoveDirection(FTileVector::Up);
 	OaksLabWarp->RegisterPredefinedEvent();
@@ -37,7 +37,7 @@ void UExteriorPalletTownLevel::BeginPlay()
 		{ 70, 141 }
 	);
 	AWarp* PlayersHouseWarp = SpawnEventTrigger<AWarp>(PlayersHouseWarpSetting);
-	PlayersHouseWarp->SetTargetLevelName("InteriorPlayersHouse1FLevel");
+	PlayersHouseWarp->SetTargetLevelName(Global::InteriorPlayersHouse1FLevel);
 	PlayersHouseWarp->SetTargetPoint({ 3, 8 });
 	PlayersHouseWarp->SetMoveDirection(FTileVector::Up);
 	PlayersHouseWarp->RegisterPredefinedEvent();
@@ -47,7 +47,7 @@ void UExteriorPalletTownLevel::BeginPlay()
 		{ 79, 141 }
 	);
 	AWarp* RivalsHouseWarp = SpawnEventTrigger<AWarp>(RivalsHouseWarpSetting);
-	RivalsHouseWarp->SetTargetLevelName("InteriorRivalsHouseLevel");
+	RivalsHouseWarp->SetTargetLevelName(Global::InteriorRivalsHouseLevel);
 	RivalsHouseWarp->SetTargetPoint({ 4, 8 });
 	RivalsHouseWarp->SetMoveDirection(FTileVector::Up);
 	RivalsHouseWarp->RegisterPredefinedEvent();

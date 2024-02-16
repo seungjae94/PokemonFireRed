@@ -174,7 +174,7 @@ bool UEventProcessor::ProcessMove()
 		float t = (MoveTime - MoveTimer) / MoveTime;
 		FVector TargetPos = UPokemonMath::Lerp(MovePrevPoint.ToFVector(), MoveNextPoint.ToFVector(), t);
 		Target->SetActorLocation(TargetPos);
-		Target->GetWorld()->SetCameraPos(Target->GetActorLocation() - Global::HALF_SCREEN);
+		Target->GetWorld()->SetCameraPos(Target->GetActorLocation() - Global::HalfScreen);
 	}
 	else if (MovePathIndex + 1 >= Data.Path.size())
 	{
@@ -255,7 +255,7 @@ bool UEventProcessor::ProcessMoveWithoutRestriction()
 		float t = (MoveWRTime - MoveWRTimer) / MoveWRTime;
 		FVector TargetPos = UPokemonMath::Lerp(MoveWRPrevPos, MoveWRNextPos, t);
 		Target->SetActorLocation(TargetPos);
-		Target->GetWorld()->SetCameraPos(Target->GetActorLocation() - Global::HALF_SCREEN);
+		Target->GetWorld()->SetCameraPos(Target->GetActorLocation() - Global::HalfScreen);
 	}
 	else if (MoveWRPathIndex + 1 >= Data.Path.size())
 	{

@@ -79,8 +79,8 @@ private:
 	FTileVector NextPoint;
 	
 	// 원작과 비슷한 걷기 속도는 3.6f
-	float WalkSpeed = Global::CHARACTER_WALK_SPEED;
-	float JumpSpeed = Global::CHARACTER_JUMP_SPEED;
+	float WalkSpeed = Global::CharacterWalkSpeed;
+	float JumpSpeed = Global::CharacterJumpSpeed;
 
 	float IdleTime = 0.05f;  // Idle 상태를 유지하는 최소 시간
 	float CurIdleTime = IdleTime;
