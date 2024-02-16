@@ -46,8 +46,8 @@ void UPokemonCore::BeginPlay()
 	CreateLevel<UInteriorRivalsHouseLevel>("InteriorRivalsHouseLevel");
 
 	// 시작 레벨 설정
-	//UEventManager::SetLevel("TitleLevel");					 // 실제 릴리즈 때 시작할 레벨
+	UEventManager::SetLevel("TitleLevel");					 // 실제 릴리즈 때 시작할 레벨
 	//UEventManager::SetLevel("TutorialLevel");
-	UEventManager::SetLevel("InteriorPlayersHouse2FLevel");   // 맵 레벨 최초 시작 위치 
+	//UEventManager::SetLevel("InteriorPlayersHouse2FLevel");   // 맵 레벨 최초 시작 위치 
 	//UEventManager::SetLevel("ExteriorPalletTownLevel");
 }

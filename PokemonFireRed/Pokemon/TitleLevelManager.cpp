@@ -20,7 +20,7 @@ void ATitleLevelManager::BeginPlay()
 	Renderer->CameraEffectOff();
 	Renderer->SetTransColor(Color8Bit::White);
 
-	Renderer->CreateAnimation(VideoName[0], VideoName[0], 0, 202 - 1, 1 / 60.0f, false);
+	Renderer->CreateAnimation(VideoName[0], VideoName[0], 0, 187 - 1, 1 / 60.0f, false);
 	Renderer->CreateAnimation(VideoName[1], VideoName[1], 0, 1260 - 1, 1 / 60.0f, false);
 	Renderer->CreateAnimation(VideoName[2], VideoName[2], 0, 262 - 1, 1 / 60.0f, false);
 	Renderer->CreateAnimation(VideoName[3], VideoName[3], 0, 2442 - 1, 1 / 60.0f, false);

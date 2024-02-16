@@ -1,7 +1,6 @@
 #pragma once
 #include "PokemonLevel.h"
 
-// Ό³Έν :
 class UTitleLevel : public UPokemonLevel
 {
 public:
@@ -18,6 +17,5 @@ public:
 protected:
 	void BeginPlay() override;
 private:
-
 };
 
