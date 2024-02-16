@@ -98,6 +98,12 @@ public:
 
 	void ActiveUpdate(float _DeltaTime) override;
 
+	// Actor가 살아있을 때, 렌더러와 콜리전이 Destory 된다면 액터가 직접 삭제한다.
+	void CheckReleaseChild();
+
+	void AllRenderersActiveOff();
+	void AllRenderersActiveOn();
+
 protected:
 	void Tick(float _DeltaTime) override;
 private:

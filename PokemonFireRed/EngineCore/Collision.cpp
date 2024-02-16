@@ -34,6 +34,11 @@ void UCollision::BeginPlay()
 
 bool UCollision::CollisionCheck(int _Order, std::vector<UCollision*>& _Result)
 {
+	if (false == IsActive())
+	{
+		return false;
+	}
+
 	AActor* Owner = GetOwner();
 	ULevel* Level = Owner->GetWorld();
 
@@ -43,6 +48,11 @@ bool UCollision::CollisionCheck(int _Order, std::vector<UCollision*>& _Result)
 
 	for (UCollision* _OtherCollision : Collisions)
 	{
+		if (false == _OtherCollision->IsActive())
+		{
+			return false;
+		}
+
 		FTransform OtherTransform = _OtherCollision->GetActorBaseTransform();
 
 		if (true == ThisTransform.Collision(ColType, _OtherCollision->ColType, OtherTransform))

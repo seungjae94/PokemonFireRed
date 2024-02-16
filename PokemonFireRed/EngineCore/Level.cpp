@@ -162,7 +162,10 @@ void ULevel::LevelRelease(float _DeltaTime)
 
 			if (false == Actor->IsDestroy())
 			{
-				// 액터를 릴리즈하지 않는 경우
+				// 액터를 삭제하지 않는 경우에도 렌더러나 콜리전이 Destory 할 수 있다. 
+				// 앞 부분은 레벨이 렌더러나 콜리전을 리스트에서 지우는 작업이다. 
+				// 여기서 액터가 렌더러와 콜리전을실제로 삭제한다.
+				Actor->CheckReleaseChild();
 				++StartIter;
 				continue;
 			}
