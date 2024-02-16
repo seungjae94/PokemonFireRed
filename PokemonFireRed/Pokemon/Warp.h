@@ -14,9 +14,9 @@ public:
 	AWarp& operator=(const AWarp& _Other) = delete;
 	AWarp& operator=(AWarp&& _Other) noexcept = delete;
 
-	void SetTargetLevelName(std::string_view _LevelName)
+	void SetTargetMapName(std::string_view _MapName)
 	{
-		TargetMapName = _LevelName;
+		TargetMapName = _MapName;
 	}
 
 	void SetTargetPoint(const FTileVector& _Point)
@@ -26,18 +26,14 @@ public:
 
 	void SetMoveDirection(const FTileVector& _Direction)
 	{
-		MoveDirection = _Direction;
+		TargetDirection = _Direction;
 	}
 
-	void RegisterPredefinedEvent() override;
-
 protected:
-private:
-	UImageRenderer* Renderer = nullptr;
+	bool CheckPlayerDirection();
 	std::string TargetMapName;
 	FTileVector TargetPoint;
-	FTileVector MoveDirection;
-
-	bool CheckPlayerDirection();
+	FTileVector TargetDirection;
+private:
 };
 

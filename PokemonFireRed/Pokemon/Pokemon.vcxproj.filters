@@ -4,56 +4,44 @@
     <Filter Include="Core">
       <UniqueIdentifier>{8d77ac80-c255-418f-8c3e-06569a2c5dfc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Util">
-      <UniqueIdentifier>{363b44f9-6ba5-4290-afb2-239aea3b0006}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object">
-      <UniqueIdentifier>{eeb5e36f-7b5a-4290-ae5b-1f20dc01b5f2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\MapLevel">
-      <UniqueIdentifier>{eb8e903a-114a-4e5f-9718-0cc29052aa04}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\MapLevel\Actor">
-      <UniqueIdentifier>{3b88d292-f9a2-4d41-863e-4b9d2397e54a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\MapLevel\Level">
-      <UniqueIdentifier>{a7bf09f9-ec02-48d4-b516-083226d8841b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\MapLevel\Level\Exterior">
-      <UniqueIdentifier>{3fc26597-d68c-41ee-99cf-0110f105e3ac}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\MapLevel\Level\Interior">
-      <UniqueIdentifier>{9aa64607-bb92-499d-8ea4-58531c624887}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\TitleLevel">
-      <UniqueIdentifier>{bdf06483-65f9-421f-b9ce-c1f2eea53612}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\TitleLevel\Actor">
-      <UniqueIdentifier>{6cca5fec-8768-4bb5-b4c6-002f4f8625d8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Global">
+    <Filter Include="Global">
       <UniqueIdentifier>{14dfdc14-0d12-4cbe-a0bb-70edbbcdf166}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Event">
-      <UniqueIdentifier>{b9f8bc97-2c8d-41ff-9bd0-27e6a7174106}</UniqueIdentifier>
+    <Filter Include="MapLevel">
+      <UniqueIdentifier>{eb8e903a-114a-4e5f-9718-0cc29052aa04}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UI">
-      <UniqueIdentifier>{3dd8a652-4bdb-4aa3-8532-0c7042e63c4c}</UniqueIdentifier>
+    <Filter Include="MapLevel\Actor">
+      <UniqueIdentifier>{3b88d292-f9a2-4d41-863e-4b9d2397e54a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UI\MapLevel">
-      <UniqueIdentifier>{a767999c-4057-4c0c-88fa-424f76111dbf}</UniqueIdentifier>
+    <Filter Include="MapLevel\Actor\EventTrigger">
+      <UniqueIdentifier>{90534d3f-513a-4990-9f4b-e981d1191cf6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UI\Text">
-      <UniqueIdentifier>{4ad2ed03-b526-45ec-a208-db6d84427ae1}</UniqueIdentifier>
+    <Filter Include="TitleLevel">
+      <UniqueIdentifier>{bdf06483-65f9-421f-b9ce-c1f2eea53612}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\TutorialLevel">
+    <Filter Include="TitleLevel\Actor">
+      <UniqueIdentifier>{6cca5fec-8768-4bb5-b4c6-002f4f8625d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TutorialLevel">
       <UniqueIdentifier>{ab2603f4-b49f-4cce-bbee-1f484ffb3e1b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\TutorialLevel\Actor">
+    <Filter Include="TutorialLevel\Actor">
       <UniqueIdentifier>{23378bf3-ee2f-42ae-9c85-d7d649d31738}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\MapLevel\Actor\EventTrigger">
-      <UniqueIdentifier>{90534d3f-513a-4990-9f4b-e981d1191cf6}</UniqueIdentifier>
+    <Filter Include="MapLevel\Exterior">
+      <UniqueIdentifier>{3fc26597-d68c-41ee-99cf-0110f105e3ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MapLevel\Interior">
+      <UniqueIdentifier>{9aa64607-bb92-499d-8ea4-58531c624887}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Global\UI">
+      <UniqueIdentifier>{3dd8a652-4bdb-4aa3-8532-0c7042e63c4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Global\Util">
+      <UniqueIdentifier>{363b44f9-6ba5-4290-afb2-239aea3b0006}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Global\Event">
+      <UniqueIdentifier>{b9f8bc97-2c8d-41ff-9bd0-27e6a7174106}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -61,97 +49,106 @@
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="Map.h">
-      <Filter>Object\MapLevel\Actor</Filter>
+      <Filter>MapLevel\Actor</Filter>
     </ClInclude>
     <ClInclude Include="TitleLevel.h">
-      <Filter>Object\TitleLevel</Filter>
+      <Filter>TitleLevel</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>Object\MapLevel\Actor</Filter>
+      <Filter>MapLevel\Actor</Filter>
     </ClInclude>
     <ClInclude Include="TitleLevelManager.h">
-      <Filter>Object\TitleLevel\Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="MapLevel.h">
-      <Filter>Object\MapLevel\Level</Filter>
+      <Filter>TitleLevel\Actor</Filter>
     </ClInclude>
     <ClInclude Include="ExteriorPalletTownLevel.h">
-      <Filter>Object\MapLevel\Level\Exterior</Filter>
+      <Filter>MapLevel\Exterior</Filter>
     </ClInclude>
     <ClInclude Include="Global.h">
-      <Filter>Util</Filter>
+      <Filter>Global\Util</Filter>
     </ClInclude>
     <ClInclude Include="PokemonMath.h">
-      <Filter>Util</Filter>
+      <Filter>Global\Util</Filter>
     </ClInclude>
     <ClInclude Include="PokemonInput.h">
-      <Filter>Util</Filter>
+      <Filter>Global\Util</Filter>
     </ClInclude>
     <ClInclude Include="PokemonDebug.h">
-      <Filter>Util</Filter>
+      <Filter>Global\Util</Filter>
     </ClInclude>
     <ClInclude Include="InteriorOaksLabLevel.h">
-      <Filter>Object\MapLevel\Level\Interior</Filter>
+      <Filter>MapLevel\Interior</Filter>
     </ClInclude>
     <ClInclude Include="EventTarget.h">
-      <Filter>Object\MapLevel\Actor</Filter>
+      <Filter>MapLevel\Actor</Filter>
     </ClInclude>
     <ClInclude Include="EventProcessor.h">
-      <Filter>Event</Filter>
+      <Filter>Global\Event</Filter>
     </ClInclude>
     <ClInclude Include="EventManager.h">
-      <Filter>Event</Filter>
+      <Filter>Global\Event</Filter>
     </ClInclude>
     <ClInclude Include="EventTrigger.h">
-      <Filter>Object\MapLevel\Actor\EventTrigger</Filter>
+      <Filter>MapLevel\Actor\EventTrigger</Filter>
     </ClInclude>
     <ClInclude Include="DialogueActor.h">
-      <Filter>Object\MapLevel\Actor\EventTrigger</Filter>
+      <Filter>MapLevel\Actor\EventTrigger</Filter>
     </ClInclude>
     <ClInclude Include="Warp.h">
-      <Filter>Object\MapLevel\Actor\EventTrigger</Filter>
+      <Filter>MapLevel\Actor\EventTrigger</Filter>
     </ClInclude>
     <ClInclude Include="InteriorPlayersHouse1FLevel.h">
-      <Filter>Object\MapLevel\Level\Interior</Filter>
+      <Filter>MapLevel\Interior</Filter>
     </ClInclude>
     <ClInclude Include="InteriorPlayersHouse2FLevel.h">
-      <Filter>Object\MapLevel\Level\Interior</Filter>
+      <Filter>MapLevel\Interior</Filter>
     </ClInclude>
     <ClInclude Include="InteriorRivalsHouseLevel.h">
-      <Filter>Object\MapLevel\Level\Interior</Filter>
+      <Filter>MapLevel\Interior</Filter>
     </ClInclude>
     <ClInclude Include="EventCondition.h">
-      <Filter>Event</Filter>
+      <Filter>Global\Event</Filter>
     </ClInclude>
     <ClInclude Include="PokemonUtil.h">
-      <Filter>Util</Filter>
-    </ClInclude>
-    <ClInclude Include="PokemonLevel.h">
-      <Filter>Object\Global</Filter>
-    </ClInclude>
-    <ClInclude Include="MenuWindow.h">
-      <Filter>UI\MapLevel</Filter>
-    </ClInclude>
-    <ClInclude Include="DialogueWindow.h">
-      <Filter>UI\MapLevel</Filter>
-    </ClInclude>
-    <ClInclude Include="PokemonText.h">
-      <Filter>UI\Text</Filter>
-    </ClInclude>
-    <ClInclude Include="BlackScreen.h">
-      <Filter>UI\MapLevel</Filter>
+      <Filter>Global\Util</Filter>
     </ClInclude>
     <ClInclude Include="UIElement.h">
-      <Filter>UI</Filter>
+      <Filter>Global\UI</Filter>
     </ClInclude>
     <ClInclude Include="TutorialLevel.h">
-      <Filter>Object\TutorialLevel</Filter>
+      <Filter>TutorialLevel</Filter>
     </ClInclude>
     <ClInclude Include="TutorialLevelManager.h">
-      <Filter>Object\TutorialLevel\Actor</Filter>
+      <Filter>TutorialLevel\Actor</Filter>
     </ClInclude>
     <ClInclude Include="EventStream.h">
-      <Filter>Event</Filter>
+      <Filter>Global\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="BlackScreen.h">
+      <Filter>Global\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="DialogueWindow.h">
+      <Filter>Global\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuWindow.h">
+      <Filter>Global\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="PokemonText.h">
+      <Filter>Global\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="MapLevel.h">
+      <Filter>MapLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="PokemonLevel.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Stair.h">
+      <Filter>MapLevel\Actor\EventTrigger</Filter>
+    </ClInclude>
+    <ClInclude Include="InteriorDoor.h">
+      <Filter>MapLevel\Actor\EventTrigger</Filter>
+    </ClInclude>
+    <ClInclude Include="ExteriorDoor.h">
+      <Filter>MapLevel\Actor\EventTrigger</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -159,97 +156,106 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="Map.cpp">
-      <Filter>Object\MapLevel\Actor</Filter>
+      <Filter>MapLevel\Actor</Filter>
     </ClCompile>
     <ClCompile Include="TitleLevel.cpp">
-      <Filter>Object\TitleLevel</Filter>
+      <Filter>TitleLevel</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>Object\MapLevel\Actor</Filter>
+      <Filter>MapLevel\Actor</Filter>
     </ClCompile>
     <ClCompile Include="TitleLevelManager.cpp">
-      <Filter>Object\TitleLevel\Actor</Filter>
-    </ClCompile>
-    <ClCompile Include="MapLevel.cpp">
-      <Filter>Object\MapLevel\Level</Filter>
+      <Filter>TitleLevel\Actor</Filter>
     </ClCompile>
     <ClCompile Include="ExteriorPalletTownLevel.cpp">
-      <Filter>Object\MapLevel\Level\Exterior</Filter>
+      <Filter>MapLevel\Exterior</Filter>
     </ClCompile>
     <ClCompile Include="Global.cpp">
-      <Filter>Util</Filter>
+      <Filter>Global\Util</Filter>
     </ClCompile>
     <ClCompile Include="PokemonMath.cpp">
-      <Filter>Util</Filter>
+      <Filter>Global\Util</Filter>
     </ClCompile>
     <ClCompile Include="PokemonInput.cpp">
-      <Filter>Util</Filter>
+      <Filter>Global\Util</Filter>
     </ClCompile>
     <ClCompile Include="PokemonDebug.cpp">
-      <Filter>Util</Filter>
+      <Filter>Global\Util</Filter>
     </ClCompile>
     <ClCompile Include="InteriorOaksLabLevel.cpp">
-      <Filter>Object\MapLevel\Level\Interior</Filter>
+      <Filter>MapLevel\Interior</Filter>
     </ClCompile>
     <ClCompile Include="EventTarget.cpp">
-      <Filter>Object\MapLevel\Actor</Filter>
+      <Filter>MapLevel\Actor</Filter>
     </ClCompile>
     <ClCompile Include="EventProcessor.cpp">
-      <Filter>Event</Filter>
+      <Filter>Global\Event</Filter>
     </ClCompile>
     <ClCompile Include="EventManager.cpp">
-      <Filter>Event</Filter>
+      <Filter>Global\Event</Filter>
     </ClCompile>
     <ClCompile Include="EventTrigger.cpp">
-      <Filter>Object\MapLevel\Actor\EventTrigger</Filter>
+      <Filter>MapLevel\Actor\EventTrigger</Filter>
     </ClCompile>
     <ClCompile Include="DialogueActor.cpp">
-      <Filter>Object\MapLevel\Actor\EventTrigger</Filter>
+      <Filter>MapLevel\Actor\EventTrigger</Filter>
     </ClCompile>
     <ClCompile Include="Warp.cpp">
-      <Filter>Object\MapLevel\Actor\EventTrigger</Filter>
+      <Filter>MapLevel\Actor\EventTrigger</Filter>
     </ClCompile>
     <ClCompile Include="InteriorPlayersHouse1FLevel.cpp">
-      <Filter>Object\MapLevel\Level\Interior</Filter>
+      <Filter>MapLevel\Interior</Filter>
     </ClCompile>
     <ClCompile Include="InteriorPlayersHouse2FLevel.cpp">
-      <Filter>Object\MapLevel\Level\Interior</Filter>
+      <Filter>MapLevel\Interior</Filter>
     </ClCompile>
     <ClCompile Include="InteriorRivalsHouseLevel.cpp">
-      <Filter>Object\MapLevel\Level\Interior</Filter>
+      <Filter>MapLevel\Interior</Filter>
     </ClCompile>
     <ClCompile Include="EventCondition.cpp">
-      <Filter>Event</Filter>
+      <Filter>Global\Event</Filter>
     </ClCompile>
     <ClCompile Include="PokemonUtil.cpp">
-      <Filter>Util</Filter>
-    </ClCompile>
-    <ClCompile Include="PokemonLevel.cpp">
-      <Filter>Object\Global</Filter>
-    </ClCompile>
-    <ClCompile Include="DialogueWindow.cpp">
-      <Filter>UI\MapLevel</Filter>
-    </ClCompile>
-    <ClCompile Include="MenuWindow.cpp">
-      <Filter>UI\MapLevel</Filter>
-    </ClCompile>
-    <ClCompile Include="PokemonText.cpp">
-      <Filter>UI\Text</Filter>
-    </ClCompile>
-    <ClCompile Include="BlackScreen.cpp">
-      <Filter>UI\MapLevel</Filter>
+      <Filter>Global\Util</Filter>
     </ClCompile>
     <ClCompile Include="UIElement.cpp">
-      <Filter>UI</Filter>
+      <Filter>Global\UI</Filter>
     </ClCompile>
     <ClCompile Include="TutorialLevel.cpp">
-      <Filter>Object\TutorialLevel</Filter>
+      <Filter>TutorialLevel</Filter>
     </ClCompile>
     <ClCompile Include="TutorialLevelManager.cpp">
-      <Filter>Object\TutorialLevel\Actor</Filter>
+      <Filter>TutorialLevel\Actor</Filter>
     </ClCompile>
     <ClCompile Include="EventStream.cpp">
-      <Filter>Event</Filter>
+      <Filter>Global\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="BlackScreen.cpp">
+      <Filter>Global\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="DialogueWindow.cpp">
+      <Filter>Global\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuWindow.cpp">
+      <Filter>Global\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="PokemonText.cpp">
+      <Filter>Global\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="MapLevel.cpp">
+      <Filter>MapLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="PokemonLevel.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Stair.cpp">
+      <Filter>MapLevel\Actor\EventTrigger</Filter>
+    </ClCompile>
+    <ClCompile Include="InteriorDoor.cpp">
+      <Filter>MapLevel\Actor\EventTrigger</Filter>
+    </ClCompile>
+    <ClCompile Include="ExteriorDoor.cpp">
+      <Filter>MapLevel\Actor\EventTrigger</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -4,6 +4,7 @@
 #include "PokemonMath.h"
 #include "EventManager.h"
 #include "EventTarget.h"
+#include "EventStream.h"
 
 class APlayer;
 

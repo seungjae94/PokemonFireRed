@@ -131,7 +131,7 @@ void UMapLevel::LevelStart(ULevel* _PrevLevel)
 {
 	UPokemonLevel::LevelStart(_PrevLevel);
 
-	UEventManager::TriggerEvent(FadeInTrigger);
+	//UEventManager::TriggerEvent(FadeInTrigger);
 }
 
 void UMapLevel::LoadCharacterResources()

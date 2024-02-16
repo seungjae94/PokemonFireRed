@@ -15,28 +15,8 @@ AWarp::~AWarp()
 {
 }
 
-void AWarp::RegisterPredefinedEvent()
-{
-	AEventTrigger::RegisterPredefinedEvent();
-
-	UEventCondition WarpCond = UEventCondition(EEventTriggerAction::Notice);
-	WarpCond.RegisterCheckFunc(ToCheckFunc(CheckPlayerDirection));
-
-	UEventManager::RegisterEvent(this, WarpCond,
-		ES::Start(true)
-		// >> ES::FadeOutAsync(0.5f)
-		>> ES::Move(GetWorld()->GetName(), Global::PLAYER_NAME, { MoveDirection.ToFVector() }, 1.8f)
-		>> ES::FadeOut(0.5f) // delete
-		>> ES::ChangeLevel(TargetMapName)
-		>> ES::ChangePoint(TargetMapName, Global::PLAYER_NAME, TargetPoint)
-		>> ES::ChangeDirection(TargetMapName, Global::PLAYER_NAME, MoveDirection.ToFVector())
-		>> ES::Wait(0.5f)
-		>> ES::End(true)
-	);
-}
-
 bool AWarp::CheckPlayerDirection()
 {
 	FTileVector CurPlayerDirection = UEventManager::GetCurPlayer()->GetDirection();
-	return CurPlayerDirection == MoveDirection;
+	return CurPlayerDirection == TargetDirection;
 }

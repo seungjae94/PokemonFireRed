@@ -1,7 +1,7 @@
 ﻿#include "ExteriorPalletTownLevel.h"
 
 #include "Global.h"
-#include "Warp.h"
+#include "ExteriorDoor.h"
 #include "DialogueActor.h"
 #include "PokemonText.h"
 
@@ -22,35 +22,35 @@ void UExteriorPalletTownLevel::BeginPlay()
 	UEventManager::SetDirection(GetName(), Global::PLAYER_NAME, FTileVector::Down);
 
 	// 이벤트 트리거 생성
-	UEventTargetInitialSetting OaksLabWarpSetting = UEventTargetInitialSetting(
+	UEventTargetInitialSetting OaksLabDoorSetting = UEventTargetInitialSetting(
 		"OaksLabWarp",
 		{ 80, 147 }
 	);
-	AWarp* OaksLabWarp = SpawnEventTrigger<AWarp>(OaksLabWarpSetting);
-	OaksLabWarp->SetTargetLevelName(Global::InteriorOaksLabLevel);
-	OaksLabWarp->SetTargetPoint({ 6, 12 });
-	OaksLabWarp->SetMoveDirection(FTileVector::Up);
-	OaksLabWarp->RegisterPredefinedEvent();
+	AExteriorDoor* OaksLabDoor = SpawnEventTrigger<AExteriorDoor>(OaksLabDoorSetting);
+	OaksLabDoor->SetTargetMapName(Global::InteriorOaksLabLevel);
+	OaksLabDoor->SetTargetPoint({ 6, 12 });
+	OaksLabDoor->SetMoveDirection(FTileVector::Up);
+	OaksLabDoor->RegisterPredefinedEvent();
 
-	UEventTargetInitialSetting PlayersHouseWarpSetting = UEventTargetInitialSetting(
+	UEventTargetInitialSetting PlayersHouseDoorSetting = UEventTargetInitialSetting(
 		"PlayersHouseWarp",
 		{ 70, 141 }
 	);
-	AWarp* PlayersHouseWarp = SpawnEventTrigger<AWarp>(PlayersHouseWarpSetting);
-	PlayersHouseWarp->SetTargetLevelName(Global::InteriorPlayersHouse1FLevel);
-	PlayersHouseWarp->SetTargetPoint({ 3, 8 });
-	PlayersHouseWarp->SetMoveDirection(FTileVector::Up);
-	PlayersHouseWarp->RegisterPredefinedEvent();
+	AExteriorDoor* PlayersHouseDoor = SpawnEventTrigger<AExteriorDoor>(PlayersHouseDoorSetting);
+	PlayersHouseDoor->SetTargetMapName(Global::InteriorPlayersHouse1FLevel);
+	PlayersHouseDoor->SetTargetPoint({ 3, 8 });
+	PlayersHouseDoor->SetMoveDirection(FTileVector::Up);
+	PlayersHouseDoor->RegisterPredefinedEvent();
 
-	UEventTargetInitialSetting RivalsHouseWarpSetting = UEventTargetInitialSetting(
+	UEventTargetInitialSetting RivalsHouseDoorSetting = UEventTargetInitialSetting(
 		"RivalsHouseWarp",
 		{ 79, 141 }
 	);
-	AWarp* RivalsHouseWarp = SpawnEventTrigger<AWarp>(RivalsHouseWarpSetting);
-	RivalsHouseWarp->SetTargetLevelName(Global::InteriorRivalsHouseLevel);
-	RivalsHouseWarp->SetTargetPoint({ 4, 8 });
-	RivalsHouseWarp->SetMoveDirection(FTileVector::Up);
-	RivalsHouseWarp->RegisterPredefinedEvent();
+	AExteriorDoor* RivalsHouseDoor = SpawnEventTrigger<AExteriorDoor>(RivalsHouseDoorSetting);
+	RivalsHouseDoor->SetTargetMapName(Global::InteriorRivalsHouseLevel);
+	RivalsHouseDoor->SetTargetPoint({ 4, 8 });
+	RivalsHouseDoor->SetMoveDirection(FTileVector::Up);
+	RivalsHouseDoor->RegisterPredefinedEvent();
 
 	UEventTargetInitialSetting FatManSetting = UEventTargetInitialSetting(
 		"FatMan",
