@@ -3,7 +3,7 @@
 
 const float Global::CHARACTER_WALK_SPEED = 3.6f;
 const float Global::CHARACTER_JUMP_SPEED = 1.4f;
-const float Global::CHARACTER_WALK_ANIMATION_FRAME_INTERVAL = 1.0f / 4;
+const float Global::CHARACTER_WALK_ANIMATION_FRAME_INTERVAL = 1.0f / 8;
 const float Global::CHARACTER_JUMP_ANIMATION_FRAME_INTERVAL = 1.0f / 48;
 
 const int Global::PIXEL_SIZE = 3;

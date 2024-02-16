@@ -22,13 +22,6 @@ void UInteriorPlayersHouse1FLevel::BeginPlay()
 		"StairTo2FWarp",
 		{ 10, 2 }
 	);
-	// AWarp가 아닌 AEventTrigger로 해보기... -> 계단 클래스로 만들기...
-	/*AWarp* StairTo2FWarp = SpawnEventTrigger<AWarp>(StairTo2FWarpSetting);
-	StairTo2FWarp->SetTargetLevelName("InteriorPlayersHouse2FLevel");
-	StairTo2FWarp->SetTargetPoint({ 9, 2 });
-	StairTo2FWarp->SetMoveDirection(FTileVector::Right);
-	StairTo2FWarp->RegisterPredefinedEvent();*/
-
 	UEventCondition StairTo2FCond = UEventCondition(EEventTriggerAction::Notice);
 	std::string StairTo2FTargetMapName = "InteriorPlayersHouse2FLevel";
 	FTileVector StairTo2FTargetPoint = {9, 2};
@@ -42,7 +35,8 @@ void UInteriorPlayersHouse1FLevel::BeginPlay()
 
 	UEventManager::RegisterEvent(StairTo2F, StairTo2FCond,
 		ES::Start(true)
-		>> ES::MoveWithoutRestriction(GetName(), "Player", { FVector(1.0f, -0.5f) * Global::F_TILE_SIZE }, 1.2f)
+		>> ES::MoveWithoutRestriction(GetName(), "Player", { FVector(0.1f, 0.0f) * Global::F_TILE_SIZE }, 6.0f)
+		>> ES::MoveWithoutRestriction(GetName(), "Player", { FVector(1.0f, -0.5f) * Global::F_TILE_SIZE }, 2.2f)
 		>> ES::FadeOut(0.5f)
 		>> ES::ChangeLevel(StairTo2FTargetMapName)
 		>> ES::ChangePoint(StairTo2FTargetMapName, "Player", StairTo2FTargetPoint)
