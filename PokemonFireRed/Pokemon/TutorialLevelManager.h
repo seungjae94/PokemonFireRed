@@ -23,10 +23,7 @@ private:
 	void Tick(float _DeltaTime) override;
 	void SetArrowPos(const FVector& _Pos);
 
-	AEventTrigger* LevelEndTrigger = nullptr;
-
 	int PageIndex = 0;
-	bool IsEnd = false;
 	std::string GetPageName();
 
 	FVector ArrowMoveRange = FVector::Up * 20.0f;
@@ -38,7 +35,5 @@ private:
 	UImageRenderer* Renderer = nullptr;
 	UImageRenderer* ArrowRenderer = nullptr;
 	UImageRenderer* PikachuRenderer = nullptr;
-
-	
 };
 

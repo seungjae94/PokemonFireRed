@@ -77,9 +77,6 @@ void UMapLevel::BeginPlay()
 	// 대화창 생성
 	DialogueWindow = SpawnUIElement<ADialogueWindow>("DialogueWindow");
 
-	// 검은창 생성
-	ABlackScreen* BlackScreen = SpawnUIElement<ABlackScreen>("BlackScreen");
-
 	// UI Off
 	MenuWindow->ActiveOff();
 	MenuWindow->AllRenderersActiveOff();
@@ -87,7 +84,7 @@ void UMapLevel::BeginPlay()
 	DialogueWindow->AllRenderersActiveOff();
 
 	// 페이드 인 이벤트용 트리거 생성
-	UEventTargetInitialSetting Setting = UEventTargetInitialSetting(GetName() + "MapFadeInTrigger");
+	UEventTargetInit Setting = UEventTargetInit(GetName() + "MapFadeInTrigger");
 	FadeInTrigger = SpawnEventTrigger<AEventTrigger>(Setting);
 
 	UEventCondition Cond = UEventCondition(EEventTriggerAction::Direct);
@@ -130,8 +127,6 @@ void UMapLevel::Tick(float _DeltaTime)
 void UMapLevel::LevelStart(ULevel* _PrevLevel)
 {
 	UPokemonLevel::LevelStart(_PrevLevel);
-
-	//UEventManager::TriggerEvent(FadeInTrigger);
 }
 
 void UMapLevel::LoadCharacterResources()

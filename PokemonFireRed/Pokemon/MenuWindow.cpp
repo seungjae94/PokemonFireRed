@@ -111,16 +111,16 @@ void AMenuWindow::BeginPlay()
 
 	// 트리거 설정
 	UMapLevel* CurLevel = dynamic_cast<UMapLevel*>(GetWorld());
-	UEventTargetInitialSetting OpenSetting
-		= UEventTargetInitialSetting("MainWindowOpenTriggerSetting", FTileVector(1000, 1000));
+	UEventTargetInit OpenSetting
+		= UEventTargetInit("MainWindowOpenTriggerSetting", FTileVector(1000, 1000));
 	UEventCondition Cond = UEventCondition(EEventTriggerAction::Direct);
 	MenuWindowOpenTrigger = CurLevel->SpawnEventTrigger<AEventTrigger>(OpenSetting);
 	UEventManager::RegisterEvent(MenuWindowOpenTrigger, Cond,
 		ES::Start(true) >> ES::End(false)
 	);
 
-	UEventTargetInitialSetting CloseSetting 
-		= UEventTargetInitialSetting("MainWindowCloseTriggerSetting", FTileVector(2000, 2000));
+	UEventTargetInit CloseSetting 
+		= UEventTargetInit("MainWindowCloseTriggerSetting", FTileVector(2000, 2000));
 	MenuWindowCloseTrigger = CurLevel->SpawnEventTrigger<AEventTrigger>(CloseSetting);
 	UEventManager::RegisterEvent(MenuWindowCloseTrigger, Cond,
 		ES::Start(false) >> ES::End(true)

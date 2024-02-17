@@ -23,11 +23,6 @@ private:
 	void Tick(float _DeltaTime) override;
 
 	UImageRenderer* Renderer = nullptr;
-	UImageRenderer* WhiteScreenRenderer = nullptr;
-
-	bool IsEnd = false;
-	float EndTime = 2.0f;
-	float CurAlpha = 0.0f;
 
 	int VideoIndex = 0;
 	const std::string VideoName[5] = { "1st", "2nd", "3rd", "4th", "5th"};

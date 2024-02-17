@@ -1,6 +1,8 @@
 #pragma once
 #include "PokemonLevel.h"
 
+class ATitleLevelManager;
+
 class UTitleLevel : public UPokemonLevel
 {
 public:
@@ -14,8 +16,12 @@ public:
 	UTitleLevel& operator=(const UTitleLevel& _Other) = delete;
 	UTitleLevel& operator=(UTitleLevel&& _Other) noexcept = delete;
 
+	void LevelChange();
+
 protected:
 	void BeginPlay() override;
 private:
+	ATitleLevelManager* Manager;
+	AEventTrigger* LevelChanger;
 };
 

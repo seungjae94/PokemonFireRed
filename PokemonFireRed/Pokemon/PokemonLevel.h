@@ -22,7 +22,7 @@ public:
 	UPokemonLevel& operator=(UPokemonLevel&& _Other) noexcept = delete;
 
 	template <typename EventTargetType>
-	EventTargetType* SpawnEventTarget(UEventTargetInitialSetting _Setting)
+	EventTargetType* SpawnEventTarget(UEventTargetInit _Setting)
 	{
 		EventTargetType* EventTarget = SpawnActor<EventTargetType>();
 		UEventManager::AddTarget(EventTarget, _Setting);
@@ -45,7 +45,7 @@ public:
 	}
 
 	template <typename EventTriggerType>
-	EventTriggerType* SpawnEventTrigger(UEventTargetInitialSetting _Setting)
+	EventTriggerType* SpawnEventTrigger(UEventTargetInit _Setting)
 	{
 		EventTriggerType* EventTrigger = SpawnActor<EventTriggerType>();
 		UEventManager::AddTarget(EventTrigger, _Setting);
@@ -58,6 +58,7 @@ public:
 	}
 
 protected:
+	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 private:
 

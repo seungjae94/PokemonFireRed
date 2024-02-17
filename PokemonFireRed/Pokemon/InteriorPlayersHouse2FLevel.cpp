@@ -20,7 +20,7 @@ void UInteriorPlayersHouse2FLevel::BeginPlay()
 	UEventManager::SetDirection(GetName(), Global::PLAYER_NAME, FTileVector::Up);
 
 	// 이벤트 트리거 생성
-	UEventTargetInitialSetting StairTo1FSetting = UEventTargetInitialSetting(
+	UEventTargetInit StairTo1FSetting = UEventTargetInit(
 		"StairTo1F",
 		{ 8, 2 }
 	);

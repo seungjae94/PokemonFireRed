@@ -34,6 +34,7 @@ bool UEventProcessor::TryRun(EEventTriggerAction _TriggerAction)
 			CurStream = &Pair.second;
 			if (true == CurStream->DeactivatePlayer)
 			{
+				IsPlayerActivated = false;
 				DeactivatePlayerControl();
 			}
 			IsRunningValue = true;		// ½ÇÇà
@@ -425,7 +426,10 @@ bool UEventProcessor::ProcessChangeLevel()
 	int CurIndexOfType = GetCurIndexOfType(EEventType::ChangeLevel);
 	ES::ChangeLevel& Data = CurStream->ChangeLevelDataSet[CurIndexOfType];
 	UEventManager::SetLevel(Data.LevelName);
-	DeactivatePlayerControl();
+	if (false == IsPlayerActivated)
+	{
+		DeactivatePlayerControl();
+	}
 	return true;
 }
 

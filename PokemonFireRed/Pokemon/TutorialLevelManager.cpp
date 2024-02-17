@@ -31,13 +31,6 @@ void ATutorialLevelManager::BeginPlay()
 	FVector ArrowScale = ArrowImage->GetScale();
 	ArrowDownPos = Global::Screen - ArrowScale.Half2D() - FVector(15, 15);
 	ArrowRenderer->SetTransform({ArrowDownPos, ArrowScale});
-
-	UEventTargetInitialSetting Setting = UEventTargetInitialSetting("TutorialLevelEndTriger");
-	UEventCondition Cond = UEventCondition(EEventTriggerAction::Direct);
-	LevelEndTrigger = dynamic_cast<UTutorialLevel*>(GetWorld())->SpawnEventTrigger<AEventTrigger>(Setting);
-	UEventManager::RegisterEvent(LevelEndTrigger, Cond, 
-		ES::Start(false) >> ES::FadeOut(1.0f) >> ES::ChangeLevel(Global::InteriorPlayersHouse2FLevel) >> ES::End(true)
-	);
 }
 
 void ATutorialLevelManager::Tick(float _DeltaTime)
@@ -86,8 +79,8 @@ void ATutorialLevelManager::Tick(float _DeltaTime)
 		if (PageIndex >= 6)
 		{
 			// 튜토리얼 레벨 종료
-			UEventManager::TriggerEvent(LevelEndTrigger);
-			SetActive(false);
+			UTutorialLevel* ThisLevel = dynamic_cast<UTutorialLevel*>(GetWorld());
+			ThisLevel->LevelChange();
 			return;
 		}
 

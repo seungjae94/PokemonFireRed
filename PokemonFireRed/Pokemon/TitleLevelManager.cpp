@@ -5,6 +5,7 @@
 #include "EventManager.h"
 #include "Global.h"
 #include "PokemonUtil.h"
+#include "TitleLevel.h"
 
 ATitleLevelManager::ATitleLevelManager()
 {
@@ -29,31 +30,10 @@ void ATitleLevelManager::BeginPlay()
 	Renderer->SetImage(VideoName[0]);
 	Renderer->SetTransform({ {0, 0}, Global::Screen });
 	Renderer->ChangeAnimation(VideoName[0]);
-
-	// 하얀 배경 화면
-	WhiteScreenRenderer = CreateImageRenderer(ERenderingOrder::UpperUI);
-	WhiteScreenRenderer->CameraEffectOff();
-	WhiteScreenRenderer->SetImage("WhiteScreen.png");
-	WhiteScreenRenderer->SetTransColor(Color8Bit::WhiteA);
-	WhiteScreenRenderer->SetAlpha(0.0f);
-	WhiteScreenRenderer->SetTransform({ {0, 0}, Global::Screen });
 }
 
 void ATitleLevelManager::Tick(float _DeltaTime)
 {
-	if (true == IsEnd)
-	{
-		EndTime -= _DeltaTime;
-		CurAlpha += _DeltaTime;
-		WhiteScreenRenderer->SetAlpha(CurAlpha);
-
-		if (EndTime <= 0.0f)
-		{
-			UEventManager::SetLevel(Global::TutorialLevel);
-		}
-		return;
-	}
-
 	switch (VideoIndex)
 	{
 	case 0:
@@ -110,7 +90,8 @@ void ATitleLevelManager::Video3Logic(float _DeltaTime)
 	if (true == IsAnyKeyboardDown())
 	{
 		// 아무 키나 누르면 타이틀 레벨을 종료한다.
-		IsEnd = true;
+		UTitleLevel* ThisLevel = dynamic_cast<UTitleLevel*>(GetWorld());
+		ThisLevel->LevelChange();
 		return;
 	}
 

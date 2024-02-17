@@ -18,7 +18,7 @@ void UInteriorRivalsHouseLevel::BeginPlay()
 	UEventManager::SetDirection(GetName(), Global::PLAYER_NAME, FTileVector::Up);
 
 	// 이벤트 트리거 생성
-	UEventTargetInitialSetting PalletTownDoorSetting = UEventTargetInitialSetting(
+	UEventTargetInit PalletTownDoorSetting = UEventTargetInit(
 		"PalletTownDoor",
 		{ 4, 9 }
 	);

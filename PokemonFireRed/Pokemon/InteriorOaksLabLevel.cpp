@@ -22,7 +22,7 @@ void UInteriorOaksLabLevel::BeginPlay()
 
 
 	// 이벤트 트리거 생성
-	UEventTargetInitialSetting PalletTownWarpSetting = UEventTargetInitialSetting(
+	UEventTargetInit PalletTownWarpSetting = UEventTargetInit(
 		"PalletTownDoor",
 		{ 6, 13 }
 	);

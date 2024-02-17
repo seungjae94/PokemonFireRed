@@ -23,7 +23,7 @@ void UInteriorPlayersHouse1FLevel::BeginPlay()
 	UEventManager::SetDirection(GetName(), Global::PLAYER_NAME, FTileVector::Up);
 
 	// 이벤트 트리거 생성
-	UEventTargetInitialSetting StairTo2FSetting = UEventTargetInitialSetting(
+	UEventTargetInit StairTo2FSetting = UEventTargetInit(
 		"StairTo2F",
 		{ 10, 2 }
 	);
@@ -35,7 +35,7 @@ void UInteriorPlayersHouse1FLevel::BeginPlay()
 	StairTo2F->SetPath({ FVector(0.1f, 0.0f) * Global::FloatTileSize }, { FVector(1.0f, -0.5f) * Global::FloatTileSize });
 	StairTo2F->RegisterPredefinedEvent();
 
-	UEventTargetInitialSetting PalletTownWarpSetting = UEventTargetInitialSetting(
+	UEventTargetInit PalletTownWarpSetting = UEventTargetInit(
 		"PalletTownDoor",
 		{ 3, 9 }
 	);
@@ -45,7 +45,7 @@ void UInteriorPlayersHouse1FLevel::BeginPlay()
 	PalletTownDoor->SetMoveDirection(FTileVector::Down);
 	PalletTownDoor->RegisterPredefinedEvent();
 
-	UEventTargetInitialSetting PlayersMomSetting = UEventTargetInitialSetting(
+	UEventTargetInit PlayersMomSetting = UEventTargetInit(
 		"PlayersMom",
 		{ 7, 4 },
 		FTileVector::Left,

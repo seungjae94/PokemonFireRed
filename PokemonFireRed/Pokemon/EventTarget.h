@@ -12,11 +12,11 @@ enum class ETargetMoveState
 	Walk
 };
 
-class UEventTargetInitialSetting
+class UEventTargetInit
 {
 	friend UEventManager;
 public:
-	UEventTargetInitialSetting(
+	UEventTargetInit(
 		std::string_view _Name,
 		const FTileVector& _Point = FTileVector::Zero,
 		const FTileVector& _Direction = FTileVector::Zero,

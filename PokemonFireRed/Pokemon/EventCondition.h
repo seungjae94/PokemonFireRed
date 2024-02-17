@@ -3,8 +3,7 @@
 #include <functional>
 #include "PokemonMath.h"
 
-
-class EventManager;
+class UEventManager;
 
 enum class EEventTriggerAction
 {
@@ -22,8 +21,16 @@ class UEventCondition
 {
 public:
 	// constructor destructor
-	UEventCondition();
-	UEventCondition(EEventTriggerAction _TriggerAction);
+	UEventCondition()
+		: TriggerAction(EEventTriggerAction::Direct)
+	{
+	}
+
+	UEventCondition(EEventTriggerAction _TriggerAction)
+		: TriggerAction(_TriggerAction)
+	{
+	}
+
 	~UEventCondition();
 
 	void RegisterCheckFunc(CheckFunc _Func)

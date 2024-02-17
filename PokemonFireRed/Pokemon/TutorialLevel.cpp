@@ -30,6 +30,23 @@ void UTutorialLevel::BeginPlay()
 	}
 
 	// 액터 생성
-	ATutorialLevelManager* Manager = SpawnActor<ATutorialLevelManager>();
-	ABlackScreen* BlackScreen = SpawnUIElement<ABlackScreen>("BlackScreen");
+	Manager = SpawnActor<ATutorialLevelManager>();
+
+	UEventTargetInit LevelChangerInit{ "LevelChanger" };
+	UEventCondition LevelChangerCond;
+	LevelChanger = SpawnEventTrigger<AEventTrigger>(LevelChangerInit);
+	UEventManager::RegisterEvent(LevelChanger, LevelChangerCond,
+		ES::Start(false)
+		>> ES::FadeOut(1.0f)
+		>> ES::ChangeLevel(Global::InteriorPlayersHouse2FLevel)
+		>> ES::FadeIn(0.5f)
+		>> ES::End(true)
+	);
+}
+
+
+void UTutorialLevel::LevelChange()
+{
+	Manager->SetActive(false);
+	UEventManager::TriggerEvent(LevelChanger);
 }

@@ -143,7 +143,7 @@ bool UEventManager::TriggerEvent(AEventTrigger* _Trigger, EEventTriggerAction _A
 	return Processor->TryRun(_Action);
 }
 
-void UEventManager::AddTarget(AEventTarget* _Target, const UEventTargetInitialSetting& _Setting)
+void UEventManager::AddTarget(AEventTarget* _Target, const UEventTargetInit& _Setting)
 {
 	if (nullptr == _Target)
 	{
@@ -252,7 +252,7 @@ void UEventManager::AddTarget(AEventTarget* _Target, const UEventTargetInitialSe
 	}
 }
 
-void UEventManager::AddTrigger(AEventTrigger* _Trigger, const UEventTargetInitialSetting& _Setting)
+void UEventManager::AddTrigger(AEventTrigger* _Trigger, const UEventTargetInit& _Setting)
 {
 	std::string TriggerName = _Setting.Name;
 	FTileVector Point = _Setting.Point;
@@ -279,7 +279,7 @@ void UEventManager::AddTrigger(AEventTrigger* _Trigger, const UEventTargetInitia
 
 void UEventManager::AddPlayer(APlayer* _Player, const FTileVector& _Point)
 {
-	UEventTargetInitialSetting PlayerSetting = UEventTargetInitialSetting(
+	UEventTargetInit PlayerSetting = UEventTargetInit(
 		Global::PLAYER_NAME,
 		_Point,
 		FTileVector::Down,

@@ -1,15 +1,5 @@
 #include "EventCondition.h"
 
-UEventCondition::UEventCondition(EEventTriggerAction _TriggerAction)
-{
-	TriggerAction = _TriggerAction;
-}
-
-UEventCondition::UEventCondition()
-{
-
-}
-
 UEventCondition::~UEventCondition()
 {
 }

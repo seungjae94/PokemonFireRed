@@ -89,6 +89,9 @@ private:
 	bool ProcessChangeDirection();
 	bool ProcessStarePlayer();
 
+	// 프로세싱 변수 - 공통
+	bool IsPlayerActivated = true;
+
 	// 프로세싱 변수 - 이동
 	FTileVector MovePrevPoint;
 	FTileVector MoveNextPoint;

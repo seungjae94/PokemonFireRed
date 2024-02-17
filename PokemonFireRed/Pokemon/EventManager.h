@@ -7,7 +7,7 @@
 
 class UPokemonLevel;
 class AEventTarget;
-class UEventTargetInitialSetting;
+class UEventTargetInit;
 class AEventTrigger;
 class UEventProcessor;
 class UEventStream;
@@ -108,8 +108,8 @@ private:
 	
 	static void Tick(float _DeltaTime);
 	
-	static void AddTarget(AEventTarget* _Target, const UEventTargetInitialSetting& _Setting);
-	static void AddTrigger(AEventTrigger* _Trigger, const UEventTargetInitialSetting& _Setting);
+	static void AddTarget(AEventTarget* _Target, const UEventTargetInit& _Setting);
+	static void AddTrigger(AEventTrigger* _Trigger, const UEventTargetInit& _Setting);
 	static void AddPlayer(APlayer* _Player, const FTileVector& _Point);
 	static void AddUIElement(AUIElement* _UIElement, std::string_view _Name);
 

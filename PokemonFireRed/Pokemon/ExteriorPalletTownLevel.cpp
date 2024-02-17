@@ -22,7 +22,7 @@ void UExteriorPalletTownLevel::BeginPlay()
 	UEventManager::SetDirection(GetName(), Global::PLAYER_NAME, FTileVector::Down);
 
 	// 이벤트 트리거 생성
-	UEventTargetInitialSetting OaksLabDoorSetting = UEventTargetInitialSetting(
+	UEventTargetInit OaksLabDoorSetting = UEventTargetInit(
 		"OaksLabWarp",
 		{ 80, 147 }
 	);
@@ -32,7 +32,7 @@ void UExteriorPalletTownLevel::BeginPlay()
 	OaksLabDoor->SetMoveDirection(FTileVector::Up);
 	OaksLabDoor->RegisterPredefinedEvent();
 
-	UEventTargetInitialSetting PlayersHouseDoorSetting = UEventTargetInitialSetting(
+	UEventTargetInit PlayersHouseDoorSetting = UEventTargetInit(
 		"PlayersHouseWarp",
 		{ 70, 141 }
 	);
@@ -42,7 +42,7 @@ void UExteriorPalletTownLevel::BeginPlay()
 	PlayersHouseDoor->SetMoveDirection(FTileVector::Up);
 	PlayersHouseDoor->RegisterPredefinedEvent();
 
-	UEventTargetInitialSetting RivalsHouseDoorSetting = UEventTargetInitialSetting(
+	UEventTargetInit RivalsHouseDoorSetting = UEventTargetInit(
 		"RivalsHouseWarp",
 		{ 79, 141 }
 	);
@@ -52,7 +52,7 @@ void UExteriorPalletTownLevel::BeginPlay()
 	RivalsHouseDoor->SetMoveDirection(FTileVector::Up);
 	RivalsHouseDoor->RegisterPredefinedEvent();
 
-	UEventTargetInitialSetting FatManSetting = UEventTargetInitialSetting(
+	UEventTargetInit FatManSetting = UEventTargetInit(
 		"FatMan",
 		{ 80, 151 },
 		FTileVector::Down,

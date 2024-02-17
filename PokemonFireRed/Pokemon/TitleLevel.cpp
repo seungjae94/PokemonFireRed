@@ -29,6 +29,24 @@ void UTitleLevel::BeginPlay()
 	UEngineResourcesManager::GetInst().LoadFolder(CurDir.AppendPath("5th"));
 
 	// 액터 생성
-	ATitleLevelManager* Manager = SpawnActor<ATitleLevelManager>();
+	Manager = SpawnActor<ATitleLevelManager>();
 	Manager->SetActorLocation(Global::HalfScreen);
+
+	UEventTargetInit LevelChangerInit{ "LevelChanger" };
+	UEventCondition LevelChangerCond;
+	LevelChanger = SpawnEventTrigger<AEventTrigger>(LevelChangerInit);
+	UEventManager::RegisterEvent(LevelChanger, LevelChangerCond,
+		ES::Start(false)
+		>> ES::FadeOut(0.5f) // White
+		>> ES::ChangeLevel(Global::TutorialLevel)
+		>> ES::FadeIn(0.5f)
+		>> ES::End(false)
+	);
+}
+
+
+void UTitleLevel::LevelChange()
+{
+	Manager->SetActive(false);
+	UEventManager::TriggerEvent(LevelChanger);
 }
