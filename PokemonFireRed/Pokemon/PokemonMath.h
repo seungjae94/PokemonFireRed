@@ -40,29 +40,29 @@ public:
 	}
 
 	// 단항 연산자
-	FTileVector operator -()
+	FTileVector operator-()
 	{
 		return FTileVector(-X, -Y);
 	}
 
-	FTileVector& operator =(const FTileVector& _Other)
+	FTileVector& operator=(const FTileVector& _Other)
 	{
 		X = _Other.X;
 		Y = _Other.Y;
 		return *this;
 	}
 
-	bool operator ==(const FTileVector& _Other) const
+	bool operator==(const FTileVector& _Other) const
 	{
 		return X == _Other.X && Y == _Other.Y;
 	}
 
-	bool operator !=(const FTileVector& _Other) const
+	bool operator!=(const FTileVector& _Other) const
 	{
 		return X != _Other.X || Y != _Other.Y;
 	}
 
-	FTileVector operator +(const FTileVector& _Other) const
+	FTileVector operator+(const FTileVector& _Other) const
 	{
 		FTileVector NewPoint = *this;
 		NewPoint.X += _Other.X;
@@ -70,19 +70,24 @@ public:
 		return NewPoint;
 	}
 
-	FTileVector& operator +=(const FTileVector& _Other)
+	FTileVector& operator+=(const FTileVector& _Other)
 	{
 		X += _Other.X;
 		Y += _Other.Y;
 		return *this;
 	}
 
-	FTileVector operator *(int _Value) const
+	FTileVector operator-(const FTileVector& _Other) const
+	{
+		return FTileVector(X - _Other.X, Y - _Other.Y);
+	}
+
+	FTileVector operator*(int _Value) const
 	{
 		return FTileVector(X * _Value, Y * _Value);
 	}
 
-	bool operator <(const FTileVector& _Other) const
+	bool operator<(const FTileVector& _Other) const
 	{
 		if (X == _Other.X)
 		{
@@ -97,7 +102,7 @@ public:
 		return X < _Other.X;
 	}
 
-	bool operator >(const FTileVector& _Other) const
+	bool operator>(const FTileVector& _Other) const
 	{
 		return (*this != _Other) && !(*this < _Other);
 	}

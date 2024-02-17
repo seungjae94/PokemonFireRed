@@ -24,6 +24,13 @@ enum class EEventType
 	End,
 };
 
+enum class EFadeType
+{
+	Black,
+	White,
+	Curtain
+};
+
 class UEventStream
 {
 	friend UEventProcessor;
@@ -79,12 +86,13 @@ public:
 	{
 		friend UEventProcessor;
 	public:
-		FadeIn(float _Time)
-			: Time(_Time)
+		FadeIn(float _Time, EFadeType _FadeType = EFadeType::Black)
+			: Time(_Time), FadeType(_FadeType)
 		{
 		}
 	private:
-		float Time;
+		float Time = 0.0f;
+		EFadeType FadeType = EFadeType::Black;
 	};
 
 	UEventStream& operator>>(const FadeIn& _Data)
@@ -98,12 +106,13 @@ public:
 	{
 		friend UEventProcessor;
 	public:
-		FadeOut(float _Time)
-			: Time(_Time)
+		FadeOut(float _Time, EFadeType _FadeType = EFadeType::Black)
+			: Time(_Time), FadeType(_FadeType)
 		{
 		}
 	private:
-		float Time;
+		float Time = 0.0f;
+		EFadeType FadeType = EFadeType::Black;
 	};
 
 	UEventStream& operator>>(const FadeOut& _Data)

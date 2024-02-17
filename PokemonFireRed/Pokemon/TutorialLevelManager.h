@@ -30,7 +30,7 @@ private:
 	FVector ArrowMoveRange = FVector::Up * 20.0f;
 	FVector ArrowDownPos;
 	bool IsArrowMoveUpward = true;
-	float MaxArrowValue = 0.33f;
+	float MaxArrowValue = 0.3f;
 	float ArrowValue = 0.0f;
 
 	// ÇÇÄ«Ãò

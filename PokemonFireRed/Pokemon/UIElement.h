@@ -1,8 +1,11 @@
 #pragma once
 #include <EngineCore/Actor.h>
 
+class UEventProcessor;
+
 class AUIElement : public AActor
 {
+	friend UEventProcessor;
 public:
 	// constructor destructor
 	AUIElement();
@@ -15,7 +18,7 @@ public:
 	AUIElement& operator=(AUIElement&& _Other) noexcept = delete;
 
 protected:
-
+	virtual void Sync(AUIElement* _Other) {}
 private:
 
 };

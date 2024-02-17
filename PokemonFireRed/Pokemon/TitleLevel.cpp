@@ -37,7 +37,7 @@ void UTitleLevel::BeginPlay()
 	LevelChanger = SpawnEventTrigger<AEventTrigger>(LevelChangerInit);
 	UEventManager::RegisterEvent(LevelChanger, LevelChangerCond,
 		ES::Start(false)
-		>> ES::FadeOut(0.5f) // White
+		>> ES::FadeOut(1.0f) // White
 		>> ES::ChangeLevel(Global::TutorialLevel)
 		>> ES::FadeIn(0.5f)
 		>> ES::End(false)

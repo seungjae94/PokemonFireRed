@@ -24,7 +24,7 @@ enum class EFontColor;
 // - 맵 레벨에서 액터를 조작하려면 반드시 EventManager 클래스를 통해서 조작해야 한다.
 class UEventManager
 {
-	friend AEventTrigger; // 일정 시간 동안 동작하는 유틸 함수는 이벤트 트리거에게만 공개
+	friend UEventProcessor;
 	friend UPokemonLevel;
 	friend UEventManagerReleaser;
 public:

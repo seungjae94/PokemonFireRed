@@ -43,6 +43,12 @@
     <Filter Include="2. MapLevel\Interior">
       <UniqueIdentifier>{9aa64607-bb92-499d-8ea4-58531c624887}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Global\UI\Fade">
+      <UniqueIdentifier>{ec9a6e0d-ee67-425c-aa2c-d748506a7ac8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Global\UI\Menu">
+      <UniqueIdentifier>{17a11bae-f8c2-41e6-a7a6-9131fdafb817}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PokemonCore.h">
@@ -123,13 +129,7 @@
     <ClInclude Include="EventStream.h">
       <Filter>Global\Event</Filter>
     </ClInclude>
-    <ClInclude Include="BlackScreen.h">
-      <Filter>Global\UI</Filter>
-    </ClInclude>
     <ClInclude Include="DialogueWindow.h">
-      <Filter>Global\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="MenuWindow.h">
       <Filter>Global\UI</Filter>
     </ClInclude>
     <ClInclude Include="PokemonText.h">
@@ -149,6 +149,15 @@
     </ClInclude>
     <ClInclude Include="ExteriorDoor.h">
       <Filter>2. MapLevel\Actor\EventTrigger</Filter>
+    </ClInclude>
+    <ClInclude Include="BlackScreen.h">
+      <Filter>Global\UI\Fade</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuWindow.h">
+      <Filter>Global\UI\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="FadeScreen.h">
+      <Filter>Global\UI\Fade</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -230,13 +239,7 @@
     <ClCompile Include="EventStream.cpp">
       <Filter>Global\Event</Filter>
     </ClCompile>
-    <ClCompile Include="BlackScreen.cpp">
-      <Filter>Global\UI</Filter>
-    </ClCompile>
     <ClCompile Include="DialogueWindow.cpp">
-      <Filter>Global\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="MenuWindow.cpp">
       <Filter>Global\UI</Filter>
     </ClCompile>
     <ClCompile Include="PokemonText.cpp">
@@ -256,6 +259,15 @@
     </ClCompile>
     <ClCompile Include="ExteriorDoor.cpp">
       <Filter>2. MapLevel\Actor\EventTrigger</Filter>
+    </ClCompile>
+    <ClCompile Include="BlackScreen.cpp">
+      <Filter>Global\UI\Fade</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuWindow.cpp">
+      <Filter>Global\UI\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="FadeScreen.cpp">
+      <Filter>Global\UI\Fade</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,9 +1,9 @@
 #pragma once
-#include "UIElement.h"
+#include "FadeScreen.h"
 
 class UEventManager;
 
-class ABlackScreen : public AUIElement
+class ABlackScreen : public AFadeScreen
 {
 	friend UEventManager;
 public:
@@ -17,21 +17,11 @@ public:
 	ABlackScreen& operator=(const ABlackScreen& _Other) = delete;
 	ABlackScreen& operator=(ABlackScreen&& _Other) noexcept = delete;
 
-	void SetAlpha(float _Alpha)
-	{
-		Renderer->SetAlpha(_Alpha);
-	}
-
-	void SetActiveRenderer(bool _Active)
-	{
-		Renderer->SetActive(_Active);
-	}
-
-
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 private:
-	UImageRenderer* Renderer = nullptr;
+	void FadeInTick(float _DeltaTime);
+	void FadeOutTick(float _DeltaTime);
 };
 

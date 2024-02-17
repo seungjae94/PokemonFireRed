@@ -300,66 +300,47 @@ void UEventProcessor::PostProcessMoveWR(AEventTarget* _Target)
 
 bool UEventProcessor::ProcessFadeIn()
 {
-	static bool IsBegin = true;
-	static float Timer = 0.0f;
-
-	float DeltaTime = UEventManager::GetDeltaTime();
 	std::string CurLevelName = UEventManager::GetCurLevelName();
-	ABlackScreen* BlackScreen = UEventManager::GetBlackScreen(CurLevelName);
+	AFadeScreen* FadeScreen = nullptr;
+
 
 	int CurIndexOfType = GetCurIndexOfType(EEventType::FadeIn);
 	ES::FadeIn& Data = CurStream->FadeInDataSet[CurIndexOfType];
 
-	if (true == IsBegin)
+	switch (Data.FadeType)
 	{
-		Timer = Data.Time;
-		IsBegin = false;
-		BlackScreen->SetActiveRenderer(true);
-		BlackScreen->SetAlpha(1.0f);
+	case EFadeType::Black:
+		FadeScreen = UEventManager::GetBlackScreen(CurLevelName);
+		break;
+	default:
+		MsgBoxAssert("아직 FadeIn 기능을 지원하지 않는 FadeType을 사용했습니다.");
+		break;
 	}
 
-	if (Timer <= 0.0f)
-	{
-		IsBegin = true;
-		BlackScreen->SetActiveRenderer(false);
-		return true;
-	}
-
-	Timer -= DeltaTime;
-	BlackScreen->SetAlpha(Timer / Data.Time);
-	return false;
+	FadeScreen->FadeIn(Data.Time);
+	return true;
 }
 
 bool UEventProcessor::ProcessFadeOut()
 {
-	static bool IsBegin = true;
-	static float Timer = 0.0f;
-
-	float DeltaTime = UEventManager::GetDeltaTime();
 	std::string CurLevelName = UEventManager::GetCurLevelName();
-	ABlackScreen* BlackScreen = UEventManager::GetBlackScreen(CurLevelName);
+	AFadeScreen* FadeScreen = nullptr;
 
 	int CurIndexOfType = GetCurIndexOfType(EEventType::FadeOut);
 	ES::FadeOut& Data = CurStream->FadeOutDataSet[CurIndexOfType];
 
-	if (true == IsBegin)
+	switch (Data.FadeType)
 	{
-		Timer = Data.Time;
-		IsBegin = false;
-		BlackScreen->SetActiveRenderer(true);
-		BlackScreen->SetAlpha(0.0f);
+	case EFadeType::Black:
+		FadeScreen = UEventManager::GetBlackScreen(CurLevelName);
+		break;
+	default:
+		MsgBoxAssert("아직 FadeOut 기능을 지원하지 않는 FadeType을 사용했습니다.");
+		break;
 	}
 
-	if (Timer <= 0.0f)
-	{
-		IsBegin = true;
-		BlackScreen->SetAlpha(1.0f);
-		return true;
-	}
-
-	Timer -= DeltaTime;
-	BlackScreen->SetAlpha((Data.Time - Timer) / Data.Time);
-	return false;
+	FadeScreen->FadeOut(Data.Time);
+	return true;
 
 }
 
@@ -425,11 +406,33 @@ bool UEventProcessor::ProcessChangeLevel()
 {
 	int CurIndexOfType = GetCurIndexOfType(EEventType::ChangeLevel);
 	ES::ChangeLevel& Data = CurStream->ChangeLevelDataSet[CurIndexOfType];
-	UEventManager::SetLevel(Data.LevelName);
+
+	std::string PrevLevelName = UEventManager::CurLevelName;
+	std::string NextLevelName = Data.LevelName;
+
+
+	UEventManager::SetLevel(NextLevelName);
 	if (false == IsPlayerActivated)
 	{
 		DeactivatePlayerControl();
 	}
+
+	// 여러 레벨의 UI 원소를 같은 상태로 만들기
+	for (std::pair<const std::string, AUIElement*>& Pair 
+		: UEventManager::AllUIElements[PrevLevelName])
+	{
+		std::string PrevElementName = Pair.first;
+		AUIElement* PrevElement = Pair.second;
+
+		if (false == UEventManager::AllUIElements[NextLevelName].contains(PrevElementName))
+		{
+			continue;
+		}
+
+		AUIElement* NextElement = UEventManager::AllUIElements[NextLevelName][PrevElementName];
+		NextElement->Sync(PrevElement);
+	}
+
 	return true;
 }
 
