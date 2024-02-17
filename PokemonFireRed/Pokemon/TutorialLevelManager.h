@@ -26,12 +26,30 @@ private:
 	int PageIndex = 0;
 	std::string GetPageName();
 
+	// È­»ìÇ¥
 	FVector ArrowMoveRange = FVector::Up * 20.0f;
 	FVector ArrowDownPos;
 	bool IsArrowMoveUpward = true;
 	float MaxArrowValue = 0.33f;
 	float ArrowValue = 0.0f;
 
+	// ÇÇÄ«Ãò
+	std::string PikachuImageName = "StandEyeOpenEarClose.png";
+	bool IsStand = true;
+	bool IsEarClose = true;
+	bool IsEyeOpen = true;
+
+	float CalcTime = 1.0f / 60.0f;
+	float CurCalcTime = CalcTime;
+	int CalcCount = 0;
+	int PrevCalcCount = 0;
+
+	const int EyeChangeDivisor = 558;
+	const int EarChangeDivisor = 674;
+	const std::vector<int> EyeChangeRemainders = { 30, 39, 48, 57, 236, 245, 254, 263 };
+	const std::vector<int> EarChangeRemainders = { 60, 72, 84, 96, 280, 292, 304, 316 };
+
+	// ·»´õ·¯
 	UImageRenderer* Renderer = nullptr;
 	UImageRenderer* ArrowRenderer = nullptr;
 	UImageRenderer* PikachuRenderer = nullptr;

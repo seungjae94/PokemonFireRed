@@ -31,10 +31,87 @@ void ATutorialLevelManager::BeginPlay()
 	FVector ArrowScale = ArrowImage->GetScale();
 	ArrowDownPos = Global::Screen - ArrowScale.Half2D() - FVector(15, 15);
 	ArrowRenderer->SetTransform({ArrowDownPos, ArrowScale});
+
+	PikachuRenderer = CreateImageRenderer(ERenderingOrder::UpperUI);
+	PikachuRenderer->CameraEffectOff();
+	
+	PikachuRenderer->SetImage(PikachuImageName);
+
+	UWindowImage* PikachuImage = UEngineResourcesManager::GetInst().FindImg("StandEyeOpenEarClose.png");
+	FVector PikachuScale = PikachuImage->GetScale();
+	FVector PikachuRenderScale = PikachuScale * Global::FloatPixelSize;
+	FVector PikachuPos = PikachuRenderScale.Half2D() + FVector(2, 1) * Global::FloatPixelSize;
+	PikachuRenderer->SetTransform({ PikachuPos,  PikachuRenderScale });
+
+	PikachuRenderer->SetActive(false);
 }
 
 void ATutorialLevelManager::Tick(float _DeltaTime)
 {
+	// 피카츄 애니메이션 로직
+	// - 처음에는 서있고, 눈을 뜨고 있고, 귀가 모여있는 형태
+	// - 0.5초 서있다 -> 0.5초 앉아있다 -> 0.5초 서있다 -> ... 과정을 반복한다.
+	// - 3페이지 진입 30/60초 후부터 눈 깜빡이는 로직 시작. 이후 206/60 초, 322/60 초, ... 마다 눈을 2번 깜빡거린다.
+	// - 눈 깜빡이는 로직 = 눈을 9/60초 감는다 -> 9/60초 뜬다 -> 9/60초 감는다 -> 뜬다.
+	// - 3페이지 진입 60/60초 후부터 귀 움직이는 로직 시작. 이후 220/60 초, 394/60 초, ... 마다 귀를 2번 접었다 편다.
+	// - 귀 움직이는 로직 = 귀를 12/60초 펼친다 -> 12/60초 접는다 -> 12/60초 펼친다 -> 접는다.
+	if (true == PageIndex >= 3)
+	{
+		CurCalcTime -= _DeltaTime;
+		if (CurCalcTime <= 0.0f)
+		{
+			++CalcCount;
+			CurCalcTime = CalcTime;
+		}
+
+		// 카운트가 올라갈 때만 이미지를 갱신한다.
+		if (PrevCalcCount != CalcCount)
+		{
+			PrevCalcCount = CalcCount;
+
+			if (CalcCount % 30 == 0)
+			{
+				IsStand = !IsStand;
+			}
+
+			// 눈이 떠져있는지 계산
+			// - 30, 39, 48, 57, 236, 245, 254, 263
+			// - 558, ...
+			for (int Remainder : EyeChangeRemainders)
+			{
+				if (CalcCount % EyeChangeDivisor == Remainder)
+				{
+					IsEyeOpen = !IsEyeOpen;
+					break;
+				}
+			}
+
+			// 귀가 닫혀있는지 계산
+			// - 60, 72, 84, 96, 280, 292, 304, 316
+			// - 674, ...
+			for (int Remainder : EarChangeRemainders)
+			{
+				if (CalcCount % EarChangeDivisor == Remainder)
+				{
+					IsEarClose = !IsEarClose;
+					break;
+				}
+			}
+
+			// 피카츄 이미지 이름 결정
+			std::string NewPikachuImageName = IsStand ? "Stand" : "Sit";
+			NewPikachuImageName += IsEyeOpen ? "EyeOpen" : "EyeClose";
+			NewPikachuImageName += IsEarClose ? "EarClose" : "EarOpen";
+			NewPikachuImageName += ".png";
+
+			if (NewPikachuImageName != PikachuImageName)
+			{
+				PikachuRenderer->SetImage(NewPikachuImageName);
+				PikachuImageName = NewPikachuImageName;
+			}
+		}
+	}
+
 	// 화살표 이동
 	if (true == IsArrowMoveUpward)
 	{
@@ -74,6 +151,7 @@ void ATutorialLevelManager::Tick(float _DeltaTime)
 			IsArrowMoveUpward = true;
 			ArrowDownPos = Global::Screen - ArrowScale.Half2D() - FVector(27, 27);
 			ArrowRenderer->SetTransform({ ArrowDownPos, ArrowScale });
+			PikachuRenderer->SetActive(true);
 		}
 
 		if (PageIndex >= 6)
