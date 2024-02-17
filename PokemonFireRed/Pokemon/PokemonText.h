@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include <EngineCore/Actor.h>
+#include "UIElement.h"
 
 enum class EFontColor
 {
@@ -13,7 +13,7 @@ enum class EFontColor
 // 텍스트를 그리는 액터.
 // - 액터 위치 X값에 첫 글자의 왼쪽 끝을 맞춘다.
 // - 액터 위치 Y값을 BaseLine의 높이로 두고 그린다.
-class APokemonText : public AActor
+class APokemonText : public AUIElement
 {
 	class GlyphAlignRule;
 	friend class AlignRuleMapInitiator;
@@ -80,13 +80,34 @@ public:
 		LineSpace = _LineSpace;
 	}
 
-	void SetText(const std::wstring& _Text);
+	void SetText(const std::wstring& _Text, bool _IsVisible = false);
 
 	void SetVisible();
 	void SetInvisible();
 
 protected:
 	void Tick(float _DeltaTime) override;
+	
+	void Sync(AUIElement* _Other) override
+	{
+		APokemonText* Other = dynamic_cast<APokemonText*>(_Other);
+
+		if (nullptr == Other)
+		{
+			MsgBoxAssert(_Other->GetName() +
+				"은 PokemonText가 아닙니다. Sync 함수에서 다운 캐스팅이 실패했습니다.");
+			return;
+		}
+
+		if (Other->IsActive())
+		{
+			SetVisible();
+		}
+		else
+		{
+			SetInvisible();
+		}
+	}
 private:
 	class GlyphAlignRule
 	{

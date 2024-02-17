@@ -44,7 +44,6 @@ public:
 		}
 
 		Renderer->SetActive(Other->Renderer->IsActive());
-		//Renderer->SetAlpha(_Other.Renderer->GetAlpha());
 	}
 
 protected:

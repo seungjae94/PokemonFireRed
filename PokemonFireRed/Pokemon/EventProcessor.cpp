@@ -143,8 +143,8 @@ bool UEventProcessor::ProcessMove()
 	int CurIndexOfType = GetCurIndexOfType(EEventType::Move);
 	ES::Move& Data = CurStream->MoveDataSet[CurIndexOfType];
 
-	std::string MapName = UEngineString::ToUpper(Data.MapName);
-	std::string TargetName = UEngineString::ToUpper(Data.TargetName);
+	std::string MapName = ToUpper(Data.MapName);
+	std::string TargetName = ToUpper(Data.TargetName);
 
 	if (Data.Path.size() <= 0)
 	{
@@ -224,8 +224,8 @@ bool UEventProcessor::ProcessMoveWithoutRestriction()
 	int CurIndexOfType = GetCurIndexOfType(EEventType::MoveWithoutRestriction);
 	ES::MoveWithoutRestriction& Data = CurStream->MoveWithoutRestrictionDataSet[CurIndexOfType];
 
-	std::string MapName = UEngineString::ToUpper(Data.MapName);
-	std::string TargetName = UEngineString::ToUpper(Data.TargetName);
+	std::string MapName = ToUpper(Data.MapName);
+	std::string TargetName = ToUpper(Data.TargetName);
 
 	if (Data.Path.size() <= 0)
 	{
@@ -302,7 +302,6 @@ bool UEventProcessor::ProcessFadeIn()
 {
 	std::string CurLevelName = UEventManager::GetCurLevelName();
 	AFadeScreen* FadeScreen = nullptr;
-
 
 	int CurIndexOfType = GetCurIndexOfType(EEventType::FadeIn);
 	ES::FadeIn& Data = CurStream->FadeInDataSet[CurIndexOfType];
@@ -408,8 +407,7 @@ bool UEventProcessor::ProcessChangeLevel()
 	ES::ChangeLevel& Data = CurStream->ChangeLevelDataSet[CurIndexOfType];
 
 	std::string PrevLevelName = UEventManager::CurLevelName;
-	std::string NextLevelName = Data.LevelName;
-
+	std::string NextLevelName = ToUpper(Data.LevelName);
 
 	UEventManager::SetLevel(NextLevelName);
 	if (false == IsPlayerActivated)
@@ -461,4 +459,11 @@ bool UEventProcessor::ProcessStarePlayer()
 	APlayer* Player = UEventManager::GetCurPlayer();
 	UEventManager::SetDirection(CurLevelName, Data.TargetName, -Player->Direction);
 	return true;
+}
+
+// 편의 함수
+
+std::string UEventProcessor::ToUpper(std::string_view _Name)
+{
+	return UEngineString::ToUpper(_Name);
 }

@@ -25,7 +25,27 @@ public:
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
+
+	void Sync(AUIElement* _Other) override
+	{
+		AMenuWindow* Other = dynamic_cast<AMenuWindow*>(_Other);
+
+		if (nullptr == Other)
+		{
+			MsgBoxAssert(_Other->GetName() +
+				"은 MenuWindow가 아닙니다. Sync 함수에서 다운 캐스팅이 실패했습니다.");
+			return;
+		}
+
+		MenuCount = Other->MenuCount;
+		Cursor = Other->Cursor;
+		OptionCount = Other->OptionCount;
+
+		MoveCursor(Cursor);
+	}
 private:
+	bool IsFirstTick = true;
+
 	UImageRenderer* MenuWindowRenderer = nullptr;
 	UImageRenderer* MenuWindowExplainRenderer = nullptr;
 	UImageRenderer* ArrowRenderer = nullptr;
@@ -58,7 +78,7 @@ you bought, received, or found.)",
 		return static_cast<int>(MenuNames.size() - MenuCount + Cursor);
 	}
 	
-	FVector GetArrowPos(int _Cursor);
+	FVector GetArrowPos();
 
 	AEventTrigger* MenuWindowOpenTrigger = nullptr;
 	AEventTrigger* MenuWindowCloseTrigger = nullptr;

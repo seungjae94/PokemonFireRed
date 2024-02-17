@@ -3,6 +3,7 @@
 #include <EnginePlatform/EngineInput.h>
 #include <EngineCore/ImageRenderer.h>
 #include <EngineCore/EngineResourcesManager.h>
+#include "PokemonLevel.h"
 #include "PokemonText.h"
 #include "Global.h"
 
@@ -54,7 +55,8 @@ void ADialogueWindow::BeginPlay()
 	DialogueWindowRenderer->SetTransform({ DWPos, DWRenderScale});
 
 	// 대화 내용
-	Text = GetWorld()->SpawnActor<APokemonText>();
+	UPokemonLevel* CurLevel = dynamic_cast<UPokemonLevel*>(GetWorld());
+	Text = CurLevel->SpawnUIElement<APokemonText>("DialogueText");
 	Text->SetActorLocation(FVector(16, 132) * Global::FloatPixelSize);
 	Text->SetText(LR"(Not Initialized...)");
 }

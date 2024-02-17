@@ -49,6 +49,9 @@
     <Filter Include="Global\UI\Menu">
       <UniqueIdentifier>{17a11bae-f8c2-41e6-a7a6-9131fdafb817}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Global\UI\Text">
+      <UniqueIdentifier>{677805ca-4377-4cce-a9e1-846959bd5647}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PokemonCore.h">
@@ -132,9 +135,6 @@
     <ClInclude Include="DialogueWindow.h">
       <Filter>Global\UI</Filter>
     </ClInclude>
-    <ClInclude Include="PokemonText.h">
-      <Filter>Global\UI</Filter>
-    </ClInclude>
     <ClInclude Include="MapLevel.h">
       <Filter>2. MapLevel</Filter>
     </ClInclude>
@@ -158,6 +158,9 @@
     </ClInclude>
     <ClInclude Include="FadeScreen.h">
       <Filter>Global\UI\Fade</Filter>
+    </ClInclude>
+    <ClInclude Include="PokemonText.h">
+      <Filter>Global\UI\Text</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -242,9 +245,6 @@
     <ClCompile Include="DialogueWindow.cpp">
       <Filter>Global\UI</Filter>
     </ClCompile>
-    <ClCompile Include="PokemonText.cpp">
-      <Filter>Global\UI</Filter>
-    </ClCompile>
     <ClCompile Include="MapLevel.cpp">
       <Filter>2. MapLevel</Filter>
     </ClCompile>
@@ -268,6 +268,9 @@
     </ClCompile>
     <ClCompile Include="FadeScreen.cpp">
       <Filter>Global\UI\Fade</Filter>
+    </ClCompile>
+    <ClCompile Include="PokemonText.cpp">
+      <Filter>Global\UI\Text</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -87,20 +87,22 @@ void AMenuWindow::BeginPlay()
 	FVector ArrowRenderScale = ArrowScale * Global::FloatPixelSize;
 	ArrowRenderer->SetScale(ArrowRenderScale);
 
-	FVector ArrowPos = GetArrowPos(Cursor);
+	FVector ArrowPos = GetArrowPos();
 	ArrowRenderer->SetPosition(ArrowPos);
 
 	ArrowRenderer->SetImageCuttingTransform({ {0, 0}, ArrowScale });
 
 	// 텍스트 설정
-	MenuExplainText = GetWorld()->SpawnActor<APokemonText>();
+	UPokemonLevel* CurLevel = dynamic_cast<UPokemonLevel*>(GetWorld());
+
+	MenuExplainText = CurLevel->SpawnUIElement<APokemonText>("MenuExplainText");
 	MenuExplainText->SetActorLocation(FVector(2, 137) * Global::FloatPixelSize);
 	MenuExplainText->SetColor(EFontColor::White);
 	MenuExplainText->SetText(MenuExplains[GetMenuIndex()]);
 
 	for (int i = 0; i < MenuCount; i++)
 	{
-		APokemonText* MenuText = GetWorld()->SpawnActor<APokemonText>();
+		APokemonText* MenuText = CurLevel->SpawnUIElement<APokemonText>("MenuText" + std::to_string(i));
 		FVector MenuTextPos = MenuWindowRenderer->GetTransform().LeftTop();
 		MenuTextPos += FVector(15, 18 + 15 * i) * Global::FloatPixelSize;
 		MenuText->SetActorLocation(MenuTextPos);
@@ -110,7 +112,6 @@ void AMenuWindow::BeginPlay()
 	}
 
 	// 트리거 설정
-	UMapLevel* CurLevel = dynamic_cast<UMapLevel*>(GetWorld());
 	UEventTargetInit OpenSetting
 		= UEventTargetInit("MainWindowOpenTriggerSetting", FTileVector(1000, 1000));
 	UEventCondition Cond = UEventCondition(EEventTriggerAction::Direct);
@@ -129,8 +130,6 @@ void AMenuWindow::BeginPlay()
 
 void AMenuWindow::Tick(float _DeltaTime)
 {
-	static bool IsFirstTick = true;
-
 	// 이벤트 매니저가 MenuWindow를 ActiveOn한 다음 틱부터 로직을 실행한다.
 	// - ActiveOn한 틱에는 UEngineInput::IsDown(VK_RETURN) 값이 true로 들어가 있기 때문이다.
 	if (IsFirstTick)
@@ -152,14 +151,14 @@ void AMenuWindow::Tick(float _DeltaTime)
 	if (true == UEngineInput::IsDown(VK_DOWN))
 	{
 		IncCursor();
-		MenuExplainText->SetText(MenuExplains[GetMenuIndex()]);
+		MenuExplainText->SetVisible();
 		return;
 	}
 
 	if (true == UEngineInput::IsDown(VK_UP))
 	{
 		DecCursor();
-		MenuExplainText->SetText(MenuExplains[GetMenuIndex()]);
+		MenuExplainText->SetVisible();
 		return;
 	}
 }
@@ -185,14 +184,15 @@ void AMenuWindow::MoveCursor(int _Cursor)
 	}
 
 	Cursor = _Cursor;
-	FVector ArrowPos = GetArrowPos(Cursor);
+	FVector ArrowPos = GetArrowPos();
 	ArrowRenderer->SetPosition(ArrowPos);
+	MenuExplainText->SetText(MenuExplains[GetMenuIndex()]);
 }
 
-FVector AMenuWindow::GetArrowPos(int _Cursor)
+FVector AMenuWindow::GetArrowPos()
 {
 	FVector ArrowRenderScale = ArrowRenderer->GetTransform().GetScale();
 	FVector ArrowPos = UPokemonUtil::GetMatchLeftTop(ArrowRenderScale, MenuWindowRenderer->GetTransform());
-	ArrowPos += FVector(8, 9 + _Cursor * 15) * Global::FloatPixelSize;
+	ArrowPos += FVector(8, 9 + Cursor * 15) * Global::FloatPixelSize;
 	return ArrowPos;
 }

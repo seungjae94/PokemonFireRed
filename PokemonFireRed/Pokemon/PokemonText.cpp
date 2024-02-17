@@ -12,7 +12,7 @@ APokemonText::~APokemonText()
 {
 }
 
-void APokemonText::SetText(const std::wstring& _Text)
+void APokemonText::SetText(const std::wstring& _Text, bool _IsVisible)
 {
 	std::vector<std::wstring> Lines = UPokemonUtil::StringSplit(_Text, L'\n');
 	
@@ -40,13 +40,14 @@ void APokemonText::SetText(const std::wstring& _Text)
 		CharShowIndex = 0;
 		CurCharShowInterval = 0.0f;
 		RenderEnd = false;
-		for (UImageRenderer* Renderer : GlyphRenderers)
-		{
-			Renderer->ActiveOff();
-		}
+		AllRenderersActiveOff();
 	}
 	else
 	{
+		if (true == _IsVisible)
+		{
+			SetVisible();
+		}
 		RenderEnd = true;
 	}
 }
@@ -61,6 +62,7 @@ void APokemonText::PrepareLine(const std::wstring& _Line, int _Bot)
 		UImageRenderer* Renderer = CreateImageRenderer(ERenderingOrder::UpperUI);
 		Renderer->SetImage(GlyphImageNamePrefix + Rule.ImageName + ".png");
 		Renderer->CameraEffectOff();
+		Renderer->SetActive(false);
 
 		FVector RenderPos = FVector(Left + Global::FloatPixelSize * (Rule.Width / 2), _Bot - Global::FloatPixelSize * ((Rule.Height-1) / 2) + Global::FloatPixelSize * Rule.Base);
 		FVector GlyphScale = { Rule.Width, Rule.Height };
@@ -75,21 +77,13 @@ void APokemonText::PrepareLine(const std::wstring& _Line, int _Bot)
 void APokemonText::SetVisible()
 {
 	ActiveOn();
-
-	for (UImageRenderer* Renderer : GlyphRenderers)
-	{
-		Renderer->ActiveOn();
-	}
+	AllRenderersActiveOn();
 }
 
 void APokemonText::SetInvisible()
 {
 	ActiveOff();
-
-	for (UImageRenderer* Renderer : GlyphRenderers)
-	{
-		Renderer->ActiveOff();
-	}
+	AllRenderersActiveOff();
 }
 
 void APokemonText::Tick(float _DeltaTime)
@@ -115,7 +109,6 @@ void APokemonText::Tick(float _DeltaTime)
 	GlyphRenderers[CharShowIndex]->ActiveOn();
 	++CharShowIndex;
 }
-
 
 void APokemonText::InitAlignRuleMap()
 {

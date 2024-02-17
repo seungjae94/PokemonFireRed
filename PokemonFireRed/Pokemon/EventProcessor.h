@@ -72,6 +72,8 @@ private:
 		CurIndexOfTypeMap[_Type] = CurIndexOfType + 1;
 	}
 
+	std::string ToUpper(std::string_view _Name);
+
 	// 프로세싱 함수
 	/// <return>이벤트 명령 종료 여부</return>
 	void ActivatePlayerControl();
