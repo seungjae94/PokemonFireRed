@@ -23,6 +23,7 @@ void AStair::RegisterPredefinedEvent()
 		>> ES::ChangeLevel(TargetMapName)
 		>> ES::ChangePoint(TargetMapName, Global::PLAYER_NAME, TargetPoint)
 		>> ES::ChangeDirection(TargetMapName, Global::PLAYER_NAME, TargetDirection.ToFVector())
+		>> ES::CameraFocus(Global::PLAYER_NAME)
 		>> ES::FadeIn(0.5f)
 		>> ES::End(true)
 	);

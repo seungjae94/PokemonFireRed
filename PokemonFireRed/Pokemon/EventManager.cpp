@@ -110,16 +110,6 @@ void UEventManager::Tick(float _DeltaTime)
 
 	CheckPlayerEvent();
 
-	if (true == CameraFollowing)
-	{
-		APlayer * Player = UEventManager::FindCurLevelTarget<APlayer>(Global::PLAYER_NAME);
-
-		if (nullptr != Player)
-		{
-			Player->GetWorld()->SetCameraPos(Player->GetActorLocation() - Global::HalfScreen);
-		}
-	}
-
 	for (std::pair<AEventTrigger* const, UEventProcessor*>& Pair: AllProcessors)
 	{
 		UEventProcessor* Processor = Pair.second;

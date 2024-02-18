@@ -78,6 +78,9 @@ void UEventProcessor::Tick(float _DeltaTime)
 	case EEventType::ShowActor:
 		ProcessingResult = ProcessShowActor();
 		break;
+	case EEventType::CameraFocus:
+		ProcessingResult = ProcessCameraFocus();
+		break;
 	default:
 		break;
 	}
@@ -295,6 +298,9 @@ bool UEventProcessor::ProcessFadeOut()
 	case EFadeType::Black:
 		FadeScreen = UEventManager::FindCurLevelUIElement<AFadeScreen>("BlackScreen");
 		break;
+	case EFadeType::White:
+		FadeScreen = UEventManager::FindCurLevelUIElement<AFadeScreen>("WhiteScreen");
+		break;
 	default:
 		MsgBoxAssert("아직 FadeOut 기능을 지원하지 않는 FadeType을 사용했습니다.");
 		break;
@@ -505,7 +511,6 @@ bool UEventProcessor::ProcessHideActor()
 	int CurIndexOfType = GetCurIndexOfType(EEventType::HideActor);
 	ES::HideActor& Data = CurStream->HideActorDataSet[CurIndexOfType];
 	
-	std::string CurLevelName = UEventManager::GetCurLevelName();
 	AEventTarget* Target = UEventManager::FindCurLevelTarget<AEventTarget>(Data.TargetName);
 	Target->AllRenderersActiveOff();
 	return true;
@@ -516,9 +521,19 @@ bool UEventProcessor::ProcessShowActor()
 	int CurIndexOfType = GetCurIndexOfType(EEventType::ShowActor);
 	ES::ShowActor& Data = CurStream->ShowActorDataSet[CurIndexOfType];
 
-	std::string CurLevelName = UEventManager::GetCurLevelName();
 	AEventTarget* Target = UEventManager::FindCurLevelTarget<AEventTarget>(Data.TargetName);
 	Target->AllRenderersActiveOn();
+	return true;
+}
+
+bool UEventProcessor::ProcessCameraFocus()
+{
+	int CurIndexOfType = GetCurIndexOfType(EEventType::CameraFocus);
+	ES::CameraFocus& Data = CurStream->CameraFocusDataSet[CurIndexOfType];
+
+	AEventTarget* Target = UEventManager::FindCurLevelTarget<AEventTarget>(Data.TargetName);
+	ULevel* CurLevel = Target->GetWorld();
+	CurLevel->SetCameraPos(Target->GetActorLocation() - Global::HalfScreen);
 	return true;
 }
 

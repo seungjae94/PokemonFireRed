@@ -24,6 +24,7 @@ enum class EEventType
 	PlayAnimation,
 	HideActor,
 	ShowActor,
+	CameraFocus,
 	End,
 };
 
@@ -323,6 +324,25 @@ public:
 		return *this;
 	}
 
+	class CameraFocus
+	{
+		friend UEventProcessor;
+	public:
+		CameraFocus(std::string_view _TargetName)
+			: TargetName(_TargetName)
+		{
+		}
+	private:
+		std::string TargetName;
+	};
+
+	UEventStream& operator>>(const CameraFocus& _Data)
+	{
+		EventTypeList.push_back(EEventType::CameraFocus);
+		CameraFocusDataSet.push_back(_Data);
+		return *this;
+	}
+
 	class End
 	{
 		friend UEventStream;
@@ -367,5 +387,6 @@ private:
 	std::vector<PlayAnimation> PlayAnimationDataSet;
 	std::vector<HideActor> HideActorDataSet;
 	std::vector<ShowActor> ShowActorDataSet;
+	std::vector<CameraFocus> CameraFocusDataSet;
 };
 

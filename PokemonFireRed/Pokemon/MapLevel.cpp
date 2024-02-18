@@ -129,6 +129,7 @@ void UMapLevel::Tick(float _DeltaTime)
 void UMapLevel::LevelStart(ULevel* _PrevLevel)
 {
 	UPokemonLevel::LevelStart(_PrevLevel);
+	SetCameraPos(Player->GetActorLocation() - Global::HalfScreen);
 }
 
 void UMapLevel::LoadCharacterResources()
