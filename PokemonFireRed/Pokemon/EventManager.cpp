@@ -15,7 +15,6 @@
 bool UEventManager::CameraFollowing = true;
 bool UEventManager::PlayerEventProcessing = false;
 std::string UEventManager::CurLevelName;
-std::map<std::string, APlayer*> UEventManager::AllPlayers;
 std::map<std::string, std::map<std::string, AUIElement*>> UEventManager::AllUIElements;
 std::map<std::string, std::map<std::string, AEventTarget*>> UEventManager::AllTargets;
 std::map<std::string, std::map<FTileVector, AEventTrigger*>> UEventManager::AllTriggers;
@@ -35,8 +34,8 @@ UEventManager::~UEventManager()
 
 void UEventManager::CheckPlayerEvent()
 {
-	APlayer* Player = GetCurPlayer();
-	AMenuWindow* MenuWindow = GetCurMenuWindow();
+	APlayer* Player = FindCurLevelTarget<APlayer>(Global::PLAYER_NAME);
+	AMenuWindow* MenuWindow = FindCurLevelUIElement<AMenuWindow>("MenuWindow");
 
 	if (nullptr == Player)
 	{
@@ -113,7 +112,7 @@ void UEventManager::Tick(float _DeltaTime)
 
 	if (true == CameraFollowing)
 	{
-		APlayer* Player = GetCurPlayer();
+		APlayer * Player = UEventManager::FindCurLevelTarget<APlayer>(Global::PLAYER_NAME);
 
 		if (nullptr != Player)
 		{
@@ -320,22 +319,12 @@ void UEventManager::AddPlayer(APlayer* _Player, const FTileVector& _Point)
 		"PlayerJumpDown.png", 0, 52, JumpInterval, false);
 	_Player->LowerBodyRenderer->CreateAnimation("PlayerJumpDown" + Global::SuffixLowerBody, 
 		"PlayerJumpDown.png", 53 + 0, 53 + 52, JumpInterval, false);
-
-	std::string LevelName = _Player->GetWorld()->GetName();
-
-	if (true == AllPlayers.contains(LevelName))
-	{
-		MsgBoxAssert("이미 등록된 플레이어를 다시 등록하려고 했습니다.");
-		return;
-	}
-
-	AllPlayers[LevelName] = _Player;
 }
 
 void UEventManager::AddUIElement(AUIElement* _UIElement, std::string_view _Name)
 {
-	std::string LevelName = _UIElement->GetWorld()->GetName();
-	std::string Name = _Name.data();
+	std::string LevelName = UEngineString::ToUpper(_UIElement->GetWorld()->GetName());
+	std::string Name = UEngineString::ToUpper(_Name.data());
 
 	if (true == AllUIElements[LevelName].contains(Name))
 	{
@@ -397,47 +386,6 @@ void UEventManager::SetDirection(std::string_view _MapName, std::string_view _Ta
 
 	Target->SetDirection(_Direction);
 	Target->ChangeAnimation(Target->GetMoveState(), _Direction);
-}
-
-
-// 찾기 편의 함수
-
-APlayer* UEventManager::GetCurPlayer()
-{
-	return AllPlayers[CurLevelName];
-}
-
-AMenuWindow* UEventManager::GetCurMenuWindow()
-{
-	return dynamic_cast<AMenuWindow*>(AllUIElements[CurLevelName]["MenuWindow"]);
-}
-
-ADialogueWindow* UEventManager::GetCurDialogueWindow()
-{
-	return dynamic_cast<ADialogueWindow*>(AllUIElements[CurLevelName]["DialogueWindow"]);
-}
-
-ABlackScreen* UEventManager::GetCurBlackScreen()
-{
-	return dynamic_cast<ABlackScreen*>(AllUIElements[CurLevelName]["BlackScreen"]);
-}
-
-ABlackScreen* UEventManager::GetBlackScreen(std::string_view _LevelName)
-{
-	return dynamic_cast<ABlackScreen*>(AllUIElements[_LevelName.data()]["BlackScreen"]);
-}
-
-AEventTarget* UEventManager::FindTarget(std::string_view _LevelName, std::string_view _TargetName)
-{
-	std::string LevelName = UEngineString::ToUpper(_LevelName);
-	std::string TargetName = UEngineString::ToUpper(_TargetName);
-
-	if (false == AllTargets.contains(LevelName) || false == AllTargets[LevelName].contains(TargetName))
-	{
-		return nullptr;
-	}
-
-	return AllTargets[LevelName][TargetName];
 }
 
 // 메모리 릴리즈

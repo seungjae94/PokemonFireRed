@@ -93,13 +93,13 @@ void UEventProcessor::Tick(float _DeltaTime)
 
 void UEventProcessor::ActivatePlayerControl()
 {
-	APlayer* CurPlayer = UEventManager::GetCurPlayer();
+	APlayer* CurPlayer = UEventManager::FindCurLevelTarget<APlayer>(Global::PLAYER_NAME);
 	CurPlayer->StateChange(EPlayerState::Idle);
 }
 
 void UEventProcessor::DeactivatePlayerControl()
 {
-	APlayer* CurPlayer = UEventManager::GetCurPlayer();
+	APlayer* CurPlayer = UEventManager::FindCurLevelTarget<APlayer>(Global::PLAYER_NAME);
 	CurPlayer->StateChange(EPlayerState::OutOfControl);
 }
 
@@ -118,7 +118,7 @@ bool UEventProcessor::ProcessMove()
 		return false;
 	}
 
-	AEventTarget* Target = UEventManager::FindTarget(MapName, TargetName);
+	AEventTarget* Target = UEventManager::FindTarget<AEventTarget>(MapName, TargetName);
 	if (nullptr == Target)
 	{
 		MsgBoxAssert(MapName + ":" + TargetName + "는 존재하지 않는 이벤트 타겟입니다.존재하지 않는 이벤트 타겟을 이동시키려고 했습니다.");
@@ -196,7 +196,7 @@ bool UEventProcessor::ProcessMoveWithoutRestriction()
 		return false;
 	}
 
-	AEventTarget* Target = UEventManager::FindTarget(MapName, TargetName);
+	AEventTarget* Target = UEventManager::FindTarget<AEventTarget>(MapName, TargetName);
 	if (nullptr == Target)
 	{
 		MsgBoxAssert(MapName + ":" + TargetName + "는 존재하지 않는 이벤트 타겟입니다.존재하지 않는 이벤트 타겟을 이동시키려고 했습니다.");
@@ -268,7 +268,10 @@ bool UEventProcessor::ProcessFadeIn()
 	switch (Data.FadeType)
 	{
 	case EFadeType::Black:
-		FadeScreen = UEventManager::GetBlackScreen(CurLevelName);
+		FadeScreen = UEventManager::FindCurLevelUIElement<AFadeScreen>("BlackScreen");
+		break;
+	case EFadeType::White:
+		FadeScreen = UEventManager::FindCurLevelUIElement<AFadeScreen>("WhiteScreen");
 		break;
 	default:
 		MsgBoxAssert("아직 FadeIn 기능을 지원하지 않는 FadeType을 사용했습니다.");
@@ -290,7 +293,7 @@ bool UEventProcessor::ProcessFadeOut()
 	switch (Data.FadeType)
 	{
 	case EFadeType::Black:
-		FadeScreen = UEventManager::GetBlackScreen(CurLevelName);
+		FadeScreen = UEventManager::FindCurLevelUIElement<AFadeScreen>("BlackScreen");
 		break;
 	default:
 		MsgBoxAssert("아직 FadeOut 기능을 지원하지 않는 FadeType을 사용했습니다.");
@@ -334,8 +337,7 @@ bool UEventProcessor::ProcessPlayAnimation()
 	int CurIndexOfType = GetCurIndexOfType(EEventType::PlayAnimation);
 	ES::PlayAnimation& Data = CurStream->PlayAnimationDataSet[CurIndexOfType];
 
-	std::string CurLevelName = UEventManager::GetCurLevelName();
-	AEventTarget* Target = UEventManager::FindTarget(CurLevelName, Data.TargetName);
+	AEventTarget* Target = UEventManager::FindCurLevelTarget<AEventTarget>(Data.TargetName);
 
 	if (true == PlayAnimIsFirstTick)
 	{
@@ -409,7 +411,7 @@ bool UEventProcessor::ProcessPlayAnimation()
 
 bool UEventProcessor::ProcessChat()
 {
-	ADialogueWindow* CurDialogueWindow = UEventManager::GetCurDialogueWindow();
+	ADialogueWindow* CurDialogueWindow = UEventManager::FindCurLevelUIElement<ADialogueWindow>("DialogueWindow");
 
 	int CurIndexOfType = GetCurIndexOfType(EEventType::Chat);
 	ES::Chat& Data = CurStream->ChatDataSet[CurIndexOfType];
@@ -493,7 +495,7 @@ bool UEventProcessor::ProcessStarePlayer()
 	ES::StarePlayer& Data = CurStream->StarePlayerDataSet[CurIndexOfType];
 
 	std::string CurLevelName = UEventManager::GetCurLevelName();
-	APlayer* Player = UEventManager::GetCurPlayer();
+	APlayer* Player = UEventManager::FindCurLevelTarget<APlayer>(Global::PLAYER_NAME);
 	UEventManager::SetDirection(CurLevelName, Data.TargetName, -Player->Direction);
 	return true;
 }
@@ -504,7 +506,7 @@ bool UEventProcessor::ProcessHideActor()
 	ES::HideActor& Data = CurStream->HideActorDataSet[CurIndexOfType];
 	
 	std::string CurLevelName = UEventManager::GetCurLevelName();
-	AEventTarget* Target = UEventManager::FindTarget(CurLevelName, Data.TargetName);
+	AEventTarget* Target = UEventManager::FindCurLevelTarget<AEventTarget>(Data.TargetName);
 	Target->AllRenderersActiveOff();
 	return true;
 }
@@ -515,7 +517,7 @@ bool UEventProcessor::ProcessShowActor()
 	ES::ShowActor& Data = CurStream->ShowActorDataSet[CurIndexOfType];
 
 	std::string CurLevelName = UEventManager::GetCurLevelName();
-	AEventTarget* Target = UEventManager::FindTarget(CurLevelName, Data.TargetName);
+	AEventTarget* Target = UEventManager::FindCurLevelTarget<AEventTarget>(Data.TargetName);
 	Target->AllRenderersActiveOn();
 	return true;
 }

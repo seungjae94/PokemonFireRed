@@ -310,6 +310,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="WhiteScreen.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BlackScreen.cpp">
@@ -453,6 +457,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Warp.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="WhiteScreen.cpp">
       <SubType>
       </SubType>
     </ClCompile>

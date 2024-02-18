@@ -2,6 +2,8 @@
 #include <map>
 #include <vector>
 #include <functional>
+#include <EngineBase/EngineDebug.h>
+#include <EngineBase/EngineString.h>
 #include "PokemonMath.h"
 #include "EventCondition.h"
 
@@ -14,9 +16,6 @@ class UEventStream;
 class APlayer;
 class UEventManagerReleaser;
 class UEventCondition;
-class AMenuWindow;
-class ADialogueWindow;
-class ABlackScreen;
 class AUIElement;
 enum class EFontColor;
 
@@ -49,14 +48,67 @@ public:
 	static void SetPoint(std::string_view _MapName, std::string_view _TargetName, const FTileVector& _Point);
 
 	static void SetDirection(std::string_view _MapName, std::string_view _TargetName, const FTileVector& _Direction);
-
+	
 	// 찾기 편의 함수
-	static APlayer* GetCurPlayer();
-	static AMenuWindow* GetCurMenuWindow();
-	static ADialogueWindow* GetCurDialogueWindow();
-	static ABlackScreen* GetCurBlackScreen();
-	static ABlackScreen* GetBlackScreen(std::string_view _LevelName);
-	static AEventTarget* FindTarget(std::string_view _LevelName, std::string_view _TargetName);
+	template <typename UIType>
+	static UIType* FindUIElement(std::string_view _LevelName, std::string_view _TargetName)
+	{
+		std::string LevelName = UEngineString::ToUpper(_LevelName);
+		std::string TargetName = UEngineString::ToUpper(_TargetName);
+
+		if (false == AllUIElements.contains(LevelName) || false == AllUIElements[LevelName].contains(TargetName))
+		{
+			MsgBoxAssert(LevelName + ":" + TargetName + "은 존재하지 않는 UI 엘리먼트입니다. FindUIElement 실행에 실패했습니다.");
+			return nullptr;
+		}
+
+		AUIElement* Element = AllUIElements[LevelName][TargetName];
+		UIType* Result = dynamic_cast<UIType*>(Element);
+		
+		if (nullptr == Result)
+		{
+			MsgBoxAssert(LevelName + ":" + TargetName + "의 다운 캐스팅에 실패했습니다. FindUIElement 실행에 실패했습니다.");
+			return nullptr;
+		}
+
+		return Result;
+	}
+	
+	template <typename UIType>
+	static UIType* FindCurLevelUIElement(std::string_view _TargetName)
+	{
+		return FindUIElement<UIType>(CurLevelName, _TargetName);
+	}
+
+	template <typename TargetType>
+	static TargetType* FindTarget(std::string_view _LevelName, std::string_view _TargetName)
+	{
+		std::string LevelName = UEngineString::ToUpper(_LevelName);
+		std::string TargetName = UEngineString::ToUpper(_TargetName);
+
+		if (false == AllTargets.contains(LevelName) || false == AllTargets[LevelName].contains(TargetName))
+		{
+			MsgBoxAssert(LevelName + ":" + TargetName + "은 존재하지 않는 이벤트 타겟입니다. FindTarget 실행에 실패했습니다.");
+			return nullptr;
+		}
+
+		AEventTarget* Target = AllTargets[LevelName][TargetName];
+		TargetType* Result = dynamic_cast<TargetType*>(Target);
+
+		if (nullptr == Result)
+		{
+			MsgBoxAssert(LevelName + ":" + TargetName + "의 다운 캐스팅에 실패했습니다. FindTarget 실행에 실패했습니다.");
+			return nullptr;
+		}
+
+		return Result;
+	}
+	
+	template <typename TargetType>
+	static TargetType* FindCurLevelTarget(std::string_view _TargetName)
+	{
+		return FindTarget<TargetType>(CurLevelName, _TargetName);
+	}
 
 	static std::string GetCurLevelName()
 	{
@@ -82,10 +134,6 @@ private:
 	static bool PlayerEventProcessing;
 
 	static std::string CurLevelName;
-
-	// AllPlayers[LevelName]
-	// - 플레이어는 상태 변경 등 플레이어 타입으로 다뤄야 할 일이 있기 때문에 추가로 보관한다.
-	static std::map<std::string, APlayer*> AllPlayers;
 
 	// AllMenuWindows[LevelName][ElementName]
 	// - 메뉴창, 대화창도 커서 이동 등 플레이어 타입으로 다뤄야 할 일이 있기 때문에 추가로 보관한다.

@@ -171,6 +171,9 @@
     <ClInclude Include="EventTarget.h">
       <Filter>Global\1. Event</Filter>
     </ClInclude>
+    <ClInclude Include="WhiteScreen.h">
+      <Filter>Global\2. UI\Fade</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PokemonCore.cpp">
@@ -280,6 +283,9 @@
     </ClCompile>
     <ClCompile Include="EventTarget.cpp">
       <Filter>Global\1. Event</Filter>
+    </ClCompile>
+    <ClCompile Include="WhiteScreen.cpp">
+      <Filter>Global\2. UI\Fade</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
