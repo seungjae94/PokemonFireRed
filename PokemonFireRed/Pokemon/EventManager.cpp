@@ -219,17 +219,19 @@ void UEventManager::AddTarget(AEventTarget* _Target, const UEventTargetInit& _Se
 
 		if (true == _Target->Walkable)
 		{
-			float WalkInterval = Global::CharacterWalkAnimFrameLength;
+			float WalkInterval = 1.0f / Global::CharacterWalkSpeed / 2;
 
 			for (std::string& DirectionName : AllDirectionNames)
 			{
 				std::string ImageName = TargetName + "Walk" + DirectionName + ".png";
 
 				std::string UpperBodyAnimName = TargetName + "Walk" + DirectionName + Global::SuffixUpperBody;
-				UpperBodyRenderer->CreateAnimation(UpperBodyAnimName, ImageName, {1, 2, 3, 0}, WalkInterval, true);
+				UpperBodyRenderer->CreateAnimation(UpperBodyAnimName + "0", ImageName, {0, 1}, WalkInterval, false); // ¿À¸¥¹ß
+				UpperBodyRenderer->CreateAnimation(UpperBodyAnimName + "1", ImageName, {2, 3}, WalkInterval, false); // ¿Þ¹ß
 
 				std::string LowerBodyAnimName = TargetName + "Walk" + DirectionName + Global::SuffixLowerBody;
-				LowerBodyRenderer->CreateAnimation(LowerBodyAnimName, ImageName, {5, 6, 7, 4}, WalkInterval, true);
+				LowerBodyRenderer->CreateAnimation(LowerBodyAnimName + "0", ImageName, {4, 5}, WalkInterval, false); // ¿À¸¥¹ß
+				LowerBodyRenderer->CreateAnimation(LowerBodyAnimName + "1", ImageName, {6, 7}, WalkInterval, false); // ¿Þ¹ß
 			}
 		}
 	}

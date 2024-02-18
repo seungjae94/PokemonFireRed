@@ -63,6 +63,7 @@ private:
 // - ex) 플레이어, NPC, 표지판, 바위 등
 class AEventTarget : public AActor
 {
+	friend UEventProcessor;
 	friend UEventManager;
 	friend PokemonDebug;
 public:
@@ -111,6 +112,7 @@ protected:
 	float MoveTime = 0.0f;
 	float Timer = 0.0f;
 	int MoveIndex = -1;
+	char MoveFootOrder = 0;		// 0 = 오른발이 나갈 차례, 1 = 왼발이 나갈 차례
 	bool Collidable = false;
 	bool Rotatable = false;
 	bool Walkable = false;
@@ -124,5 +126,14 @@ protected:
 	// 콜리전
 	UCollision* Collision = nullptr;
 private:
+	void IncMoveFootOrder()
+	{
+		MoveFootOrder = (MoveFootOrder + 1) % 2;
+	}
+
+	void ResetMoveFootOrder()
+	{
+		MoveFootOrder = 0;
+	}
 };
 

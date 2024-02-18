@@ -80,37 +80,41 @@ void APlayer::StateChange(EPlayerState _State, bool _Restart)
 
 void APlayer::ChangeAnimation(EPlayerState _State, FTileVector _Direction)
 {
-	std::string AniName = GetName();
+	std::string UpperAniName = GetName();
+	std::string LowerAniName = GetName();
+	std::string DirectionStr = _Direction.ToDirectionString();
 
 	switch (_State)
 	{
 	case EPlayerState::Idle:
-		AniName += "Idle";
+		UpperAniName += "Idle" + DirectionStr + Global::SuffixUpperBody;
+		LowerAniName += "Idle" + DirectionStr + Global::SuffixLowerBody;
 		break;
 	case EPlayerState::Walk:
-		AniName += "Walk";
+		UpperAniName += "Walk" + DirectionStr + Global::SuffixUpperBody + std::to_string(FootOrder);
+		LowerAniName += "Walk" + DirectionStr + Global::SuffixLowerBody + std::to_string(FootOrder);
+		IncFootOrder();
 		break;
 	case EPlayerState::WalkInPlace:
-		AniName += "WalkInPlace";
+		UpperAniName += "Walk" + DirectionStr + Global::SuffixUpperBody + std::to_string(FootOrder);
+		LowerAniName += "Walk" + DirectionStr + Global::SuffixLowerBody + std::to_string(FootOrder);
+		IncFootOrder();
 		break;
 	case EPlayerState::Jump:
-		AniName += "Jump";
+		UpperAniName += "Jump" + DirectionStr + Global::SuffixUpperBody;
+		LowerAniName += "Jump" + DirectionStr + Global::SuffixLowerBody;
 		break;
 	default:
 		break;
 	}
 
-	std::string DirectionStr = _Direction.ToDirectionString();
-	UpperBodyRenderer->ChangeAnimation(AniName + DirectionStr + Global::SuffixUpperBody);
-	LowerBodyRenderer->ChangeAnimation(AniName + DirectionStr + Global::SuffixLowerBody);
+	UpperBodyRenderer->ChangeAnimation(UpperAniName);
+	LowerBodyRenderer->ChangeAnimation(LowerAniName);
 }
 
-void APlayer::IdleStart(bool _ResetAnimation)
+void APlayer::IdleStart()
 {
-	if (_ResetAnimation == true)
-	{
-		ChangeAnimation(EPlayerState::Idle, Direction);
-	}
+	ChangeAnimation(EPlayerState::Idle, Direction);
 	CurIdleTime = IdleTime;
 }
 
@@ -128,7 +132,7 @@ void APlayer::Idle(float _DeltaTime)
 	// 1. 방향키를 누르지 않고 있다.
 	if (InputDirection == FTileVector::Zero)
 	{
-		IdleStart(false);
+		IdleStart();
 		return;
 	}
 
@@ -136,7 +140,7 @@ void APlayer::Idle(float _DeltaTime)
 	if (InputDirection != Direction)
 	{
 		Direction = InputDirection;
-		IdleStart(true);
+		IdleStart();
 		return;
 	}
 
@@ -158,12 +162,9 @@ void APlayer::Idle(float _DeltaTime)
 	StateChange(EPlayerState::Walk);
 }
 
-void APlayer::WalkStart(bool _ResetAnimation)
+void APlayer::WalkStart()
 {
-	if (_ResetAnimation == true)
-	{
-		ChangeAnimation(EPlayerState::Walk, Direction);
-	}
+	ChangeAnimation(EPlayerState::Walk, Direction);
 	MemoryDirection = FTileVector::Zero;
 	CurWalkTime = WalkTime;
 	PrevPoint = FTileVector(GetActorLocation());
@@ -223,20 +224,17 @@ void APlayer::Walk(float _DeltaTime)
 	if (MemoryDirection != Direction)
 	{
 		Direction = MemoryDirection;
-		WalkStart(true);
+		WalkStart();
 		return;
 	}
 
 	// 6. 그 외의 경우
-	WalkStart(false);
+	WalkStart();
 }
 
-void APlayer::WalkInPlaceStart(bool _ResetAnimation)
+void APlayer::WalkInPlaceStart()
 {
-	if (_ResetAnimation == true)
-	{
-		ChangeAnimation(EPlayerState::Walk, Direction);
-	}
+	ChangeAnimation(EPlayerState::Walk, Direction);
 	CurWalkInPlaceTime = WalkInPlaceTime;
 }
 
@@ -260,7 +258,7 @@ void APlayer::WalkInPlace(float _DeltaTime)
 	// 2. 지금 보고 있는 방향과 입력 방향이 같다.
 	if (InputDirection == Direction)
 	{
-		WalkInPlaceStart(false);
+		WalkInPlaceStart();
 		return;
 	}
 
@@ -276,7 +274,7 @@ void APlayer::WalkInPlace(float _DeltaTime)
 	if (true == IsCollider(InputDirection))
 	{
 		Direction = InputDirection;
-		WalkInPlaceStart(true);
+		WalkInPlaceStart();
 		return;
 	}
 
@@ -285,12 +283,9 @@ void APlayer::WalkInPlace(float _DeltaTime)
 	StateChange(EPlayerState::Walk);
 }
 
-void APlayer::JumpStart(bool _ResetAnimation)
+void APlayer::JumpStart()
 {
-	if (_ResetAnimation == true)
-	{
-		ChangeAnimation(EPlayerState::Jump, Direction);
-	}
+	ChangeAnimation(EPlayerState::Jump, Direction);
 	MemoryDirection = FTileVector::Zero;
 	CurJumpTime = JumpTime;
 	PrevPoint = FTileVector(GetActorLocation());
@@ -334,14 +329,14 @@ void APlayer::Jump(float _DeltaTime)
 	if (IsLedge(MemoryDirection) == true && MemoryDirection != Direction)
 	{
 		Direction = MemoryDirection;
-		JumpStart(true);
+		JumpStart();
 		return;
 	}
 
 	// 4. 입력 방향에 Ledge가 있고 바라보는 방향이 입력 방향과 같다.
 	if (IsLedge(MemoryDirection) == true && MemoryDirection == Direction)
 	{
-		JumpStart(false);
+		JumpStart();
 		return;
 	}
 

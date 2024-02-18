@@ -191,17 +191,12 @@ bool UEventProcessor::ProcessMove()
 		MoveNextPoint = MovePrevPoint + Data.Path[MovePathIndex + 1];
 		MoveTimer = MoveTime;
 
-		if (Data.Path[MovePathIndex + 1] == FTileVector::Zero)
-		{
-			MsgBoxAssert("MoveActor 함수에서 Path 값이 FTileVector::Zero 입니다.");
-			return false;
-		}
-
-		if (Target->GetDirection() != Data.Path[MovePathIndex + 1])
+		// 제자리 걸음이 아닐 경우 Path에 입력된 방향으로 타겟의 방향을 바꾼다.
+		if (Data.Path[MovePathIndex + 1] != FTileVector::Zero && Target->GetDirection() != Data.Path[MovePathIndex + 1])
 		{
 			Target->SetDirection(Data.Path[MovePathIndex + 1]);
-			Target->ChangeAnimation(Target->GetMoveState(), Target->GetDirection());
 		}
+		Target->ChangeAnimation(Target->GetMoveState(), Target->GetDirection());
 		MovePathIndex++;
 	}
 	return false;
@@ -214,6 +209,8 @@ void UEventProcessor::PostProcessMove(AEventTarget* _Target)
 	MovePathIndex = -1;		// -1은 첫 번째 틱임을 의미한다.
 	MoveTime = 0.0f;
 	MoveTimer = 0.0f;
+	UEventManager::SetPoint(_Target->GetWorld()->GetName(), _Target->GetName(), FTileVector(_Target->GetActorLocation()));
+	_Target->ResetMoveFootOrder();
 	_Target->SetMoveState(ETargetMoveState::Idle);
 	_Target->ChangeAnimation(_Target->GetMoveState(), _Target->GetDirection());
 }
@@ -270,18 +267,13 @@ bool UEventProcessor::ProcessMoveWithoutRestriction()
 		MoveWRNextPos = MoveWRPrevPos + Data.Path[MoveWRPathIndex + 1];
 		MoveWRTimer = MoveWRTime;
 
-		if (true == Data.Path[MoveWRPathIndex + 1].IsZeroVector2D())
-		{
-			MsgBoxAssert("MoveActor 함수에서 Path 값이 FTileVector::Zero 입니다.");
-			return false;
-		}
-
+		// 제자리 걸음이 아닐 경우 Path에 입력된 벡터를 가장 가까운 좌표축에 투영하고 정규화한 벡터로 타겟의 방향을 바꾼다.
 		FTileVector ProjectedDirection = UPokemonMath::ProjectToTileVector(Data.Path[MoveWRPathIndex + 1]);
-		if (Target->GetDirection() != ProjectedDirection)
+		if (ProjectedDirection != FTileVector::Zero && Target->GetDirection() != ProjectedDirection)
 		{
 			Target->SetDirection(ProjectedDirection);
-			Target->ChangeAnimation(Target->GetMoveState(), Target->GetDirection());
 		}
+		Target->ChangeAnimation(Target->GetMoveState(), Target->GetDirection());
 		MoveWRPathIndex++;
 	}
 	return false;
@@ -294,6 +286,7 @@ void UEventProcessor::PostProcessMoveWR(AEventTarget* _Target)
 	MoveWRPathIndex = -1;		// -1은 첫 번째 틱임을 의미한다.
 	MoveWRTime = 0.0f;
 	MoveWRTimer = 0.0f;
+	_Target->ResetMoveFootOrder();
 	_Target->SetMoveState(ETargetMoveState::Idle);
 	_Target->ChangeAnimation(_Target->GetMoveState(), _Target->GetDirection());
 }

@@ -11,21 +11,24 @@ AEventTarget::~AEventTarget()
 
 void AEventTarget::ChangeAnimation(ETargetMoveState _State, const FTileVector& _Direction)
 {
-	std::string StateName;
+	std::string UpperAniName = GetName(); 
+	std::string LowerAniName = GetName(); 
 
 	switch (_State)
 	{
 	case ETargetMoveState::Idle:
-		StateName = "Idle";
+		LowerAniName += "Idle" + _Direction.ToDirectionString() + Global::SuffixLowerBody;
+		UpperAniName += "Idle" + _Direction.ToDirectionString() + Global::SuffixUpperBody;
 		break;
 	case ETargetMoveState::Walk:
-		StateName = "Walk";
+		UpperAniName += "Walk" + _Direction.ToDirectionString() + Global::SuffixUpperBody + std::to_string(MoveFootOrder);
+		LowerAniName += "Walk" + _Direction.ToDirectionString() + Global::SuffixLowerBody + std::to_string(MoveFootOrder);
+		IncMoveFootOrder();
 		break;
 	default:
 		break;
 	}
 
-	std::string AniName = GetName() + StateName + _Direction.ToDirectionString();
-	UpperBodyRenderer->ChangeAnimation(AniName + Global::SuffixUpperBody);
-	LowerBodyRenderer->ChangeAnimation(AniName + Global::SuffixLowerBody);
+	UpperBodyRenderer->ChangeAnimation(UpperAniName);
+	LowerBodyRenderer->ChangeAnimation(LowerAniName);
 }

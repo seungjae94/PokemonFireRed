@@ -42,30 +42,6 @@ public:
 	void StateChange(EPlayerState _State, bool _Restart = false);
 
 protected:
-	void BeginPlay() override;
-	void Tick(float _DeltaTime) override;
-
-	// FSM (Finite State Machine)
-	void StateUpdate(float _DeltaTime);
-	void ChangeAnimation(EPlayerState _State, FTileVector _Direction);
-	
-	void IdleStart(bool _ResetAnimation = true);
-	void Idle(float _DeltaTime);
-
-	void WalkStart(bool _ResetAnimation = true);
-	void Walk(float _DeltaTime);
-
-	void WalkInPlaceStart(bool _ResetAnimation = true);
-	void WalkInPlace(float _DeltaTime);
-
-	void JumpStart(bool _ResetAnimation = true);
-	void Jump(float _DeltaTime);
-
-	// 충돌 체크
-	bool IsLedge(FTileVector _Direction);
-	bool IsPixelCollider(FTileVector _Direction);
-	bool IsComponentCollider(FTileVector _Direction);
-	bool IsCollider(FTileVector _Direction);
 private:
 	// 지면
 	AMap* Map = nullptr;
@@ -79,6 +55,7 @@ private:
 	FTileVector NextPoint;
 	
 	// 원작과 비슷한 걷기 속도는 3.6f
+	char FootOrder = 0; // 0 = 오른발이 나갈 차례, 1 = 왼발이 나갈 차례
 	float WalkSpeed = Global::CharacterWalkSpeed;
 	float JumpSpeed = Global::CharacterJumpSpeed;
 
@@ -92,5 +69,36 @@ private:
 	float CurJumpTime = JumpTime;
 	float WalkInputLatency = 0.9f; // 걷기 동작을 몇 퍼센트나 수행했을 때부터 입력을 받기 시작할 것인지.
 	float JumpInputLatency = 0.95f; // 걷기 동작을 몇 퍼센트나 수행했을 때부터 입력을 받기 시작할 것인지.
+
+	void BeginPlay() override;
+	void Tick(float _DeltaTime) override;
+
+	// FSM (Finite State Machine)
+	void StateUpdate(float _DeltaTime);
+	void ChangeAnimation(EPlayerState _State, FTileVector _Direction);
+
+	void IdleStart();
+	void Idle(float _DeltaTime);
+
+	void WalkStart();
+	void Walk(float _DeltaTime);
+
+	void WalkInPlaceStart();
+	void WalkInPlace(float _DeltaTime);
+
+	void JumpStart();
+	void Jump(float _DeltaTime);
+
+	// 충돌 체크
+	bool IsLedge(FTileVector _Direction);
+	bool IsPixelCollider(FTileVector _Direction);
+	bool IsComponentCollider(FTileVector _Direction);
+	bool IsCollider(FTileVector _Direction);
+
+	// 편의 함수
+	void IncFootOrder()
+	{
+		FootOrder = (FootOrder + 1) % 2;
+	}
 };
 
