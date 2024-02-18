@@ -95,6 +95,7 @@ private:
 	bool ProcessHideActor();
 	bool ProcessShowActor();
 	bool ProcessCameraFocus();
+	bool ProcessDeactivatePlayerControl();
 
 	// 프로세싱 변수 - 공통
 	bool IsPlayerActivated = true;

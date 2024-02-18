@@ -26,6 +26,7 @@ enum class EEventType
 	HideActor,
 	ShowActor,
 	CameraFocus,
+	DeactivatePlayerControl,
 	End,
 };
 
@@ -360,6 +361,21 @@ public:
 	{
 		EventTypeList.push_back(EEventType::CameraFocus);
 		CameraFocusDataSet.push_back(_Data);
+		return *this;
+	}
+
+	class DeactivatePlayerControl
+	{
+		friend UEventProcessor;
+	public:
+		DeactivatePlayerControl()
+		{
+		}
+	};
+
+	UEventStream& operator>>(const DeactivatePlayerControl& _Data)
+	{
+		EventTypeList.push_back(EEventType::DeactivatePlayerControl);
 		return *this;
 	}
 

@@ -14,21 +14,35 @@ public:
 	AFadeScreen& operator=(const AFadeScreen& _Other) = delete;
 	AFadeScreen& operator=(AFadeScreen&& _Other) noexcept = delete;
 
-	void FadeIn(float _FadeTime)
+	virtual void FadeIn(float _FadeTime)
 	{
 		FadeTime = _FadeTime;
 		CurFadeTime = FadeTime;
-		Renderer->SetActive(true);
-		Renderer->SetAlpha(1.0f);
+
+		SetActive(true);
+		AllRenderersActiveOn();
+
+		if (nullptr != Renderer)
+		{
+			Renderer->SetAlpha(1.0f);
+		}
+
 		State = EFadeState::FadeIn;
 	}
 	
-	void FadeOut(float _FadeTime)
+	virtual void FadeOut(float _FadeTime)
 	{
 		FadeTime = _FadeTime;
 		CurFadeTime = FadeTime;
-		Renderer->SetActive(true);
-		Renderer->SetAlpha(0.0f);
+		
+		SetActive(true);
+		AllRenderersActiveOn();
+
+		if (nullptr != Renderer)
+		{
+			Renderer->SetAlpha(0.0f);
+		}
+
 		State = EFadeState::FadeOut;
 	}
 
@@ -60,7 +74,11 @@ public:
 		State = Other->State;
 		FadeTime = Other->FadeTime;
 		CurFadeTime = Other->CurFadeTime;
-		Renderer->SetActive(Other->Renderer->IsActive());
+
+		if (nullptr != Renderer)
+		{
+			Renderer->SetActive(Other->Renderer->IsActive());
+		}
 	}
 
 protected:

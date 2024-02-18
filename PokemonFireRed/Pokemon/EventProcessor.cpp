@@ -84,6 +84,8 @@ void UEventProcessor::Tick(float _DeltaTime)
 	case EEventType::CameraFocus:
 		ProcessingResult = ProcessCameraFocus();
 		break;
+	case EEventType::DeactivatePlayerControl:
+		ProcessingResult = ProcessDeactivatePlayerControl();
 	default:
 		break;
 	}
@@ -279,6 +281,9 @@ bool UEventProcessor::ProcessFadeIn()
 	case EFadeType::White:
 		FadeScreen = UEventManager::FindCurLevelUIElement<AFadeScreen>("WhiteScreen");
 		break;
+	case EFadeType::Curtain:
+		FadeScreen = UEventManager::FindCurLevelUIElement<AFadeScreen>("CurtainScreen");
+		break;
 	default:
 		MsgBoxAssert("아직 FadeIn 기능을 지원하지 않는 FadeType을 사용했습니다.");
 		break;
@@ -303,6 +308,9 @@ bool UEventProcessor::ProcessFadeOut()
 		break;
 	case EFadeType::White:
 		FadeScreen = UEventManager::FindCurLevelUIElement<AFadeScreen>("WhiteScreen");
+		break;
+	case EFadeType::Curtain:
+		FadeScreen = UEventManager::FindCurLevelUIElement<AFadeScreen>("CurtainScreen");
 		break;
 	default:
 		MsgBoxAssert("아직 FadeOut 기능을 지원하지 않는 FadeType을 사용했습니다.");
@@ -556,6 +564,12 @@ bool UEventProcessor::ProcessCameraFocus()
 	AEventTarget* Target = UEventManager::FindCurLevelTarget<AEventTarget>(Data.TargetName);
 	ULevel* CurLevel = Target->GetWorld();
 	CurLevel->SetCameraPos(Target->GetActorLocation() - Global::HalfScreen);
+	return true;
+}
+
+bool UEventProcessor::ProcessDeactivatePlayerControl()
+{
+	DeactivatePlayerControl();
 	return true;
 }
 
