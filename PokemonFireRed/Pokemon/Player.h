@@ -63,8 +63,6 @@ private:
 	float CurIdleTime = IdleTime;
 	float WalkTime = 1.0f / WalkSpeed;
 	float CurWalkTime = WalkTime;
-	float WalkInPlaceTime = 0.05f; // WalkInPlace 상태를 유지하는 최소 시간
-	float CurWalkInPlaceTime = WalkTime; 
 	float JumpTime = 1.0f / JumpSpeed; // 2칸 점프하는데 걸리는 시간
 	float CurJumpTime = JumpTime;
 	float WalkInputLatency = 0.9f; // 걷기 동작을 몇 퍼센트나 수행했을 때부터 입력을 받기 시작할 것인지.

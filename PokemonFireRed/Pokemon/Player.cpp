@@ -235,17 +235,10 @@ void APlayer::Walk(float _DeltaTime)
 void APlayer::WalkInPlaceStart()
 {
 	ChangeAnimation(EPlayerState::Walk, Direction);
-	CurWalkInPlaceTime = WalkInPlaceTime;
 }
 
 void APlayer::WalkInPlace(float _DeltaTime)
 {
-	if (CurWalkInPlaceTime > 0.0f)
-	{
-		CurWalkInPlaceTime -= _DeltaTime;
-		return;
-	}
-
 	FTileVector InputDirection = PokemonInput::GetPressingDirection();
 
 	// 1. 방향키를 누르고 있지 않다.
@@ -258,7 +251,10 @@ void APlayer::WalkInPlace(float _DeltaTime)
 	// 2. 지금 보고 있는 방향과 입력 방향이 같다.
 	if (InputDirection == Direction)
 	{
-		WalkInPlaceStart();
+		if (true == UpperBodyRenderer->IsCurAnimationEnd())
+		{
+			WalkInPlaceStart();
+		}
 		return;
 	}
 
