@@ -51,23 +51,23 @@ public:
 	
 	// 찾기 편의 함수
 	template <typename UIType>
-	static UIType* FindUIElement(std::string_view _LevelName, std::string_view _TargetName)
+	static UIType* FindUIElement(std::string_view _LevelName, std::string_view _ElementName)
 	{
 		std::string LevelName = UEngineString::ToUpper(_LevelName);
-		std::string TargetName = UEngineString::ToUpper(_TargetName);
+		std::string ElementName = UEngineString::ToUpper(_ElementName);
 
-		if (false == AllUIElements.contains(LevelName) || false == AllUIElements[LevelName].contains(TargetName))
+		if (false == AllUIElements.contains(LevelName) || false == AllUIElements[LevelName].contains(ElementName))
 		{
-			MsgBoxAssert(LevelName + ":" + TargetName + "은 존재하지 않는 UI 엘리먼트입니다. FindUIElement 실행에 실패했습니다.");
+			//MsgBoxAssert(LevelName + ":" + TargetName + "은 존재하지 않는 UI 엘리먼트입니다. FindUIElement 실행에 실패했습니다.");
 			return nullptr;
 		}
 
-		AUIElement* Element = AllUIElements[LevelName][TargetName];
+		AUIElement* Element = AllUIElements[LevelName][ElementName];
 		UIType* Result = dynamic_cast<UIType*>(Element);
 		
 		if (nullptr == Result)
 		{
-			MsgBoxAssert(LevelName + ":" + TargetName + "의 다운 캐스팅에 실패했습니다. FindUIElement 실행에 실패했습니다.");
+			//MsgBoxAssert(LevelName + ":" + TargetName + "의 다운 캐스팅에 실패했습니다. FindUIElement 실행에 실패했습니다.");
 			return nullptr;
 		}
 
@@ -88,7 +88,7 @@ public:
 
 		if (false == AllTargets.contains(LevelName) || false == AllTargets[LevelName].contains(TargetName))
 		{
-			MsgBoxAssert(LevelName + ":" + TargetName + "은 존재하지 않는 이벤트 타겟입니다. FindTarget 실행에 실패했습니다.");
+			//MsgBoxAssert(LevelName + ":" + TargetName + "은 존재하지 않는 이벤트 타겟입니다. FindTarget 실행에 실패했습니다.");
 			return nullptr;
 		}
 
@@ -97,7 +97,7 @@ public:
 
 		if (nullptr == Result)
 		{
-			MsgBoxAssert(LevelName + ":" + TargetName + "의 다운 캐스팅에 실패했습니다. FindTarget 실행에 실패했습니다.");
+			//MsgBoxAssert(LevelName + ":" + TargetName + "의 다운 캐스팅에 실패했습니다. FindTarget 실행에 실패했습니다.");
 			return nullptr;
 		}
 
@@ -110,6 +110,35 @@ public:
 		return FindTarget<TargetType>(CurLevelName, _TargetName);
 	}
 
+	template <typename TriggerType>
+	static TriggerType* FindTriggerAt(std::string_view _LevelName, const FTileVector& _Point)
+	{
+		std::string LevelName = UEngineString::ToUpper(_LevelName);
+
+		if (false == AllTriggers.contains(LevelName) || false == AllTriggers[LevelName].contains(_Point))
+		{
+			//MsgBoxAssert(LevelName + ":" + _Point.ToString() + "에는 이벤트 트리거가 존재하지 않습니다. FindTrigger 실행에 실패했습니다.");
+			return nullptr;
+		}
+
+		AEventTrigger* Trigger = AllTriggers[LevelName][_Point];
+		TriggerType* Result = dynamic_cast<TriggerType*>(Trigger);
+
+		if (nullptr == Result)
+		{
+			//MsgBoxAssert(LevelName + ":" + Trigger->GetName() + "의 다운 캐스팅에 실패했습니다. FindTrigger 실행에 실패했습니다.");
+			return nullptr;
+		}
+
+		return Result;
+	}
+
+	template <typename TriggerType>
+	static TriggerType* FindCurLevelTriggerAt(const FTileVector& _Point)
+	{
+		return FindTriggerAt<TriggerType>(CurLevelName, _Point);
+	}
+
 	static std::string GetCurLevelName()
 	{
 		return CurLevelName;
@@ -120,19 +149,11 @@ public:
 		return DeltaTime;
 	}
 
-	static void PlayerEventProcessingOff()
-	{
-		PlayerEventProcessing = false;
-	}
-
 protected:
 	// constructor destructor
 	UEventManager();
 	~UEventManager();
 private:
-	static bool CameraFollowing;
-	static bool PlayerEventProcessing;
-
 	static std::string CurLevelName;
 
 	// AllMenuWindows[LevelName][ElementName]

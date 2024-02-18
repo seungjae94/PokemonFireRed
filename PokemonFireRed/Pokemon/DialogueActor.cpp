@@ -22,7 +22,7 @@ void ADialogueActor::RegisterPredefinedEvent()
 {
 	AEventTrigger::RegisterPredefinedEvent();
 
-	UEventCondition Cond1 = UEventCondition(EEventTriggerAction::Click);
+	UEventCondition Cond1 = UEventCondition(EEventTriggerAction::ZClick);
 	UEventManager::RegisterEvent(this, Cond1,
 		ES::Start(true) 
 		>> ES::StarePlayer(GetName())

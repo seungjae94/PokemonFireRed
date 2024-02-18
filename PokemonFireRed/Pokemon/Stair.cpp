@@ -12,7 +12,7 @@ void AStair::RegisterPredefinedEvent()
 {
 	AEventTrigger::RegisterPredefinedEvent();
 
-	UEventCondition StairCond = UEventCondition(EEventTriggerAction::Notice);
+	UEventCondition StairCond = UEventCondition(EEventTriggerAction::ArrowClick);
 	StairCond.RegisterCheckFunc(ToCheckFunc(CheckPlayerDirection));
 
 	UEventManager::RegisterEvent(this, StairCond,

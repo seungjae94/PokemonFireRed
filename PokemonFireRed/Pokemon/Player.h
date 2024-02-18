@@ -17,6 +17,15 @@ enum class EPlayerState
 	OutOfControl
 };
 
+enum class EPlayerAction
+{
+	ZClick,
+	Read,
+	ArrowClick,
+	StepOn,
+	Menu,
+};
+
 // 사용자 입력에 따라 이동하는 액터
 class APlayer : public AEventTarget
 {
@@ -43,6 +52,19 @@ public:
 
 protected:
 private:
+	class UInputStatus
+	{
+	public:
+		bool ZKeyDown = false;
+		bool ArrowKeyDown = false;
+		int ArrowKey = 0;
+		float SinceLastZKeyDown = 100000000.0f;
+		float SinceLastArrowKeyDown = 100000000.0f;
+	};
+
+	UInputStatus InputStatus;
+	void UpdateInputState(float _DeltaTime);
+
 	// 지면
 	AMap* Map = nullptr;
 	
@@ -59,14 +81,15 @@ private:
 	float WalkSpeed = Global::CharacterWalkSpeed;
 	float JumpSpeed = Global::CharacterJumpSpeed;
 
-	float IdleTime = 0.05f;  // Idle 상태를 유지하는 최소 시간
-	float CurIdleTime = IdleTime;
+	bool IsRotating = false;
+	float RotateTime = 0.25f / WalkSpeed;
+	float CurRotateTime = RotateTime;
 	float WalkTime = 1.0f / WalkSpeed;
 	float CurWalkTime = WalkTime;
 	float JumpTime = 1.0f / JumpSpeed; // 2칸 점프하는데 걸리는 시간
 	float CurJumpTime = JumpTime;
-	float WalkInputLatency = 0.9f; // 걷기 동작을 몇 퍼센트나 수행했을 때부터 입력을 받기 시작할 것인지.
-	float JumpInputLatency = 0.95f; // 걷기 동작을 몇 퍼센트나 수행했을 때부터 입력을 받기 시작할 것인지.
+	float WalkInputLatency = 0.75f; // 걷기 동작을 몇 퍼센트나 수행했을 때부터 입력을 받기 시작할 것인지.
+	float JumpInputLatency = 0.875f; // 걷기 동작을 몇 퍼센트나 수행했을 때부터 입력을 받기 시작할 것인지.
 
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
@@ -77,6 +100,7 @@ private:
 
 	void IdleStart();
 	void Idle(float _DeltaTime);
+	void TryWalk();
 
 	void WalkStart();
 	void Walk(float _DeltaTime);
@@ -86,6 +110,17 @@ private:
 
 	void JumpStart();
 	void Jump(float _DeltaTime);
+
+	// 이벤트 체크 함수
+	bool IsZDown();
+	bool IsEnterDown();
+
+	// 이벤트 실행 시도 함수
+	bool TryZClickEvent();
+	bool TryReadEvent();
+	bool TryArrowClickEvent();
+	bool TryStepOnEvent();
+	bool TryMenuEvent();
 
 	// 충돌 체크
 	bool IsLedge(FTileVector _Direction);

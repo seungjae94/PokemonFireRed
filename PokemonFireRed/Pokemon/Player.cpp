@@ -3,7 +3,9 @@
 #include "Map.h"
 #include "Global.h"
 #include "EventTarget.h"
+#include "EventTrigger.h"
 #include "EventManager.h"
+#include "MenuWindow.h"
 
 APlayer::APlayer()
 {
@@ -22,7 +24,7 @@ void APlayer::BeginPlay()
 void APlayer::Tick(float _DeltaTime)
 {
 	AEventTarget::Tick(_DeltaTime);
-
+	UpdateInputState(_DeltaTime);
 	StateUpdate(_DeltaTime);
 }
 
@@ -115,50 +117,120 @@ void APlayer::ChangeAnimation(EPlayerState _State, FTileVector _Direction)
 void APlayer::IdleStart()
 {
 	ChangeAnimation(EPlayerState::Idle, Direction);
-	CurIdleTime = IdleTime;
 }
 
 void APlayer::Idle(float _DeltaTime)
 {
-	if (CurIdleTime > 0.0f)
+	// 0. 회전중일 경우 다른 입력은 무시한다.
+	if (true == IsRotating)
 	{
-		// Idle 상태 유지
-		CurIdleTime -= _DeltaTime;
+		CurRotateTime -= _DeltaTime;
+
+		if (CurRotateTime < 0.0f)
+		{
+			IsRotating = false;
+			ChangeAnimation(EPlayerState::Idle, Direction);
+
+			FTileVector KeyPressDirection = UPokemonInput::GetPressDirection();
+			if (Direction == KeyPressDirection)
+			{
+				// 회전이 끝났는데도 현재 방향키를 누르고 있다면 걷기를 시도한다.
+				TryWalk();
+			}
+			else
+			{
+				// 방향 이동으로 인해 발생하는 이벤트를 처리한다.
+				 
+				// e.g. 표지판 앞에서 옆을 보면서 서있다가 표지판 쪽 방향키를 누르는 경우 
+				bool ReadResult = TryReadEvent();
+				if (true == ReadResult)
+				{
+					return;
+				}
+
+				// e.g. 문 앞에서 옆을 보면서 서있다가 문 쪽 방향키를 누르는 경우
+				bool ArrowClickResult = TryArrowClickEvent();
+				if (true == ArrowClickResult)
+				{
+					return;
+				}
+			}
+		}
 		return;
 	}
 
-	FTileVector InputDirection = PokemonInput::GetPressingDirection();
-
-	// 1. 방향키를 누르지 않고 있다.
-	if (InputDirection == FTileVector::Zero)
+	// 1. Z 버튼을 눌렀다.
+	if (true == IsZDown() && true == TryZClickEvent())
 	{
-		IdleStart();
 		return;
 	}
 
-	// 2. 지금 보고 있는 방향과 다른 방향키를 누르고 있다.
-	if (InputDirection != Direction)
+	// 2. 엔터 키를 눌렀다.
+	if (true == IsEnterDown() && true == TryMenuEvent())
 	{
-		Direction = InputDirection;
-		IdleStart();
 		return;
 	}
 
-	// 3. 앞에 Ledge가 있다.
+	// 3. 지금 보고 있는 방향과 같은 방향키를 누르고 있다.
+	// -> 이벤트를 확인한다.
+	// -> 충돌을 확인한다.
+	// -> 이벤트도 충돌도 없다면 앞으로 걷는다.
+	FTileVector KeyPressDirection = UPokemonInput::GetPressDirection();
+	if (KeyPressDirection == Direction)
+	{
+		TryWalk();
+		return;
+	}
+
+	// 4. 아무 키도 누르지 않았다면 아무 일도 일어나지 않는다.
+	if (KeyPressDirection == FTileVector::Zero)
+	{
+		return;
+	}
+
+	// 5. 지금 보고 있는 뱡향과 다른 방향키를 누르고 있다.
+	// -> 일단 방향만 바꾼다.
+	if (KeyPressDirection != Direction)
+	{
+		IsRotating = true;
+		Direction = KeyPressDirection;
+		CurRotateTime = RotateTime;
+		return;
+	}
+
+}
+
+void APlayer::TryWalk()
+{
+	// e.g. 표지판 앞에서 표지판을 보고 서있다가 표지판 쪽 방향키를 누르는 경우 
+	bool ReadResult = TryReadEvent();
+	if (true == ReadResult)
+	{
+		return;
+	}
+
+	// e.g. 문 앞에서 문을 보고 서있다가 문 쪽 방향키를 누르는 경우
+	bool ArrowClickResult = TryArrowClickEvent();
+	if (true == ArrowClickResult)
+	{
+		return;
+	}
+
+	// 앞에 Ledge가 있는 경우
 	if (IsLedge(Direction) == true)
 	{
 		StateChange(EPlayerState::Jump);
 		return;
 	}
 
-	// 4. 앞에 충돌체(픽셀 기반 or 컴포넌트 기반)가 있다.
+	// 앞에 충돌체가 있는 경우
 	if (true == IsCollider(Direction))
 	{
 		StateChange(EPlayerState::WalkInPlace);
 		return;
 	}
 
-	// 5. 그 외의 경우
+	// 이벤트도 발생하지 않고, 앞에 Ledge도 없고, 충돌체도 없는 경우
 	StateChange(EPlayerState::Walk);
 }
 
@@ -173,7 +245,7 @@ void APlayer::WalkStart()
 
 void APlayer::Walk(float _DeltaTime)
 {
-	// 1. 아직 이동 중이다.
+	// 0. 아직 이동 중이다.
 	if (CurWalkTime > 0.0f)
 	{
 		IsExecutingMovingLogic = true;
@@ -189,7 +261,7 @@ void APlayer::Walk(float _DeltaTime)
 
 		if (t >= WalkInputLatency)
 		{
-			MemoryDirection = PokemonInput::GetPressingDirection();
+			MemoryDirection = UPokemonInput::GetPressDirection();
 		}
 
 		return;
@@ -197,38 +269,53 @@ void APlayer::Walk(float _DeltaTime)
 	IsExecutingMovingLogic = false;
 	UEventManager::SetPoint(GetWorld()->GetName(), GetName(), NextPoint);
 
-	// 2. 기억하고 있는 입력 방향이 없다.
+	// 1. Read 이벤트가 발생했다.
+	// e.g. 표지판을 바라보면서 표지판 앞으로 이동했다.
+	bool ReadResult = TryReadEvent();
+	if (true == ReadResult)
+	{
+		return;
+	}
+
+	// 2. StepOn 이벤트가 발생했다.
+	bool StepOnResult = TryStepOnEvent();
+	if (true == StepOnResult)
+	{
+		return;
+	}
+
+	// 3. 기억하고 있는 입력 방향이 없다. 즉, 방향키를 누르지 않았다.
 	if (MemoryDirection == FTileVector::Zero)
 	{
 		StateChange(EPlayerState::Idle);
 		return;
 	}
+	Direction = MemoryDirection;
 
-	// 3. 입력 방향에 Ledge가 있다.
-	if (IsLedge(MemoryDirection) == true)
+	// 4. ArrowClick 이벤트가 발생했다. 
+	// - 입력 방향이 있기 때문에 ArrowClick 액션이 유효하다.
+	bool ArrowClickResult = TryArrowClickEvent();
+	if (true == ArrowClickResult)
 	{
-		Direction = MemoryDirection;
+		return;
+	}
+
+	// 5. 입력 방향에 Ledge가 있다.
+	if (IsLedge(Direction) == true)
+	{
 		StateChange(EPlayerState::Jump);
 		return;
 	}
 
-	// 4. 입력 방향에 충돌체가 있다.
-	if (true == IsCollider(MemoryDirection))
+	// 6. 입력 방향에 충돌체가 있다.
+	if (true == IsCollider(Direction))
 	{
-		Direction = MemoryDirection;
 		StateChange(EPlayerState::WalkInPlace);
 		return;
 	}
 
-	// 5. 보고 있는 방향과 입력 방향이 다르다.
-	if (MemoryDirection != Direction)
-	{
-		Direction = MemoryDirection;
-		WalkStart();
-		return;
-	}
-
-	// 6. 그 외의 경우
+	// 7. 방향키를 누르고 있지만 이벤트도 충돌도 발생하지 않았다.
+	// -> 계속 걷는다.
 	WalkStart();
 }
 
@@ -239,9 +326,20 @@ void APlayer::WalkInPlaceStart()
 
 void APlayer::WalkInPlace(float _DeltaTime)
 {
-	FTileVector InputDirection = PokemonInput::GetPressingDirection();
+	// 1. Z 버튼을 눌렀다.
+	if (true == IsZDown() && true == TryZClickEvent())
+	{
+		return;
+	}
 
-	// 1. 방향키를 누르고 있지 않다.
+	// 2. 엔터 키를 눌렀다.
+	if (true == IsEnterDown() && true == TryMenuEvent())
+	{
+		return;
+	}
+
+	// 3. 방향키를 누르고 있지 않다.
+	FTileVector InputDirection = UPokemonInput::GetPressDirection();
 	if (InputDirection == FTileVector::Zero)
 	{
 		StateChange(EPlayerState::Idle);
@@ -251,31 +349,46 @@ void APlayer::WalkInPlace(float _DeltaTime)
 	// 2. 지금 보고 있는 방향과 입력 방향이 같다.
 	if (InputDirection == Direction)
 	{
-		if (true == UpperBodyRenderer->IsCurAnimationEnd())
+		// 애니메이션만 갱신한다.
+		if (LowerBodyRenderer->IsCurAnimationEnd())
 		{
 			WalkInPlaceStart();
 		}
 		return;
 	}
 
-	// 3. 입력 방향에 Ledge가 있다.
+	Direction = InputDirection;
+	// 3. Read 이벤트가 발생했다.
+	if (true == TryReadEvent())
+	{
+		return;
+	}
+
+	// 4. ArrowClick 이벤트가 발생했다.
+	if (true == TryArrowClickEvent())
+	{
+		return;
+	}
+
+	// 5. 입력 방향에 Ledge가 있다.
 	if (IsLedge(InputDirection))
 	{
-		Direction = InputDirection;
 		StateChange(EPlayerState::Jump);
 		return;
 	}
 
-	// 4. 입력 방향에 충돌체가 있다.
+	// 6. 입력 방향에 충돌체가 있다.
 	if (true == IsCollider(InputDirection))
 	{
-		Direction = InputDirection;
-		WalkInPlaceStart();
+		// 애니메이션만 갱신한다.
+		if (LowerBodyRenderer->IsCurAnimationEnd())
+		{
+			WalkInPlaceStart();
+		}
 		return;
 	}
 
-	// 5. 그 외의 경우
-	Direction = InputDirection;
+	// 7. 그 외의 경우
 	StateChange(EPlayerState::Walk);
 }
 
@@ -290,7 +403,7 @@ void APlayer::JumpStart()
 
 void APlayer::Jump(float _DeltaTime)
 {
-	// 1. 아직 점프 중이다.
+	// 0. 아직 점프 중이다.
 	if (CurJumpTime > 0.0f)
 	{
 		bool IsExecutingMovingLogic = true;
@@ -306,7 +419,7 @@ void APlayer::Jump(float _DeltaTime)
 
 		if (t >= JumpInputLatency)
 		{
-			MemoryDirection = PokemonInput::GetPressingDirection();
+			MemoryDirection = UPokemonInput::GetPressDirection();
 		}
 
 		return;
@@ -314,39 +427,144 @@ void APlayer::Jump(float _DeltaTime)
 	bool IsExecutingMovingLogic = false;
 	UEventManager::SetPoint(GetWorld()->GetName(), GetName(), NextPoint);
 
-	// 2. 기억하고 있는 입력 방향이 없다.
+	// 1. Read 이벤트가 발생했다.
+	// e.g. 표지판 앞으로 점프했다.	
+	bool ReadResult = TryReadEvent();
+	if (true == ReadResult)
+	{
+		return;
+	}
+
+	// 2. StepOn 이벤트가 발생했다.
+	bool StepOnResult = TryStepOnEvent();
+	if (true == StepOnResult)
+	{
+		return;
+	}
+
+	// 3. 기억하고 있는 입력 방향이 없다.
 	if (MemoryDirection == FTileVector::Zero)
 	{
 		StateChange(EPlayerState::Idle);
 		return;
 	}
+	Direction = MemoryDirection;
 
-	// 3. 입력 방향에 Ledge가 있고 바라보는 방향과 입력 방향이 다르다.
-	if (IsLedge(MemoryDirection) == true && MemoryDirection != Direction)
+	// 4. ArrowClick 이벤트가 발생했다. 
+	// - 입력 방향이 있기 때문에 ArrowClick 액션이 유효하다.
+	bool ArrowClickResult = TryArrowClickEvent();
+	if (true == ArrowClickResult)
 	{
-		Direction = MemoryDirection;
+		return;
+	}
+
+	// 5. 입력 방향에 Ledge가 있다.
+	if (IsLedge(Direction) == true)
+	{
 		JumpStart();
 		return;
 	}
 
-	// 4. 입력 방향에 Ledge가 있고 바라보는 방향이 입력 방향과 같다.
-	if (IsLedge(MemoryDirection) == true && MemoryDirection == Direction)
+	// 6. 입력 방향에 충돌체가 있다.
+	if (true == IsCollider(Direction))
 	{
-		JumpStart();
-		return;
-	}
-
-	// 5. 입력 방향에 충돌체가 있다.
-	if (true == IsCollider(MemoryDirection))
-	{
-		Direction = MemoryDirection;
 		StateChange(EPlayerState::WalkInPlace);
 		return;
 	}
 
-	// 6. 그 외의 경우
-	Direction = MemoryDirection;
+	// 7. 그 외의 경우
 	StateChange(EPlayerState::Walk);
+}
+
+bool APlayer::IsZDown()
+{
+	return UEngineInput::IsDown('Z');
+}
+
+bool APlayer::IsEnterDown()
+{
+	return UEngineInput::IsDown(VK_RETURN);
+}
+
+bool APlayer::TryZClickEvent()
+{
+	// 클릭 이벤트 = 플레이어가 트리거에 인접 and 트리거를 바라봄 and Z키 입력
+	FTileVector CurPoint = FTileVector(GetActorLocation());
+	FTileVector TargetPoint = CurPoint + Direction;
+
+	AEventTrigger* EventTrigger = UEventManager::FindCurLevelTriggerAt<AEventTrigger>(TargetPoint);
+
+	if (nullptr == EventTrigger)
+	{
+		return false;
+	}
+		
+	bool RunResult = UEventManager::TriggerEvent(EventTrigger, EEventTriggerAction::ZClick);
+	return RunResult;
+}
+
+bool APlayer::TryReadEvent()
+{
+	// Read 이벤트 = 플레이어가 트리거에 인접 and 트리거를 바라봄
+	FTileVector CurPoint = FTileVector(GetActorLocation());
+	FTileVector TargetPoint = CurPoint + Direction;
+	AEventTrigger* EventTrigger = UEventManager::FindCurLevelTriggerAt<AEventTrigger>(TargetPoint);
+
+	if (nullptr == EventTrigger)
+	{
+		return false;
+	}
+
+	bool RunResult = UEventManager::TriggerEvent(EventTrigger, EEventTriggerAction::Read);
+	return RunResult;
+}
+
+bool APlayer::TryArrowClickEvent()
+{
+	// Push 이벤트 = 플레이어가 트리거에 인접 and 트리거가 있는 방향의 방향키 입력
+	FTileVector CurPoint = FTileVector(GetActorLocation());
+	FTileVector TargetPoint = CurPoint + Direction;
+
+	AEventTrigger* EventTrigger = UEventManager::FindCurLevelTriggerAt<AEventTrigger>(TargetPoint);
+
+	if (nullptr == EventTrigger)
+	{
+		return false;
+	}
+
+	bool RunResult = UEventManager::TriggerEvent(EventTrigger, EEventTriggerAction::ArrowClick);
+	return RunResult;
+}
+
+bool APlayer::TryStepOnEvent()
+{
+	// StepOn 이벤트 = 플레이어가 트리거와 같은 위치에 있음
+
+	FTileVector CurPoint = FTileVector(GetActorLocation());
+
+	AEventTrigger* EventTrigger = UEventManager::FindCurLevelTriggerAt<AEventTrigger>(CurPoint);
+
+	if (nullptr == EventTrigger)
+	{
+		return false;
+	}
+
+	bool RunResult = UEventManager::TriggerEvent(EventTrigger, EEventTriggerAction::StepOn);
+	return RunResult;
+}
+
+bool APlayer::TryMenuEvent()
+{
+	// 메뉴창 열기 이벤트 감지
+	AMenuWindow* MenuWindow = UEventManager::FindCurLevelUIElement<AMenuWindow>("MenuWindow");
+
+	if (nullptr == MenuWindow)
+	{
+		return false;
+	}
+
+	MenuWindow->Open();
+	return true;
 }
 
 bool APlayer::IsLedge(FTileVector _Direction)
@@ -355,8 +573,8 @@ bool APlayer::IsLedge(FTileVector _Direction)
 	FVector MapRelativeTargetPos = (GetActorLocation() - Map->GetActorLocation()) + _Direction.ToFVector();
 	FVector MapRelativeTargetPosInImage = MapRelativeTargetPos;
 	Color8Bit Color = Map->GetCollisionImage()->GetColor(
-		MapRelativeTargetPosInImage.iX(), 
-		MapRelativeTargetPosInImage.iY(), 
+		MapRelativeTargetPosInImage.iX(),
+		MapRelativeTargetPosInImage.iY(),
 		Color8Bit::WhiteA
 	);
 
@@ -384,9 +602,9 @@ bool APlayer::IsPixelCollider(FTileVector _Direction)
 bool APlayer::IsComponentCollider(FTileVector _Direction)
 {
 	std::vector<UCollision*> CollisionResult;
-	
+
 	bool IsCollided = Collision->CollisionCheck(ECollisionOrder::NPC, CollisionResult);
-	
+
 	FTileVector TestPoint = GetPoint() + _Direction;
 	for (UCollision* Collision : CollisionResult)
 	{
@@ -410,4 +628,45 @@ bool APlayer::IsComponentCollider(FTileVector _Direction)
 bool APlayer::IsCollider(FTileVector _Direction)
 {
 	return true == IsPixelCollider(_Direction) || true == IsComponentCollider(_Direction);
+}
+
+
+
+void APlayer::UpdateInputState(float _DeltaTime)
+{
+	InputStatus.SinceLastZKeyDown += _DeltaTime;
+	InputStatus.SinceLastArrowKeyDown += _DeltaTime;
+
+	InputStatus.ZKeyDown = UEngineInput::IsDown('Z');
+	if (true == InputStatus.ZKeyDown)
+	{
+		InputStatus.SinceLastZKeyDown = 0.0f;
+	}
+
+	if (UEngineInput::IsDown(VK_DOWN))
+	{
+		InputStatus.ArrowKey = VK_DOWN;
+	}
+	else if (UEngineInput::IsDown(VK_UP))
+	{
+		InputStatus.ArrowKey = VK_UP;
+	}
+	else if (UEngineInput::IsDown(VK_LEFT))
+	{
+		InputStatus.ArrowKey = VK_LEFT;
+	}
+	else if (UEngineInput::IsDown(VK_RIGHT))
+	{
+		InputStatus.ArrowKey = VK_RIGHT;
+	}
+	else
+	{
+		InputStatus.ArrowKey = 0;
+	}
+
+	if (InputStatus.ArrowKey != 0)
+	{
+		InputStatus.ArrowKeyDown = true;
+		InputStatus.SinceLastArrowKeyDown = 0.0f;
+	}
 }

@@ -16,7 +16,7 @@ void AExteriorDoor::RegisterPredefinedEvent()
 	LowerBodyRenderer->CreateAnimation("DoorOpen", ImageName, { 0, 1, 2, 3 }, 0.1f, false);
 	LowerBodyRenderer->CreateAnimation("DoorClose", ImageName, { 3, 2, 1, 0 }, 0.1f, false);
 
-	UEventCondition Cond = UEventCondition(EEventTriggerAction::Notice);
+	UEventCondition Cond = UEventCondition(EEventTriggerAction::ArrowClick);
 	Cond.RegisterCheckFunc(ToCheckFunc(CheckPlayerDirection));
 
 	UEventManager::RegisterEvent(this, Cond,

@@ -1,9 +1,9 @@
 #include "PokemonInput.h"
 
-PokemonInput::PokemonInput()
+UPokemonInput::UPokemonInput()
 {
 }
 
-PokemonInput::~PokemonInput()
+UPokemonInput::~UPokemonInput()
 {
 }

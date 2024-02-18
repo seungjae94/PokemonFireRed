@@ -2,20 +2,20 @@
 #include "PokemonMath.h"
 #include <EnginePlatform/EngineInput.h>
 
-class PokemonInput
+class UPokemonInput
 {
 public:
 	// constructor destructor
-	PokemonInput();
-	~PokemonInput();
+	UPokemonInput();
+	~UPokemonInput();
 
 	// delete Function
-	PokemonInput(const PokemonInput& _Other) = delete;
-	PokemonInput(PokemonInput&& _Other) noexcept = delete;
-	PokemonInput& operator=(const PokemonInput& _Other) = delete;
-	PokemonInput& operator=(PokemonInput&& _Other) noexcept = delete;
+	UPokemonInput(const UPokemonInput& _Other) = delete;
+	UPokemonInput(UPokemonInput&& _Other) noexcept = delete;
+	UPokemonInput& operator=(const UPokemonInput& _Other) = delete;
+	UPokemonInput& operator=(UPokemonInput&& _Other) noexcept = delete;
 
-	static FTileVector GetPressingDirection()
+	static FTileVector GetPressDirection()
 	{
 		FTileVector NextDirection = FTileVector::Zero;
 		if (UEngineInput::IsPress(VK_DOWN))
@@ -31,6 +31,29 @@ public:
 			NextDirection = FTileVector::Left;
 		}
 		else if (UEngineInput::IsPress(VK_RIGHT))
+		{
+			NextDirection = FTileVector::Right;
+		}
+
+		return NextDirection;
+	}
+
+	static FTileVector GetDownDirection()
+	{
+		FTileVector NextDirection = FTileVector::Zero;
+		if (UEngineInput::IsDown(VK_DOWN))
+		{
+			NextDirection = FTileVector::Down;
+		}
+		else if (UEngineInput::IsDown(VK_UP))
+		{
+			NextDirection = FTileVector::Up;
+		}
+		else if (UEngineInput::IsDown(VK_LEFT))
+		{
+			NextDirection = FTileVector::Left;
+		}
+		else if (UEngineInput::IsDown(VK_RIGHT))
 		{
 			NextDirection = FTileVector::Right;
 		}

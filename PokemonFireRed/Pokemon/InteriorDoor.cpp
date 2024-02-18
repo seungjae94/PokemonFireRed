@@ -12,7 +12,7 @@ void AInteriorDoor::RegisterPredefinedEvent()
 {
 	AEventTrigger::RegisterPredefinedEvent();
 
-	UEventCondition Cond = UEventCondition(EEventTriggerAction::Notice);
+	UEventCondition Cond = UEventCondition(EEventTriggerAction::ArrowClick);
 	Cond.RegisterCheckFunc(ToCheckFunc(CheckPlayerDirection));
 
 	UEventManager::RegisterEvent(this, Cond,

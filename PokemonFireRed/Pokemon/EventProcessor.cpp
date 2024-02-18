@@ -580,7 +580,6 @@ void UEventProcessor::EndRun()
 		ActivatePlayerControl();
 	}
 
-	UEventManager::PlayerEventProcessingOff();
 	IsRunningValue = false;
 	CurIndexOfTypeMap.clear();
 }

@@ -12,8 +12,6 @@
 #include "DialogueWindow.h"
 #include "BlackScreen.h"
 
-bool UEventManager::CameraFollowing = true;
-bool UEventManager::PlayerEventProcessing = false;
 std::string UEventManager::CurLevelName;
 std::map<std::string, std::map<std::string, AUIElement*>> UEventManager::AllUIElements;
 std::map<std::string, std::map<std::string, AEventTarget*>> UEventManager::AllTargets;
@@ -31,84 +29,9 @@ UEventManager::~UEventManager()
 }
 
 // 이벤트 감지
-
-void UEventManager::CheckPlayerEvent()
-{
-	APlayer* Player = FindCurLevelTarget<APlayer>(Global::PLAYER_NAME);
-	AMenuWindow* MenuWindow = FindCurLevelUIElement<AMenuWindow>("MenuWindow");
-
-	if (nullptr == Player)
-	{
-		// 플레이어가 없는 맵인 경우
-		return;
-	}
-
-	// 플레이어가 이동 로직을 실행중이라면 이벤트를 감지하지 않는다.
-	if (true == Player->IsExecutingMovingLogic)
-	{
-		return;
-	}
-
-	// 이미 이벤트를 실행 중이라면 새로운 이벤트를 실행하지 않는다.
-	if (Player->State == EPlayerState::OutOfControl || true == PlayerEventProcessing)
-	{
-		return;
-	}
-
-	// 클릭 이벤트 감지
-	FTileVector CurPoint = FTileVector(Player->GetActorLocation());
-	FTileVector TargetPoint = CurPoint + Player->Direction;
-	if (true == AllTriggers[CurLevelName].contains(TargetPoint) && UEngineInput::IsDown('Z'))
-	{
-		AEventTrigger* EventTrigger = AllTriggers[CurLevelName][TargetPoint];
-
-		bool RunResult = TriggerEvent(EventTrigger, EEventTriggerAction::Click);
-		if (true == RunResult)
-		{
-			PlayerEventProcessing = true;
-			return;
-		}
-	}
-
-	// Notice 이벤트 감지
-	if (true == AllTriggers[CurLevelName].contains(TargetPoint))
-	{
-		AEventTrigger* EventTrigger = AllTriggers[CurLevelName][TargetPoint];
-		
-		bool RunResult = TriggerEvent(EventTrigger, EEventTriggerAction::Notice);
-		if (true == RunResult)
-		{
-			PlayerEventProcessing = true;
-			return;
-		}
-	}
-
-	// Step On 이벤트 감지
-	if (true == AllTriggers[CurLevelName].contains(CurPoint))
-	{
-		AEventTrigger* EventTrigger = AllTriggers[CurLevelName][CurPoint];
-
-		bool RunResult = TriggerEvent(EventTrigger, EEventTriggerAction::StepOn);
-		if (true == RunResult)
-		{
-			PlayerEventProcessing = true;
-			return;
-		}
-	}
-
-	// 메뉴창 열기 이벤트 감지
-	if (true == UEngineInput::IsDown(VK_RETURN))
-	{
-		PlayerEventProcessing = true;
-		MenuWindow->Open();
-	}
-}
-
 void UEventManager::Tick(float _DeltaTime)
 {
 	DeltaTime = _DeltaTime;
-
-	CheckPlayerEvent();
 
 	for (std::pair<AEventTrigger* const, UEventProcessor*>& Pair: AllProcessors)
 	{
