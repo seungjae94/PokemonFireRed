@@ -43,6 +43,7 @@ void UInteriorPlayersHouse1FLevel::BeginPlay()
 	PalletTownDoor->SetTargetMapName(Global::ExteriorPalletTownLevel);
 	PalletTownDoor->SetTargetPoint({ 70, 142 });
 	PalletTownDoor->SetMoveDirection(FTileVector::Down);
+	PalletTownDoor->SetExteriorDoorName("PlayersHouseDoor");
 	PalletTownDoor->RegisterPredefinedEvent();
 
 

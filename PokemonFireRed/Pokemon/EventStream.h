@@ -21,6 +21,9 @@ enum class EEventType
 	ChangePoint,
 	ChangeDirection,
 	StarePlayer,
+	PlayAnimation,
+	HideActor,
+	ShowActor,
 	End,
 };
 
@@ -28,7 +31,14 @@ enum class EFadeType
 {
 	Black,
 	White,
-	Curtain
+	Curtain,
+};
+
+enum class EAnimTarget
+{
+	All,
+	UpperBodyOnly,
+	LowerBodyOnly,
 };
 
 class UEventStream
@@ -132,13 +142,38 @@ public:
 		}
 	private:
 		float Time;
-
 	};
 
 	UEventStream& operator>>(const Wait& _Data)
 	{
 		EventTypeList.push_back(EEventType::Wait);
 		WaitDataSet.push_back(_Data);
+		return *this;
+	}
+
+	class PlayAnimation
+	{
+		friend UEventProcessor;
+	public:
+		PlayAnimation(std::string_view _TargetName, std::string_view _AnimName, bool _Wait = true, EAnimTarget _AnimTarget = EAnimTarget::All)
+			: TargetName(_TargetName), AnimName(_AnimName), Wait(_Wait), AnimTarget(_AnimTarget)
+		{
+			if (_AnimName.ends_with(Global::SuffixLowerBody) || _AnimName.ends_with(Global::SuffixUpperBody))
+			{
+				MsgBoxAssert(AnimName + "은 유효하지 않습니다. PlayAnimation 이벤트에 애니메이션 이름을 적을 땐 LowerBody, UpperBody suffix를 생략해야 합니다.");
+			}
+		}
+	private:
+		std::string TargetName = "";
+		std::string AnimName = "";
+		bool Wait = true;
+		EAnimTarget AnimTarget = EAnimTarget::All;
+	};
+
+	UEventStream& operator>>(const PlayAnimation& _Data)
+	{
+		EventTypeList.push_back(EEventType::PlayAnimation);
+		PlayAnimationDataSet.push_back(_Data);
 		return *this;
 	}
 
@@ -250,6 +285,44 @@ public:
 		return *this;
 	}
 
+	class HideActor
+	{
+		friend UEventProcessor;
+	public:
+		HideActor(std::string_view _TargetName)
+			: TargetName(_TargetName)
+		{
+		}
+	private:
+		std::string TargetName;
+	};
+
+	UEventStream& operator>>(const HideActor& _Data)
+	{
+		EventTypeList.push_back(EEventType::HideActor);
+		HideActorDataSet.push_back(_Data);
+		return *this;
+	}
+
+	class ShowActor
+	{
+		friend UEventProcessor;
+	public:
+		ShowActor(std::string_view _TargetName)
+			: TargetName(_TargetName)
+		{
+		}
+	private:
+		std::string TargetName;
+	};
+
+	UEventStream& operator>>(const ShowActor& _Data)
+	{
+		EventTypeList.push_back(EEventType::ShowActor);
+		ShowActorDataSet.push_back(_Data);
+		return *this;
+	}
+
 	class End
 	{
 		friend UEventStream;
@@ -291,5 +364,8 @@ private:
 	std::vector<ChangePoint> ChangePointDataSet;
 	std::vector<ChangeDirection> ChangeDirectionDataSet;
 	std::vector<StarePlayer> StarePlayerDataSet;
+	std::vector<PlayAnimation> PlayAnimationDataSet;
+	std::vector<HideActor> HideActorDataSet;
+	std::vector<ShowActor> ShowActorDataSet;
 };
 

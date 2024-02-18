@@ -67,6 +67,11 @@ public:
 		ImageName = UEngineString::ToUpper(_ImageName);
 	}
 
+	void SetHeight(int _Height)
+	{
+		Height = _Height;
+	}
+
 private:
 	std::string Name = "";
 	FTileVector Point = FTileVector::Zero;
@@ -75,6 +80,7 @@ private:
 	bool Rotatable = false;
 	bool Walkable = false;
 	std::string ImageName = "";
+	int Height = 2;
 };
 
 // 이벤트에 의해 강제로 행동할 수 있는 액터
@@ -123,23 +129,27 @@ public:
 	}
 
 protected:
-	// 이동 관련 변수
+	// 이벤트 타겟 초기 세팅
 	FTileVector Point = FTileVector::Zero;
 	FTileVector Direction = FTileVector::Down;
+	bool Collidable = false;
+	bool Rotatable = false;
+	bool Walkable = false;
+	bool HasImage = false;
+	int Height = 2;
+
+	// 이동 관련 변수
 	ETargetMoveState MoveState = ETargetMoveState::Idle;
 	float MoveTime = 0.0f;
 	float Timer = 0.0f;
 	int MoveIndex = -1;
 	char MoveFootOrder = 0;		// 0 = 오른발이 나갈 차례, 1 = 왼발이 나갈 차례
-	bool Collidable = false;
-	bool Rotatable = false;
-	bool Walkable = false;
-	bool HasImage = false;
 	bool IsExecutingMovingLogic = false;
 
 	// 렌더러
 	UImageRenderer* UpperBodyRenderer = nullptr;
 	UImageRenderer* LowerBodyRenderer = nullptr;
+	std::string ImageName = "";
 
 	// 콜리전
 	UCollision* Collision = nullptr;

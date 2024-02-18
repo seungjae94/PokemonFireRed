@@ -27,6 +27,7 @@ void UExteriorPalletTownLevel::BeginPlay()
 	OaksLabDoorSetting.SetPoint({ 80, 147 });
 	OaksLabDoorSetting.SetDirection(FTileVector::Up);
 	OaksLabDoorSetting.SetImageName("GreenDoor");
+	OaksLabDoorSetting.SetHeight(1);
 
 	AExteriorDoor* OaksLabDoor = SpawnEventTrigger<AExteriorDoor>(OaksLabDoorSetting);
 	OaksLabDoor->SetTargetMapName(Global::InteriorOaksLabLevel);
@@ -40,6 +41,7 @@ void UExteriorPalletTownLevel::BeginPlay()
 	PlayersHouseDoorSetting.SetPoint({ 70, 141 });
 	PlayersHouseDoorSetting.SetDirection(FTileVector::Up);
 	PlayersHouseDoorSetting.SetImageName("RedDoor");
+	PlayersHouseDoorSetting.SetHeight(1);
 
 	AExteriorDoor* PlayersHouseDoor = SpawnEventTrigger<AExteriorDoor>(PlayersHouseDoorSetting);
 	PlayersHouseDoor->SetTargetMapName(Global::InteriorPlayersHouse1FLevel);
@@ -53,6 +55,7 @@ void UExteriorPalletTownLevel::BeginPlay()
 	RivalsHouseDoorSetting.SetPoint({ 79, 141 });
 	RivalsHouseDoorSetting.SetDirection(FTileVector::Up);
 	RivalsHouseDoorSetting.SetImageName("RedDoor");
+	RivalsHouseDoorSetting.SetHeight(1);
 
 	AExteriorDoor* RivalsHouseDoor = SpawnEventTrigger<AExteriorDoor>(RivalsHouseDoorSetting);
 	RivalsHouseDoor->SetTargetMapName(Global::InteriorRivalsHouseLevel);

@@ -50,10 +50,6 @@ public:
 		EventTriggerType* EventTrigger = SpawnActor<EventTriggerType>();
 		UEventManager::AddTarget(EventTrigger, _Setting);
 		UEventManager::AddTrigger(EventTrigger, _Setting);
-		
-		AEventTrigger* UpEventTriggerTarget = EventTrigger;
-		UpEventTriggerTarget->RegisterPredefinedEvent();
-
 		return EventTrigger;
 	}
 

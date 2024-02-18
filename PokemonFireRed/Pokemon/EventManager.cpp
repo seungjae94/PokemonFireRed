@@ -166,8 +166,10 @@ void UEventManager::AddTarget(AEventTarget* _Target, const UEventTargetInit& _Se
 	_Target->Rotatable = _Setting.Rotatable;
 	_Target->Walkable = _Setting.Walkable;
 	_Target->Direction = _Setting.Direction;
+	_Target->ImageName = _Setting.ImageName;
+	_Target->Height = _Setting.Height;
 
-	if (_Setting.ImageName != "")
+	if (_Target->ImageName != "")
 	{
 		_Target->HasImage = true;
 	}
@@ -199,8 +201,8 @@ void UEventManager::AddTarget(AEventTarget* _Target, const UEventTargetInit& _Se
 		LowerBodyRenderer->SetTransform({ {0, 0}, {Global::TileSize, Global::TileSize} });
 		LowerBodyRenderer->SetImageCuttingTransform({ {0, 0}, {Global::ImageTileSize, Global::ImageTileSize} });
 
-		// 위아래 2칸 이미지인 경우
-		if (Image->GetScale().iY() == 2 * Global::ImageTileSize)
+		// 위아래 2칸 이미지인 경우에만 UpperBody를 렌더링한다.
+		if (_Target->Height == 2)
 		{
 			_Target->UpperBodyRenderer = _Target->CreateImageRenderer(ERenderingOrder::Upper);
 			UpperBodyRenderer = _Target->UpperBodyRenderer;
@@ -427,12 +429,15 @@ ABlackScreen* UEventManager::GetBlackScreen(std::string_view _LevelName)
 
 AEventTarget* UEventManager::FindTarget(std::string_view _LevelName, std::string_view _TargetName)
 {
-	if (false == AllTargets.contains(_LevelName.data()) || false == AllTargets[_LevelName.data()].contains(_TargetName.data()))
+	std::string LevelName = UEngineString::ToUpper(_LevelName);
+	std::string TargetName = UEngineString::ToUpper(_TargetName);
+
+	if (false == AllTargets.contains(LevelName) || false == AllTargets[LevelName].contains(TargetName))
 	{
 		return nullptr;
 	}
 
-	return AllTargets[_LevelName.data()][_TargetName.data()];
+	return AllTargets[LevelName][TargetName];
 }
 
 // 메모리 릴리즈

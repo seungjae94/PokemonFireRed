@@ -30,6 +30,7 @@ void UInteriorOaksLabLevel::BeginPlay()
 	PalletTownDoor->SetTargetMapName(Global::ExteriorPalletTownLevel);
 	PalletTownDoor->SetTargetPoint({ 80, 148 });
 	PalletTownDoor->SetMoveDirection(FTileVector::Down);
+	PalletTownDoor->SetExteriorDoorName("OaksLabDoor");
 	PalletTownDoor->RegisterPredefinedEvent();
 }
 

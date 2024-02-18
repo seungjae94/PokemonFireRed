@@ -15,49 +15,6 @@ UEventProcessor::~UEventProcessor()
 {
 }
 
-void UEventProcessor::RegisterStream(const UEventCondition& _Condition, UEventStream _Stream)
-{
-	AllStreams[_Condition] = _Stream;
-}
-
-bool UEventProcessor::TryRun(EEventTriggerAction _TriggerAction)
-{
-	for (std::pair<const UEventCondition, UEventStream>& Pair : AllStreams)
-	{
-		const UEventCondition& Condition = Pair.first;
-
-		// 조건을 만족하고 현재 실행중이 아닐 때만 실행
-		bool CheckResult = Condition.Check(_TriggerAction);
-		if (true == CheckResult && false == IsRunningValue)
-		{
-			CurCommandIndex = 0;
-			CurStream = &Pair.second;
-			if (true == CurStream->DeactivatePlayer)
-			{
-				IsPlayerActivated = false;
-				DeactivatePlayerControl();
-			}
-			IsRunningValue = true;		// 실행
-			CurIndexOfTypeMap.clear();
-			return true;
-		}
-	}
-
-	return false;
-}
-
-void UEventProcessor::EndRun()
-{
-	if (true == CurStream->ActivatePlayer)
-	{
-		ActivatePlayerControl();
-	}
-
-	UEventManager::PlayerEventProcessingOff();
-	IsRunningValue = false;
-	CurIndexOfTypeMap.clear();
-}
-
 void UEventProcessor::Tick(float _DeltaTime)
 {
 	if (false == IsRunningValue)
@@ -97,6 +54,9 @@ void UEventProcessor::Tick(float _DeltaTime)
 	case EEventType::Wait:
 		ProcessingResult = ProcessWait();
 		break;
+	case EEventType::PlayAnimation:
+		ProcessingResult = ProcessPlayAnimation();
+		break;
 	case EEventType::Chat:
 		ProcessingResult = ProcessChat();
 		break;
@@ -111,6 +71,12 @@ void UEventProcessor::Tick(float _DeltaTime)
 		break;
 	case EEventType::StarePlayer:
 		ProcessingResult = ProcessStarePlayer();
+		break;
+	case EEventType::HideActor:
+		ProcessingResult = ProcessHideActor();
+		break;
+	case EEventType::ShowActor:
+		ProcessingResult = ProcessShowActor();
 		break;
 	default:
 		break;
@@ -363,6 +329,84 @@ bool UEventProcessor::ProcessWait()
 	return false;
 }
 
+bool UEventProcessor::ProcessPlayAnimation()
+{
+	int CurIndexOfType = GetCurIndexOfType(EEventType::PlayAnimation);
+	ES::PlayAnimation& Data = CurStream->PlayAnimationDataSet[CurIndexOfType];
+
+	std::string CurLevelName = UEventManager::GetCurLevelName();
+	AEventTarget* Target = UEventManager::FindTarget(CurLevelName, Data.TargetName);
+
+	if (true == PlayAnimIsFirstTick)
+	{
+		// 애니메이션 재생
+		switch (Data.AnimTarget)
+		{
+		case EAnimTarget::UpperBodyOnly:
+			Target->UpperBodyRenderer->ChangeAnimation(Data.AnimName + Global::SuffixUpperBody);
+			break;
+		case EAnimTarget::LowerBodyOnly:
+			Target->LowerBodyRenderer->ChangeAnimation(Data.AnimName + Global::SuffixLowerBody);
+			break;
+		case EAnimTarget::All:
+			if (1 == Target->Height)
+			{
+				Target->LowerBodyRenderer->ChangeAnimation(Data.AnimName);
+			}
+			else
+			{
+				Target->UpperBodyRenderer->ChangeAnimation(Data.AnimName + Global::SuffixUpperBody);
+				Target->LowerBodyRenderer->ChangeAnimation(Data.AnimName + Global::SuffixLowerBody);
+			}
+			break;
+		default:
+			break;
+		}
+
+		if (false == Data.Wait)
+		{
+			// 비동기적 재생인 경우
+			return true;
+		}
+
+		PlayAnimIsFirstTick = false;
+		return false;
+	}
+
+	bool IsAnimEnd = false;
+
+	switch (Data.AnimTarget)
+	{
+	case EAnimTarget::UpperBodyOnly:
+		IsAnimEnd = Target->UpperBodyRenderer->IsCurAnimationEnd();
+		break;
+	case EAnimTarget::LowerBodyOnly:
+		IsAnimEnd = Target->LowerBodyRenderer->IsCurAnimationEnd();
+		break;
+	case EAnimTarget::All:
+		if (1 == Target->Height)
+		{
+			IsAnimEnd = Target->LowerBodyRenderer->IsCurAnimationEnd();
+		}
+		else
+		{
+			IsAnimEnd = Target->UpperBodyRenderer->IsCurAnimationEnd() && Target->LowerBodyRenderer->IsCurAnimationEnd();
+		}
+		break;
+	default:
+		break;
+	}
+	
+	if (true == IsAnimEnd)
+	{
+		// 함수 상태 초기화 후 이벤트 종료
+		PlayAnimIsFirstTick = true;
+		return true;
+	}
+
+	return false;
+}
+
 bool UEventProcessor::ProcessChat()
 {
 	ADialogueWindow* CurDialogueWindow = UEventManager::GetCurDialogueWindow();
@@ -454,9 +498,78 @@ bool UEventProcessor::ProcessStarePlayer()
 	return true;
 }
 
+bool UEventProcessor::ProcessHideActor()
+{
+	int CurIndexOfType = GetCurIndexOfType(EEventType::HideActor);
+	ES::HideActor& Data = CurStream->HideActorDataSet[CurIndexOfType];
+	
+	std::string CurLevelName = UEventManager::GetCurLevelName();
+	AEventTarget* Target = UEventManager::FindTarget(CurLevelName, Data.TargetName);
+	Target->AllRenderersActiveOff();
+	return true;
+}
+
+bool UEventProcessor::ProcessShowActor()
+{
+	int CurIndexOfType = GetCurIndexOfType(EEventType::ShowActor);
+	ES::ShowActor& Data = CurStream->ShowActorDataSet[CurIndexOfType];
+
+	std::string CurLevelName = UEventManager::GetCurLevelName();
+	AEventTarget* Target = UEventManager::FindTarget(CurLevelName, Data.TargetName);
+	Target->AllRenderersActiveOn();
+	return true;
+}
+
 // 편의 함수
 
 std::string UEventProcessor::ToUpper(std::string_view _Name)
 {
 	return UEngineString::ToUpper(_Name);
+}
+
+
+// 시작 및 종료 함수
+
+bool UEventProcessor::TryRun(EEventTriggerAction _TriggerAction)
+{
+	for (std::pair<const UEventCondition, UEventStream>& Pair : AllStreams)
+	{
+		const UEventCondition& Condition = Pair.first;
+
+		// 조건을 만족하고 현재 실행중이 아닐 때만 실행
+		bool CheckResult = Condition.Check(_TriggerAction);
+		if (true == CheckResult && false == IsRunningValue)
+		{
+			CurCommandIndex = 0;
+			CurStream = &Pair.second;
+			if (true == CurStream->DeactivatePlayer)
+			{
+				IsPlayerActivated = false;
+				DeactivatePlayerControl();
+			}
+			IsRunningValue = true;		// 실행
+			CurIndexOfTypeMap.clear();
+			return true;
+		}
+	}
+
+	return false;
+}
+
+void UEventProcessor::EndRun()
+{
+	if (true == CurStream->ActivatePlayer)
+	{
+		ActivatePlayerControl();
+	}
+
+	UEventManager::PlayerEventProcessingOff();
+	IsRunningValue = false;
+	CurIndexOfTypeMap.clear();
+}
+
+
+void UEventProcessor::RegisterStream(const UEventCondition& _Condition, UEventStream _Stream)
+{
+	AllStreams[_Condition] = _Stream;
 }

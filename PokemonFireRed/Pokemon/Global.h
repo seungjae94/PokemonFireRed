@@ -59,6 +59,7 @@ enum ERenderingOrder
 {
 	None,
 	Background,
+	BelowCharacter,
 	Lower,
 	Upper,
 	Foreground,

@@ -85,11 +85,14 @@ private:
 	bool ProcessFadeIn();
 	bool ProcessFadeOut();
 	bool ProcessWait();
+	bool ProcessPlayAnimation();
 	bool ProcessChat();
 	bool ProcessChangeLevel();
 	bool ProcessChangePoint();
 	bool ProcessChangeDirection();
 	bool ProcessStarePlayer();
+	bool ProcessHideActor();
+	bool ProcessShowActor();
 
 	// 프로세싱 변수 - 공통
 	bool IsPlayerActivated = true;
@@ -107,5 +110,8 @@ private:
 	int MoveWRPathIndex = -1;
 	float MoveWRTime = 0.0f;
 	float MoveWRTimer = 0.0f;
+
+	// 프로세싱 변수 - 애니메이션
+	bool PlayAnimIsFirstTick = true;
 };
 
