@@ -15,6 +15,7 @@ enum class EEventType
 	MoveWithoutRestriction,
 	FadeIn,
 	FadeOut,
+	HideUI,
 	Wait,
 	Chat,
 	ChangeLevel,
@@ -130,6 +131,25 @@ public:
 	{
 		EventTypeList.push_back(EEventType::FadeOut);
 		FadeOutDataSet.push_back(_Data);
+		return *this;
+	}
+
+	class HideUI
+	{
+		friend UEventProcessor;
+	public:
+		HideUI(std::string_view _ElementName)
+			: ElementName(_ElementName)
+		{
+		}
+	private:
+		std::string ElementName = "";
+	};
+
+	UEventStream& operator>>(const HideUI& _Data)
+	{
+		EventTypeList.push_back(EEventType::HideUI);
+		HideUIDataSet.push_back(_Data);
 		return *this;
 	}
 
@@ -378,6 +398,7 @@ private:
 	std::vector<MoveWithoutRestriction> MoveWithoutRestrictionDataSet;
 	std::vector<FadeIn> FadeInDataSet;
 	std::vector<FadeOut> FadeOutDataSet;
+	std::vector<HideUI> HideUIDataSet;
 	std::vector<Wait> WaitDataSet;
 	std::vector<Chat> ChatDataSet;
 	std::vector<ChangeLevel> ChangeLevelDataSet;

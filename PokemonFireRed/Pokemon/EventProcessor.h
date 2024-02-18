@@ -84,6 +84,7 @@ private:
 	void PostProcessMoveWR(AEventTarget* _Target);
 	bool ProcessFadeIn();
 	bool ProcessFadeOut();
+	bool ProcessHideUI();
 	bool ProcessWait();
 	bool ProcessPlayAnimation();
 	bool ProcessChat();

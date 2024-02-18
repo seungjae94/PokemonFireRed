@@ -7,6 +7,7 @@
 #include "EventStream.h"
 #include "PokemonMath.h"
 #include "TutorialLevel.h"
+#include "BlackScreen.h"
 
 ATutorialLevelManager::ATutorialLevelManager()
 {
@@ -48,6 +49,46 @@ void ATutorialLevelManager::BeginPlay()
 
 void ATutorialLevelManager::Tick(float _DeltaTime)
 {
+	ABlackScreen* BlackScreen = UEventManager::FindCurLevelUIElement<ABlackScreen>("BlackScreen");
+
+	if (FadingState == EFadeState::FadeOut)
+	{
+		CurFadeOutTime -= _DeltaTime;
+		
+		if (false == UiChanged && CurFadeOutTime < 0.0f)
+		{
+			// UI 변경
+			FVector ArrowScale = ArrowRenderer->GetTransform().GetScale();
+			ArrowValue = 0.0f;
+			IsArrowMoveUpward = true;
+			ArrowDownPos = Global::Screen - ArrowScale.Half2D() - FVector(27, 27);
+			ArrowRenderer->SetTransform({ ArrowDownPos, ArrowScale });
+			PikachuRenderer->SetActive(true);
+			Renderer->SetImage(GetPageName());
+			UiChanged = true;
+			return;
+		}
+		
+		if (CurFadeOutTime + UIChangeWaitTime < 0.0f)
+		{
+			// 상태 변경
+			FadingState = EFadeState::FadeIn;
+			BlackScreen->FadeIn(FadeInTime);
+		}
+
+		return;
+	}
+
+	if (FadingState == EFadeState::FadeIn)
+	{
+		CurFadeInTime -= _DeltaTime;
+		if (CurFadeInTime < 0.0f)
+		{
+			FadingState = EFadeState::End;
+		}
+		return;
+	}
+
 	// 피카츄 애니메이션 로직
 	// - 처음에는 서있고, 눈을 뜨고 있고, 귀가 모여있는 형태
 	// - 0.5초 서있다 -> 0.5초 앉아있다 -> 0.5초 서있다 -> ... 과정을 반복한다.
@@ -145,13 +186,10 @@ void ATutorialLevelManager::Tick(float _DeltaTime)
 
 		if (PageIndex == 3)
 		{
-			// 화살표 위치 변경
-			FVector ArrowScale = ArrowRenderer->GetTransform().GetScale();
-			ArrowValue = 0.0f;
-			IsArrowMoveUpward = true;
-			ArrowDownPos = Global::Screen - ArrowScale.Half2D() - FVector(27, 27);
-			ArrowRenderer->SetTransform({ ArrowDownPos, ArrowScale });
-			PikachuRenderer->SetActive(true);
+			// 페이드 효과 시작
+			FadingState = EFadeState::FadeOut;
+			BlackScreen->FadeOut(1.0f);
+			return;
 		}
 
 		if (PageIndex >= 6)

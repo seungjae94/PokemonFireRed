@@ -51,6 +51,9 @@ void UEventProcessor::Tick(float _DeltaTime)
 	case EEventType::FadeOut:
 		ProcessingResult = ProcessFadeOut();
 		break;
+	case EEventType::HideUI:
+		ProcessingResult = ProcessHideUI();
+		break;
 	case EEventType::Wait:
 		ProcessingResult = ProcessWait();
 		break;
@@ -309,6 +312,25 @@ bool UEventProcessor::ProcessFadeOut()
 	FadeScreen->FadeOut(Data.Time);
 	return true;
 
+}
+
+bool UEventProcessor::ProcessHideUI()
+{
+	int CurIndexOfType = GetCurIndexOfType(EEventType::HideUI);
+	ES::HideUI& Data = CurStream->HideUIDataSet[CurIndexOfType];
+
+	AUIElement* Element = UEventManager::FindCurLevelUIElement<AUIElement>(Data.ElementName);
+
+	if (nullptr == Element)
+	{
+		MsgBoxAssert(Data.ElementName + "은 유효한 UI 엘리먼트 이름이 아닙니다.");
+		return false;
+	}
+
+	Element->ActiveOff();
+	Element->AllRenderersActiveOff();
+
+	return true;
 }
 
 bool UEventProcessor::ProcessWait()

@@ -39,8 +39,10 @@ void UTutorialLevel::BeginPlay()
 	UEventManager::RegisterEvent(LevelChanger, LevelChangerCond,
 		ES::Start(false)
 		>> ES::FadeOut(1.0f)
+		>> ES::Wait(1.0f)
 		>> ES::ChangeLevel(Global::InteriorPlayersHouse2FLevel)
-		>> ES::FadeIn(0.5f)
+		>> ES::FadeIn(1.0f)
+		>> ES::Wait(1.0f)
 		>> ES::End(true)
 	);
 }

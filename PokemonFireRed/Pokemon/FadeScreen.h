@@ -32,6 +32,20 @@ public:
 		State = EFadeState::FadeOut;
 	}
 
+	void Hide()
+	{
+		State = EFadeState::Hide;
+		SetActive(false);
+		AllRenderersActiveOff();
+	}
+
+	void Show()
+	{
+		State = EFadeState::Show;
+		SetActive(true);
+		AllRenderersActiveOn();
+	}
+
 	void Sync(AUIElement* _Other) override
 	{
 		AFadeScreen* Other = dynamic_cast<AFadeScreen*>(_Other);
@@ -43,6 +57,9 @@ public:
 			return;
 		}
 
+		State = Other->State;
+		FadeTime = Other->FadeTime;
+		CurFadeTime = Other->CurFadeTime;
 		Renderer->SetActive(Other->Renderer->IsActive());
 	}
 
@@ -55,9 +72,9 @@ protected:
 		Show,
 	};
 
-	static EFadeState State;
-	static float FadeTime;
-	static float CurFadeTime;
+	EFadeState State = AFadeScreen::EFadeState::Hide;
+	float FadeTime = 0.0f;
+	float CurFadeTime = 0.0f;
 	UImageRenderer* Renderer = nullptr;
 private:
 };
