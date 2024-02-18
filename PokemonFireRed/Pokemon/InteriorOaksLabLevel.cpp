@@ -22,11 +22,11 @@ void UInteriorOaksLabLevel::BeginPlay()
 
 
 	// 이벤트 트리거 생성
-	UEventTargetInit PalletTownWarpSetting = UEventTargetInit(
-		"PalletTownDoor",
-		{ 6, 13 }
-	);
-	AInteriorDoor* PalletTownDoor = SpawnEventTrigger<AInteriorDoor>(PalletTownWarpSetting);
+	UEventTargetInit PalletTownDoorSetting;
+	PalletTownDoorSetting.SetName("PalletTownDoor");
+	PalletTownDoorSetting.SetPoint({ 6, 13 });
+	
+	AInteriorDoor* PalletTownDoor = SpawnEventTrigger<AInteriorDoor>(PalletTownDoorSetting);
 	PalletTownDoor->SetTargetMapName(Global::ExteriorPalletTownLevel);
 	PalletTownDoor->SetTargetPoint({ 80, 148 });
 	PalletTownDoor->SetMoveDirection(FTileVector::Down);

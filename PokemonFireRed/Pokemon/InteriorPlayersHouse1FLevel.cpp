@@ -23,10 +23,9 @@ void UInteriorPlayersHouse1FLevel::BeginPlay()
 	UEventManager::SetDirection(GetName(), Global::PLAYER_NAME, FTileVector::Up);
 
 	// 이벤트 트리거 생성
-	UEventTargetInit StairTo2FSetting = UEventTargetInit(
-		"StairTo2F",
-		{ 10, 2 }
-	);
+	UEventTargetInit StairTo2FSetting;
+	StairTo2FSetting.SetName("StairTo2F");
+	StairTo2FSetting.SetPoint({ 10, 2 });
 
 	AStair* StairTo2F = SpawnEventTrigger<AStair>(StairTo2FSetting);
 	StairTo2F->SetTargetMapName(Global::InteriorPlayersHouse2FLevel);
@@ -35,25 +34,27 @@ void UInteriorPlayersHouse1FLevel::BeginPlay()
 	StairTo2F->SetPath({ FVector(0.1f, 0.0f) * Global::FloatTileSize }, { FVector(1.0f, -0.5f) * Global::FloatTileSize });
 	StairTo2F->RegisterPredefinedEvent();
 
-	UEventTargetInit PalletTownWarpSetting = UEventTargetInit(
-		"PalletTownDoor",
-		{ 3, 9 }
-	);
-	AInteriorDoor* PalletTownDoor = SpawnEventTrigger<AInteriorDoor>(PalletTownWarpSetting);
+
+	UEventTargetInit PalletTownDoorSetting;
+	PalletTownDoorSetting.SetName("PalletTownDoor");
+	PalletTownDoorSetting.SetPoint({ 3, 9 });
+
+	AInteriorDoor* PalletTownDoor = SpawnEventTrigger<AInteriorDoor>(PalletTownDoorSetting);
 	PalletTownDoor->SetTargetMapName(Global::ExteriorPalletTownLevel);
 	PalletTownDoor->SetTargetPoint({ 70, 142 });
 	PalletTownDoor->SetMoveDirection(FTileVector::Down);
 	PalletTownDoor->RegisterPredefinedEvent();
 
-	UEventTargetInit PlayersMomSetting = UEventTargetInit(
-		"PlayersMom",
-		{ 7, 4 },
-		FTileVector::Left,
-		true,
-		true,
-		false,
-		true
-	);
+
+	UEventTargetInit PlayersMomSetting;
+	PlayersMomSetting.SetName("PlayersMom");
+	PlayersMomSetting.SetPoint({ 7, 4 });
+	PlayersMomSetting.SetDirection(FTileVector::Left);
+	PlayersMomSetting.SetCollidable(true);
+	PlayersMomSetting.SetRotatable(true);
+	PlayersMomSetting.SetWalkable(false);
+	PlayersMomSetting.SetImageNameAuto();
+
 	ADialogueActor* PlayersMom = SpawnEventTrigger<ADialogueActor>(PlayersMomSetting);
 	PlayersMom->SetDialogue({
 		LR"(MOM: ...Right.

@@ -42,5 +42,6 @@ protected:
 
 private:
 	void LoadCharacterResources();
+	void LoadObjectResources();
 };
 

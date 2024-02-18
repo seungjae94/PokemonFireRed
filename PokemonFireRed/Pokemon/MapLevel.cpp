@@ -35,10 +35,11 @@ void UMapLevel::BeginPlay()
 	CurDir.Move("Resources");
 	CurDir.Move("MapLevel");
 
-	// 플레이어, Npc, UI 리소스 로드 (전 게임에 걸쳐 1번만 실행)
+	// 캐릭터, 트리거 리소스 로드 (전 게임에 걸쳐 1번만 실행)
 	if (false == IsCommonResourceLoaded)
 	{
 		LoadCharacterResources();
+		LoadObjectResources();
 		IsCommonResourceLoaded = true;
 	}
 
@@ -84,7 +85,8 @@ void UMapLevel::BeginPlay()
 	DialogueWindow->AllRenderersActiveOff();
 
 	// 페이드 인 이벤트용 트리거 생성
-	UEventTargetInit Setting = UEventTargetInit(GetName() + "MapFadeInTrigger");
+	UEventTargetInit Setting; 
+	Setting.SetName("FadeInTrigger");
 	FadeInTrigger = SpawnEventTrigger<AEventTrigger>(Setting);
 
 	UEventCondition Cond = UEventCondition(EEventTriggerAction::Direct);
@@ -171,6 +173,32 @@ void UMapLevel::LoadCharacterResources()
 	// 플레이어 점프 애니메이션 리소스 로드
 	// - 상체 53개 프레임 + 하체 53개 프레임
 	UEngineResourcesManager::GetInst().CuttingImage("PlayerJumpDown.png", 53, 2);
+
+	CurDir.MoveParent();
+}
+
+void UMapLevel::LoadObjectResources()
+{
+	CurDir.Move("Object");
+
+	std::list<UEngineFile> AllFiles = CurDir.AllFile({ ".png", ".bmp" }, false);
+	for (UEngineFile& File : AllFiles)
+	{
+		std::string Path = File.GetFullPath();
+		UEngineResourcesManager::GetInst().LoadImg(Path);
+	}
+
+	// 로드할 폴더 이름 정의
+	std::vector<std::string> LoadFolderNames = {
+		"GreenDoor",
+		"RedDoor"
+	};
+
+	// 폴더 로드
+	for (std::string& Name : LoadFolderNames)
+	{
+		UEngineResourcesManager::GetInst().LoadFolder(CurDir.AppendPath(Name));
+	}
 
 	CurDir.MoveParent();
 }

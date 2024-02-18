@@ -112,17 +112,21 @@ void AMenuWindow::BeginPlay()
 	}
 
 	// 트리거 설정
-	UEventTargetInit OpenSetting
-		= UEventTargetInit("MainWindowOpenTriggerSetting", FTileVector(1000, 1000));
+	UEventTargetInit OpenMenuSetting;
+	OpenMenuSetting.SetName("MainWindowOpenTrigger");
+	OpenMenuSetting.SetPoint({ 1000, 1000 });
+
 	UEventCondition Cond = UEventCondition(EEventTriggerAction::Direct);
-	MenuWindowOpenTrigger = CurLevel->SpawnEventTrigger<AEventTrigger>(OpenSetting);
+	MenuWindowOpenTrigger = CurLevel->SpawnEventTrigger<AEventTrigger>(OpenMenuSetting);
 	UEventManager::RegisterEvent(MenuWindowOpenTrigger, Cond,
 		ES::Start(true) >> ES::End(false)
 	);
 
-	UEventTargetInit CloseSetting 
-		= UEventTargetInit("MainWindowCloseTriggerSetting", FTileVector(2000, 2000));
-	MenuWindowCloseTrigger = CurLevel->SpawnEventTrigger<AEventTrigger>(CloseSetting);
+	UEventTargetInit CloseMenuSetting;
+	CloseMenuSetting.SetName("MainWindowCloseTrigger");
+	CloseMenuSetting.SetPoint({ 2000, 2000 });
+
+	MenuWindowCloseTrigger = CurLevel->SpawnEventTrigger<AEventTrigger>(CloseMenuSetting);
 	UEventManager::RegisterEvent(MenuWindowCloseTrigger, Cond,
 		ES::Start(false) >> ES::End(true)
 	);

@@ -1,5 +1,6 @@
 #include "EventManager.h"
 #include <EngineCore/EngineCore.h>
+#include <EngineCore/EngineResourcesManager.h>
 #include "EventTarget.h"
 #include "EventTrigger.h"
 #include "EventProcessor.h"
@@ -165,7 +166,11 @@ void UEventManager::AddTarget(AEventTarget* _Target, const UEventTargetInit& _Se
 	_Target->Rotatable = _Setting.Rotatable;
 	_Target->Walkable = _Setting.Walkable;
 	_Target->Direction = _Setting.Direction;
-	_Target->HasImage = _Setting.HasImage;
+
+	if (_Setting.ImageName != "")
+	{
+		_Target->HasImage = true;
+	}
 
 	if (true == AllTargets[LevelName].contains(TargetName))
 	{
@@ -178,19 +183,31 @@ void UEventManager::AddTarget(AEventTarget* _Target, const UEventTargetInit& _Se
 	// 렌더러 초기화
 	if (true == _Target->HasImage)
 	{
-		_Target->UpperBodyRenderer = _Target->CreateImageRenderer(ERenderingOrder::Upper);
+		UWindowImage* Image = UEngineResourcesManager::GetInst().FindImg(ImageName);
+		if (nullptr == Image)
+		{
+			MsgBoxAssert(ImageName + "은 존재하지 않는 이미지입니다. 이벤트 타겟 " + TargetName + " 생성에 실패했습니다.");
+			return;
+		}
+
+		UImageRenderer* LowerBodyRenderer = nullptr;
+		UImageRenderer* UpperBodyRenderer = nullptr;
+
 		_Target->LowerBodyRenderer = _Target->CreateImageRenderer(ERenderingOrder::Lower);
-
-		UImageRenderer* UpperBodyRenderer = _Target->UpperBodyRenderer;
-		UImageRenderer* LowerBodyRenderer = _Target->LowerBodyRenderer;
-
-		UpperBodyRenderer->SetImage(ImageName);
-		UpperBodyRenderer->SetTransform({ {0, -Global::TileSize}, {Global::TileSize, Global::TileSize} });
-		UpperBodyRenderer->SetImageCuttingTransform({ {0, 0}, {Global::ImageTileSize, Global::ImageTileSize} });
-
+		LowerBodyRenderer = _Target->LowerBodyRenderer;
 		LowerBodyRenderer->SetImage(ImageName);
 		LowerBodyRenderer->SetTransform({ {0, 0}, {Global::TileSize, Global::TileSize} });
 		LowerBodyRenderer->SetImageCuttingTransform({ {0, 0}, {Global::ImageTileSize, Global::ImageTileSize} });
+
+		// 위아래 2칸 이미지인 경우
+		if (Image->GetScale().iY() == 2 * Global::ImageTileSize)
+		{
+			_Target->UpperBodyRenderer = _Target->CreateImageRenderer(ERenderingOrder::Upper);
+			UpperBodyRenderer = _Target->UpperBodyRenderer;
+			UpperBodyRenderer->SetImage(ImageName);
+			UpperBodyRenderer->SetTransform({ {0, -Global::TileSize}, {Global::TileSize, Global::TileSize} });
+			UpperBodyRenderer->SetImageCuttingTransform({ {0, 0}, {Global::ImageTileSize, Global::ImageTileSize} });
+		}
 
 		// 애니메이션 생성
 		std::vector<std::string> AllDirectionNames = FTileVector::AllDirectionNames();
@@ -281,15 +298,14 @@ void UEventManager::AddTrigger(AEventTrigger* _Trigger, const UEventTargetInit& 
 
 void UEventManager::AddPlayer(APlayer* _Player, const FTileVector& _Point)
 {
-	UEventTargetInit PlayerSetting = UEventTargetInit(
-		Global::PLAYER_NAME,
-		_Point,
-		FTileVector::Down,
-		true,
-		true,
-		true,
-		true
-	);
+	UEventTargetInit PlayerSetting; 
+	PlayerSetting.SetName(Global::PLAYER_NAME);
+	PlayerSetting.SetPoint(_Point);
+	PlayerSetting.SetDirection(FTileVector::Down);
+	PlayerSetting.SetCollidable(true);
+	PlayerSetting.SetRotatable(true);
+	PlayerSetting.SetWalkable(true);
+	PlayerSetting.SetImageNameAuto();
 
 	AddTarget(_Player, PlayerSetting);
 

@@ -16,47 +16,65 @@ class UEventTargetInit
 {
 	friend UEventManager;
 public:
-	UEventTargetInit(
-		std::string_view _Name,
-		const FTileVector& _Point = FTileVector::Zero,
-		const FTileVector& _Direction = FTileVector::Zero,
-		bool _Collidable = false,
-		bool _Rotatable = false,
-		bool _Walkable = false,
-		bool _HasImage = false,
-		std::string_view _ImageName = ""
-	)
-		: Name(UEngineString::ToUpper(_Name)),
-		Point(_Point),
-		Direction(_Direction),
-		Collidable(_Collidable),
-		Rotatable(_Rotatable),
-		Walkable(_Walkable),
-		HasImage(_HasImage),
-		ImageName(UEngineString::ToUpper(_ImageName))
+	UEventTargetInit()
 	{
-		if (true == _HasImage && ImageName == "")
-		{
-			if (true == _Rotatable)
-			{
-				ImageName = Name + UEngineString::ToUpper("Idle.png");
-			}
-			else
-			{
-				ImageName = Name + UEngineString::ToUpper(".png");
-			}
-		}
 	}
 	
+	void SetName(std::string_view _Name)
+	{
+		Name = UEngineString::ToUpper(_Name);
+	}
+
+	void SetPoint(const FTileVector& _Point)
+	{
+		Point = _Point;
+	}
+
+	void SetDirection(const FTileVector& _Direction)
+	{
+		Direction = _Direction;
+	}
+
+	void SetCollidable(bool _Value)
+	{
+		Collidable = _Value;
+	}
+
+	void SetRotatable(bool _Value)
+	{
+		Rotatable = _Value;
+	}
+
+	void SetWalkable(bool _Value)
+	{
+		Walkable = _Value;
+	}
+
+	void SetImageNameAuto()
+	{
+		if (true == Rotatable)
+		{
+			ImageName = Name + UEngineString::ToUpper("Idle.png");
+		}
+		else
+		{
+			ImageName = Name + UEngineString::ToUpper(".png");
+		}
+	}
+
+	void SetImageName(std::string_view _ImageName = "")
+	{
+		ImageName = UEngineString::ToUpper(_ImageName);
+	}
+
 private:
-	std::string Name;
+	std::string Name = "";
 	FTileVector Point = FTileVector::Zero;
 	FTileVector Direction = FTileVector::Zero;
 	bool Collidable = false;
 	bool Rotatable = false;
 	bool Walkable = false;
-	bool HasImage = false;
-	std::string ImageName;
+	std::string ImageName = "";
 };
 
 // 이벤트에 의해 강제로 행동할 수 있는 액터

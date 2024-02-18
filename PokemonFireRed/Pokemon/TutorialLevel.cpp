@@ -32,7 +32,8 @@ void UTutorialLevel::BeginPlay()
 	// 액터 생성
 	Manager = SpawnActor<ATutorialLevelManager>();
 
-	UEventTargetInit LevelChangerInit{ "LevelChanger" };
+	UEventTargetInit LevelChangerInit; 
+	LevelChangerInit.SetName("LevelChanger");
 	UEventCondition LevelChangerCond;
 	LevelChanger = SpawnEventTrigger<AEventTrigger>(LevelChangerInit);
 	UEventManager::RegisterEvent(LevelChanger, LevelChangerCond,

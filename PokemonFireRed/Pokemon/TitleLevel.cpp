@@ -32,7 +32,8 @@ void UTitleLevel::BeginPlay()
 	Manager = SpawnActor<ATitleLevelManager>();
 	Manager->SetActorLocation(Global::HalfScreen);
 
-	UEventTargetInit LevelChangerInit{ "LevelChanger" };
+	UEventTargetInit LevelChangerInit; 
+	LevelChangerInit.SetName("LevelChanger");
 	UEventCondition LevelChangerCond;
 	LevelChanger = SpawnEventTrigger<AEventTrigger>(LevelChangerInit);
 	UEventManager::RegisterEvent(LevelChanger, LevelChangerCond,

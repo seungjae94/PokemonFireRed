@@ -20,10 +20,9 @@ void UInteriorPlayersHouse2FLevel::BeginPlay()
 	UEventManager::SetDirection(GetName(), Global::PLAYER_NAME, FTileVector::Up);
 
 	// 이벤트 트리거 생성
-	UEventTargetInit StairTo1FSetting = UEventTargetInit(
-		"StairTo1F",
-		{ 8, 2 }
-	);
+	UEventTargetInit StairTo1FSetting; 
+	StairTo1FSetting.SetName("StairTo1F");
+	StairTo1FSetting.SetPoint({ 8, 2 });
 
 	AStair* StairTo1F = SpawnEventTrigger<AStair>(StairTo1FSetting);
 	StairTo1F->SetTargetMapName(Global::InteriorPlayersHouse1FLevel);
