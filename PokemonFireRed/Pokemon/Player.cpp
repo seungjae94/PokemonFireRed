@@ -139,7 +139,7 @@ void APlayer::Idle(float _DeltaTime)
 			else
 			{
 				// 방향 이동으로 인해 발생하는 이벤트를 처리한다.
-				 
+
 				// e.g. 표지판 앞에서 옆을 보면서 서있다가 표지판 쪽 방향키를 누르는 경우 
 				bool ReadResult = TryReadEvent();
 				if (true == ReadResult)
@@ -342,7 +342,11 @@ void APlayer::WalkInPlace(float _DeltaTime)
 	FTileVector InputDirection = UPokemonInput::GetPressDirection();
 	if (InputDirection == FTileVector::Zero)
 	{
-		StateChange(EPlayerState::Idle);
+		// 애니메이션 재생이 끝났다면 바로 Idle 상태로 돌입한다.
+		if (true == LowerBodyRenderer->IsCurAnimationEnd())
+		{
+			StateChange(EPlayerState::Idle);
+		}
 		return;
 	}
 
@@ -350,7 +354,7 @@ void APlayer::WalkInPlace(float _DeltaTime)
 	if (InputDirection == Direction)
 	{
 		// 애니메이션만 갱신한다.
-		if (LowerBodyRenderer->IsCurAnimationEnd())
+		if (true == LowerBodyRenderer->IsCurAnimationEnd())
 		{
 			WalkInPlaceStart();
 		}
@@ -381,7 +385,7 @@ void APlayer::WalkInPlace(float _DeltaTime)
 	if (true == IsCollider(InputDirection))
 	{
 		// 애니메이션만 갱신한다.
-		if (LowerBodyRenderer->IsCurAnimationEnd())
+		if (true == LowerBodyRenderer->IsCurAnimationEnd())
 		{
 			WalkInPlaceStart();
 		}
@@ -468,6 +472,7 @@ void APlayer::Jump(float _DeltaTime)
 	// 6. 입력 방향에 충돌체가 있다.
 	if (true == IsCollider(Direction))
 	{
+
 		StateChange(EPlayerState::WalkInPlace);
 		return;
 	}
@@ -498,7 +503,7 @@ bool APlayer::TryZClickEvent()
 	{
 		return false;
 	}
-		
+
 	bool RunResult = UEventManager::TriggerEvent(EventTrigger, EEventTriggerAction::ZClick);
 	return RunResult;
 }
