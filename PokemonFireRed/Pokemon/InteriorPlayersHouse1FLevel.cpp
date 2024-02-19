@@ -35,7 +35,6 @@ void UInteriorPlayersHouse1FLevel::BeginPlay()
 	StairTo2F->SetSecondPath({ FVector(0.5f, -0.125f) * Global::FloatTileSize, FVector(0.5f, -0.125f) * Global::FloatTileSize });
 	StairTo2F->RegisterPredefinedEvent();
 
-
 	UEventTargetInit PalletTownDoorSetting;
 	PalletTownDoorSetting.SetName("PalletTownDoor");
 	PalletTownDoorSetting.SetPoint({ 3, 9 });
@@ -79,7 +78,7 @@ void UInteriorPlayersHouse1FLevel::BeginPlay()
 
 	std::vector<std::wstring> DialogueDishDrawer =
 	{
-		LR"(Dishes and playes are neatly
+		LR"(Dishes and plates are neatly
 			lined up.)"
 	};
 	ADialogueActor* DishDrawer0 = ADialogueActor::GenerateObject(this, "DishDrawer0", { 2, 1 }, EFontColor::Gray, DialogueDishDrawer);
