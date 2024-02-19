@@ -37,7 +37,7 @@ void UInteriorPlayersHouse2FLevel::BeginPlay()
 	std::vector<std::wstring> DialogueNES =
 	{
 		L"RED played with the NES.",
-		LR"(...Okay!
+		LR"(…Okay!
 			It's time to go!)"
 	};
 	ADialogueActor* NES = ADialogueActor::GenerateObject(this, "NES", { 5, 5 }, EFontColor::Gray, DialogueNES);

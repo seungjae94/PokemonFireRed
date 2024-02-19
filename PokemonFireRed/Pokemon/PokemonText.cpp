@@ -170,6 +170,11 @@ void APokemonText::InitAlignRuleMap()
 	AlignRuleMap[L'?'] = { "SpecialQuestion", 6, 11, 0 };
 	AlignRuleMap[L'\''] = { "SpecialApostrophe", 3, 5, -7 };
 	AlignRuleMap[L':'] = { "SpecialColon", 5, 9, 0 };
+	AlignRuleMap[L'…'] = {"SpecialHorizontalEllipsis", 6, 2, 0};
+	AlignRuleMap[L'“'] = {"SpecialLeftDoubleQuotation", 6, 5, -7};
+	AlignRuleMap[L'”'] = {"SpecialRightDoubleQuotation", 6, 5, -7};
+	AlignRuleMap[L'‘'] = {"SpecialLeftSingleQuotation", 3, 5, -7};
+	AlignRuleMap[L'’'] = {"SpecialRightDoubleQuotation", 3, 5, -7};
 
 	// 라틴 소문자
 	AlignRuleMap[L'é'] = { "LatinLowerE", 6, 9, 0 };

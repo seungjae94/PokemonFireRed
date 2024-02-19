@@ -49,15 +49,15 @@ void UInteriorRivalsHouseLevel::BeginPlay()
 
 	std::vector<std::wstring> DialogueTV =
 	{
-		LR"(There's a POKéMON on TV!.
+		LR"(There's a POKéMON on TV!
 			It looks like it's having fun.)",
 	};
 	ADialogueActor* TV = ADialogueActor::GenerateObject(this, "TV", { 5, 1 }, EFontColor::Gray, DialogueTV);
 
 	std::vector<std::wstring> DialoguePic =
 	{
-		LR"(The lovely and sweet
-			CLEFAIRY)",
+		LR"(“The lovely and sweet
+			CLEFAIRY”)",
 	};
 	ADialogueActor* Pic = ADialogueActor::GenerateObject(this, "Pic", { 9, 1 }, EFontColor::Gray, DialoguePic);
 

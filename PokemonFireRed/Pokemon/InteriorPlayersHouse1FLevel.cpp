@@ -59,7 +59,7 @@ void UInteriorPlayersHouse1FLevel::BeginPlay()
 
 	ADialogueActor* PlayersMom = SpawnEventTrigger<ADialogueActor>(PlayersMomSetting);
 	PlayersMom->SetDialogue({
-		LR"(MOM: ...Right.
+		LR"(MOM: ¡¦Right.
 			All boys leave home someday.)",
 		LR"(It said so on TV.)",
 		LR"(Oh, yes. PROF. OAK, next door, was
