@@ -2,7 +2,8 @@
 #include "EventTrigger.h"
 #include "PokemonText.h"
 
-// 설명 :
+class UPokemonLevel;
+
 class ADialogueActor : public AEventTrigger
 {
 public:
@@ -27,6 +28,9 @@ public:
 	}
 
 	void RegisterPredefinedEvent() override;
+
+	// 방향 이미지 등이 없이 대화만 가능한 단순 오브젝트를 생성할 때 사용
+	static ADialogueActor* GenerateObject(UPokemonLevel* _Level, std::string_view _Name, const FTileVector _Point, EFontColor _TextColor, const std::vector<std::wstring>& _Dialogue);
 
 protected:
 	void BeginPlay() override;

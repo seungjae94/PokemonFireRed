@@ -1,6 +1,29 @@
 #pragma once
 #include <EngineBase/EngineMath.h>
 
+enum class Id
+{
+	Player,
+	PlayersMom,
+	Rival,
+	RivalsSister,
+	Oaks,
+	OaksLabM00,
+	OaksLabM01,
+	OaksLabF00,
+	PalletM00,
+	PalletF00,
+	NES = 1000,
+	StairTo1F,
+	StairTo2F,
+	MenuWindow = 2000,
+	DialogueWindow,
+	MapNameWindow,
+	BlackScreen,
+	WhiteScreen,
+	CurtainScreen
+};
+
 // 전역으로 사용할 상수를 정의한다.
 class Global
 {

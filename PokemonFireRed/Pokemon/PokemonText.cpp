@@ -58,6 +58,11 @@ void APokemonText::PrepareLine(const std::wstring& _Line, int _Bot)
 	int Left = 0;
 	for (const wchar_t& Ch : _Line)
 	{
+		if (Ch == '\t' || Ch == '\n')
+		{
+			continue;
+		}
+
 		const GlyphAlignRule& Rule = AlignRuleMap[Ch];
 
 		UImageRenderer* Renderer = CreateImageRenderer(ERenderingOrder::UpperUI);

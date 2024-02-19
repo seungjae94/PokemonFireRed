@@ -1,5 +1,7 @@
-#include "InteriorPlayersHouse2FLevel.h"
+ï»¿#include "InteriorPlayersHouse2FLevel.h"
+#include <string>
 #include "Stair.h"
+#include "DialogueActor.h"
 #include "EventStream.h"
 #include "EventCondition.h"
 
@@ -15,11 +17,11 @@ void UInteriorPlayersHouse2FLevel::BeginPlay()
 {
 	UMapLevel::BeginPlay();
 
-	// ÇÃ·¹ÀÌ¾î ½ÃÀÛ À§Ä¡ ¼³Á¤
+	// í”Œë ˆì´ì–´ ì‹œìž‘ ìœ„ì¹˜ ì„¤ì •
 	UEventManager::SetPoint(GetName(), Global::PlayerName, { 5, 6 });
 	UEventManager::SetDirection(GetName(), Global::PlayerName, FTileVector::Up);
 
-	// ÀÌº¥Æ® Æ®¸®°Å »ý¼º
+	// ì´ë²¤íŠ¸ íŠ¸ë¦¬ê±° ìƒì„±
 	UEventTargetInit StairTo1FSetting; 
 	StairTo1FSetting.SetName("StairTo1F");
 	StairTo1FSetting.SetPoint({ 8, 2 });
@@ -31,4 +33,27 @@ void UInteriorPlayersHouse2FLevel::BeginPlay()
 	StairTo1F->SetFirstPath({FVector(-0.5f, 0.125f) * Global::FloatTileSize, FVector(-0.5f, 0.125f) * Global::FloatTileSize });
 	StairTo1F->SetSecondPath({FVector(-0.5f, 0.25f) * Global::FloatTileSize, FVector(-0.5f, 0.25f) * Global::FloatTileSize });
 	StairTo1F->RegisterPredefinedEvent();
+
+	std::vector<std::wstring> DialogueNES =
+	{
+		L"RED played with the NES.",
+		LR"(...Okay!
+			It's time to go!)"
+	};
+	ADialogueActor* NES = ADialogueActor::GenerateObject(this, "NES", { 5, 5 }, EFontColor::Gray, DialogueNES);
+
+	std::vector<std::wstring> DialogueDresser =
+	{
+		LR"(It's a nicely made dresser.
+			It will hold a lot of stuff.)"
+	};
+	ADialogueActor* Dresser = ADialogueActor::GenerateObject(this, "Dresser", { 2, 1 }, EFontColor::Gray, DialogueDresser);
+
+	std::vector<std::wstring> DialogueBookShelf =
+	{
+		LR"(It's crammed full of POKÃ©MON
+			books.)",
+	};
+	ADialogueActor* BookShelf0 = ADialogueActor::GenerateObject(this, "BookShelf0", { 3, 1 }, EFontColor::Gray, DialogueBookShelf);
+	ADialogueActor* BookShelf1 = ADialogueActor::GenerateObject(this, "BookShelf1", { 4, 1 }, EFontColor::Gray, DialogueBookShelf);
 }

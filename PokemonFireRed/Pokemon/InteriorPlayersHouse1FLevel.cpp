@@ -61,11 +61,37 @@ void UInteriorPlayersHouse1FLevel::BeginPlay()
 	ADialogueActor* PlayersMom = SpawnEventTrigger<ADialogueActor>(PlayersMomSetting);
 	PlayersMom->SetDialogue({
 		LR"(MOM: ...Right.
-All boys leave home someday.)",
-LR"(It said so on TV.)",
-LR"(Oh, yes. PROF. OAK, next door, was
-looking for you.)"
+			All boys leave home someday.)",
+		LR"(It said so on TV.)",
+		LR"(Oh, yes. PROF. OAK, next door, was
+			looking for you.)"
 		});
 	PlayersMom->SetTextColor(EFontColor::Red);
 	PlayersMom->RegisterPredefinedEvent();
+
+	std::vector<std::wstring> DialogueSink =
+	{
+		LR"(It smells delicious!
+			Somebody's been cooking here.)"
+	};
+	ADialogueActor* Sink0 = ADialogueActor::GenerateObject(this, "Sink0", { 0, 1 }, EFontColor::Gray, DialogueSink);
+	ADialogueActor* Sink1 = ADialogueActor::GenerateObject(this, "Sink1", { 1, 1 }, EFontColor::Gray, DialogueSink);
+
+	std::vector<std::wstring> DialogueDishDrawer =
+	{
+		LR"(Dishes and playes are neatly
+			lined up.)"
+	};
+	ADialogueActor* DishDrawer0 = ADialogueActor::GenerateObject(this, "DishDrawer0", { 2, 1 }, EFontColor::Gray, DialogueDishDrawer);
+	ADialogueActor* DishDrawer1 = ADialogueActor::GenerateObject(this, "DishDrawer1", { 3, 1 }, EFontColor::Gray, DialogueDishDrawer);
+
+	std::vector<std::wstring> DialogueTV =
+	{
+		LR"(There's a movie on TV.
+			Four boys are walking on railroad)",
+		LR"(tracks.)",
+		LR"(...I better go, too.)"
+	};
+	ADialogueActor* TV = ADialogueActor::GenerateObject(this, "TV", { 5, 1 }, EFontColor::Gray, DialogueTV);
+
 }
