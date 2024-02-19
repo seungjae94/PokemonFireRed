@@ -226,12 +226,32 @@ void UEventManager::AddPlayer(APlayer* _Player, const FTileVector& _Point)
 	// 플레이어 고유의 멤버 초기화
 	_Player->StateChange(EPlayerState::Idle);
 
-	// 플레이어 점프 애니메이션 생성
+	// 플레이어 애니메이션 생성
+	std::vector<std::string> AllDirectionNames = FTileVector::AllDirectionNames();
+
+	// 애니메이션 - 점프
 	float JumpInterval = Global::CharacterJumpAnimFrameLength;
 	_Player->UpperBodyRenderer->CreateAnimation("PlayerJumpDown" + Global::SuffixUpperBody, 
 		"PlayerJumpDown.png", 0, 52, JumpInterval, false);
 	_Player->LowerBodyRenderer->CreateAnimation("PlayerJumpDown" + Global::SuffixLowerBody, 
 		"PlayerJumpDown.png", 53 + 0, 53 + 52, JumpInterval, false);
+
+	// 애니메이션 - 느리게 걷기
+	float WalkInterval = 1.0f / Global::CharacterWalkSpeed / 2;
+	float SlowWalkInterval = WalkInterval * 2.0f;
+
+	for (std::string& DirectionName : AllDirectionNames)
+	{
+		std::string ImageName = Global::PLAYER_NAME + "Walk" + DirectionName + ".png";
+
+		std::string UpperBodyAnimName = Global::PLAYER_NAME + "SlowWalk" + DirectionName + Global::SuffixUpperBody;
+		_Player->UpperBodyRenderer->CreateAnimation(UpperBodyAnimName + "0", ImageName, { 0, 1 }, SlowWalkInterval, false); // 오른발
+		_Player->UpperBodyRenderer->CreateAnimation(UpperBodyAnimName + "1", ImageName, { 2, 3 }, SlowWalkInterval, false); // 왼발
+
+		std::string LowerBodyAnimName = Global::PLAYER_NAME + "SlowWalk" + DirectionName + Global::SuffixLowerBody;
+		_Player->LowerBodyRenderer->CreateAnimation(LowerBodyAnimName + "0", ImageName, { 4, 5 }, SlowWalkInterval, false); // 오른발
+		_Player->LowerBodyRenderer->CreateAnimation(LowerBodyAnimName + "1", ImageName, { 6, 7 }, SlowWalkInterval, false); // 왼발
+	}
 }
 
 void UEventManager::AddUIElement(AUIElement* _UIElement, std::string_view _Name)

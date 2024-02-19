@@ -187,7 +187,4 @@ private:
 
 	// 이벤트 프로세서 릴리즈
 	static void Release();
-
-	// 이벤트 감지
-	static void CheckPlayerEvent();
 };

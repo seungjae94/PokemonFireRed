@@ -18,7 +18,6 @@ APlayer::~APlayer()
 void APlayer::BeginPlay()
 {
 	AEventTarget::BeginPlay();
-
 }
 
 void APlayer::Tick(float _DeltaTime)
@@ -98,8 +97,8 @@ void APlayer::ChangeAnimation(EPlayerState _State, FTileVector _Direction)
 		IncFootOrder();
 		break;
 	case EPlayerState::WalkInPlace:
-		UpperAniName += "Walk" + DirectionStr + Global::SuffixUpperBody + std::to_string(FootOrder);
-		LowerAniName += "Walk" + DirectionStr + Global::SuffixLowerBody + std::to_string(FootOrder);
+		UpperAniName += "SlowWalk" + DirectionStr + Global::SuffixUpperBody + std::to_string(FootOrder);
+		LowerAniName += "SlowWalk" + DirectionStr + Global::SuffixLowerBody + std::to_string(FootOrder);
 		IncFootOrder();
 		break;
 	case EPlayerState::Jump:
@@ -322,7 +321,7 @@ void APlayer::Walk(float _DeltaTime)
 
 void APlayer::WalkInPlaceStart()
 {
-	ChangeAnimation(EPlayerState::Walk, Direction);
+	ChangeAnimation(EPlayerState::WalkInPlace, Direction);
 }
 
 void APlayer::WalkInPlace(float _DeltaTime)
