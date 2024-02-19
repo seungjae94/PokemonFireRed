@@ -18,6 +18,7 @@ enum class EEventType
 	HideUI,
 	Wait,
 	Chat,
+	ShowMapName,
 	ChangeLevel,
 	ChangePoint,
 	ChangePosition,
@@ -219,6 +220,25 @@ public:
 	{
 		EventTypeList.push_back(EEventType::Chat);
 		ChatDataSet.push_back(_Data);
+		return *this;
+	}
+
+	class ShowMapName
+	{
+		friend UEventProcessor;
+	public:
+		ShowMapName(std::wstring_view _MapName)
+			: MapName(_MapName)
+		{
+		}
+	private:
+		std::wstring MapName;
+	};
+
+	UEventStream& operator>>(const ShowMapName& _Data)
+	{
+		EventTypeList.push_back(EEventType::ShowMapName);
+		ShowMapNameDataSet.push_back(_Data);
 		return *this;
 	}
 
@@ -442,6 +462,7 @@ private:
 	std::vector<HideUI> HideUIDataSet;
 	std::vector<Wait> WaitDataSet;
 	std::vector<Chat> ChatDataSet;
+	std::vector<ShowMapName> ShowMapNameDataSet;
 	std::vector<ChangeLevel> ChangeLevelDataSet;
 	std::vector<ChangePoint> ChangePointDataSet;
 	std::vector<ChangePosition> ChangePositionDataSet;

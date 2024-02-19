@@ -55,11 +55,11 @@
     <Filter Include="Global\2. UI\Fade">
       <UniqueIdentifier>{ec9a6e0d-ee67-425c-aa2c-d748506a7ac8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Global\2. UI\Menu">
-      <UniqueIdentifier>{17a11bae-f8c2-41e6-a7a6-9131fdafb817}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Global\2. UI\Text">
       <UniqueIdentifier>{677805ca-4377-4cce-a9e1-846959bd5647}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Global\2. UI\Window">
+      <UniqueIdentifier>{d71a5ab4-ae77-40de-bd65-1c7df6b2d98d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -129,9 +129,6 @@
     <ClInclude Include="EventStream.h">
       <Filter>Global\1. Event</Filter>
     </ClInclude>
-    <ClInclude Include="DialogueWindow.h">
-      <Filter>Global\2. UI</Filter>
-    </ClInclude>
     <ClInclude Include="MapLevel.h">
       <Filter>2. MapLevel</Filter>
     </ClInclude>
@@ -149,9 +146,6 @@
     </ClInclude>
     <ClInclude Include="BlackScreen.h">
       <Filter>Global\2. UI\Fade</Filter>
-    </ClInclude>
-    <ClInclude Include="MenuWindow.h">
-      <Filter>Global\2. UI\Menu</Filter>
     </ClInclude>
     <ClInclude Include="FadeScreen.h">
       <Filter>Global\2. UI\Fade</Filter>
@@ -176,6 +170,15 @@
     </ClInclude>
     <ClInclude Include="CurtainScreen.h">
       <Filter>Global\2. UI\Fade</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuWindow.h">
+      <Filter>Global\2. UI\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="DialogueWindow.h">
+      <Filter>Global\2. UI\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="MapNameWindow.h">
+      <Filter>Global\2. UI\Window</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -245,9 +248,6 @@
     <ClCompile Include="EventStream.cpp">
       <Filter>Global\1. Event</Filter>
     </ClCompile>
-    <ClCompile Include="DialogueWindow.cpp">
-      <Filter>Global\2. UI</Filter>
-    </ClCompile>
     <ClCompile Include="MapLevel.cpp">
       <Filter>2. MapLevel</Filter>
     </ClCompile>
@@ -265,9 +265,6 @@
     </ClCompile>
     <ClCompile Include="BlackScreen.cpp">
       <Filter>Global\2. UI\Fade</Filter>
-    </ClCompile>
-    <ClCompile Include="MenuWindow.cpp">
-      <Filter>Global\2. UI\Menu</Filter>
     </ClCompile>
     <ClCompile Include="FadeScreen.cpp">
       <Filter>Global\2. UI\Fade</Filter>
@@ -292,6 +289,15 @@
     </ClCompile>
     <ClCompile Include="CurtainScreen.cpp">
       <Filter>Global\2. UI\Fade</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuWindow.cpp">
+      <Filter>Global\2. UI\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="DialogueWindow.cpp">
+      <Filter>Global\2. UI\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="MapNameWindow.cpp">
+      <Filter>Global\2. UI\Window</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

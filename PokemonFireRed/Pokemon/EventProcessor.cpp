@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "BlackScreen.h"
 #include "DialogueWindow.h"
+#include "MapNameWindow.h"
 
 UEventProcessor::UEventProcessor()
 {
@@ -62,6 +63,9 @@ void UEventProcessor::Tick(float _DeltaTime)
 		break;
 	case EEventType::Chat:
 		ProcessingResult = ProcessChat();
+		break;
+	case EEventType::ShowMapName:
+		ProcessingResult = ProcessShowMapName();
 		break;
 	case EEventType::ChangeLevel:
 		ProcessingResult = ProcessChangeLevel();
@@ -478,6 +482,18 @@ bool UEventProcessor::ProcessChat()
 	}
 
 	return false;
+}
+
+bool UEventProcessor::ProcessShowMapName()
+{
+	AMapNameWindow* MapNameWindow = UEventManager::FindCurLevelUIElement<AMapNameWindow>("MapNameWindow");
+
+	int CurIndexOfType = GetCurIndexOfType(EEventType::ShowMapName);
+	ES::ShowMapName& Data = CurStream->ShowMapNameDataSet[CurIndexOfType];
+	MapNameWindow->SetActive(true);
+	MapNameWindow->AllRenderersActiveOn();
+	MapNameWindow->Open(Data.MapName);
+	return true;
 }
 
 bool UEventProcessor::ProcessChangeLevel()

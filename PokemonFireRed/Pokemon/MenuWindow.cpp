@@ -52,7 +52,7 @@ void AMenuWindow::AllRenderersActiveOff()
 
 void AMenuWindow::BeginPlay()
 {
-	AActor::BeginPlay();
+	AUIElement::BeginPlay();
 
 	// 우상단 메뉴창
 	MenuWindowRenderer = CreateImageRenderer(ERenderingOrder::LowerUI);

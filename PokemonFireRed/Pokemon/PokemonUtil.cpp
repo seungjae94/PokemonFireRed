@@ -40,10 +40,10 @@ std::vector<std::string> UPokemonUtil::StringSplit(const std::string& _Str, char
 	return Result;
 }
 
-std::vector<std::wstring> UPokemonUtil::StringSplit(const std::wstring& _Str, wchar_t _Delimeter)
+std::vector<std::wstring> UPokemonUtil::StringSplit(std::wstring_view _Str, wchar_t _Delimeter)
 {
 	std::vector<std::wstring> Result;
-	std::wstringstream Stream(_Str);
+	std::wstringstream Stream(_Str.data());
 	std::wstring Buffer;
 
 	while (std::getline(Stream, Buffer, _Delimeter))

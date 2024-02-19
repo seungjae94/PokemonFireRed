@@ -80,10 +80,26 @@ public:
 		LineSpace = _LineSpace;
 	}
 
-	void SetText(const std::wstring& _Text, bool _IsVisible = false);
+	void SetText(std::wstring_view _Text, bool _IsVisible = false);
 
 	void SetVisible();
 	void SetInvisible();
+
+	int GetCenterAlignedX(int _RectLeft, int _RectWidth) const
+	{
+		return (_RectWidth - LineWidth) / 2;
+	}
+
+	void SetPosX(float _X)
+	{
+		FVector Pos = GetActorLocation();
+		SetActorLocation(FVector(_X, Pos.X));
+	}
+
+	void SetPosX(int _X)
+	{
+		SetPosX(static_cast<float>(_X));
+	}
 
 protected:
 	void Tick(float _DeltaTime) override;
@@ -139,5 +155,9 @@ private:
 	static void InitAlignRuleMap();
 
 	void PrepareLine(const std::wstring& _Line, int _Bot);
+
+	// 텍스트 정렬 기능
+	int LineWidth = 0;
+
 };
 

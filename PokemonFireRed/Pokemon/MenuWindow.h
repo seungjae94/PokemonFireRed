@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "UIElement.h"
+#include "PokemonText.h"
 
-class APokemonText;
 class AEventTrigger;
 
 class AMenuWindow : public AUIElement

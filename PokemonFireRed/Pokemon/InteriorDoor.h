@@ -18,11 +18,18 @@ public:
 	{
 		ExteriorDoorName = _Name;
 	}
+	
+	void SetTargetMapNameText(std::wstring_view _Name)
+	{
+		TargetMapNameText = _Name;
+	}
+
 	void RegisterPredefinedEvent() override;
 
 protected:
 
 private:
 	std::string ExteriorDoorName;
+	std::wstring TargetMapNameText = L"NONE";
 };
 

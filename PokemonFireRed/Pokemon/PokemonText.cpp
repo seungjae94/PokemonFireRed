@@ -12,7 +12,7 @@ APokemonText::~APokemonText()
 {
 }
 
-void APokemonText::SetText(const std::wstring& _Text, bool _IsVisible)
+void APokemonText::SetText(std::wstring_view _Text, bool _IsVisible)
 {
 	std::vector<std::wstring> Lines = UPokemonUtil::StringSplit(_Text, L'\n');
 	
@@ -28,6 +28,7 @@ void APokemonText::SetText(const std::wstring& _Text, bool _IsVisible)
 	FVector Pos = GetActorLocation();
 
 	int Bot = 0;
+	LineWidth = 0;
 
 	for (std::wstring& Line : Lines)
 	{
@@ -72,6 +73,7 @@ void APokemonText::PrepareLine(const std::wstring& _Line, int _Bot)
 
 		GlyphRenderers.push_back(Renderer);
 	}
+	LineWidth = max(Left, LineWidth);
 }
 
 void APokemonText::SetVisible()

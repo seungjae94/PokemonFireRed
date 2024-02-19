@@ -4,7 +4,6 @@
 #include <EngineCore/EngineCore.h>
 #include <EngineBase/EngineDebug.h>
 #include <EnginePlatform/EngineInput.h>
-#include "Warp.h"
 #include "PokemonDebug.h"
 #include "EventManager.h"
 #include "EventCondition.h"
@@ -13,7 +12,7 @@
 #include "Map.h"
 #include "MenuWindow.h"
 #include "DialogueWindow.h"
-#include "BlackScreen.h"
+#include "MapNameWindow.h"
 
 
 UMapLevel::UMapLevel()
@@ -77,6 +76,9 @@ void UMapLevel::BeginPlay()
 
 	// 대화창 생성
 	DialogueWindow = SpawnUIElement<ADialogueWindow>("DialogueWindow");
+
+	// 맵 이름 표시창 생성
+	MapNameWindow = SpawnUIElement<AMapNameWindow>("MapNameWindow");
 
 	// UI Off
 	MenuWindow->ActiveOff();

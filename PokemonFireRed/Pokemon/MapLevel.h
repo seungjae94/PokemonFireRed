@@ -8,6 +8,7 @@ class APlayer;
 class AMap;
 class AMenuWindow;
 class ADialogueWindow;
+class AMapNameWindow;
 class AEventTrigger;
 
 class UMapLevel : public UPokemonLevel
@@ -33,6 +34,7 @@ protected:
 	APlayer* Player = nullptr;
 	AMenuWindow* MenuWindow = nullptr;
 	ADialogueWindow* DialogueWindow = nullptr;
+	AMapNameWindow* MapNameWindow = nullptr;
 
 	AEventTrigger* FadeInTrigger = nullptr;
 

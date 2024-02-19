@@ -88,6 +88,7 @@ private:
 	bool ProcessWait();
 	bool ProcessPlayAnimation();
 	bool ProcessChat();
+	bool ProcessShowMapName();
 	bool ProcessChangeLevel();
 	bool ProcessChangePoint();
 	bool ProcessChangePosition();
