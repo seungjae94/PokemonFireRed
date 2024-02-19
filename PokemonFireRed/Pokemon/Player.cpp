@@ -195,6 +195,7 @@ void APlayer::Idle(float _DeltaTime)
 		IsRotating = true;
 		Direction = KeyPressDirection;
 		CurRotateTime = RotateTime;
+		ChangeAnimation(EPlayerState::Walk, Direction);
 		return;
 	}
 

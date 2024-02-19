@@ -82,7 +82,7 @@ private:
 	float JumpSpeed = Global::CharacterJumpSpeed;
 
 	bool IsRotating = false;
-	float RotateTime = 0.25f / WalkSpeed;
+	float RotateTime = 0.5f / WalkSpeed;
 	float CurRotateTime = RotateTime;
 	float WalkTime = 1.0f / WalkSpeed;
 	float CurWalkTime = WalkTime;
