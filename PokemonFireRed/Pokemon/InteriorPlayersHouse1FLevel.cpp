@@ -31,7 +31,8 @@ void UInteriorPlayersHouse1FLevel::BeginPlay()
 	StairTo2F->SetTargetMapName(Global::InteriorPlayersHouse2FLevel);
 	StairTo2F->SetTargetPoint({ 9, 2 });
 	StairTo2F->SetMoveDirection(FTileVector::Right);
-	StairTo2F->SetPath({ FVector(0.1f, 0.0f) * Global::FloatTileSize }, { FVector(1.0f, -0.5f) * Global::FloatTileSize });
+	StairTo2F->SetFirstPath({ FVector(0.5f, -0.25f) * Global::FloatTileSize, FVector(0.5f, -0.25f) * Global::FloatTileSize });
+	StairTo2F->SetSecondPath({ FVector(0.5f, -0.125f) * Global::FloatTileSize, FVector(0.5f, -0.125f) * Global::FloatTileSize });
 	StairTo2F->RegisterPredefinedEvent();
 
 

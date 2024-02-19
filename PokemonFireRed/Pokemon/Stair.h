@@ -14,9 +14,13 @@ public:
 	AStair& operator=(const AStair& _Other) = delete;
 	AStair& operator=(AStair&& _Other) noexcept = delete;
 
-	void SetPath(const std::vector<FVector>& _FirstPath, const std::vector<FVector>& _SecondPath)
+	void SetFirstPath(const std::vector<FVector>& _FirstPath)
 	{
 		FirstPath = _FirstPath;
+	}
+
+	void SetSecondPath(const std::vector<FVector>& _SecondPath)
+	{
 		SecondPath = _SecondPath;
 	}
 
@@ -27,6 +31,5 @@ protected:
 private:
 	std::vector<FVector> FirstPath;
 	std::vector<FVector> SecondPath;
-
 };
 

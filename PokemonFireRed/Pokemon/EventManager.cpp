@@ -318,7 +318,7 @@ void UEventManager::SetDirection(std::string_view _MapName, std::string_view _Ta
 	}
 
 	Target->SetDirection(_Direction);
-	Target->ChangeAnimation(Target->GetMoveState(), _Direction);
+	Target->ChangeMoveAnimation(Target->GetMoveState(), _Direction);
 }
 
 // 메모리 릴리즈

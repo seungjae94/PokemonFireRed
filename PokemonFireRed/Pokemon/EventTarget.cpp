@@ -9,7 +9,7 @@ AEventTarget::~AEventTarget()
 }
 
 
-void AEventTarget::ChangeAnimation(ETargetMoveState _State, const FTileVector& _Direction)
+void AEventTarget::ChangeMoveAnimation(ETargetMoveState _State, const FTileVector& _Direction)
 {
 	std::string UpperAniName = GetName(); 
 	std::string LowerAniName = GetName(); 
@@ -21,9 +21,9 @@ void AEventTarget::ChangeAnimation(ETargetMoveState _State, const FTileVector& _
 		UpperAniName += "Idle" + _Direction.ToDirectionString() + Global::SuffixUpperBody;
 		break;
 	case ETargetMoveState::Walk:
-		UpperAniName += "Walk" + _Direction.ToDirectionString() + Global::SuffixUpperBody + std::to_string(MoveFootOrder);
-		LowerAniName += "Walk" + _Direction.ToDirectionString() + Global::SuffixLowerBody + std::to_string(MoveFootOrder);
-		IncMoveFootOrder();
+		UpperAniName += "Walk" + _Direction.ToDirectionString() + Global::SuffixUpperBody + std::to_string(FootOrder);
+		LowerAniName += "Walk" + _Direction.ToDirectionString() + Global::SuffixLowerBody + std::to_string(FootOrder);
+		IncFootOrder();
 		break;
 	default:
 		break;

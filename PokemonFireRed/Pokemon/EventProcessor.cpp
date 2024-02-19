@@ -69,6 +69,9 @@ void UEventProcessor::Tick(float _DeltaTime)
 	case EEventType::ChangePoint:
 		ProcessingResult = ProcessChangePoint();
 		break;
+	case EEventType::ChangePosition:
+		ProcessingResult = ProcessChangePosition();
+		break;
 	case EEventType::ChangeDirection:
 		ProcessingResult = ProcessChangeDirection();
 		break;
@@ -139,7 +142,7 @@ bool UEventProcessor::ProcessMove()
 		MoveTime = 1.0f / Data.MoveSpeed;
 		MoveTimer = 0.0f;
 		Target->SetMoveState(ETargetMoveState::Walk);
-		Target->ChangeAnimation(Target->GetMoveState(), Target->GetDirection());
+		Target->ChangeMoveAnimation(Target->GetMoveState(), Target->GetDirection());
 	}
 
 	if (MoveTimer > 0.0f)
@@ -170,7 +173,7 @@ bool UEventProcessor::ProcessMove()
 		{
 			Target->SetDirection(Data.Path[MovePathIndex + 1]);
 		}
-		Target->ChangeAnimation(Target->GetMoveState(), Target->GetDirection());
+		Target->ChangeMoveAnimation(Target->GetMoveState(), Target->GetDirection());
 		MovePathIndex++;
 	}
 	return false;
@@ -184,9 +187,9 @@ void UEventProcessor::PostProcessMove(AEventTarget* _Target)
 	MoveTime = 0.0f;
 	MoveTimer = 0.0f;
 	UEventManager::SetPoint(_Target->GetWorld()->GetName(), _Target->GetName(), FTileVector(_Target->GetActorLocation()));
-	_Target->ResetMoveFootOrder();
+	_Target->ResetFootOrder();
 	_Target->SetMoveState(ETargetMoveState::Idle);
-	_Target->ChangeAnimation(_Target->GetMoveState(), _Target->GetDirection());
+	_Target->ChangeMoveAnimation(_Target->GetMoveState(), _Target->GetDirection());
 }
 
 bool UEventProcessor::ProcessMoveWithoutRestriction()
@@ -214,10 +217,8 @@ bool UEventProcessor::ProcessMoveWithoutRestriction()
 	// 이동 이벤트 시작
 	if (MoveWRPathIndex == -1)
 	{
-		MoveWRTime = 1.0f / Data.MoveSpeed;
-		MoveWRTimer = 0.0f;
+		MoveWRTimer = -1.0f;
 		Target->SetMoveState(ETargetMoveState::Walk);
-		Target->ChangeAnimation(Target->GetMoveState(), Target->GetDirection());
 	}
 
 	if (MoveWRTimer > 0.0f)
@@ -237,6 +238,9 @@ bool UEventProcessor::ProcessMoveWithoutRestriction()
 	}
 	else
 	{
+		float PathSize = Data.Path[MoveWRPathIndex + 1].Size2D() / Global::FloatTileSize;
+		MoveWRTime = PathSize / Data.MoveSpeed;
+
 		MoveWRPrevPos = Target->GetActorLocation();
 		MoveWRNextPos = MoveWRPrevPos + Data.Path[MoveWRPathIndex + 1];
 		MoveWRTimer = MoveWRTime;
@@ -247,7 +251,7 @@ bool UEventProcessor::ProcessMoveWithoutRestriction()
 		{
 			Target->SetDirection(ProjectedDirection);
 		}
-		Target->ChangeAnimation(Target->GetMoveState(), Target->GetDirection());
+		Target->ChangeMoveAnimation(Target->GetMoveState(), Target->GetDirection());
 		MoveWRPathIndex++;
 	}
 	return false;
@@ -260,9 +264,9 @@ void UEventProcessor::PostProcessMoveWR(AEventTarget* _Target)
 	MoveWRPathIndex = -1;		// -1은 첫 번째 틱임을 의미한다.
 	MoveWRTime = 0.0f;
 	MoveWRTimer = 0.0f;
-	_Target->ResetMoveFootOrder();
+	_Target->ResetFootOrder();
 	_Target->SetMoveState(ETargetMoveState::Idle);
-	_Target->ChangeAnimation(_Target->GetMoveState(), _Target->GetDirection());
+	_Target->ChangeMoveAnimation(_Target->GetMoveState(), _Target->GetDirection());
 }
 
 bool UEventProcessor::ProcessFadeIn()
@@ -514,6 +518,16 @@ bool UEventProcessor::ProcessChangePoint()
 	int CurIndexOfType = GetCurIndexOfType(EEventType::ChangePoint);
 	ES::ChangePoint& Data = CurStream->ChangePointDataSet[CurIndexOfType];
 	UEventManager::SetPoint(Data.LevelName, Data.TargetName, Data.Point);
+	return true;
+}
+
+bool UEventProcessor::ProcessChangePosition()
+{
+	int CurIndexOfType = GetCurIndexOfType(EEventType::ChangePosition);
+	ES::ChangePosition& Data = CurStream->ChangePositionDataSet[CurIndexOfType];
+
+	AEventTarget* Target = UEventManager::FindTarget<AEventTarget>(Data.LevelName, Data.TargetName);
+	Target->SetActorLocation(Data.Position);
 	return true;
 }
 

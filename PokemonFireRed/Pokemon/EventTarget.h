@@ -101,7 +101,7 @@ public:
 	AEventTarget& operator=(const AEventTarget& _Other) = delete;
 	AEventTarget& operator=(AEventTarget&& _Other) noexcept = delete;
 
-	void ChangeAnimation(ETargetMoveState _State, const FTileVector& _Direction);
+	void ChangeMoveAnimation(ETargetMoveState _State, const FTileVector& _Direction);
 
 	FTileVector GetPoint() const
 	{
@@ -138,13 +138,24 @@ protected:
 	bool HasImage = false;
 	int Height = 2;
 
-	// 이동 관련 변수
+	// 이동 관련 멤버
 	ETargetMoveState MoveState = ETargetMoveState::Idle;
 	float MoveTime = 0.0f;
 	float Timer = 0.0f;
 	int MoveIndex = -1;
-	char MoveFootOrder = 0;		// 0 = 오른발이 나갈 차례, 1 = 왼발이 나갈 차례
+	char FootOrder = 0;		// 0 = 오른발이 나갈 차례, 1 = 왼발이 나갈 차례
 	bool IsExecutingMovingLogic = false;
+
+	void IncFootOrder()
+	{
+		FootOrder = (FootOrder + 1) % 2;
+	}
+
+	void ResetFootOrder()
+	{
+		FootOrder = 0;
+	}
+
 
 	// 렌더러
 	UImageRenderer* UpperBodyRenderer = nullptr;
@@ -154,14 +165,5 @@ protected:
 	// 콜리전
 	UCollision* Collision = nullptr;
 private:
-	void IncMoveFootOrder()
-	{
-		MoveFootOrder = (MoveFootOrder + 1) % 2;
-	}
-
-	void ResetMoveFootOrder()
-	{
-		MoveFootOrder = 0;
-	}
 };
 

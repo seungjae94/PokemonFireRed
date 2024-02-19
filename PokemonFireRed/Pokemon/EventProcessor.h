@@ -90,6 +90,7 @@ private:
 	bool ProcessChat();
 	bool ProcessChangeLevel();
 	bool ProcessChangePoint();
+	bool ProcessChangePosition();
 	bool ProcessChangeDirection();
 	bool ProcessStarePlayer();
 	bool ProcessHideActor();

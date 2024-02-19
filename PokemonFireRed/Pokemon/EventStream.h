@@ -20,6 +20,7 @@ enum class EEventType
 	Chat,
 	ChangeLevel,
 	ChangePoint,
+	ChangePosition,
 	ChangeDirection,
 	StarePlayer,
 	PlayAnimation,
@@ -264,6 +265,30 @@ public:
 		return *this;
 	}
 
+	class ChangePosition
+	{
+		friend UEventProcessor;
+	public:
+		ChangePosition(std::string_view _LevelName,
+			std::string_view _TargetName, const FVector& _Position)
+			: LevelName(_LevelName),
+			TargetName(_TargetName),
+			Position(_Position)
+		{
+		}
+	private:
+		std::string LevelName;
+		std::string TargetName;
+		FVector Position;
+	};
+
+	UEventStream& operator>>(const ChangePosition& _Data)
+	{
+		EventTypeList.push_back(EEventType::ChangePosition);
+		ChangePositionDataSet.push_back(_Data);
+		return *this;
+	}
+
 	class ChangeDirection
 	{
 		friend UEventProcessor;
@@ -419,6 +444,7 @@ private:
 	std::vector<Chat> ChatDataSet;
 	std::vector<ChangeLevel> ChangeLevelDataSet;
 	std::vector<ChangePoint> ChangePointDataSet;
+	std::vector<ChangePosition> ChangePositionDataSet;
 	std::vector<ChangeDirection> ChangeDirectionDataSet;
 	std::vector<StarePlayer> StarePlayerDataSet;
 	std::vector<PlayAnimation> PlayAnimationDataSet;

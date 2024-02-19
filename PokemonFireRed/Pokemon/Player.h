@@ -77,7 +77,6 @@ private:
 	FTileVector NextPoint;
 	
 	// 원작과 비슷한 걷기 속도는 3.6f
-	char FootOrder = 0; // 0 = 오른발이 나갈 차례, 1 = 왼발이 나갈 차례
 	float WalkSpeed = Global::CharacterWalkSpeed;
 	float JumpSpeed = Global::CharacterJumpSpeed;
 
@@ -127,11 +126,5 @@ private:
 	bool IsPixelCollider(FTileVector _Direction);
 	bool IsComponentCollider(FTileVector _Direction);
 	bool IsCollider(FTileVector _Direction);
-
-	// 편의 함수
-	void IncFootOrder()
-	{
-		FootOrder = (FootOrder + 1) % 2;
-	}
 };
 
