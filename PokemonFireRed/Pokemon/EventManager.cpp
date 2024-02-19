@@ -213,7 +213,7 @@ void UEventManager::AddTrigger(AEventTrigger* _Trigger, const UEventTargetInit& 
 void UEventManager::AddPlayer(APlayer* _Player, const FTileVector& _Point)
 {
 	UEventTargetInit PlayerSetting; 
-	PlayerSetting.SetName(Global::PLAYER_NAME);
+	PlayerSetting.SetName(Global::PlayerName);
 	PlayerSetting.SetPoint(_Point);
 	PlayerSetting.SetDirection(FTileVector::Down);
 	PlayerSetting.SetCollidable(true);
@@ -242,13 +242,13 @@ void UEventManager::AddPlayer(APlayer* _Player, const FTileVector& _Point)
 
 	for (std::string& DirectionName : AllDirectionNames)
 	{
-		std::string ImageName = Global::PLAYER_NAME + "Walk" + DirectionName + ".png";
+		std::string ImageName = Global::PlayerName + "Walk" + DirectionName + ".png";
 
-		std::string UpperBodyAnimName = Global::PLAYER_NAME + "SlowWalk" + DirectionName + Global::SuffixUpperBody;
+		std::string UpperBodyAnimName = Global::PlayerName + "SlowWalk" + DirectionName + Global::SuffixUpperBody;
 		_Player->UpperBodyRenderer->CreateAnimation(UpperBodyAnimName + "0", ImageName, { 0, 1 }, SlowWalkInterval, false); // ¿À¸¥¹ß
 		_Player->UpperBodyRenderer->CreateAnimation(UpperBodyAnimName + "1", ImageName, { 2, 3 }, SlowWalkInterval, false); // ¿Þ¹ß
 
-		std::string LowerBodyAnimName = Global::PLAYER_NAME + "SlowWalk" + DirectionName + Global::SuffixLowerBody;
+		std::string LowerBodyAnimName = Global::PlayerName + "SlowWalk" + DirectionName + Global::SuffixLowerBody;
 		_Player->LowerBodyRenderer->CreateAnimation(LowerBodyAnimName + "0", ImageName, { 4, 5 }, SlowWalkInterval, false); // ¿À¸¥¹ß
 		_Player->LowerBodyRenderer->CreateAnimation(LowerBodyAnimName + "1", ImageName, { 6, 7 }, SlowWalkInterval, false); // ¿Þ¹ß
 	}

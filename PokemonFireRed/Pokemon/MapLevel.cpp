@@ -108,7 +108,7 @@ void UMapLevel::Tick(float _DeltaTime)
 
 	if (UEngineInput::IsDown(VK_F2))
 	{
-		PokemonDebug::ReportPosition(Player, Global::PLAYER_NAME);
+		PokemonDebug::ReportPosition(Player, Global::PlayerName);
 	}
 
 	if (UEngineInput::IsDown(VK_F3))
@@ -147,7 +147,7 @@ void UMapLevel::LoadCharacterResources()
 
 	// Idle 애니메이션을 로드할 캐릭터 이름을 정의
 	std::vector<std::string> IdleCharacterNames = {
-		Global::PLAYER_NAME,
+		Global::PlayerName,
 		"FatMan",
 		"PlayersMom"
 	};
@@ -160,7 +160,7 @@ void UMapLevel::LoadCharacterResources()
 
 	// Walk 애니메이션을 로드할 캐릭터 이름을 정의
 	std::vector<std::string> WalkCharacterNames = {
-		Global::PLAYER_NAME,
+		Global::PlayerName,
 		"FatMan"
 	};
 

@@ -108,13 +108,13 @@ void UEventProcessor::Tick(float _DeltaTime)
 
 void UEventProcessor::ActivatePlayerControl()
 {
-	APlayer* CurPlayer = UEventManager::FindCurLevelTarget<APlayer>(Global::PLAYER_NAME);
+	APlayer* CurPlayer = UEventManager::FindCurLevelTarget<APlayer>(Global::PlayerName);
 	CurPlayer->StateChange(EPlayerState::Idle);
 }
 
 void UEventProcessor::DeactivatePlayerControl()
 {
-	APlayer* CurPlayer = UEventManager::FindCurLevelTarget<APlayer>(Global::PLAYER_NAME);
+	APlayer* CurPlayer = UEventManager::FindCurLevelTarget<APlayer>(Global::PlayerName);
 	CurPlayer->StateChange(EPlayerState::OutOfControl);
 }
 
@@ -561,7 +561,7 @@ bool UEventProcessor::ProcessStarePlayer()
 	ES::StarePlayer& Data = CurStream->StarePlayerDataSet[CurIndexOfType];
 
 	std::string CurLevelName = UEventManager::GetCurLevelName();
-	APlayer* Player = UEventManager::FindCurLevelTarget<APlayer>(Global::PLAYER_NAME);
+	APlayer* Player = UEventManager::FindCurLevelTarget<APlayer>(Global::PlayerName);
 	UEventManager::SetDirection(CurLevelName, Data.TargetName, -Player->Direction);
 	return true;
 }

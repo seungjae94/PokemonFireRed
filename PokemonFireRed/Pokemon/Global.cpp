@@ -36,4 +36,7 @@ const std::string Global::InteriorRivalsHouseLevel = "InteriorRivalsHouseLevel";
 const std::string Global::InteriorPlayersHouse1FLevel = "InteriorPlayersHouse1FLevel";
 const std::string Global::InteriorPlayersHouse2FLevel = "InteriorPlayersHouse2FLevel";
 
-const std::string Global::PLAYER_NAME = "Player";
+const std::string Global::PlayerName = "Player";
+
+const Color8Bit Global::PixelColliderBlock = Color8Bit(255, 0, 255, 0);
+const Color8Bit Global::PixelColliderBlockUpDown = Color8Bit(255, 1, 255, 0);

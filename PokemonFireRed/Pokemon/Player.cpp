@@ -588,15 +588,38 @@ bool APlayer::IsLedge(FTileVector _Direction)
 
 bool APlayer::IsPixelCollider(FTileVector _Direction)
 {
-	FVector MapRelativeTargetPos = (GetActorLocation() - Map->GetActorLocation()) + _Direction.ToFVector();
-	FVector MapRelativeTargetPosInImage = MapRelativeTargetPos;
-	Color8Bit Color = Map->GetCollisionImage()->GetColor(
-		MapRelativeTargetPosInImage.iX(),
-		MapRelativeTargetPosInImage.iY(),
+	FVector MapRelativeCurPos = GetActorLocation() - Map->GetActorLocation();
+	FVector MapRelativeTargetPos = MapRelativeCurPos + _Direction.ToFVector();
+
+	Color8Bit CurColor = Map->GetCollisionImage()->GetColor(
+		MapRelativeCurPos.iX(),
+		MapRelativeCurPos.iY(),
 		Color8Bit::MagentaA
 	);
 
-	return Color == Color8Bit(255, 0, 255, 0) || (Color.R == 255 && Color.G == 255);
+	Color8Bit TargetColor = Map->GetCollisionImage()->GetColor(
+		MapRelativeTargetPos.iX(),
+		MapRelativeTargetPos.iY(),
+		Color8Bit::MagentaA
+	);
+
+	if (CurColor == Global::PixelColliderBlockUpDown)
+	{
+		if (_Direction == FTileVector::Up || _Direction == FTileVector::Down)
+		{
+			return true;
+		}
+	}
+
+	if (TargetColor == Global::PixelColliderBlockUpDown)
+	{
+		if (-_Direction == FTileVector::Up || -_Direction == FTileVector::Down)
+		{
+			return true;
+		}
+	}
+
+	return TargetColor == Global::PixelColliderBlock || (TargetColor.R == 255 && TargetColor.G == 255);
 }
 
 bool APlayer::IsComponentCollider(FTileVector _Direction)

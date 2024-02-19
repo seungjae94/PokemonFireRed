@@ -40,7 +40,10 @@ public:
 	static const std::string InteriorPlayersHouse1FLevel;
 	static const std::string InteriorPlayersHouse2FLevel;
 
-	static const std::string PLAYER_NAME;
+	static const std::string PlayerName;
+
+	static const Color8Bit PixelColliderBlock;
+	static const Color8Bit PixelColliderBlockUpDown;
 
 	// delete Function
 	Global(const Global& _Other) = delete;

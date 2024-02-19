@@ -17,6 +17,6 @@ AWarp::~AWarp()
 
 bool AWarp::CheckPlayerDirection()
 {
-	FTileVector CurPlayerDirection = UEventManager::FindCurLevelTarget<APlayer>(Global::PLAYER_NAME)->GetDirection();
+	FTileVector CurPlayerDirection = UEventManager::FindCurLevelTarget<APlayer>(Global::PlayerName)->GetDirection();
 	return CurPlayerDirection == TargetDirection;
 }
