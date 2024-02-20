@@ -149,6 +149,11 @@ public:
 		TextColor = _Color;
 	}
 
+	void SetCameraRatio(float _Ratio)
+	{
+		CameraRatio = _Ratio;
+	}
+
 	FTransform GetRenderTransForm();
 
 protected:
@@ -161,6 +166,7 @@ private:
 	Color8Bit TransColor;
 
 	bool CameraEffect = true;
+	float CameraRatio = 1.0f;
 
 	std::map<std::string, UAnimationInfo> AnimationInfos;
 	UAnimationInfo* CurAnimation = nullptr;
