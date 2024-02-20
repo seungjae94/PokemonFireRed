@@ -81,4 +81,11 @@ and POKéMON as data via PC.)"
 		});
 	FatMan->SetTextColor(EFontColor::Blue);
 	FatMan->RegisterPredefinedEvent();
+
+	DrawFlowers({
+		{69, 146}, {69, 147},
+		{70, 146}, {70, 147},
+		{71, 146}, {71, 147},
+		{72, 146}, {72, 147},
+	});
 }

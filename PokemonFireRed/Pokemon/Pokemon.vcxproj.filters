@@ -28,21 +28,6 @@
     <Filter Include="2. MapLevel\1. Interior Level">
       <UniqueIdentifier>{9aa64607-bb92-499d-8ea4-58531c624887}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2. MapLevel\2. Actor">
-      <UniqueIdentifier>{3b88d292-f9a2-4d41-863e-4b9d2397e54a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2. MapLevel\2. Actor\3. Trigger">
-      <UniqueIdentifier>{90534d3f-513a-4990-9f4b-e981d1191cf6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2. MapLevel\2. Actor\1. Map">
-      <UniqueIdentifier>{6c3a7b1f-92b9-4c62-aa47-73f55803e559}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2. MapLevel\2. Actor\0. Player">
-      <UniqueIdentifier>{303e1108-7ab1-4371-9aaa-464f75f69743}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2. MapLevel\2. Actor\2. Target">
-      <UniqueIdentifier>{7fc5c41b-a235-46fc-888c-4704e624bf07}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Global\0. Util">
       <UniqueIdentifier>{363b44f9-6ba5-4290-afb2-239aea3b0006}</UniqueIdentifier>
     </Filter>
@@ -60,6 +45,21 @@
     </Filter>
     <Filter Include="Global\2. UI\Window">
       <UniqueIdentifier>{d71a5ab4-ae77-40de-bd65-1c7df6b2d98d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2. MapLevel\2. Map">
+      <UniqueIdentifier>{6c3a7b1f-92b9-4c62-aa47-73f55803e559}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2. MapLevel\3. Actor">
+      <UniqueIdentifier>{3b88d292-f9a2-4d41-863e-4b9d2397e54a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2. MapLevel\3. Actor\0. Player">
+      <UniqueIdentifier>{303e1108-7ab1-4371-9aaa-464f75f69743}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2. MapLevel\3. Actor\1. Trigger">
+      <UniqueIdentifier>{90534d3f-513a-4990-9f4b-e981d1191cf6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2. MapLevel\4. Tile">
+      <UniqueIdentifier>{2e631f4d-269c-44a0-8975-de30505b0590}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -97,10 +97,10 @@
       <Filter>Global\1. Event</Filter>
     </ClInclude>
     <ClInclude Include="DialogueActor.h">
-      <Filter>2. MapLevel\2. Actor\3. Trigger</Filter>
+      <Filter>2. MapLevel\3. Actor\1. Trigger</Filter>
     </ClInclude>
     <ClInclude Include="Warp.h">
-      <Filter>2. MapLevel\2. Actor\3. Trigger</Filter>
+      <Filter>2. MapLevel\3. Actor\1. Trigger</Filter>
     </ClInclude>
     <ClInclude Include="InteriorPlayersHouse1FLevel.h">
       <Filter>2. MapLevel\1. Interior Level</Filter>
@@ -136,13 +136,13 @@
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="Stair.h">
-      <Filter>2. MapLevel\2. Actor\3. Trigger</Filter>
+      <Filter>2. MapLevel\3. Actor\1. Trigger</Filter>
     </ClInclude>
     <ClInclude Include="InteriorDoor.h">
-      <Filter>2. MapLevel\2. Actor\3. Trigger</Filter>
+      <Filter>2. MapLevel\3. Actor\1. Trigger</Filter>
     </ClInclude>
     <ClInclude Include="ExteriorDoor.h">
-      <Filter>2. MapLevel\2. Actor\3. Trigger</Filter>
+      <Filter>2. MapLevel\3. Actor\1. Trigger</Filter>
     </ClInclude>
     <ClInclude Include="BlackScreen.h">
       <Filter>Global\2. UI\Fade</Filter>
@@ -154,10 +154,10 @@
       <Filter>Global\2. UI\Text</Filter>
     </ClInclude>
     <ClInclude Include="Map.h">
-      <Filter>2. MapLevel\2. Actor\1. Map</Filter>
+      <Filter>2. MapLevel\2. Map</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>2. MapLevel\2. Actor\0. Player</Filter>
+      <Filter>2. MapLevel\3. Actor\0. Player</Filter>
     </ClInclude>
     <ClInclude Include="EventTrigger.h">
       <Filter>Global\1. Event</Filter>
@@ -179,6 +179,9 @@
     </ClInclude>
     <ClInclude Include="MapNameWindow.h">
       <Filter>Global\2. UI\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimatedFlower.h">
+      <Filter>2. MapLevel\4. Tile</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -216,10 +219,10 @@
       <Filter>Global\1. Event</Filter>
     </ClCompile>
     <ClCompile Include="DialogueActor.cpp">
-      <Filter>2. MapLevel\2. Actor\3. Trigger</Filter>
+      <Filter>2. MapLevel\3. Actor\1. Trigger</Filter>
     </ClCompile>
     <ClCompile Include="Warp.cpp">
-      <Filter>2. MapLevel\2. Actor\3. Trigger</Filter>
+      <Filter>2. MapLevel\3. Actor\1. Trigger</Filter>
     </ClCompile>
     <ClCompile Include="InteriorPlayersHouse1FLevel.cpp">
       <Filter>2. MapLevel\1. Interior Level</Filter>
@@ -255,13 +258,13 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="Stair.cpp">
-      <Filter>2. MapLevel\2. Actor\3. Trigger</Filter>
+      <Filter>2. MapLevel\3. Actor\1. Trigger</Filter>
     </ClCompile>
     <ClCompile Include="InteriorDoor.cpp">
-      <Filter>2. MapLevel\2. Actor\3. Trigger</Filter>
+      <Filter>2. MapLevel\3. Actor\1. Trigger</Filter>
     </ClCompile>
     <ClCompile Include="ExteriorDoor.cpp">
-      <Filter>2. MapLevel\2. Actor\3. Trigger</Filter>
+      <Filter>2. MapLevel\3. Actor\1. Trigger</Filter>
     </ClCompile>
     <ClCompile Include="BlackScreen.cpp">
       <Filter>Global\2. UI\Fade</Filter>
@@ -273,10 +276,10 @@
       <Filter>Global\2. UI\Text</Filter>
     </ClCompile>
     <ClCompile Include="Map.cpp">
-      <Filter>2. MapLevel\2. Actor\1. Map</Filter>
+      <Filter>2. MapLevel\2. Map</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>2. MapLevel\2. Actor\0. Player</Filter>
+      <Filter>2. MapLevel\3. Actor\0. Player</Filter>
     </ClCompile>
     <ClCompile Include="EventTrigger.cpp">
       <Filter>Global\1. Event</Filter>
@@ -298,6 +301,9 @@
     </ClCompile>
     <ClCompile Include="MapNameWindow.cpp">
       <Filter>Global\2. UI\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimatedFlower.cpp">
+      <Filter>2. MapLevel\4. Tile</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

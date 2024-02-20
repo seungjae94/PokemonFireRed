@@ -13,6 +13,7 @@
 #include "MenuWindow.h"
 #include "DialogueWindow.h"
 #include "MapNameWindow.h"
+#include "AnimatedFlower.h"
 
 
 UMapLevel::UMapLevel()
@@ -39,6 +40,7 @@ void UMapLevel::BeginPlay()
 	{
 		LoadCharacterResources();
 		LoadObjectResources();
+		LoadTileResources();
 		IsCommonResourceLoaded = true;
 	}
 
@@ -134,6 +136,15 @@ void UMapLevel::LevelStart(ULevel* _PrevLevel)
 	SetCameraPos(Player->GetActorLocation() - Global::HalfScreen);
 }
 
+void UMapLevel::DrawFlowers(const std::vector<FTileVector>& _Points)
+{
+	for (const FTileVector& Point : _Points)
+	{
+		AnimatedFlower* Flower = SpawnActor<AnimatedFlower>();
+		Flower->SetActorLocation(Point.ToFVector());
+	}
+}
+
 void UMapLevel::LoadCharacterResources()
 {
 	CurDir.Move("Character");
@@ -202,6 +213,24 @@ void UMapLevel::LoadObjectResources()
 	{
 		UEngineResourcesManager::GetInst().LoadFolder(CurDir.AppendPath(Name));
 	}
+
+	CurDir.MoveParent();
+}
+
+void UMapLevel::LoadTileResources()
+{
+	CurDir.Move("Tile");
+
+	std::list<UEngineFile> AllFiles = CurDir.AllFile({ ".png", ".bmp" }, false);
+	for (UEngineFile& File : AllFiles)
+	{
+		std::string Path = File.GetFullPath();
+		UEngineResourcesManager::GetInst().LoadImg(Path);
+	}
+
+	// 이미지 분할
+	UEngineResourcesManager::GetInst().CuttingImage("AnimatedFlower.png", 5, 1);
+	UEngineResourcesManager::GetInst().CuttingImage("AnimatedSea.png", 8, 1);
 
 	CurDir.MoveParent();
 }

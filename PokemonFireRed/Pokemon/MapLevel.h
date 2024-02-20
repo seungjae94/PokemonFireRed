@@ -42,8 +42,11 @@ protected:
 
 	void LevelStart(ULevel* _PrevLevel) override;
 
+	void DrawFlowers(const std::vector<FTileVector>& _Points);
+
 private:
 	void LoadCharacterResources();
 	void LoadObjectResources();
+	void LoadTileResources();
 };
 
