@@ -20,23 +20,18 @@ void ATitleLevelManager::BeginPlay()
 	Renderer = CreateImageRenderer(ERenderingOrder::LowerUI);
 	Renderer->CameraEffectOff();
 	Renderer->SetTransColor(Color8Bit::White);
-
-	Renderer->CreateAnimation(VideoName[0], VideoName[0], 0, 187 - 1, 1 / 60.0f, false);
-	Renderer->CreateAnimation(VideoName[1], VideoName[1], 0, 1260 - 1, 1 / 60.0f, false);
-	Renderer->CreateAnimation(VideoName[2], VideoName[2], 0, 262 - 1, 1 / 60.0f, false);
-	Renderer->CreateAnimation(VideoName[3], VideoName[3], 0, 2442 - 1, 1 / 60.0f, false);
-	Renderer->CreateAnimation(VideoName[4], VideoName[4], 0, 180 - 1, 1 / 60.0f, false);
-
-	Renderer->SetImage(VideoName[0]);
-	Renderer->SetTransform({ {0, 0}, Global::Screen });
-	Renderer->ChangeAnimation(VideoName[0]);
 }
 
 void ATitleLevelManager::Tick(float _DeltaTime)
 {
-	switch (VideoIndex)
+	switch (VideoNo)
 	{
 	case 0:
+		if (false == FirstVideoLoaded)
+		{
+			PrepareFirstPlay();
+		}
+
 		Video0Logic();
 		break;
 	case 1:
@@ -56,32 +51,58 @@ void ATitleLevelManager::Tick(float _DeltaTime)
 	}
 }
 
+void ATitleLevelManager::PrepareFirstPlay()
+{
+	// 첫 번째 인트로 영상 로드
+	UEngineResourcesManager::GetInst().LoadFolder(CurDir->AppendPath("Video000"));
+	++VideoLoadCount[0];
+
+	Renderer->CreateAnimation("Video000", "Video000", 0, 187 - 1, 1 / 60.0f, false);
+	Renderer->SetImage("Video000");
+	Renderer->SetTransform({ {0, 0}, Global::Screen });
+	Renderer->ChangeAnimation("Video000");
+
+	FirstVideoLoaded = true;
+}
+
 void ATitleLevelManager::Video0Logic()
 {
 	if (true == Renderer->IsCurAnimationEnd())
 	{
 		// 비디오 재생이 끝난 뒤에만 다음 영상으로 넘어간다.
-		PlayNextVideo();
+		PlayNextPart();
 	}
 }
 
 void ATitleLevelManager::Video1Logic()
 {
-	if (true == IsAnyKeyboardDown() || true == Renderer->IsCurAnimationEnd())
+	if (true == IsAnyKeyboardDown())
 	{
 		// 아무 키나 누르면 즉시 다음 영상으로 넘어간다.
-		// 비디오 재생이 끝난 경우에도 다음 영상으로 넘어간다.
 		PlayNextVideo();
+		return;
+	}
+
+	if (true == Renderer->IsCurAnimationEnd())
+	{
+		// 비디오 재생이 끝난 경우 다음 파트로 넘어간다.
+		PlayNextPart();
 	}
 }
 
 void ATitleLevelManager::Video2Logic()
 {
-	if (true == IsAnyKeyboardDown() || true == Renderer->IsCurAnimationEnd())
+	if (true == IsAnyKeyboardDown())
 	{
 		// 아무 키나 누르면 즉시 다음 영상으로 넘어간다.
-		// 비디오 재생이 끝난 경우에도 다음 영상으로 넘어간다.
 		PlayNextVideo();
+		return;
+	}
+
+	if (true == Renderer->IsCurAnimationEnd())
+	{
+		// 비디오 재생이 끝난 경우 다음 파트로 넘어간다.
+		PlayNextPart();
 	}
 }
 
@@ -97,8 +118,8 @@ void ATitleLevelManager::Video3Logic(float _DeltaTime)
 
 	if (true == Renderer->IsCurAnimationEnd())
 	{
-		// 비디오 재생이 끝난 경우 다음 영상으로 넘어간다.
-		PlayNextVideo();
+		// 비디오 재생이 끝난 경우 다음 파트로 넘어간다.
+		PlayNextPart();
 	}
 }
 
@@ -106,16 +127,57 @@ void ATitleLevelManager::Video4Logic()
 {
 	if (true == Renderer->IsCurAnimationEnd())
 	{
-		// 비디오 재생이 끝난 뒤에만 다음 영상으로 넘어간다.
-		PlayNextVideo();
+		// 비디오 재생이 끝난 뒤에만 다음 파트로 넘어간다.
+		PlayNextPart();
 	}
+}
+
+void ATitleLevelManager::PlayNextPart()
+{
+	++PartNo;
+	if (PartNo >= VideoPartCount[VideoNo])
+	{
+		PartNo = 0;
+		VideoNo = (VideoNo + 1) % 5;
+	}
+
+	Play();
 }
 
 void ATitleLevelManager::PlayNextVideo()
 {
-	VideoIndex = (VideoIndex + 1) % 5;
-	Renderer->ChangeAnimation(VideoName[VideoIndex]);
+	PartNo = 0;
+	VideoNo = (VideoNo + 1) % 5;
+	
+	Play();
 }
+
+void ATitleLevelManager::Play()
+{
+	std::string VideoName = GetVideoName(VideoNo, PartNo);
+
+	// 아직 비디오가 로드되지 않은 경우
+	if (PartNo >= VideoLoadCount[VideoNo])
+	{
+		int ImageCount = 100;
+		if (PartNo == 0)
+		{
+			ImageCount = FirstPartImageCount[VideoNo];
+		}
+		else if (PartNo == VideoPartCount[VideoNo] - 1)
+		{
+			ImageCount = LastPartImageCount[VideoNo];
+		}
+
+		UEngineResourcesManager::GetInst().LoadFolder(CurDir->AppendPath(VideoName));
+		Renderer->CreateAnimation(VideoName, VideoName, 0, ImageCount - 1, 1 / 60.0f, false);
+		++VideoLoadCount[VideoNo];
+	}
+
+	Renderer->ChangeAnimation(VideoName);
+}
+
+
 
 bool ATitleLevelManager::IsAnyKeyboardDown()
 {

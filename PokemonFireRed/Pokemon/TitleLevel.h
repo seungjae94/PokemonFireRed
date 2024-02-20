@@ -1,4 +1,5 @@
 #pragma once
+#include <EngineBase/EngineDirectory.h>
 #include "PokemonLevel.h"
 
 class ATitleLevelManager;
@@ -23,5 +24,6 @@ protected:
 private:
 	ATitleLevelManager* Manager;
 	AEventTrigger* LevelChanger;
+	UEngineDirectory CurDir;
 };
 
