@@ -46,5 +46,5 @@ void UPokemonCore::BeginPlay()
 	CreateLevel<UInteriorRivalsHouseLevel>(Global::InteriorRivalsHouseLevel);
 
 	// 시작 레벨 설정
-	UEventManager::SetLevel(Global::ExteriorPalletTownLevel);
+	UEventManager::SetLevel(Global::TitleLevel);
 }

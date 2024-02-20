@@ -7,6 +7,24 @@
     <Filter Include="Input">
       <UniqueIdentifier>{2047dd4b-eacb-4625-bb81-f962760c8edc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ThirdParty">
+      <UniqueIdentifier>{0f7df7e2-dd40-42aa-a8e4-33c45aaad316}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\FMOD">
+      <UniqueIdentifier>{2f22e38b-acb8-471e-b7f1-d31f8fa44804}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\FMOD\inc">
+      <UniqueIdentifier>{9214db74-6185-4edb-a37d-05fa71555310}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\FMOD\Debug">
+      <UniqueIdentifier>{1f7bbdca-1115-4d10-859a-b8bcde5e87d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\FMOD\Release">
+      <UniqueIdentifier>{f97f3455-85bb-4dac-a4d6-ed1ca4524f33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sound">
+      <UniqueIdentifier>{54b595c1-298d-4228-824e-bf73bfb5aba9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineWindow.cpp">
@@ -17,6 +35,9 @@
     </ClCompile>
     <ClCompile Include="WindowImage.cpp">
       <Filter>Window</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSound.cpp">
+      <Filter>Sound</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -29,5 +50,46 @@
     <ClInclude Include="WindowImage.h">
       <Filter>Window</Filter>
     </ClInclude>
+    <ClInclude Include="ThirdParty\FMOD\inc\fmod.h">
+      <Filter>ThirdParty\FMOD\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\FMOD\inc\fmod.hpp">
+      <Filter>ThirdParty\FMOD\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\FMOD\inc\fmod_codec.h">
+      <Filter>ThirdParty\FMOD\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\FMOD\inc\fmod_common.h">
+      <Filter>ThirdParty\FMOD\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\FMOD\inc\fmod_dsp.h">
+      <Filter>ThirdParty\FMOD\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\FMOD\inc\fmod_dsp_effects.h">
+      <Filter>ThirdParty\FMOD\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\FMOD\inc\fmod_errors.h">
+      <Filter>ThirdParty\FMOD\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\FMOD\inc\fmod_output.h">
+      <Filter>ThirdParty\FMOD\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSound.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="ThirdParty\FMOD\Debug\fmodL.dll">
+      <Filter>ThirdParty\FMOD\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\FMOD\Debug\fmodL_vc.lib">
+      <Filter>ThirdParty\FMOD\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\FMOD\Release\fmod.dll">
+      <Filter>ThirdParty\FMOD\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\FMOD\Release\fmod_vc.lib">
+      <Filter>ThirdParty\FMOD\Release</Filter>
+    </CopyFileToFolders>
   </ItemGroup>
 </Project>

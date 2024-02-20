@@ -46,7 +46,6 @@ public:
 	UEngineInput& operator=(UEngineInput&& _Other) noexcept = delete;
 
 	// 키 상태 확인 함수
-
 	static bool IsDown(int _Key)
 	{
 		if (false == AllKeys.contains(_Key))
