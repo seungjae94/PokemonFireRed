@@ -14,7 +14,7 @@
 #include "DialogueWindow.h"
 #include "MapNameWindow.h"
 #include "AnimatedFlower.h"
-
+#include "AnimatedSea.h"
 
 UMapLevel::UMapLevel()
 {
@@ -142,6 +142,20 @@ void UMapLevel::DrawFlowers(const std::vector<FTileVector>& _Points)
 	{
 		AnimatedFlower* Flower = SpawnActor<AnimatedFlower>();
 		Flower->SetActorLocation(Point.ToFVector());
+	}
+}
+
+void UMapLevel::DrawSeas(const std::vector<FTriple<int, int, int>> _Triples)
+{
+	for (const FTriple<int, int, int>& Triple : _Triples)
+	{
+		int PointX = Triple.first;
+		int PointY = Triple.second;
+		int Index = Triple.third;
+
+		AnimatedSea* Sea = SpawnActor<AnimatedSea>();
+		Sea->SetActorLocation(FTileVector(PointX, PointY).ToFVector());
+		Sea->Init(Index);
 	}
 }
 

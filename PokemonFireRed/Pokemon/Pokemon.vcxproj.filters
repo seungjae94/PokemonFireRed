@@ -183,6 +183,9 @@
     <ClInclude Include="AnimatedFlower.h">
       <Filter>2. MapLevel\4. Tile</Filter>
     </ClInclude>
+    <ClInclude Include="AnimatedSea.h">
+      <Filter>2. MapLevel\4. Tile</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PokemonCore.cpp">
@@ -303,6 +306,9 @@
       <Filter>Global\2. UI\Window</Filter>
     </ClCompile>
     <ClCompile Include="AnimatedFlower.cpp">
+      <Filter>2. MapLevel\4. Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimatedSea.cpp">
       <Filter>2. MapLevel\4. Tile</Filter>
     </ClCompile>
   </ItemGroup>

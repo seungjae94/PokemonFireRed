@@ -84,6 +84,7 @@ private:
 enum ERenderingOrder
 {
 	None,
+	BelowBackground,
 	Background,
 	BelowCharacter,
 	Lower,

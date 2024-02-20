@@ -13,6 +13,15 @@ enum class EDirection
 	None
 };
 
+template <typename A, typename B, typename C>
+struct FTriple
+{
+public:
+	A first;
+	B second;
+	C third;
+};
+
 struct FTileVector
 {
 public:
