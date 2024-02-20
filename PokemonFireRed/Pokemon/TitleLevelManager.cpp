@@ -1,9 +1,6 @@
 #include "TitleLevelManager.h"
 #include <EngineCore/EngineCore.h>
-#include <EngineCore/EngineResourcesManager.h>
-#include <EngineCore/ImageRenderer.h>
 #include "EventManager.h"
-#include "Global.h"
 #include "PokemonUtil.h"
 #include "TitleLevel.h"
 
@@ -24,57 +21,40 @@ void ATitleLevelManager::BeginPlay()
 
 void ATitleLevelManager::Tick(float _DeltaTime)
 {
+	Timer -= _DeltaTime;
+
 	switch (VideoNo)
 	{
 	case 0:
-		if (false == FirstVideoLoaded)
-		{
-			PrepareFirstPlay();
-		}
-
-		Video0Logic();
+		Video0Logic(_DeltaTime);
 		break;
 	case 1:
-		Video1Logic();
+		Video1Logic(_DeltaTime);
 		break;
 	case 2:
-		Video2Logic();
+		Video2Logic(_DeltaTime);
 		break;
 	case 3:
 		Video3Logic(_DeltaTime);
 		break;
 	case 4:
-		Video4Logic();
+		Video4Logic(_DeltaTime);
 		break;
 	default:
 		break;
 	}
 }
 
-void ATitleLevelManager::PrepareFirstPlay()
+void ATitleLevelManager::Video0Logic(float _DeltaTime)
 {
-	// 첫 번째 인트로 영상 로드
-	UEngineResourcesManager::GetInst().LoadFolder(CurDir->AppendPath("Video000"));
-	++VideoLoadCount[0];
-
-	Renderer->CreateAnimation("Video000", "Video000", 0, 187 - 1, 1 / 60.0f, false);
-	Renderer->SetImage("Video000");
-	Renderer->SetTransform({ {0, 0}, Global::Screen });
-	Renderer->ChangeAnimation("Video000");
-
-	FirstVideoLoaded = true;
-}
-
-void ATitleLevelManager::Video0Logic()
-{
-	if (true == Renderer->IsCurAnimationEnd())
+	if (Timer < 0.0f)
 	{
 		// 비디오 재생이 끝난 뒤에만 다음 영상으로 넘어간다.
 		PlayNextPart();
 	}
 }
 
-void ATitleLevelManager::Video1Logic()
+void ATitleLevelManager::Video1Logic(float _DeltaTime)
 {
 	if (true == IsAnyKeyboardDown())
 	{
@@ -83,14 +63,14 @@ void ATitleLevelManager::Video1Logic()
 		return;
 	}
 
-	if (true == Renderer->IsCurAnimationEnd())
+	if (Timer < 0.0f)
 	{
 		// 비디오 재생이 끝난 경우 다음 파트로 넘어간다.
 		PlayNextPart();
 	}
 }
 
-void ATitleLevelManager::Video2Logic()
+void ATitleLevelManager::Video2Logic(float _DeltaTime)
 {
 	if (true == IsAnyKeyboardDown())
 	{
@@ -99,7 +79,7 @@ void ATitleLevelManager::Video2Logic()
 		return;
 	}
 
-	if (true == Renderer->IsCurAnimationEnd())
+	if (Timer < 0.0f)
 	{
 		// 비디오 재생이 끝난 경우 다음 파트로 넘어간다.
 		PlayNextPart();
@@ -116,16 +96,16 @@ void ATitleLevelManager::Video3Logic(float _DeltaTime)
 		return;
 	}
 
-	if (true == Renderer->IsCurAnimationEnd())
+	if (Timer < 0.0f)
 	{
 		// 비디오 재생이 끝난 경우 다음 파트로 넘어간다.
 		PlayNextPart();
 	}
 }
 
-void ATitleLevelManager::Video4Logic()
+void ATitleLevelManager::Video4Logic(float _DeltaTime)
 {
-	if (true == Renderer->IsCurAnimationEnd())
+	if (Timer < 0.0f)
 	{
 		// 비디오 재생이 끝난 뒤에만 다음 파트로 넘어간다.
 		PlayNextPart();
@@ -134,11 +114,12 @@ void ATitleLevelManager::Video4Logic()
 
 void ATitleLevelManager::PlayNextPart()
 {
-	++PartNo;
-	if (PartNo >= VideoPartCount[VideoNo])
+	ImageIndex = (ImageIndex + 1) % ImageCount;
+	int NextVideoNo = (VideoNo + 1) % 5;
+
+	if (ImageIndex == VideoStartIndex[NextVideoNo])
 	{
-		PartNo = 0;
-		VideoNo = (VideoNo + 1) % 5;
+		VideoNo = NextVideoNo;
 	}
 
 	Play();
@@ -146,35 +127,25 @@ void ATitleLevelManager::PlayNextPart()
 
 void ATitleLevelManager::PlayNextVideo()
 {
-	PartNo = 0;
 	VideoNo = (VideoNo + 1) % 5;
-	
+	ImageIndex = VideoStartIndex[VideoNo];
+
 	Play();
 }
 
 void ATitleLevelManager::Play()
 {
-	std::string VideoName = GetVideoName(VideoNo, PartNo);
+	std::string ImageName = GetImageName();
 
-	// 아직 비디오가 로드되지 않은 경우
-	if (PartNo >= VideoLoadCount[VideoNo])
+	// 아직 비디오가 로드되지 않은 경우 로드한다.
+	if (false == ImageLoaded[ImageIndex])
 	{
-		int ImageCount = 100;
-		if (PartNo == 0)
-		{
-			ImageCount = FirstPartImageCount[VideoNo];
-		}
-		else if (PartNo == VideoPartCount[VideoNo] - 1)
-		{
-			ImageCount = LastPartImageCount[VideoNo];
-		}
-
-		UEngineResourcesManager::GetInst().LoadFolder(CurDir->AppendPath(VideoName));
-		Renderer->CreateAnimation(VideoName, VideoName, 0, ImageCount - 1, 1 / 60.0f, false);
-		++VideoLoadCount[VideoNo];
+		UEngineResourcesManager::GetInst().LoadImg(CurDir->AppendPath(GetPathName()));
+		ImageLoaded[ImageIndex] = true;
 	}
 
-	Renderer->ChangeAnimation(VideoName);
+	Renderer->SetImage(ImageName);
+	Timer = Interval;
 }
 
 

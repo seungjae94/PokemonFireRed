@@ -22,8 +22,8 @@ public:
 protected:
 	void BeginPlay() override;
 private:
-	ATitleLevelManager* Manager;
-	AEventTrigger* LevelChanger;
+	ATitleLevelManager* Manager = nullptr;
+	AEventTrigger* LevelChanger = nullptr;
 	UEngineDirectory CurDir;
 };
 

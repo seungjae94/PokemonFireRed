@@ -61,7 +61,7 @@ private:
 		FVector RendererScale = Renderer->GetTransform().GetScale();
 		FVector ActorTopLeft = GetActorLocation() - RendererScale.Half2D();
 		int TextX = MapNameText->GetCenterAlignedX(ActorTopLeft.iX(), RendererScale.iX());
-		int TextY = ActorTopLeft.iY() + 13 * Global::FloatPixelSize;
+		int TextY = ActorTopLeft.iY() + 13 * Global::PixelSize;
 		MapNameText->SetActorLocation({TextX, TextY});
 	}
 };

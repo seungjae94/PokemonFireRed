@@ -2,6 +2,8 @@
 #include <EngineBase/EngineDirectory.h>
 #include <EngineCore/Actor.h>
 #include <EngineCore/ImageRenderer.h>
+#include <EngineCore/EngineResourcesManager.h>
+#include "Global.h"
 
 class ATitleLevelManager : public AActor
 {
@@ -19,6 +21,12 @@ public:
 	void SetCurDir(UEngineDirectory* _CurDir)
 	{
 		CurDir = _CurDir;
+
+		// 첫 번째 이미지 로드
+		std::string PathName = GetPathName();
+		UEngineResourcesManager::GetInst().LoadImg(CurDir->AppendPath(PathName));
+		Renderer->SetImage(GetImageName());
+		Renderer->SetTransform({ {0, 0}, Global::Screen });
 	}
 
 protected:
@@ -29,35 +37,49 @@ private:
 	UImageRenderer* Renderer = nullptr;
 	UEngineDirectory* CurDir = nullptr;
 
-	bool FirstVideoLoaded = false;
+	float Interval = 1 / 60.0f;
+	float Timer = Interval;
+
+	const int ImageCount = 4331;
 	int VideoNo = 0;
-	int PartNo = 0;
-	int VideoPartCount[5] = { 1, 13, 1, 24, 1 };
-	int VideoLoadCount[5] = { 0, 0, 0, 0, 0 };
-	int FirstPartImageCount[5] = { 187, 72, 262, 150, 180 };
-	int LastPartImageCount[5] = { 187, 88, 262, 92, 180 };
+	int ImageIndex = 0;
+	int VideoStartIndex[5] = { 0, 187, 1447, 1709, 4151 };
+	bool ImageLoaded[4972] = { false, };
 
-	void PrepareFirstPlay();
-
-	void Video0Logic();
-	void Video1Logic();
-	void Video2Logic();
+	void Video0Logic(float _DeltaTime);
+	void Video1Logic(float _DeltaTime);
+	void Video2Logic(float _DeltaTime);
 	void Video3Logic(float _DeltaTime);
-	void Video4Logic();
+	void Video4Logic(float _DeltaTime);
 
-	std::string GetVideoName(int _No, int _PartNo)
+	std::string GetIndexName()
 	{
-		std::string PartName = "";
-		if (_PartNo < 10)
+		std::string IndexName = "";
+		if (ImageIndex < 1000)
 		{
-			PartName = "0" + std::to_string(_PartNo);
+			IndexName += "0";
 		}
-		else
+		if (ImageIndex < 100)
 		{
-			PartName = std::to_string(_PartNo);
+			IndexName += "0";
 		}
+		if (ImageIndex < 10)
+		{
+			IndexName += "0";
+		}
+		IndexName += std::to_string(ImageIndex);
+		return IndexName;
+	}
 
-		return "Video" + std::to_string(_No) + PartName;
+	std::string GetImageName()
+	{
+		return std::string("Intro") + GetIndexName() + ".bmp";
+	}
+
+	std::string GetPathName()
+	{
+		return std::string("Video")
+			+ std::to_string(VideoNo) + "/" + GetImageName();
 	}
 
 	void PlayNextPart();
