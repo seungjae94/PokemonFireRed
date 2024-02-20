@@ -7,27 +7,6 @@
     <Filter Include="Global">
       <UniqueIdentifier>{14dfdc14-0d12-4cbe-a0bb-70edbbcdf166}</UniqueIdentifier>
     </Filter>
-    <Filter Include="0. TitleLevel">
-      <UniqueIdentifier>{bdf06483-65f9-421f-b9ce-c1f2eea53612}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="0. TitleLevel\Actor">
-      <UniqueIdentifier>{6cca5fec-8768-4bb5-b4c6-002f4f8625d8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="1. TutorialLevel">
-      <UniqueIdentifier>{ab2603f4-b49f-4cce-bbee-1f484ffb3e1b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="1. TutorialLevel\Actor">
-      <UniqueIdentifier>{23378bf3-ee2f-42ae-9c85-d7d649d31738}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2. MapLevel">
-      <UniqueIdentifier>{eb8e903a-114a-4e5f-9718-0cc29052aa04}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2. MapLevel\0. Exterior Level">
-      <UniqueIdentifier>{3fc26597-d68c-41ee-99cf-0110f105e3ac}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2. MapLevel\1. Interior Level">
-      <UniqueIdentifier>{9aa64607-bb92-499d-8ea4-58531c624887}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Global\0. Util">
       <UniqueIdentifier>{363b44f9-6ba5-4290-afb2-239aea3b0006}</UniqueIdentifier>
     </Filter>
@@ -46,20 +25,47 @@
     <Filter Include="Global\2. UI\Window">
       <UniqueIdentifier>{d71a5ab4-ae77-40de-bd65-1c7df6b2d98d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2. MapLevel\2. Map">
+    <Filter Include="Level">
+      <UniqueIdentifier>{c65502e2-f0b1-44bb-b6d8-55257fcad413}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level\0. TitleLevel">
+      <UniqueIdentifier>{bdf06483-65f9-421f-b9ce-c1f2eea53612}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level\0. TitleLevel\Actor">
+      <UniqueIdentifier>{6cca5fec-8768-4bb5-b4c6-002f4f8625d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level\1. TutorialLevel">
+      <UniqueIdentifier>{ab2603f4-b49f-4cce-bbee-1f484ffb3e1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level\1. TutorialLevel\Actor">
+      <UniqueIdentifier>{23378bf3-ee2f-42ae-9c85-d7d649d31738}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level\2. MapLevel">
+      <UniqueIdentifier>{eb8e903a-114a-4e5f-9718-0cc29052aa04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level\2. MapLevel\0. Exterior Level">
+      <UniqueIdentifier>{3fc26597-d68c-41ee-99cf-0110f105e3ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level\2. MapLevel\1. Interior Level">
+      <UniqueIdentifier>{9aa64607-bb92-499d-8ea4-58531c624887}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level\2. MapLevel\2. Map">
       <UniqueIdentifier>{6c3a7b1f-92b9-4c62-aa47-73f55803e559}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2. MapLevel\3. Actor">
+    <Filter Include="Level\2. MapLevel\3. Actor">
       <UniqueIdentifier>{3b88d292-f9a2-4d41-863e-4b9d2397e54a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2. MapLevel\3. Actor\0. Player">
+    <Filter Include="Level\2. MapLevel\3. Actor\0. Player">
       <UniqueIdentifier>{303e1108-7ab1-4371-9aaa-464f75f69743}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2. MapLevel\3. Actor\1. Trigger">
+    <Filter Include="Level\2. MapLevel\3. Actor\1. Trigger">
       <UniqueIdentifier>{90534d3f-513a-4990-9f4b-e981d1191cf6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2. MapLevel\4. Tile">
+    <Filter Include="Level\2. MapLevel\4. Tile">
       <UniqueIdentifier>{2e631f4d-269c-44a0-8975-de30505b0590}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Global\3. Data">
+      <UniqueIdentifier>{c8a233f3-17a7-4d3f-a007-59e257088024}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -67,13 +73,13 @@
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="TitleLevel.h">
-      <Filter>0. TitleLevel</Filter>
+      <Filter>Level\0. TitleLevel</Filter>
     </ClInclude>
     <ClInclude Include="TitleLevelManager.h">
-      <Filter>0. TitleLevel\Actor</Filter>
+      <Filter>Level\0. TitleLevel\Actor</Filter>
     </ClInclude>
     <ClInclude Include="ExteriorPalletTownLevel.h">
-      <Filter>2. MapLevel\0. Exterior Level</Filter>
+      <Filter>Level\2. MapLevel\0. Exterior Level</Filter>
     </ClInclude>
     <ClInclude Include="Global.h">
       <Filter>Global\0. Util</Filter>
@@ -88,7 +94,7 @@
       <Filter>Global\0. Util</Filter>
     </ClInclude>
     <ClInclude Include="InteriorOaksLabLevel.h">
-      <Filter>2. MapLevel\1. Interior Level</Filter>
+      <Filter>Level\2. MapLevel\1. Interior Level</Filter>
     </ClInclude>
     <ClInclude Include="EventProcessor.h">
       <Filter>Global\1. Event</Filter>
@@ -97,19 +103,19 @@
       <Filter>Global\1. Event</Filter>
     </ClInclude>
     <ClInclude Include="DialogueActor.h">
-      <Filter>2. MapLevel\3. Actor\1. Trigger</Filter>
+      <Filter>Level\2. MapLevel\3. Actor\1. Trigger</Filter>
     </ClInclude>
     <ClInclude Include="Warp.h">
-      <Filter>2. MapLevel\3. Actor\1. Trigger</Filter>
+      <Filter>Level\2. MapLevel\3. Actor\1. Trigger</Filter>
     </ClInclude>
     <ClInclude Include="InteriorPlayersHouse1FLevel.h">
-      <Filter>2. MapLevel\1. Interior Level</Filter>
+      <Filter>Level\2. MapLevel\1. Interior Level</Filter>
     </ClInclude>
     <ClInclude Include="InteriorPlayersHouse2FLevel.h">
-      <Filter>2. MapLevel\1. Interior Level</Filter>
+      <Filter>Level\2. MapLevel\1. Interior Level</Filter>
     </ClInclude>
     <ClInclude Include="InteriorRivalsHouseLevel.h">
-      <Filter>2. MapLevel\1. Interior Level</Filter>
+      <Filter>Level\2. MapLevel\1. Interior Level</Filter>
     </ClInclude>
     <ClInclude Include="EventCondition.h">
       <Filter>Global\1. Event</Filter>
@@ -121,28 +127,28 @@
       <Filter>Global\2. UI</Filter>
     </ClInclude>
     <ClInclude Include="TutorialLevel.h">
-      <Filter>1. TutorialLevel</Filter>
+      <Filter>Level\1. TutorialLevel</Filter>
     </ClInclude>
     <ClInclude Include="TutorialLevelManager.h">
-      <Filter>1. TutorialLevel\Actor</Filter>
+      <Filter>Level\1. TutorialLevel\Actor</Filter>
     </ClInclude>
     <ClInclude Include="EventStream.h">
       <Filter>Global\1. Event</Filter>
     </ClInclude>
     <ClInclude Include="MapLevel.h">
-      <Filter>2. MapLevel</Filter>
+      <Filter>Level\2. MapLevel</Filter>
     </ClInclude>
     <ClInclude Include="PokemonLevel.h">
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="Stair.h">
-      <Filter>2. MapLevel\3. Actor\1. Trigger</Filter>
+      <Filter>Level\2. MapLevel\3. Actor\1. Trigger</Filter>
     </ClInclude>
     <ClInclude Include="InteriorDoor.h">
-      <Filter>2. MapLevel\3. Actor\1. Trigger</Filter>
+      <Filter>Level\2. MapLevel\3. Actor\1. Trigger</Filter>
     </ClInclude>
     <ClInclude Include="ExteriorDoor.h">
-      <Filter>2. MapLevel\3. Actor\1. Trigger</Filter>
+      <Filter>Level\2. MapLevel\3. Actor\1. Trigger</Filter>
     </ClInclude>
     <ClInclude Include="BlackScreen.h">
       <Filter>Global\2. UI\Fade</Filter>
@@ -154,10 +160,10 @@
       <Filter>Global\2. UI\Text</Filter>
     </ClInclude>
     <ClInclude Include="Map.h">
-      <Filter>2. MapLevel\2. Map</Filter>
+      <Filter>Level\2. MapLevel\2. Map</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>2. MapLevel\3. Actor\0. Player</Filter>
+      <Filter>Level\2. MapLevel\3. Actor\0. Player</Filter>
     </ClInclude>
     <ClInclude Include="EventTrigger.h">
       <Filter>Global\1. Event</Filter>
@@ -181,10 +187,13 @@
       <Filter>Global\2. UI\Window</Filter>
     </ClInclude>
     <ClInclude Include="AnimatedFlower.h">
-      <Filter>2. MapLevel\4. Tile</Filter>
+      <Filter>Level\2. MapLevel\4. Tile</Filter>
     </ClInclude>
     <ClInclude Include="AnimatedSea.h">
-      <Filter>2. MapLevel\4. Tile</Filter>
+      <Filter>Level\2. MapLevel\4. Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="Pokemon.h">
+      <Filter>Global\3. Data</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -192,13 +201,13 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="TitleLevel.cpp">
-      <Filter>0. TitleLevel</Filter>
+      <Filter>Level\0. TitleLevel</Filter>
     </ClCompile>
     <ClCompile Include="TitleLevelManager.cpp">
-      <Filter>0. TitleLevel\Actor</Filter>
+      <Filter>Level\0. TitleLevel\Actor</Filter>
     </ClCompile>
     <ClCompile Include="ExteriorPalletTownLevel.cpp">
-      <Filter>2. MapLevel\0. Exterior Level</Filter>
+      <Filter>Level\2. MapLevel\0. Exterior Level</Filter>
     </ClCompile>
     <ClCompile Include="Global.cpp">
       <Filter>Global\0. Util</Filter>
@@ -213,7 +222,7 @@
       <Filter>Global\0. Util</Filter>
     </ClCompile>
     <ClCompile Include="InteriorOaksLabLevel.cpp">
-      <Filter>2. MapLevel\1. Interior Level</Filter>
+      <Filter>Level\2. MapLevel\1. Interior Level</Filter>
     </ClCompile>
     <ClCompile Include="EventProcessor.cpp">
       <Filter>Global\1. Event</Filter>
@@ -222,19 +231,19 @@
       <Filter>Global\1. Event</Filter>
     </ClCompile>
     <ClCompile Include="DialogueActor.cpp">
-      <Filter>2. MapLevel\3. Actor\1. Trigger</Filter>
+      <Filter>Level\2. MapLevel\3. Actor\1. Trigger</Filter>
     </ClCompile>
     <ClCompile Include="Warp.cpp">
-      <Filter>2. MapLevel\3. Actor\1. Trigger</Filter>
+      <Filter>Level\2. MapLevel\3. Actor\1. Trigger</Filter>
     </ClCompile>
     <ClCompile Include="InteriorPlayersHouse1FLevel.cpp">
-      <Filter>2. MapLevel\1. Interior Level</Filter>
+      <Filter>Level\2. MapLevel\1. Interior Level</Filter>
     </ClCompile>
     <ClCompile Include="InteriorPlayersHouse2FLevel.cpp">
-      <Filter>2. MapLevel\1. Interior Level</Filter>
+      <Filter>Level\2. MapLevel\1. Interior Level</Filter>
     </ClCompile>
     <ClCompile Include="InteriorRivalsHouseLevel.cpp">
-      <Filter>2. MapLevel\1. Interior Level</Filter>
+      <Filter>Level\2. MapLevel\1. Interior Level</Filter>
     </ClCompile>
     <ClCompile Include="EventCondition.cpp">
       <Filter>Global\1. Event</Filter>
@@ -246,28 +255,28 @@
       <Filter>Global\2. UI</Filter>
     </ClCompile>
     <ClCompile Include="TutorialLevel.cpp">
-      <Filter>1. TutorialLevel</Filter>
+      <Filter>Level\1. TutorialLevel</Filter>
     </ClCompile>
     <ClCompile Include="TutorialLevelManager.cpp">
-      <Filter>1. TutorialLevel\Actor</Filter>
+      <Filter>Level\1. TutorialLevel\Actor</Filter>
     </ClCompile>
     <ClCompile Include="EventStream.cpp">
       <Filter>Global\1. Event</Filter>
     </ClCompile>
     <ClCompile Include="MapLevel.cpp">
-      <Filter>2. MapLevel</Filter>
+      <Filter>Level\2. MapLevel</Filter>
     </ClCompile>
     <ClCompile Include="PokemonLevel.cpp">
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="Stair.cpp">
-      <Filter>2. MapLevel\3. Actor\1. Trigger</Filter>
+      <Filter>Level\2. MapLevel\3. Actor\1. Trigger</Filter>
     </ClCompile>
     <ClCompile Include="InteriorDoor.cpp">
-      <Filter>2. MapLevel\3. Actor\1. Trigger</Filter>
+      <Filter>Level\2. MapLevel\3. Actor\1. Trigger</Filter>
     </ClCompile>
     <ClCompile Include="ExteriorDoor.cpp">
-      <Filter>2. MapLevel\3. Actor\1. Trigger</Filter>
+      <Filter>Level\2. MapLevel\3. Actor\1. Trigger</Filter>
     </ClCompile>
     <ClCompile Include="BlackScreen.cpp">
       <Filter>Global\2. UI\Fade</Filter>
@@ -279,10 +288,10 @@
       <Filter>Global\2. UI\Text</Filter>
     </ClCompile>
     <ClCompile Include="Map.cpp">
-      <Filter>2. MapLevel\2. Map</Filter>
+      <Filter>Level\2. MapLevel\2. Map</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>2. MapLevel\3. Actor\0. Player</Filter>
+      <Filter>Level\2. MapLevel\3. Actor\0. Player</Filter>
     </ClCompile>
     <ClCompile Include="EventTrigger.cpp">
       <Filter>Global\1. Event</Filter>
@@ -306,10 +315,13 @@
       <Filter>Global\2. UI\Window</Filter>
     </ClCompile>
     <ClCompile Include="AnimatedFlower.cpp">
-      <Filter>2. MapLevel\4. Tile</Filter>
+      <Filter>Level\2. MapLevel\4. Tile</Filter>
     </ClCompile>
     <ClCompile Include="AnimatedSea.cpp">
-      <Filter>2. MapLevel\4. Tile</Filter>
+      <Filter>Level\2. MapLevel\4. Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="Pokemon.cpp">
+      <Filter>Global\3. Data</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
