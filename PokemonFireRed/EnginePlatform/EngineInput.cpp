@@ -194,6 +194,7 @@ void UEngineInput::EngineKey::KeyCheck(float _DeltaTime)
 		}
 		else if (Down == true)
 		{
+			UpTime = 0.0f;
 			PressTime += _DeltaTime;
 
 			// Down의 다음 프레임인 경우
@@ -206,6 +207,7 @@ void UEngineInput::EngineKey::KeyCheck(float _DeltaTime)
 	// 실제로 키가 눌려있지 않은 경우
 	else
 	{
+		UpTime += _DeltaTime;
 		if (Press == true)
 		{
 			PressTime = 0.0f;
