@@ -126,6 +126,11 @@ unsigned __int64 UEngineWindow::WindowMessageLoop(void(*_Update)(), void(*_End)(
 			// EngineWindow::WndProc로 윈도우 메시지를 처리한다.
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
+
+			if (false == WindowLive)
+			{
+				break;
+			}
 		}
 
 		if (nullptr != _Update)
