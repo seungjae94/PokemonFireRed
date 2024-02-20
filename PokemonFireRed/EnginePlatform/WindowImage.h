@@ -61,6 +61,9 @@ public:
 
 	FVector GetScale();
 
+	// 이미지 회전에 사용하는 함수
+	void PlgCopy(UWindowImage* _CopyImage, const FTransform& _Trans, int _Index, float _Angle);
+
 	/// <summary>
 	/// 이미지 this에 이미지 _CopyImage를 그려주는 함수.
 	/// 주 사용처: 윈도우 이미지에 백버퍼 이미지를 그릴 때 사용.
