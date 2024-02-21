@@ -44,6 +44,15 @@ protected:
 		MoveCursor(Cursor);
 	}
 private:
+	enum MenuIndex
+	{
+		Pokedex,
+		Pokemon,
+		Bag,
+		Player,
+		Exit,
+	};
+
 	bool IsFirstTick = true;
 
 	UImageRenderer* MenuWindowRenderer = nullptr;
@@ -74,6 +83,9 @@ you bought, received, or found.)",
 
 	// 현재 커서 위치에 따라 메뉴 액션 실행
 	void MenuAction();
+
+	void ExitMenu();
+
 	
 	int GetMenuIndex()
 	{

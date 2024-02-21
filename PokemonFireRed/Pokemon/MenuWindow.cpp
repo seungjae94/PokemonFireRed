@@ -149,14 +149,10 @@ void AMenuWindow::Tick(float _DeltaTime)
 		DrawMenuTexts();
 	}
 
-	// 입력 처리
+	// 메뉴창 끄기
 	if (true == UEngineInput::IsDown(VK_RETURN) || true == UEngineInput::IsDown('X'))
 	{
-		ActiveOff();
-		AllRenderersActiveOff();
-		IsFirstTick = true;
-
-		UEventManager::TriggerEvent(MenuWindowCloseTrigger, EEventTriggerAction::Direct);
+		ExitMenu();
 		return;
 	}
 
@@ -176,7 +172,7 @@ void AMenuWindow::Tick(float _DeltaTime)
 
 	if (true == UEngineInput::IsDown('Z'))
 	{
-
+		MenuAction();
 		return;
 	}
 }
@@ -211,7 +207,30 @@ void AMenuWindow::MenuAction()
 {
 	int MenuIndex = GetMenuIndex();
 
-	int a = 0;
+	switch (MenuIndex)
+	{
+	case MenuIndex::Pokedex:
+		break;
+	case MenuIndex::Pokemon:
+		break;
+	case MenuIndex::Bag:
+		break;
+	case MenuIndex::Player:
+		break;
+	case MenuIndex::Exit:
+		ExitMenu();
+		break;
+	default:
+		break;
+	}
+}
+
+void AMenuWindow::ExitMenu()
+{
+	ActiveOff();
+	AllRenderersActiveOff();
+	IsFirstTick = true;
+	UEventManager::TriggerEvent(MenuWindowCloseTrigger, EEventTriggerAction::Direct);
 }
 
 void AMenuWindow::DrawMenuWindow()
