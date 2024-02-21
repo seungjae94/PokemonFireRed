@@ -50,6 +50,7 @@ void AMapNameWindow::BeginPlay()
 	// 텍스트 설정
 	UPokemonLevel* CurLevel = dynamic_cast<UPokemonLevel*>(GetWorld());
 	MapNameText = CurLevel->SpawnUIElement<APokemonText>("MapNameText");
+	MapNameText->SetContainer(this);
 	MapNameText->SetColor(EFontColor::Gray);
 	UpdateTextPos();
 }

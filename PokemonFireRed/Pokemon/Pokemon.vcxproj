@@ -338,6 +338,14 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="PokemonUILevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="PokemonUILevelManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Warp.h">
       <SubType>
       </SubType>
@@ -513,6 +521,14 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="UIElement.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PokemonUILevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PokemonUILevelManager.cpp">
       <SubType>
       </SubType>
     </ClCompile>

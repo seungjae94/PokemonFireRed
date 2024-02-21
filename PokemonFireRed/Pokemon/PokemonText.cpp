@@ -95,6 +95,18 @@ void APokemonText::SetInvisible()
 
 void APokemonText::Tick(float _DeltaTime)
 {
+	if (nullptr == Container)
+	{
+		MsgBoxAssert(GetWorld()->GetName() + ":" + GetName() + " 텍스트에 컨테이너를 설정하지 않았습니다.");
+		return;
+	}
+
+	if (false == Container->IsActive())
+	{
+		SetInvisible();
+		return;
+	}
+
 	if (false == IsSequential || true == RenderEnd) 
 	{
 		return;

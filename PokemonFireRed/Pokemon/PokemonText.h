@@ -74,6 +74,10 @@ public:
 		}
 	}
 
+	void SetContainer(AActor* _Container)
+	{
+		Container = _Container;
+	}
 
 	void SetLineSpace(int _LineSpace)
 	{
@@ -103,27 +107,6 @@ public:
 
 protected:
 	void Tick(float _DeltaTime) override;
-	
-	void Sync(AUIElement* _Other) override
-	{
-		APokemonText* Other = dynamic_cast<APokemonText*>(_Other);
-
-		if (nullptr == Other)
-		{
-			MsgBoxAssert(_Other->GetName() +
-				"은 PokemonText가 아닙니다. Sync 함수에서 다운 캐스팅이 실패했습니다.");
-			return;
-		}
-
-		if (Other->IsActive())
-		{
-			SetVisible();
-		}
-		else
-		{
-			SetInvisible();
-		}
-	}
 private:
 	class GlyphAlignRule
 	{
@@ -133,6 +116,8 @@ private:
 		int Height = 0;
 		int Base = 0;
 	};
+
+	AActor* Container = nullptr;
 
 	int LineSpace = 14;
 	EFontColor Color = EFontColor::White;

@@ -104,7 +104,11 @@ and POKéMON as data via PC.)"
 	});
 
 	// 디버그용 포켓몬 추가 이벤트
-	UBulbasaur Pokemon = UBulbasaur();
-	UPlayerData::AddPokemonToEntry(Pokemon);
+	UBulbasaur Pokemon0 = UBulbasaur();
+	UBulbasaur Pokemon1 = UBulbasaur();
+	UBulbasaur Pokemon2 = UBulbasaur();
+	UPlayerData::AddPokemonToEntry(Pokemon0);
+	UPlayerData::AddPokemonToEntry(Pokemon1);
+	UPlayerData::AddPokemonToEntry(Pokemon2);
 	UPlayerData::Achieve(EAchievement::GetFirstPokemon);
 }

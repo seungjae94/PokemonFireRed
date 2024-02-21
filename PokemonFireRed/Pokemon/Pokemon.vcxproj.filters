@@ -207,6 +207,12 @@
     <ClInclude Include="PlayerData.h">
       <Filter>Global\4. Data</Filter>
     </ClInclude>
+    <ClInclude Include="PokemonUILevel.h">
+      <Filter>Level\3. UILevel</Filter>
+    </ClInclude>
+    <ClInclude Include="PokemonUILevelManager.h">
+      <Filter>Level\3. UILevel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PokemonCore.cpp">
@@ -340,6 +346,12 @@
     </ClCompile>
     <ClCompile Include="PlayerData.cpp">
       <Filter>Global\4. Data</Filter>
+    </ClCompile>
+    <ClCompile Include="PokemonUILevel.cpp">
+      <Filter>Level\3. UILevel</Filter>
+    </ClCompile>
+    <ClCompile Include="PokemonUILevelManager.cpp">
+      <Filter>Level\3. UILevel</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

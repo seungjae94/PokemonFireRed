@@ -35,6 +35,7 @@ const std::string Global::InteriorOaksLabLevel = "InteriorOaksLabLevel";
 const std::string Global::InteriorRivalsHouseLevel = "InteriorRivalsHouseLevel";
 const std::string Global::InteriorPlayersHouse1FLevel = "InteriorPlayersHouse1FLevel";
 const std::string Global::InteriorPlayersHouse2FLevel = "InteriorPlayersHouse2FLevel";
+const std::string Global::PokemonUILevel = "PokemonUILevel";
 
 const std::string Global::PlayerName = "Player";
 

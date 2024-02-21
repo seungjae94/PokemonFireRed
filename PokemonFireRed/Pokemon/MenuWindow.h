@@ -38,9 +38,11 @@ protected:
 		}
 
 		MenuCount = Other->MenuCount;
-		Cursor = Other->Cursor;
-		MenuCount = Other->MenuCount;
+		DrawMenuWindow();
+		DrawMenuTexts();
+		DrawExplainText();
 
+		Cursor = Other->Cursor;
 		MoveCursor(Cursor);
 	}
 private:
@@ -94,6 +96,8 @@ you bought, received, or found.)",
 
 	void DrawMenuWindow();
 	void DrawMenuTexts();
+	void DrawArrow();
+	void DrawExplainText();
 	
 	FVector GetArrowPos();
 

@@ -2,6 +2,7 @@
 #include <EngineBase/EngineMath.h>
 #include <EngineBase/Transform.h>
 #include <EngineCore/Actor.h>
+#include "Global.h"
 
 class UPokemonUtil
 {
@@ -29,6 +30,32 @@ public:
 		return GetLeftTop(_DestTrans) + FVector(_SrcScale).Half2D();
 	}
 
+	// 이미지를 화면 좌상단에 잘리지 않게 배치하고 싶을 때 이미지의 위치
+	static FVector GetLeftTopAlignPos(const FVector& _Scale)
+	{
+		FVector Scale = _Scale;
+		return Scale.Half2D();
+	}
+
+	// 이미지를 화면 좌하단에 잘리지 않게 배치하고 싶을 때 이미지의 위치
+	static FVector GetLeftBotAlignPos(const FVector& _Scale)
+	{
+		return FVector(0, Global::ScreenY) + FVector(_Scale.X / 2, -_Scale.Y / 2);
+	}
+
+	// 이미지를 화면 우상단에 잘리지 않게 배치하고 싶을 때 이미지의 위치
+	static FVector GetRightTopAlignPos(const FVector& _Scale)
+	{
+		return FVector(Global::ScreenX, 0) + FVector(-_Scale.X / 2, _Scale.Y / 2);
+	}
+
+	// 이미지를 화면 우하단에 잘리지 않게 배치하고 싶을 때 이미지의 위치
+	static FVector GetRightBotAlignPos(const FVector& _Scale)
+	{
+		FVector Scale = _Scale;
+		return FVector(Global::ScreenX, Global::ScreenY) - Scale.Half2D();
+	}
+
 	static void ToggleActive(AActor* _Actor)
 	{
 		bool ActiveValue = _Actor->IsActive();
@@ -44,6 +71,8 @@ public:
 	}
 
 	static std::vector<int> FrameCountVectorToIndexVector(std::vector<int> _FrameCounts);
+
+	static FVector GetRenderScale(UImageRenderer* _Renderer);
 
 	static std::vector<std::string> StringSplit(const std::string& _Str, char _Delimeter = '\n');
 	static std::vector<std::wstring> StringSplit(std::wstring_view _Str, wchar_t _Delimeter = L'\n');

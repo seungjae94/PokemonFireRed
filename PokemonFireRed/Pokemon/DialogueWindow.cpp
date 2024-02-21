@@ -57,6 +57,7 @@ void ADialogueWindow::BeginPlay()
 	// 대화 내용
 	UPokemonLevel* CurLevel = dynamic_cast<UPokemonLevel*>(GetWorld());
 	Text = CurLevel->SpawnUIElement<APokemonText>("DialogueText");
+	Text->SetContainer(this);
 	Text->SetActorLocation(FVector(16, 132) * Global::FloatPixelSize);
 	Text->SetText(LR"(Not Initialized...)");
 }

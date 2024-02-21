@@ -21,6 +21,11 @@ public:
 	static void AddPokemonToEntry(const UPokemon& _Pokemon);
 	static void AddPokemonToComputer(const UPokemon& _Pokemon);
 	
+	static int GetPokemonEntrySize()
+	{
+		return static_cast<int>(PokemonEntry.size());
+	}
+
 	static bool IsAchieved(EAchievement _Achievement)
 	{
 		return AchievementMap[_Achievement];

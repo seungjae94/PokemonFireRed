@@ -62,6 +62,7 @@ public:
 	static const std::string InteriorRivalsHouseLevel;
 	static const std::string InteriorPlayersHouse1FLevel;
 	static const std::string InteriorPlayersHouse2FLevel;
+	static const std::string PokemonUILevel;
 
 	static const std::string PlayerName;
 

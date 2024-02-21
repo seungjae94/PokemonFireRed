@@ -1,5 +1,6 @@
 #include "PokemonUtil.h"
 #include <sstream>
+#include "Global.h"
 
 UPokemonUtil::UPokemonUtil()
 {
@@ -24,6 +25,12 @@ std::vector<int> UPokemonUtil::FrameCountVectorToIndexVector(std::vector<int> _F
 	}
 
 	return Indexes;
+}
+
+FVector UPokemonUtil::GetRenderScale(UImageRenderer* _Renderer)
+{
+	UWindowImage* Image = _Renderer->GetImage();
+	return Image->GetScale() * Global::FloatPixelSize;
 }
 
 std::vector<std::string> UPokemonUtil::StringSplit(const std::string& _Str, char _Delimeter)
