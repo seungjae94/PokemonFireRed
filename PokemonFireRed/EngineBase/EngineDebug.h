@@ -4,7 +4,7 @@
 #include <string>
 #include <string_view>
 
-namespace EngineDebug
+namespace UEngineDebug
 {
 // _CrtSetDbgFlag: https://learn.microsoft.com/en-us/cpp/c-runtime-library/reference/crtsetdbgflag?view=msvc-170
 #define LeakCheck _CrtSetDbgFlag(_CRTDBG_LEAK_CHECK_DF | _CRTDBG_ALLOC_MEM_DF);

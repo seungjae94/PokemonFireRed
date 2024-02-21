@@ -3,6 +3,10 @@
 #include <EngineBase\EngineMath.h>
 #include <EngineBase\Transform.h>
 #include <Windows.h>
+#include <string>
+#include <string_view>
+#include <objidl.h>
+#include <gdiplus.h>
 
 enum class EImageLoadType
 {
@@ -98,6 +102,8 @@ public:
 
 	void TextCopy(const std::string& _Text, const std::string& _Font, float _Size, const FTransform& _Trans, Color8Bit _Color);
 
+	void TextCopyFormat(const std::string& _Text, const std::string& _Font, const Gdiplus::StringFormat& stringFormat, float _Size, const FTransform& _Trans, Color8Bit _Color);
+
 	// 주 사용처: 백버퍼 이미지 생성
 	// - 리소스 이미지는 Load로 생성한다.
 	bool Create(UWindowImage* _Image, const FVector& _Scale);
@@ -118,6 +124,8 @@ public:
 	{
 		RotationMaskImage = _RotationMaskImage;
 	}
+
+	void TextPrint(std::string_view _Text, FVector _Pos);
 
 protected:
 

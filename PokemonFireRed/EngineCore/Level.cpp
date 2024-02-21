@@ -1,6 +1,7 @@
 #include "Level.h"
 
 #include <EngineBase/EngineDebug.h>
+#include "EngineDebug.h"
 #include "Actor.h"
 #include "EngineCore.h"
 
@@ -92,6 +93,7 @@ void ULevel::LevelRender(float _DeltaTime)
 				Collision->DebugRender(CameraPos);
 			}
 		}
+		UEngineDebug::PrintDebugText(GEngine->MainWindow.GetBackBufferImage());
 	}
 }
 

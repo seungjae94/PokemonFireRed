@@ -7,8 +7,6 @@
 
 // GDI 관련 라이브러리
 #pragma comment(lib, "Msimg32.lib")
-#include <objidl.h>
-#include <gdiplus.h>
 #pragma comment(lib, "Gdiplus.lib")
 
 UWindowImage::UWindowImage()
@@ -422,6 +420,20 @@ void UWindowImage::TextCopy(const std::string& _Text, const std::string& _Font, 
 	graphics.DrawString(WText.c_str(), -1, &fnt, rectF, &stringFormat, &hB); 
 }
 
+void UWindowImage::TextCopyFormat(const std::string& _Text, const std::string& _Font, const Gdiplus::StringFormat& stringFormat, float _Size, const FTransform& _Trans, Color8Bit _Color /*= Color8Bit::Black*/)
+{
+	Gdiplus::Graphics graphics(ImageDC);
+	std::wstring WFont = UEngineString::AnsiToUniCode(_Font);
+	Gdiplus::Font fnt(WFont.c_str(), _Size, /*Gdiplus::FontStyleBold | Gdiplus::FontStyleItalic*/0, Gdiplus::UnitPixel);
+	Gdiplus::SolidBrush hB(Gdiplus::Color(_Color.R, _Color.G, _Color.B));
+	FVector Pos = _Trans.GetPosition();
+	Gdiplus::RectF  rectF(_Trans.GetPosition().X, _Trans.GetPosition().Y, 0, 0);
+
+	std::wstring WText = UEngineString::AnsiToUniCode(_Text);
+	graphics.DrawString(WText.c_str(), -1, &fnt, rectF, &stringFormat, &hB);  //출력
+}
+
+
 void UWindowImage::Cutting(int _X, int _Y)
 {
 	Infos.clear();
@@ -483,4 +495,9 @@ Color8Bit UWindowImage::GetColor(int _X, int _Y, Color8Bit _DefaultColor)
 	Color8Bit Color;
 	Color.Color = ::GetPixel(ImageDC, _X, _Y);
 	return Color;
+}
+
+void UWindowImage::TextPrint(std::string_view _Text, FVector _Pos)
+{
+	TextOutA(ImageDC, _Pos.iX(), _Pos.iY(), _Text.data(), static_cast<int>(_Text.size()));
 }
