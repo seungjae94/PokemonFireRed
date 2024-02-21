@@ -1,5 +1,6 @@
 #include "Pokemon.h"
 #include "PokemonMath.h"
+#include <random>
 
 UPokemon::UPokemon()
 {
@@ -146,7 +147,43 @@ int UPokemon::GetExpForNextLevel() const
 		return 0;
 	}
 
-	return GetAccExpForLevel(Level + 1) - GetAccExpForLevel(Level);
+	return GetAccExpForLevel(Level + 1) - AccExp;
+}
+
+void UPokemon::SetRandomIVs()
+{
+	IHp = UPokemonMath::RandomInt(0, 31);
+	IAtk = UPokemonMath::RandomInt(0, 31);
+	IDef = UPokemonMath::RandomInt(0, 31);
+	ISpAtk = UPokemonMath::RandomInt(0, 31);
+	ISpDef = UPokemonMath::RandomInt(0, 31);
+	ISpeed = UPokemonMath::RandomInt(0, 31);
+}
+
+void UPokemon::SetRandomGender(float _MaleRatio)
+{
+	int GenderInt = UPokemonMath::Random(0.0f, 1.0f);
+
+	if (GenderInt <= _MaleRatio)
+	{
+		Gender = EGender::Male;
+	}
+	else
+	{
+		Gender = EGender::Female;
+	}
+}
+
+void UPokemon::SetRandomNature()
+{
+	int NatureInt = UPokemonMath::Random(0, static_cast<int>(ENature::MAX) - 1);
+	Nature = static_cast<ENature>(NatureInt);
+}
+
+void UPokemon::SetRandomAbility(std::vector<EAbility> _Abilities)
+{
+	int AbilityInt = UPokemonMath::RandomInt(0, _Abilities.size() - 1);
+	Ability = _Abilities[AbilityInt];
 }
 
 int UPokemon::GetAccExpForLevel(int _Level) const

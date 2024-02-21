@@ -3,9 +3,21 @@
 
 enum class EAbility
 {
-	None,
+	NONE,
 	Overgrow,
-
+	Blaze,
+	Torrent,
+	ShieldDust,
+	ShedSkin,
+	CompoundEyes,
+	Swarm,
+	KeenEye,
+	RunAway,
+	Guts,
+	Intimidate,
+	Static,
+	SandVeil,
+	PoisonPoint,
 };
 
 enum class EGender
@@ -16,7 +28,7 @@ enum class EGender
 
 enum class ENature
 {
-	None,		// Inc (x1.1)	Dec (x0.9)
+	NONE,		// Inc (x1.1)	Dec (x0.9)
 	Hardy,		// None			None
 	Lonely,		// Atk			Def
 	Brave,		// Atk			Speed
@@ -41,7 +53,8 @@ enum class ENature
 	Calm,		// SpDef		Atk
 	Gentle,		// SpDef		Def
 	Sassy,		// SpDef		Speed
-	Careful		// SpDef		SpAtk
+	Careful,		// SpDef		SpAtk
+	MAX,
 };
 
 enum class EPokemonStatus
@@ -57,7 +70,7 @@ enum class EPokemonStatus
 // 종에 소속
 enum class EExperienceGroup
 {	
-	None,		// 레벨 100 기준 누적 경험치		누적 경험치 공식
+	NONE,		// 레벨 100 기준 누적 경험치		누적 경험치 공식
 	Erratic,	// 600,000						piecewise
 	Fast,		// 800,000						0.8n^3
 	MediumFast,	// 1,000,000					n^3
@@ -68,7 +81,6 @@ enum class EExperienceGroup
 
 enum class EPokemonType
 {
-	None,
 	Normal,
 	Fighting,
 	Flying,
@@ -116,27 +128,12 @@ public:
 	
 	int GetExpForNextLevel() const;
 
-	// 디버그
 	void SetLevel(int _Level)
 	{
 		Level = _Level;
 	}
 
-	void SetExpGroup(EExperienceGroup _ExpGroup)
-	{
-		ExpGroup = _ExpGroup;
-	}
-
 protected:
-
-private:
-	// 레벨과 누적 경험치
-	int Level = 0;
-	int AccExp = 0;
-
-	// 현재 체력
-	int CurHp = 0;
-
 	// Base Stat
 	int BHp = 0;
 	int BAtk = 0;
@@ -145,6 +142,43 @@ private:
 	int BSpDef = 0;
 	int BSpeed = 0;
 
+	// Effort Value Yield (기절했을 때 상대에게 주는 노력치)
+	int YHp = 0;
+	int YAtk = 0;
+	int YDef = 0;
+	int YSpAtk = 0;
+	int YSpDef = 0;
+	int YSpeed = 0;
+
+	// 레벨과 누적 경험치
+	int Level = 0;
+	int AccExp = 0;
+
+	// 현재 체력
+	int CurHp = 0;
+
+	// Nature
+	ENature Nature = ENature::NONE;
+
+	// 기타
+	EAbility Ability = EAbility::NONE;
+	EExperienceGroup ExpGroup = EExperienceGroup::NONE;
+	std::vector<EPokemonType> Types;
+	int CatchRate = 0;
+	int Friendship = 0;
+
+	// 함수
+	void SetRandomIVs();
+	void SetRandomGender(float _MaleRatio);
+	void SetRandomNature();
+	void SetRandomAbility(std::vector<EAbility> _Abilities);
+	int GetAccExpForLevel(int _Level) const;
+	int GetErraticAccExpForLevel(int _Level) const;
+	int GetFluctuatingAccExpForLevel(int _Level) const;
+
+
+
+private:
 	// Individual Value
 	int IHp = 0;
 	int IAtk = 0;
@@ -161,17 +195,7 @@ private:
 	int ESpDef = 0;
 	int ESpeed = 0;
 
-	// Nature
-	ENature Nature = ENature::None;
-
 	// 기타
 	EGender Gender = EGender::Male;
-	EAbility Ability = EAbility::None;
-	EExperienceGroup ExpGroup = EExperienceGroup::None;
-	std::vector<EPokemonType> Types;
-
-	int GetAccExpForLevel(int _Level) const;
-	int GetErraticAccExpForLevel(int _Level) const;
-	int GetFluctuatingAccExpForLevel(int _Level) const;
 };
 

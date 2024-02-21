@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <random>
 #include <EngineBase/EngineMath.h>
 #include <EngineBase/EngineDebug.h>
 #include "Global.h"
@@ -195,9 +196,15 @@ public:
 		return Result;
 	}
 
+	/// <param name="_Start">Inclusive</param>
+	/// <param name="_End">Inclusive</param>
+	static int RandomInt(int _Start, int _End);
+	static float Random(float _Start, float _End);
+
 protected:
 
 private:
-
+	static std::random_device RandomDevice;
+	static std::mt19937 RandomGenerator;
 };
 

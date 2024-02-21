@@ -64,7 +64,7 @@
     <Filter Include="Level\2. MapLevel\4. Tile">
       <UniqueIdentifier>{2e631f4d-269c-44a0-8975-de30505b0590}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Global\3. Data">
+    <Filter Include="Global\3. Pokemon">
       <UniqueIdentifier>{c8a233f3-17a7-4d3f-a007-59e257088024}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -193,7 +193,10 @@
       <Filter>Level\2. MapLevel\4. Tile</Filter>
     </ClInclude>
     <ClInclude Include="Pokemon.h">
-      <Filter>Global\3. Data</Filter>
+      <Filter>Global\3. Pokemon</Filter>
+    </ClInclude>
+    <ClInclude Include="Bulbasaur.h">
+      <Filter>Global\3. Pokemon</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -321,7 +324,10 @@
       <Filter>Level\2. MapLevel\4. Tile</Filter>
     </ClCompile>
     <ClCompile Include="Pokemon.cpp">
-      <Filter>Global\3. Data</Filter>
+      <Filter>Global\3. Pokemon</Filter>
+    </ClCompile>
+    <ClCompile Include="Bulbasaur.cpp">
+      <Filter>Global\3. Pokemon</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

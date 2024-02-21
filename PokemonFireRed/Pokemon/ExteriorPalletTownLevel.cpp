@@ -4,6 +4,8 @@
 #include "ExteriorDoor.h"
 #include "DialogueActor.h"
 #include "PokemonText.h"
+#include "Pokemon.h"
+#include "Bulbasaur.h"
 
 UExteriorPalletTownLevel::UExteriorPalletTownLevel()
 {
@@ -99,4 +101,6 @@ and POKéMON as data via PC.)"
 		{71, 157, 0}, {72, 157, 0}, {73, 157, 0}, {74, 157, 0},
 		{71, 158, 0}, {72, 158, 0}, {73, 158, 0}, {74, 158, 0},
 	});
+
+	UBulbasaur Pokemon = UBulbasaur();
 }
