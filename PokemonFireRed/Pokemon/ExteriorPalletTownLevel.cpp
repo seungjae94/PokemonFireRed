@@ -6,6 +6,7 @@
 #include "PokemonText.h"
 #include "Pokemon.h"
 #include "Bulbasaur.h"
+#include "PlayerData.h"
 
 UExteriorPalletTownLevel::UExteriorPalletTownLevel()
 {
@@ -102,5 +103,7 @@ and POKéMON as data via PC.)"
 		{71, 158, 0}, {72, 158, 0}, {73, 158, 0}, {74, 158, 0},
 	});
 
+	// 디버그용 포켓몬 추가 이벤트
 	UBulbasaur Pokemon = UBulbasaur();
+	UPlayerData::AddPokemonToEntry(Pokemon);
 }

@@ -165,6 +165,12 @@ void AMenuWindow::Tick(float _DeltaTime)
 		MenuExplainText->SetVisible();
 		return;
 	}
+
+	if (true == UEngineInput::IsDown('Z'))
+	{
+
+		return;
+	}
 }
 
 void AMenuWindow::IncCursor()
@@ -191,6 +197,13 @@ void AMenuWindow::MoveCursor(int _Cursor)
 	FVector ArrowPos = GetArrowPos();
 	ArrowRenderer->SetPosition(ArrowPos);
 	MenuExplainText->SetText(MenuExplains[GetMenuIndex()]);
+}
+
+void AMenuWindow::MenuAction()
+{
+	int MenuIndex = GetMenuIndex();
+
+	int a = 0;
 }
 
 FVector AMenuWindow::GetArrowPos()

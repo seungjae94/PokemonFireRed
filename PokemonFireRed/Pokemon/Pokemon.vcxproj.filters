@@ -67,6 +67,9 @@
     <Filter Include="Global\3. Pokemon">
       <UniqueIdentifier>{c8a233f3-17a7-4d3f-a007-59e257088024}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Global\4. Data">
+      <UniqueIdentifier>{53b6b7a6-4c1e-40a5-a2dd-7329c5a17555}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PokemonCore.h">
@@ -198,6 +201,9 @@
     <ClInclude Include="Bulbasaur.h">
       <Filter>Global\3. Pokemon</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerData.h">
+      <Filter>Global\4. Data</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PokemonCore.cpp">
@@ -328,6 +334,9 @@
     </ClCompile>
     <ClCompile Include="Bulbasaur.cpp">
       <Filter>Global\3. Pokemon</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerData.cpp">
+      <Filter>Global\4. Data</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

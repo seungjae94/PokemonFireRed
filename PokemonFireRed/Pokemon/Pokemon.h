@@ -109,10 +109,10 @@ public:
 	~UPokemon();
 
 	// delete Function
-	UPokemon(const UPokemon& _Other) = delete;
-	UPokemon(UPokemon&& _Other) noexcept = delete;
-	UPokemon& operator=(const UPokemon& _Other) = delete;
-	UPokemon& operator=(UPokemon&& _Other) noexcept = delete;
+	UPokemon(const UPokemon& _Other) = default;
+	UPokemon(UPokemon&& _Other) noexcept = default;
+	UPokemon& operator=(const UPokemon& _Other) = default;
+	UPokemon& operator=(UPokemon&& _Other) noexcept = default;
 
 	int GetHp() const;
 	int GetAtk() const;
@@ -175,8 +175,6 @@ protected:
 	int GetAccExpForLevel(int _Level) const;
 	int GetErraticAccExpForLevel(int _Level) const;
 	int GetFluctuatingAccExpForLevel(int _Level) const;
-
-
 
 private:
 	// Individual Value

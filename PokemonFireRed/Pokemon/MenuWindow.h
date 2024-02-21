@@ -66,12 +66,15 @@ you bought, received, or found.)",
 
 	APokemonText* MenuExplainText = nullptr;
 
+	// 커서 관련
 	int Cursor = 0;
 	int OptionCount = 3;
-
 	void IncCursor();
 	void DecCursor();
 	void MoveCursor(int _Cursor);
+
+	// 현재 커서 위치에 따라 메뉴 액션 실행
+	void MenuAction();
 	
 	int GetMenuIndex()
 	{
