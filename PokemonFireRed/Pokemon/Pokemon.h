@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 
 enum class EAbility
 {
@@ -53,12 +54,6 @@ enum class EPokemonStatus
 	Paralysis,
 };
 
-enum class ESpecies
-{
-	None,
-	Bulbasaur,
-};
-
 // 종에 소속
 enum class EExperienceGroup
 {	
@@ -107,12 +102,48 @@ public:
 	UPokemon& operator=(const UPokemon& _Other) = delete;
 	UPokemon& operator=(UPokemon&& _Other) noexcept = delete;
 
+	int GetHp() const;
+	int GetAtk() const;
+	int GetDef() const;
+	int GetSpAtk() const;
+	int GetSpDef() const;
+	int GetSpeed() const;
+
+	int GetAccExp() const
+	{
+		return AccExp;
+	}
+	
+	int GetExpForNextLevel() const;
+
+	// 디버그
+	void SetLevel(int _Level)
+	{
+		Level = _Level;
+	}
+
+	void SetExpGroup(EExperienceGroup _ExpGroup)
+	{
+		ExpGroup = _ExpGroup;
+	}
+
 protected:
 
 private:
 	// 레벨과 누적 경험치
 	int Level = 0;
 	int AccExp = 0;
+
+	// 현재 체력
+	int CurHp = 0;
+
+	// Base Stat
+	int BHp = 0;
+	int BAtk = 0;
+	int BDef = 0;
+	int BSpAtk = 0;
+	int BSpDef = 0;
+	int BSpeed = 0;
 
 	// Individual Value
 	int IHp = 0;
@@ -136,5 +167,11 @@ private:
 	// 기타
 	EGender Gender = EGender::Male;
 	EAbility Ability = EAbility::None;
+	EExperienceGroup ExpGroup = EExperienceGroup::None;
+	std::vector<EPokemonType> Types;
+
+	int GetAccExpForLevel(int _Level) const;
+	int GetErraticAccExpForLevel(int _Level) const;
+	int GetFluctuatingAccExpForLevel(int _Level) const;
 };
 

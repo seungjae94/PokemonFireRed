@@ -16,7 +16,7 @@ void AnimatedFlower::BeginPlay()
 
 	UWindowImage* Image = Renderer->GetImage();
 	Renderer->SetTransform({ FVector::Zero, {Global::FloatTileSize, Global::FloatTileSize} });
-	Renderer->CreateAnimation("AnimatedFlower", Image->GetName(), 0, 4, 0.2f, true);
+	Renderer->CreateAnimation("AnimatedFlower", Image->GetName(), 0, 4, 0.3f, true);
 	Renderer->ChangeAnimation("AnimatedFlower");
 }
 

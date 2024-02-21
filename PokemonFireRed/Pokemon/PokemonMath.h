@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <EngineBase/EngineMath.h>
+#include <EngineBase/EngineDebug.h>
 #include "Global.h"
 
 enum class EDirection
@@ -171,6 +172,28 @@ public:
 	static FVector Lerp(const FTileVector& _Start, const FTileVector& _End, float _t);
 	static FTileVector ProjectToTileVector(const FVector& _Vec);
 	static float Distance(const FVector& _Vec1, const FVector& _Vec2);
+	
+	static int Floor(float _Value)
+	{
+		return std::lround(std::floor(_Value));
+	}
+
+	static int Pow(int _Value, int _Exp)
+	{
+		if (_Exp < 0)
+		{
+			MsgBoxAssert("반환 값이 int인 Pow 함수는 음의 지수를 지원하지 않습니다.");
+			return 0;
+		}
+
+		int Result = 1;
+		for (int i = 0; i < _Exp; i++)
+		{
+			Result *= _Value;
+		}
+
+		return Result;
+	}
 
 protected:
 

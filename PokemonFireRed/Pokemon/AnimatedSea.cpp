@@ -26,7 +26,7 @@ void AnimatedSea::Init(int _Index)
 				Index = (Index + 1) % 8;
 			}
 
-			Renderer->CreateAnimation("AnimatedSea" + std::to_string(i), Image->GetName(), Indexs, 0.2f, true);
+			Renderer->CreateAnimation("AnimatedSea" + std::to_string(i), Image->GetName(), Indexs, 0.3f, true);
 		}
 
 	}
