@@ -42,51 +42,6 @@ FVector UWindowImage::GetScale()
 	return FVector(BitMapInfo.bmWidth, BitMapInfo.bmHeight);
 }
 
-void UWindowImage::PlgCopy(UWindowImage* _CopyImage, const FTransform& _Trans, int _Index, float _Angle)
-{
-	if (nullptr == _CopyImage)
-	{
-		MsgBoxAssert("nullptr 인 이미지를 복사할 수 없습니다");
-	}
-
-	if (_Index >= _CopyImage->Infos.size())
-	{
-		MsgBoxAssert(GetName() + "이미지 정보의 인덱스를 오버하여 사용했습니다");
-	}
-
-
-	FTransform& ImageTrans = _CopyImage->Infos[_Index].CuttingTrans;
-
-	{
-		FTransform Trans = FTransform(float4::Zero, _Trans.GetScale());
-
-		FVector LeftTop = Trans.LeftTop();
-		FVector RightTop = Trans.RightTop();
-		FVector LeftBot = Trans.LeftBottom();
-
-		// TODO: 
-		//LeftTop.RotationZ(_Angle);
-		//RightTop.RotationZ(_Angle);
-		//LeftBot.RotationZ(_Angle);
-
-	}
-
-	//HDC hdc = ImageDC;
-	//HDC hdcSrc = _CopyImage->Infos[_Index].ImageDC;
-
-	//PlgBlt(
-	//	hdc,
-	//	hdcSrc,
-	//	RenderLeft,
-	//	RenderTop,
-	//	RenderScaleX,
-	//	RenderScaleY,
-	//	ImageLeft,
-	//	ImageTop,
-	//	ImageScaleX,
-	//	ImageScaleY,
-	//);
-}
 
 bool UWindowImage::Create(HDC _MainDC)
 {
@@ -387,6 +342,69 @@ void UWindowImage::AlphaCopy(UWindowImage* _CopyImage, const FTransform& _Trans,
 		Function
 	);
 }
+
+void UWindowImage::PlgCopy(UWindowImage* _CopyImage, const FTransform& _Trans, int _Index, float _RadAngle)
+{
+	if (nullptr == _CopyImage)
+	{
+		MsgBoxAssert("nullptr 인 이미지를 복사할 수 없습니다");
+	}
+
+	if (_Index >= _CopyImage->Infos.size())
+	{
+		MsgBoxAssert(GetName() + "이미지 정보의 인덱스를 오버하여 사용했습니다");
+	}
+
+	FTransform& ImageTrans = _CopyImage->Infos[_Index].CuttingTrans;
+
+	POINT Arr[3];
+	{
+		FTransform Trans = FTransform(float4::Zero, _Trans.GetScale());
+
+		FVector LeftTop = Trans.LeftTop();
+		FVector RightTop = Trans.RightTop();
+		FVector LeftBot = Trans.LeftBottom();
+
+		LeftTop.RotationZToRad(_RadAngle);
+		RightTop.RotationZToRad(_RadAngle);
+		LeftBot.RotationZToRad(_RadAngle);
+
+		LeftTop += _Trans.GetPosition();
+		RightTop += _Trans.GetPosition();
+		LeftBot += _Trans.GetPosition();
+
+		Arr[0] = LeftTop.ConvertToWinApiPOINT();
+		Arr[1] = RightTop.ConvertToWinApiPOINT();
+		Arr[2] = LeftBot.ConvertToWinApiPOINT();
+	}
+
+	int ImageLeft = ImageTrans.GetPosition().iX();
+	int ImageTop = ImageTrans.GetPosition().iY();
+	int ImageScaleX = ImageTrans.GetScale().iX();
+	int ImageScaleY = ImageTrans.GetScale().iY();
+
+	if (nullptr == _CopyImage->RotationMaskImage)
+	{
+		MsgBoxAssert("이미지를 회전시키려고 했는데 이미지가 없습니다.");
+	}
+
+	HDC hdc = ImageDC;									// 이미지를 그릴 위치
+	HDC hdcSrc = _CopyImage->Infos[_Index].ImageDC;		// 대상 이미지
+
+	PlgBlt(
+		hdc,
+		Arr,
+		hdcSrc,
+		ImageLeft,
+		ImageTop,
+		ImageScaleX,
+		ImageScaleY,
+		_CopyImage->RotationMaskImage->hBitMap,	// 투명 처리할 부분을 검은색, 그릴 부분을 흰색으로	표현한 마스크 이미지
+		ImageLeft,									// 마스크를 그리기 시작할 X좌표
+		ImageTop									// 마스크를 그리기 시작할 Y좌표
+	);
+}
+
 
 void UWindowImage::TextCopy(const std::string& _Text, const std::string& _Font, float _Size, const FTransform& _Trans, Color8Bit _Color)
 {

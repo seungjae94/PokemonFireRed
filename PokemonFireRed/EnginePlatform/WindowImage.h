@@ -62,7 +62,7 @@ public:
 	FVector GetScale();
 
 	// 이미지 회전에 사용하는 함수
-	void PlgCopy(UWindowImage* _CopyImage, const FTransform& _Trans, int _Index, float _Angle);
+	void PlgCopy(UWindowImage* _CopyImage, const FTransform& _Trans, int _Index, float _RadAngle);
 
 	/// <summary>
 	/// 이미지 this에 이미지 _CopyImage를 그려주는 함수.
@@ -114,9 +114,16 @@ public:
 		return ImageType;
 	}
 
+	void SetRotationMaskImage(UWindowImage* _RotationMaskImage)
+	{
+		RotationMaskImage = _RotationMaskImage;
+	}
+
 protected:
 
 private:
+	UWindowImage* RotationMaskImage = nullptr;
+
 	EImageLoadType LoadType = EImageLoadType::IMG_Cutting;
 
 	HBITMAP hBitMap = 0;
