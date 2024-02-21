@@ -162,7 +162,7 @@ void UPokemon::SetRandomIVs()
 
 void UPokemon::SetRandomGender(float _MaleRatio)
 {
-	int GenderInt = UPokemonMath::Random(0.0f, 1.0f);
+	float GenderInt = UPokemonMath::Random(0.0f, 1.0f);
 
 	if (GenderInt <= _MaleRatio)
 	{
@@ -176,13 +176,14 @@ void UPokemon::SetRandomGender(float _MaleRatio)
 
 void UPokemon::SetRandomNature()
 {
-	int NatureInt = UPokemonMath::Random(0, static_cast<int>(ENature::MAX) - 1);
+	int NatureInt = UPokemonMath::RandomInt(0, static_cast<int>(ENature::MAX) - 1);
 	Nature = static_cast<ENature>(NatureInt);
 }
 
 void UPokemon::SetRandomAbility(std::vector<EAbility> _Abilities)
 {
-	int AbilityInt = UPokemonMath::RandomInt(0, _Abilities.size() - 1);
+	int AbilitySize = static_cast<int>(_Abilities.size());
+	int AbilityInt = UPokemonMath::RandomInt(0, AbilitySize - 1);
 	Ability = _Abilities[AbilityInt];
 }
 
