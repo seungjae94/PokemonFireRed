@@ -113,11 +113,6 @@ void UMapLevel::Tick(float _DeltaTime)
 		PokemonDebug::ReportPosition(Player, Global::PlayerName);
 	}
 
-	if (UEngineInput::IsDown(VK_F3))
-	{
-		PokemonDebug::ReportPosition(Map, "Map");
-	}
-
 	if (UEngineInput::IsDown('O'))
 	{
 		bool ActiveValue = Map->IsCollisionRendererActive();

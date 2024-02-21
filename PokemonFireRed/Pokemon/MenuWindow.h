@@ -39,7 +39,7 @@ protected:
 
 		MenuCount = Other->MenuCount;
 		Cursor = Other->Cursor;
-		OptionCount = Other->OptionCount;
+		MenuCount = Other->MenuCount;
 
 		MoveCursor(Cursor);
 	}
@@ -50,7 +50,7 @@ private:
 	UImageRenderer* MenuWindowExplainRenderer = nullptr;
 	UImageRenderer* ArrowRenderer = nullptr;
 
-	int MenuCount = 3;
+	APokemonText* MenuExplainText = nullptr;
 	std::vector<APokemonText*> MenuTexts;
 	std::vector<std::wstring> MenuNames = {L"POKéDEX", L"POKéMON", L"BAG", L"RED", L"EXIT"};
 	std::vector<std::wstring> MenuExplains = {
@@ -64,11 +64,10 @@ you bought, received, or found.)",
 		LR"(Close this MENU window)"
 	};
 
-	APokemonText* MenuExplainText = nullptr;
 
 	// 커서 관련
 	int Cursor = 0;
-	int OptionCount = 3;
+	int MenuCount = 3;
 	void IncCursor();
 	void DecCursor();
 	void MoveCursor(int _Cursor);
@@ -80,6 +79,9 @@ you bought, received, or found.)",
 	{
 		return static_cast<int>(MenuNames.size() - MenuCount + Cursor);
 	}
+
+	void DrawMenuWindow();
+	void DrawMenuTexts();
 	
 	FVector GetArrowPos();
 

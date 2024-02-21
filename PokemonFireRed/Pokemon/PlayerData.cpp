@@ -2,6 +2,7 @@
 
 std::vector<UPokemon> UPlayerData::PokemonEntry;
 std::vector<UPokemon> UPlayerData::PokemonInComputer;
+std::map<EAchievement, bool> UPlayerData::AchievementMap;
 
 UPlayerData::UPlayerData() 
 {

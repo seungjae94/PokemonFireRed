@@ -70,6 +70,9 @@
     <Filter Include="Global\4. Data">
       <UniqueIdentifier>{53b6b7a6-4c1e-40a5-a2dd-7329c5a17555}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Level\3. UILevel">
+      <UniqueIdentifier>{4d6642c5-eaf8-48c7-88cc-115fe2b883fd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PokemonCore.h">

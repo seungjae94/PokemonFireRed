@@ -10,6 +10,7 @@
 #include "EventCondition.h"
 #include "EventStream.h"
 #include "PokemonText.h"
+#include "PlayerData.h"
 
 AMenuWindow::AMenuWindow()
 {
@@ -54,18 +55,6 @@ void AMenuWindow::BeginPlay()
 {
 	AUIElement::BeginPlay();
 
-	// 우상단 메뉴창
-	MenuWindowRenderer = CreateImageRenderer(ERenderingOrder::LowerUI);
-	MenuWindowRenderer->CameraEffectOff();
-	MenuWindowRenderer->SetImage("MenuWindowFirstClean.png");
-
-	UWindowImage* MenuWindowImage = UEngineResourcesManager::GetInst().FindImg("MenuWindowFirst.png");
-	FVector MenuWindowScale = MenuWindowImage->GetScale();
-	FVector MenuWindowRenderScale = MenuWindowScale * Global::FloatPixelSize;
-	FVector MenuWindowPos = MenuWindowRenderScale.Half2D() + FVector(Global::FloatScreenX - MenuWindowRenderScale.X, 0.0f);
-	MenuWindowPos += FVector(-Global::FloatPixelSize, Global::FloatPixelSize);
-	MenuWindowRenderer->SetTransform({ MenuWindowPos, MenuWindowRenderScale });
-
 	// 하단 메뉴 설명창
 	MenuWindowExplainRenderer = CreateImageRenderer(ERenderingOrder::LowerUI);
 	MenuWindowExplainRenderer->CameraEffectOff();
@@ -77,7 +66,30 @@ void AMenuWindow::BeginPlay()
 	FVector MenuWindowExplainPos = MenuWindowExplainRenderScale.Half2D() + FVector(0.0f, Global::FloatScreenY - MenuWindowExplainRenderScale.Y);
 	MenuWindowExplainRenderer->SetTransform({ MenuWindowExplainPos, MenuWindowExplainRenderScale });
 
-	// 메뉴 커서 화살표
+	UPokemonLevel* CurLevel = dynamic_cast<UPokemonLevel*>(GetWorld());
+	MenuExplainText = CurLevel->SpawnUIElement<APokemonText>("MenuExplainText");
+	MenuExplainText->SetActorLocation(FVector(2, 137) * Global::FloatPixelSize);
+	MenuExplainText->SetColor(EFontColor::White);
+	MenuExplainText->SetText(MenuExplains[GetMenuIndex()]);
+
+	// 우상단 메뉴창
+	MenuWindowRenderer = CreateImageRenderer(ERenderingOrder::LowerUI);
+	MenuWindowRenderer->CameraEffectOff();
+	DrawMenuWindow();
+
+	for (int i = 0; i < 5; i++)
+	{
+		APokemonText* MenuText = CurLevel->SpawnUIElement<APokemonText>("MenuText" + std::to_string(i));
+		FVector MenuTextPos = MenuWindowRenderer->GetTransform().LeftTop();
+		MenuTextPos += FVector(15, 18 + 15 * i) * Global::FloatPixelSize;
+		MenuText->SetActorLocation(MenuTextPos);
+		MenuText->SetColor(EFontColor::Gray);
+		MenuTexts.push_back(MenuText);
+	}
+	DrawMenuTexts();
+	
+
+	// 메뉴창 커서
 	ArrowRenderer = CreateImageRenderer(ERenderingOrder::LowerUI);
 	ArrowRenderer->CameraEffectOff();
 	ArrowRenderer->SetImage("MenuWindowArrow.png");
@@ -91,25 +103,6 @@ void AMenuWindow::BeginPlay()
 	ArrowRenderer->SetPosition(ArrowPos);
 
 	ArrowRenderer->SetImageCuttingTransform({ {0, 0}, ArrowScale });
-
-	// 텍스트 설정
-	UPokemonLevel* CurLevel = dynamic_cast<UPokemonLevel*>(GetWorld());
-
-	MenuExplainText = CurLevel->SpawnUIElement<APokemonText>("MenuExplainText");
-	MenuExplainText->SetActorLocation(FVector(2, 137) * Global::FloatPixelSize);
-	MenuExplainText->SetColor(EFontColor::White);
-	MenuExplainText->SetText(MenuExplains[GetMenuIndex()]);
-
-	for (int i = 0; i < MenuCount; i++)
-	{
-		APokemonText* MenuText = CurLevel->SpawnUIElement<APokemonText>("MenuText" + std::to_string(i));
-		FVector MenuTextPos = MenuWindowRenderer->GetTransform().LeftTop();
-		MenuTextPos += FVector(15, 18 + 15 * i) * Global::FloatPixelSize;
-		MenuText->SetActorLocation(MenuTextPos);
-		MenuText->SetColor(EFontColor::Gray);
-		MenuText->SetText(MenuNames[(MenuNames.size() - MenuCount) + i]);
-		MenuTexts.push_back(MenuText);
-	}
 
 	// 트리거 설정
 	UEventTargetInit OpenMenuSetting;
@@ -142,6 +135,21 @@ void AMenuWindow::Tick(float _DeltaTime)
 		return;
 	}
 
+	// 윈도우 갱신
+	if (true == UPlayerData::IsAchieved(EAchievement::GetPokedex) && MenuCount == 4)
+	{
+		MenuCount = 5;
+		DrawMenuWindow();
+		DrawMenuTexts();
+	}
+	else if (true == UPlayerData::IsAchieved(EAchievement::GetFirstPokemon) && MenuCount == 3)
+	{
+		MenuCount = 4;
+		DrawMenuWindow();
+		DrawMenuTexts();
+	}
+
+	// 입력 처리
 	if (true == UEngineInput::IsDown(VK_RETURN) || true == UEngineInput::IsDown('X'))
 	{
 		ActiveOff();
@@ -175,19 +183,19 @@ void AMenuWindow::Tick(float _DeltaTime)
 
 void AMenuWindow::IncCursor()
 {
-	int NextCursor = (Cursor + 1) % OptionCount;
+	int NextCursor = (Cursor + 1) % MenuCount;
 	MoveCursor(NextCursor);
 }
 
 void AMenuWindow::DecCursor()
 {
-	int NextCursor = (Cursor - 1 + OptionCount) % OptionCount;
+	int NextCursor = (Cursor - 1 + MenuCount) % MenuCount;
 	MoveCursor(NextCursor);
 }
 
 void AMenuWindow::MoveCursor(int _Cursor)
 {
-	if (_Cursor < 0 || _Cursor >= OptionCount)
+	if (_Cursor < 0 || _Cursor >= MenuCount)
 	{
 		MsgBoxAssert("메뉴창 커서 위치가 0 미만이거나 OptionCount 이상입니다.");
 		return;
@@ -204,6 +212,35 @@ void AMenuWindow::MenuAction()
 	int MenuIndex = GetMenuIndex();
 
 	int a = 0;
+}
+
+void AMenuWindow::DrawMenuWindow()
+{
+	// 메뉴창
+	std::string ImageName = "MenuWindow" + std::to_string(MenuCount) + ".png";
+	MenuWindowRenderer->SetImage(ImageName);
+	UWindowImage* MenuWindowImage = MenuWindowRenderer->GetImage();
+	FVector MenuWindowScale = MenuWindowImage->GetScale();
+	FVector MenuWindowRenderScale = MenuWindowScale * Global::FloatPixelSize;
+	FVector MenuWindowPos = MenuWindowRenderScale.Half2D() + FVector(Global::FloatScreenX - MenuWindowRenderScale.X, 0.0f);
+	MenuWindowPos += FVector(-Global::FloatPixelSize, Global::FloatPixelSize);
+	MenuWindowRenderer->SetTransform({ MenuWindowPos, MenuWindowRenderScale });
+}
+
+void AMenuWindow::DrawMenuTexts()
+{
+
+	// 메뉴 텍스트
+	for (int i = 0; i < MenuCount; i++)
+	{
+		MenuTexts[i]->SetText(MenuNames[(MenuNames.size() - MenuCount) + i]);
+		MenuTexts[i]->SetVisible();
+	}
+	for (int i = MenuCount; i < 5; i++)
+	{
+		MenuTexts[i]->SetText(L"");
+		MenuTexts[i]->SetInvisible();
+	}
 }
 
 FVector AMenuWindow::GetArrowPos()
