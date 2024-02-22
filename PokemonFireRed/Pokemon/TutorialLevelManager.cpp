@@ -2,6 +2,7 @@
 #include <EnginePlatform/EngineInput.h>
 #include <EngineCore/EngineResourcesManager.h>
 #include "Global.h"
+#include "PokemonUtil.h"
 #include "EventTrigger.h"
 #include "EventManager.h"
 #include "EventStream.h"
@@ -41,7 +42,7 @@ void ATutorialLevelManager::BeginPlay()
 	UWindowImage* PikachuImage = UEngineResourcesManager::GetInst().FindImg("StandEyeOpenEarClose.png");
 	FVector PikachuScale = PikachuImage->GetScale();
 	FVector PikachuRenderScale = PikachuScale * Global::FloatPixelSize;
-	FVector PikachuPos = PikachuRenderScale.Half2D() + FVector(2, 1) * Global::FloatPixelSize;
+	FVector PikachuPos = PikachuRenderScale.Half2D() + UPokemonUtil::PixelVector(2, 1);
 	PikachuRenderer->SetTransform({ PikachuPos,  PikachuRenderScale });
 
 	PikachuRenderer->SetActive(false);

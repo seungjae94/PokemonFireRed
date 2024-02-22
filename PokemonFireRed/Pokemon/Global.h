@@ -93,6 +93,7 @@ enum ERenderingOrder
 	Foreground,
 	LowerUI,
 	UpperUI,
+	Text,
 	Fade,
 	Super
 };

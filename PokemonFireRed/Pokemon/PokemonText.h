@@ -10,6 +10,28 @@ enum class EFontColor
 	Red
 };
 
+enum class EFontSize
+{
+	Normal,
+	Mini
+};
+
+enum class EPivotType
+{
+	LeftTop,
+	LeftBot,
+	RightTop,
+	RightBot,
+	Center
+};
+
+enum class EAlignType
+{
+	Left,		// Pivot과 텍스트의 좌하단을 맞춘다.    (RelativePos가 0일 때)
+	Center,		// Pivot과 텍스트의 중앙 하단을 맞춘다. (RelativePos가 0일 때)
+	Right		// Pivot과 텍스트의 우하단을 맞춘다.    (RelativePos가 0일 때)
+};
+
 // 텍스트를 그리는 액터.
 // - 액터 위치 X값에 첫 글자의 왼쪽 끝을 맞춘다.
 // - 액터 위치 Y값을 BaseLine의 높이로 두고 그린다.
@@ -17,6 +39,7 @@ class APokemonText : public AUIElement
 {
 	class GlyphAlignRule;
 	friend class AlignRuleMapInitiator;
+	friend class UPokemonLevel;
 public:
 	// constructor destructor
 	APokemonText();
@@ -31,27 +54,11 @@ public:
 	void SetColor(EFontColor _Color)
 	{
 		Color = _Color;
+	}
 
-		switch (_Color)
-		{
-		case EFontColor::Black:
-			GlyphImageNamePrefix = "BlackGlyph";
-			break;
-		case EFontColor::Gray:
-			GlyphImageNamePrefix = "GrayGlyph";
-			break;
-		case EFontColor::White:
-			GlyphImageNamePrefix = "WhiteGlyph";
-			break;
-		case EFontColor::Blue:
-			GlyphImageNamePrefix = "BlueGlyph";
-			break;
-		case EFontColor::Red:
-			GlyphImageNamePrefix = "RedGlyph";
-			break;
-		default:
-			break;
-		}
+	void SetSize(EFontSize _Size)
+	{
+		Size = _Size;
 	}
 
 	void SetSequential(bool _IsSequential)
@@ -74,10 +81,8 @@ public:
 		}
 	}
 
-	void SetContainer(AActor* _Container)
-	{
-		Container = _Container;
-	}
+	void SetRelativePos(FVector _PivotRelativePos);
+	void FollowContainer();
 
 	void SetLineSpace(int _LineSpace)
 	{
@@ -89,27 +94,6 @@ public:
 	void SetVisible();
 	void SetInvisible();
 
-	int GetCenterAlignedX(int _RectLeft, int _RectWidth) const
-	{
-		return (_RectWidth - LineWidth) / 2;
-	}
-
-	FVector GetRightAlignPos(int _PixelRight, int _PixelBot) const
-	{
-		return FVector(_PixelRight - LineWidth + 1, _PixelBot);
-	}
-
-	void SetPosX(float _X)
-	{
-		FVector Pos = GetActorLocation();
-		SetActorLocation(FVector(_X, Pos.X));
-	}
-
-	void SetPosX(int _X)
-	{
-		SetPosX(static_cast<float>(_X));
-	}
-
 protected:
 	void Tick(float _DeltaTime) override;
 private:
@@ -117,16 +101,18 @@ private:
 	{
 	public:
 		std::string ImageName;
-		int Width = 0;
-		int Height = 0;
+		int MarginLeft;
+		int MarginRight;
 		int Base = 0;
 	};
 
-	AActor* Container = nullptr;
-
-	int LineSpace = 14;
+	UImageRenderer* Container = nullptr;
+	FVector RelativePos = FVector::Zero;
+	EPivotType PivotType = EPivotType::LeftTop;
+	EAlignType Alignment = EAlignType::Left;
 	EFontColor Color = EFontColor::White;
-	std::string GlyphImageNamePrefix = "WhiteGlyph";
+	EFontSize Size = EFontSize::Normal;
+	int LineSpace = 14;
 
 	// 텍스트를 천천히 출력할 때 사용
 	bool IsSequential = false;
@@ -137,7 +123,8 @@ private:
 	// 렌더링 완료 여부 (스킵에 사용)
 	bool RenderEnd = false;
 
-	static std::map<wchar_t, GlyphAlignRule> AlignRuleMap;
+	// AlignRuleMap[FontSize][WChar]
+	static std::map<EFontSize, std::map<wchar_t, GlyphAlignRule>> AlignRuleMap;
 
 	std::vector<std::wstring> Lines;
 	std::vector<UImageRenderer*> GlyphRenderers;
@@ -149,5 +136,16 @@ private:
 	// 텍스트 정렬 기능
 	int LineWidth = 0;
 
+	void Init(UImageRenderer* _Container, EPivotType _PivotType, EAlignType _Alignment)
+	{
+		Container = _Container;
+		PivotType = _PivotType;
+		Alignment = _Alignment;
+	}
+
+	void SetActorLocation(FVector _Pos) 
+	{
+		AActor::SetActorLocation(_Pos);
+	};
 };
 

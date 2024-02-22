@@ -29,7 +29,7 @@ void UPokemonUILevelManager::BeginPlay()
 		LongMsgBoxRenderer->SetImage("UPLongMsgBox.png");
 		FVector RenderScale = UPokemonUtil::GetRenderScale(LongMsgBoxRenderer);
 		FVector Pos = UPokemonUtil::GetLeftBotAlignPos(RenderScale);
-		Pos += FVector(2.0f, -2.0f) * Global::FloatPixelSize;
+		Pos += UPokemonUtil::PixelVector(2, -2);
 		LongMsgBoxRenderer->SetTransform({ Pos, RenderScale });
 	}
 	{
@@ -37,7 +37,7 @@ void UPokemonUILevelManager::BeginPlay()
 		ShortMsgBoxRenderer->SetImage("UPShortMsgBox.png");
 		FVector RenderScale = UPokemonUtil::GetRenderScale(ShortMsgBoxRenderer);
 		FVector Pos = UPokemonUtil::GetLeftBotAlignPos(RenderScale);
-		Pos += FVector(2.0f, -2.0f) * Global::FloatPixelSize;
+		Pos += UPokemonUtil::PixelVector(2, -2);
 		ShortMsgBoxRenderer->SetTransform({ Pos, RenderScale });
 		ShortMsgBoxRenderer->SetActive(false);
 	}
@@ -65,14 +65,15 @@ void UPokemonUILevelManager::BeginPlay()
 
 	// 텍스트 렌더링
 	UPokemonLevel* CurLevel = dynamic_cast<UPokemonLevel*>(GetWorld());
-	FirstNameText = CurLevel->SpawnUIElement<APokemonText>("FirstNameText");
-	FirstLevelText = CurLevel->SpawnUIElement<APokemonText>("FirstLevelText");
-	FirstHpText = CurLevel->SpawnUIElement<APokemonText>("FirstHpText");
-	FirstCurHpText = CurLevel->SpawnUIElement<APokemonText>("FirstCurHpText");
-	FirstNameText->SetContainer(this);
-	FirstLevelText->SetContainer(this);
-	FirstCurHpText->SetContainer(this);
-	FirstHpText->SetContainer(this);
+	FirstNameText = CurLevel->SpawnText(FirstRenderer, EPivotType::LeftTop);
+	FirstLevelText = CurLevel->SpawnText(FirstRenderer, EPivotType::LeftTop);
+	FirstHpText = CurLevel->SpawnText(FirstRenderer, EPivotType::RightBot, EAlignType::Right);
+	FirstCurHpText = CurLevel->SpawnText(FirstRenderer, EPivotType::RightBot, EAlignType::Right);
+
+	FirstNameText->SetSize(EFontSize::Mini);
+	FirstLevelText->SetSize(EFontSize::Mini);
+	FirstHpText->SetSize(EFontSize::Mini);
+	FirstCurHpText->SetSize(EFontSize::Mini);
 
 	UPokemon& First = UPlayerData::GetPokemonInEntry(0);
 	FirstNameText->SetText(First.GetName(), true);
@@ -80,19 +81,10 @@ void UPokemonUILevelManager::BeginPlay()
 	FirstHpText->SetText(std::to_wstring(First.GetHp()), true);
 	FirstCurHpText->SetText(std::to_wstring(First.GetCurHp()), true);
 
-
-	FVector TextPos = FirstRenderer->GetTransform().LeftTop() + FVector(25.0f, 26.0f) * Global::FloatPixelSize;
-	FirstNameText->SetActorLocation(TextPos);
-	TextPos = FirstRenderer->GetTransform().LeftTop() + FVector(48.0f, 37.0f) * Global::FloatPixelSize;
-	FirstLevelText->SetActorLocation(TextPos);
-	
-	FVector RightBot = FirstRenderer->GetTransform().RightBottom() + FVector(-6.0f, -4.0f) * Global::FloatPixelSize;
-	TextPos = FirstHpText->GetRightAlignPos(RightBot.iX(), RightBot.iY());
-	FirstHpText->SetActorLocation(TextPos);
-
-	RightBot = FirstRenderer->GetTransform().RightBottom() + FVector(-26.0f, -4.0f) * Global::FloatPixelSize;
-	TextPos = FirstCurHpText->GetRightAlignPos(RightBot.iX(), RightBot.iY());
-	FirstCurHpText->SetActorLocation(TextPos);
+	FirstNameText->SetRelativePos(UPokemonUtil::PixelVector(25, 26));
+	FirstLevelText->SetRelativePos(UPokemonUtil::PixelVector(48, 37));
+	FirstHpText->SetRelativePos(UPokemonUtil::PixelVector(-6, -4));
+	FirstCurHpText->SetRelativePos(UPokemonUtil::PixelVector(-26, -4));
 }
 
 void UPokemonUILevelManager::Tick(float _DeltaTime)
@@ -225,19 +217,19 @@ void UPokemonUILevelManager::DrawFirst(ETargetImageState _State)
 	{
 	case UPokemonUILevelManager::ETargetImageState::Unfocused:
 		ImageName = "UPFirst.png";
-		AddPos = FVector(2.0f, 20.0f) * Global::FloatPixelSize;
+		AddPos = UPokemonUtil::PixelVector(2, 20);
 		break;
 	case UPokemonUILevelManager::ETargetImageState::Focused:
 		ImageName = "UPFirstFocused.png";
-		AddPos = FVector(2.0f, 18.0f) * Global::FloatPixelSize;
+		AddPos = UPokemonUtil::PixelVector(2, 18);
 		break;
 	case UPokemonUILevelManager::ETargetImageState::From:
 		ImageName = "UPFirstFrom.png";
-		AddPos = FVector(2.0f, 20.0f) * Global::FloatPixelSize;
+		AddPos = UPokemonUtil::PixelVector(2, 20);
 		break;
 	case UPokemonUILevelManager::ETargetImageState::To:
 		ImageName = "UPFirstTo.png";
-		AddPos = FVector(2.0f, 18.0f) * Global::FloatPixelSize;
+		AddPos = UPokemonUtil::PixelVector(2, 18);
 		break;
 	default:
 		MsgBoxAssert("Pokemon UI의 First의 상태가 Empty입니다.");
@@ -260,23 +252,23 @@ void UPokemonUILevelManager::DrawEntry(ETargetImageState _State, int _Index)
 	{
 	case UPokemonUILevelManager::ETargetImageState::Empty:
 		ImageName = "UPEntryEmpty.png";
-		AddPos = FVector(-2.0f, 10.0f + 24.0f * (_Index - 1)) * Global::FloatPixelSize;
+		AddPos = UPokemonUtil::PixelVector(-2, 10 + 24 * (_Index - 1));
 		break;
 	case UPokemonUILevelManager::ETargetImageState::Unfocused:
 		ImageName = "UPEntry.png";
-		AddPos = FVector(-2.0f, 10.0f + 24.0f * (_Index - 1)) * Global::FloatPixelSize;
+		AddPos = UPokemonUtil::PixelVector(-2, 10 + 24 * (_Index - 1));
 		break;
 	case UPokemonUILevelManager::ETargetImageState::Focused:
 		ImageName = "UPEntryFocused.png";
-		AddPos = FVector(-2.0f, 9.0f + 24.0f * (_Index - 1)) * Global::FloatPixelSize;
+		AddPos = UPokemonUtil::PixelVector(-2, 9 + 24 * (_Index - 1));
 		break;
 	case UPokemonUILevelManager::ETargetImageState::From:
 		ImageName = "UPEntryFrom.png";
-		AddPos = FVector(-2.0f, 10.0f + 24.0f * (_Index - 1)) * Global::FloatPixelSize;
+		AddPos = UPokemonUtil::PixelVector(-2, 10 + 24 * (_Index - 1));
 		break;
 	case UPokemonUILevelManager::ETargetImageState::To:
 		ImageName = "UPEntryTo.png";
-		AddPos = FVector(-2.0f, 9.0f + 24.0f * (_Index - 1)) * Global::FloatPixelSize;
+		AddPos = UPokemonUtil::PixelVector(-2, 9 + 24 * (_Index - 1));
 		break;
 	default:
 		break;
@@ -298,11 +290,11 @@ void UPokemonUILevelManager::DrawCancel(ETargetImageState _State)
 	{
 	case UPokemonUILevelManager::ETargetImageState::Unfocused:
 		ImageName = "UPCancel.png";
-		AddPos = FVector(-2.0f, -6.0f) * Global::FloatPixelSize;
+		AddPos = UPokemonUtil::PixelVector(-2, -6);
 		break;
 	case UPokemonUILevelManager::ETargetImageState::Focused:
 		ImageName = "UPCancelFocused.png";
-		AddPos = FVector(-2.0f, -4.0f) * Global::FloatPixelSize;
+		AddPos = UPokemonUtil::PixelVector(-2, -4);
 		break;
 	default:
 		MsgBoxAssert("Pokemon UI에서 Cancel의 상태가 From 또는 To입니다.");

@@ -5,6 +5,7 @@
 #include <EngineCore/EngineResourcesManager.h>
 #include "PokemonLevel.h"
 #include "PokemonText.h"
+#include "PokemonUtil.h"
 #include "Global.h"
 
 ADialogueWindow::ADialogueWindow()
@@ -51,14 +52,13 @@ void ADialogueWindow::BeginPlay()
 	FVector DWScale = DWImage->GetScale();
 	FVector DWRenderScale = DWScale * Global::FloatPixelSize;
 	FVector DWPos = DWRenderScale.Half2D() + FVector(0.0f, Global::FloatScreenY - DWRenderScale.Y);
-	DWPos += FVector(5.0f, -3.0f) * Global::FloatPixelSize;
+	DWPos += UPokemonUtil::PixelVector(5, -3);
 	DialogueWindowRenderer->SetTransform({ DWPos, DWRenderScale});
 
 	// 대화 내용
 	UPokemonLevel* CurLevel = dynamic_cast<UPokemonLevel*>(GetWorld());
-	Text = CurLevel->SpawnUIElement<APokemonText>("DialogueText");
-	Text->SetContainer(this);
-	Text->SetActorLocation(FVector(16, 132) * Global::FloatPixelSize);
+	Text = CurLevel->SpawnText(DialogueWindowRenderer);
+	Text->SetRelativePos(UPokemonUtil::PixelVector(11, 17));
 	Text->SetText(LR"(Not Initialized...)");
 }
 

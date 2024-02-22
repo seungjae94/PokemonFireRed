@@ -2,6 +2,7 @@
 #include <EngineCore/EngineResourcesManager.h>
 #include "PokemonLevel.h"
 #include "PokemonMath.h"
+#include "PokemonUtil.h"
 
 AMapNameWindow::AMapNameWindow()
 {
@@ -42,17 +43,16 @@ void AMapNameWindow::BeginPlay()
 	Renderer->CameraEffectOff();
 	UWindowImage* Image = UEngineResourcesManager::GetInst().FindImg(ImageName);
 	FVector ImageRenderScale = Image->GetScale() * Global::FloatPixelSize;
-	ShowPos = ImageRenderScale.Half2D() + FVector(2.0f, 0.0f) * Global::FloatPixelSize;
+	ShowPos = ImageRenderScale.Half2D() + UPokemonUtil::PixelVector(2, 0);
 	HidePos = ShowPos - FVector(0.0f, ImageRenderScale.Y);
 	SetActorLocation(HidePos);
 	Renderer->SetTransform({ FVector::Zero, ImageRenderScale });
 
 	// 텍스트 설정
 	UPokemonLevel* CurLevel = dynamic_cast<UPokemonLevel*>(GetWorld());
-	MapNameText = CurLevel->SpawnUIElement<APokemonText>("MapNameText");
-	MapNameText->SetContainer(this);
+	MapNameText = CurLevel->SpawnText(Renderer, EPivotType::Center, EAlignType::Center);
 	MapNameText->SetColor(EFontColor::Gray);
-	UpdateTextPos();
+	MapNameText->FollowContainer();
 }
 
 void AMapNameWindow::Tick(float _DeltaTime)
@@ -81,7 +81,7 @@ void AMapNameWindow::OpenTick(float _DeltaTime)
 		
 	FVector Pos = UPokemonMath::Lerp(ShowPos, HidePos, CurChangeTime / ChangeTime);
 	SetActorLocation(Pos);
-	UpdateTextPos();
+	MapNameText->FollowContainer();
 
 	if (CurChangeTime < 0.0f)
 	{
@@ -107,7 +107,7 @@ void AMapNameWindow::CloseTick(float _DeltaTime)
 	
 	FVector Pos = UPokemonMath::Lerp(HidePos, ShowPos, CurChangeTime / ChangeTime);
 	SetActorLocation(Pos);
-	UpdateTextPos();
+	MapNameText->FollowContainer();
 
 	if (CurChangeTime < 0.0f)
 	{

@@ -65,6 +65,13 @@ public:
 		return EventTrigger;
 	}
 
+	APokemonText* SpawnText(UImageRenderer* _Container, EPivotType _PivotType = EPivotType::LeftTop, EAlignType _Alignment = EAlignType::Left)
+	{
+		APokemonText* Text = SpawnActor<APokemonText>();
+		Text->Init(_Container, _PivotType, _Alignment);
+		return Text;
+	}
+
 	void ChangeLevelFade(std::string_view _Name, float _FadeInTime = 0.5f, float _FadeOutTime = 0.5f)
 	{
 		FadeLevelChanger->ChangeLevel(_Name, _FadeInTime, _FadeOutTime);

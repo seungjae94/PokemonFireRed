@@ -72,6 +72,12 @@ public:
 
 	static std::vector<int> FrameCountVectorToIndexVector(std::vector<int> _FrameCounts);
 
+	static FVector PixelVector(int _X, int _Y)
+	{
+		return FVector(_X, _Y) * Global::FloatPixelSize;
+	}
+
+	static FVector GetImageScale(UImageRenderer* _Renderer);
 	static FVector GetRenderScale(UImageRenderer* _Renderer);
 
 	static std::vector<std::string> StringSplit(const std::string& _Str, char _Delimeter = '\n');

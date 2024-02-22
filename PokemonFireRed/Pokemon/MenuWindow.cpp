@@ -64,11 +64,8 @@ void AMenuWindow::BeginPlay()
 
 	for (int i = 0; i < 5; i++)
 	{
-		APokemonText* MenuText = CurLevel->SpawnUIElement<APokemonText>("MenuText" + std::to_string(i));
-		FVector MenuTextPos = MenuWindowRenderer->GetTransform().LeftTop();
-		MenuTextPos += FVector(15, 18 + 15 * i) * Global::FloatPixelSize;
-		MenuText->SetContainer(this);
-		MenuText->SetActorLocation(MenuTextPos);
+		APokemonText* MenuText = CurLevel->SpawnText(MenuWindowRenderer);
+		MenuText->SetRelativePos(UPokemonUtil::PixelVector(15, 18 + 15 * i));
 		MenuText->SetColor(EFontColor::Gray);
 		MenuTexts.push_back(MenuText);
 	}
@@ -83,11 +80,11 @@ void AMenuWindow::BeginPlay()
 	FVector ExplainPos = ExplainRenderScale.Half2D() + FVector(0.0f, Global::FloatScreenY - ExplainRenderScale.Y);
 	MenuWindowExplainRenderer->SetTransform({ ExplainPos, ExplainRenderScale });
 
-	MenuExplainText = CurLevel->SpawnUIElement<APokemonText>("MenuExplainText");
-	MenuExplainText->SetContainer(this);
-	MenuExplainText->SetActorLocation(FVector(2, 137) * Global::FloatPixelSize);
+	MenuExplainText = CurLevel->SpawnText(MenuWindowExplainRenderer);
+	MenuExplainText->SetRelativePos(UPokemonUtil::PixelVector(2, 16));
 	MenuExplainText->SetColor(EFontColor::White);
 	MenuExplainText->SetText(MenuExplains[GetMenuIndex()]);
+	MenuExplainText->FollowContainer();
 
 	// 메뉴창 커서
 	ArrowRenderer = CreateImageRenderer(ERenderingOrder::LowerUI);
@@ -258,11 +255,13 @@ void AMenuWindow::DrawMenuTexts()
 	{
 		MenuTexts[i]->SetText(MenuNames[(MenuNames.size() - MenuCount) + i]);
 		MenuTexts[i]->SetVisible();
+		MenuTexts[i]->FollowContainer();
 	}
 	for (int i = MenuCount; i < 5; i++)
 	{
 		MenuTexts[i]->SetText(L"");
 		MenuTexts[i]->SetInvisible();
+		MenuTexts[i]->FollowContainer();
 	}
 }
 
@@ -281,6 +280,6 @@ FVector AMenuWindow::GetArrowPos()
 {
 	FVector ArrowRenderScale = ArrowRenderer->GetTransform().GetScale();
 	FVector ArrowPos = UPokemonUtil::GetMatchLeftTop(ArrowRenderScale, MenuWindowRenderer->GetTransform());
-	ArrowPos += FVector(8, 9 + Cursor * 15) * Global::FloatPixelSize;
+	ArrowPos += UPokemonUtil::PixelVector(8, 9 + Cursor * 15);
 	return ArrowPos;
 }

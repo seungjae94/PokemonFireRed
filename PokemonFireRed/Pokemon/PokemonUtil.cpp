@@ -27,6 +27,12 @@ std::vector<int> UPokemonUtil::FrameCountVectorToIndexVector(std::vector<int> _F
 	return Indexes;
 }
 
+FVector UPokemonUtil::GetImageScale(UImageRenderer* _Renderer)
+{
+	UWindowImage* Image = _Renderer->GetImage();
+	return Image->GetScale();
+}
+
 FVector UPokemonUtil::GetRenderScale(UImageRenderer* _Renderer)
 {
 	UWindowImage* Image = _Renderer->GetImage();
