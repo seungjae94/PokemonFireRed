@@ -15,12 +15,33 @@ UPokemonUILevelManager::~UPokemonUILevelManager()
 
 void UPokemonUILevelManager::BeginPlay()
 {
+	// 백그라운드
 	BackgroundRenderer = CreateImageRenderer(ERenderingOrder::LowerUI);
 	BackgroundRenderer->SetImage("UPBackground.png");
 	FVector BackgroundRenderScale = UPokemonUtil::GetRenderScale(BackgroundRenderer);
 	FVector BackgroundPos = BackgroundRenderScale.Half2D();
 	BackgroundRenderer->SetTransform({ BackgroundPos, BackgroundRenderScale });
 
+	// 메시지 박스
+	{
+		LongMsgBoxRenderer = CreateImageRenderer(ERenderingOrder::UpperUI);
+		LongMsgBoxRenderer->SetImage("UPLongMsgBox.png");
+		FVector RenderScale = UPokemonUtil::GetRenderScale(LongMsgBoxRenderer);
+		FVector Pos = UPokemonUtil::GetLeftBotAlignPos(RenderScale);
+		Pos += FVector(2.0f, -2.0f) * Global::FloatPixelSize;
+		LongMsgBoxRenderer->SetTransform({ Pos, RenderScale });
+	}
+	{
+		ShortMsgBoxRenderer = CreateImageRenderer(ERenderingOrder::UpperUI);
+		ShortMsgBoxRenderer->SetImage("UPShortMsgBox.png");
+		FVector RenderScale = UPokemonUtil::GetRenderScale(ShortMsgBoxRenderer);
+		FVector Pos = UPokemonUtil::GetLeftBotAlignPos(RenderScale);
+		Pos += FVector(2.0f, -2.0f) * Global::FloatPixelSize;
+		ShortMsgBoxRenderer->SetTransform({ Pos, RenderScale });
+		ShortMsgBoxRenderer->SetActive(false);
+	}
+
+	// 엔트리
 	FirstRenderer = CreateImageRenderer(ERenderingOrder::UpperUI);
 	DrawFirst(ETargetImageState::Focused);
 
@@ -62,6 +83,9 @@ void UPokemonUILevelManager::Tick(float _DeltaTime)
 
 void UPokemonUILevelManager::TargetSelectionWaitTick(float _DeltaTime)
 {
+	LongMsgBoxRenderer->SetActive(true);
+	ShortMsgBoxRenderer->SetActive(false);
+
 	if (true == UEngineInput::IsDown('X'))
 	{
 		UPokemonLevel* CurLevel = dynamic_cast<UPokemonLevel*>(GetWorld());
@@ -204,23 +228,23 @@ void UPokemonUILevelManager::DrawEntry(ETargetImageState _State, int _Index)
 	{
 	case UPokemonUILevelManager::ETargetImageState::Empty:
 		ImageName = "UPEntryEmpty.png";
-		AddPos = FVector(-3.0f, 11.0f + 24.0f * (_Index - 1)) * Global::FloatPixelSize;
+		AddPos = FVector(-2.0f, 10.0f + 24.0f * (_Index - 1)) * Global::FloatPixelSize;
 		break;
 	case UPokemonUILevelManager::ETargetImageState::Unfocused:
 		ImageName = "UPEntry.png";
-		AddPos = FVector(-3.0f, 11.0f + 24.0f * (_Index - 1)) * Global::FloatPixelSize;
+		AddPos = FVector(-2.0f, 10.0f + 24.0f * (_Index - 1)) * Global::FloatPixelSize;
 		break;
 	case UPokemonUILevelManager::ETargetImageState::Focused:
 		ImageName = "UPEntryFocused.png";
-		AddPos = FVector(-3.0f, 10.0f + 24.0f * (_Index - 1)) * Global::FloatPixelSize;
+		AddPos = FVector(-2.0f, 9.0f + 24.0f * (_Index - 1)) * Global::FloatPixelSize;
 		break;
 	case UPokemonUILevelManager::ETargetImageState::From:
 		ImageName = "UPEntryFrom.png";
-		AddPos = FVector(-3.0f, 11.0f + 24.0f * (_Index - 1)) * Global::FloatPixelSize;
+		AddPos = FVector(-2.0f, 10.0f + 24.0f * (_Index - 1)) * Global::FloatPixelSize;
 		break;
 	case UPokemonUILevelManager::ETargetImageState::To:
 		ImageName = "UPEntryTo.png";
-		AddPos = FVector(-3.0f, 10.0f + 24.0f * (_Index - 1)) * Global::FloatPixelSize;
+		AddPos = FVector(-2.0f, 9.0f + 24.0f * (_Index - 1)) * Global::FloatPixelSize;
 		break;
 	default:
 		break;
@@ -242,11 +266,11 @@ void UPokemonUILevelManager::DrawCancel(ETargetImageState _State)
 	{
 	case UPokemonUILevelManager::ETargetImageState::Unfocused:
 		ImageName = "UPCancel.png";
-		AddPos = FVector(-3.0f, -7.0f) * Global::FloatPixelSize;
+		AddPos = FVector(-2.0f, -6.0f) * Global::FloatPixelSize;
 		break;
 	case UPokemonUILevelManager::ETargetImageState::Focused:
 		ImageName = "UPCancelFocused.png";
-		AddPos = FVector(-3.0f, -5.0f) * Global::FloatPixelSize;
+		AddPos = FVector(-2.0f, -4.0f) * Global::FloatPixelSize;
 		break;
 	default:
 		MsgBoxAssert("Pokemon UI에서 Cancel의 상태가 From 또는 To입니다.");

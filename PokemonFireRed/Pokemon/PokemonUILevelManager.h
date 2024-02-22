@@ -46,6 +46,8 @@ private:
 	int TargetCursor = 0;
 	int MemoryEntryCursor = 1;
 	UImageRenderer* BackgroundRenderer = nullptr;
+	UImageRenderer* LongMsgBoxRenderer = nullptr;
+	UImageRenderer* ShortMsgBoxRenderer = nullptr;
 
 	UImageRenderer* FirstRenderer = nullptr;
 	APokemonText* FirstNameText = nullptr;
