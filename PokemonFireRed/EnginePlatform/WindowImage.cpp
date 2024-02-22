@@ -353,6 +353,8 @@ void UWindowImage::PlgCopy(UWindowImage* _CopyImage, const FTransform& _Trans, i
 		MsgBoxAssert(GetName() + "이미지 정보의 인덱스를 오버하여 사용했습니다");
 	}
 
+	UImageInfo& CurInfo = _CopyImage->Infos[_Index];
+
 	FTransform& ImageTrans = _CopyImage->Infos[_Index].CuttingTrans;
 
 	POINT Arr[3];
@@ -381,9 +383,9 @@ void UWindowImage::PlgCopy(UWindowImage* _CopyImage, const FTransform& _Trans, i
 	int ImageScaleX = ImageTrans.GetScale().iX();
 	int ImageScaleY = ImageTrans.GetScale().iY();
 
-	if (nullptr == _CopyImage->RotationMaskImage)
+	if (nullptr == CurInfo.RotationMaskImage)
 	{
-		MsgBoxAssert("이미지를 회전시키려고 했는데 이미지가 없습니다.");
+		MsgBoxAssert("이미지를 회전시키려고 했는데 마스크 이미지가 없습니다.");
 	}
 
 	HDC hdc = ImageDC;									// 이미지를 그릴 위치
@@ -397,7 +399,7 @@ void UWindowImage::PlgCopy(UWindowImage* _CopyImage, const FTransform& _Trans, i
 		ImageTop,
 		ImageScaleX,
 		ImageScaleY,
-		_CopyImage->RotationMaskImage->hBitMap,	// 투명 처리할 부분을 검은색, 그릴 부분을 흰색으로	표현한 마스크 이미지
+		CurInfo.RotationMaskImage->hBitMap,	// 투명 처리할 부분을 검은색, 그릴 부분을 흰색으로	표현한 마스크 이미지
 		ImageLeft,									// 마스크를 그리기 시작할 X좌표
 		ImageTop									// 마스크를 그리기 시작할 Y좌표
 	);
