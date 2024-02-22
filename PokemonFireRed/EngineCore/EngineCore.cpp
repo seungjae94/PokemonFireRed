@@ -1,7 +1,8 @@
 #include "EngineCore.h"
 #include <Windows.h>
 #include "Level.h"
-#include "EnginePlatform\EngineInput.h"
+#include <EnginePlatform\EngineSound.h>
+#include <EnginePlatform\EngineInput.h>
 
 
 UEngineCore* GEngine = nullptr;
@@ -44,6 +45,9 @@ void UEngineCore::CoreTick()
 	{
 		DeltaTime = 1.0f / 60.0f;
 	}*/
+
+	// 사운드 시스템 업데이트
+	UEngineSound::Update();
 
 	// 키 입력 체크
 	UEngineInput::KeyCheckTick(DeltaTime);
