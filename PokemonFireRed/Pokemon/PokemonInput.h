@@ -1,6 +1,7 @@
 #pragma once
 #include "PokemonMath.h"
 #include <EnginePlatform/EngineInput.h>
+#include <list>
 
 class UPokemonInput
 {
@@ -61,9 +62,38 @@ public:
 		return NextDirection;
 	}
 
+	static bool IsAnykeyDown()
+	{
+		for (int Key : AnykeyList)
+		{
+			if (true == UEngineInput::IsDown(Key))
+			{
+				return true;
+			}
+		}
+
+		for (char Ch = '0'; Ch <= '9'; ++Ch)
+		{
+			if (true == UEngineInput::IsDown(Ch))
+			{
+				return true;
+			}
+		}
+
+		for (char Ch = 'A'; Ch <= 'Z'; ++Ch)
+		{
+			if (true == UEngineInput::IsDown(Ch))
+			{
+				return true;
+			}
+		}
+	}
+
+
+
 protected:
 
 private:
-
+	static std::list<int> AnykeyList;
 };
 

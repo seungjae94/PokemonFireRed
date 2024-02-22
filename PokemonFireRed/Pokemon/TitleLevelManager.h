@@ -85,7 +85,5 @@ private:
 	void PlayNextPart();
 	void PlayNextVideo();
 	void Play();
-
-	bool IsAnyKeyboardDown();
 };
 

@@ -2,6 +2,7 @@
 #include <EngineCore/EngineCore.h>
 #include "EventManager.h"
 #include "PokemonUtil.h"
+#include "PokemonInput.h"
 #include "TitleLevel.h"
 
 ATitleLevelManager::ATitleLevelManager()
@@ -56,7 +57,7 @@ void ATitleLevelManager::Video0Logic(float _DeltaTime)
 
 void ATitleLevelManager::Video1Logic(float _DeltaTime)
 {
-	if (true == IsAnyKeyboardDown())
+	if (true == UPokemonInput::IsAnykeyDown())
 	{
 		// 아무 키나 누르면 즉시 다음 영상으로 넘어간다.
 		PlayNextVideo();
@@ -72,7 +73,7 @@ void ATitleLevelManager::Video1Logic(float _DeltaTime)
 
 void ATitleLevelManager::Video2Logic(float _DeltaTime)
 {
-	if (true == IsAnyKeyboardDown())
+	if (true == UPokemonInput::IsAnykeyDown())
 	{
 		// 아무 키나 누르면 즉시 다음 영상으로 넘어간다.
 		PlayNextVideo();
@@ -88,7 +89,7 @@ void ATitleLevelManager::Video2Logic(float _DeltaTime)
 
 void ATitleLevelManager::Video3Logic(float _DeltaTime)
 {
-	if (true == IsAnyKeyboardDown())
+	if (true == UPokemonInput::IsAnykeyDown())
 	{
 		// 아무 키나 누르면 타이틀 레벨을 종료한다.
 		UTitleLevel* ThisLevel = dynamic_cast<UTitleLevel*>(GetWorld());
@@ -146,11 +147,4 @@ void ATitleLevelManager::Play()
 
 	Renderer->SetImage(ImageName);
 	Timer = Interval;
-}
-
-
-
-bool ATitleLevelManager::IsAnyKeyboardDown()
-{
-	return true == UEngineInput::IsAnykeyDown() && false == UEngineInput::IsDown(VK_LBUTTON) && false == UEngineInput::IsDown(VK_RBUTTON);
 }
