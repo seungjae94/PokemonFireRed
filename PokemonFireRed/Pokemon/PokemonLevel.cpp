@@ -18,6 +18,9 @@ void UPokemonLevel::BeginPlay()
 	ABlackScreen* BlackScreen = SpawnUIElement<ABlackScreen>("BlackScreen");
 	AWhiteScreen* WhiteScreen = SpawnUIElement<AWhiteScreen>("WhiteScreen");
 	ACurtainScreen* CurtainScreen = SpawnUIElement<ACurtainScreen>("CurtainScreen");
+
+	// 레벨 체인저 생성
+	FadeLevelChanger = SpawnEventTrigger<AFadeLevelChanger>("FadeLevelChanger");
 }
 
 void UPokemonLevel::Tick(float _DeltaTime)

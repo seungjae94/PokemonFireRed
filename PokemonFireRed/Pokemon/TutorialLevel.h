@@ -22,6 +22,6 @@ protected:
 	void BeginPlay() override;
 private:
 	ATutorialLevelManager* Manager = nullptr;
-	AEventTrigger* LevelChanger = nullptr;
+	AEventTrigger* MapLevelChanger = nullptr;
 };
 

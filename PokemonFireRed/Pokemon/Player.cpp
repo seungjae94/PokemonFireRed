@@ -497,14 +497,15 @@ bool APlayer::TryZClickEvent()
 	FTileVector CurPoint = FTileVector(GetActorLocation());
 	FTileVector TargetPoint = CurPoint + Direction;
 
-	AEventTrigger* EventTrigger = UEventManager::FindCurLevelTriggerAt<AEventTrigger>(TargetPoint);
+	AEventTrigger* Trigger = UEventManager::FindCurLevelTriggerAt<AEventTrigger>(TargetPoint);
 
-	if (nullptr == EventTrigger)
+	if (nullptr == Trigger)
 	{
 		return false;
 	}
 
-	bool RunResult = UEventManager::TriggerEvent(EventTrigger, EEventTriggerAction::ZClick);
+	bool RunResult = UEventManager::TriggerEvent(Trigger, EEventTriggerAction::ZClick);
+
 	return RunResult;
 }
 
@@ -513,14 +514,16 @@ bool APlayer::TryReadEvent()
 	// Read 이벤트 = 플레이어가 트리거에 인접 and 트리거를 바라봄
 	FTileVector CurPoint = FTileVector(GetActorLocation());
 	FTileVector TargetPoint = CurPoint + Direction;
-	AEventTrigger* EventTrigger = UEventManager::FindCurLevelTriggerAt<AEventTrigger>(TargetPoint);
 
-	if (nullptr == EventTrigger)
+	AEventTrigger* Trigger = UEventManager::FindCurLevelTriggerAt<AEventTrigger>(TargetPoint);
+
+	if (nullptr == Trigger)
 	{
 		return false;
 	}
 
-	bool RunResult = UEventManager::TriggerEvent(EventTrigger, EEventTriggerAction::Read);
+	bool RunResult = UEventManager::TriggerEvent(Trigger, EEventTriggerAction::Read);
+
 	return RunResult;
 }
 
@@ -530,14 +533,15 @@ bool APlayer::TryArrowClickEvent()
 	FTileVector CurPoint = FTileVector(GetActorLocation());
 	FTileVector TargetPoint = CurPoint + Direction;
 
-	AEventTrigger* EventTrigger = UEventManager::FindCurLevelTriggerAt<AEventTrigger>(TargetPoint);
+	AEventTrigger* Trigger = UEventManager::FindCurLevelTriggerAt<AEventTrigger>(TargetPoint);
 
-	if (nullptr == EventTrigger)
+	if (nullptr == Trigger)
 	{
 		return false;
 	}
 
-	bool RunResult = UEventManager::TriggerEvent(EventTrigger, EEventTriggerAction::ArrowClick);
+	bool RunResult = UEventManager::TriggerEvent(Trigger, EEventTriggerAction::ArrowClick);
+
 	return RunResult;
 }
 
@@ -547,14 +551,15 @@ bool APlayer::TryStepOnEvent()
 
 	FTileVector CurPoint = FTileVector(GetActorLocation());
 
-	AEventTrigger* EventTrigger = UEventManager::FindCurLevelTriggerAt<AEventTrigger>(CurPoint);
+	AEventTrigger* Trigger = UEventManager::FindCurLevelTriggerAt<AEventTrigger>(CurPoint);
 
-	if (nullptr == EventTrigger)
+	if (nullptr == Trigger)
 	{
 		return false;
 	}
 
-	bool RunResult = UEventManager::TriggerEvent(EventTrigger, EEventTriggerAction::StepOn);
+	bool RunResult = UEventManager::TriggerEvent(Trigger, EEventTriggerAction::StepOn);
+
 	return RunResult;
 }
 

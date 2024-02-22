@@ -10,6 +10,8 @@ enum class EPokemonUIState
 	Switch,						// 포켓몬 순서를 교체하고 있는 상태
 };
 
+class UPokemonUILevel;
+
 class UPokemonUILevelManager : public AActor
 {
 public:
@@ -65,6 +67,7 @@ private:
 	void TargetSelectionWaitTick(float _DeltaTime);
 	std::string PrevMapLevelName;
 	void MoveTargetCursor(int _Cursor);
+	void TargetSelect();
 
 	void DrawFirst(ETargetImageState _State);
 	void DrawEntry(ETargetImageState _State, int _Index);

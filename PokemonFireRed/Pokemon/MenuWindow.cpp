@@ -215,8 +215,11 @@ void AMenuWindow::MenuAction()
 	case MenuIndex::Pokedex:
 		break;
 	case MenuIndex::Pokemon:
-		UEventManager::SetLevel(Global::PokemonUILevel);
+	{
+		UPokemonLevel* CurLevel = dynamic_cast<UPokemonLevel*>(GetWorld());
+		CurLevel->ChangeLevelFade(Global::PokemonUILevel);
 		break;
+	}
 	case MenuIndex::Bag:
 		break;
 	case MenuIndex::Player:

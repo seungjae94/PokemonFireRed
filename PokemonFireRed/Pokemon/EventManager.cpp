@@ -15,7 +15,7 @@
 std::string UEventManager::CurLevelName;
 std::map<std::string, std::map<std::string, AUIElement*>> UEventManager::AllUIElements;
 std::map<std::string, std::map<std::string, AEventTarget*>> UEventManager::AllTargets;
-std::map<std::string, std::map<FTileVector, AEventTrigger*>> UEventManager::AllTriggers;
+std::map<std::string, std::map<FTileVector, std::list<AEventTrigger*>>> UEventManager::AllTriggers;
 std::map<AEventTrigger*, UEventProcessor*> UEventManager::AllProcessors;
 float UEventManager::DeltaTime = 0.0f;
 
@@ -48,6 +48,12 @@ void UEventManager::RegisterEvent(AEventTrigger* _Trigger, const UEventCondition
 {
 	UEventProcessor* Processor = AllProcessors[_Trigger];
 	Processor->RegisterStream(_Condition, _Stream);
+}
+
+void UEventManager::UnregisterEvent(AEventTrigger* _Trigger, const UEventCondition& _Condition)
+{
+	UEventProcessor* Processor = AllProcessors[_Trigger];
+	Processor->UnregisterStream(_Condition);
 }
 
 bool UEventManager::TriggerEvent(AEventTrigger* _Trigger, EEventTriggerAction _Action)
@@ -191,13 +197,7 @@ void UEventManager::AddTrigger(AEventTrigger* _Trigger, const UEventTargetInit& 
 	FTileVector Point = _Setting.Point;
 	std::string LevelName = _Trigger->GetWorld()->GetName();
 
-	if (true == AllTriggers[LevelName].contains(Point))
-	{
-		MsgBoxAssert("이미 트리거가 존재하는 위치에 트리거" + TriggerName + "을 등록하려고 했습니다.");
-		return;
-	}
-
-	AllTriggers[LevelName][Point] = _Trigger;
+	AllTriggers[LevelName][Point].push_back(_Trigger);
 
 	if (true == AllProcessors.contains(_Trigger))
 	{
@@ -293,14 +293,25 @@ void UEventManager::SetPoint(std::string_view _MapName, std::string_view _Target
 	Target->SetActorLocation(TargetPosition);
 	Target->Point = _Point;
 
+	// 트리거인 경우 트리거 맵도 수정해준다.
 	if (true == AllTriggers[MapName].contains(_Point))
 	{
-		AEventTrigger* Trigger = AllTriggers[MapName][_Point];
+		std::list<AEventTrigger*>::iterator StartIter = AllTriggers[MapName][_Point].begin();
+		std::list<AEventTrigger*>::iterator EndIter = AllTriggers[MapName][_Point].end();
 
-		std::map<FTileVector, AEventTrigger*>::iterator FindIter = AllTriggers[MapName].find(_Point);
-		AllTriggers[MapName].erase(FindIter);
+		for (; StartIter != EndIter; ++StartIter)
+		{
+			AEventTrigger* Trigger = *StartIter;
 
-		AllTriggers[MapName][FTileVector(TargetPosition)] = Trigger;
+			if (Trigger->GetName() != Target->GetName())
+			{
+				continue;
+			}
+
+			AllTriggers[MapName][_Point].erase(StartIter);
+			AllTriggers[MapName][FTileVector(TargetPosition)].push_back(Trigger);
+			return;
+		}
 	}
 }
 

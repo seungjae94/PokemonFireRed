@@ -28,24 +28,4 @@ void UTitleLevel::BeginPlay()
 	Manager = SpawnActor<ATitleLevelManager>();
 	Manager->SetActorLocation(Global::HalfScreen);
 	Manager->SetCurDir(&CurDir);
-
-	UEventTargetInit LevelChangerInit; 
-	LevelChangerInit.SetName("LevelChanger");
-	UEventCondition LevelChangerCond;
-	LevelChanger = SpawnEventTrigger<AEventTrigger>(LevelChangerInit);
-	UEventManager::RegisterEvent(LevelChanger, LevelChangerCond,
-		ES::Start(false)
-		>> ES::FadeOut(1.0f)
-		>> ES::Wait(1.0f)
-		>> ES::ChangeLevel(Global::TutorialLevel)
-		>> ES::FadeIn(1.0f)
-		>> ES::Wait(1.0f)
-		>> ES::End(false)
-	);
-}
-
-void UTitleLevel::LevelChange()
-{
-	Manager->SetActive(false);
-	UEventManager::TriggerEvent(LevelChanger);
 }

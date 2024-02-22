@@ -3,6 +3,7 @@
 #include "EventManager.h"
 #include "Global.h"
 #include "PokemonUtil.h"
+#include "PokemonUILevel.h"
 
 UPokemonUILevelManager::UPokemonUILevelManager()
 {
@@ -63,7 +64,14 @@ void UPokemonUILevelManager::TargetSelectionWaitTick(float _DeltaTime)
 {
 	if (true == UEngineInput::IsDown('X'))
 	{
-		UEventManager::SetLevel(PrevMapLevelName);
+		UPokemonLevel* CurLevel = dynamic_cast<UPokemonLevel*>(GetWorld());
+		CurLevel->ChangeLevelFade(PrevMapLevelName);
+		return;
+	}
+
+	if (true == UEngineInput::IsDown('Z'))
+	{
+		TargetSelect();
 		return;
 	}
 
@@ -136,6 +144,20 @@ void UPokemonUILevelManager::MoveTargetCursor(int _Cursor)
 		DrawEntry(ETargetImageState::Focused, TargetCursor);
 	}
 
+}
+
+void UPokemonUILevelManager::TargetSelect()
+{
+	if (TargetCursor == UPlayerData::GetPokemonEntrySize())
+	{
+		UPokemonLevel* CurLevel = dynamic_cast<UPokemonLevel*>(GetWorld());
+		CurLevel->ChangeLevelFade(PrevMapLevelName);
+	}
+	else
+	{
+		State = EPokemonUIState::ActionSelectionWait;
+		// UI ¶ç¿ì±â
+	}
 }
 
 void UPokemonUILevelManager::DrawFirst(ETargetImageState _State)

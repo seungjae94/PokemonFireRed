@@ -28,6 +28,7 @@ public:
 	UEventProcessor& operator=(UEventProcessor&& _Other) noexcept = delete;
 
 	void RegisterStream(const UEventCondition& _Condition, UEventStream _Stream);
+	void UnregisterStream(const UEventCondition& _Condition);
 	
 	/// <summary>
 	/// 이벤트 실행을 시도한다.

@@ -35,6 +35,7 @@ public:
 
 	// 이벤트 등록
 	static void RegisterEvent(AEventTrigger* _Trigger, const UEventCondition& _Condition, UEventStream _Stream);
+	static void UnregisterEvent(AEventTrigger* _Trigger, const UEventCondition& _Condition);
 
 	// 이벤트 트리거
 	static bool TriggerEvent(AEventTrigger* _Trigger, EEventTriggerAction _Action = EEventTriggerAction::Direct);
@@ -110,6 +111,40 @@ public:
 		return FindTarget<TargetType>(CurLevelName, _TargetName);
 	}
 
+	// 주어진 위치의 모든 트리거를 반환
+	template <typename TriggerType>
+	static std::list<TriggerType*> FindTriggerListAt(std::string_view _LevelName, const FTileVector& _Point)
+	{
+		std::string LevelName = UEngineString::ToUpper(_LevelName);
+
+		if (false == AllTriggers.contains(LevelName) || false == AllTriggers[LevelName].contains(_Point))
+		{
+			return {};
+		}
+
+		std::list<AEventTrigger*> Triggers = AllTriggers[LevelName][_Point];
+		std::list<TriggerType*> CastedTriggers;
+
+		for (AEventTrigger* Trigger : Triggers)
+		{
+			TriggerType* Result = dynamic_cast<TriggerType*>(Trigger);
+
+			if (nullptr != Result)
+			{
+				CastedTriggers.push_back(Result);
+			}
+		}
+		
+		return CastedTriggers;
+	}
+
+	template <typename TriggerType>
+	static std::list<TriggerType*> FindCurLevelTriggerListAt(const FTileVector& _Point)
+	{
+		return FindTriggerListAt<TriggerType>(CurLevelName, _Point);
+	}
+
+	// 주어진 위치의 트리거를 하나만 찾아서 반환
 	template <typename TriggerType>
 	static TriggerType* FindTriggerAt(std::string_view _LevelName, const FTileVector& _Point)
 	{
@@ -117,20 +152,22 @@ public:
 
 		if (false == AllTriggers.contains(LevelName) || false == AllTriggers[LevelName].contains(_Point))
 		{
-			//MsgBoxAssert(LevelName + ":" + _Point.ToString() + "에는 이벤트 트리거가 존재하지 않습니다. FindTrigger 실행에 실패했습니다.");
-			return nullptr;
+			return {};
 		}
 
-		AEventTrigger* Trigger = AllTriggers[LevelName][_Point];
-		TriggerType* Result = dynamic_cast<TriggerType*>(Trigger);
+		std::list<AEventTrigger*> Triggers = AllTriggers[LevelName][_Point];
 
-		if (nullptr == Result)
+		for (AEventTrigger* Trigger : Triggers)
 		{
-			//MsgBoxAssert(LevelName + ":" + Trigger->GetName() + "의 다운 캐스팅에 실패했습니다. FindTrigger 실행에 실패했습니다.");
-			return nullptr;
+			TriggerType* Result = dynamic_cast<TriggerType*>(Trigger);
+
+			if (nullptr != Result)
+			{
+				return Result;
+			}
 		}
 
-		return Result;
+		return nullptr;
 	}
 
 	template <typename TriggerType>
@@ -164,10 +201,10 @@ private:
 	// - 'A레벨의 B라는 이름의 액터를 이동시켜줘'라는 요청을 처리하려면 A레벨의 B라는 이름의 액터를 찾을 수 있어야 한다.
 	static std::map<std::string, std::map<std::string, AEventTarget*>> AllTargets;
 
-	// AllTriggers[LevelName][Point]
+	// AllTriggers[LevelName][Point] = list of Triggers
 	// - 플레이어가 특정 위치에 트리거가 있는지 확인할 때 사용
 	// - 해당 트리거를 동작시킬 때 사용
-	static std::map<std::string, std::map<FTileVector, AEventTrigger*>> AllTriggers;
+	static std::map<std::string, std::map<FTileVector, std::list<AEventTrigger*>>> AllTriggers;
 
 	// AllProcessors[Trigger]
 	// - 이벤트 매니저는 레벨 변경과 무관하게 계속 존재할 수 있지만 모든 트리거의 콜백(이벤트)을 저장하기에 적합하지는 않다.

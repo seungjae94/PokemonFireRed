@@ -33,10 +33,10 @@ void UTutorialLevel::BeginPlay()
 	Manager = SpawnActor<ATutorialLevelManager>();
 
 	UEventTargetInit LevelChangerInit; 
-	LevelChangerInit.SetName("LevelChanger");
+	LevelChangerInit.SetName("MapLevelChanger");
 	UEventCondition LevelChangerCond;
-	LevelChanger = SpawnEventTrigger<AEventTrigger>(LevelChangerInit);
-	UEventManager::RegisterEvent(LevelChanger, LevelChangerCond,
+	MapLevelChanger = SpawnEventTrigger<AEventTrigger>(LevelChangerInit);
+	UEventManager::RegisterEvent(MapLevelChanger, LevelChangerCond,
 		ES::Start(false)
 		>> ES::FadeOut(1.0f)
 		>> ES::Wait(1.0f)
@@ -53,5 +53,5 @@ void UTutorialLevel::BeginPlay()
 void UTutorialLevel::LevelChange()
 {
 	Manager->SetActive(false);
-	UEventManager::TriggerEvent(LevelChanger);
+	UEventManager::TriggerEvent(MapLevelChanger);
 }

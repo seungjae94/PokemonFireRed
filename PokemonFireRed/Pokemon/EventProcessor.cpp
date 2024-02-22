@@ -93,6 +93,7 @@ void UEventProcessor::Tick(float _DeltaTime)
 		break;
 	case EEventType::DeactivatePlayerControl:
 		ProcessingResult = ProcessDeactivatePlayerControl();
+		break;
 	default:
 		break;
 	}
@@ -654,4 +655,9 @@ void UEventProcessor::EndRun()
 void UEventProcessor::RegisterStream(const UEventCondition& _Condition, UEventStream _Stream)
 {
 	AllStreams[_Condition] = _Stream;
+}
+
+void UEventProcessor::UnregisterStream(const UEventCondition& _Condition)
+{
+	AllStreams.erase(_Condition);
 }

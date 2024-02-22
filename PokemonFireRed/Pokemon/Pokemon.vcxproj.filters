@@ -76,6 +76,9 @@
     <Filter Include="Level\3. UILevel\0. PokemonUI">
       <UniqueIdentifier>{33359c0e-3911-4572-aaef-924cb5826d41}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Global\5. Trigger">
+      <UniqueIdentifier>{5afc955f-9fe3-4a6d-bd92-3b7ac4681b20}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PokemonCore.h">
@@ -216,6 +219,9 @@
     <ClInclude Include="PokemonUILevelManager.h">
       <Filter>Level\3. UILevel\0. PokemonUI</Filter>
     </ClInclude>
+    <ClInclude Include="FadeLevelChanger.h">
+      <Filter>Global\5. Trigger</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PokemonCore.cpp">
@@ -355,6 +361,9 @@
     </ClCompile>
     <ClCompile Include="PokemonUILevelManager.cpp">
       <Filter>Level\3. UILevel\0. PokemonUI</Filter>
+    </ClCompile>
+    <ClCompile Include="FadeLevelChanger.cpp">
+      <Filter>Global\5. Trigger</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

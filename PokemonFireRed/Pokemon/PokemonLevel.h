@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "MenuWindow.h"
 #include "DialogueWindow.h"
+#include "FadeLevelChanger.h"
 
 // 포켓몬 게임의 모든 레벨이 공통적으로 수행해야 하는 Tick 동작을 정의하는 클래스
 // - 최초 개발 의도: 이벤트 매니저의 Tick을 돌리기 위해 생성
@@ -53,10 +54,26 @@ public:
 		return EventTrigger;
 	}
 
+	template <typename EventTriggerType>
+	EventTriggerType* SpawnEventTrigger(std::string_view _Name)
+	{
+		UEventTargetInit Init;
+		Init.SetName(_Name);
+		EventTriggerType* EventTrigger = SpawnActor<EventTriggerType>();
+		UEventManager::AddTarget(EventTrigger, Init);
+		UEventManager::AddTrigger(EventTrigger, Init);
+		return EventTrigger;
+	}
+
+	void ChangeLevelFade(std::string_view _Name, float _FadeInTime = 0.5f, float _FadeOutTime = 0.5f)
+	{
+		FadeLevelChanger->ChangeLevel(_Name, _FadeInTime, _FadeOutTime);
+	}
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 private:
-
+	AFadeLevelChanger* FadeLevelChanger = nullptr;
 };
 

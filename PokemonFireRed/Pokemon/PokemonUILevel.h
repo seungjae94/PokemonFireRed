@@ -1,5 +1,6 @@
 #pragma once
 #include "PokemonLevel.h"
+#include "FadeLevelChanger.h"
 
 class UPokemonUILevelManager;
 
@@ -21,5 +22,6 @@ protected:
 	void LevelStart(ULevel* _PrevLevel) override;
 private:
 	UPokemonUILevelManager* Manager = nullptr;
+	AFadeLevelChanger* LevelChanger = nullptr;
 };
 
