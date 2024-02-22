@@ -174,6 +174,23 @@ public:
 	static FTileVector ProjectToTileVector(const FVector& _Vec);
 	static float Distance(const FVector& _Vec1, const FVector& _Vec2);
 	
+	static int Mod(int _Value, int _Divisor)
+	{
+		if (_Divisor <= 0)
+		{
+			MsgBoxAssert("Mod 함수는 0 이하의 수로 나눈 나머지를 지원하지 않습니다. " 
+				+ std::to_string(_Value) +"를 " + std::to_string(_Divisor) + "로 나누려고 했습니다.");
+			return 0;
+		}
+
+		if (_Value >= 0)
+		{
+			return _Value % _Divisor;
+		}
+
+		return (_Value % _Divisor + _Divisor) % _Divisor;
+	}
+
 	static int Floor(float _Value)
 	{
 		return std::lround(std::floor(_Value));
@@ -195,7 +212,7 @@ public:
 
 		return Result;
 	}
-
+ 
 	/// <param name="_Start">Inclusive</param>
 	/// <param name="_End">Inclusive</param>
 	static int RandomInt(int _Start, int _End);

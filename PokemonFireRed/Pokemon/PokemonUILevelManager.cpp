@@ -3,7 +3,6 @@
 #include "EventManager.h"
 #include "Global.h"
 #include "PokemonUtil.h"
-#include "PlayerData.h"
 
 UPokemonUILevelManager::UPokemonUILevelManager()
 {
@@ -83,6 +82,76 @@ void UPokemonUILevelManager::TargetSelectionWaitTick(float _DeltaTime)
 		UEventManager::SetLevel(PrevMapLevelName);
 		return;
 	}
+
+	int EntrySize = UPlayerData::GetPokemonEntrySize();
+	if (true == UEngineInput::IsDown(VK_LEFT) && IsEntry(TargetCursor))
+	{
+		MemoryEntryCursor = TargetCursor;
+		MoveTargetCursor(0);
+		return;
+	}
+
+	if (true == UEngineInput::IsDown(VK_RIGHT) && IsFirst(TargetCursor))
+	{
+		MoveTargetCursor(MemoryEntryCursor);
+		return;
+	}
+
+	if (true == UEngineInput::IsDown(VK_UP))
+	{
+		if (true == IsEntry(TargetCursor))
+		{
+			MemoryEntryCursor = TargetCursor;
+		}
+
+		MoveTargetCursor(UPokemonMath::Mod(TargetCursor - 1, EntrySize + 1));
+		return;
+	}
+
+	if (true == UEngineInput::IsDown(VK_DOWN))
+	{
+		if (true == IsEntry(TargetCursor))
+		{
+			MemoryEntryCursor = TargetCursor;
+		}
+
+		MoveTargetCursor(UPokemonMath::Mod(TargetCursor + 1, EntrySize + 1));
+		return;
+	}
+}
+
+void UPokemonUILevelManager::MoveTargetCursor(int _Cursor)
+{
+	// 이전 커서 위치의 이미지 변경
+	if (true == IsFirst(TargetCursor))
+	{
+		FirstRenderer->SetImage("UPFirst.png");
+	}
+	else if (true == IsCancel(TargetCursor))
+	{
+		CancelRenderer->SetImage("UPCancel.png");
+	}
+	else if (true == IsEntry(TargetCursor))
+	{
+		EntryRenderers[TargetCursor - 1]->SetImage("UPEntry.png");
+	}
+
+	TargetCursor = _Cursor;
+
+	// 다음 커서 위치의 이미지 변경
+	if (true == IsFirst(TargetCursor))
+	{
+		FirstRenderer->SetImage("UPFirstFocused.png");
+	}
+	else if (true == IsCancel(TargetCursor))
+	{
+		CancelRenderer->SetImage("UPCancelFocused.png");
+	}
+	else if (true == IsEntry(TargetCursor))
+	{
+		EntryRenderers[TargetCursor - 1]->SetImage("UPEntryFocused.png");
+	}
+
 }
 
 void UPokemonUILevelManager::ActionSelectionWaitTick(float _DeltaTime)

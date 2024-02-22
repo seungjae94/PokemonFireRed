@@ -1,6 +1,7 @@
 #pragma once
 #include <EngineCore/Actor.h>
 #include "PokemonText.h"
+#include "PlayerData.h"
 
 enum class EPokemonUIState
 {
@@ -31,7 +32,8 @@ protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 private:
-	int Cursor = 0;
+	int TargetCursor = 0;
+	int MemoryEntryCursor = 1;
 	UImageRenderer* BackgroundRenderer = nullptr;
 
 	UImageRenderer* FirstRenderer = nullptr;
@@ -53,8 +55,24 @@ private:
 
 	void TargetSelectionWaitTick(float _DeltaTime);
 	std::string PrevMapLevelName;
+	void MoveTargetCursor(int _Cursor);
 
 	void ActionSelectionWaitTick(float _DeltaTime);
 	void SwitchTick(float _DeltaTime);
+
+	bool IsFirst(int _Cursor)
+	{
+		return _Cursor == 0;
+	}
+
+	bool IsEntry(int _Cursor)
+	{
+		return _Cursor > 0 && _Cursor < UPlayerData::GetPokemonEntrySize();
+	}
+
+	bool IsCancel(int _Cursor)
+	{
+		return _Cursor == UPlayerData::GetPokemonEntrySize();
+	}
 };
 
