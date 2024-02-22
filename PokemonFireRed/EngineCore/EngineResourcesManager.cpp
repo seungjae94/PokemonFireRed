@@ -45,7 +45,7 @@ UWindowImage* UEngineResourcesManager::LoadImg(std::string_view _Path, std::stri
 
 	Images[UpperName] = NewImage;
 
-	return nullptr;
+	return NewImage;
 
 }
 
