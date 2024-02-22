@@ -155,11 +155,13 @@ void APokemonText::PrepareLine(const std::wstring& _Line, int _Bot)
 
 		FVector ImageScale = UPokemonUtil::GetImageScale(Renderer);
 		FVector RenderScale = UPokemonUtil::GetRenderScale(Renderer);
-		int Width = Rule.MarginLeft + ImageScale.iX() + Rule.MarginRight;
-		int Height = ImageScale.iY();
+		int ImageWidth = ImageScale.iX();
+		int ImageHeight = ImageScale.iY();
+		int Width = Rule.MarginLeft + ImageWidth + Rule.MarginRight;
 
 		FVector RenderPos = FVector(Left, Bot);									// 글리프 중심이 (Left, Bot)에 위치
-		RenderPos += UPokemonUtil::PixelVector(Width / 2, -(Height - 1) / 2);	// 글리프 좌하단이 (Left, Bot)에 위치
+		RenderPos += RenderScale.Half2D();
+		RenderPos -= FVector(0.0f, RenderScale.Y - 3.0f);						// 글리프 좌하단이 (Left, Bot)에 위치
 		RenderPos += UPokemonUtil::PixelVector(Rule.MarginLeft, Rule.Base);		// 마진 및 Baseline 적용
 
 		Renderer->SetTransform({ RenderPos, RenderScale });
@@ -225,8 +227,8 @@ void APokemonText::InitAlignRuleMap()
 	char NameCh = '0';
 	for (wchar_t Ch = L'0'; Ch <= L'9'; Ch++)
 	{
-		AlignRuleMap[EFontSize::Normal][Ch] = { std::string("Number") + NameCh, 6, 10, 0 };
-		AlignRuleMap[EFontSize::Mini][Ch] = { std::string("Number") + NameCh, 6, 10, 0 };
+		AlignRuleMap[EFontSize::Normal][Ch] = { std::string("Number") + NameCh, 0, 0, 0 };
+		AlignRuleMap[EFontSize::Mini][Ch] = { std::string("Number") + NameCh, 0, 0, 0 };
 		NameCh++;
 	}
 

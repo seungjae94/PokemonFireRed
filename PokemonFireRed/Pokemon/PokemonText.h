@@ -101,8 +101,8 @@ private:
 	{
 	public:
 		std::string ImageName;
-		int MarginLeft;
-		int MarginRight;
+		int MarginLeft = 0;
+		int MarginRight = 0;
 		int Base = 0;
 	};
 
