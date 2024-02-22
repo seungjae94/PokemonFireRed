@@ -93,7 +93,7 @@ void ATitleLevelManager::Video3Logic(float _DeltaTime)
 	{
 		// 아무 키나 누르면 타이틀 레벨을 종료한다.
 		UTitleLevel* ThisLevel = dynamic_cast<UTitleLevel*>(GetWorld());
-		ThisLevel->ChangeLevelFade(Global::TutorialLevel);
+		ThisLevel->ChangeLevelFade(Global::TutorialLevel, 1.0f, 1.0f);
 		return;
 	}
 

@@ -64,8 +64,8 @@ private:
 
 	// 페이지 변경 페이드 효과
 	EFadeState FadingState = EFadeState::None;
-	float FadeOutTime = 1.0f;
-	float FadeInTime = 1.0f;
+	float FadeOutTime = 0.5f;
+	float FadeInTime = 0.5f;
 	float UIChangeWaitTime = 0.2f;
 	float CurFadeOutTime = FadeOutTime;
 	float CurFadeInTime = FadeInTime;

@@ -188,7 +188,7 @@ void ATutorialLevelManager::Tick(float _DeltaTime)
 		{
 			// 페이드 효과 시작
 			FadingState = EFadeState::FadeOut;
-			BlackScreen->FadeOut(1.0f);
+			BlackScreen->FadeOut(FadeOutTime);
 			return;
 		}
 
