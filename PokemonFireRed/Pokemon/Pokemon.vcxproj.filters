@@ -73,6 +73,9 @@
     <Filter Include="Level\3. UILevel">
       <UniqueIdentifier>{4d6642c5-eaf8-48c7-88cc-115fe2b883fd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Level\3. UILevel\PokemonUI">
+      <UniqueIdentifier>{33359c0e-3911-4572-aaef-924cb5826d41}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PokemonCore.h">
@@ -208,10 +211,10 @@
       <Filter>Global\4. Data</Filter>
     </ClInclude>
     <ClInclude Include="PokemonUILevel.h">
-      <Filter>Level\3. UILevel</Filter>
+      <Filter>Level\3. UILevel\PokemonUI</Filter>
     </ClInclude>
     <ClInclude Include="PokemonUILevelManager.h">
-      <Filter>Level\3. UILevel</Filter>
+      <Filter>Level\3. UILevel\PokemonUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -348,10 +351,10 @@
       <Filter>Global\4. Data</Filter>
     </ClCompile>
     <ClCompile Include="PokemonUILevel.cpp">
-      <Filter>Level\3. UILevel</Filter>
+      <Filter>Level\3. UILevel\PokemonUI</Filter>
     </ClCompile>
     <ClCompile Include="PokemonUILevelManager.cpp">
-      <Filter>Level\3. UILevel</Filter>
+      <Filter>Level\3. UILevel\PokemonUI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
