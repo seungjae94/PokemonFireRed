@@ -94,6 +94,11 @@ public:
 		return (_RectWidth - LineWidth) / 2;
 	}
 
+	FVector GetRightAlignPos(int _PixelRight, int _PixelBot) const
+	{
+		return FVector(_PixelRight - LineWidth + 1, _PixelBot);
+	}
+
 	void SetPosX(float _X)
 	{
 		FVector Pos = GetActorLocation();

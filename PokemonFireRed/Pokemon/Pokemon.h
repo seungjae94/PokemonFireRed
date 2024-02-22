@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <string>
 
 enum class EAbility
 {
@@ -114,6 +115,21 @@ public:
 	UPokemon& operator=(const UPokemon& _Other) = default;
 	UPokemon& operator=(UPokemon&& _Other) noexcept = default;
 
+	std::wstring GetName()
+	{
+		return Name;
+	}
+
+	int GetLevel() const
+	{
+		return Level;
+	}
+
+	int GetCurHp() const
+	{
+		return CurHp;
+	}
+
 	int GetHp() const;
 	int GetAtk() const;
 	int GetDef() const;
@@ -150,11 +166,10 @@ protected:
 	int YSpDef = 0;
 	int YSpeed = 0;
 
-	// 레벨과 누적 경험치
+	// 기본 정보
+	std::wstring Name;
 	int Level = 0;
 	int AccExp = 0;
-
-	// 현재 체력
 	int CurHp = 0;
 
 	// Nature

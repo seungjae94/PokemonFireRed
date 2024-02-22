@@ -4,6 +4,7 @@
 #include "Global.h"
 #include "PokemonUtil.h"
 #include "PokemonUILevel.h"
+#include "Pokemon.h"
 
 UPokemonUILevelManager::UPokemonUILevelManager()
 {
@@ -61,6 +62,37 @@ void UPokemonUILevelManager::BeginPlay()
 
 	CancelRenderer = CreateImageRenderer(ERenderingOrder::UpperUI);
 	DrawCancel(ETargetImageState::Unfocused);
+
+	// 텍스트 렌더링
+	UPokemonLevel* CurLevel = dynamic_cast<UPokemonLevel*>(GetWorld());
+	FirstNameText = CurLevel->SpawnUIElement<APokemonText>("FirstNameText");
+	FirstLevelText = CurLevel->SpawnUIElement<APokemonText>("FirstLevelText");
+	FirstHpText = CurLevel->SpawnUIElement<APokemonText>("FirstHpText");
+	FirstCurHpText = CurLevel->SpawnUIElement<APokemonText>("FirstCurHpText");
+	FirstNameText->SetContainer(this);
+	FirstLevelText->SetContainer(this);
+	FirstCurHpText->SetContainer(this);
+	FirstHpText->SetContainer(this);
+
+	UPokemon& First = UPlayerData::GetPokemonInEntry(0);
+	FirstNameText->SetText(First.GetName(), true);
+	FirstLevelText->SetText(std::to_wstring(First.GetLevel()), true);
+	FirstHpText->SetText(std::to_wstring(First.GetHp()), true);
+	FirstCurHpText->SetText(std::to_wstring(First.GetCurHp()), true);
+
+
+	FVector TextPos = FirstRenderer->GetTransform().LeftTop() + FVector(25.0f, 26.0f) * Global::FloatPixelSize;
+	FirstNameText->SetActorLocation(TextPos);
+	TextPos = FirstRenderer->GetTransform().LeftTop() + FVector(48.0f, 37.0f) * Global::FloatPixelSize;
+	FirstLevelText->SetActorLocation(TextPos);
+	
+	FVector RightBot = FirstRenderer->GetTransform().RightBottom() + FVector(-6.0f, -4.0f) * Global::FloatPixelSize;
+	TextPos = FirstHpText->GetRightAlignPos(RightBot.iX(), RightBot.iY());
+	FirstHpText->SetActorLocation(TextPos);
+
+	RightBot = FirstRenderer->GetTransform().RightBottom() + FVector(-26.0f, -4.0f) * Global::FloatPixelSize;
+	TextPos = FirstCurHpText->GetRightAlignPos(RightBot.iX(), RightBot.iY());
+	FirstCurHpText->SetActorLocation(TextPos);
 }
 
 void UPokemonUILevelManager::Tick(float _DeltaTime)

@@ -2,9 +2,10 @@
 
 UBulbasaur::UBulbasaur()
 {
-	// 레벨 및 경험치 설정
+	// 기본 정보 설정
 	Level = 1;
 	AccExp = 0;
+	Name = L"BULBASAUR";
 
 	// 기본 데이터 설정
 	float MaleRatio = 7 / 8.0f;
