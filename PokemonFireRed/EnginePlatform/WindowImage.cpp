@@ -403,28 +403,69 @@ void UWindowImage::PlgCopy(UWindowImage* _CopyImage, const FTransform& _Trans, i
 	);
 }
 
+void UWindowImage::TextCopy(const std::string& _Text, const std::string& _Font, float _Size, const FTransform& _Trans, Color8Bit _Color/* = Color8Bit::Black*/)
+{
+	Gdiplus::StringFormat stringFormat;
+	stringFormat.SetAlignment(Gdiplus::StringAlignmentCenter);
+	stringFormat.SetLineAlignment(Gdiplus::StringAlignmentCenter);
+	TextCopyFormat(_Text, _Font, stringFormat, _Size, _Trans, _Color);  //출력
+}
 
-void UWindowImage::TextCopy(const std::string& _Text, const std::string& _Font, float _Size, const FTransform& _Trans, Color8Bit _Color)
+void UWindowImage::TextCopy(const std::string& _Text, const std::string& _Font, float _Size, const FTransform& _Trans, Color8Bit _OutLineColor, Color8Bit _FillColor)
 {
 	Gdiplus::Graphics graphics(ImageDC);
 	std::wstring WFont = UEngineString::AnsiToUniCode(_Font);
-	Gdiplus::Font fnt(WFont.c_str(), _Size, 0, Gdiplus::UnitPixel);
-	Gdiplus::SolidBrush hB(Gdiplus::Color(_Color.R, _Color.G, _Color.B));
+	Gdiplus::Font fnt(WFont.c_str(), _Size, Gdiplus::FontStyleBold | Gdiplus::FontStyleItalic, Gdiplus::UnitPixel);
+
+	// 테두리용 브러시 설정
+	Gdiplus::SolidBrush OutLineBrush(Gdiplus::Color(_OutLineColor.R, _OutLineColor.G, _OutLineColor.B));
+
+	// 내부 채우기용 브러시 설정
+	Gdiplus::SolidBrush fillBrush(Gdiplus::Color(_FillColor.R, _FillColor.G, _FillColor.B));
+
 	FVector Pos = _Trans.GetPosition();
-	Gdiplus::RectF  rectF(_Trans.GetPosition().X, _Trans.GetPosition().Y, 0, 0);
+	Gdiplus::RectF rectF(Pos.X, Pos.Y, 0, 0);
 
 	Gdiplus::StringFormat stringFormat;
 	stringFormat.SetAlignment(Gdiplus::StringAlignmentCenter);
 	stringFormat.SetLineAlignment(Gdiplus::StringAlignmentCenter);
 	std::wstring WText = UEngineString::AnsiToUniCode(_Text);
-	graphics.DrawString(WText.c_str(), -1, &fnt, rectF, &stringFormat, &hB); 
+
+	float offsetsX[] = { -3.f, 3.f }; 
+	float offsetsY[] = { -2.f, 2.f };
+	for (float dx : offsetsX)
+	{
+		for (float dy : offsetsY)
+		{
+			Gdiplus::RectF borderRect = rectF;
+			borderRect.X += dx;
+			borderRect.Y += dy;
+			graphics.DrawString(WText.c_str(), -1, &fnt, borderRect, &stringFormat, &OutLineBrush);
+		}
+	}
+	float offsets_X[] = { -2.f, 2.f }; 
+	float offsets_Y[] = { -1.f, 1.f }; 
+	for (float dx : offsets_X)
+	{
+		for (float dy : offsets_Y)
+		{
+			Gdiplus::RectF borderRect = rectF;
+			borderRect.X += dx;
+			borderRect.Y += dy;
+			graphics.DrawString(WText.c_str(), -1, &fnt, borderRect, &stringFormat, &fillBrush);
+		}
+	}
 }
 
-void UWindowImage::TextCopyFormat(const std::string& _Text, const std::string& _Font, const Gdiplus::StringFormat& stringFormat, float _Size, const FTransform& _Trans, Color8Bit _Color /*= Color8Bit::Black*/)
+void UWindowImage::TextCopyBold(const std::string& _Text, const std::string& _Font, float _Size, const FTransform& _Trans, Color8Bit _Color)
 {
+	Gdiplus::StringFormat stringFormat;
+	stringFormat.SetAlignment(Gdiplus::StringAlignmentCenter);
+	stringFormat.SetLineAlignment(Gdiplus::StringAlignmentCenter);
+
 	Gdiplus::Graphics graphics(ImageDC);
 	std::wstring WFont = UEngineString::AnsiToUniCode(_Font);
-	Gdiplus::Font fnt(WFont.c_str(), _Size, /*Gdiplus::FontStyleBold | Gdiplus::FontStyleItalic*/0, Gdiplus::UnitPixel);
+	Gdiplus::Font fnt(WFont.c_str(), _Size, Gdiplus::FontStyleBold, Gdiplus::UnitPixel);
 	Gdiplus::SolidBrush hB(Gdiplus::Color(_Color.R, _Color.G, _Color.B));
 	FVector Pos = _Trans.GetPosition();
 	Gdiplus::RectF  rectF(_Trans.GetPosition().X, _Trans.GetPosition().Y, 0, 0);
@@ -433,6 +474,18 @@ void UWindowImage::TextCopyFormat(const std::string& _Text, const std::string& _
 	graphics.DrawString(WText.c_str(), -1, &fnt, rectF, &stringFormat, &hB);  //출력
 }
 
+void UWindowImage::TextCopyFormat(const std::string& _Text, const std::string& _Font, const Gdiplus::StringFormat& stringFormat, float _Size, const FTransform& _Trans, Color8Bit _Color /*= Color8Bit::Black*/)
+{
+	Gdiplus::Graphics graphics(ImageDC);
+	std::wstring WFont = UEngineString::AnsiToUniCode(_Font);
+	Gdiplus::Font fnt(WFont.c_str(), _Size, 0, Gdiplus::UnitPixel);
+	Gdiplus::SolidBrush hB(Gdiplus::Color(_Color.R, _Color.G, _Color.B));
+	FVector Pos = _Trans.GetPosition();
+	Gdiplus::RectF  rectF(_Trans.GetPosition().X, _Trans.GetPosition().Y, 0, 0);
+
+	std::wstring WText = UEngineString::AnsiToUniCode(_Text);
+	graphics.DrawString(WText.c_str(), -1, &fnt, rectF, &stringFormat, &hB);  //출력
+}
 
 void UWindowImage::Cutting(int _X, int _Y)
 {

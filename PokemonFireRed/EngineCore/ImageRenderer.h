@@ -145,13 +145,16 @@ public:
 	{
 		Font = _Font;
 	}
+
 	void SetTextSize(float _Value)
 	{
 		Size = _Value;
 	}
-	void SetTextColor(Color8Bit _Color)
+	
+	void SetTextColor(Color8Bit _Color, Color8Bit _Color2 = Color8Bit::White)
 	{
 		TextColor = _Color;
+		TextColor2 = _Color2;
 	}
 
 	void SetCameraRatio(float _Ratio)
@@ -160,6 +163,11 @@ public:
 	}
 
 	FTransform GetRenderTransForm();
+
+	void SetTextEffect(int _Effect = 0)
+	{
+		TextEffect = _Effect;
+	}
 
 protected:
 	void BeginPlay() override;
@@ -182,5 +190,7 @@ private:
 	std::string Font = "±Ã¼­";
 	float Size = 10.0f;
 	Color8Bit TextColor = Color8Bit::BlackA;
+	Color8Bit TextColor2 = Color8Bit::BlackA;
+	int TextEffect = 0;
 };
 
