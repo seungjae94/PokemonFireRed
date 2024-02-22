@@ -32,6 +32,15 @@ protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 private:
+	enum class ETargetImageState
+	{
+		Empty,
+		Unfocused,
+		Focused,
+		From,
+		To
+	};
+
 	int TargetCursor = 0;
 	int MemoryEntryCursor = 1;
 	UImageRenderer* BackgroundRenderer = nullptr;
@@ -56,6 +65,10 @@ private:
 	void TargetSelectionWaitTick(float _DeltaTime);
 	std::string PrevMapLevelName;
 	void MoveTargetCursor(int _Cursor);
+
+	void DrawFirst(ETargetImageState _State);
+	void DrawEntry(ETargetImageState _State, int _Index);
+	void DrawCancel(ETargetImageState _State);
 
 	void ActionSelectionWaitTick(float _DeltaTime);
 	void SwitchTick(float _DeltaTime);

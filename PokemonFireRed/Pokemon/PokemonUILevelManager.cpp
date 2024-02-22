@@ -21,40 +21,24 @@ void UPokemonUILevelManager::BeginPlay()
 	BackgroundRenderer->SetTransform({ BackgroundPos, BackgroundRenderScale });
 
 	FirstRenderer = CreateImageRenderer(ERenderingOrder::UpperUI);
-	FirstRenderer->SetImage("UPFirstFocused.png");
-	FVector FirstRenderScale = UPokemonUtil::GetRenderScale(FirstRenderer);
-	FVector FirstPos = FirstRenderScale.Half2D();
-	FirstPos += FVector(2.0f, 20.0f) * Global::FloatPixelSize;
-	FirstRenderer->SetTransform({ FirstPos, FirstRenderScale });
+	DrawFirst(ETargetImageState::Focused);
 
 	EntryRenderers.reserve(6);
 	for (int i = 1; i < UPlayerData::GetPokemonEntrySize(); ++i)
 	{
 		UImageRenderer* Renderer = CreateImageRenderer(ERenderingOrder::UpperUI);
-		Renderer->SetImage("UPEntry.png");
-		FVector RenderScale = UPokemonUtil::GetRenderScale(Renderer);
-		FVector Pos = UPokemonUtil::GetRightTopAlignPos(RenderScale);
-		Pos += FVector(-3.0f, 11.0f + 24.0f * (i - 1)) * Global::FloatPixelSize;
-		Renderer->SetTransform({ Pos, RenderScale });
 		EntryRenderers.push_back(Renderer);
+		DrawEntry(ETargetImageState::Unfocused, i);
 	}
 	for (int i = UPlayerData::GetPokemonEntrySize(); i < 6; ++i)
 	{
 		UImageRenderer* Renderer = CreateImageRenderer(ERenderingOrder::UpperUI);
-		Renderer->SetImage("UPEntryEmpty.png");
-		FVector RenderScale = UPokemonUtil::GetRenderScale(Renderer);
-		FVector Pos = UPokemonUtil::GetRightTopAlignPos(RenderScale); 
-		Pos += FVector(-3.0f, 11.0f + 24.0f * (i - 1)) * Global::FloatPixelSize;
-		Renderer->SetTransform({ Pos, RenderScale });
 		EntryRenderers.push_back(Renderer);
+		DrawEntry(ETargetImageState::Empty, i);
 	}
 
 	CancelRenderer = CreateImageRenderer(ERenderingOrder::UpperUI);
-	CancelRenderer->SetImage("UPCancel.png");
-	FVector CancelRenderScale = UPokemonUtil::GetRenderScale(CancelRenderer);
-	FVector CancelPos = UPokemonUtil::GetRightBotAlignPos(CancelRenderScale);
-	CancelPos += FVector(-3.0f, -7.0f) * Global::FloatPixelSize;
-	CancelRenderer->SetTransform({ CancelPos, CancelRenderScale });
+	DrawCancel(ETargetImageState::Unfocused);
 }
 
 void UPokemonUILevelManager::Tick(float _DeltaTime)
@@ -125,15 +109,15 @@ void UPokemonUILevelManager::MoveTargetCursor(int _Cursor)
 	// 이전 커서 위치의 이미지 변경
 	if (true == IsFirst(TargetCursor))
 	{
-		FirstRenderer->SetImage("UPFirst.png");
+		DrawFirst(ETargetImageState::Unfocused);
 	}
 	else if (true == IsCancel(TargetCursor))
 	{
-		CancelRenderer->SetImage("UPCancel.png");
+		DrawCancel(ETargetImageState::Unfocused);
 	}
 	else if (true == IsEntry(TargetCursor))
 	{
-		EntryRenderers[TargetCursor - 1]->SetImage("UPEntry.png");
+		DrawEntry(ETargetImageState::Unfocused, TargetCursor);
 	}
 
 	TargetCursor = _Cursor;
@@ -141,17 +125,117 @@ void UPokemonUILevelManager::MoveTargetCursor(int _Cursor)
 	// 다음 커서 위치의 이미지 변경
 	if (true == IsFirst(TargetCursor))
 	{
-		FirstRenderer->SetImage("UPFirstFocused.png");
+		DrawFirst(ETargetImageState::Focused);
 	}
 	else if (true == IsCancel(TargetCursor))
 	{
-		CancelRenderer->SetImage("UPCancelFocused.png");
+		DrawCancel(ETargetImageState::Focused);
 	}
 	else if (true == IsEntry(TargetCursor))
 	{
-		EntryRenderers[TargetCursor - 1]->SetImage("UPEntryFocused.png");
+		DrawEntry(ETargetImageState::Focused, TargetCursor);
 	}
 
+}
+
+void UPokemonUILevelManager::DrawFirst(ETargetImageState _State)
+{
+	std::string ImageName;
+	FVector AddPos;
+
+	switch (_State)
+	{
+	case UPokemonUILevelManager::ETargetImageState::Unfocused:
+		ImageName = "UPFirst.png";
+		AddPos = FVector(2.0f, 20.0f) * Global::FloatPixelSize;
+		break;
+	case UPokemonUILevelManager::ETargetImageState::Focused:
+		ImageName = "UPFirstFocused.png";
+		AddPos = FVector(2.0f, 18.0f) * Global::FloatPixelSize;
+		break;
+	case UPokemonUILevelManager::ETargetImageState::From:
+		ImageName = "UPFirstFrom.png";
+		AddPos = FVector(2.0f, 20.0f) * Global::FloatPixelSize;
+		break;
+	case UPokemonUILevelManager::ETargetImageState::To:
+		ImageName = "UPFirstTo.png";
+		AddPos = FVector(2.0f, 18.0f) * Global::FloatPixelSize;
+		break;
+	default:
+		MsgBoxAssert("Pokemon UI의 First의 상태가 Empty입니다.");
+		break;
+	}
+
+	FirstRenderer->SetImage(ImageName);
+	FVector FirstRenderScale = UPokemonUtil::GetRenderScale(FirstRenderer);
+	FVector FirstPos = FirstRenderScale.Half2D();
+	FirstPos += AddPos;
+	FirstRenderer->SetTransform({ FirstPos, FirstRenderScale });
+}
+
+void UPokemonUILevelManager::DrawEntry(ETargetImageState _State, int _Index)
+{
+	std::string ImageName;
+	FVector AddPos;
+
+	switch (_State)
+	{
+	case UPokemonUILevelManager::ETargetImageState::Empty:
+		ImageName = "UPEntryEmpty.png";
+		AddPos = FVector(-3.0f, 11.0f + 24.0f * (_Index - 1)) * Global::FloatPixelSize;
+		break;
+	case UPokemonUILevelManager::ETargetImageState::Unfocused:
+		ImageName = "UPEntry.png";
+		AddPos = FVector(-3.0f, 11.0f + 24.0f * (_Index - 1)) * Global::FloatPixelSize;
+		break;
+	case UPokemonUILevelManager::ETargetImageState::Focused:
+		ImageName = "UPEntryFocused.png";
+		AddPos = FVector(-3.0f, 10.0f + 24.0f * (_Index - 1)) * Global::FloatPixelSize;
+		break;
+	case UPokemonUILevelManager::ETargetImageState::From:
+		ImageName = "UPEntryFrom.png";
+		AddPos = FVector(-3.0f, 11.0f + 24.0f * (_Index - 1)) * Global::FloatPixelSize;
+		break;
+	case UPokemonUILevelManager::ETargetImageState::To:
+		ImageName = "UPEntryTo.png";
+		AddPos = FVector(-3.0f, 10.0f + 24.0f * (_Index - 1)) * Global::FloatPixelSize;
+		break;
+	default:
+		break;
+	}
+
+	EntryRenderers[_Index - 1]->SetImage(ImageName);
+	FVector RenderScale = UPokemonUtil::GetRenderScale(EntryRenderers[_Index - 1]);
+	FVector Pos = UPokemonUtil::GetRightTopAlignPos(RenderScale);
+	Pos += AddPos;
+	EntryRenderers[_Index - 1]->SetTransform({Pos, RenderScale});
+}
+
+void UPokemonUILevelManager::DrawCancel(ETargetImageState _State)
+{
+	std::string ImageName;
+	FVector AddPos;
+
+	switch (_State)
+	{
+	case UPokemonUILevelManager::ETargetImageState::Unfocused:
+		ImageName = "UPCancel.png";
+		AddPos = FVector(-3.0f, -7.0f) * Global::FloatPixelSize;
+		break;
+	case UPokemonUILevelManager::ETargetImageState::Focused:
+		ImageName = "UPCancelFocused.png";
+		AddPos = FVector(-3.0f, -5.0f) * Global::FloatPixelSize;
+		break;
+	default:
+		MsgBoxAssert("Pokemon UI에서 Cancel의 상태가 From 또는 To입니다.");
+		break;
+	}
+
+	CancelRenderer->SetImage(ImageName);
+	FVector CancelRenderScale = UPokemonUtil::GetRenderScale(CancelRenderer);
+	FVector CancelPos = UPokemonUtil::GetRightBotAlignPos(CancelRenderScale);
+	CancelPos += AddPos;
+	CancelRenderer->SetTransform({ CancelPos, CancelRenderScale });
 }
 
 void UPokemonUILevelManager::ActionSelectionWaitTick(float _DeltaTime)
