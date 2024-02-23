@@ -1,7 +1,10 @@
 #pragma once
 #include <vector>
+#include <list>
+#include <map>
 #include <string>
 #include <EngineBase/EngineDebug.h>
+#include <EngineBase/EngineString.h>
 
 enum class EPokedexNo
 {
@@ -63,7 +66,7 @@ enum class ENature
 	Calm,		// SpDef		Atk
 	Gentle,		// SpDef		Def
 	Sassy,		// SpDef		Speed
-	Careful,		// SpDef		SpAtk
+	Careful,	// SpDef		SpAtk
 	MAX,
 };
 
@@ -113,6 +116,7 @@ enum class EPokemonType
 
 class UPokemon
 {
+	friend class PokemonInitiator;
 public:
 	// constructor destructor
 	UPokemon();
@@ -137,6 +141,11 @@ public:
 	int GetCurHp() const
 	{
 		return CurHp;
+	}
+
+	EPokedexNo GetPokedexNo() const
+	{
+		return PokedexNo;
 	}
 
 	void Heal(int _Value)
@@ -176,6 +185,22 @@ public:
 	void SetLevel(int _Level)
 	{
 		Level = _Level;
+	}
+
+	// 유틸 함수
+	static std::wstring GetSpeciesNameW(EPokedexNo _No)
+	{
+		return UEngineString::AnsiToUniCode(SpeciesNames[_No]);
+	}
+
+	static std::string GetSpeciesName(EPokedexNo _No)
+	{
+		return SpeciesNames[_No];
+	}
+
+	static std::list<EPokedexNo> GetImplementedSpeciesNo()
+	{
+		return ImplementedSpeciesNo;
 	}
 
 protected:
@@ -240,5 +265,8 @@ private:
 
 	// 기타
 	EGender Gender = EGender::Male;
+
+	static std::map<EPokedexNo, std::string> SpeciesNames;
+	static std::list<EPokedexNo> ImplementedSpeciesNo;
 };
 

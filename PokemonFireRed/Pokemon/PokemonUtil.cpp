@@ -1,6 +1,7 @@
 #include "PokemonUtil.h"
 #include <sstream>
 #include "Global.h"
+#include "Pokemon.h"
 
 UPokemonUtil::UPokemonUtil()
 {
@@ -37,6 +38,20 @@ FVector UPokemonUtil::GetRenderScale(UImageRenderer* _Renderer)
 {
 	UWindowImage* Image = _Renderer->GetImage();
 	return Image->GetScale() * Global::FloatPixelSize;
+}
+
+void UPokemonUtil::CreateMiniPokemonAnimations(UImageRenderer* _Renderer)
+{
+	if (nullptr == _Renderer->GetImage())
+	{
+		_Renderer->SetImage(Global::PokemonMiniImageName);
+	}
+
+	for (EPokedexNo No : UPokemon::GetImplementedSpeciesNo())
+	{
+		int Idx = static_cast<int>(No);
+		_Renderer->CreateAnimation(Global::PokemonMiniPrefix + UPokemon::GetSpeciesName(No), Global::PokemonMiniImageName, Idx * 2 - 2, Idx * 2 - 1, 1.0f / 6, true);
+	}
 }
 
 std::vector<std::string> UPokemonUtil::StringSplit(const std::string& _Str, char _Delimeter)

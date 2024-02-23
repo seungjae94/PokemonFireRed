@@ -2,6 +2,26 @@
 #include "PokemonMath.h"
 #include <random>
 
+std::map<EPokedexNo, std::string> UPokemon::SpeciesNames;
+std::list<EPokedexNo> UPokemon::ImplementedSpeciesNo;
+
+class PokemonInitiator
+{
+public:
+	PokemonInitiator()
+	{
+		UPokemon::SpeciesNames[EPokedexNo::Bulbasaur] = "BULBASAUR";
+		UPokemon::SpeciesNames[EPokedexNo::Charmander] = "CHARMANDER";
+		UPokemon::SpeciesNames[EPokedexNo::Squirtle] = "SQUIRTLE";
+
+		UPokemon::ImplementedSpeciesNo.push_back(EPokedexNo::Bulbasaur);
+		UPokemon::ImplementedSpeciesNo.push_back(EPokedexNo::Charmander);
+		UPokemon::ImplementedSpeciesNo.push_back(EPokedexNo::Squirtle);
+	}
+};
+
+PokemonInitiator Init;
+
 UPokemon::UPokemon()
 {
 }

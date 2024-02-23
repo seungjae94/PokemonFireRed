@@ -3,7 +3,7 @@
 UBulbasaur::UBulbasaur()
 {
 	// 기본 정보 설정
-	EPokedexNo PokedexNo = EPokedexNo::Bulbasaur;
+	PokedexNo = EPokedexNo::Bulbasaur;
 	Name = L"BULBASAUR";
 	Level = 1;
 	AccExp = 0;

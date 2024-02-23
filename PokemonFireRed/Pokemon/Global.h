@@ -51,6 +51,7 @@ public:
 
 	static const FVector Screen;
 	static const FVector HalfScreen;
+	static const FVector MiniPokemonRenderScale;
 
 	static const std::string SuffixUpperBody;
 	static const std::string SuffixLowerBody;
@@ -63,6 +64,14 @@ public:
 	static const std::string InteriorPlayersHouse1FLevel;
 	static const std::string InteriorPlayersHouse2FLevel;
 	static const std::string PokemonUILevel;
+
+	static const std::string PokemonFrontPrefix;
+	static const std::string PokemonBackPrefix;
+	static const std::string PokemonMiniPrefix;
+
+	static const std::string PokemonFrontImageName;
+	static const std::string PokemonBackImageName;
+	static const std::string PokemonMiniImageName;
 
 	static const std::string PlayerName;
 

@@ -55,21 +55,29 @@ void UPokemonUILevelManager::BeginPlay()
 		ActionBoxRenderer->SetActive(false);
 	}
 
-	// 엔트리
+	// 엔트리 박스
 	FirstRenderer = CreateImageRenderer(ERenderingOrder::UpperUI);
+	FirstMiniPokemonRenderer = CreateImageRenderer(ERenderingOrder::Upper2UI);
+	UPokemonUtil::CreateMiniPokemonAnimations(FirstMiniPokemonRenderer);
 	DrawFirst(ETargetImageState::Focused);
 
 	EntryRenderers.reserve(6);
 	for (int i = 1; i < UPlayerData::GetPokemonEntrySize(); ++i)
 	{
 		UImageRenderer* Renderer = CreateImageRenderer(ERenderingOrder::UpperUI);
+		UImageRenderer* MiniPokemonRenderer = CreateImageRenderer(ERenderingOrder::Upper2UI);
+		UPokemonUtil::CreateMiniPokemonAnimations(MiniPokemonRenderer);
 		EntryRenderers.push_back(Renderer);
+		EntryMiniPokemonRenderers.push_back(MiniPokemonRenderer);
 		DrawEntry(ETargetImageState::Unfocused, i);
 	}
 	for (int i = UPlayerData::GetPokemonEntrySize(); i < 6; ++i)
 	{
 		UImageRenderer* Renderer = CreateImageRenderer(ERenderingOrder::UpperUI);
+		UImageRenderer* MiniPokemonRenderer = CreateImageRenderer(ERenderingOrder::Upper2UI);
+		UPokemonUtil::CreateMiniPokemonAnimations(MiniPokemonRenderer);
 		EntryRenderers.push_back(Renderer);
+		EntryMiniPokemonRenderers.push_back(MiniPokemonRenderer);
 		DrawEntry(ETargetImageState::Empty, i);
 	}
 
@@ -131,7 +139,7 @@ void UPokemonUILevelManager::BeginPlay()
 		LevelText->SetRelativePos(UPokemonUtil::PixelVector(48, 0));
 		HpText->SetRelativePos(UPokemonUtil::PixelVector(-5, 0));
 		CurHpText->SetRelativePos(UPokemonUtil::PixelVector(-25, 0));
-		
+
 		EntryNameTexts.push_back(NameText);
 		EntryLevelTexts.push_back(LevelText);
 		EntryHpTexts.push_back(HpText);
@@ -257,7 +265,7 @@ void UPokemonUILevelManager::TargetSelect()
 	else
 	{
 		State = EPokemonUIState::ActionSelectionWait;
-		
+
 		// UI 띄우기
 		LongMsgBoxRenderer->SetActive(false);
 		ShortMsgBoxRenderer->SetActive(true);
@@ -269,24 +277,29 @@ void UPokemonUILevelManager::DrawFirst(ETargetImageState _State)
 {
 	std::string ImageName;
 	FVector AddPos;
+	FVector MiniAddPos;
 
 	switch (_State)
 	{
 	case UPokemonUILevelManager::ETargetImageState::Unfocused:
 		ImageName = "UPFirst.png";
 		AddPos = UPokemonUtil::PixelVector(2, 20);
+		MiniAddPos = UPokemonUtil::PixelVector(-1, 12);
 		break;
 	case UPokemonUILevelManager::ETargetImageState::Focused:
 		ImageName = "UPFirstFocused.png";
 		AddPos = UPokemonUtil::PixelVector(2, 18);
+		MiniAddPos = UPokemonUtil::PixelVector(-1, 14);
 		break;
 	case UPokemonUILevelManager::ETargetImageState::From:
 		ImageName = "UPFirstFrom.png";
 		AddPos = UPokemonUtil::PixelVector(2, 20);
+		MiniAddPos = UPokemonUtil::PixelVector(-1, 12);
 		break;
 	case UPokemonUILevelManager::ETargetImageState::To:
 		ImageName = "UPFirstTo.png";
 		AddPos = UPokemonUtil::PixelVector(2, 18);
+		MiniAddPos = UPokemonUtil::PixelVector(-1, 14);
 		break;
 	default:
 		MsgBoxAssert("Pokemon UI의 First의 상태가 Empty입니다.");
@@ -294,38 +307,50 @@ void UPokemonUILevelManager::DrawFirst(ETargetImageState _State)
 	}
 
 	FirstRenderer->SetImage(ImageName);
-	FVector FirstRenderScale = UPokemonUtil::GetRenderScale(FirstRenderer);
-	FVector FirstPos = FirstRenderScale.Half2D();
-	FirstPos += AddPos;
-	FirstRenderer->SetTransform({ FirstPos, FirstRenderScale });
+	FVector RenderScale = UPokemonUtil::GetRenderScale(FirstRenderer);
+	FVector Pos = RenderScale.Half2D() + AddPos;
+	FirstRenderer->SetTransform({ Pos, RenderScale });
+
+	const UPokemon& Pokemon = UPlayerData::GetPokemonInEntry(0);
+	EPokedexNo PokedexNo = Pokemon.GetPokedexNo();
+	FirstMiniPokemonRenderer->ChangeAnimation(Global::PokemonMiniPrefix + UPokemon::GetSpeciesName(PokedexNo));
+	FVector MiniRenderScale =  Global::MiniPokemonRenderScale;
+	FVector MiniPos = FirstRenderer->GetTransform().LeftTop() + MiniAddPos + MiniRenderScale.Half2D();
+	FirstMiniPokemonRenderer->SetTransform({ MiniPos, MiniRenderScale });
 }
 
 void UPokemonUILevelManager::DrawEntry(ETargetImageState _State, int _Index)
 {
 	std::string ImageName;
 	FVector AddPos;
+	FVector MiniAddPos;
 
 	switch (_State)
 	{
 	case UPokemonUILevelManager::ETargetImageState::Empty:
 		ImageName = "UPEntryEmpty.png";
 		AddPos = UPokemonUtil::PixelVector(-2, 10 + 24 * (_Index - 1));
+		MiniAddPos = UPokemonUtil::PixelVector(-3, 0);
 		break;
 	case UPokemonUILevelManager::ETargetImageState::Unfocused:
 		ImageName = "UPEntry.png";
 		AddPos = UPokemonUtil::PixelVector(-2, 10 + 24 * (_Index - 1));
+		MiniAddPos = UPokemonUtil::PixelVector(-3, 0);
 		break;
 	case UPokemonUILevelManager::ETargetImageState::Focused:
 		ImageName = "UPEntryFocused.png";
 		AddPos = UPokemonUtil::PixelVector(-2, 9 + 24 * (_Index - 1));
+		MiniAddPos = UPokemonUtil::PixelVector(-3, 1);
 		break;
 	case UPokemonUILevelManager::ETargetImageState::From:
 		ImageName = "UPEntryFrom.png";
 		AddPos = UPokemonUtil::PixelVector(-2, 10 + 24 * (_Index - 1));
+		MiniAddPos = UPokemonUtil::PixelVector(-3, 0);
 		break;
 	case UPokemonUILevelManager::ETargetImageState::To:
 		ImageName = "UPEntryTo.png";
 		AddPos = UPokemonUtil::PixelVector(-2, 9 + 24 * (_Index - 1));
+		MiniAddPos = UPokemonUtil::PixelVector(-3, 1);
 		break;
 	default:
 		break;
@@ -333,9 +358,21 @@ void UPokemonUILevelManager::DrawEntry(ETargetImageState _State, int _Index)
 
 	EntryRenderers[_Index - 1]->SetImage(ImageName);
 	FVector RenderScale = UPokemonUtil::GetRenderScale(EntryRenderers[_Index - 1]);
-	FVector Pos = UPokemonUtil::GetRightTopAlignPos(RenderScale);
-	Pos += AddPos;
-	EntryRenderers[_Index - 1]->SetTransform({Pos, RenderScale});
+	FVector Pos = UPokemonUtil::GetRightTopAlignPos(RenderScale) + AddPos;
+	EntryRenderers[_Index - 1]->SetTransform({ Pos, RenderScale });
+
+	if (_Index < 0 || _Index >= UPlayerData::GetPokemonEntrySize())
+	{
+		return;
+	}
+
+	const UPokemon& Pokemon = UPlayerData::GetPokemonInEntry(_Index);
+	EPokedexNo PokedexNo = Pokemon.GetPokedexNo();
+	EntryMiniPokemonRenderers[_Index - 1]->ChangeAnimation(Global::PokemonMiniPrefix + UPokemon::GetSpeciesName(PokedexNo));
+
+	FVector MiniRenderScale = Global::MiniPokemonRenderScale;
+	FVector MiniPos = EntryRenderers[_Index - 1]->GetTransform().LeftTop() + MiniAddPos + MiniRenderScale.Half2D();
+	EntryMiniPokemonRenderers[_Index - 1]->SetTransform({ MiniPos, MiniRenderScale });
 }
 
 void UPokemonUILevelManager::DrawCancel(ETargetImageState _State)

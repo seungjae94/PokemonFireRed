@@ -51,12 +51,14 @@ private:
 	UImageRenderer* ActionBoxRenderer = nullptr;
 
 	UImageRenderer* FirstRenderer = nullptr;
+	UImageRenderer* FirstMiniPokemonRenderer = nullptr;
 	APokemonText* FirstNameText = nullptr;
 	APokemonText* FirstLevelText = nullptr;
 	APokemonText* FirstHpText = nullptr;
 	APokemonText* FirstCurHpText = nullptr;
 
 	std::vector<UImageRenderer*> EntryRenderers;
+	std::vector<UImageRenderer*> EntryMiniPokemonRenderers;
 	std::vector<APokemonText*> EntryNameTexts;
 	std::vector<APokemonText*> EntryLevelTexts;
 	std::vector<APokemonText*> EntryHpTexts;

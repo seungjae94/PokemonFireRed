@@ -68,4 +68,8 @@ void UPokemonCore::LoadPokemonResources()
 		std::string Path = File.GetFullPath();
 		UEngineResourcesManager::GetInst().LoadImg(Path);
 	}
+
+	UEngineResourcesManager::GetInst().CuttingImage("PokemonBack.png", 2, 154);
+	UEngineResourcesManager::GetInst().CuttingImage("PokemonFront.png", 2, 154);
+	UEngineResourcesManager::GetInst().CuttingImage("PokemonMini.png", 2, 154);
 }
