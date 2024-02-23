@@ -8,9 +8,11 @@ enum class EScrollType
 	Exp,
 };
 
+enum class EPivotType;
+
 class AScrollBar : public AUIElement
 {
-	friend class UPokemonLevel;
+	friend class APage;
 public:
 	// constructor destructor
 	AScrollBar();

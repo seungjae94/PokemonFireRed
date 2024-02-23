@@ -336,7 +336,7 @@ bool UEventProcessor::ProcessHideUI()
 	int CurIndexOfType = GetCurIndexOfType(EEventType::HideUI);
 	ES::HideUI& Data = CurStream->HideUIDataSet[CurIndexOfType];
 
-	AUIElement* Element = UEventManager::FindCurLevelUIElement<AUIElement>(Data.ElementName);
+	APage* Element = UEventManager::FindCurLevelUIElement<APage>(Data.ElementName);
 
 	if (nullptr == Element)
 	{
@@ -511,18 +511,18 @@ bool UEventProcessor::ProcessChangeLevel()
 	}
 
 	// 여러 레벨의 UI 원소를 같은 상태로 만들기
-	for (std::pair<const std::string, AUIElement*>& Pair 
+	for (std::pair<const std::string, APage*>& Pair 
 		: UEventManager::AllUIElements[PrevLevelName])
 	{
 		std::string PrevElementName = Pair.first;
-		AUIElement* PrevElement = Pair.second;
+		APage* PrevElement = Pair.second;
 
 		if (false == UEventManager::AllUIElements[NextLevelName].contains(PrevElementName))
 		{
 			continue;
 		}
 
-		AUIElement* NextElement = UEventManager::AllUIElements[NextLevelName][PrevElementName];
+		APage* NextElement = UEventManager::AllUIElements[NextLevelName][PrevElementName];
 		NextElement->Sync(PrevElement);
 	}
 

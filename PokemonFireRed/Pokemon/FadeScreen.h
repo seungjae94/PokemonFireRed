@@ -1,7 +1,7 @@
 #pragma once
-#include "UIElement.h"
+#include "Page.h"
 
-class AFadeScreen : public AUIElement
+class AFadeScreen : public APage
 {
 public:
 	// constructor destructor
@@ -60,7 +60,7 @@ public:
 		AllRenderersActiveOn();
 	}
 
-	void Sync(AUIElement* _Other) override
+	void Sync(APage* _Other) override
 	{
 		AFadeScreen* Other = dynamic_cast<AFadeScreen*>(_Other);
 		

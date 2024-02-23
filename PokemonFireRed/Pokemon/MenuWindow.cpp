@@ -40,7 +40,7 @@ void AMenuWindow::Close()
 
 void AMenuWindow::SetActive(bool _Active, float _ActiveTime)
 {
-	AUIElement::SetActive(_Active, _ActiveTime);
+	APage::SetActive(_Active, _ActiveTime);
 
 	MenuExplainText->SetActive(_Active, _ActiveTime);
 
@@ -52,7 +52,7 @@ void AMenuWindow::SetActive(bool _Active, float _ActiveTime)
 
 void AMenuWindow::BeginPlay()
 {
-	AUIElement::BeginPlay();
+	APage::BeginPlay();
 
 	UPokemonLevel* CurLevel = dynamic_cast<UPokemonLevel*>(GetWorld());
 
@@ -63,9 +63,14 @@ void AMenuWindow::BeginPlay()
 
 	for (int i = 0; i < 5; i++)
 	{
-		APokemonText* MenuText = CurLevel->SpawnText(MenuWindowRenderer);
-		MenuText->SetRelativePos(UPokemonUtil::PixelVector(15, 18 + 15 * i));
-		MenuText->SetColor(EFontColor::Gray);
+		APokemonText* MenuText = CreateText(
+			MenuWindowRenderer,
+			L"",
+			EPivotType::LeftTop,
+			EAlignType::Left,
+			15, 18 + 15 * i,
+			EFontColor::Gray
+		);
 		MenuTexts.push_back(MenuText);
 	}
 	DrawMenuTexts();
@@ -79,10 +84,14 @@ void AMenuWindow::BeginPlay()
 	FVector ExplainPos = ExplainRenderScale.Half2D() + FVector(0.0f, Global::FloatScreenY - ExplainRenderScale.Y);
 	MenuWindowExplainRenderer->SetTransform({ ExplainPos, ExplainRenderScale });
 
-	MenuExplainText = CurLevel->SpawnText(MenuWindowExplainRenderer);
-	MenuExplainText->SetRelativePos(UPokemonUtil::PixelVector(2, 16));
-	MenuExplainText->SetColor(EFontColor::White);
-	MenuExplainText->SetText(MenuExplains[GetMenuIndex()]);
+	MenuExplainText = CreateText(
+		MenuWindowExplainRenderer,
+		L"",
+		EPivotType::LeftTop,
+		EAlignType::Left,
+		2, 16,
+		EFontColor::White
+	);
 	MenuExplainText->FollowContainer();
 
 	// 메뉴창 커서

@@ -18,7 +18,7 @@ ADialogueWindow::~ADialogueWindow()
 
 void ADialogueWindow::SetActive(bool _Active, float _ActiveTime)
 {
-	AUIElement::SetActive(_Active, _ActiveTime);
+	APage::SetActive(_Active, _ActiveTime);
 	Text->SetActive(_Active, _ActiveTime);
 }
 
@@ -50,10 +50,13 @@ void ADialogueWindow::BeginPlay()
 	DialogueWindowRenderer->SetTransform({ DWPos, DWRenderScale});
 
 	// 대화 내용
-	UPokemonLevel* CurLevel = dynamic_cast<UPokemonLevel*>(GetWorld());
-	Text = CurLevel->SpawnText(DialogueWindowRenderer);
-	Text->SetRelativePos(UPokemonUtil::PixelVector(11, 17));
-	Text->SetText(LR"(Not Initialized...)");
+	Text = CreateText(
+		DialogueWindowRenderer,
+		LR"(Not Initialized...)",
+		EPivotType::LeftTop,
+		EAlignType::Left,
+		11, 17
+	);
 }
 
 void ADialogueWindow::Tick(float _DeltaTime)

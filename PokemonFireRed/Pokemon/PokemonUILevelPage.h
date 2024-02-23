@@ -1,5 +1,5 @@
 #pragma once
-#include <EngineCore/Actor.h>
+#include "Page.h"
 #include "PokemonText.h"
 #include "ScrollBar.h"
 #include "PlayerData.h"
@@ -13,18 +13,18 @@ enum class EPokemonUIState
 
 class UPokemonUILevel;
 
-class UPokemonUILevelManager : public AActor
+class UPokemonUILevelPage : public APage
 {
 public:
 	// constructor destructor
-	UPokemonUILevelManager();
-	~UPokemonUILevelManager();
+	UPokemonUILevelPage();
+	~UPokemonUILevelPage();
 
 	// delete Function
-	UPokemonUILevelManager(const UPokemonUILevelManager& _Other) = delete;
-	UPokemonUILevelManager(UPokemonUILevelManager&& _Other) noexcept = delete;
-	UPokemonUILevelManager& operator=(const UPokemonUILevelManager& _Other) = delete;
-	UPokemonUILevelManager& operator=(UPokemonUILevelManager&& _Other) noexcept = delete;
+	UPokemonUILevelPage(const UPokemonUILevelPage& _Other) = delete;
+	UPokemonUILevelPage(UPokemonUILevelPage&& _Other) noexcept = delete;
+	UPokemonUILevelPage& operator=(const UPokemonUILevelPage& _Other) = delete;
+	UPokemonUILevelPage& operator=(UPokemonUILevelPage&& _Other) noexcept = delete;
 
 	void SetPrevMapLevelName(std::string_view _Name)
 	{

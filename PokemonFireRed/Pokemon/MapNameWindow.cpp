@@ -26,14 +26,14 @@ void AMapNameWindow::Open(std::wstring_view _MapName)
 		return;
 	}
 
-	MapNameText->SetText(_MapName, true);
+	MapNameText->SetText(_MapName);
 	CurChangeTime = ChangeTime;
 	State = EMapNameWindowState::Open;
 }
 
 void AMapNameWindow::BeginPlay()
 {
-	AUIElement::BeginPlay();
+	APage::BeginPlay();
 
 	// 배경 이미지 렌더러 설정
 	Renderer = CreateImageRenderer(ERenderingOrder::LowerUI);
@@ -48,10 +48,14 @@ void AMapNameWindow::BeginPlay()
 	Renderer->SetTransform({ HidePos, ImageRenderScale });
 
 	// 텍스트 설정
-	UPokemonLevel* CurLevel = dynamic_cast<UPokemonLevel*>(GetWorld());
-	MapNameText = CurLevel->SpawnText(Renderer, EPivotType::CenterBot, EAlignType::Center);
-	MapNameText->SetColor(EFontColor::Gray);
-	MapNameText->SetRelativePos(UPokemonUtil::PixelVector(0, -8));
+	MapNameText = CreateText(
+		Renderer,
+		L"",
+		EPivotType::CenterBot,
+		EAlignType::Center,
+		0, -8,
+		EFontColor::Gray
+	);
 	MapNameText->FollowContainer();
 }
 

@@ -55,7 +55,7 @@ void APokemonText::FollowContainer()
 	}
 
 	FVector AbsolutePos = Pivot + RelativePos;
-	switch (Alignment)
+	switch (AlignType)
 	{
 	case EAlignType::Left:
 		break;
@@ -75,7 +75,7 @@ void APokemonText::FollowContainer()
 	SetActorLocation(AbsolutePos);
 }
 
-void APokemonText::SetText(std::wstring_view _Text, bool _IsVisible)
+void APokemonText::SetText(std::wstring_view _Text)
 {
 	std::vector<std::wstring> Lines = UPokemonUtil::StringSplit(_Text, L'\n');
 

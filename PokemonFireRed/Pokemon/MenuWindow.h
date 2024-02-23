@@ -1,10 +1,10 @@
 ﻿#pragma once
-#include "UIElement.h"
+#include "Page.h"
 #include "PokemonText.h"
 
 class AEventTrigger;
 
-class AMenuWindow : public AUIElement
+class AMenuWindow : public APage
 {
 public:
 	// constructor destructor

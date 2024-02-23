@@ -31,7 +31,7 @@ class APokemonText : public AUIElement
 {
 	class GlyphAlignRule;
 	friend class AlignRuleMapInitiator;
-	friend class UPokemonLevel;
+	friend class APage;
 public:
 	// constructor destructor
 	APokemonText();
@@ -81,7 +81,7 @@ public:
 		LineSpace = _LineSpace;
 	}
 
-	void SetText(std::wstring_view _Text, bool _IsVisible = false);
+	void SetText(std::wstring_view _Text);
 
 protected:
 	void BeginPlay() override;
@@ -99,7 +99,7 @@ private:
 	UImageRenderer* Container = nullptr;
 	FVector RelativePos = FVector::Zero;
 	EPivotType PivotType = EPivotType::LeftTop;
-	EAlignType Alignment = EAlignType::Left;
+	EAlignType AlignType = EAlignType::Left;
 	EFontColor Color = EFontColor::White;
 	EFontSize Size = EFontSize::Normal;
 	int LineSpace = 14;

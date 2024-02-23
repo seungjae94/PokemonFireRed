@@ -2,7 +2,7 @@
 #include "PokemonLevel.h"
 #include "FadeLevelChanger.h"
 
-class UPokemonUILevelManager;
+class UPokemonUILevelPage;
 
 class UPokemonUILevel : public UPokemonLevel
 {
@@ -21,7 +21,7 @@ protected:
 	void BeginPlay() override;
 	void LevelStart(ULevel* _PrevLevel) override;
 private:
-	UPokemonUILevelManager* Manager = nullptr;
+	UPokemonUILevelPage* Manager = nullptr;
 	AFadeLevelChanger* LevelChanger = nullptr;
 };
 

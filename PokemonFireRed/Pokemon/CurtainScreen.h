@@ -20,7 +20,7 @@ public:
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
-	void Sync(AUIElement* _Other) override;
+	void Sync(APage* _Other) override;
 private:
 	void FadeInTick(float _DeltaTime);
 	void FadeOutTick(float _DeltaTime);

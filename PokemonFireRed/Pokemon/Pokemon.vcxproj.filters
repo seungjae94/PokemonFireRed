@@ -132,7 +132,7 @@
     <ClInclude Include="PokemonUtil.h">
       <Filter>0. Util</Filter>
     </ClInclude>
-    <ClInclude Include="UIElement.h">
+    <ClInclude Include="Page.h">
       <Filter>2. UI</Filter>
     </ClInclude>
     <ClInclude Include="TutorialLevel.h">
@@ -213,7 +213,7 @@
     <ClInclude Include="PokemonUILevel.h">
       <Filter>Level\3. UILevel\0. PokemonUI</Filter>
     </ClInclude>
-    <ClInclude Include="PokemonUILevelManager.h">
+    <ClInclude Include="PokemonUILevelPage.h">
       <Filter>Level\3. UILevel\0. PokemonUI</Filter>
     </ClInclude>
     <ClInclude Include="FadeLevelChanger.h">
@@ -229,6 +229,9 @@
       <Filter>3. Pokemon</Filter>
     </ClInclude>
     <ClInclude Include="ScrollBar.h">
+      <Filter>2. UI\Custom</Filter>
+    </ClInclude>
+    <ClInclude Include="UIElement.h">
       <Filter>2. UI\Custom</Filter>
     </ClInclude>
   </ItemGroup>
@@ -287,7 +290,7 @@
     <ClCompile Include="PokemonUtil.cpp">
       <Filter>0. Util</Filter>
     </ClCompile>
-    <ClCompile Include="UIElement.cpp">
+    <ClCompile Include="Page.cpp">
       <Filter>2. UI</Filter>
     </ClCompile>
     <ClCompile Include="TutorialLevel.cpp">
@@ -368,7 +371,7 @@
     <ClCompile Include="PokemonUILevel.cpp">
       <Filter>Level\3. UILevel\0. PokemonUI</Filter>
     </ClCompile>
-    <ClCompile Include="PokemonUILevelManager.cpp">
+    <ClCompile Include="PokemonUILevelPage.cpp">
       <Filter>Level\3. UILevel\0. PokemonUI</Filter>
     </ClCompile>
     <ClCompile Include="FadeLevelChanger.cpp">
@@ -381,6 +384,9 @@
       <Filter>3. Pokemon</Filter>
     </ClCompile>
     <ClCompile Include="ScrollBar.cpp">
+      <Filter>2. UI\Custom</Filter>
+    </ClCompile>
+    <ClCompile Include="UIElement.cpp">
       <Filter>2. UI\Custom</Filter>
     </ClCompile>
   </ItemGroup>

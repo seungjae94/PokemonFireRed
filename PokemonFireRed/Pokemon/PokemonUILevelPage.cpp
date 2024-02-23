@@ -1,4 +1,4 @@
-#include "PokemonUILevelManager.h"
+#include "PokemonUILevelPage.h"
 #include <EnginePlatform/EngineInput.h>
 #include "EventManager.h"
 #include "Global.h"
@@ -6,15 +6,15 @@
 #include "PokemonUILevel.h"
 #include "Pokemon.h"
 
-UPokemonUILevelManager::UPokemonUILevelManager()
+UPokemonUILevelPage::UPokemonUILevelPage()
 {
 }
 
-UPokemonUILevelManager::~UPokemonUILevelManager()
+UPokemonUILevelPage::~UPokemonUILevelPage()
 {
 }
 
-void UPokemonUILevelManager::BeginPlay()
+void UPokemonUILevelPage::BeginPlay()
 {
 	// 백그라운드
 	BackgroundRenderer = CreateImageRenderer(ERenderingOrder::LowerUI);
@@ -86,65 +86,84 @@ void UPokemonUILevelManager::BeginPlay()
 
 	// 첫 번째 포켓몬 텍스트
 	UPokemon& First = UPlayerData::GetPokemonInEntry(0);
-	UPokemonLevel* CurLevel = dynamic_cast<UPokemonLevel*>(GetWorld());
-	FirstNameText = CurLevel->SpawnText(FirstRenderer, EPivotType::RightBot);
-	FirstLevelText = CurLevel->SpawnText(FirstRenderer, EPivotType::RightBot);
-	FirstHpText = CurLevel->SpawnText(FirstRenderer, EPivotType::RightBot, EAlignType::Right);
-	FirstCurHpText = CurLevel->SpawnText(FirstRenderer, EPivotType::RightBot, EAlignType::Right);
-
-	FirstNameText->SetSize(EFontSize::Mini);
-	FirstLevelText->SetSize(EFontSize::Mini);
-	FirstHpText->SetSize(EFontSize::Mini);
-	FirstCurHpText->SetSize(EFontSize::Mini);
-
-	FirstNameText->SetColor(EFontColor::WhiteGray);
-	FirstLevelText->SetColor(EFontColor::WhiteGray);
-	FirstHpText->SetColor(EFontColor::WhiteGray);
-	FirstCurHpText->SetColor(EFontColor::WhiteGray);
-
-	FirstNameText->SetText(First.GetName(), true);
-	FirstLevelText->SetText(std::to_wstring(First.GetLevel()), true);
-	FirstHpText->SetText(std::to_wstring(First.GetHp()), true);
-	FirstCurHpText->SetText(std::to_wstring(First.GetCurHp()), true);
-
-	FirstNameText->SetRelativePos(UPokemonUtil::PixelVector(-53, -28));
-	FirstLevelText->SetRelativePos(UPokemonUtil::PixelVector(-37, -19));
-	FirstHpText->SetRelativePos(UPokemonUtil::PixelVector(-5, -3));
-	FirstCurHpText->SetRelativePos(UPokemonUtil::PixelVector(-25, -3));
+	FirstNameText = CreateText(
+		FirstRenderer,
+		First.GetName(),
+		EPivotType::RightBot,
+		EAlignType::Left,
+		-53, -28,
+		EFontColor::WhiteGray, EFontSize::Mini
+	);
+	FirstLevelText = CreateText(
+		FirstRenderer,
+		std::to_wstring(First.GetLevel()),
+		EPivotType::RightBot,
+		EAlignType::Left,
+		-37, -19,
+		EFontColor::WhiteGray, EFontSize::Mini
+	);
+	FirstHpText = CreateText(
+		FirstRenderer,
+		std::to_wstring(First.GetHp()),
+		EPivotType::RightBot,
+		EAlignType::Right,
+		-5, -3,
+		EFontColor::WhiteGray, EFontSize::Mini
+	);
+	FirstCurHpText = CreateText(
+		FirstRenderer,
+		std::to_wstring(First.GetCurHp()),
+		EPivotType::RightBot,
+		EAlignType::Right,
+		-25, -3,
+		EFontColor::WhiteGray, EFontSize::Mini
+	);
 
 	// 첫 번째 포켓몬 스크롤 바
-	FirstHpBar = CurLevel->SpawnScrollBar(FirstRenderer, EPivotType::RightBot);
-	FirstHpBar->SetRelativePos(UPokemonUtil::PixelVector(-53, -15));
-	FirstHpBar->SetMaxValue(First.GetHp());
-	FirstHpBar->SetValue(First.GetCurHp());
+	FirstHpBar = CreateScrollBar(
+		FirstRenderer,
+		EScrollType::Hp,
+		First.GetCurHp(), First.GetHp(),
+		EPivotType::RightBot,
+		-53, -15
+	);
 
 	for (int i = 1; i < UPlayerData::GetPokemonEntrySize(); ++i)
 	{
-		APokemonText* NameText = CurLevel->SpawnText(EntryRenderers[i - 1], EPivotType::RightBot);
-		APokemonText* LevelText = CurLevel->SpawnText(EntryRenderers[i - 1], EPivotType::LeftBot);
-		APokemonText* HpText = CurLevel->SpawnText(EntryRenderers[i - 1], EPivotType::RightBot, EAlignType::Right);
-		APokemonText* CurHpText = CurLevel->SpawnText(EntryRenderers[i - 1], EPivotType::RightBot, EAlignType::Right);
-
-		NameText->SetSize(EFontSize::Mini);
-		LevelText->SetSize(EFontSize::Mini);
-		HpText->SetSize(EFontSize::Mini);
-		CurHpText->SetSize(EFontSize::Mini);
-
-		NameText->SetColor(EFontColor::WhiteGray);
-		LevelText->SetColor(EFontColor::WhiteGray);
-		HpText->SetColor(EFontColor::WhiteGray);
-		CurHpText->SetColor(EFontColor::WhiteGray);
-
 		UPokemon& Pokemon = UPlayerData::GetPokemonInEntry(i);
-		NameText->SetText(Pokemon.GetName(), true);
-		LevelText->SetText(std::to_wstring(Pokemon.GetLevel()), true);
-		HpText->SetText(std::to_wstring(Pokemon.GetHp()), true);
-		CurHpText->SetText(std::to_wstring(Pokemon.GetCurHp()), true);
 
-		NameText->SetRelativePos(UPokemonUtil::PixelVector(-119, -9));
-		LevelText->SetRelativePos(UPokemonUtil::PixelVector(48, 0));
-		HpText->SetRelativePos(UPokemonUtil::PixelVector(-5, 0));
-		CurHpText->SetRelativePos(UPokemonUtil::PixelVector(-25, 0));
+		APokemonText*  NameText = CreateText(
+			EntryRenderers[i - 1],
+			Pokemon.GetName(),
+			EPivotType::RightBot,
+			EAlignType::Left,
+			-119, -9,
+			EFontColor::WhiteGray, EFontSize::Mini
+		);
+		APokemonText*  LevelText = CreateText(
+			EntryRenderers[i - 1],
+			std::to_wstring(Pokemon.GetLevel()),
+			EPivotType::RightBot,
+			EAlignType::Left,
+			48, 0,
+			EFontColor::WhiteGray, EFontSize::Mini
+		);
+		APokemonText*  HpText = CreateText(
+			EntryRenderers[i - 1],
+			std::to_wstring(Pokemon.GetHp()),
+			EPivotType::RightBot,
+			EAlignType::Right,
+			-5, 0,
+			EFontColor::WhiteGray, EFontSize::Mini
+		);
+		APokemonText*  CurHpText = CreateText(
+			EntryRenderers[i - 1],
+			std::to_wstring(Pokemon.GetCurHp()),
+			EPivotType::RightBot,
+			EAlignType::Right,
+			-25, 0,
+			EFontColor::WhiteGray, EFontSize::Mini
+		);
 
 		EntryNameTexts.push_back(NameText);
 		EntryLevelTexts.push_back(LevelText);
@@ -152,15 +171,18 @@ void UPokemonUILevelManager::BeginPlay()
 		EntryCurHpTexts.push_back(CurHpText);
 
 		// i번째 포켓몬 스크롤 바
-		AScrollBar* HpBar = CurLevel->SpawnScrollBar(EntryRenderers[i - 1], EPivotType::RightBot);
-		HpBar->SetRelativePos(UPokemonUtil::PixelVector(-53, -13));
-		HpBar->SetMaxValue(Pokemon.GetHp());
-		HpBar->SetValue(Pokemon.GetCurHp());
+		AScrollBar* HpBar = CreateScrollBar(
+			EntryRenderers[i - 1],
+			EScrollType::Hp,
+			Pokemon.GetCurHp(), Pokemon.GetHp(),
+			EPivotType::RightBot,
+			-53, -13
+		);
 		EntryHpBars.push_back(HpBar);
 	}
 }
 
-void UPokemonUILevelManager::Tick(float _DeltaTime)
+void UPokemonUILevelPage::Tick(float _DeltaTime)
 {
 	switch (State)
 	{
@@ -178,7 +200,7 @@ void UPokemonUILevelManager::Tick(float _DeltaTime)
 	}
 }
 
-void UPokemonUILevelManager::TargetSelectionWaitTick(float _DeltaTime)
+void UPokemonUILevelPage::TargetSelectionWaitTick(float _DeltaTime)
 {
 	LongMsgBoxRenderer->SetActive(true);
 	ShortMsgBoxRenderer->SetActive(false);
@@ -233,7 +255,7 @@ void UPokemonUILevelManager::TargetSelectionWaitTick(float _DeltaTime)
 	}
 }
 
-void UPokemonUILevelManager::MoveTargetCursor(int _Cursor)
+void UPokemonUILevelPage::MoveTargetCursor(int _Cursor)
 {
 	// 이전 커서 위치의 이미지 변경
 	if (true == IsFirst(TargetCursor))
@@ -267,7 +289,7 @@ void UPokemonUILevelManager::MoveTargetCursor(int _Cursor)
 
 }
 
-void UPokemonUILevelManager::TargetSelect()
+void UPokemonUILevelPage::TargetSelect()
 {
 	if (TargetCursor == UPlayerData::GetPokemonEntrySize())
 	{
@@ -286,7 +308,7 @@ void UPokemonUILevelManager::TargetSelect()
 	}
 }
 
-void UPokemonUILevelManager::DrawFirst(ETargetImageState _State)
+void UPokemonUILevelPage::DrawFirst(ETargetImageState _State)
 {
 	std::string ImageName;
 	FVector AddPos;
@@ -294,22 +316,22 @@ void UPokemonUILevelManager::DrawFirst(ETargetImageState _State)
 
 	switch (_State)
 	{
-	case UPokemonUILevelManager::ETargetImageState::Unfocused:
+	case UPokemonUILevelPage::ETargetImageState::Unfocused:
 		ImageName = "UPFirst.png";
 		AddPos = UPokemonUtil::PixelVector(2, 20);
 		MiniAddPos = UPokemonUtil::PixelVector(-1, 12);
 		break;
-	case UPokemonUILevelManager::ETargetImageState::Focused:
+	case UPokemonUILevelPage::ETargetImageState::Focused:
 		ImageName = "UPFirstFocused.png";
 		AddPos = UPokemonUtil::PixelVector(2, 18);
 		MiniAddPos = UPokemonUtil::PixelVector(-1, 14);
 		break;
-	case UPokemonUILevelManager::ETargetImageState::From:
+	case UPokemonUILevelPage::ETargetImageState::From:
 		ImageName = "UPFirstFrom.png";
 		AddPos = UPokemonUtil::PixelVector(2, 20);
 		MiniAddPos = UPokemonUtil::PixelVector(-1, 12);
 		break;
-	case UPokemonUILevelManager::ETargetImageState::To:
+	case UPokemonUILevelPage::ETargetImageState::To:
 		ImageName = "UPFirstTo.png";
 		AddPos = UPokemonUtil::PixelVector(2, 18);
 		MiniAddPos = UPokemonUtil::PixelVector(-1, 14);
@@ -332,7 +354,7 @@ void UPokemonUILevelManager::DrawFirst(ETargetImageState _State)
 	FirstMiniPokemonRenderer->SetTransform({ MiniPos, MiniRenderScale });
 }
 
-void UPokemonUILevelManager::DrawEntry(ETargetImageState _State, int _Index)
+void UPokemonUILevelPage::DrawEntry(ETargetImageState _State, int _Index)
 {
 	std::string ImageName;
 	FVector AddPos;
@@ -340,27 +362,27 @@ void UPokemonUILevelManager::DrawEntry(ETargetImageState _State, int _Index)
 
 	switch (_State)
 	{
-	case UPokemonUILevelManager::ETargetImageState::Empty:
+	case UPokemonUILevelPage::ETargetImageState::Empty:
 		ImageName = "UPEntryEmpty.png";
 		AddPos = UPokemonUtil::PixelVector(-2, 10 + 24 * (_Index - 1));
 		MiniAddPos = UPokemonUtil::PixelVector(-3, 0);
 		break;
-	case UPokemonUILevelManager::ETargetImageState::Unfocused:
+	case UPokemonUILevelPage::ETargetImageState::Unfocused:
 		ImageName = "UPEntry.png";
 		AddPos = UPokemonUtil::PixelVector(-2, 10 + 24 * (_Index - 1));
 		MiniAddPos = UPokemonUtil::PixelVector(-3, 0);
 		break;
-	case UPokemonUILevelManager::ETargetImageState::Focused:
+	case UPokemonUILevelPage::ETargetImageState::Focused:
 		ImageName = "UPEntryFocused.png";
 		AddPos = UPokemonUtil::PixelVector(-2, 9 + 24 * (_Index - 1));
 		MiniAddPos = UPokemonUtil::PixelVector(-3, 1);
 		break;
-	case UPokemonUILevelManager::ETargetImageState::From:
+	case UPokemonUILevelPage::ETargetImageState::From:
 		ImageName = "UPEntryFrom.png";
 		AddPos = UPokemonUtil::PixelVector(-2, 10 + 24 * (_Index - 1));
 		MiniAddPos = UPokemonUtil::PixelVector(-3, 0);
 		break;
-	case UPokemonUILevelManager::ETargetImageState::To:
+	case UPokemonUILevelPage::ETargetImageState::To:
 		ImageName = "UPEntryTo.png";
 		AddPos = UPokemonUtil::PixelVector(-2, 9 + 24 * (_Index - 1));
 		MiniAddPos = UPokemonUtil::PixelVector(-3, 1);
@@ -388,18 +410,18 @@ void UPokemonUILevelManager::DrawEntry(ETargetImageState _State, int _Index)
 	EntryMiniPokemonRenderers[_Index - 1]->SetTransform({ MiniPos, MiniRenderScale });
 }
 
-void UPokemonUILevelManager::DrawCancel(ETargetImageState _State)
+void UPokemonUILevelPage::DrawCancel(ETargetImageState _State)
 {
 	std::string ImageName;
 	FVector AddPos;
 
 	switch (_State)
 	{
-	case UPokemonUILevelManager::ETargetImageState::Unfocused:
+	case UPokemonUILevelPage::ETargetImageState::Unfocused:
 		ImageName = "UPCancel.png";
 		AddPos = UPokemonUtil::PixelVector(-2, -6);
 		break;
-	case UPokemonUILevelManager::ETargetImageState::Focused:
+	case UPokemonUILevelPage::ETargetImageState::Focused:
 		ImageName = "UPCancelFocused.png";
 		AddPos = UPokemonUtil::PixelVector(-2, -4);
 		break;
@@ -415,10 +437,10 @@ void UPokemonUILevelManager::DrawCancel(ETargetImageState _State)
 	CancelRenderer->SetTransform({ CancelPos, CancelRenderScale });
 }
 
-void UPokemonUILevelManager::ActionSelectionWaitTick(float _DeltaTime)
+void UPokemonUILevelPage::ActionSelectionWaitTick(float _DeltaTime)
 {
 }
 
-void UPokemonUILevelManager::SwitchTick(float _DeltaTime)
+void UPokemonUILevelPage::SwitchTick(float _DeltaTime)
 {
 }

@@ -1,5 +1,5 @@
 #pragma once
-#include "UIElement.h"
+#include "Page.h"
 #include "PokemonText.h"
 #include "Global.h"
 
@@ -11,7 +11,7 @@ enum class EMapNameWindowState
 	Show,
 };
 
-class AMapNameWindow : public AUIElement
+class AMapNameWindow : public APage
 {
 public:
 	// constructor destructor
