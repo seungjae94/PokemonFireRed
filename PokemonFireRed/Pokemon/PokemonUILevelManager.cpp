@@ -23,7 +23,7 @@ void UPokemonUILevelManager::BeginPlay()
 	FVector BackgroundPos = BackgroundRenderScale.Half2D();
 	BackgroundRenderer->SetTransform({ BackgroundPos, BackgroundRenderScale });
 
-	// 메시지 박스
+	// 타겟 선택 메시지 박스
 	{
 		LongMsgBoxRenderer = CreateImageRenderer(ERenderingOrder::UpperUI);
 		LongMsgBoxRenderer->SetImage("UPLongMsgBox.png");
@@ -32,6 +32,8 @@ void UPokemonUILevelManager::BeginPlay()
 		Pos += UPokemonUtil::PixelVector(2, -2);
 		LongMsgBoxRenderer->SetTransform({ Pos, RenderScale });
 	}
+
+	// 액션 선택 메시지 박스
 	{
 		ShortMsgBoxRenderer = CreateImageRenderer(ERenderingOrder::UpperUI);
 		ShortMsgBoxRenderer->SetImage("UPShortMsgBox.png");
@@ -40,6 +42,17 @@ void UPokemonUILevelManager::BeginPlay()
 		Pos += UPokemonUtil::PixelVector(2, -2);
 		ShortMsgBoxRenderer->SetTransform({ Pos, RenderScale });
 		ShortMsgBoxRenderer->SetActive(false);
+	}
+
+	// 액션 선택 창
+	{
+		ActionBoxRenderer = CreateImageRenderer(ERenderingOrder::Upper2UI);
+		ActionBoxRenderer->SetImage("UPActionBox.png");
+		FVector RenderScale = UPokemonUtil::GetRenderScale(ActionBoxRenderer);
+		FVector Pos = UPokemonUtil::GetRightBotAlignPos(RenderScale);
+		Pos += UPokemonUtil::PixelVector(-1, -1);
+		ActionBoxRenderer->SetTransform({ Pos, RenderScale });
+		ActionBoxRenderer->SetActive(false);
 	}
 
 	// 엔트리
@@ -237,13 +250,18 @@ void UPokemonUILevelManager::TargetSelect()
 {
 	if (TargetCursor == UPlayerData::GetPokemonEntrySize())
 	{
+		// 캔슬 버튼 입력
 		UPokemonLevel* CurLevel = dynamic_cast<UPokemonLevel*>(GetWorld());
 		CurLevel->ChangeLevelFade(PrevMapLevelName);
 	}
 	else
 	{
 		State = EPokemonUIState::ActionSelectionWait;
+		
 		// UI 띄우기
+		LongMsgBoxRenderer->SetActive(false);
+		ShortMsgBoxRenderer->SetActive(true);
+		ActionBoxRenderer->SetActive(true);
 	}
 }
 

@@ -48,6 +48,7 @@ private:
 	UImageRenderer* BackgroundRenderer = nullptr;
 	UImageRenderer* LongMsgBoxRenderer = nullptr;
 	UImageRenderer* ShortMsgBoxRenderer = nullptr;
+	UImageRenderer* ActionBoxRenderer = nullptr;
 
 	UImageRenderer* FirstRenderer = nullptr;
 	APokemonText* FirstNameText = nullptr;

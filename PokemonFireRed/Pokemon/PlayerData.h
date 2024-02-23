@@ -21,6 +21,8 @@ public:
 	static void AddPokemonToEntry(const UPokemon& _Pokemon);
 	static void AddPokemonToComputer(const UPokemon& _Pokemon);
 	
+	static void SwapEntry(int _Index0, int _Index1);
+
 	static int GetPokemonEntrySize()
 	{
 		return static_cast<int>(PokemonEntry.size());
