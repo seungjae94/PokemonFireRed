@@ -25,8 +25,17 @@ AMenuWindow::~AMenuWindow()
 
 void AMenuWindow::Open()
 {
+	UEventManager::SetCurLevelPlayerState(EPlayerState::OutOfControl);
 	Refresh();
 	SetActive(true);
+	IsFirstTick = true;
+}
+
+
+void AMenuWindow::Close()
+{
+	UEventManager::SetCurLevelPlayerState(EPlayerState::Idle);
+	SetActive(false);
 }
 
 void AMenuWindow::SetActive(bool _Active, float _ActiveTime)
@@ -117,7 +126,7 @@ void AMenuWindow::Tick(float _DeltaTime)
 	// ¸Þ´ºÃ¢ ²ô±â
 	if (true == UEngineInput::IsDown(VK_RETURN) || true == UEngineInput::IsDown('X'))
 	{
-		ExitMenu();
+		Close();
 		return;
 	}
 
@@ -192,17 +201,11 @@ void AMenuWindow::MenuAction()
 	case MenuIndex::Player:
 		break;
 	case MenuIndex::Exit:
-		ExitMenu();
+		Close();
 		break;
 	default:
 		break;
 	}
-}
-
-void AMenuWindow::ExitMenu()
-{
-	SetActive(false);
-	IsFirstTick = true;
 }
 
 void AMenuWindow::DrawMenuWindow()

@@ -18,6 +18,7 @@ class UEventManagerReleaser;
 class UEventCondition;
 class AUIElement;
 enum class EFontColor;
+enum class EPlayerState;
 
 // 모든 이벤트 처리를 담당하는 클래스
 // - 맵 레벨에서 액터를 조작하려면 반드시 EventManager 클래스를 통해서 조작해야 한다.
@@ -50,6 +51,8 @@ public:
 
 	static void SetDirection(std::string_view _MapName, std::string_view _TargetName, const FTileVector& _Direction);
 	
+	static void SetCurLevelPlayerState(EPlayerState _State);
+
 	// 찾기 편의 함수
 	template <typename UIType>
 	static UIType* FindUIElement(std::string_view _LevelName, std::string_view _ElementName)

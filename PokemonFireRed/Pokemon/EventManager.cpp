@@ -332,6 +332,12 @@ void UEventManager::SetDirection(std::string_view _MapName, std::string_view _Ta
 	Target->ChangeMoveAnimation(Target->GetMoveState(), _Direction);
 }
 
+void UEventManager::SetCurLevelPlayerState(EPlayerState _State)
+{
+	APlayer* Player = FindCurLevelTarget<APlayer>(Global::PlayerName);
+	Player->StateChange(_State);
+}
+
 // 메모리 릴리즈
 
 void UEventManager::Release()

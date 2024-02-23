@@ -4,24 +4,6 @@
     <Filter Include="Core">
       <UniqueIdentifier>{8d77ac80-c255-418f-8c3e-06569a2c5dfc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Global">
-      <UniqueIdentifier>{14dfdc14-0d12-4cbe-a0bb-70edbbcdf166}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Global\0. Util">
-      <UniqueIdentifier>{363b44f9-6ba5-4290-afb2-239aea3b0006}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Global\1. Event">
-      <UniqueIdentifier>{b9f8bc97-2c8d-41ff-9bd0-27e6a7174106}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Global\2. UI">
-      <UniqueIdentifier>{3dd8a652-4bdb-4aa3-8532-0c7042e63c4c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Global\2. UI\Fade">
-      <UniqueIdentifier>{ec9a6e0d-ee67-425c-aa2c-d748506a7ac8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Global\2. UI\Window">
-      <UniqueIdentifier>{d71a5ab4-ae77-40de-bd65-1c7df6b2d98d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Level">
       <UniqueIdentifier>{c65502e2-f0b1-44bb-b6d8-55257fcad413}</UniqueIdentifier>
     </Filter>
@@ -61,23 +43,38 @@
     <Filter Include="Level\2. MapLevel\4. Tile">
       <UniqueIdentifier>{2e631f4d-269c-44a0-8975-de30505b0590}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Global\3. Pokemon">
-      <UniqueIdentifier>{c8a233f3-17a7-4d3f-a007-59e257088024}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Global\4. Data">
-      <UniqueIdentifier>{53b6b7a6-4c1e-40a5-a2dd-7329c5a17555}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Level\3. UILevel">
       <UniqueIdentifier>{4d6642c5-eaf8-48c7-88cc-115fe2b883fd}</UniqueIdentifier>
     </Filter>
     <Filter Include="Level\3. UILevel\0. PokemonUI">
       <UniqueIdentifier>{33359c0e-3911-4572-aaef-924cb5826d41}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Global\5. Trigger">
-      <UniqueIdentifier>{5afc955f-9fe3-4a6d-bd92-3b7ac4681b20}</UniqueIdentifier>
+    <Filter Include="0. Util">
+      <UniqueIdentifier>{363b44f9-6ba5-4290-afb2-239aea3b0006}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Global\2. UI\Custom">
+    <Filter Include="1. Event">
+      <UniqueIdentifier>{b9f8bc97-2c8d-41ff-9bd0-27e6a7174106}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2. UI">
+      <UniqueIdentifier>{3dd8a652-4bdb-4aa3-8532-0c7042e63c4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2. UI\Fade">
+      <UniqueIdentifier>{ec9a6e0d-ee67-425c-aa2c-d748506a7ac8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2. UI\Window">
+      <UniqueIdentifier>{d71a5ab4-ae77-40de-bd65-1c7df6b2d98d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2. UI\Custom">
       <UniqueIdentifier>{677805ca-4377-4cce-a9e1-846959bd5647}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3. Pokemon">
+      <UniqueIdentifier>{c8a233f3-17a7-4d3f-a007-59e257088024}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4. Data">
+      <UniqueIdentifier>{53b6b7a6-4c1e-40a5-a2dd-7329c5a17555}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5. Trigger">
+      <UniqueIdentifier>{5afc955f-9fe3-4a6d-bd92-3b7ac4681b20}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -94,25 +91,25 @@
       <Filter>Level\2. MapLevel\0. Exterior Level</Filter>
     </ClInclude>
     <ClInclude Include="Global.h">
-      <Filter>Global\0. Util</Filter>
+      <Filter>0. Util</Filter>
     </ClInclude>
     <ClInclude Include="PokemonMath.h">
-      <Filter>Global\0. Util</Filter>
+      <Filter>0. Util</Filter>
     </ClInclude>
     <ClInclude Include="PokemonInput.h">
-      <Filter>Global\0. Util</Filter>
+      <Filter>0. Util</Filter>
     </ClInclude>
     <ClInclude Include="PokemonDebug.h">
-      <Filter>Global\0. Util</Filter>
+      <Filter>0. Util</Filter>
     </ClInclude>
     <ClInclude Include="InteriorOaksLabLevel.h">
       <Filter>Level\2. MapLevel\1. Interior Level</Filter>
     </ClInclude>
     <ClInclude Include="EventProcessor.h">
-      <Filter>Global\1. Event</Filter>
+      <Filter>1. Event</Filter>
     </ClInclude>
     <ClInclude Include="EventManager.h">
-      <Filter>Global\1. Event</Filter>
+      <Filter>1. Event</Filter>
     </ClInclude>
     <ClInclude Include="DialogueActor.h">
       <Filter>Level\2. MapLevel\3. Actor\1. Trigger</Filter>
@@ -130,13 +127,13 @@
       <Filter>Level\2. MapLevel\1. Interior Level</Filter>
     </ClInclude>
     <ClInclude Include="EventCondition.h">
-      <Filter>Global\1. Event</Filter>
+      <Filter>1. Event</Filter>
     </ClInclude>
     <ClInclude Include="PokemonUtil.h">
-      <Filter>Global\0. Util</Filter>
+      <Filter>0. Util</Filter>
     </ClInclude>
     <ClInclude Include="UIElement.h">
-      <Filter>Global\2. UI</Filter>
+      <Filter>2. UI</Filter>
     </ClInclude>
     <ClInclude Include="TutorialLevel.h">
       <Filter>Level\1. TutorialLevel</Filter>
@@ -145,7 +142,7 @@
       <Filter>Level\1. TutorialLevel\Actor</Filter>
     </ClInclude>
     <ClInclude Include="EventStream.h">
-      <Filter>Global\1. Event</Filter>
+      <Filter>1. Event</Filter>
     </ClInclude>
     <ClInclude Include="MapLevel.h">
       <Filter>Level\2. MapLevel</Filter>
@@ -163,13 +160,13 @@
       <Filter>Level\2. MapLevel\3. Actor\1. Trigger</Filter>
     </ClInclude>
     <ClInclude Include="BlackScreen.h">
-      <Filter>Global\2. UI\Fade</Filter>
+      <Filter>2. UI\Fade</Filter>
     </ClInclude>
     <ClInclude Include="FadeScreen.h">
-      <Filter>Global\2. UI\Fade</Filter>
+      <Filter>2. UI\Fade</Filter>
     </ClInclude>
     <ClInclude Include="PokemonText.h">
-      <Filter>Global\2. UI\Custom</Filter>
+      <Filter>2. UI\Custom</Filter>
     </ClInclude>
     <ClInclude Include="Map.h">
       <Filter>Level\2. MapLevel\2. Map</Filter>
@@ -178,25 +175,25 @@
       <Filter>Level\2. MapLevel\3. Actor\0. Player</Filter>
     </ClInclude>
     <ClInclude Include="EventTrigger.h">
-      <Filter>Global\1. Event</Filter>
+      <Filter>1. Event</Filter>
     </ClInclude>
     <ClInclude Include="EventTarget.h">
-      <Filter>Global\1. Event</Filter>
+      <Filter>1. Event</Filter>
     </ClInclude>
     <ClInclude Include="WhiteScreen.h">
-      <Filter>Global\2. UI\Fade</Filter>
+      <Filter>2. UI\Fade</Filter>
     </ClInclude>
     <ClInclude Include="CurtainScreen.h">
-      <Filter>Global\2. UI\Fade</Filter>
+      <Filter>2. UI\Fade</Filter>
     </ClInclude>
     <ClInclude Include="MenuWindow.h">
-      <Filter>Global\2. UI\Window</Filter>
+      <Filter>2. UI\Window</Filter>
     </ClInclude>
     <ClInclude Include="DialogueWindow.h">
-      <Filter>Global\2. UI\Window</Filter>
+      <Filter>2. UI\Window</Filter>
     </ClInclude>
     <ClInclude Include="MapNameWindow.h">
-      <Filter>Global\2. UI\Window</Filter>
+      <Filter>2. UI\Window</Filter>
     </ClInclude>
     <ClInclude Include="AnimatedFlower.h">
       <Filter>Level\2. MapLevel\4. Tile</Filter>
@@ -205,13 +202,13 @@
       <Filter>Level\2. MapLevel\4. Tile</Filter>
     </ClInclude>
     <ClInclude Include="Pokemon.h">
-      <Filter>Global\3. Pokemon</Filter>
+      <Filter>3. Pokemon</Filter>
     </ClInclude>
     <ClInclude Include="Bulbasaur.h">
-      <Filter>Global\3. Pokemon</Filter>
+      <Filter>3. Pokemon</Filter>
     </ClInclude>
     <ClInclude Include="PlayerData.h">
-      <Filter>Global\4. Data</Filter>
+      <Filter>4. Data</Filter>
     </ClInclude>
     <ClInclude Include="PokemonUILevel.h">
       <Filter>Level\3. UILevel\0. PokemonUI</Filter>
@@ -220,19 +217,19 @@
       <Filter>Level\3. UILevel\0. PokemonUI</Filter>
     </ClInclude>
     <ClInclude Include="FadeLevelChanger.h">
-      <Filter>Global\5. Trigger</Filter>
+      <Filter>5. Trigger</Filter>
     </ClInclude>
     <ClInclude Include="Charmander.h">
-      <Filter>Global\3. Pokemon</Filter>
+      <Filter>3. Pokemon</Filter>
     </ClInclude>
     <ClInclude Include="Squirtle.h">
-      <Filter>Global\3. Pokemon</Filter>
+      <Filter>3. Pokemon</Filter>
     </ClInclude>
     <ClInclude Include="AllPokemons.h">
-      <Filter>Global\3. Pokemon</Filter>
+      <Filter>3. Pokemon</Filter>
     </ClInclude>
     <ClInclude Include="ScrollBar.h">
-      <Filter>Global\2. UI\Custom</Filter>
+      <Filter>2. UI\Custom</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -249,25 +246,25 @@
       <Filter>Level\2. MapLevel\0. Exterior Level</Filter>
     </ClCompile>
     <ClCompile Include="Global.cpp">
-      <Filter>Global\0. Util</Filter>
+      <Filter>0. Util</Filter>
     </ClCompile>
     <ClCompile Include="PokemonMath.cpp">
-      <Filter>Global\0. Util</Filter>
+      <Filter>0. Util</Filter>
     </ClCompile>
     <ClCompile Include="PokemonInput.cpp">
-      <Filter>Global\0. Util</Filter>
+      <Filter>0. Util</Filter>
     </ClCompile>
     <ClCompile Include="PokemonDebug.cpp">
-      <Filter>Global\0. Util</Filter>
+      <Filter>0. Util</Filter>
     </ClCompile>
     <ClCompile Include="InteriorOaksLabLevel.cpp">
       <Filter>Level\2. MapLevel\1. Interior Level</Filter>
     </ClCompile>
     <ClCompile Include="EventProcessor.cpp">
-      <Filter>Global\1. Event</Filter>
+      <Filter>1. Event</Filter>
     </ClCompile>
     <ClCompile Include="EventManager.cpp">
-      <Filter>Global\1. Event</Filter>
+      <Filter>1. Event</Filter>
     </ClCompile>
     <ClCompile Include="DialogueActor.cpp">
       <Filter>Level\2. MapLevel\3. Actor\1. Trigger</Filter>
@@ -285,13 +282,13 @@
       <Filter>Level\2. MapLevel\1. Interior Level</Filter>
     </ClCompile>
     <ClCompile Include="EventCondition.cpp">
-      <Filter>Global\1. Event</Filter>
+      <Filter>1. Event</Filter>
     </ClCompile>
     <ClCompile Include="PokemonUtil.cpp">
-      <Filter>Global\0. Util</Filter>
+      <Filter>0. Util</Filter>
     </ClCompile>
     <ClCompile Include="UIElement.cpp">
-      <Filter>Global\2. UI</Filter>
+      <Filter>2. UI</Filter>
     </ClCompile>
     <ClCompile Include="TutorialLevel.cpp">
       <Filter>Level\1. TutorialLevel</Filter>
@@ -300,7 +297,7 @@
       <Filter>Level\1. TutorialLevel\Actor</Filter>
     </ClCompile>
     <ClCompile Include="EventStream.cpp">
-      <Filter>Global\1. Event</Filter>
+      <Filter>1. Event</Filter>
     </ClCompile>
     <ClCompile Include="MapLevel.cpp">
       <Filter>Level\2. MapLevel</Filter>
@@ -318,13 +315,13 @@
       <Filter>Level\2. MapLevel\3. Actor\1. Trigger</Filter>
     </ClCompile>
     <ClCompile Include="BlackScreen.cpp">
-      <Filter>Global\2. UI\Fade</Filter>
+      <Filter>2. UI\Fade</Filter>
     </ClCompile>
     <ClCompile Include="FadeScreen.cpp">
-      <Filter>Global\2. UI\Fade</Filter>
+      <Filter>2. UI\Fade</Filter>
     </ClCompile>
     <ClCompile Include="PokemonText.cpp">
-      <Filter>Global\2. UI\Custom</Filter>
+      <Filter>2. UI\Custom</Filter>
     </ClCompile>
     <ClCompile Include="Map.cpp">
       <Filter>Level\2. MapLevel\2. Map</Filter>
@@ -333,25 +330,25 @@
       <Filter>Level\2. MapLevel\3. Actor\0. Player</Filter>
     </ClCompile>
     <ClCompile Include="EventTrigger.cpp">
-      <Filter>Global\1. Event</Filter>
+      <Filter>1. Event</Filter>
     </ClCompile>
     <ClCompile Include="EventTarget.cpp">
-      <Filter>Global\1. Event</Filter>
+      <Filter>1. Event</Filter>
     </ClCompile>
     <ClCompile Include="WhiteScreen.cpp">
-      <Filter>Global\2. UI\Fade</Filter>
+      <Filter>2. UI\Fade</Filter>
     </ClCompile>
     <ClCompile Include="CurtainScreen.cpp">
-      <Filter>Global\2. UI\Fade</Filter>
+      <Filter>2. UI\Fade</Filter>
     </ClCompile>
     <ClCompile Include="MenuWindow.cpp">
-      <Filter>Global\2. UI\Window</Filter>
+      <Filter>2. UI\Window</Filter>
     </ClCompile>
     <ClCompile Include="DialogueWindow.cpp">
-      <Filter>Global\2. UI\Window</Filter>
+      <Filter>2. UI\Window</Filter>
     </ClCompile>
     <ClCompile Include="MapNameWindow.cpp">
-      <Filter>Global\2. UI\Window</Filter>
+      <Filter>2. UI\Window</Filter>
     </ClCompile>
     <ClCompile Include="AnimatedFlower.cpp">
       <Filter>Level\2. MapLevel\4. Tile</Filter>
@@ -360,13 +357,13 @@
       <Filter>Level\2. MapLevel\4. Tile</Filter>
     </ClCompile>
     <ClCompile Include="Pokemon.cpp">
-      <Filter>Global\3. Pokemon</Filter>
+      <Filter>3. Pokemon</Filter>
     </ClCompile>
     <ClCompile Include="Bulbasaur.cpp">
-      <Filter>Global\3. Pokemon</Filter>
+      <Filter>3. Pokemon</Filter>
     </ClCompile>
     <ClCompile Include="PlayerData.cpp">
-      <Filter>Global\4. Data</Filter>
+      <Filter>4. Data</Filter>
     </ClCompile>
     <ClCompile Include="PokemonUILevel.cpp">
       <Filter>Level\3. UILevel\0. PokemonUI</Filter>
@@ -375,16 +372,16 @@
       <Filter>Level\3. UILevel\0. PokemonUI</Filter>
     </ClCompile>
     <ClCompile Include="FadeLevelChanger.cpp">
-      <Filter>Global\5. Trigger</Filter>
+      <Filter>5. Trigger</Filter>
     </ClCompile>
     <ClCompile Include="Charmander.cpp">
-      <Filter>Global\3. Pokemon</Filter>
+      <Filter>3. Pokemon</Filter>
     </ClCompile>
     <ClCompile Include="Squirtle.cpp">
-      <Filter>Global\3. Pokemon</Filter>
+      <Filter>3. Pokemon</Filter>
     </ClCompile>
     <ClCompile Include="ScrollBar.cpp">
-      <Filter>Global\2. UI\Custom</Filter>
+      <Filter>2. UI\Custom</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

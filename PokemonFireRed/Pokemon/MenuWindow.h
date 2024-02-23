@@ -18,6 +18,7 @@ public:
 	AMenuWindow& operator=(AMenuWindow&& _Other) noexcept = delete;
 
 	void Open();
+	void Close();
 
 	void SetActive(bool _Active, float _ActiveTime = 0.0f) override;
 protected:
@@ -65,8 +66,6 @@ you bought, received, or found.)",
 
 	// 현재 커서 위치에 따라 메뉴 액션 실행
 	void MenuAction();
-
-	void ExitMenu();
 
 	
 	int GetMenuIndex()
