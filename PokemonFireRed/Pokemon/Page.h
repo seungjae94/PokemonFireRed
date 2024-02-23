@@ -49,8 +49,15 @@ public:
 
 protected:
 	virtual void Sync(APage* _Other) {}
+	
+	void ContainerElementSyncOff()
+	{
+		ContainerElementSync = false;
+	}
+
+	void Tick(float _DeltaTime) override;
 private:
-	std::list<APokemonText*> Texts;
-	std::list<AScrollBar*> Bars;
+	bool ContainerElementSync = true;
+	std::map<UImageRenderer*, std::list<AUIElement*>> Elements;
 };
 

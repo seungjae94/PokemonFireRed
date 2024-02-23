@@ -510,7 +510,7 @@ bool UEventProcessor::ProcessChangeLevel()
 		DeactivatePlayerControl();
 	}
 
-	// 여러 레벨의 UI 원소를 같은 상태로 만들기
+	// 여러 레벨의 페이드 스크린을 같은 상태로 만들기
 	for (std::pair<const std::string, APage*>& Pair 
 		: UEventManager::AllUIElements[PrevLevelName])
 	{

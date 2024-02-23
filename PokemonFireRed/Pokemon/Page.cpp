@@ -15,14 +15,21 @@ void APage::SetActive(bool _Active, float _ActiveTime)
 {
 	AActor::SetActive(_Active, _ActiveTime);
 	
-	for (APokemonText* Text : Texts)
+	for (std::pair<UImageRenderer* const, std::list<AUIElement*>>& Pair : Elements)
 	{
-		Text->SetActive(_Active, _ActiveTime);
-	}
+		UImageRenderer* const Container = Pair.first;
+		std::list<AUIElement*>& List = Pair.second;
 
-	for (AScrollBar* Bar : Bars)
-	{
-		Bar->SetActive(_Active, _ActiveTime);
+		if (nullptr == Container)
+		{
+			MsgBoxAssert("UI 엘리먼트의 컨테이너가 nullptr입니다.");
+			return;
+		}
+
+		for (AUIElement* Element : List)
+		{
+			Element->SetActive(_Active, _ActiveTime);
+		}
 	}
 }
 
@@ -43,7 +50,7 @@ APokemonText* APage::CreateText(
 	Text->Size = _Size;
 	Text->SetText(_Text);
 	Text->SetRelativePos(UPokemonUtil::PixelVector(_RelativePixelX, _RelativePixelY));
-	Texts.push_back(Text);
+	Elements[_Container].push_back(Text);
 	return Text;
 }
 
@@ -62,7 +69,35 @@ AScrollBar* APage::CreateScrollBar(
 	Bar->SetRelativePos(UPokemonUtil::PixelVector(_RelativePixelX, _RelativePixelY));
 	Bar->SetMaxValue(_MaxValue);
 	Bar->SetValue(_CurValue);
-	Bars.push_back(Bar);
+	Elements[_Container].push_back(Bar);
 	return Bar;
+}
+
+void APage::Tick(float _DeltaTime)
+{
+	AActor::Tick(_DeltaTime);
+
+	if (false == ContainerElementSync)
+	{
+		return;
+	}
+
+	for (std::pair<UImageRenderer* const, std::list<AUIElement*>>& Pair : Elements)
+	{
+		UImageRenderer* const Container = Pair.first;
+		std::list<AUIElement*>& List = Pair.second;
+
+		if (nullptr == Container)
+		{
+			MsgBoxAssert("UI 엘리먼트의 컨테이너가 nullptr입니다.");
+			return;
+		}
+
+		for (AUIElement* Element : List)
+		{
+			Element->SetActive(Container->IsActive());
+			Element->FollowContainer();
+		}
+	}
 }
 

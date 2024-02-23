@@ -58,9 +58,6 @@
     <Filter Include="2. UI\Window">
       <UniqueIdentifier>{d71a5ab4-ae77-40de-bd65-1c7df6b2d98d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2. UI\Custom">
-      <UniqueIdentifier>{677805ca-4377-4cce-a9e1-846959bd5647}</UniqueIdentifier>
-    </Filter>
     <Filter Include="3. Pokemon">
       <UniqueIdentifier>{c8a233f3-17a7-4d3f-a007-59e257088024}</UniqueIdentifier>
     </Filter>
@@ -72,6 +69,9 @@
     </Filter>
     <Filter Include="Level\3. PokemonUILevel">
       <UniqueIdentifier>{4d6642c5-eaf8-48c7-88cc-115fe2b883fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2. UI\Element">
+      <UniqueIdentifier>{677805ca-4377-4cce-a9e1-846959bd5647}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -163,7 +163,7 @@
       <Filter>2. UI\Fade</Filter>
     </ClInclude>
     <ClInclude Include="PokemonText.h">
-      <Filter>2. UI\Custom</Filter>
+      <Filter>2. UI\Element</Filter>
     </ClInclude>
     <ClInclude Include="Map.h">
       <Filter>Level\2. MapLevel\2. Map</Filter>
@@ -220,10 +220,10 @@
       <Filter>3. Pokemon</Filter>
     </ClInclude>
     <ClInclude Include="ScrollBar.h">
-      <Filter>2. UI\Custom</Filter>
+      <Filter>2. UI\Element</Filter>
     </ClInclude>
     <ClInclude Include="UIElement.h">
-      <Filter>2. UI\Custom</Filter>
+      <Filter>2. UI\Element</Filter>
     </ClInclude>
     <ClInclude Include="PokemonUILevel.h">
       <Filter>Level\3. PokemonUILevel</Filter>
@@ -321,7 +321,7 @@
       <Filter>2. UI\Fade</Filter>
     </ClCompile>
     <ClCompile Include="PokemonText.cpp">
-      <Filter>2. UI\Custom</Filter>
+      <Filter>2. UI\Element</Filter>
     </ClCompile>
     <ClCompile Include="Map.cpp">
       <Filter>Level\2. MapLevel\2. Map</Filter>
@@ -375,10 +375,10 @@
       <Filter>3. Pokemon</Filter>
     </ClCompile>
     <ClCompile Include="ScrollBar.cpp">
-      <Filter>2. UI\Custom</Filter>
+      <Filter>2. UI\Element</Filter>
     </ClCompile>
     <ClCompile Include="UIElement.cpp">
-      <Filter>2. UI\Custom</Filter>
+      <Filter>2. UI\Element</Filter>
     </ClCompile>
     <ClCompile Include="PokemonUILevel.cpp">
       <Filter>Level\3. PokemonUILevel</Filter>

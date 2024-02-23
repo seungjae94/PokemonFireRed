@@ -74,7 +74,7 @@ public:
 	}
 
 	void SetRelativePos(FVector _PivotRelativePos);
-	void FollowContainer();
+	void FollowContainer() override;
 
 	void SetLineSpace(int _LineSpace)
 	{

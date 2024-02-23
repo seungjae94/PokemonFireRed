@@ -24,6 +24,8 @@ public:
 	AUIElement& operator=(const AUIElement& _Other) = delete;
 	AUIElement& operator=(AUIElement&& _Other) noexcept = delete;
 
+	virtual void FollowContainer() {}
+
 protected:
 
 private:

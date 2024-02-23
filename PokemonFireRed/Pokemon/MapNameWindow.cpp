@@ -56,11 +56,12 @@ void AMapNameWindow::BeginPlay()
 		0, -8,
 		EFontColor::Gray
 	);
-	MapNameText->FollowContainer();
 }
 
 void AMapNameWindow::Tick(float _DeltaTime)
 {
+	APage::Tick(_DeltaTime);
+
 	switch (State)
 	{
 	case EMapNameWindowState::Hide:
@@ -85,7 +86,6 @@ void AMapNameWindow::OpenTick(float _DeltaTime)
 		
 	FVector Pos = UPokemonMath::Lerp(ShowPos, HidePos, CurChangeTime / ChangeTime);
 	Renderer->SetPosition(Pos);
-	MapNameText->FollowContainer();
 
 	if (CurChangeTime < 0.0f)
 	{
@@ -97,7 +97,6 @@ void AMapNameWindow::OpenTick(float _DeltaTime)
 void AMapNameWindow::ShowTick(float _DeltaTime)
 {
 	CurChangeTime -= _DeltaTime;
-	MapNameText->FollowContainer();
 
 	if (CurChangeTime < 0.0f)
 	{
@@ -112,7 +111,6 @@ void AMapNameWindow::CloseTick(float _DeltaTime)
 	
 	FVector Pos = UPokemonMath::Lerp(HidePos, ShowPos, CurChangeTime / ChangeTime);
 	Renderer->SetPosition(Pos);
-	MapNameText->FollowContainer();
 
 	if (CurChangeTime < 0.0f)
 	{

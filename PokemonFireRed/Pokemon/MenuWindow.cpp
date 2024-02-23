@@ -38,18 +38,6 @@ void AMenuWindow::Close()
 	SetActive(false);
 }
 
-void AMenuWindow::SetActive(bool _Active, float _ActiveTime)
-{
-	APage::SetActive(_Active, _ActiveTime);
-
-	MenuExplainText->SetActive(_Active, _ActiveTime);
-
-	for (APokemonText* MenuText : MenuTexts)
-	{
-		MenuText->SetActive(_Active, _ActiveTime);
-	}
-}
-
 void AMenuWindow::BeginPlay()
 {
 	APage::BeginPlay();
@@ -92,7 +80,6 @@ void AMenuWindow::BeginPlay()
 		2, 16,
 		EFontColor::White
 	);
-	MenuExplainText->FollowContainer();
 
 	// 메뉴창 커서
 	ArrowRenderer = CreateImageRenderer(ERenderingOrder::LowerUI);
@@ -235,7 +222,6 @@ void AMenuWindow::DrawMenuTexts()
 	{
 		MenuTexts[i]->SetActive(true);
 		MenuTexts[i]->SetText(MenuNames[(MenuNames.size() - MenuCount) + i]);
-		MenuTexts[i]->FollowContainer();
 	}
 	for (int i = MenuCount; i < 5; i++)
 	{

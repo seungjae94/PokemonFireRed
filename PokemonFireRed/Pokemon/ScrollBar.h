@@ -50,7 +50,7 @@ public:
 	}
 
 	void SetRelativePos(FVector _PivotRelativePos);
-	void FollowContainer();
+	void FollowContainer() override;
 
 protected:
 
