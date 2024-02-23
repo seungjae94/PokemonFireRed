@@ -23,27 +23,9 @@ public:
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
-
-	void Sync(AUIElement* _Other) override
-	{
-		AMenuWindow* Other = dynamic_cast<AMenuWindow*>(_Other);
-
-		if (nullptr == Other)
-		{
-			MsgBoxAssert(_Other->GetName() +
-				"은 MenuWindow가 아닙니다. Sync 함수에서 다운 캐스팅이 실패했습니다.");
-			return;
-		}
-
-		MenuCount = Other->MenuCount;
-		DrawMenuWindow();
-		DrawMenuTexts();
-		DrawExplainText();
-
-		Cursor = Other->Cursor;
-		MoveCursor(Cursor);
-	}
 private:
+	void Refresh();
+
 	enum MenuIndex
 	{
 		Pokedex,
@@ -75,8 +57,8 @@ you bought, received, or found.)",
 
 
 	// 커서 관련
-	int Cursor = 0;
-	int MenuCount = 3;
+	static int Cursor;
+	static int MenuCount;
 	void IncCursor();
 	void DecCursor();
 	void MoveCursor(int _Cursor);
@@ -98,8 +80,5 @@ you bought, received, or found.)",
 	void DrawExplainText();
 	
 	FVector GetArrowPos();
-
-	AEventTrigger* MenuWindowOpenTrigger = nullptr;
-	AEventTrigger* MenuWindowCloseTrigger = nullptr;
 };
 

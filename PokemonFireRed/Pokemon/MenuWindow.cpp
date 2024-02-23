@@ -12,6 +12,9 @@
 #include "PokemonText.h"
 #include "PlayerData.h"
 
+int AMenuWindow::MenuCount = 3;
+int AMenuWindow::Cursor = 0;
+
 AMenuWindow::AMenuWindow()
 {
 }
@@ -22,8 +25,8 @@ AMenuWindow::~AMenuWindow()
 
 void AMenuWindow::Open()
 {
+	Refresh();
 	SetActive(true);
-	UEventManager::TriggerEvent(MenuWindowOpenTrigger, EEventTriggerAction::Direct);
 }
 
 void AMenuWindow::SetActive(bool _Active, float _ActiveTime)
@@ -78,35 +81,11 @@ void AMenuWindow::BeginPlay()
 	ArrowRenderer->CameraEffectOff();
 	ArrowRenderer->SetImage("MenuWindowArrow.png");
 
-	UWindowImage* ArrowImage = UEngineResourcesManager::GetInst().FindImg("MenuWindowArrow.png");
-	FVector ArrowScale = ArrowImage->GetScale();
-	FVector ArrowRenderScale = ArrowScale * Global::FloatPixelSize;
+	FVector ArrowRenderScale = UPokemonUtil::GetRenderScale(ArrowRenderer);
 	ArrowRenderer->SetScale(ArrowRenderScale);
 
 	FVector ArrowPos = GetArrowPos();
 	ArrowRenderer->SetPosition(ArrowPos);
-
-	ArrowRenderer->SetImageCuttingTransform({ {0, 0}, ArrowScale });
-
-	// 트리거 설정
-	UEventTargetInit OpenMenuSetting;
-	OpenMenuSetting.SetName("MainWindowOpenTrigger");
-	OpenMenuSetting.SetPoint({ 1000, 1000 });
-
-	UEventCondition Cond = UEventCondition(EEventTriggerAction::Direct);
-	MenuWindowOpenTrigger = CurLevel->SpawnEventTrigger<AEventTrigger>(OpenMenuSetting);
-	UEventManager::RegisterEvent(MenuWindowOpenTrigger, Cond,
-		ES::Start(true) >> ES::End(false)
-	);
-
-	UEventTargetInit CloseMenuSetting;
-	CloseMenuSetting.SetName("MainWindowCloseTrigger");
-	CloseMenuSetting.SetPoint({ 2000, 2000 });
-
-	MenuWindowCloseTrigger = CurLevel->SpawnEventTrigger<AEventTrigger>(CloseMenuSetting);
-	UEventManager::RegisterEvent(MenuWindowCloseTrigger, Cond,
-		ES::Start(false) >> ES::End(true)
-	);
 }
 
 void AMenuWindow::Tick(float _DeltaTime)
@@ -159,6 +138,14 @@ void AMenuWindow::Tick(float _DeltaTime)
 		MenuAction();
 		return;
 	}
+}
+
+void AMenuWindow::Refresh()
+{
+	DrawMenuWindow();
+	DrawMenuTexts();
+	DrawExplainText();
+	DrawArrow();
 }
 
 void AMenuWindow::IncCursor()
@@ -216,7 +203,6 @@ void AMenuWindow::ExitMenu()
 {
 	SetActive(false);
 	IsFirstTick = true;
-	UEventManager::TriggerEvent(MenuWindowCloseTrigger, EEventTriggerAction::Direct);
 }
 
 void AMenuWindow::DrawMenuWindow()
