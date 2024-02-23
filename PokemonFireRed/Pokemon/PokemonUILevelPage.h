@@ -44,12 +44,11 @@ private:
 		To
 	};
 
-	int TargetCursor = 0;
-	int MemoryEntryCursor = 1;
 	UImageRenderer* BackgroundRenderer = nullptr;
 	UImageRenderer* LongMsgBoxRenderer = nullptr;
 	UImageRenderer* ShortMsgBoxRenderer = nullptr;
 	UImageRenderer* ActionBoxRenderer = nullptr;
+	UImageRenderer* ActionCursorRenderer = nullptr;
 
 	UImageRenderer* FirstRenderer = nullptr;
 	UImageRenderer* FirstMiniPokemonRenderer = nullptr;
@@ -72,8 +71,10 @@ private:
 	// 상태 처리
 	EPokemonUIState State = EPokemonUIState::TargetSelectionWait;
 
-	void TargetSelectionWaitTick(float _DeltaTime);
+	int TargetCursor = 0;
+	int MemoryEntryCursor = 1;
 	std::string PrevMapLevelName;
+	void TargetSelectionWaitTick(float _DeltaTime);
 	void MoveTargetCursor(int _Cursor);
 	void TargetSelect();
 
@@ -81,9 +82,14 @@ private:
 	void DrawEntry(ETargetImageState _State, int _Index);
 	void DrawCancel(ETargetImageState _State);
 
+	int ActionCursor = 0;
 	void ActionSelectionWaitTick(float _DeltaTime);
+	void MoveActionCursor(int _Cursor);
+	void RefreshCursor();
+
 	void SwitchTick(float _DeltaTime);
 
+	// 편의 함수
 	bool IsFirst(int _Cursor)
 	{
 		return _Cursor == 0;

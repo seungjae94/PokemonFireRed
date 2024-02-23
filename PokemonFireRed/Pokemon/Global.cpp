@@ -53,6 +53,7 @@ const std::string Global::HpBarRedImageName = "HpBarRed.png";
 const std::string Global::HpBarYellowImageName = "HpBarYellow.png";
 const std::string Global::HpBarGreenImageName = "HpBarGreen.png";
 const std::string Global::ExpBarImageName = "ExpBar.png";
+const std::string Global::BlackCursorImageName = "BlackCursor.png";
 
 const std::string Global::PlayerName = "Player";
 

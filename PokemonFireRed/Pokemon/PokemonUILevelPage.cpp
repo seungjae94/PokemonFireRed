@@ -55,6 +55,14 @@ void UPokemonUILevelPage::BeginPlay()
 		ActionBoxRenderer->SetActive(false);
 	}
 
+	// 액션 선택 커서 이미지
+	{
+		ActionCursorRenderer = CreateImageRenderer(ERenderingOrder::Text);
+		ActionCursorRenderer->SetImage(Global::BlackCursorImageName);
+		RefreshCursor();
+		ActionCursorRenderer->SetActive(false);
+	}
+
 	// 엔트리 박스
 	FirstRenderer = CreateImageRenderer(ERenderingOrder::UpperUI);
 	FirstMiniPokemonRenderer = CreateImageRenderer(ERenderingOrder::Upper2UI);
@@ -305,6 +313,7 @@ void UPokemonUILevelPage::TargetSelect()
 		LongMsgBoxRenderer->SetActive(false);
 		ShortMsgBoxRenderer->SetActive(true);
 		ActionBoxRenderer->SetActive(true);
+		ActionCursorRenderer->SetActive(true);
 	}
 }
 
@@ -439,6 +448,28 @@ void UPokemonUILevelPage::DrawCancel(ETargetImageState _State)
 
 void UPokemonUILevelPage::ActionSelectionWaitTick(float _DeltaTime)
 {
+	if (UEngineInput::IsDown(VK_UP))
+	{
+		MoveActionCursor(UPokemonMath::Mod(ActionCursor - 1, 4));
+	}
+	else if (UEngineInput::IsDown(VK_DOWN))
+	{
+		MoveActionCursor(UPokemonMath::Mod(ActionCursor + 1, 4));
+	}
+}
+
+void UPokemonUILevelPage::MoveActionCursor(int _Cursor)
+{
+	ActionCursor = _Cursor;
+	RefreshCursor();
+}
+
+void UPokemonUILevelPage::RefreshCursor()
+{
+	FVector ArrowRenderScale = UPokemonUtil::GetRenderScale(ActionCursorRenderer);
+	FVector ArrowPos = UPokemonUtil::GetMatchLeftTop(ArrowRenderScale, ActionBoxRenderer->GetTransform());
+	ArrowPos += UPokemonUtil::PixelVector(8, 11 + ActionCursor * 16);
+	ActionCursorRenderer->SetTransform({ArrowPos, ArrowRenderScale});
 }
 
 void UPokemonUILevelPage::SwitchTick(float _DeltaTime)

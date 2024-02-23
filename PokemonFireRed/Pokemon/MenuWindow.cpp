@@ -84,7 +84,7 @@ void AMenuWindow::BeginPlay()
 	// 메뉴창 커서
 	ArrowRenderer = CreateImageRenderer(ERenderingOrder::LowerUI);
 	ArrowRenderer->CameraEffectOff();
-	ArrowRenderer->SetImage("MenuWindowArrow.png");
+	ArrowRenderer->SetImage(Global::BlackCursorImageName);
 
 	FVector ArrowRenderScale = UPokemonUtil::GetRenderScale(ArrowRenderer);
 	ArrowRenderer->SetScale(ArrowRenderScale);

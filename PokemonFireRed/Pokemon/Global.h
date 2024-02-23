@@ -80,6 +80,7 @@ public:
 	static const std::string HpBarYellowImageName;
 	static const std::string HpBarGreenImageName;
 	static const std::string ExpBarImageName;
+	static const std::string BlackCursorImageName;
 
 	static const std::string PlayerName;
 
