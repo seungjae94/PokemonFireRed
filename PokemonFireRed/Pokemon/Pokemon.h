@@ -3,6 +3,14 @@
 #include <string>
 #include <EngineBase/EngineDebug.h>
 
+enum class EPokedexNo
+{
+	None,
+	Bulbasaur = 1,
+	Charmander = 4,
+	Squirtle = 7,
+};
+
 enum class EAbility
 {
 	NONE,
@@ -189,6 +197,7 @@ protected:
 
 	// 기본 정보
 	std::wstring Name;
+	EPokedexNo PokedexNo = EPokedexNo::None;
 	int Level = 0;
 	int AccExp = 0;
 	int CurHp = 0;

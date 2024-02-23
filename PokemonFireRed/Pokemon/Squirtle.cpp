@@ -3,9 +3,10 @@
 USquirtle::USquirtle() 
 {
 	// 기본 정보 설정
+	PokedexNo = EPokedexNo::Squirtle;
+	Name = L"SQUIRTLE";
 	Level = 1;
 	AccExp = 0;
-	Name = L"SQUIRTLE";
 
 	// 기본 데이터 설정
 	float MaleRatio = 7 / 8.0f;

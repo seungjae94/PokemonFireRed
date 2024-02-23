@@ -3,9 +3,10 @@
 UBulbasaur::UBulbasaur()
 {
 	// 기본 정보 설정
+	EPokedexNo PokedexNo = EPokedexNo::Bulbasaur;
+	Name = L"BULBASAUR";
 	Level = 1;
 	AccExp = 0;
-	Name = L"BULBASAUR";
 
 	// 기본 데이터 설정
 	float MaleRatio = 7 / 8.0f;

@@ -23,19 +23,11 @@ void UPokemonCore::BeginPlay()
 	MainWindow.SetWindowScale({ Global::ScreenX, Global::ScreenY });
 	MainWindow.SetClearColor(Color8Bit::BlackA);
 
-
 	// UI 리소스 로딩
-	UEngineDirectory CurDir;
-	CurDir.MoveParent();
-	CurDir.Move("Resources");
-	CurDir.Move("UI");
+	LoadUIResources();
 
-	std::list<UEngineFile> AllFiles = CurDir.AllFile({ ".png", ".bmp" }, true);
-	for (UEngineFile& File : AllFiles)
-	{
-		std::string Path = File.GetFullPath();
-		UEngineResourcesManager::GetInst().LoadImg(Path);
-	}
+	// 포켓몬 리소스 로딩
+	LoadPokemonResources();
 
 	// 레벨 생성
 	CreateLevel<UTitleLevel>(Global::TitleLevel);
@@ -49,4 +41,31 @@ void UPokemonCore::BeginPlay()
 
 	// 시작 레벨 설정
 	UEventManager::SetLevel(Global::ExteriorPalletTownLevel);
+}
+
+void UPokemonCore::LoadUIResources()
+{
+	CurDir.MoveParent();
+	CurDir.Move("Resources");
+	CurDir.Move("UI");
+
+	std::list<UEngineFile> AllFiles = CurDir.AllFile({ ".png", ".bmp" }, true);
+	for (UEngineFile& File : AllFiles)
+	{
+		std::string Path = File.GetFullPath();
+		UEngineResourcesManager::GetInst().LoadImg(Path);
+	}
+}
+
+void UPokemonCore::LoadPokemonResources()
+{
+	CurDir.MoveParent();
+	CurDir.Move("Pokemons");
+
+	std::list<UEngineFile> AllFiles = CurDir.AllFile({ ".png", ".bmp" }, true);
+	for (UEngineFile& File : AllFiles)
+	{
+		std::string Path = File.GetFullPath();
+		UEngineResourcesManager::GetInst().LoadImg(Path);
+	}
 }

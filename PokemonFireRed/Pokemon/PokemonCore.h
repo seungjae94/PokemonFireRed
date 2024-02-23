@@ -1,4 +1,5 @@
 #pragma once
+#include <EngineBase/EngineDirectory.h>
 #include <EngineCore/EngineCore.h>
 
 // Ό³Έν :
@@ -17,6 +18,11 @@ public:
 
 protected:
 	void BeginPlay() override;
+
+private:
+	void LoadUIResources();
+	void LoadPokemonResources();
+	UEngineDirectory CurDir;
 };
 
 
