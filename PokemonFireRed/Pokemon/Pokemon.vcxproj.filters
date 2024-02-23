@@ -19,9 +19,6 @@
     <Filter Include="Global\2. UI\Fade">
       <UniqueIdentifier>{ec9a6e0d-ee67-425c-aa2c-d748506a7ac8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Global\2. UI\Text">
-      <UniqueIdentifier>{677805ca-4377-4cce-a9e1-846959bd5647}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Global\2. UI\Window">
       <UniqueIdentifier>{d71a5ab4-ae77-40de-bd65-1c7df6b2d98d}</UniqueIdentifier>
     </Filter>
@@ -78,6 +75,9 @@
     </Filter>
     <Filter Include="Global\5. Trigger">
       <UniqueIdentifier>{5afc955f-9fe3-4a6d-bd92-3b7ac4681b20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Global\2. UI\Custom">
+      <UniqueIdentifier>{677805ca-4377-4cce-a9e1-846959bd5647}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -169,7 +169,7 @@
       <Filter>Global\2. UI\Fade</Filter>
     </ClInclude>
     <ClInclude Include="PokemonText.h">
-      <Filter>Global\2. UI\Text</Filter>
+      <Filter>Global\2. UI\Custom</Filter>
     </ClInclude>
     <ClInclude Include="Map.h">
       <Filter>Level\2. MapLevel\2. Map</Filter>
@@ -230,6 +230,9 @@
     </ClInclude>
     <ClInclude Include="AllPokemons.h">
       <Filter>Global\3. Pokemon</Filter>
+    </ClInclude>
+    <ClInclude Include="ScrollBar.h">
+      <Filter>Global\2. UI\Custom</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -321,7 +324,7 @@
       <Filter>Global\2. UI\Fade</Filter>
     </ClCompile>
     <ClCompile Include="PokemonText.cpp">
-      <Filter>Global\2. UI\Text</Filter>
+      <Filter>Global\2. UI\Custom</Filter>
     </ClCompile>
     <ClCompile Include="Map.cpp">
       <Filter>Level\2. MapLevel\2. Map</Filter>
@@ -379,6 +382,9 @@
     </ClCompile>
     <ClCompile Include="Squirtle.cpp">
       <Filter>Global\3. Pokemon</Filter>
+    </ClCompile>
+    <ClCompile Include="ScrollBar.cpp">
+      <Filter>Global\2. UI\Custom</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

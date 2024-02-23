@@ -25,6 +25,7 @@ const float Global::FloatHalfScreenY = static_cast<float>(ScreenY / 2);
 const FVector Global::Screen = FVector(ScreenX, ScreenY);
 const FVector Global::HalfScreen = FVector(HalfScreenX, HalfScreenY);
 const FVector Global::MiniPokemonRenderScale = FVector(32.0f, 24.0f) * Global::FloatPixelSize;
+const FVector Global::ScrollBarRenderScale = FVector(1.0f, 3.0f * Global::FloatPixelSize);
 
 const std::string Global::SuffixUpperBody = "UpperBody";
 const std::string Global::SuffixLowerBody = "LowerBody";
@@ -45,6 +46,13 @@ const std::string Global::PokemonMiniPrefix = "PokemonMini";
 const std::string Global::PokemonFrontImageName = "PokemonFront.png";
 const std::string Global::PokemonBackImageName = "PokemonBack.png";
 const std::string Global::PokemonMiniImageName = "PokemonMini.png";
+const std::string Global::GenderMarkMaleImageName = "GenderMarkMale.png";
+const std::string Global::GenderMarkFemaleImageName = "GenderMarkFemale.png";
+const std::string Global::HpBarBlackImageName = "HpBarBlack.png";
+const std::string Global::HpBarRedImageName = "HpBarRed.png";
+const std::string Global::HpBarYellowImageName = "HpBarYellow.png";
+const std::string Global::HpBarGreenImageName = "HpBarGreen.png";
+const std::string Global::ExpBarImageName = "ExpBar.png";
 
 const std::string Global::PlayerName = "Player";
 

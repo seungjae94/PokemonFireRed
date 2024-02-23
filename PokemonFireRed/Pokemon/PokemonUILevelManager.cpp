@@ -84,7 +84,8 @@ void UPokemonUILevelManager::BeginPlay()
 	CancelRenderer = CreateImageRenderer(ERenderingOrder::UpperUI);
 	DrawCancel(ETargetImageState::Unfocused);
 
-	// 텍스트 렌더링
+	// 첫 번째 포켓몬 텍스트
+	UPokemon& First = UPlayerData::GetPokemonInEntry(0);
 	UPokemonLevel* CurLevel = dynamic_cast<UPokemonLevel*>(GetWorld());
 	FirstNameText = CurLevel->SpawnText(FirstRenderer, EPivotType::RightBot);
 	FirstLevelText = CurLevel->SpawnText(FirstRenderer, EPivotType::RightBot);
@@ -101,7 +102,6 @@ void UPokemonUILevelManager::BeginPlay()
 	FirstHpText->SetColor(EFontColor::WhiteGray);
 	FirstCurHpText->SetColor(EFontColor::WhiteGray);
 
-	UPokemon& First = UPlayerData::GetPokemonInEntry(0);
 	FirstNameText->SetText(First.GetName(), true);
 	FirstLevelText->SetText(std::to_wstring(First.GetLevel()), true);
 	FirstHpText->SetText(std::to_wstring(First.GetHp()), true);
@@ -111,6 +111,12 @@ void UPokemonUILevelManager::BeginPlay()
 	FirstLevelText->SetRelativePos(UPokemonUtil::PixelVector(-37, -19));
 	FirstHpText->SetRelativePos(UPokemonUtil::PixelVector(-5, -3));
 	FirstCurHpText->SetRelativePos(UPokemonUtil::PixelVector(-25, -3));
+
+	// 첫 번째 포켓몬 스크롤 바
+	FirstHpBar = CurLevel->SpawnScrollBar(FirstRenderer, EPivotType::RightBot);
+	FirstHpBar->SetRelativePos(UPokemonUtil::PixelVector(-53, -15));
+	FirstHpBar->SetMaxValue(First.GetHp());
+	FirstHpBar->SetValue(First.GetCurHp());
 
 	for (int i = 1; i < UPlayerData::GetPokemonEntrySize(); ++i)
 	{
@@ -144,6 +150,13 @@ void UPokemonUILevelManager::BeginPlay()
 		EntryLevelTexts.push_back(LevelText);
 		EntryHpTexts.push_back(HpText);
 		EntryCurHpTexts.push_back(CurHpText);
+
+		// i번째 포켓몬 스크롤 바
+		AScrollBar* HpBar = CurLevel->SpawnScrollBar(EntryRenderers[i - 1], EPivotType::RightBot);
+		HpBar->SetRelativePos(UPokemonUtil::PixelVector(-53, -13));
+		HpBar->SetMaxValue(Pokemon.GetHp());
+		HpBar->SetValue(Pokemon.GetCurHp());
+		EntryHpBars.push_back(HpBar);
 	}
 }
 

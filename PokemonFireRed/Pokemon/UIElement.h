@@ -3,6 +3,15 @@
 
 class UEventProcessor;
 
+enum class EPivotType
+{
+	LeftTop,
+	LeftBot,
+	RightTop,
+	RightBot,
+	Center
+};
+
 class AUIElement : public AActor
 {
 	friend UEventProcessor;

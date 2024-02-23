@@ -17,15 +17,6 @@ enum class EFontSize
 	Mini
 };
 
-enum class EPivotType
-{
-	LeftTop,
-	LeftBot,
-	RightTop,
-	RightBot,
-	Center
-};
-
 enum class EAlignType
 {
 	Left,		// Pivot과 텍스트의 좌하단을 맞춘다.    (RelativePos가 0일 때)
@@ -136,13 +127,6 @@ private:
 
 	// 텍스트 정렬 기능
 	int LineWidth = 0;
-
-	void Init(UImageRenderer* _Container, EPivotType _PivotType, EAlignType _Alignment)
-	{
-		Container = _Container;
-		PivotType = _PivotType;
-		Alignment = _Alignment;
-	}
 
 	void SetActorLocation(FVector _Pos) 
 	{

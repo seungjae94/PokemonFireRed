@@ -143,6 +143,11 @@ public:
 		return CurHp;
 	}
 
+	void SetCurHp(int _CurHp)
+	{
+		CurHp = _CurHp;
+	}
+
 	EPokedexNo GetPokedexNo() const
 	{
 		return PokedexNo;

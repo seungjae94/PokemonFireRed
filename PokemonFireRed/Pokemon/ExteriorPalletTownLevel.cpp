@@ -106,8 +106,8 @@ and POKéMON as data via PC.)"
 	UBulbasaur Pokemon0;
 	UCharmander Pokemon1;
 	USquirtle Pokemon2;
-	Pokemon0.HealAll();
-	Pokemon1.HealAll();
+	Pokemon0.SetCurHp(Pokemon0.GetHp() / 2);
+	Pokemon1.SetCurHp(Pokemon1.GetHp() / 6);
 	Pokemon2.HealAll();
 	UPlayerData::AddPokemonToEntry(Pokemon0);
 	UPlayerData::AddPokemonToEntry(Pokemon1);

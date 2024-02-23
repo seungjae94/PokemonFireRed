@@ -129,6 +129,7 @@ void APokemonText::PrepareLine(const std::wstring& _Line, int _Bot)
 		break;
 	case EFontColor::WhiteGray:
 		ImageNamePrefix += "WhiteGray";
+		break;
 	default:
 		break;
 	}

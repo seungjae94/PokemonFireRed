@@ -1,6 +1,7 @@
 #pragma once
 #include <EngineCore/Actor.h>
 #include "PokemonText.h"
+#include "ScrollBar.h"
 #include "PlayerData.h"
 
 enum class EPokemonUIState
@@ -56,6 +57,7 @@ private:
 	APokemonText* FirstLevelText = nullptr;
 	APokemonText* FirstHpText = nullptr;
 	APokemonText* FirstCurHpText = nullptr;
+	AScrollBar* FirstHpBar = nullptr;
 
 	std::vector<UImageRenderer*> EntryRenderers;
 	std::vector<UImageRenderer*> EntryMiniPokemonRenderers;
@@ -63,6 +65,7 @@ private:
 	std::vector<APokemonText*> EntryLevelTexts;
 	std::vector<APokemonText*> EntryHpTexts;
 	std::vector<APokemonText*> EntryCurHpTexts;
+	std::vector<AScrollBar*> EntryHpBars;
 
 	UImageRenderer* CancelRenderer = nullptr;
 
