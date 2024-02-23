@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <string>
+#include <EngineBase/EngineDebug.h>
 
 enum class EAbility
 {
@@ -128,6 +129,26 @@ public:
 	int GetCurHp() const
 	{
 		return CurHp;
+	}
+
+	void Heal(int _Value)
+	{
+		if (_Value < 0)
+		{
+			MsgBoxAssert("음수만큼 HP를 회복할 수 없습니다.");
+			return;
+		}
+
+		CurHp += _Value;
+		if (CurHp > GetHp())
+		{
+			CurHp = GetHp();
+		}
+	}
+
+	void HealAll()
+	{
+		CurHp = GetHp();
 	}
 
 	int GetHp() const;

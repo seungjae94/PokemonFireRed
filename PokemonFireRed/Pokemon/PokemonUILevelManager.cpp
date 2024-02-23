@@ -65,8 +65,8 @@ void UPokemonUILevelManager::BeginPlay()
 
 	// 텍스트 렌더링
 	UPokemonLevel* CurLevel = dynamic_cast<UPokemonLevel*>(GetWorld());
-	FirstNameText = CurLevel->SpawnText(FirstRenderer, EPivotType::LeftTop);
-	FirstLevelText = CurLevel->SpawnText(FirstRenderer, EPivotType::LeftTop);
+	FirstNameText = CurLevel->SpawnText(FirstRenderer, EPivotType::RightBot);
+	FirstLevelText = CurLevel->SpawnText(FirstRenderer, EPivotType::RightBot);
 	FirstHpText = CurLevel->SpawnText(FirstRenderer, EPivotType::RightBot, EAlignType::Right);
 	FirstCurHpText = CurLevel->SpawnText(FirstRenderer, EPivotType::RightBot, EAlignType::Right);
 
@@ -81,10 +81,39 @@ void UPokemonUILevelManager::BeginPlay()
 	FirstHpText->SetText(std::to_wstring(First.GetHp()), true);
 	FirstCurHpText->SetText(std::to_wstring(First.GetCurHp()), true);
 
-	FirstNameText->SetRelativePos(UPokemonUtil::PixelVector(25, 26));
-	FirstLevelText->SetRelativePos(UPokemonUtil::PixelVector(48, 37));
-	FirstHpText->SetRelativePos(UPokemonUtil::PixelVector(-6, -4));
-	FirstCurHpText->SetRelativePos(UPokemonUtil::PixelVector(-26, -4));
+	FirstNameText->SetRelativePos(UPokemonUtil::PixelVector(-53, -28));
+	FirstLevelText->SetRelativePos(UPokemonUtil::PixelVector(-37, -19));
+	FirstHpText->SetRelativePos(UPokemonUtil::PixelVector(-5, -3));
+	FirstCurHpText->SetRelativePos(UPokemonUtil::PixelVector(-25, -3));
+
+	for (int i = 1; i < UPlayerData::GetPokemonEntrySize(); ++i)
+	{
+		APokemonText* NameText = CurLevel->SpawnText(EntryRenderers[i - 1], EPivotType::RightBot);
+		APokemonText* LevelText = CurLevel->SpawnText(EntryRenderers[i - 1], EPivotType::LeftBot);
+		APokemonText* HpText = CurLevel->SpawnText(EntryRenderers[i - 1], EPivotType::RightBot, EAlignType::Right);
+		APokemonText* CurHpText = CurLevel->SpawnText(EntryRenderers[i - 1], EPivotType::RightBot, EAlignType::Right);
+
+		NameText->SetSize(EFontSize::Mini);
+		LevelText->SetSize(EFontSize::Mini);
+		HpText->SetSize(EFontSize::Mini);
+		CurHpText->SetSize(EFontSize::Mini);
+
+		UPokemon& Pokemon = UPlayerData::GetPokemonInEntry(i);
+		NameText->SetText(Pokemon.GetName(), true);
+		LevelText->SetText(std::to_wstring(Pokemon.GetLevel()), true);
+		HpText->SetText(std::to_wstring(Pokemon.GetHp()), true);
+		CurHpText->SetText(std::to_wstring(Pokemon.GetCurHp()), true);
+
+		NameText->SetRelativePos(UPokemonUtil::PixelVector(-119, -9));
+		LevelText->SetRelativePos(UPokemonUtil::PixelVector(48, 0));
+		HpText->SetRelativePos(UPokemonUtil::PixelVector(-5, 0));
+		CurHpText->SetRelativePos(UPokemonUtil::PixelVector(-24, 0));
+		
+		EntryNameTexts.push_back(NameText);
+		EntryLevelTexts.push_back(LevelText);
+		EntryHpTexts.push_back(HpText);
+		EntryCurHpTexts.push_back(CurHpText);
+	}
 }
 
 void UPokemonUILevelManager::Tick(float _DeltaTime)

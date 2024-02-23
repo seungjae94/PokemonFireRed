@@ -107,6 +107,9 @@ and POKéMON as data via PC.)"
 	UBulbasaur Pokemon0 = UBulbasaur();
 	UBulbasaur Pokemon1 = UBulbasaur();
 	UBulbasaur Pokemon2 = UBulbasaur();
+	Pokemon0.HealAll();
+	Pokemon1.HealAll();
+	Pokemon2.HealAll();
 	UPlayerData::AddPokemonToEntry(Pokemon0);
 	UPlayerData::AddPokemonToEntry(Pokemon1);
 	UPlayerData::AddPokemonToEntry(Pokemon2);

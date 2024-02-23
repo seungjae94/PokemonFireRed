@@ -21,19 +21,22 @@ void APokemonText::SetRelativePos(FVector _PivotRelativePos)
 void APokemonText::FollowContainer()
 {
 	FVector Pivot;
+	FTransform ContainerTrans = Container->GetTransform();
+	float ContainerWidth = ContainerTrans.GetScale().X;
+	float ContainerHeight = ContainerTrans.GetScale().Y;
 	switch (PivotType)
 	{
 	case EPivotType::LeftTop:
-		Pivot = Container->GetTransform().LeftTop();
+		Pivot = ContainerTrans.LeftTop();
 		break;
 	case EPivotType::LeftBot:
-		Pivot = Container->GetTransform().LeftBottom();
+		Pivot = ContainerTrans.LeftTop() + FVector(0.0f, ContainerHeight - 3.0f);
 		break;
 	case EPivotType::RightTop:
-		Pivot = Container->GetTransform().RightTop();
+		Pivot = ContainerTrans.LeftTop() + FVector(ContainerWidth - 3.0f, 0.0f);
 		break;
 	case EPivotType::RightBot:
-		Pivot = Container->GetTransform().RightBottom();
+		Pivot = ContainerTrans.LeftTop() + FVector(ContainerWidth - 3.0f, ContainerHeight - 3.0f);
 		break;
 	case EPivotType::Center:
 		Pivot = Container->GetTransform().GetPosition();
@@ -51,7 +54,7 @@ void APokemonText::FollowContainer()
 		AbsolutePos -= FVector(LineWidth / 2, 0);
 		break;
 	case EAlignType::Right:
-		AbsolutePos -= FVector(LineWidth - 1, 0);
+		AbsolutePos -= FVector(LineWidth - 3, 0);
 		break;
 	default:
 		break;
