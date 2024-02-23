@@ -30,17 +30,26 @@ void APokemonText::FollowContainer()
 		Pivot = ContainerTrans.LeftTop();
 		break;
 	case EPivotType::LeftBot:
-		Pivot = ContainerTrans.LeftTop() + FVector(0.0f, ContainerHeight - 3.0f);
+		Pivot = ContainerTrans.LeftTop() + FVector(0.0f, ContainerHeight - Global::FloatPixelSize);
 		break;
 	case EPivotType::RightTop:
-		Pivot = ContainerTrans.LeftTop() + FVector(ContainerWidth - 3.0f, 0.0f);
+		Pivot = ContainerTrans.LeftTop() + FVector(ContainerWidth - Global::FloatPixelSize, 0.0f);
 		break;
 	case EPivotType::RightBot:
-		Pivot = ContainerTrans.LeftTop() + FVector(ContainerWidth - 3.0f, ContainerHeight - 3.0f);
+		Pivot = ContainerTrans.LeftTop() + FVector(ContainerWidth - Global::FloatPixelSize, ContainerHeight - Global::FloatPixelSize);
 		break;
-	case EPivotType::Center:
-		Pivot = Container->GetTransform().GetPosition();
-		break;
+	case EPivotType::CenterTop:
+	{
+		int PixelContainerWidth = std::lround(ContainerWidth / 3.0f);
+		Pivot = ContainerTrans.LeftTop() + UPokemonUtil::PixelVector(PixelContainerWidth / 2, 0);
+	}
+	break;
+	case EPivotType::CenterBot:
+	{
+		int PixelContainerWidth = std::lround(ContainerWidth / 3.0f);
+		Pivot = ContainerTrans.LeftTop() + UPokemonUtil::PixelVector(PixelContainerWidth / 2, 0) + FVector(0.0f, ContainerHeight - Global::FloatPixelSize);
+	}
+	break;
 	default:
 		break;
 	}
@@ -51,10 +60,13 @@ void APokemonText::FollowContainer()
 	case EAlignType::Left:
 		break;
 	case EAlignType::Center:
-		AbsolutePos -= FVector(LineWidth / 2, 0);
-		break;
+	{
+		int PixelLineWidth = LineWidth / Global::PixelSize;
+		AbsolutePos -= UPokemonUtil::PixelVector(PixelLineWidth / 2, 0);
+	}
+	break;
 	case EAlignType::Right:
-		AbsolutePos -= FVector(LineWidth - 3, 0);
+		AbsolutePos -= FVector(LineWidth - Global::PixelSize, 0);
 		break;
 	default:
 		break;

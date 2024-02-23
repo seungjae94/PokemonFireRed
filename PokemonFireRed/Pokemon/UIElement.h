@@ -9,7 +9,8 @@ enum class EPivotType
 	LeftBot,
 	RightTop,
 	RightBot,
-	Center
+	CenterTop,
+	CenterBot,
 };
 
 class AUIElement : public AActor

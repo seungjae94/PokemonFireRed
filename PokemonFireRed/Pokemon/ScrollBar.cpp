@@ -35,7 +35,7 @@ void AScrollBar::FollowContainer()
 	case EPivotType::RightBot:
 		Pivot = ContainerTrans.LeftTop() + FVector(ContainerWidth - 3.0f, ContainerHeight - 3.0f);
 		break;
-	case EPivotType::Center:
+	case EPivotType::CenterTop:
 		Pivot = Container->GetTransform().GetPosition();
 		break;
 	default:

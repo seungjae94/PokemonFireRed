@@ -45,13 +45,13 @@ void AMapNameWindow::BeginPlay()
 	FVector ImageRenderScale = Image->GetScale() * Global::FloatPixelSize;
 	ShowPos = ImageRenderScale.Half2D() + UPokemonUtil::PixelVector(2, 0);
 	HidePos = ShowPos - FVector(0.0f, ImageRenderScale.Y);
-	SetActorLocation(HidePos);
-	Renderer->SetTransform({ FVector::Zero, ImageRenderScale });
+	Renderer->SetTransform({ HidePos, ImageRenderScale });
 
 	// 텍스트 설정
 	UPokemonLevel* CurLevel = dynamic_cast<UPokemonLevel*>(GetWorld());
-	MapNameText = CurLevel->SpawnText(Renderer, EPivotType::Center, EAlignType::Center);
+	MapNameText = CurLevel->SpawnText(Renderer, EPivotType::CenterBot, EAlignType::Center);
 	MapNameText->SetColor(EFontColor::Gray);
+	MapNameText->SetRelativePos(UPokemonUtil::PixelVector(0, -8));
 	MapNameText->FollowContainer();
 }
 
@@ -80,7 +80,7 @@ void AMapNameWindow::OpenTick(float _DeltaTime)
 	CurChangeTime -= _DeltaTime;
 		
 	FVector Pos = UPokemonMath::Lerp(ShowPos, HidePos, CurChangeTime / ChangeTime);
-	SetActorLocation(Pos);
+	Renderer->SetPosition(Pos);
 	MapNameText->FollowContainer();
 
 	if (CurChangeTime < 0.0f)
@@ -93,6 +93,7 @@ void AMapNameWindow::OpenTick(float _DeltaTime)
 void AMapNameWindow::ShowTick(float _DeltaTime)
 {
 	CurChangeTime -= _DeltaTime;
+	MapNameText->FollowContainer();
 
 	if (CurChangeTime < 0.0f)
 	{
@@ -106,7 +107,7 @@ void AMapNameWindow::CloseTick(float _DeltaTime)
 	CurChangeTime -= _DeltaTime;
 	
 	FVector Pos = UPokemonMath::Lerp(HidePos, ShowPos, CurChangeTime / ChangeTime);
-	SetActorLocation(Pos);
+	Renderer->SetPosition(Pos);
 	MapNameText->FollowContainer();
 
 	if (CurChangeTime < 0.0f)
