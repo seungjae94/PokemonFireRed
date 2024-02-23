@@ -75,6 +75,11 @@ void UPokemonUILevelManager::BeginPlay()
 	FirstHpText->SetSize(EFontSize::Mini);
 	FirstCurHpText->SetSize(EFontSize::Mini);
 
+	FirstNameText->SetColor(EFontColor::WhiteGray);
+	FirstLevelText->SetColor(EFontColor::WhiteGray);
+	FirstHpText->SetColor(EFontColor::WhiteGray);
+	FirstCurHpText->SetColor(EFontColor::WhiteGray);
+
 	UPokemon& First = UPlayerData::GetPokemonInEntry(0);
 	FirstNameText->SetText(First.GetName(), true);
 	FirstLevelText->SetText(std::to_wstring(First.GetLevel()), true);
@@ -98,6 +103,11 @@ void UPokemonUILevelManager::BeginPlay()
 		HpText->SetSize(EFontSize::Mini);
 		CurHpText->SetSize(EFontSize::Mini);
 
+		NameText->SetColor(EFontColor::WhiteGray);
+		LevelText->SetColor(EFontColor::WhiteGray);
+		HpText->SetColor(EFontColor::WhiteGray);
+		CurHpText->SetColor(EFontColor::WhiteGray);
+
 		UPokemon& Pokemon = UPlayerData::GetPokemonInEntry(i);
 		NameText->SetText(Pokemon.GetName(), true);
 		LevelText->SetText(std::to_wstring(Pokemon.GetLevel()), true);
@@ -107,7 +117,7 @@ void UPokemonUILevelManager::BeginPlay()
 		NameText->SetRelativePos(UPokemonUtil::PixelVector(-119, -9));
 		LevelText->SetRelativePos(UPokemonUtil::PixelVector(48, 0));
 		HpText->SetRelativePos(UPokemonUtil::PixelVector(-5, 0));
-		CurHpText->SetRelativePos(UPokemonUtil::PixelVector(-24, 0));
+		CurHpText->SetRelativePos(UPokemonUtil::PixelVector(-25, 0));
 		
 		EntryNameTexts.push_back(NameText);
 		EntryLevelTexts.push_back(LevelText);

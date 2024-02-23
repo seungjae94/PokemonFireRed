@@ -7,7 +7,8 @@ enum class EFontColor
 	Gray,
 	White,
 	Blue,
-	Red
+	Red,
+	WhiteGray
 };
 
 enum class EFontSize
