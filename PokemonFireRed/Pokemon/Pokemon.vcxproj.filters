@@ -43,12 +43,6 @@
     <Filter Include="Level\2. MapLevel\4. Tile">
       <UniqueIdentifier>{2e631f4d-269c-44a0-8975-de30505b0590}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Level\3. UILevel">
-      <UniqueIdentifier>{4d6642c5-eaf8-48c7-88cc-115fe2b883fd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Level\3. UILevel\0. PokemonUI">
-      <UniqueIdentifier>{33359c0e-3911-4572-aaef-924cb5826d41}</UniqueIdentifier>
-    </Filter>
     <Filter Include="0. Util">
       <UniqueIdentifier>{363b44f9-6ba5-4290-afb2-239aea3b0006}</UniqueIdentifier>
     </Filter>
@@ -75,6 +69,9 @@
     </Filter>
     <Filter Include="5. Trigger">
       <UniqueIdentifier>{5afc955f-9fe3-4a6d-bd92-3b7ac4681b20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level\3. PokemonUILevel">
+      <UniqueIdentifier>{4d6642c5-eaf8-48c7-88cc-115fe2b883fd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -210,12 +207,6 @@
     <ClInclude Include="PlayerData.h">
       <Filter>4. Data</Filter>
     </ClInclude>
-    <ClInclude Include="PokemonUILevel.h">
-      <Filter>Level\3. UILevel\0. PokemonUI</Filter>
-    </ClInclude>
-    <ClInclude Include="PokemonUILevelPage.h">
-      <Filter>Level\3. UILevel\0. PokemonUI</Filter>
-    </ClInclude>
     <ClInclude Include="FadeLevelChanger.h">
       <Filter>5. Trigger</Filter>
     </ClInclude>
@@ -233,6 +224,12 @@
     </ClInclude>
     <ClInclude Include="UIElement.h">
       <Filter>2. UI\Custom</Filter>
+    </ClInclude>
+    <ClInclude Include="PokemonUILevel.h">
+      <Filter>Level\3. PokemonUILevel</Filter>
+    </ClInclude>
+    <ClInclude Include="PokemonUILevelPage.h">
+      <Filter>Level\3. PokemonUILevel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -368,12 +365,6 @@
     <ClCompile Include="PlayerData.cpp">
       <Filter>4. Data</Filter>
     </ClCompile>
-    <ClCompile Include="PokemonUILevel.cpp">
-      <Filter>Level\3. UILevel\0. PokemonUI</Filter>
-    </ClCompile>
-    <ClCompile Include="PokemonUILevelPage.cpp">
-      <Filter>Level\3. UILevel\0. PokemonUI</Filter>
-    </ClCompile>
     <ClCompile Include="FadeLevelChanger.cpp">
       <Filter>5. Trigger</Filter>
     </ClCompile>
@@ -388,6 +379,12 @@
     </ClCompile>
     <ClCompile Include="UIElement.cpp">
       <Filter>2. UI\Custom</Filter>
+    </ClCompile>
+    <ClCompile Include="PokemonUILevel.cpp">
+      <Filter>Level\3. PokemonUILevel</Filter>
+    </ClCompile>
+    <ClCompile Include="PokemonUILevelPage.cpp">
+      <Filter>Level\3. PokemonUILevel</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

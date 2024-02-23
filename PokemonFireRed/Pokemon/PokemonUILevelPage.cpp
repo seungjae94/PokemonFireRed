@@ -132,7 +132,7 @@ void UPokemonUILevelPage::BeginPlay()
 	{
 		UPokemon& Pokemon = UPlayerData::GetPokemonInEntry(i);
 
-		APokemonText*  NameText = CreateText(
+		APokemonText* NameText = CreateText(
 			EntryRenderers[i - 1],
 			Pokemon.GetName(),
 			EPivotType::RightBot,
@@ -140,15 +140,15 @@ void UPokemonUILevelPage::BeginPlay()
 			-119, -9,
 			EFontColor::WhiteGray, EFontSize::Mini
 		);
-		APokemonText*  LevelText = CreateText(
+		APokemonText* LevelText = CreateText(
 			EntryRenderers[i - 1],
 			std::to_wstring(Pokemon.GetLevel()),
-			EPivotType::RightBot,
+			EPivotType::LeftBot,
 			EAlignType::Left,
 			48, 0,
 			EFontColor::WhiteGray, EFontSize::Mini
 		);
-		APokemonText*  HpText = CreateText(
+		APokemonText* HpText = CreateText(
 			EntryRenderers[i - 1],
 			std::to_wstring(Pokemon.GetHp()),
 			EPivotType::RightBot,
@@ -156,7 +156,7 @@ void UPokemonUILevelPage::BeginPlay()
 			-5, 0,
 			EFontColor::WhiteGray, EFontSize::Mini
 		);
-		APokemonText*  CurHpText = CreateText(
+		APokemonText* CurHpText = CreateText(
 			EntryRenderers[i - 1],
 			std::to_wstring(Pokemon.GetCurHp()),
 			EPivotType::RightBot,
@@ -349,7 +349,7 @@ void UPokemonUILevelPage::DrawFirst(ETargetImageState _State)
 	const UPokemon& Pokemon = UPlayerData::GetPokemonInEntry(0);
 	EPokedexNo PokedexNo = Pokemon.GetPokedexNo();
 	FirstMiniPokemonRenderer->ChangeAnimation(Global::PokemonMiniPrefix + UPokemon::GetSpeciesName(PokedexNo));
-	FVector MiniRenderScale =  Global::MiniPokemonRenderScale;
+	FVector MiniRenderScale = Global::MiniPokemonRenderScale;
 	FVector MiniPos = FirstRenderer->GetTransform().LeftTop() + MiniAddPos + MiniRenderScale.Half2D();
 	FirstMiniPokemonRenderer->SetTransform({ MiniPos, MiniRenderScale });
 }
