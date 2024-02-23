@@ -222,6 +222,15 @@
     <ClInclude Include="FadeLevelChanger.h">
       <Filter>Global\5. Trigger</Filter>
     </ClInclude>
+    <ClInclude Include="Charmander.h">
+      <Filter>Global\3. Pokemon</Filter>
+    </ClInclude>
+    <ClInclude Include="Squirtle.h">
+      <Filter>Global\3. Pokemon</Filter>
+    </ClInclude>
+    <ClInclude Include="AllPokemons.h">
+      <Filter>Global\3. Pokemon</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PokemonCore.cpp">
@@ -364,6 +373,12 @@
     </ClCompile>
     <ClCompile Include="FadeLevelChanger.cpp">
       <Filter>Global\5. Trigger</Filter>
+    </ClCompile>
+    <ClCompile Include="Charmander.cpp">
+      <Filter>Global\3. Pokemon</Filter>
+    </ClCompile>
+    <ClCompile Include="Squirtle.cpp">
+      <Filter>Global\3. Pokemon</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

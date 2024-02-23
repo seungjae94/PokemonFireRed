@@ -27,8 +27,6 @@ UBulbasaur::UBulbasaur()
 	CatchRate = 45;
 	Friendship = 70;
 
-
-
 	Types.push_back(EPokemonType::Grass);
 	Types.push_back(EPokemonType::Poison);
 }

@@ -4,9 +4,8 @@
 #include "ExteriorDoor.h"
 #include "DialogueActor.h"
 #include "PokemonText.h"
-#include "Pokemon.h"
-#include "Bulbasaur.h"
 #include "PlayerData.h"
+#include "AllPokemons.h"
 
 UExteriorPalletTownLevel::UExteriorPalletTownLevel()
 {
@@ -104,9 +103,9 @@ and POKéMON as data via PC.)"
 	});
 
 	// 디버그용 포켓몬 추가 이벤트
-	UBulbasaur Pokemon0 = UBulbasaur();
-	UBulbasaur Pokemon1 = UBulbasaur();
-	UBulbasaur Pokemon2 = UBulbasaur();
+	UBulbasaur Pokemon0;
+	UCharmander Pokemon1;
+	USquirtle Pokemon2;
 	Pokemon0.HealAll();
 	Pokemon1.HealAll();
 	Pokemon2.HealAll();
