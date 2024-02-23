@@ -476,8 +476,7 @@ bool UEventProcessor::ProcessChat()
 
 	if (false == CurDialogueWindow->IsActive())
 	{
-		CurDialogueWindow->ActiveOn();
-		CurDialogueWindow->AllRenderersActiveOn();
+		CurDialogueWindow->SetActive(true);
 		CurDialogueWindow->SetDialogue(Data.Dialogue, Data.Color, Data.LineSpace, Data.IsSequential);
 		return false;
 	}

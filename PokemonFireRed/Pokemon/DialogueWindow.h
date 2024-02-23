@@ -35,8 +35,7 @@ public:
 		return State;
 	}
 
-	void AllRenderersActiveOn();
-	void AllRenderersActiveOff();
+	void SetActive(bool _Active, float _ActiveTime = 0.0f) override;
 
 	void SetDialogue(const std::vector<std::wstring>& _Dialogue, EFontColor _Color, int _LineSpace = 14, bool _IsSequential = false);
 protected:

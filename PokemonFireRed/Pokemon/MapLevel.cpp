@@ -75,18 +75,15 @@ void UMapLevel::BeginPlay()
 
 	// 메뉴창 생성
 	MenuWindow = SpawnUIElement<AMenuWindow>("MenuWindow");
+	MenuWindow->SetActive(false);
 
 	// 대화창 생성
 	DialogueWindow = SpawnUIElement<ADialogueWindow>("DialogueWindow");
+	DialogueWindow->SetActive(false);
 
 	// 맵 이름 표시창 생성
 	MapNameWindow = SpawnUIElement<AMapNameWindow>("MapNameWindow");
-
-	// UI Off
-	MenuWindow->ActiveOff();
-	MenuWindow->AllRenderersActiveOff();
-	DialogueWindow->ActiveOff();
-	DialogueWindow->AllRenderersActiveOff();
+	MapNameWindow->SetActive(false);
 
 	// 페이드 인 이벤트용 트리거 생성
 	UEventTargetInit Setting; 

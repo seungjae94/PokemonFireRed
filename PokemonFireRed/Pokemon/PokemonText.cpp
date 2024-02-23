@@ -106,10 +106,6 @@ void APokemonText::SetText(std::wstring_view _Text, bool _IsVisible)
 	}
 	else
 	{
-		if (true == _IsVisible)
-		{
-			SetVisible();
-		}
 		RenderEnd = true;
 	}
 }
@@ -169,7 +165,6 @@ void APokemonText::PrepareLine(const std::wstring& _Line, int _Bot)
 		UImageRenderer* Renderer = CreateImageRenderer(ERenderingOrder::Text);
 		Renderer->SetImage(ImageNamePrefix + Rule.ImageName + ".png");
 		Renderer->CameraEffectOff();
-		Renderer->SetActive(false);
 
 		FVector ImageScale = UPokemonUtil::GetImageScale(Renderer);
 		FVector RenderScale = UPokemonUtil::GetRenderScale(Renderer);
@@ -190,16 +185,10 @@ void APokemonText::PrepareLine(const std::wstring& _Line, int _Bot)
 	LineWidth = max(Left, LineWidth);
 }
 
-void APokemonText::SetVisible()
+void APokemonText::BeginPlay()
 {
-	ActiveOn();
-	AllRenderersActiveOn();
-}
-
-void APokemonText::SetInvisible()
-{
-	ActiveOff();
-	AllRenderersActiveOff();
+	AUIElement::BeginPlay();
+	SetActive(false);
 }
 
 void APokemonText::Tick(float _DeltaTime)
@@ -207,12 +196,6 @@ void APokemonText::Tick(float _DeltaTime)
 	if (nullptr == Container)
 	{
 		MsgBoxAssert(GetWorld()->GetName() + ":" + GetName() + " 텍스트에 컨테이너를 설정하지 않았습니다.");
-		return;
-	}
-
-	if (false == Container->IsActive())
-	{
-		SetInvisible();
 		return;
 	}
 

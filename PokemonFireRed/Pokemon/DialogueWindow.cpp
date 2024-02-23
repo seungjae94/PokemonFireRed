@@ -16,16 +16,10 @@ ADialogueWindow::~ADialogueWindow()
 {
 }
 
-void ADialogueWindow::AllRenderersActiveOn()
+void ADialogueWindow::SetActive(bool _Active, float _ActiveTime)
 {
-	DialogueWindowRenderer->ActiveOn();
-	Text->SetVisible();
-}
-
-void ADialogueWindow::AllRenderersActiveOff()
-{
-	DialogueWindowRenderer->ActiveOff();
-	Text->SetInvisible();
+	AUIElement::SetActive(_Active, _ActiveTime);
+	Text->SetActive(_Active, _ActiveTime);
 }
 
 void ADialogueWindow::SetDialogue(const std::vector<std::wstring>& _Dialogue, EFontColor _Color, int _LineSpace, bool _IsSequential)
@@ -86,8 +80,7 @@ void ADialogueWindow::Tick(float _DeltaTime)
 			Index = 0;
 			State = EDialogueWindowState::End;
 			Dialogue.clear();
-			ActiveOff();
-			AllRenderersActiveOff();
+			SetActive(false);
 			return;
 		}
 

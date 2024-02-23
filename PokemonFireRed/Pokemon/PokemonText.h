@@ -83,10 +83,8 @@ public:
 
 	void SetText(std::wstring_view _Text, bool _IsVisible = false);
 
-	void SetVisible();
-	void SetInvisible();
-
 protected:
+	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 private:
 	class GlyphAlignRule

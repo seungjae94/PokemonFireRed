@@ -22,32 +22,19 @@ AMenuWindow::~AMenuWindow()
 
 void AMenuWindow::Open()
 {
-	ActiveOn();
-	AllRenderersActiveOn();
+	SetActive(true);
 	UEventManager::TriggerEvent(MenuWindowOpenTrigger, EEventTriggerAction::Direct);
 }
 
-void AMenuWindow::AllRenderersActiveOn()
+void AMenuWindow::SetActive(bool _Active, float _ActiveTime)
 {
-	MenuWindowRenderer->ActiveOn();
-	MenuWindowExplainRenderer->ActiveOn();
-	ArrowRenderer->ActiveOn();
-	MenuExplainText->SetVisible();
-	for (APokemonText* MenuText : MenuTexts)
-	{
-		MenuText->SetVisible();
-	}
-}
+	AUIElement::SetActive(_Active, _ActiveTime);
 
-void AMenuWindow::AllRenderersActiveOff()
-{
-	MenuWindowRenderer->ActiveOff();
-	MenuWindowExplainRenderer->ActiveOff();
-	ArrowRenderer->ActiveOff();
-	MenuExplainText->SetInvisible();
+	MenuExplainText->SetActive(_Active, _ActiveTime);
+
 	for (APokemonText* MenuText : MenuTexts)
 	{
-		MenuText->SetInvisible();
+		MenuText->SetActive(_Active, _ActiveTime);
 	}
 }
 
@@ -120,8 +107,6 @@ void AMenuWindow::BeginPlay()
 	UEventManager::RegisterEvent(MenuWindowCloseTrigger, Cond,
 		ES::Start(false) >> ES::End(true)
 	);
-
-	AllRenderersActiveOff();
 }
 
 void AMenuWindow::Tick(float _DeltaTime)
@@ -160,14 +145,12 @@ void AMenuWindow::Tick(float _DeltaTime)
 	if (true == UEngineInput::IsDown(VK_DOWN))
 	{
 		IncCursor();
-		MenuExplainText->SetVisible();
 		return;
 	}
 
 	if (true == UEngineInput::IsDown(VK_UP))
 	{
 		DecCursor();
-		MenuExplainText->SetVisible();
 		return;
 	}
 
@@ -231,8 +214,7 @@ void AMenuWindow::MenuAction()
 
 void AMenuWindow::ExitMenu()
 {
-	ActiveOff();
-	AllRenderersActiveOff();
+	SetActive(false);
 	IsFirstTick = true;
 	UEventManager::TriggerEvent(MenuWindowCloseTrigger, EEventTriggerAction::Direct);
 }
@@ -253,15 +235,13 @@ void AMenuWindow::DrawMenuTexts()
 	// 메뉴 텍스트
 	for (int i = 0; i < MenuCount; i++)
 	{
+		MenuTexts[i]->SetActive(true);
 		MenuTexts[i]->SetText(MenuNames[(MenuNames.size() - MenuCount) + i]);
-		MenuTexts[i]->SetVisible();
 		MenuTexts[i]->FollowContainer();
 	}
 	for (int i = MenuCount; i < 5; i++)
 	{
-		MenuTexts[i]->SetText(L"");
-		MenuTexts[i]->SetInvisible();
-		MenuTexts[i]->FollowContainer();
+		MenuTexts[i]->SetActive(false);
 	}
 }
 
@@ -272,8 +252,8 @@ void AMenuWindow::DrawArrow()
 
 void AMenuWindow::DrawExplainText()
 {
+	MenuExplainText->SetActive(true);
 	MenuExplainText->SetText(MenuExplains[GetMenuIndex()]);
-	MenuExplainText->SetVisible();
 }
 
 FVector AMenuWindow::GetArrowPos()

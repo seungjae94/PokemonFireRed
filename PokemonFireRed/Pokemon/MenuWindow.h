@@ -19,9 +19,7 @@ public:
 
 	void Open();
 
-	void AllRenderersActiveOn();
-	void AllRenderersActiveOff();
-
+	void SetActive(bool _Active, float _ActiveTime = 0.0f) override;
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
