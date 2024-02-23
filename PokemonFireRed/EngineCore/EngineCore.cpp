@@ -66,6 +66,7 @@ void UEngineCore::CoreTick()
 
 		MainTimer.TimeCheckStart();
 		DeltaTime = MainTimer.TimeCheck();
+		CurFrameTime = 0.0f;
 	}
 
 	// 예외 처리: 현재 레벨이 설정되지 않은 경우

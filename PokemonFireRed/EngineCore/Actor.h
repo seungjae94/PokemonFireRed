@@ -62,13 +62,6 @@ public:
 	}
 
 	template<typename EnumType>
-	UCollision* CreateCollision(int _Order = 0)
-	{
-
-	}
-
-
-	template<typename EnumType>
 	UCollision* CreateCollision(EnumType _Order = 0)
 	{
 		return CreateCollision(static_cast<int>(_Order));
@@ -96,6 +89,7 @@ public:
 
 	void DestroyUpdate(float _DeltaTime) override;
 
+	void SetActive(bool _Active, float _ActiveTime = 0.0f) override;
 	void ActiveUpdate(float _DeltaTime) override;
 
 	// Actor가 살아있을 때, 렌더러와 콜리전이 Destory 된다면 액터가 직접 삭제한다.
