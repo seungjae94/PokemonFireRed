@@ -1,8 +1,7 @@
 #pragma once
 #include "PokemonLevel.h"
 #include "FadeLevelChanger.h"
-
-class UPokemonUILevelPage;
+#include "PokemonUILevelPage.h"
 
 class UPokemonUILevel : public UPokemonLevel
 {
@@ -16,6 +15,11 @@ public:
 	UPokemonUILevel(UPokemonUILevel&& _Other) noexcept = delete;
 	UPokemonUILevel& operator=(const UPokemonUILevel& _Other) = delete;
 	UPokemonUILevel& operator=(UPokemonUILevel&& _Other) noexcept = delete;
+
+	UPokemon* GetTargetPokemon()
+	{
+		return Manager->GetTargetPokemon();
+	}
 
 protected:
 	void BeginPlay() override;

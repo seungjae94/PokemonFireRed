@@ -219,9 +219,6 @@
     <ClInclude Include="Squirtle.h">
       <Filter>3. Pokemon</Filter>
     </ClInclude>
-    <ClInclude Include="AllPokemons.h">
-      <Filter>3. Pokemon</Filter>
-    </ClInclude>
     <ClInclude Include="ScrollBar.h">
       <Filter>2. UI\Element</Filter>
     </ClInclude>
@@ -245,6 +242,12 @@
     </ClInclude>
     <ClInclude Include="PokemonSummaryPage.h">
       <Filter>Level\3. PokemonUILevel\SummaryLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="AllUIElements.h">
+      <Filter>0. Util</Filter>
+    </ClInclude>
+    <ClInclude Include="AllPokemons.h">
+      <Filter>0. Util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

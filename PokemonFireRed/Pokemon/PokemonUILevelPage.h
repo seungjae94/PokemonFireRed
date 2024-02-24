@@ -33,6 +33,16 @@ public:
 		PrevMapLevelName = _Name;
 	}
 
+	UPokemon* GetTargetPokemon()
+	{
+		if (true == IsCancel(TargetCursor))
+		{
+			return nullptr;
+		}
+
+		return &UPlayerData::GetPokemonInEntry(TargetCursor);
+	}
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;

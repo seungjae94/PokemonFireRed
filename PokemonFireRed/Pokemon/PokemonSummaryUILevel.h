@@ -17,6 +17,7 @@ public:
 
 protected:
 	void BeginPlay() override;
+	void LevelStart(ULevel* _PrevLevel) override;
 	void Tick(float _DeltaTime) override;
 private:
 	APokemonSummaryPage* Page = nullptr;

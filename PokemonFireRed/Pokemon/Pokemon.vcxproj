@@ -171,6 +171,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AllPokemons.h" />
+    <ClInclude Include="AllUIElements.h" />
     <ClInclude Include="AnimatedFlower.h">
       <SubType>
       </SubType>
