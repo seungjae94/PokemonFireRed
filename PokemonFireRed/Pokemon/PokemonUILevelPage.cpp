@@ -52,16 +52,18 @@ void UPokemonUILevelPage::BeginPlay()
 		FVector Pos = UPokemonUtil::GetRightBotAlignPos(RenderScale);
 		Pos += UPokemonUtil::PixelVector(-1, -1);
 		ActionBoxRenderer->SetTransform({ Pos, RenderScale });
-		ActionBoxRenderer->SetActive(false);
 	}
 
 	// 액션 선택 커서 이미지
 	{
-		ActionCursorRenderer = CreateImageRenderer(ERenderingOrder::Text);
-		ActionCursorRenderer->SetImage(Global::BlackCursorImageName);
-		RefreshCursor();
-		ActionCursorRenderer->SetActive(false);
+		ActionCursor = CreateCursor(
+			ActionBoxRenderer,
+			0, 4,
+			EPivotType::LeftTop,
+			8, 11, 16
+		);
 	}
+	ActionBoxRenderer->SetActive(false);
 
 	// 엔트리 박스
 	FirstRenderer = CreateImageRenderer(ERenderingOrder::UpperUI);
@@ -192,6 +194,8 @@ void UPokemonUILevelPage::BeginPlay()
 
 void UPokemonUILevelPage::Tick(float _DeltaTime)
 {
+	APage::Tick(_DeltaTime);
+
 	switch (State)
 	{
 	case EPokemonUIState::TargetSelectionWait:
@@ -313,7 +317,6 @@ void UPokemonUILevelPage::TargetSelect()
 		LongMsgBoxRenderer->SetActive(false);
 		ShortMsgBoxRenderer->SetActive(true);
 		ActionBoxRenderer->SetActive(true);
-		ActionCursorRenderer->SetActive(true);
 	}
 }
 
@@ -450,26 +453,12 @@ void UPokemonUILevelPage::ActionSelectionWaitTick(float _DeltaTime)
 {
 	if (UEngineInput::IsDown(VK_UP))
 	{
-		MoveActionCursor(UPokemonMath::Mod(ActionCursor - 1, 4));
+		ActionCursor->DecCursor();
 	}
 	else if (UEngineInput::IsDown(VK_DOWN))
 	{
-		MoveActionCursor(UPokemonMath::Mod(ActionCursor + 1, 4));
+		ActionCursor->IncCursor();
 	}
-}
-
-void UPokemonUILevelPage::MoveActionCursor(int _Cursor)
-{
-	ActionCursor = _Cursor;
-	RefreshCursor();
-}
-
-void UPokemonUILevelPage::RefreshCursor()
-{
-	FVector ArrowRenderScale = UPokemonUtil::GetRenderScale(ActionCursorRenderer);
-	FVector ArrowPos = UPokemonUtil::GetMatchLeftTop(ArrowRenderScale, ActionBoxRenderer->GetTransform());
-	ArrowPos += UPokemonUtil::PixelVector(8, 11 + ActionCursor * 16);
-	ActionCursorRenderer->SetTransform({ArrowPos, ArrowRenderScale});
 }
 
 void UPokemonUILevelPage::SwitchTick(float _DeltaTime)

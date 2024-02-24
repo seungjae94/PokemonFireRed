@@ -73,7 +73,6 @@ public:
 		}
 	}
 
-	void SetRelativePos(FVector _PivotRelativePos);
 	void FollowContainer() override;
 
 	void SetLineSpace(int _LineSpace)
@@ -96,9 +95,6 @@ private:
 		int Base = 0;
 	};
 
-	UImageRenderer* Container = nullptr;
-	FVector RelativePos = FVector::Zero;
-	EPivotType PivotType = EPivotType::LeftTop;
 	EAlignType AlignType = EAlignType::Left;
 	EFontColor Color = EFontColor::White;
 	EFontSize Size = EFontSize::Normal;

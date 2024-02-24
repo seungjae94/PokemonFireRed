@@ -56,11 +56,9 @@ you bought, received, or found.)",
 
 
 	// 커서 관련
-	static int Cursor;
+	ACursor* Cursor = nullptr;
+	static int CursorValue;
 	static int MenuCount;
-	void IncCursor();
-	void DecCursor();
-	void MoveCursor(int _Cursor);
 
 	// 현재 커서 위치에 따라 메뉴 액션 실행
 	void MenuAction();
@@ -68,13 +66,12 @@ you bought, received, or found.)",
 	
 	int GetMenuIndex()
 	{
-		return static_cast<int>(MenuNames.size() - MenuCount + Cursor);
+		return static_cast<int>(MenuNames.size() - MenuCount + CursorValue);
 	}
 
-	void DrawMenuWindow();
-	void DrawMenuTexts();
-	void DrawArrow();
-	void DrawExplainText();
+	void RefreshMenuWindow();
+	void RefreshMenuTexts();
+	void RefreshExplainText();
 	
 	FVector GetArrowPos();
 };

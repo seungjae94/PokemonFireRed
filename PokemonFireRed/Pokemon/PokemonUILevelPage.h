@@ -48,7 +48,7 @@ private:
 	UImageRenderer* LongMsgBoxRenderer = nullptr;
 	UImageRenderer* ShortMsgBoxRenderer = nullptr;
 	UImageRenderer* ActionBoxRenderer = nullptr;
-	UImageRenderer* ActionCursorRenderer = nullptr;
+	ACursor* ActionCursor = nullptr;
 
 	UImageRenderer* FirstRenderer = nullptr;
 	UImageRenderer* FirstMiniPokemonRenderer = nullptr;
@@ -82,10 +82,7 @@ private:
 	void DrawEntry(ETargetImageState _State, int _Index);
 	void DrawCancel(ETargetImageState _State);
 
-	int ActionCursor = 0;
 	void ActionSelectionWaitTick(float _DeltaTime);
-	void MoveActionCursor(int _Cursor);
-	void RefreshCursor();
 
 	void SwitchTick(float _DeltaTime);
 

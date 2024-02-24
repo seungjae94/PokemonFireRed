@@ -1,5 +1,6 @@
 #pragma once
 #include <EngineCore/Actor.h>
+#include "PokemonUtil.h"
 
 enum class EPivotType
 {
@@ -24,10 +25,14 @@ public:
 	AUIElement& operator=(const AUIElement& _Other) = delete;
 	AUIElement& operator=(AUIElement&& _Other) noexcept = delete;
 
-	virtual void FollowContainer() {}
+	virtual void SetRelativePos(FVector _PivotRelativePos);
+	virtual void FollowContainer();
 
 protected:
-
+	UImageRenderer* Container = nullptr;
+	FVector Pivot = FVector::Zero;
+	FVector RelativePos = FVector::Zero;
+	EPivotType PivotType = EPivotType::LeftTop;
 private:
 
 };

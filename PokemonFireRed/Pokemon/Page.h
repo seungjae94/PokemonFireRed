@@ -2,6 +2,7 @@
 #include <EngineCore/Actor.h>
 #include "PokemonText.h"
 #include "ScrollBar.h"
+#include "Cursor.h"
 
 class UEventProcessor;
 
@@ -40,6 +41,16 @@ public:
 		EPivotType _PivotType = EPivotType::LeftTop,
 		int _RelativePixelX = 0,
 		int _RelativePixelY = 0
+	);
+
+	ACursor* CreateCursor(
+		UImageRenderer* _Container,
+		int _Cursor,
+		int _OptionCount,
+		EPivotType _PivotType = EPivotType::LeftTop,
+		int _RelativePixelX = 0,
+		int _RelativePixelY = 0,
+		int _PixelGap = 16
 	);
 
 	UImageRenderer* CreateLeftTopAlignedRenderer()

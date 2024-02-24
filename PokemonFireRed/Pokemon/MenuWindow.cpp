@@ -13,7 +13,7 @@
 #include "PlayerData.h"
 
 int AMenuWindow::MenuCount = 3;
-int AMenuWindow::Cursor = 0;
+int AMenuWindow::CursorValue = 0;
 
 AMenuWindow::AMenuWindow()
 {
@@ -47,7 +47,7 @@ void AMenuWindow::BeginPlay()
 	// 우상단 메뉴창
 	MenuWindowRenderer = CreateImageRenderer(ERenderingOrder::LowerUI);
 	MenuWindowRenderer->CameraEffectOff();
-	DrawMenuWindow();
+	RefreshMenuWindow();
 
 	for (int i = 0; i < 5; i++)
 	{
@@ -61,7 +61,7 @@ void AMenuWindow::BeginPlay()
 		);
 		MenuTexts.push_back(MenuText);
 	}
-	DrawMenuTexts();
+	RefreshMenuTexts();
 	
 	// 하단 메뉴 설명창
 	MenuWindowExplainRenderer = CreateImageRenderer(ERenderingOrder::LowerUI);
@@ -82,19 +82,18 @@ void AMenuWindow::BeginPlay()
 	);
 
 	// 메뉴창 커서
-	ArrowRenderer = CreateImageRenderer(ERenderingOrder::LowerUI);
-	ArrowRenderer->CameraEffectOff();
-	ArrowRenderer->SetImage(Global::BlackCursorImageName);
-
-	FVector ArrowRenderScale = UPokemonUtil::GetRenderScale(ArrowRenderer);
-	ArrowRenderer->SetScale(ArrowRenderScale);
-
-	FVector ArrowPos = GetArrowPos();
-	ArrowRenderer->SetPosition(ArrowPos);
+	Cursor = CreateCursor(
+		MenuWindowRenderer,
+		CursorValue, MenuCount,
+		EPivotType::LeftTop,
+		8, 9, 15
+	);
 }
 
 void AMenuWindow::Tick(float _DeltaTime)
 {
+	APage::Tick(_DeltaTime);
+
 	// 이벤트 매니저가 MenuWindow를 ActiveOn한 다음 틱부터 로직을 실행한다.
 	// - ActiveOn한 틱에는 UEngineInput::IsDown(VK_RETURN) 값이 true로 들어가 있기 때문이다.
 	if (IsFirstTick)
@@ -107,16 +106,18 @@ void AMenuWindow::Tick(float _DeltaTime)
 	if (true == UPlayerData::IsAchieved(EAchievement::GetPokedex) && MenuCount == 4)
 	{
 		MenuCount = 5;
-		DrawMenuWindow();
-		DrawMenuTexts();
-		DrawExplainText();
+		Cursor->SetOptionCount(MenuCount);
+		RefreshMenuWindow();
+		RefreshMenuTexts();
+		RefreshExplainText();
 	}
 	else if (true == UPlayerData::IsAchieved(EAchievement::GetFirstPokemon) && MenuCount == 3)
 	{
 		MenuCount = 4;
-		DrawMenuWindow();
-		DrawMenuTexts();
-		DrawExplainText();
+		Cursor->SetOptionCount(MenuCount);
+		RefreshMenuWindow();
+		RefreshMenuTexts();
+		RefreshExplainText();
 	}
 
 	// 메뉴창 끄기
@@ -128,13 +129,17 @@ void AMenuWindow::Tick(float _DeltaTime)
 
 	if (true == UEngineInput::IsDown(VK_DOWN))
 	{
-		IncCursor();
+		Cursor->IncCursor();
+		UEngineDebug::OutPutDebugText(std::to_string(Cursor->GetCursor()));
+		UEngineDebug::OutPutDebugText(Cursor->GetActorLocation().ToString());
+		RefreshExplainText();
 		return;
 	}
 
 	if (true == UEngineInput::IsDown(VK_UP))
 	{
-		DecCursor();
+		Cursor->DecCursor();
+		RefreshExplainText();
 		return;
 	}
 
@@ -147,35 +152,9 @@ void AMenuWindow::Tick(float _DeltaTime)
 
 void AMenuWindow::Refresh()
 {
-	DrawMenuWindow();
-	DrawMenuTexts();
-	DrawExplainText();
-	DrawArrow();
-}
-
-void AMenuWindow::IncCursor()
-{
-	int NextCursor = (Cursor + 1) % MenuCount;
-	MoveCursor(NextCursor);
-}
-
-void AMenuWindow::DecCursor()
-{
-	int NextCursor = (Cursor - 1 + MenuCount) % MenuCount;
-	MoveCursor(NextCursor);
-}
-
-void AMenuWindow::MoveCursor(int _Cursor)
-{
-	if (_Cursor < 0 || _Cursor >= MenuCount)
-	{
-		MsgBoxAssert("메뉴창 커서 위치가 0 미만이거나 OptionCount 이상입니다.");
-		return;
-	}
-
-	Cursor = _Cursor;
-	DrawArrow();
-	DrawExplainText();
+	RefreshMenuWindow();
+	RefreshMenuTexts();
+	RefreshExplainText();
 }
 
 void AMenuWindow::MenuAction()
@@ -204,7 +183,7 @@ void AMenuWindow::MenuAction()
 	}
 }
 
-void AMenuWindow::DrawMenuWindow()
+void AMenuWindow::RefreshMenuWindow()
 {
 	// 메뉴창
 	std::string ImageName = "MenuWindow" + std::to_string(MenuCount) + ".png";
@@ -215,7 +194,7 @@ void AMenuWindow::DrawMenuWindow()
 	MenuWindowRenderer->SetTransform({ MenuWindowPos, MenuWindowRenderScale });
 }
 
-void AMenuWindow::DrawMenuTexts()
+void AMenuWindow::RefreshMenuTexts()
 {
 	// 메뉴 텍스트
 	for (int i = 0; i < MenuCount; i++)
@@ -229,21 +208,8 @@ void AMenuWindow::DrawMenuTexts()
 	}
 }
 
-void AMenuWindow::DrawArrow()
-{
-	ArrowRenderer->SetPosition(GetArrowPos());
-}
-
-void AMenuWindow::DrawExplainText()
+void AMenuWindow::RefreshExplainText()
 {
 	MenuExplainText->SetActive(true);
 	MenuExplainText->SetText(MenuExplains[GetMenuIndex()]);
-}
-
-FVector AMenuWindow::GetArrowPos()
-{
-	FVector ArrowRenderScale = ArrowRenderer->GetTransform().GetScale();
-	FVector ArrowPos = UPokemonUtil::GetMatchLeftTop(ArrowRenderScale, MenuWindowRenderer->GetTransform());
-	ArrowPos += UPokemonUtil::PixelVector(8, 9 + Cursor * 15);
-	return ArrowPos;
 }

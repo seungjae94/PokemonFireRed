@@ -9,42 +9,6 @@ AScrollBar::~AScrollBar()
 {
 }
 
-void AScrollBar::SetRelativePos(FVector _PivotRelativePos)
-{
-	RelativePos = _PivotRelativePos;
-	FollowContainer();
-}
-
-void AScrollBar::FollowContainer()
-{
-	FVector Pivot;
-	FTransform ContainerTrans = Container->GetTransform();
-	float ContainerWidth = ContainerTrans.GetScale().X;
-	float ContainerHeight = ContainerTrans.GetScale().Y;
-	switch (PivotType)
-	{
-	case EPivotType::LeftTop:
-		Pivot = ContainerTrans.LeftTop();
-		break;
-	case EPivotType::LeftBot:
-		Pivot = ContainerTrans.LeftTop() + FVector(0.0f, ContainerHeight - 3.0f);
-		break;
-	case EPivotType::RightTop:
-		Pivot = ContainerTrans.LeftTop() + FVector(ContainerWidth - 3.0f, 0.0f);
-		break;
-	case EPivotType::RightBot:
-		Pivot = ContainerTrans.LeftTop() + FVector(ContainerWidth - 3.0f, ContainerHeight - 3.0f);
-		break;
-	case EPivotType::CenterTop:
-		Pivot = Container->GetTransform().GetPosition();
-		break;
-	default:
-		break;
-	}
-
-	SetActorLocation(Pivot + RelativePos);
-}
-
 void AScrollBar::DrawHp(int _Value)
 {
 	float Prop = _Value / static_cast<float>(MaxValue);

@@ -231,6 +231,9 @@
     <ClInclude Include="PokemonUILevelPage.h">
       <Filter>Level\3. PokemonUILevel</Filter>
     </ClInclude>
+    <ClInclude Include="Cursor.h">
+      <Filter>2. UI\Element</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PokemonCore.cpp">
@@ -385,6 +388,9 @@
     </ClCompile>
     <ClCompile Include="PokemonUILevelPage.cpp">
       <Filter>Level\3. PokemonUILevel</Filter>
+    </ClCompile>
+    <ClCompile Include="Cursor.cpp">
+      <Filter>2. UI\Element</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

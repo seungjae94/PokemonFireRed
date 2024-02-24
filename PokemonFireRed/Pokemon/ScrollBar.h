@@ -8,8 +8,6 @@ enum class EScrollType
 	Exp,
 };
 
-enum class EPivotType;
-
 class AScrollBar : public AUIElement
 {
 	friend class APage;
@@ -49,15 +47,9 @@ public:
 		}
 	}
 
-	void SetRelativePos(FVector _PivotRelativePos);
-	void FollowContainer() override;
-
 protected:
 
 private:
-	UImageRenderer* Container = nullptr;
-	FVector RelativePos = FVector::Zero;
-	EPivotType PivotType = EPivotType::LeftTop;
 	std::vector<UImageRenderer*> Renderers;
 
 	int MaxValue = 0;

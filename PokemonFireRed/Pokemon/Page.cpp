@@ -73,6 +73,19 @@ AScrollBar* APage::CreateScrollBar(
 	return Bar;
 }
 
+ACursor* APage::CreateCursor(UImageRenderer* _Container, int _Cursor, int _OptionCount, EPivotType _PivotType, int _RelativePixelX, int _RelativePixelY, int _PixelGap)
+{
+	ACursor* Cursor = GetWorld()->SpawnActor<ACursor>();
+	Cursor->Container = _Container;
+	Cursor->PivotType = _PivotType;
+	Cursor->PixelGap = _PixelGap;
+	Cursor->OptionCount = _OptionCount;
+	Cursor->SetRelativePos(UPokemonUtil::PixelVector(_RelativePixelX, _RelativePixelY));
+	Cursor->SetCursor(_Cursor);
+	Elements[_Container].push_back(Cursor);
+	return Cursor;
+}
+
 void APage::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
