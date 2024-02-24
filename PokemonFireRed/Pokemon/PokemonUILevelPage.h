@@ -83,6 +83,7 @@ private:
 	void DrawCancel(ETargetImageState _State);
 
 	void ActionSelectionWaitTick(float _DeltaTime);
+	void ActionSelect();
 
 	void SwitchTick(float _DeltaTime);
 

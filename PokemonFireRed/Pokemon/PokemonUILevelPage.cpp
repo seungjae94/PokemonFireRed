@@ -58,7 +58,7 @@ void UPokemonUILevelPage::BeginPlay()
 	{
 		ActionCursor = CreateCursor(
 			ActionBoxRenderer,
-			0, 4,
+			0, 3,
 			EPivotType::LeftTop,
 			8, 11, 16
 		);
@@ -463,6 +463,29 @@ void UPokemonUILevelPage::ActionSelectionWaitTick(float _DeltaTime)
 	{
 		State = EPokemonUIState::TargetSelectionWait;
 		ActionBoxRenderer->SetActive(false);
+	}
+	else if (UEngineInput::IsDown('Z'))
+	{
+		ActionSelect();
+	}
+}
+
+void UPokemonUILevelPage::ActionSelect()
+{
+	switch (ActionCursor->GetCursor())
+	{
+	case 0:
+		// PokemonSummaryUI 레벨로 전환
+		break;
+	case 1:
+		// Switch 상태로 전환
+		break;
+	case 2:
+		State = EPokemonUIState::TargetSelectionWait;
+		ActionBoxRenderer->SetActive(false);
+		break;
+	default:
+		break;
 	}
 }
 
