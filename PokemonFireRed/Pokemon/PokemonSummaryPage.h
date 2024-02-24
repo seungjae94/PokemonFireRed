@@ -3,6 +3,14 @@
 #include "PokemonText.h"
 #include "PokemonIcon.h"
 
+enum class EPokemonSummaryPageState
+{
+	Info,
+	Skills,
+	Moves,
+	MovesDetail,
+};
+
 class APokemonSummaryPage : public APage
 {
 public:
@@ -27,6 +35,11 @@ protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 private:
+	// FSM
+	EPokemonSummaryPageState State = EPokemonSummaryPageState::Info;
+	void InfoTick(float _DeltaTime);
+
+	// ตฅภฬลอ
 	UPokemon* Pokemon = nullptr;
 	UImageRenderer* Background = nullptr;
 	UImageRenderer* CommonBox = nullptr;

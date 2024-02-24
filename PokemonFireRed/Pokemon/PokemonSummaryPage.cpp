@@ -1,5 +1,7 @@
 #include "PokemonSummaryPage.h"
+#include <EnginePlatform/EngineInput.h>
 #include "PokemonString.h"
+#include "PokemonLevel.h"
 
 APokemonSummaryPage::APokemonSummaryPage()
 {
@@ -119,4 +121,28 @@ void APokemonSummaryPage::RefreshAll()
 void APokemonSummaryPage::Tick(float _DeltaTime)
 {
 	APage::Tick(_DeltaTime);
+
+	switch (State)
+	{
+	case EPokemonSummaryPageState::Info:
+		InfoTick(_DeltaTime);
+		break;
+	case EPokemonSummaryPageState::Skills:
+		break;
+	case EPokemonSummaryPageState::Moves:
+		break;
+	case EPokemonSummaryPageState::MovesDetail:
+		break;
+	default:
+		break;
+	}
+}
+
+void APokemonSummaryPage::InfoTick(float _DeltaTime)
+{
+	if (true == UEngineInput::IsDown('Z') || true == UEngineInput::IsDown('X'))
+	{
+		UPokemonLevel* CurLevel = dynamic_cast<UPokemonLevel*>(GetWorld());
+		CurLevel->ChangeLevelFade(Global::PokemonUILevel, 0.3f, 0.3f);
+	}
 }
