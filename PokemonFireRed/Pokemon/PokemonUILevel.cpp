@@ -23,7 +23,7 @@ void UPokemonUILevel::BeginPlay()
 	CurDir.Move("Resources");
 	CurDir.Move("UIPokemonLevel");
 
-	std::list<UEngineFile> Files = CurDir.AllFile();
+	std::list<UEngineFile> Files = CurDir.AllFile({".bmp", ".png"}, true);
 	for (UEngineFile& File : Files)
 	{
 		UEngineResourcesManager::GetInst().LoadImg(File.GetFullPath());

@@ -61,10 +61,12 @@ public:
 		int _RelativePixelY = 0
 	);
 
-	UImageRenderer* CreateLeftTopAlignedRenderer()
-	{
-		return nullptr;
-	}
+	void PlaceImage(
+		UImageRenderer* _Renderer, 
+		EPivotType _PivotType = EPivotType::LeftTop,
+		int _ScreenPixelX = 0, 
+		int _ScreenPixelY = 0
+	);
 
 protected:
 	virtual void Sync(APage* _Other) {}

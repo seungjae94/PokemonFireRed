@@ -73,6 +73,9 @@
     <Filter Include="2. UI\Element">
       <UniqueIdentifier>{677805ca-4377-4cce-a9e1-846959bd5647}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Level\3. PokemonUILevel\SummaryLevel">
+      <UniqueIdentifier>{29fdf0d7-262d-4e47-913c-54d49556092d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PokemonCore.h">
@@ -237,6 +240,12 @@
     <ClInclude Include="PokemonIcon.h">
       <Filter>2. UI\Element</Filter>
     </ClInclude>
+    <ClInclude Include="PokemonSummaryUILevel.h">
+      <Filter>Level\3. PokemonUILevel\SummaryLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="PokemonSummaryPage.h">
+      <Filter>Level\3. PokemonUILevel\SummaryLevel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PokemonCore.cpp">
@@ -397,6 +406,12 @@
     </ClCompile>
     <ClCompile Include="PokemonIcon.cpp">
       <Filter>2. UI\Element</Filter>
+    </ClCompile>
+    <ClCompile Include="PokemonSummaryPage.cpp">
+      <Filter>Level\3. PokemonUILevel\SummaryLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="PokemonSummaryUILevel.cpp">
+      <Filter>Level\3. PokemonUILevel\SummaryLevel</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

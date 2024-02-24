@@ -7,6 +7,7 @@
 #include "InteriorPlayersHouse2FLevel.h"
 #include "InteriorRivalsHouseLevel.h"
 #include "PokemonUILevel.h"
+#include "PokemonSummaryUILevel.h"
 #include "Global.h"
 
 UPokemonCore::UPokemonCore()
@@ -38,9 +39,10 @@ void UPokemonCore::BeginPlay()
 	CreateLevel<UInteriorPlayersHouse2FLevel>(Global::InteriorPlayersHouse2FLevel);
 	CreateLevel<UInteriorRivalsHouseLevel>(Global::InteriorRivalsHouseLevel);
 	CreateLevel<UPokemonUILevel>(Global::PokemonUILevel);
+	CreateLevel<UPokemonSummaryUILevel>(Global::PokemonSummaryUILevel);
 
 	// 시작 레벨 설정
-	UEventManager::SetLevel(Global::TutorialLevel);
+	UEventManager::SetLevel(Global::ExteriorPalletTownLevel);
 }
 
 void UPokemonCore::Tick(float _DeltaTime)

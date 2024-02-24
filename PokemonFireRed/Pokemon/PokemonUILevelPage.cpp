@@ -325,6 +325,10 @@ void UPokemonUILevelPage::ActionSelect()
 	{
 	case 0:
 		// PokemonSummaryUI 레벨로 전환
+	{
+		UPokemonLevel* CurLevel = dynamic_cast<UPokemonLevel*>(GetWorld());
+		CurLevel->ChangeLevelFade(Global::PokemonSummaryUILevel);
+	}
 		break;
 	case 1:
 		// Switch 상태로 전환

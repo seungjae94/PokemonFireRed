@@ -96,6 +96,41 @@ APokemonIcon* APage::CreatePokemonIcon(UImageRenderer* _Container, EPivotType _P
 	return Icon;
 }
 
+void APage::PlaceImage(UImageRenderer* _Renderer, EPivotType _PivotType, int _ScreenPixelX, int _ScreenPixelY)
+{
+	_Renderer->CameraEffectOff();
+
+	FVector RenderScale = UPokemonUtil::GetRenderScale(_Renderer);
+
+	FVector ZeroPos;
+	switch (_PivotType)
+	{
+	case EPivotType::LeftTop:
+		ZeroPos = RenderScale.Half2D();
+		break;
+	case EPivotType::LeftBot:
+		ZeroPos = RenderScale.Half2D() + FVector(0.0f, Global::ScreenY - RenderScale.Y);
+		break;
+	case EPivotType::RightTop:
+		ZeroPos = RenderScale.Half2D() + FVector(Global::FloatScreenX - RenderScale.X, 0.0f);
+		break;
+	case EPivotType::RightBot:
+		ZeroPos = RenderScale.Half2D() + FVector(Global::FloatScreenX - RenderScale.X, Global::FloatScreenY - RenderScale.Y);
+		break;
+	case EPivotType::CenterTop:
+		ZeroPos = FVector(Global::FloatHalfScreenX, RenderScale.hY());
+		break;
+	case EPivotType::CenterBot:
+		ZeroPos = FVector(Global::FloatHalfScreenX, RenderScale.hY() + Global::FloatScreenY - RenderScale.Y);
+		break;
+	default:
+		break;
+	}
+
+	FVector ScreenPos = ZeroPos + UPokemonUtil::PixelVector(_ScreenPixelX, _ScreenPixelY);
+	_Renderer->SetTransform({ ScreenPos, RenderScale });
+}
+
 void APage::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);

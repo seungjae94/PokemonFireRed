@@ -66,6 +66,7 @@ public:
 	static const std::string InteriorPlayersHouse1FLevel;
 	static const std::string InteriorPlayersHouse2FLevel;
 	static const std::string PokemonUILevel;
+	static const std::string PokemonSummaryUILevel;
 
 	static const std::string PokemonFrontPrefix;
 	static const std::string PokemonBackPrefix;
@@ -113,6 +114,17 @@ public:
 	static const std::string PokemonUIEntryToBox;
 	static const std::string PokemonUICancel;
 	static const std::string PokemonUICancelFocused;
+	static const std::string PokemonSummaryUIBackground;
+	static const std::string PokemonSummaryUICommonBox;
+	static const std::string PokemonSummaryUIInfoBox;
+	static const std::string PokemonSummaryUISkillsBox;
+	static const std::string PokemonSummaryUIMovesBox;
+	static const std::string PokemonSummaryUIMovesDetailBox;
+	static const std::string PokemonSummaryUIMoveFocusBox;
+	static const std::string PokemonSummaryUINavInfo;
+	static const std::string PokemonSummaryUINavSkills;
+	static const std::string PokemonSummaryUINavMoves;
+	static const std::string PokemonSummaryUINavMovesDetail;
 protected:
 
 private:
