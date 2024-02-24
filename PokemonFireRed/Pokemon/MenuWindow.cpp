@@ -13,7 +13,6 @@
 #include "PlayerData.h"
 
 int AMenuWindow::MenuCount = 3;
-int AMenuWindow::CursorValue = 0;
 
 AMenuWindow::AMenuWindow()
 {
@@ -84,7 +83,7 @@ void AMenuWindow::BeginPlay()
 	// 메뉴창 커서
 	Cursor = CreateCursor(
 		MenuWindowRenderer,
-		CursorValue, MenuCount,
+		0, MenuCount,
 		EPivotType::LeftTop,
 		8, 9, 15
 	);
@@ -161,19 +160,19 @@ void AMenuWindow::MenuAction()
 
 	switch (MenuIndex)
 	{
-	case MenuIndex::Pokedex:
+	case EMenuIndex::Pokedex:
 		break;
-	case MenuIndex::Pokemon:
+	case EMenuIndex::Pokemon:
 	{
 		UPokemonLevel* CurLevel = dynamic_cast<UPokemonLevel*>(GetWorld());
 		CurLevel->ChangeLevelFade(Global::PokemonUILevel, 0.3f, 0.3f);
-		break;
 	}
-	case MenuIndex::Bag:
+	break;
+	case EMenuIndex::Bag:
 		break;
-	case MenuIndex::Player:
+	case EMenuIndex::Player:
 		break;
-	case MenuIndex::Exit:
+	case EMenuIndex::Exit:
 		Close();
 		break;
 	default:

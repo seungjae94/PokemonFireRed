@@ -25,7 +25,7 @@ protected:
 private:
 	void Refresh();
 
-	enum MenuIndex
+	enum EMenuIndex
 	{
 		Pokedex,
 		Pokemon,
@@ -57,7 +57,6 @@ you bought, received, or found.)",
 
 	// 커서 관련
 	ACursor* Cursor = nullptr;
-	static int CursorValue;
 	static int MenuCount;
 
 	// 현재 커서 위치에 따라 메뉴 액션 실행
@@ -66,13 +65,11 @@ you bought, received, or found.)",
 	
 	int GetMenuIndex()
 	{
-		return static_cast<int>(MenuNames.size() - MenuCount + CursorValue);
+		return static_cast<int>(MenuNames.size() - MenuCount + Cursor->GetCursor());
 	}
 
 	void RefreshMenuWindow();
 	void RefreshMenuTexts();
 	void RefreshExplainText();
-	
-	FVector GetArrowPos();
 };
 
