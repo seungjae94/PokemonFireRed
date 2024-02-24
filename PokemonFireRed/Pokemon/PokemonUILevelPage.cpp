@@ -528,8 +528,6 @@ void UPokemonUILevelPage::SwitchSelectionWaitStart()
 
 void UPokemonUILevelPage::SwitchSelectionWaitTick(float _DeltaTime)
 {
-	UEngineDebug::OutPutDebugText("TC: " + std::to_string(TargetCursor));
-
 	if (true == UEngineInput::IsDown('X'))
 	{
 		State = EPokemonUIState::TargetSelectionWait;
@@ -540,7 +538,7 @@ void UPokemonUILevelPage::SwitchSelectionWaitTick(float _DeltaTime)
 
 	if (true == UEngineInput::IsDown('Z'))
 	{
-		//SwitchSelect();
+		SwitchSelect();
 		return;
 	}
 
@@ -581,6 +579,21 @@ void UPokemonUILevelPage::SwitchSelectionWaitTick(float _DeltaTime)
 	}
 }
 
+void UPokemonUILevelPage::SwitchSelect()
+{
+	if (TargetCursor == SwitchFromCursor || true == IsCancel(TargetCursor))
+	{
+		// 스위치 취소
+		State = EPokemonUIState::TargetSelectionWait;
+		SwitchSelectionMsgBoxRenderer->SetActive(false);
+		TargetSelectionMsgBoxRenderer->SetActive(true);
+		return;
+	}
+	
+	State = EPokemonUIState::Switch;
+}
+
 void UPokemonUILevelPage::SwitchTick(float _DeltaTime)
 {
+	// 교체가 전부 끝나면
 }

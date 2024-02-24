@@ -89,6 +89,7 @@ private:
 	void SwitchSelectionWaitStart();
 	void SwitchSelectionWaitTick(float _DeltaTime);
 	int SwitchFromCursor = 0; // TargetCursor가 SwitchToCursor 역할을 겸임. 
+	void SwitchSelect();
 
 	void SwitchTick(float _DeltaTime);
 
