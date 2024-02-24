@@ -49,6 +49,7 @@ private:
 	// CommonBox 요소
 	APokemonText* NameText = nullptr;
 	APokemonText* LevelText = nullptr;
+	UImageRenderer* GenderIcon = nullptr;
 
 	// InfoBox 요소
 	APokemonText* PokedexNoText = nullptr;

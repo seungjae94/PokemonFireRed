@@ -107,6 +107,8 @@ void APokemonSummaryPage::RefreshAll()
 	EPokedexNo PokedexNo = Pokemon->GetPokedexNo();
 	std::wstring PokedexNoString = std::to_wstring(static_cast<int>(PokedexNo));
 	ENature Nature = Pokemon->GetNature();
+	std::list<EPokemonType> Types = Pokemon->GetTypes();
+	EGender Gender = Pokemon->GetGender();
 
 	NameText->SetText(Pokemon->GetName());
 	LevelText->SetText(std::to_wstring(Pokemon->GetLevel()));
@@ -125,7 +127,6 @@ void APokemonSummaryPage::RefreshAll()
 		TypeIcons.clear();
 	}
 
-	std::list<EPokemonType> Types = Pokemon->GetTypes();
 	int TypeIndex = 0;
 	for (EPokemonType Type : Types)
 	{
@@ -136,6 +137,14 @@ void APokemonSummaryPage::RefreshAll()
 		TypeIcons.push_back(Renderer);
 		++TypeIndex;
 	}
+
+	// 성별 이미지 렌더링
+	if (nullptr == GenderIcon)
+	{
+		GenderIcon = CreateImageRenderer(ERenderingOrder::UpperUI);
+	}
+	GenderIcon->SetImage(UPokemon::GetBigGenderImageName(Gender));
+	PlaceImage(GenderIcon, EPivotType::LeftTop, 105, 19);
 }
 
 void APokemonSummaryPage::Tick(float _DeltaTime)

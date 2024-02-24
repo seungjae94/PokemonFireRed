@@ -91,6 +91,8 @@ public:
 	static const std::string PokemonMini;
 	static const std::string GenderMarkMale;
 	static const std::string GenderMarkFemale;
+	static const std::string BigGenderMarkMale;
+	static const std::string BigGenderMarkFemale;
 	static const std::string HpBarRed;
 	static const std::string HpBarYellow;
 	static const std::string HpBarGreen;

@@ -5,6 +5,7 @@
 #include <string>
 #include <EngineBase/EngineDebug.h>
 #include <EngineBase/EngineString.h>
+#include "Global.h"
 
 enum class EPokedexNo
 {
@@ -158,6 +159,11 @@ public:
 		return Nature;
 	}
 
+	EGender GetGender() const
+	{
+		return Gender;
+	}
+
 	std::list<EPokemonType> GetTypes() const
 	{
 		return Types;
@@ -226,6 +232,30 @@ public:
 	static std::string GetTypeImageName(EPokemonType _Type)
 	{
 		return TypeImageNames[_Type];
+	}
+
+	static std::string GetGenderImageName(EGender _Gender)
+	{
+		if (_Gender == EGender::Male)
+		{
+			return RN::GenderMarkMale;
+		}
+		else
+		{
+			return RN::GenderMarkFemale;
+		}
+	}
+
+	static std::string GetBigGenderImageName(EGender _Gender)
+	{
+		if (_Gender == EGender::Male)
+		{
+			return RN::BigGenderMarkMale;
+		}
+		else
+		{
+			return RN::BigGenderMarkFemale;
+		}
 	}
 
 	static std::list<EPokedexNo> GetImplementedSpeciesNo()
