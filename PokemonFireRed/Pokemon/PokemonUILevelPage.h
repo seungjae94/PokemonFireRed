@@ -36,7 +36,7 @@ protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 private:
-	enum class ETargetImageState
+	enum class ETargetState
 	{
 		Empty,
 		Unfocused,
@@ -77,10 +77,6 @@ private:
 	int TargetCursor = 0;
 	int MemoryEntryCursor = 1;
 	std::string PrevMapLevelName;
-	void MoveTargetCursor(int _Cursor, bool _SwitchSelectionMode = false);
-	void DrawFirst(ETargetImageState _State);
-	void DrawEntry(ETargetImageState _State, int _Index);
-	void DrawCancel(ETargetImageState _State);
 	void TargetSelect();
 
 	void ActionSelectionWaitTick(float _DeltaTime);
@@ -93,7 +89,15 @@ private:
 
 	void SwitchTick(float _DeltaTime);
 
+	// Refresh 함수
+	void RefreshFirst();
+	void RefreshEntry(int _Index);
+	void RefreshCancel();
+	void RefreshAllTargets();
+
 	// 편의 함수
+	void MoveTargetCursor(int _Cursor);
+
 	bool IsFirst(int _Cursor)
 	{
 		return _Cursor == 0;
