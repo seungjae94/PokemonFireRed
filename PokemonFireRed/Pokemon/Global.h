@@ -52,7 +52,8 @@ public:
 	static const FVector Screen;
 	static const FVector HalfScreen;
 	static const FVector MiniPokemonRenderScale;
-	static const FVector ScrollBarRenderScale;
+	static const FVector HpBarAreaRenderScale;
+	static const FVector ExpBarAreaRenderScale;
 
 	static const std::string SuffixUpperBody;
 	static const std::string SuffixLowerBody;
@@ -89,13 +90,12 @@ public:
 	static const std::string PokemonMini;
 	static const std::string GenderMarkMale;
 	static const std::string GenderMarkFemale;
-	static const std::string HpBarBlack;
 	static const std::string HpBarRed;
 	static const std::string HpBarYellow;
 	static const std::string HpBarGreen;
+	static const std::string HpBarArea;
 	static const std::string ExpBar;
-	static const std::string ExpBarEmpty0;
-	static const std::string ExpBarEmpty1;
+	static const std::string ExpBarArea;
 	static const std::string BlackCursor;
 	static const std::string PokemonUIBackground;
 	static const std::string PokemonUITargetSelectionMsgBox;
@@ -132,6 +132,8 @@ enum ERenderingOrder
 	LowerUI,
 	UpperUI,
 	Upper2UI,
+	ScrollBarArea,
+	ScrollBar,
 	Text,
 	Fade,
 	Super

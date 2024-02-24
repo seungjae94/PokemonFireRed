@@ -14,8 +14,6 @@ void AScrollBar::DrawHp(int _Value)
 	float Prop = _Value / static_cast<float>(MaxValue);
 	float TotalWidth = 48 * Global::FloatPixelSize;		// 빈 영역을 포함한 전체 영역의 너비
 	float FillWidth = Prop * TotalWidth;				// 빨강, 노랑, 초록 바가 채워져 있는 영역의 너비
-	int TotalWidthInt = std::lround(TotalWidth);
-	int FillWidthInt = std::lround(std::floor(FillWidth));
 
 	std::string ImageName;
 	if (Prop > 0.5f)
@@ -40,25 +38,24 @@ void AScrollBar::DrawHp(int _Value)
 		Renderers.clear();
 	}
 
-	for (int i = 0; i < FillWidthInt; ++i)
 	{
-		UImageRenderer* Renderer = CreateImageRenderer(ERenderingOrder::Text);
-		Renderer->SetImage(ImageName);
+		UImageRenderer* AreaRenderer = CreateImageRenderer(ERenderingOrder::ScrollBarArea);
+		AreaRenderer->SetImage(RN::HpBarArea);
 
-		FVector RenderScale = Global::ScrollBarRenderScale;
-		FVector Pos = RenderScale.Half2D() + FVector::Right * static_cast<float>(i);
-		Renderer->SetTransform({Pos, RenderScale});
-		Renderers.push_back(Renderer);
+		FVector RenderScale = Global::HpBarAreaRenderScale;
+		FVector Pos = RenderScale.Half2D();
+		AreaRenderer->SetTransform({ Pos, RenderScale });
+		Renderers.push_back(AreaRenderer);
 	}
-	for (int i = FillWidthInt; i < TotalWidthInt; ++i)
-	{
-		UImageRenderer* Renderer = CreateImageRenderer(ERenderingOrder::Text);
-		Renderer->SetImage(RN::HpBarBlack);
 
-		FVector RenderScale = Global::ScrollBarRenderScale;
-		FVector Pos = RenderScale.Half2D() + FVector::Right * static_cast<float>(i);
-		Renderer->SetTransform({ Pos, RenderScale });
-		Renderers.push_back(Renderer);
+	{
+		UImageRenderer* FillRenderer = CreateImageRenderer(ERenderingOrder::ScrollBar);
+		FillRenderer->SetImage(ImageName);
+
+		FVector RenderScale = FVector(FillWidth, 3.0f * Global::FloatPixelSize);
+		FVector Pos = RenderScale.Half2D();
+		FillRenderer->SetTransform({ Pos, RenderScale });
+		Renderers.push_back(FillRenderer);
 	}
 }
 
@@ -67,8 +64,6 @@ void AScrollBar::DrawExp(int _Value)
 	float Prop = _Value / static_cast<float>(MaxValue);
 	float TotalWidth = 64 * Global::FloatPixelSize;
 	float FillWidth = Prop * TotalWidth;
-	int TotalWidthInt = std::lround(TotalWidth);
-	int FillWidthInt = std::lround(std::floor(FillWidth));
 
 	std::string ImageName = RN::ExpBar;
 
@@ -81,31 +76,24 @@ void AScrollBar::DrawExp(int _Value)
 		Renderers.clear();
 	}
 
-	for (int i = 0; i < FillWidthInt; ++i)
 	{
-		UImageRenderer* Renderer = CreateImageRenderer(ERenderingOrder::Text);
-		Renderer->SetImage(ImageName);
+		UImageRenderer* AreaRenderer = CreateImageRenderer(ERenderingOrder::ScrollBarArea);
+		AreaRenderer->SetImage(RN::ExpBarArea);
 
-		FVector RenderScale = Global::ScrollBarRenderScale;
-		Renderer->SetTransform({ FVector::Right * static_cast<float>(i), RenderScale });
-		Renderers.push_back(Renderer);
+		FVector RenderScale = Global::ExpBarAreaRenderScale;
+		FVector Pos = RenderScale.Half2D();
+		AreaRenderer->SetTransform({ Pos, RenderScale });
+		Renderers.push_back(AreaRenderer);
 	}
-	for (int i = FillWidthInt; i < TotalWidthInt; ++i)
+
 	{
-		UImageRenderer* Renderer = CreateImageRenderer(ERenderingOrder::Text);
+		UImageRenderer* FillRenderer = CreateImageRenderer(ERenderingOrder::ScrollBar);
+		FillRenderer->SetImage(ImageName);
 
-		if (i % 2 == 0)
-		{
-			Renderer->SetImage(RN::ExpBarEmpty0);
-		}
-		else
-		{
-			Renderer->SetImage(RN::ExpBarEmpty1);
-		}
-
-		FVector RenderScale = Global::ScrollBarRenderScale;
-		Renderer->SetTransform({ FVector::Right * static_cast<float>(i), RenderScale });
-		Renderers.push_back(Renderer);
+		FVector RenderScale = FVector(FillWidth, 3.0f * Global::FloatPixelSize);
+		FVector Pos = RenderScale.Half2D();
+		FillRenderer->SetTransform({ Pos, RenderScale });
+		Renderers.push_back(FillRenderer);
 	}
 }
 
