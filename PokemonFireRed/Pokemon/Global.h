@@ -94,6 +94,8 @@ public:
 	static const std::string HpBarYellow;
 	static const std::string HpBarGreen;
 	static const std::string ExpBar;
+	static const std::string ExpBarEmpty0;
+	static const std::string ExpBarEmpty1;
 	static const std::string BlackCursor;
 	static const std::string PokemonUIBackground;
 	static const std::string PokemonUITargetSelectionMsgBox;

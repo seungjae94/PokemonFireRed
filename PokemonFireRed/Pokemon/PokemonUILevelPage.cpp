@@ -467,6 +467,7 @@ void UPokemonUILevelPage::SwitchMoveInTick(float _DeltaTime)
 		State = EPokemonUIState::TargetSelectionWait;
 		SwitchSelectionMsgBoxRenderer->SetActive(false);
 		TargetSelectionMsgBoxRenderer->SetActive(true);
+		RefreshAllTargets();
 	}
 }
 
