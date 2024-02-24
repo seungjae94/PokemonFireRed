@@ -38,10 +38,10 @@ void APokemonSummaryPage::BeginPlay()
 	);
 	LevelText = CreateText(
 		CommonBox,
-		L"Lv99",
+		L"99",
 		EPivotType::LeftTop,
 		EAlignType::Left,
-		4, 13
+		14, 13
 	);
 
 	// InfoBox ¿ä¼Ò
@@ -86,6 +86,4 @@ void APokemonSummaryPage::BeginPlay()
 void APokemonSummaryPage::Tick(float _DeltaTime)
 {
 	APage::Tick(_DeltaTime);
-
-	int a = 0;
 }
