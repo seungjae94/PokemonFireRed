@@ -125,6 +125,23 @@ public:
 	static const std::string PokemonSummaryUINavSkills;
 	static const std::string PokemonSummaryUINavMoves;
 	static const std::string PokemonSummaryUINavMovesDetail;
+	static const std::string TypeBug;
+	static const std::string TypeDark;
+	static const std::string TypeDragon;
+	static const std::string TypeElectric;
+	static const std::string TypeFighting;
+	static const std::string TypeFire;
+	static const std::string TypeFlying;
+	static const std::string TypeGhost;
+	static const std::string TypeGrass;
+	static const std::string TypeGround;
+	static const std::string TypeIce;
+	static const std::string TypeNormal;
+	static const std::string TypePoison;
+	static const std::string TypePsychic;
+	static const std::string TypeRock;
+	static const std::string TypeSteel;
+	static const std::string TypeWater;
 protected:
 
 private:

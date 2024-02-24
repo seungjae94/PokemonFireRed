@@ -4,6 +4,7 @@
 
 std::map<EPokedexNo, std::string> UPokemon::SpeciesNames;
 std::map<ENature, std::string> UPokemon::NatureNames;
+std::map<EPokemonType, std::string> UPokemon::TypeImageNames;
 std::list<EPokedexNo> UPokemon::ImplementedSpeciesNo;
 
 class PokemonInitiator
@@ -44,6 +45,25 @@ public:
 		UPokemon::NatureNames[ENature::Sassy] = UEngineString::ToUpper("Sassy");
 		UPokemon::NatureNames[ENature::Serious] = UEngineString::ToUpper("Serious");
 		UPokemon::NatureNames[ENature::Timid] = UEngineString::ToUpper("Timid");
+
+		UPokemon::TypeImageNames[EPokemonType::Normal] = "TypeNormal.png";
+		UPokemon::TypeImageNames[EPokemonType::Fighting] = "TypeFighting.png";
+		UPokemon::TypeImageNames[EPokemonType::Flying] = "TypeFlying.png";
+		UPokemon::TypeImageNames[EPokemonType::Poison] = "TypePoison.png";
+		UPokemon::TypeImageNames[EPokemonType::Ground] = "TypeGround.png";
+		UPokemon::TypeImageNames[EPokemonType::Rock] = "TypeRock.png";
+		UPokemon::TypeImageNames[EPokemonType::Bug] = "TypeBug.png";
+		UPokemon::TypeImageNames[EPokemonType::Ghost] = "TypeGhost.png";
+		UPokemon::TypeImageNames[EPokemonType::Steel] = "TypeSteel.png";
+		UPokemon::TypeImageNames[EPokemonType::Fire] = "TypeFire.png";
+		UPokemon::TypeImageNames[EPokemonType::Water] = "TypeWater.png";
+		UPokemon::TypeImageNames[EPokemonType::Grass] = "TypeGrass.png";
+		UPokemon::TypeImageNames[EPokemonType::Electric] = "TypeElectric.png";
+		UPokemon::TypeImageNames[EPokemonType::Psychic] = "TypePsychic.png";
+		UPokemon::TypeImageNames[EPokemonType::Ice] = "TypeIce.png";
+		UPokemon::TypeImageNames[EPokemonType::Dragon] = "TypeDragon.png";
+		UPokemon::TypeImageNames[EPokemonType::Dark] = "TypeDark.png";
+		UPokemon::TypeImageNames[EPokemonType::Fairy] = "TypeFairy.png";
 	}
 };
 
@@ -59,7 +79,7 @@ UPokemon::~UPokemon()
 
 int UPokemon::GetHp() const
 {
-	return (2 * BHp + IHp + EHp/4) * Level / 100 + Level + 10;
+	return (2 * BHp + IHp + EHp / 4) * Level / 100 + Level + 10;
 }
 
 int UPokemon::GetAtk() const
@@ -83,7 +103,7 @@ int UPokemon::GetAtk() const
 		break;
 	}
 
-	return UPokemonMath::Floor(((2 * BAtk + IAtk + EAtk/4) * Level / 100 + 5) * N);
+	return UPokemonMath::Floor(((2 * BAtk + IAtk + EAtk / 4) * Level / 100 + 5) * N);
 }
 
 int UPokemon::GetDef() const
@@ -107,7 +127,7 @@ int UPokemon::GetDef() const
 		break;
 	}
 
-	return UPokemonMath::Floor(((2 * BDef + IDef + EDef/4) * Level / 100 + 5) * N);
+	return UPokemonMath::Floor(((2 * BDef + IDef + EDef / 4) * Level / 100 + 5) * N);
 }
 
 int UPokemon::GetSpAtk() const
@@ -131,7 +151,7 @@ int UPokemon::GetSpAtk() const
 		break;
 	}
 
-	return UPokemonMath::Floor(((2 * BSpAtk + ISpAtk + ESpAtk/4) * Level / 100 + 5) * N);
+	return UPokemonMath::Floor(((2 * BSpAtk + ISpAtk + ESpAtk / 4) * Level / 100 + 5) * N);
 }
 
 int UPokemon::GetSpDef() const
@@ -155,7 +175,7 @@ int UPokemon::GetSpDef() const
 		break;
 	}
 
-	return UPokemonMath::Floor(((2 * BSpDef + ISpDef + ESpDef/4) * Level / 100 + 5) * N);
+	return UPokemonMath::Floor(((2 * BSpDef + ISpDef + ESpDef / 4) * Level / 100 + 5) * N);
 }
 
 int UPokemon::GetSpeed() const
@@ -179,7 +199,7 @@ int UPokemon::GetSpeed() const
 		break;
 	}
 
-	return UPokemonMath::Floor(((2 * BSpeed + ISpeed + ESpeed/4) * Level / 100 + 5) * N);
+	return UPokemonMath::Floor(((2 * BSpeed + ISpeed + ESpeed / 4) * Level / 100 + 5) * N);
 }
 
 int UPokemon::GetExpForNextLevel() const
@@ -282,7 +302,7 @@ int UPokemon::GetErraticAccExpForLevel(int _Level) const
 	{
 		return UPokemonMath::Pow(_Level, 3) * ((1911 - 10 * _Level) / 3) / 500;
 	}
-	
+
 	return UPokemonMath::Pow(_Level, 3) * (160 - _Level) / 100;
 }
 
@@ -294,7 +314,7 @@ int UPokemon::GetFluctuatingAccExpForLevel(int _Level) const
 	}
 	else if (_Level < 36)
 	{
-		return UPokemonMath::Pow(_Level, 3)* (_Level + 14) / 50;
+		return UPokemonMath::Pow(_Level, 3) * (_Level + 14) / 50;
 	}
 
 	return UPokemonMath::Pow(_Level, 3) * ((_Level / 2) + 32) / 50;

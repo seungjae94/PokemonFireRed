@@ -158,6 +158,11 @@ public:
 		return Nature;
 	}
 
+	std::list<EPokemonType> GetTypes() const
+	{
+		return Types;
+	}
+
 	void Heal(int _Value)
 	{
 		if (_Value < 0)
@@ -218,6 +223,11 @@ public:
 		return NatureNames[_Nature];
 	}
 
+	static std::string GetTypeImageName(EPokemonType _Type)
+	{
+		return TypeImageNames[_Type];
+	}
+
 	static std::list<EPokedexNo> GetImplementedSpeciesNo()
 	{
 		return ImplementedSpeciesNo;
@@ -253,7 +263,7 @@ protected:
 	// ±‚≈∏
 	EAbility Ability = EAbility::NONE;
 	EExperienceGroup ExpGroup = EExperienceGroup::NONE;
-	std::vector<EPokemonType> Types;
+	std::list<EPokemonType> Types;
 	int CatchRate = 0;
 	int Friendship = 0;
 
@@ -288,6 +298,7 @@ private:
 
 	static std::map<EPokedexNo, std::string> SpeciesNames;
 	static std::map<ENature, std::string> NatureNames;
+	static std::map<EPokemonType, std::string> TypeImageNames;
 	static std::list<EPokedexNo> ImplementedSpeciesNo;
 };
 

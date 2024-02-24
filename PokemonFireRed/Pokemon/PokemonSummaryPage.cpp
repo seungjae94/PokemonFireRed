@@ -65,8 +65,6 @@ void APokemonSummaryPage::BeginPlay()
 		EFontColor::Black
 	);
 
-	// 타입 아이콘
-
 	TrainerText = CreateText(
 		InfoBox,
 		L"RED",
@@ -116,6 +114,28 @@ void APokemonSummaryPage::RefreshAll()
 	SpeciesNameText->SetText(UPokemon::GetSpeciesNameW(PokedexNo));
 	TrainerText->SetText(L"RED");
 	TrainerMemo->SetText(UPokemon::GetNatureNameW(Nature) + L" nature.");
+
+	// 타입 이미지 렌더링
+	if (TypeIcons.size() > 0)
+	{
+		for (UImageRenderer* Icon : TypeIcons)
+		{
+			Icon->Destroy();
+		}
+		TypeIcons.clear();
+	}
+
+	std::list<EPokemonType> Types = Pokemon->GetTypes();
+	int TypeIndex = 0;
+	for (EPokemonType Type : Types)
+	{
+		UImageRenderer* Renderer = CreateImageRenderer(ERenderingOrder::UpperUI);
+		std::string IconName = UPokemon::GetTypeImageName(Type);
+		Renderer->SetImage(IconName);
+		PlaceImage(Renderer, EPivotType::RightTop, -41 + TypeIndex * 34, 51);
+		TypeIcons.push_back(Renderer);
+		++TypeIndex;
+	}
 }
 
 void APokemonSummaryPage::Tick(float _DeltaTime)
