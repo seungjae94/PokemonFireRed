@@ -40,7 +40,7 @@ void UPokemonCore::BeginPlay()
 	CreateLevel<UPokemonUILevel>(Global::PokemonUILevel);
 
 	// 시작 레벨 설정
-	UEventManager::SetLevel(Global::ExteriorPalletTownLevel);
+	UEventManager::SetLevel(Global::TutorialLevel);
 }
 
 void UPokemonCore::Tick(float _DeltaTime)

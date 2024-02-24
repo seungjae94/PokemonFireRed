@@ -52,6 +52,5 @@ void UTutorialLevel::BeginPlay()
 
 void UTutorialLevel::LevelChange()
 {
-	Manager->SetActive(false);
 	UEventManager::TriggerEvent(MapLevelChanger);
 }
