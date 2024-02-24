@@ -459,6 +459,11 @@ void UPokemonUILevelPage::ActionSelectionWaitTick(float _DeltaTime)
 	{
 		ActionCursor->IncCursor();
 	}
+	else if (UEngineInput::IsDown('X'))
+	{
+		State = EPokemonUIState::TargetSelectionWait;
+		ActionBoxRenderer->SetActive(false);
+	}
 }
 
 void UPokemonUILevelPage::SwitchTick(float _DeltaTime)
