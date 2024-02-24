@@ -1,4 +1,5 @@
 #include "UIElement.h"
+#include "PokemonUtil.h"
 
 AUIElement::AUIElement()
 {

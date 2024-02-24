@@ -3,6 +3,7 @@
 #include <EngineBase/Transform.h>
 #include <EngineCore/Actor.h>
 #include "Global.h"
+#include "Page.h"
 
 class UPokemonUtil
 {
@@ -20,40 +21,6 @@ public:
 	static FVector GetLeftTop(const FTransform& _Trans)
 	{
 		return _Trans.GetPosition() - _Trans.GetScale().Half2D();
-	}
-
-	/// <summary>
-	/// Source와 Dest의 LeftTop을 일치 시키고 싶을 때 Source가 어떤 위치를 가져야 하는지를 반환한다.
-	/// </summary>
-	static FVector GetMatchLeftTop(const FVector& _SrcScale, const FTransform& _DestTrans)
-	{
-		return GetLeftTop(_DestTrans) + FVector(_SrcScale).Half2D();
-	}
-
-	// 이미지를 화면 좌상단에 잘리지 않게 배치하고 싶을 때 이미지의 위치
-	static FVector GetLeftTopAlignPos(const FVector& _Scale)
-	{
-		FVector Scale = _Scale;
-		return Scale.Half2D();
-	}
-
-	// 이미지를 화면 좌하단에 잘리지 않게 배치하고 싶을 때 이미지의 위치
-	static FVector GetLeftBotAlignPos(const FVector& _Scale)
-	{
-		return FVector(0, Global::ScreenY) + FVector(_Scale.X / 2, -_Scale.Y / 2);
-	}
-
-	// 이미지를 화면 우상단에 잘리지 않게 배치하고 싶을 때 이미지의 위치
-	static FVector GetRightTopAlignPos(const FVector& _Scale)
-	{
-		return FVector(Global::ScreenX, 0) + FVector(-_Scale.X / 2, _Scale.Y / 2);
-	}
-
-	// 이미지를 화면 우하단에 잘리지 않게 배치하고 싶을 때 이미지의 위치
-	static FVector GetRightBotAlignPos(const FVector& _Scale)
-	{
-		FVector Scale = _Scale;
-		return FVector(Global::ScreenX, Global::ScreenY) - Scale.Half2D();
 	}
 
 	static void ToggleActive(AActor* _Actor)
@@ -79,6 +46,18 @@ public:
 
 	static FVector GetImageScale(UImageRenderer* _Renderer);
 	static FVector GetRenderScale(UImageRenderer* _Renderer);
+
+	static void AlignImage(
+		UImageRenderer* _Renderer, 
+		EPivotType _PivotType
+	);
+
+	static void PlaceImageOnScreen(
+		UImageRenderer* _Renderer, 
+		EPivotType _PivotType = EPivotType::LeftTop,
+		int _ScreenPixelX = 0, int _ScreenPixelY = 0
+	);
+
 	static void CreateMiniPokemonAnimations(UImageRenderer* _Renderer);
 
 	static std::vector<std::string> StringSplit(const std::string& _Str, char _Delimeter = '\n');

@@ -164,6 +164,31 @@ public:
 		return Gender;
 	}
 
+	std::string GetGenderImageName() const
+	{
+		if (Gender == EGender::Male)
+		{
+			return RN::GenderMarkMale;
+		}
+		else
+		{
+			return RN::GenderMarkFemale;
+		}
+	}
+
+	std::string GetBigGenderImageName() const
+	{
+		if (Gender == EGender::Male)
+		{
+			return RN::BigGenderMarkMale;
+		}
+		else
+		{
+			return RN::BigGenderMarkFemale;
+		}
+	}
+
+
 	std::list<EPokemonType> GetTypes() const
 	{
 		return Types;

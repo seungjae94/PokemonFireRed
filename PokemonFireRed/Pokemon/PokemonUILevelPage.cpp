@@ -27,31 +27,34 @@ void UPokemonUILevelPage::BeginPlay()
 	{
 		TargetSelectionMsgBoxRenderer = CreateImageRenderer(ERenderingOrder::UpperUI);
 		TargetSelectionMsgBoxRenderer->SetImage(RN::PokemonUITargetSelectionMsgBox);
-		FVector RenderScale = UPokemonUtil::GetRenderScale(TargetSelectionMsgBoxRenderer);
-		FVector Pos = UPokemonUtil::GetLeftBotAlignPos(RenderScale);
-		Pos += UPokemonUtil::PixelVector(2, -2);
-		TargetSelectionMsgBoxRenderer->SetTransform({ Pos, RenderScale });
+		UPokemonUtil::PlaceImageOnScreen(
+			TargetSelectionMsgBoxRenderer,
+			EPivotType::LeftBot,
+			2, -2
+		);
 	}
 
 	// 액션 선택 메시지 박스
 	{
 		ActionSelectionMsgBoxRenderer = CreateImageRenderer(ERenderingOrder::UpperUI);
 		ActionSelectionMsgBoxRenderer->SetImage(RN::PokemonUIActionSelectionMsgBox);
-		FVector RenderScale = UPokemonUtil::GetRenderScale(ActionSelectionMsgBoxRenderer);
-		FVector Pos = UPokemonUtil::GetLeftBotAlignPos(RenderScale);
-		Pos += UPokemonUtil::PixelVector(2, -2);
-		ActionSelectionMsgBoxRenderer->SetTransform({ Pos, RenderScale });
 		ActionSelectionMsgBoxRenderer->SetActive(false);
+		UPokemonUtil::PlaceImageOnScreen(
+			ActionSelectionMsgBoxRenderer,
+			EPivotType::LeftBot,
+			2, -2
+		);
 	}
 
 	// 액션 선택 창
 	{
 		ActionBoxRenderer = CreateImageRenderer(ERenderingOrder::Upper2UI);
 		ActionBoxRenderer->SetImage(RN::PokemonUIActionBox);
-		FVector RenderScale = UPokemonUtil::GetRenderScale(ActionBoxRenderer);
-		FVector Pos = UPokemonUtil::GetRightBotAlignPos(RenderScale);
-		Pos += UPokemonUtil::PixelVector(-1, -1);
-		ActionBoxRenderer->SetTransform({ Pos, RenderScale });
+		UPokemonUtil::PlaceImageOnScreen(
+			ActionBoxRenderer,
+			EPivotType::RightBot,
+			-1, -1
+		);
 
 		// 액션 선택 커서
 		ActionCursor = CreateCursor(
@@ -68,10 +71,11 @@ void UPokemonUILevelPage::BeginPlay()
 	{
 		SwitchSelectionMsgBoxRenderer = CreateImageRenderer(ERenderingOrder::UpperUI);
 		SwitchSelectionMsgBoxRenderer->SetImage(RN::PokemonUISwitchSelectionMsgBox);
-		FVector RenderScale = UPokemonUtil::GetRenderScale(SwitchSelectionMsgBoxRenderer);
-		FVector Pos = UPokemonUtil::GetLeftBotAlignPos(RenderScale);
-		Pos += UPokemonUtil::PixelVector(2, -2);
-		SwitchSelectionMsgBoxRenderer->SetTransform({ Pos, RenderScale });
+		UPokemonUtil::PlaceImageOnScreen(
+			SwitchSelectionMsgBoxRenderer,
+			EPivotType::LeftBot,
+			2, -2
+		);
 		SwitchSelectionMsgBoxRenderer->SetActive(false);
 	}
 
@@ -137,6 +141,11 @@ void UPokemonUILevelPage::BeginPlay()
 		FirstRenderer,
 		EPivotType::LeftBot,
 		-2, -46
+	);
+	FirstGender = CreateImageElement(
+		FirstRenderer,
+		EPivotType::RightTop,
+		-13, 29
 	);
 
 	for (int i = 1; i < UPlayerData::GetPokemonEntrySize(); ++i)
@@ -329,7 +338,7 @@ void UPokemonUILevelPage::ActionSelect()
 		UPokemonLevel* CurLevel = dynamic_cast<UPokemonLevel*>(GetWorld());
 		CurLevel->ChangeLevelFade(Global::PokemonSummaryUILevel);
 	}
-		break;
+	break;
 	case 1:
 		// Switch 상태로 전환
 		State = EPokemonUIState::SwitchSelectionWait;
@@ -414,7 +423,7 @@ void UPokemonUILevelPage::SwitchSelect()
 		TargetSelectionMsgBoxRenderer->SetActive(true);
 		return;
 	}
-	
+
 	State = EPokemonUIState::Switch;
 	SwitchStart();
 }
@@ -554,30 +563,30 @@ void UPokemonUILevelPage::RefreshFirst()
 	}
 
 	std::string ImageName;
-	FVector AddPos;
-	FVector MiniAddPos;
+	int PixelX = 0;
+	int PixelY = 0;
 
 	switch (TargetState)
 	{
 	case UPokemonUILevelPage::ETargetState::Unfocused:
 		ImageName = RN::PokemonUIFirstBox;
-		AddPos = UPokemonUtil::PixelVector(2, 20);
-		MiniAddPos = UPokemonUtil::PixelVector(-1, 12);
+		PixelX = 2;
+		PixelY = 20;
 		break;
 	case UPokemonUILevelPage::ETargetState::Focused:
 		ImageName = RN::PokemonUIFirstFocusedBox;
-		AddPos = UPokemonUtil::PixelVector(2, 18);
-		MiniAddPos = UPokemonUtil::PixelVector(-1, 14);
+		PixelX = 2;
+		PixelY = 18;
 		break;
 	case UPokemonUILevelPage::ETargetState::From:
 		ImageName = RN::PokemonUIFirstFromBox;
-		AddPos = UPokemonUtil::PixelVector(2, 20);
-		MiniAddPos = UPokemonUtil::PixelVector(-1, 12);
+		PixelX = 2;
+		PixelY = 20;
 		break;
 	case UPokemonUILevelPage::ETargetState::To:
 		ImageName = RN::PokemonUIFirstToBox;
-		AddPos = UPokemonUtil::PixelVector(2, 18);
-		MiniAddPos = UPokemonUtil::PixelVector(-1, 14);
+		PixelX = 2;
+		PixelY = 18;
 		break;
 	default:
 		MsgBoxAssert("Pokemon UI의 First의 상태가 Empty입니다.");
@@ -587,9 +596,11 @@ void UPokemonUILevelPage::RefreshFirst()
 	if (State != EPokemonUIState::Switch)
 	{
 		FirstRenderer->SetImage(ImageName);
-		FVector RenderScale = UPokemonUtil::GetRenderScale(FirstRenderer);
-		FVector Pos = RenderScale.Half2D() + AddPos;
-		FirstRenderer->SetTransform({ Pos, RenderScale });
+		UPokemonUtil::PlaceImageOnScreen(
+			FirstRenderer,
+			EPivotType::LeftTop,
+			PixelX, PixelY
+		);
 	}
 
 	const UPokemon& Pokemon = UPlayerData::GetPokemonInEntry(0);
@@ -598,11 +609,10 @@ void UPokemonUILevelPage::RefreshFirst()
 	FirstLevelText->SetText(std::to_wstring(Pokemon.GetLevel()));
 	FirstHpText->SetText(std::to_wstring(Pokemon.GetHp()));
 	FirstCurHpText->SetText(std::to_wstring(Pokemon.GetCurHp()));
-
 	FirstHpBar->SetMaxValue(Pokemon.GetHp());
 	FirstHpBar->SetValue(Pokemon.GetCurHp());
-
 	FirstPokemonIcon->SetPokemon(Pokemon);
+	FirstGender->SetImage(Pokemon.GetGenderImageName());
 }
 
 void UPokemonUILevelPage::RefreshEntry(int _Index)
@@ -639,7 +649,7 @@ void UPokemonUILevelPage::RefreshEntry(int _Index)
 		{
 			TargetState = ETargetState::From;
 		}
-		else 
+		else
 		{
 			TargetState = ETargetState::Unfocused;
 		}
@@ -649,35 +659,36 @@ void UPokemonUILevelPage::RefreshEntry(int _Index)
 	}
 
 	std::string ImageName;
-	FVector AddPos;
-	FVector MiniAddPos;
+	int PixelX = 0;
+	int PixelY = 0;
+
 
 	switch (TargetState)
 	{
 	case UPokemonUILevelPage::ETargetState::Empty:
 		ImageName = RN::PokemonUIEntryEmptyBox;
-		AddPos = UPokemonUtil::PixelVector(-2, 10 + 24 * (_Index - 1));
-		MiniAddPos = UPokemonUtil::PixelVector(-3, 0);
+		PixelX = -2;
+		PixelY = 10 + 24 * (_Index - 1);
 		break;
 	case UPokemonUILevelPage::ETargetState::Unfocused:
 		ImageName = RN::PokemonUIEntryBox;
-		AddPos = UPokemonUtil::PixelVector(-2, 10 + 24 * (_Index - 1));
-		MiniAddPos = UPokemonUtil::PixelVector(-3, 0);
+		PixelX = -2;
+		PixelY = 10 + 24 * (_Index - 1);
 		break;
 	case UPokemonUILevelPage::ETargetState::Focused:
 		ImageName = RN::PokemonUIEntryFocusedBox;
-		AddPos = UPokemonUtil::PixelVector(-2, 9 + 24 * (_Index - 1));
-		MiniAddPos = UPokemonUtil::PixelVector(-3, 1);
+		PixelX = -2;
+		PixelY = 9 + 24 * (_Index - 1);
 		break;
 	case UPokemonUILevelPage::ETargetState::From:
 		ImageName = RN::PokemonUIEntryFromBox;
-		AddPos = UPokemonUtil::PixelVector(-2, 10 + 24 * (_Index - 1));
-		MiniAddPos = UPokemonUtil::PixelVector(-3, 0);
+		PixelX = -2;
+		PixelY = 10 + 24 * (_Index - 1);
 		break;
 	case UPokemonUILevelPage::ETargetState::To:
 		ImageName = RN::PokemonUIEntryToBox;
-		AddPos = UPokemonUtil::PixelVector(-2, 9 + 24 * (_Index - 1));
-		MiniAddPos = UPokemonUtil::PixelVector(-3, 1);
+		PixelX = -2;
+		PixelY = 9 + 24 * (_Index - 1);
 		break;
 	default:
 		break;
@@ -686,9 +697,11 @@ void UPokemonUILevelPage::RefreshEntry(int _Index)
 	if (State != EPokemonUIState::Switch)
 	{
 		EntryRenderers[_Index - 1]->SetImage(ImageName);
-		FVector RenderScale = UPokemonUtil::GetRenderScale(EntryRenderers[_Index - 1]);
-		FVector Pos = UPokemonUtil::GetRightTopAlignPos(RenderScale) + AddPos;
-		EntryRenderers[_Index - 1]->SetTransform({ Pos, RenderScale });
+		UPokemonUtil::PlaceImageOnScreen(
+			EntryRenderers[_Index - 1],
+			EPivotType::RightTop,
+			PixelX, PixelY
+		);
 	}
 
 	if (_Index < 0 || _Index >= UPlayerData::GetPokemonEntrySize())
@@ -697,15 +710,12 @@ void UPokemonUILevelPage::RefreshEntry(int _Index)
 	}
 
 	const UPokemon& Pokemon = UPlayerData::GetPokemonInEntry(_Index);
-
 	EntryNameTexts[_Index - 1]->SetText(Pokemon.GetName());
 	EntryLevelTexts[_Index - 1]->SetText(std::to_wstring(Pokemon.GetLevel()));
 	EntryHpTexts[_Index - 1]->SetText(std::to_wstring(Pokemon.GetHp()));
 	EntryCurHpTexts[_Index - 1]->SetText(std::to_wstring(Pokemon.GetCurHp()));
-
 	EntryHpBars[_Index - 1]->SetMaxValue(Pokemon.GetHp());
 	EntryHpBars[_Index - 1]->SetValue(Pokemon.GetCurHp());
-
 	EntryPokemonIcons[_Index - 1]->SetPokemon(Pokemon);
 }
 
@@ -719,17 +729,20 @@ void UPokemonUILevelPage::RefreshCancel()
 	}
 
 	std::string ImageName;
-	FVector AddPos;
+	int PixelX = 0;
+	int PixelY = 0;
 
 	switch (TargetState)
 	{
 	case UPokemonUILevelPage::ETargetState::Unfocused:
 		ImageName = RN::PokemonUICancel;
-		AddPos = UPokemonUtil::PixelVector(-2, -6);
+		PixelX = -2;
+		PixelY = -6;
 		break;
 	case UPokemonUILevelPage::ETargetState::Focused:
 		ImageName = RN::PokemonUICancelFocused;
-		AddPos = UPokemonUtil::PixelVector(-2, -4);
+		PixelX = -2;
+		PixelY = -4;
 		break;
 	default:
 		MsgBoxAssert("Pokemon UI에서 Cancel의 상태가 From 또는 To입니다.");
@@ -737,10 +750,11 @@ void UPokemonUILevelPage::RefreshCancel()
 	}
 
 	CancelRenderer->SetImage(ImageName);
-	FVector CancelRenderScale = UPokemonUtil::GetRenderScale(CancelRenderer);
-	FVector CancelPos = UPokemonUtil::GetRightBotAlignPos(CancelRenderScale);
-	CancelPos += AddPos;
-	CancelRenderer->SetTransform({ CancelPos, CancelRenderScale });
+	UPokemonUtil::PlaceImageOnScreen(
+		CancelRenderer,
+		EPivotType::RightBot,
+		PixelX, PixelY
+	);
 }
 
 void UPokemonUILevelPage::RefreshAllTargets()

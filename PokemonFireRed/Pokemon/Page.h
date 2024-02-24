@@ -1,9 +1,6 @@
 #pragma once
 #include <EngineCore/Actor.h>
-#include "PokemonText.h"
-#include "ScrollBar.h"
-#include "Cursor.h"
-#include "PokemonIcon.h"
+#include "AllUIElements.h"
 
 class UEventProcessor;
 
@@ -61,11 +58,11 @@ public:
 		int _RelativePixelY = 0
 	);
 
-	void PlaceImage(
-		UImageRenderer* _Renderer, 
+	AImageElement* CreateImageElement(
+		UImageRenderer* _Container,
 		EPivotType _PivotType = EPivotType::LeftTop,
-		int _ScreenPixelX = 0, 
-		int _ScreenPixelY = 0
+		int _RelativePixelX = 0,
+		int _RelativePixelY = 0
 	);
 
 protected:

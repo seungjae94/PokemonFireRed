@@ -2,6 +2,7 @@
 #include <sstream>
 #include "Global.h"
 #include "Pokemon.h"
+#include "Page.h"
 
 UPokemonUtil::UPokemonUtil()
 {
@@ -38,6 +39,76 @@ FVector UPokemonUtil::GetRenderScale(UImageRenderer* _Renderer)
 {
 	UWindowImage* Image = _Renderer->GetImage();
 	return Image->GetScale() * Global::FloatPixelSize;
+}
+
+void UPokemonUtil::AlignImage(
+	UImageRenderer* _Renderer, EPivotType _PivotType)
+{
+	FVector RenderScale = GetRenderScale(_Renderer);
+
+	FVector Pos;
+	switch (_PivotType)
+	{
+	case EPivotType::LeftTop:
+		Pos = RenderScale.Half2D();
+		break;
+	case EPivotType::LeftBot:
+		Pos = RenderScale.Half2D() + FVector(0.0f, - RenderScale.Y);
+		break;
+	case EPivotType::RightTop:
+		Pos = RenderScale.Half2D() + FVector(-RenderScale.X, 0.0f);
+		break;
+	case EPivotType::RightBot:
+		Pos = RenderScale.Half2D() + FVector(-RenderScale.X, -RenderScale.Y);
+		break;
+	case EPivotType::CenterTop:
+		Pos = FVector(0.0f, RenderScale.hY());
+		break;
+	case EPivotType::CenterBot:
+		Pos = FVector(0.0f, RenderScale.hY() - RenderScale.Y);
+		break;
+	default:
+		break;
+	}
+
+	_Renderer->SetTransform({ Pos, RenderScale });
+}
+
+
+void UPokemonUtil::PlaceImageOnScreen(
+	UImageRenderer* _Renderer, 
+	EPivotType _PivotType, 
+	int _ScreenPixelX, int _ScreenPixelY)
+{
+	_Renderer->CameraEffectOff();
+	AlignImage(_Renderer, _PivotType);
+	FVector Pos = _Renderer->GetPosition();
+
+	switch (_PivotType)
+	{
+	case EPivotType::LeftTop:
+		break;
+	case EPivotType::LeftBot:
+		Pos += FVector(0.0f, Global::FloatScreenY);
+		break;
+	case EPivotType::RightTop:
+		Pos += FVector(Global::FloatScreenX, 0.0f);
+		break;
+	case EPivotType::RightBot:
+		Pos += FVector(Global::FloatScreenX, Global::FloatScreenY);
+		break;
+	case EPivotType::CenterTop:
+		Pos += FVector(Global::FloatHalfScreenX, 0.0f);
+		break;
+	case EPivotType::CenterBot:
+		Pos += FVector(Global::FloatHalfScreenX, 0.0f);
+		break;
+	default:
+		break;
+	}
+
+	FVector FinalPos = Pos + UPokemonUtil::PixelVector(_ScreenPixelX, _ScreenPixelY);
+	_Renderer->SetPosition(FinalPos);
 }
 
 void UPokemonUtil::CreateMiniPokemonAnimations(UImageRenderer* _Renderer)

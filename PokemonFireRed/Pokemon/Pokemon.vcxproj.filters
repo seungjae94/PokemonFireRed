@@ -252,6 +252,9 @@
     <ClInclude Include="PokemonString.h">
       <Filter>0. Util</Filter>
     </ClInclude>
+    <ClInclude Include="ImageElement.h">
+      <Filter>2. UI\Element</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PokemonCore.cpp">
@@ -421,6 +424,9 @@
     </ClCompile>
     <ClCompile Include="PokemonString.cpp">
       <Filter>0. Util</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageElement.cpp">
+      <Filter>2. UI\Element</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

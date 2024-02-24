@@ -2,6 +2,7 @@
 #include <EnginePlatform/EngineInput.h>
 #include "PokemonString.h"
 #include "PokemonLevel.h"
+#include "PokemonUtil.h"
 
 APokemonSummaryPage::APokemonSummaryPage()
 {
@@ -17,19 +18,19 @@ void APokemonSummaryPage::BeginPlay()
 
 	Background = CreateImageRenderer(ERenderingOrder::Background);
 	Background->SetImage(RN::PokemonSummaryUIBackground);
-	PlaceImage(Background);
+	UPokemonUtil::PlaceImageOnScreen(Background);
 
 	NavInfo = CreateImageRenderer(ERenderingOrder::LowerUI);
 	NavInfo->SetImage(RN::PokemonSummaryUINavInfo);
-	PlaceImage(NavInfo);
+	UPokemonUtil::PlaceImageOnScreen(NavInfo);
 
 	CommonBox = CreateImageRenderer(ERenderingOrder::LowerUI);
 	CommonBox->SetImage(RN::PokemonSummaryUICommonBox);
-	PlaceImage(CommonBox, EPivotType::LeftTop, 0, 16);
+	UPokemonUtil::PlaceImageOnScreen(CommonBox, EPivotType::LeftTop, 0, 16);
 
 	InfoBox = CreateImageRenderer(ERenderingOrder::LowerUI);
 	InfoBox->SetImage(RN::PokemonSummaryUIInfoBox);
-	PlaceImage(InfoBox, EPivotType::LeftTop, 0, 16);
+	UPokemonUtil::PlaceImageOnScreen(InfoBox, EPivotType::LeftTop, 0, 16);
 
 	// CommonBox ¿ä¼Ò
 	NameText =  CreateText(
@@ -133,7 +134,7 @@ void APokemonSummaryPage::RefreshAll()
 		UImageRenderer* Renderer = CreateImageRenderer(ERenderingOrder::UpperUI);
 		std::string IconName = UPokemon::GetTypeImageName(Type);
 		Renderer->SetImage(IconName);
-		PlaceImage(Renderer, EPivotType::RightTop, -41 + TypeIndex * 34, 51);
+		UPokemonUtil::PlaceImageOnScreen(Renderer, EPivotType::RightTop, -41 + TypeIndex * 34, 51);
 		TypeIcons.push_back(Renderer);
 		++TypeIndex;
 	}
@@ -144,7 +145,7 @@ void APokemonSummaryPage::RefreshAll()
 		GenderIcon = CreateImageRenderer(ERenderingOrder::UpperUI);
 	}
 	GenderIcon->SetImage(UPokemon::GetBigGenderImageName(Gender));
-	PlaceImage(GenderIcon, EPivotType::LeftTop, 105, 19);
+	UPokemonUtil::PlaceImageOnScreen(GenderIcon, EPivotType::LeftTop, 105, 19);
 }
 
 void APokemonSummaryPage::Tick(float _DeltaTime)

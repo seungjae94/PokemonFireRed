@@ -1,4 +1,5 @@
 #include "PokemonIcon.h"
+#include "PokemonUtil.h"
 
 APokemonIcon::APokemonIcon()
 {

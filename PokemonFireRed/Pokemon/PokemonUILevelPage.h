@@ -1,8 +1,5 @@
 #pragma once
 #include "Page.h"
-#include "PokemonText.h"
-#include "ScrollBar.h"
-#include "PokemonIcon.h"
 #include "PlayerData.h"
 
 enum class EPokemonUIState
@@ -71,6 +68,7 @@ private:
 	ACursor* ActionCursor = nullptr;
 
 	UImageRenderer* FirstRenderer = nullptr;
+	AImageElement* FirstGender = nullptr;
 	APokemonIcon* FirstPokemonIcon = nullptr;
 	APokemonText* FirstNameText = nullptr;
 	APokemonText* FirstLevelText = nullptr;
