@@ -195,6 +195,11 @@ void APokemonText::InitAlignRuleMap()
 		NameCh++;
 	}
 
+	AlignRuleMap[EFontSize::Normal][L'1'].MarginLeft = 1;
+	AlignRuleMap[EFontSize::Normal][L'1'].MarginRight = 1;
+	AlignRuleMap[EFontSize::Mini][L'1'].MarginLeft = 1;
+	AlignRuleMap[EFontSize::Mini][L'1'].MarginRight = 1;
+
 	// 영 대문자
 	NameCh = 'A';
 	for (wchar_t Ch = L'A'; Ch <= L'Z'; Ch++)
