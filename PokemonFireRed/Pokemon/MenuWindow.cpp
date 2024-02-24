@@ -130,8 +130,6 @@ void AMenuWindow::Tick(float _DeltaTime)
 	if (true == UEngineInput::IsDown(VK_DOWN))
 	{
 		Cursor->IncCursor();
-		UEngineDebug::OutPutDebugText(std::to_string(Cursor->GetCursor()));
-		UEngineDebug::OutPutDebugText(Cursor->GetActorLocation().ToString());
 		RefreshExplainText();
 		return;
 	}
