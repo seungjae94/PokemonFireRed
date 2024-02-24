@@ -8,6 +8,7 @@ enum class EPokemonUIState
 {
 	TargetSelectionWait,		// 포켓몬 또는 취소 버튼 선택을 기다리는 상태
 	ActionSelectionWait,		// 포켓몬을 선택하고 액션 선택을 기다리는 상태
+	SwitchSelectionWait,		// 순서를 교체할 포켓몬을 결정하기를 기다리는 상태
 	Switch,						// 포켓몬 순서를 교체하고 있는 상태
 };
 
@@ -45,8 +46,9 @@ private:
 	};
 
 	UImageRenderer* BackgroundRenderer = nullptr;
-	UImageRenderer* LongMsgBoxRenderer = nullptr;
-	UImageRenderer* ShortMsgBoxRenderer = nullptr;
+	UImageRenderer* TargetSelectionMsgBoxRenderer = nullptr;
+	UImageRenderer* ActionSelectionMsgBoxRenderer = nullptr;
+	UImageRenderer* SwitchSelectionMsgBoxRenderer = nullptr;
 	UImageRenderer* ActionBoxRenderer = nullptr;
 	ACursor* ActionCursor = nullptr;
 
@@ -85,6 +87,7 @@ private:
 	void ActionSelectionWaitTick(float _DeltaTime);
 	void ActionSelect();
 
+	void SwitchSelectionWaitTick(float _DeltaTime);
 	void SwitchTick(float _DeltaTime);
 
 	// 편의 함수

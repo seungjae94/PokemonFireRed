@@ -18,36 +18,36 @@ void UPokemonUILevelPage::BeginPlay()
 {
 	// 백그라운드
 	BackgroundRenderer = CreateImageRenderer(ERenderingOrder::LowerUI);
-	BackgroundRenderer->SetImage("UPBackground.png");
+	BackgroundRenderer->SetImage(RN::PokemonUIBackground);
 	FVector BackgroundRenderScale = UPokemonUtil::GetRenderScale(BackgroundRenderer);
 	FVector BackgroundPos = BackgroundRenderScale.Half2D();
 	BackgroundRenderer->SetTransform({ BackgroundPos, BackgroundRenderScale });
 
 	// 타겟 선택 메시지 박스
 	{
-		LongMsgBoxRenderer = CreateImageRenderer(ERenderingOrder::UpperUI);
-		LongMsgBoxRenderer->SetImage("UPLongMsgBox.png");
-		FVector RenderScale = UPokemonUtil::GetRenderScale(LongMsgBoxRenderer);
+		TargetSelectionMsgBoxRenderer = CreateImageRenderer(ERenderingOrder::UpperUI);
+		TargetSelectionMsgBoxRenderer->SetImage(RN::PokemonUITargetSelectionMsgBox);
+		FVector RenderScale = UPokemonUtil::GetRenderScale(TargetSelectionMsgBoxRenderer);
 		FVector Pos = UPokemonUtil::GetLeftBotAlignPos(RenderScale);
 		Pos += UPokemonUtil::PixelVector(2, -2);
-		LongMsgBoxRenderer->SetTransform({ Pos, RenderScale });
+		TargetSelectionMsgBoxRenderer->SetTransform({ Pos, RenderScale });
 	}
 
 	// 액션 선택 메시지 박스
 	{
-		ShortMsgBoxRenderer = CreateImageRenderer(ERenderingOrder::UpperUI);
-		ShortMsgBoxRenderer->SetImage("UPShortMsgBox.png");
-		FVector RenderScale = UPokemonUtil::GetRenderScale(ShortMsgBoxRenderer);
+		ActionSelectionMsgBoxRenderer = CreateImageRenderer(ERenderingOrder::UpperUI);
+		ActionSelectionMsgBoxRenderer->SetImage(RN::PokemonUIActionSelectionMsgBox);
+		FVector RenderScale = UPokemonUtil::GetRenderScale(ActionSelectionMsgBoxRenderer);
 		FVector Pos = UPokemonUtil::GetLeftBotAlignPos(RenderScale);
 		Pos += UPokemonUtil::PixelVector(2, -2);
-		ShortMsgBoxRenderer->SetTransform({ Pos, RenderScale });
-		ShortMsgBoxRenderer->SetActive(false);
+		ActionSelectionMsgBoxRenderer->SetTransform({ Pos, RenderScale });
+		ActionSelectionMsgBoxRenderer->SetActive(false);
 	}
 
 	// 액션 선택 창
 	{
 		ActionBoxRenderer = CreateImageRenderer(ERenderingOrder::Upper2UI);
-		ActionBoxRenderer->SetImage("UPActionBox.png");
+		ActionBoxRenderer->SetImage(RN::PokemonUIActionBox);
 		FVector RenderScale = UPokemonUtil::GetRenderScale(ActionBoxRenderer);
 		FVector Pos = UPokemonUtil::GetRightBotAlignPos(RenderScale);
 		Pos += UPokemonUtil::PixelVector(-1, -1);
@@ -214,8 +214,8 @@ void UPokemonUILevelPage::Tick(float _DeltaTime)
 
 void UPokemonUILevelPage::TargetSelectionWaitTick(float _DeltaTime)
 {
-	LongMsgBoxRenderer->SetActive(true);
-	ShortMsgBoxRenderer->SetActive(false);
+	TargetSelectionMsgBoxRenderer->SetActive(true);
+	ActionSelectionMsgBoxRenderer->SetActive(false);
 
 	if (true == UEngineInput::IsDown('X'))
 	{
@@ -314,8 +314,8 @@ void UPokemonUILevelPage::TargetSelect()
 		State = EPokemonUIState::ActionSelectionWait;
 
 		// UI 띄우기
-		LongMsgBoxRenderer->SetActive(false);
-		ShortMsgBoxRenderer->SetActive(true);
+		TargetSelectionMsgBoxRenderer->SetActive(false);
+		ActionSelectionMsgBoxRenderer->SetActive(true);
 		ActionBoxRenderer->SetActive(true);
 	}
 }
@@ -329,22 +329,22 @@ void UPokemonUILevelPage::DrawFirst(ETargetImageState _State)
 	switch (_State)
 	{
 	case UPokemonUILevelPage::ETargetImageState::Unfocused:
-		ImageName = "UPFirst.png";
+		ImageName = RN::PokemonUIFirstBox;
 		AddPos = UPokemonUtil::PixelVector(2, 20);
 		MiniAddPos = UPokemonUtil::PixelVector(-1, 12);
 		break;
 	case UPokemonUILevelPage::ETargetImageState::Focused:
-		ImageName = "UPFirstFocused.png";
+		ImageName = RN::PokemonUIFirstFocusedBox;
 		AddPos = UPokemonUtil::PixelVector(2, 18);
 		MiniAddPos = UPokemonUtil::PixelVector(-1, 14);
 		break;
 	case UPokemonUILevelPage::ETargetImageState::From:
-		ImageName = "UPFirstFrom.png";
+		ImageName = RN::PokemonUIFirstFromBox;
 		AddPos = UPokemonUtil::PixelVector(2, 20);
 		MiniAddPos = UPokemonUtil::PixelVector(-1, 12);
 		break;
 	case UPokemonUILevelPage::ETargetImageState::To:
-		ImageName = "UPFirstTo.png";
+		ImageName = RN::PokemonUIFirstToBox;
 		AddPos = UPokemonUtil::PixelVector(2, 18);
 		MiniAddPos = UPokemonUtil::PixelVector(-1, 14);
 		break;
@@ -375,27 +375,27 @@ void UPokemonUILevelPage::DrawEntry(ETargetImageState _State, int _Index)
 	switch (_State)
 	{
 	case UPokemonUILevelPage::ETargetImageState::Empty:
-		ImageName = "UPEntryEmpty.png";
+		ImageName = RN::PokemonUIEntryEmptyBox;
 		AddPos = UPokemonUtil::PixelVector(-2, 10 + 24 * (_Index - 1));
 		MiniAddPos = UPokemonUtil::PixelVector(-3, 0);
 		break;
 	case UPokemonUILevelPage::ETargetImageState::Unfocused:
-		ImageName = "UPEntry.png";
+		ImageName = RN::PokemonUIEntryBox;
 		AddPos = UPokemonUtil::PixelVector(-2, 10 + 24 * (_Index - 1));
 		MiniAddPos = UPokemonUtil::PixelVector(-3, 0);
 		break;
 	case UPokemonUILevelPage::ETargetImageState::Focused:
-		ImageName = "UPEntryFocused.png";
+		ImageName = RN::PokemonUIEntryFocusedBox;
 		AddPos = UPokemonUtil::PixelVector(-2, 9 + 24 * (_Index - 1));
 		MiniAddPos = UPokemonUtil::PixelVector(-3, 1);
 		break;
 	case UPokemonUILevelPage::ETargetImageState::From:
-		ImageName = "UPEntryFrom.png";
+		ImageName = RN::PokemonUIEntryFromBox;
 		AddPos = UPokemonUtil::PixelVector(-2, 10 + 24 * (_Index - 1));
 		MiniAddPos = UPokemonUtil::PixelVector(-3, 0);
 		break;
 	case UPokemonUILevelPage::ETargetImageState::To:
-		ImageName = "UPEntryTo.png";
+		ImageName = RN::PokemonUIEntryToBox;
 		AddPos = UPokemonUtil::PixelVector(-2, 9 + 24 * (_Index - 1));
 		MiniAddPos = UPokemonUtil::PixelVector(-3, 1);
 		break;
@@ -430,11 +430,11 @@ void UPokemonUILevelPage::DrawCancel(ETargetImageState _State)
 	switch (_State)
 	{
 	case UPokemonUILevelPage::ETargetImageState::Unfocused:
-		ImageName = "UPCancel.png";
+		ImageName = RN::PokemonUICancel;
 		AddPos = UPokemonUtil::PixelVector(-2, -6);
 		break;
 	case UPokemonUILevelPage::ETargetImageState::Focused:
-		ImageName = "UPCancelFocused.png";
+		ImageName = RN::PokemonUICancelFocused;
 		AddPos = UPokemonUtil::PixelVector(-2, -4);
 		break;
 	default:
@@ -479,6 +479,9 @@ void UPokemonUILevelPage::ActionSelect()
 		break;
 	case 1:
 		// Switch 상태로 전환
+		State = EPokemonUIState::SwitchSelectionWait;
+		ActionBoxRenderer->SetActive(false);
+		ActionSelectionMsgBoxRenderer->SetActive(false);
 		break;
 	case 2:
 		State = EPokemonUIState::TargetSelectionWait;
@@ -487,6 +490,11 @@ void UPokemonUILevelPage::ActionSelect()
 	default:
 		break;
 	}
+}
+
+void UPokemonUILevelPage::SwitchSelectionWaitTick(float _DeltaTime)
+{
+
 }
 
 void UPokemonUILevelPage::SwitchTick(float _DeltaTime)

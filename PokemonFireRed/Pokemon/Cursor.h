@@ -27,7 +27,7 @@ public:
 		{
 			Renderer = CreateImageRenderer(ERenderingOrder::Text);
 			Renderer->CameraEffectOff();
-			Renderer->SetImage(Global::BlackCursorImageName);
+			Renderer->SetImage(RN::BlackCursor);
 			FVector RenderScale = UPokemonUtil::GetRenderScale(Renderer);
 			Renderer->SetTransform({ RenderScale.Half2D(), RenderScale });
 		}

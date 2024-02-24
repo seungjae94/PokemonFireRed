@@ -17,15 +17,15 @@ void AScrollBar::DrawHp(int _Value)
 	std::string ImageName;
 	if (Prop > 0.5f)
 	{
-		ImageName = Global::HpBarGreenImageName;
+		ImageName = RN::HpBarGreen;
 	}
 	else if (Prop > 0.2f)
 	{ 
-		ImageName = Global::HpBarYellowImageName;
+		ImageName = RN::HpBarYellow;
 	}
 	else
 	{
-		ImageName = Global::HpBarRedImageName;
+		ImageName = RN::HpBarRed;
 	}
 
 	int Width = std::lround(std::floor(FWidth));
@@ -56,7 +56,7 @@ void AScrollBar::DrawExp(int _Value)
 	float FWidth = Prop * (64 * Global::FloatPixelSize);
 	int Width = std::lround(std::floor(FWidth));
 
-	std::string ImageName = Global::ExpBarImageName;
+	std::string ImageName = RN::ExpBar;
 
 	if (Renderers.size() > 0)
 	{

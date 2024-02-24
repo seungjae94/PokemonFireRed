@@ -44,13 +44,16 @@ void UPokemonUtil::CreateMiniPokemonAnimations(UImageRenderer* _Renderer)
 {
 	if (nullptr == _Renderer->GetImage())
 	{
-		_Renderer->SetImage(Global::PokemonMiniImageName);
+		_Renderer->SetImage(RN::PokemonMini);
 	}
 
 	for (EPokedexNo No : UPokemon::GetImplementedSpeciesNo())
 	{
 		int Idx = static_cast<int>(No);
-		_Renderer->CreateAnimation(Global::PokemonMiniPrefix + UPokemon::GetSpeciesName(No), Global::PokemonMiniImageName, Idx * 2 - 2, Idx * 2 - 1, 1.0f / 6, true);
+		_Renderer->CreateAnimation(
+			Global::PokemonMiniPrefix + UPokemon::GetSpeciesName(No), 
+			RN::PokemonMini, 
+			Idx * 2 - 2, Idx * 2 - 1, 1.0f / 6, true);
 	}
 }
 

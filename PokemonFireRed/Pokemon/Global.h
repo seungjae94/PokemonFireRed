@@ -69,35 +69,53 @@ public:
 	static const std::string PokemonFrontPrefix;
 	static const std::string PokemonBackPrefix;
 	static const std::string PokemonMiniPrefix;
-
-	static const std::string PokemonFrontImageName;
-	static const std::string PokemonBackImageName;
-	static const std::string PokemonMiniImageName;
-	static const std::string GenderMarkMaleImageName;
-	static const std::string GenderMarkFemaleImageName;
-	static const std::string HpBarBlackImageName;
-	static const std::string HpBarRedImageName;
-	static const std::string HpBarYellowImageName;
-	static const std::string HpBarGreenImageName;
-	static const std::string ExpBarImageName;
-	static const std::string BlackCursorImageName;
-
 	static const std::string PlayerName;
 
 	static const Color8Bit PixelColliderBlock;
 	static const Color8Bit PixelColliderBlockUpDown;
-
-	// delete Function
-	Global(const Global& _Other) = delete;
-	Global(Global&& _Other) noexcept = delete;
-	Global& operator=(const Global& _Other) = delete;
-	Global& operator=(Global&& _Other) noexcept = delete;
-
 protected:
 
 private:
 	Global() {}
 	~Global() {}
+};
+
+// Resource Name
+class RN
+{
+public:
+	static const std::string PokemonFront;
+	static const std::string PokemonBack;
+	static const std::string PokemonMini;
+	static const std::string GenderMarkMale;
+	static const std::string GenderMarkFemale;
+	static const std::string HpBarBlack;
+	static const std::string HpBarRed;
+	static const std::string HpBarYellow;
+	static const std::string HpBarGreen;
+	static const std::string ExpBar;
+	static const std::string BlackCursor;
+	static const std::string PokemonUIBackground;
+	static const std::string PokemonUITargetSelectionMsgBox;
+	static const std::string PokemonUIActionSelectionMsgBox;
+	static const std::string PokemonUISwitchSelectionMsgBox;
+	static const std::string PokemonUIActionBox;
+	static const std::string PokemonUIFirstBox;
+	static const std::string PokemonUIFirstFocusedBox;
+	static const std::string PokemonUIFirstFromBox;
+	static const std::string PokemonUIFirstToBox;
+	static const std::string PokemonUIEntryBox;
+	static const std::string PokemonUIEntryEmptyBox;
+	static const std::string PokemonUIEntryFocusedBox;
+	static const std::string PokemonUIEntryFromBox;
+	static const std::string PokemonUIEntryToBox;
+	static const std::string PokemonUICancel;
+	static const std::string PokemonUICancelFocused;
+protected:
+
+private:
+	RN() {}
+	~RN() {}
 };
 
 enum ERenderingOrder
