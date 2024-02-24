@@ -196,6 +196,8 @@ void UPokemonUILevelPage::BeginPlay()
 		);
 		EntryHpBars.push_back(HpBar);
 	}
+
+	RefreshAllTargets();
 }
 
 void UPokemonUILevelPage::Tick(float _DeltaTime)
@@ -212,6 +214,7 @@ void UPokemonUILevelPage::Tick(float _DeltaTime)
 		break;
 	case EPokemonUIState::SwitchSelectionWait:
 		SwitchSelectionWaitTick(_DeltaTime);
+		break;
 	case EPokemonUIState::Switch:
 		SwitchTick(_DeltaTime);
 		break;
@@ -267,13 +270,12 @@ void UPokemonUILevelPage::TargetSelectionWaitTick(float _DeltaTime)
 
 		MoveTargetCursor(UPokemonMath::Mod(TargetCursor + 1, EntrySize + 1));
 	}
-
-	RefreshAllTargets();
 }
 
 void UPokemonUILevelPage::MoveTargetCursor(int _Cursor)
 {
 	TargetCursor = _Cursor;
+	RefreshAllTargets();
 }
 
 void UPokemonUILevelPage::TargetSelect()
@@ -345,6 +347,7 @@ void UPokemonUILevelPage::SwitchSelectionWaitStart()
 	ActionSelectionMsgBoxRenderer->SetActive(false);
 	SwitchSelectionMsgBoxRenderer->SetActive(true);
 	SwitchFromCursor = TargetCursor;
+	RefreshAllTargets();
 }
 
 void UPokemonUILevelPage::SwitchSelectionWaitTick(float _DeltaTime)
@@ -394,8 +397,6 @@ void UPokemonUILevelPage::SwitchSelectionWaitTick(float _DeltaTime)
 
 		MoveTargetCursor(UPokemonMath::Mod(TargetCursor + 1, EntrySize + 1));
 	}
-
-	RefreshAllTargets();
 }
 
 void UPokemonUILevelPage::SwitchSelect()
@@ -410,11 +411,63 @@ void UPokemonUILevelPage::SwitchSelect()
 	}
 	
 	State = EPokemonUIState::Switch;
+	SwitchMoveState = ESwitchMoveState::Out;
+	SwitchMoveTimer = SwitchMoveOutTime;
 }
 
 void UPokemonUILevelPage::SwitchTick(float _DeltaTime)
 {
 	// 교체가 전부 끝나면 상태 변경 후 메시지 박스 변경
+	switch (SwitchMoveState)
+	{
+	case UPokemonUILevelPage::ESwitchMoveState::Out:
+		SwitchMoveOutTick(_DeltaTime);
+		break;
+	case UPokemonUILevelPage::ESwitchMoveState::Wait:
+		SwitchMoveWaitTick(_DeltaTime);
+		break;
+	case UPokemonUILevelPage::ESwitchMoveState::In:
+		SwitchMoveInTick(_DeltaTime);
+		break;
+	default:
+		break;
+	}
+}
+
+void UPokemonUILevelPage::SwitchMoveOutTick(float _DeltaTime)
+{
+	SwitchMoveTimer -= _DeltaTime;
+
+	if (SwitchMoveTimer <= 0.0f)
+	{
+		SwitchMoveState = ESwitchMoveState::Wait;
+		SwitchMoveTimer = SwitchMoveWaitTime;
+		UPlayerData::SwapEntry(SwitchFromCursor, TargetCursor);
+		RefreshAllTargets();
+	}
+}
+
+void UPokemonUILevelPage::SwitchMoveWaitTick(float _DeltaTime)
+{
+	SwitchMoveTimer -= _DeltaTime;
+
+	if (SwitchMoveTimer <= 0.0f)
+	{
+		SwitchMoveState = ESwitchMoveState::In;
+		SwitchMoveTimer = SwitchMoveInTime;
+	}
+}
+
+void UPokemonUILevelPage::SwitchMoveInTick(float _DeltaTime)
+{
+	SwitchMoveTimer -= _DeltaTime;
+
+	if (SwitchMoveTimer <= 0.0f)
+	{
+		State = EPokemonUIState::TargetSelectionWait;
+		SwitchSelectionMsgBoxRenderer->SetActive(false);
+		TargetSelectionMsgBoxRenderer->SetActive(true);
+	}
 }
 
 // Refresh 함수
@@ -436,6 +489,7 @@ void UPokemonUILevelPage::RefreshFirst()
 		}
 		break;
 	case EPokemonUIState::SwitchSelectionWait:
+	case EPokemonUIState::Switch:
 		if (TargetCursor == 0)
 		{
 			TargetState = ETargetState::To;
@@ -495,6 +549,14 @@ void UPokemonUILevelPage::RefreshFirst()
 	FVector MiniRenderScale = Global::MiniPokemonRenderScale;
 	FVector MiniPos = FirstRenderer->GetTransform().LeftTop() + MiniAddPos + MiniRenderScale.Half2D();
 	FirstMiniPokemonRenderer->SetTransform({ MiniPos, MiniRenderScale });
+
+	FirstNameText->SetText(Pokemon.GetName());
+	FirstLevelText->SetText(std::to_wstring(Pokemon.GetLevel()));
+	FirstHpText->SetText(std::to_wstring(Pokemon.GetHp()));
+	FirstCurHpText->SetText(std::to_wstring(Pokemon.GetCurHp()));
+
+	FirstHpBar->SetMaxValue(Pokemon.GetHp());
+	FirstHpBar->SetValue(Pokemon.GetCurHp());
 }
 
 void UPokemonUILevelPage::RefreshEntry(int _Index)
@@ -518,6 +580,7 @@ void UPokemonUILevelPage::RefreshEntry(int _Index)
 		}
 		break;
 	case EPokemonUIState::SwitchSelectionWait:
+	case EPokemonUIState::Switch:
 		if (false == IsEntry(_Index))
 		{
 			TargetState = ETargetState::Empty;
@@ -591,6 +654,13 @@ void UPokemonUILevelPage::RefreshEntry(int _Index)
 	FVector MiniRenderScale = Global::MiniPokemonRenderScale;
 	FVector MiniPos = EntryRenderers[_Index - 1]->GetTransform().LeftTop() + MiniAddPos + MiniRenderScale.Half2D();
 	EntryMiniPokemonRenderers[_Index - 1]->SetTransform({ MiniPos, MiniRenderScale });
+
+	EntryNameTexts[_Index - 1]->SetText(Pokemon.GetName());
+	EntryLevelTexts[_Index - 1]->SetText(std::to_wstring(Pokemon.GetLevel()));
+	EntryHpTexts[_Index - 1]->SetText(std::to_wstring(Pokemon.GetHp()));
+	EntryCurHpTexts[_Index - 1]->SetText(std::to_wstring(Pokemon.GetCurHp()));
+	EntryHpBars[_Index - 1]->SetMaxValue(Pokemon.GetHp());
+	EntryHpBars[_Index - 1]->SetValue(Pokemon.GetCurHp());
 }
 
 void UPokemonUILevelPage::RefreshCancel()

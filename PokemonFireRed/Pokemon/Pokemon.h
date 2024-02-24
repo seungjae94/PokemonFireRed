@@ -128,7 +128,7 @@ public:
 	UPokemon& operator=(const UPokemon& _Other) = default;
 	UPokemon& operator=(UPokemon&& _Other) noexcept = default;
 
-	std::wstring GetName()
+	std::wstring GetName() const
 	{
 		return Name;
 	}

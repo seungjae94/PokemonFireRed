@@ -45,6 +45,13 @@ private:
 		To
 	};
 
+	enum class ESwitchMoveState
+	{
+		Out,
+		Wait,
+		In
+	};
+
 	UImageRenderer* BackgroundRenderer = nullptr;
 	UImageRenderer* TargetSelectionMsgBoxRenderer = nullptr;
 	UImageRenderer* ActionSelectionMsgBoxRenderer = nullptr;
@@ -88,6 +95,14 @@ private:
 	void SwitchSelect();
 
 	void SwitchTick(float _DeltaTime);
+	void SwitchMoveOutTick(float _DeltaTime);
+	void SwitchMoveWaitTick(float _DeltaTime);
+	void SwitchMoveInTick(float _DeltaTime);
+	ESwitchMoveState SwitchMoveState = ESwitchMoveState::Out;
+	float SwitchMoveOutTime = 1.0f;
+	float SwitchMoveWaitTime = 1.0f;
+	float SwitchMoveInTime = 1.0f;
+	float SwitchMoveTimer = 0.0f;
 
 	// Refresh ÇÔ¼ö
 	void RefreshFirst();

@@ -47,9 +47,10 @@ void UPlayerData::SwapEntry(int _Index0, int _Index1)
 		return;
 	}
 
-	UPokemon& Tmp = PokemonEntry[0];
-	PokemonEntry[1] = PokemonEntry[0];
-	PokemonEntry[1] = Tmp;
+	UPokemon Pokemon0 = PokemonEntry[_Index0];
+	UPokemon Pokemon1 = PokemonEntry[_Index1];
+	PokemonEntry[_Index0] = Pokemon1;
+	PokemonEntry[_Index1] = Pokemon0;
 }
 
 
