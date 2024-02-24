@@ -153,6 +153,11 @@ public:
 		return PokedexNo;
 	}
 
+	ENature GetNature() const
+	{
+		return Nature;
+	}
+
 	void Heal(int _Value)
 	{
 		if (_Value < 0)
@@ -201,6 +206,16 @@ public:
 	static std::string GetSpeciesName(EPokedexNo _No)
 	{
 		return SpeciesNames[_No];
+	}
+
+	static std::wstring GetNatureNameW(ENature _Nature)
+	{
+		return UEngineString::AnsiToUniCode(NatureNames[_Nature]);
+	}
+
+	static std::string GetNatureName(ENature _Nature)
+	{
+		return NatureNames[_Nature];
 	}
 
 	static std::list<EPokedexNo> GetImplementedSpeciesNo()
@@ -272,6 +287,7 @@ private:
 	EGender Gender = EGender::Male;
 
 	static std::map<EPokedexNo, std::string> SpeciesNames;
+	static std::map<ENature, std::string> NatureNames;
 	static std::list<EPokedexNo> ImplementedSpeciesNo;
 };
 

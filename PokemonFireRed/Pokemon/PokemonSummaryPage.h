@@ -21,10 +21,7 @@ public:
 		Pokemon = _Pokemon;
 	}
 
-	void RefreshAll()
-	{
-
-	}
+	void RefreshAll();
 
 protected:
 	void BeginPlay() override;
@@ -41,10 +38,12 @@ private:
 	APokemonText* LevelText = nullptr;
 
 	// InfoBox ¿ä¼Ò
-	APokemonText* NoText = nullptr;
+	APokemonText* PokedexNoText = nullptr;
 	APokemonText* SpeciesNameText = nullptr;
 	std::list<UImageRenderer*> TypeIcons;
 	APokemonText* TrainerText = nullptr;
+	APokemonText* IdNoText = nullptr;
+	APokemonText* ItemText = nullptr;
 	APokemonText* TrainerMemo = nullptr;
 };
 

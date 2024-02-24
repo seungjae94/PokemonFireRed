@@ -3,6 +3,7 @@
 #include <random>
 
 std::map<EPokedexNo, std::string> UPokemon::SpeciesNames;
+std::map<ENature, std::string> UPokemon::NatureNames;
 std::list<EPokedexNo> UPokemon::ImplementedSpeciesNo;
 
 class PokemonInitiator
@@ -17,6 +18,32 @@ public:
 		UPokemon::ImplementedSpeciesNo.push_back(EPokedexNo::Bulbasaur);
 		UPokemon::ImplementedSpeciesNo.push_back(EPokedexNo::Charmander);
 		UPokemon::ImplementedSpeciesNo.push_back(EPokedexNo::Squirtle);
+
+		UPokemon::NatureNames[ENature::Adamant] = UEngineString::ToUpper("Adamant");
+		UPokemon::NatureNames[ENature::Bashful] = UEngineString::ToUpper("Bashful");
+		UPokemon::NatureNames[ENature::Bold] = UEngineString::ToUpper("Bold");
+		UPokemon::NatureNames[ENature::Brave] = UEngineString::ToUpper("Brave");
+		UPokemon::NatureNames[ENature::Calm] = UEngineString::ToUpper("Calm");
+		UPokemon::NatureNames[ENature::Careful] = UEngineString::ToUpper("Careful");
+		UPokemon::NatureNames[ENature::Docile] = UEngineString::ToUpper("Docile");
+		UPokemon::NatureNames[ENature::Gentle] = UEngineString::ToUpper("Gentle");
+		UPokemon::NatureNames[ENature::Hardy] = UEngineString::ToUpper("Hardy");
+		UPokemon::NatureNames[ENature::Hasty] = UEngineString::ToUpper("Hasty");
+		UPokemon::NatureNames[ENature::Impish] = UEngineString::ToUpper("Impish");
+		UPokemon::NatureNames[ENature::Jolly] = UEngineString::ToUpper("Jolly");
+		UPokemon::NatureNames[ENature::Lax] = UEngineString::ToUpper("Lax");
+		UPokemon::NatureNames[ENature::Lonely] = UEngineString::ToUpper("Lonely");
+		UPokemon::NatureNames[ENature::Mild] = UEngineString::ToUpper("Mild");
+		UPokemon::NatureNames[ENature::Modest] = UEngineString::ToUpper("Modest");
+		UPokemon::NatureNames[ENature::Naive] = UEngineString::ToUpper("Naive");
+		UPokemon::NatureNames[ENature::Naughty] = UEngineString::ToUpper("Naughty");
+		UPokemon::NatureNames[ENature::Quiet] = UEngineString::ToUpper("Quiet");
+		UPokemon::NatureNames[ENature::Quirky] = UEngineString::ToUpper("Quirky");
+		UPokemon::NatureNames[ENature::Rash] = UEngineString::ToUpper("Rash");
+		UPokemon::NatureNames[ENature::Relaxed] = UEngineString::ToUpper("Relaxed");
+		UPokemon::NatureNames[ENature::Sassy] = UEngineString::ToUpper("Sassy");
+		UPokemon::NatureNames[ENature::Serious] = UEngineString::ToUpper("Serious");
+		UPokemon::NatureNames[ENature::Timid] = UEngineString::ToUpper("Timid");
 	}
 };
 

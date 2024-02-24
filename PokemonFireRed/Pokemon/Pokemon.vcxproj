@@ -324,6 +324,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="PokemonString.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="PokemonSummaryPage.h">
       <SubType>
       </SubType>
@@ -543,6 +547,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="PokemonIcon.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PokemonString.cpp">
       <SubType>
       </SubType>
     </ClCompile>

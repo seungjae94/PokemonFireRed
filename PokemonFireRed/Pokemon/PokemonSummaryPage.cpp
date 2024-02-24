@@ -1,4 +1,5 @@
 #include "PokemonSummaryPage.h"
+#include "PokemonString.h"
 
 APokemonSummaryPage::APokemonSummaryPage()
 {
@@ -45,15 +46,15 @@ void APokemonSummaryPage::BeginPlay()
 	);
 
 	// InfoBox 요소
-	NoText = CreateText(
+	PokedexNoText = CreateText(
 		InfoBox,
 		L"000",
 		EPivotType::RightTop,
 		EAlignType::Left,
-		-72, 16,
+		-72, 15,
 		EFontColor::Black
 	);
-	APokemonText* SpeciesNameText = CreateText(
+	SpeciesNameText = CreateText(
 		InfoBox,
 		L"UNDEFINED",
 		EPivotType::RightTop,
@@ -62,9 +63,9 @@ void APokemonSummaryPage::BeginPlay()
 		EFontColor::Black
 	);
 
-	// std::list<UImageRenderer*> TypeIcons;
+	// 타입 아이콘
 
-	APokemonText* TrainerText = CreateText(
+	TrainerText = CreateText(
 		InfoBox,
 		L"RED",
 		EPivotType::RightTop,
@@ -73,7 +74,25 @@ void APokemonSummaryPage::BeginPlay()
 		EFontColor::Black
 	);
 
-	APokemonText* TrainerMemo = CreateText(
+	IdNoText = CreateText(
+		InfoBox,
+		L"00000",
+		EPivotType::RightTop,
+		EAlignType::Left,
+		-72, 75,
+		EFontColor::Black
+	);
+
+	ItemText = CreateText(
+		InfoBox,
+		L"NONE",
+		EPivotType::RightTop,
+		EAlignType::Left,
+		-72, 90,
+		EFontColor::Black
+	);
+
+	TrainerMemo = CreateText(
 		InfoBox,
 		L"XXXX Nature.",
 		EPivotType::LeftBot,
@@ -81,6 +100,20 @@ void APokemonSummaryPage::BeginPlay()
 		8, -33,
 		EFontColor::Black
 	);
+}
+
+void APokemonSummaryPage::RefreshAll()
+{
+	EPokedexNo PokedexNo = Pokemon->GetPokedexNo();
+	std::wstring PokedexNoString = std::to_wstring(static_cast<int>(PokedexNo));
+	ENature Nature = Pokemon->GetNature();
+
+	NameText->SetText(Pokemon->GetName());
+	LevelText->SetText(std::to_wstring(Pokemon->GetLevel()));
+	PokedexNoText->SetText(UPokemonString::PadLeft(PokedexNoString, 3, L'0'));
+	SpeciesNameText->SetText(UPokemon::GetSpeciesNameW(PokedexNo));
+	TrainerText->SetText(L"RED");
+	TrainerMemo->SetText(UPokemon::GetNatureNameW(Nature) + L" nature.");
 }
 
 void APokemonSummaryPage::Tick(float _DeltaTime)
