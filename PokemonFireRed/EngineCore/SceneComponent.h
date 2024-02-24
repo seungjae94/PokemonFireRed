@@ -23,6 +23,11 @@ public:
 		Transform.SetPosition(_Value);
 	}
 
+	FVector GetPosition() const
+	{
+		return Transform.GetPosition();
+	}
+
 	void SetScale(const FVector& _Value)
 	{
 		Transform.SetScale(_Value);
