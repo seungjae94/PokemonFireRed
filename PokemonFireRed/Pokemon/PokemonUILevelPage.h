@@ -73,21 +73,23 @@ private:
 	// 상태 처리
 	EPokemonUIState State = EPokemonUIState::TargetSelectionWait;
 
+	void TargetSelectionWaitTick(float _DeltaTime);
 	int TargetCursor = 0;
 	int MemoryEntryCursor = 1;
 	std::string PrevMapLevelName;
-	void TargetSelectionWaitTick(float _DeltaTime);
-	void MoveTargetCursor(int _Cursor);
-	void TargetSelect();
-
+	void MoveTargetCursor(int _Cursor, bool _SwitchSelectionMode = false);
 	void DrawFirst(ETargetImageState _State);
 	void DrawEntry(ETargetImageState _State, int _Index);
 	void DrawCancel(ETargetImageState _State);
+	void TargetSelect();
 
 	void ActionSelectionWaitTick(float _DeltaTime);
 	void ActionSelect();
 
+	void SwitchSelectionWaitStart();
 	void SwitchSelectionWaitTick(float _DeltaTime);
+	int SwitchFromCursor = 0; // TargetCursor가 SwitchToCursor 역할을 겸임. 
+
 	void SwitchTick(float _DeltaTime);
 
 	// 편의 함수

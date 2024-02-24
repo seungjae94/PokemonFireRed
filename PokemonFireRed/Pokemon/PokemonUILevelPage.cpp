@@ -52,18 +52,28 @@ void UPokemonUILevelPage::BeginPlay()
 		FVector Pos = UPokemonUtil::GetRightBotAlignPos(RenderScale);
 		Pos += UPokemonUtil::PixelVector(-1, -1);
 		ActionBoxRenderer->SetTransform({ Pos, RenderScale });
-	}
 
-	// 액션 선택 커서 이미지
-	{
+		// 액션 선택 커서
 		ActionCursor = CreateCursor(
 			ActionBoxRenderer,
 			0, 3,
 			EPivotType::LeftTop,
 			8, 11, 16
 		);
+
+		ActionBoxRenderer->SetActive(false);
 	}
-	ActionBoxRenderer->SetActive(false);
+
+	// 스위치 선택 메시지 박스
+	{
+		SwitchSelectionMsgBoxRenderer = CreateImageRenderer(ERenderingOrder::UpperUI);
+		SwitchSelectionMsgBoxRenderer->SetImage(RN::PokemonUISwitchSelectionMsgBox);
+		FVector RenderScale = UPokemonUtil::GetRenderScale(SwitchSelectionMsgBoxRenderer);
+		FVector Pos = UPokemonUtil::GetLeftBotAlignPos(RenderScale);
+		Pos += UPokemonUtil::PixelVector(2, -2);
+		SwitchSelectionMsgBoxRenderer->SetTransform({ Pos, RenderScale });
+		SwitchSelectionMsgBoxRenderer->SetActive(false);
+	}
 
 	// 엔트리 박스
 	FirstRenderer = CreateImageRenderer(ERenderingOrder::UpperUI);
@@ -204,6 +214,8 @@ void UPokemonUILevelPage::Tick(float _DeltaTime)
 	case EPokemonUIState::ActionSelectionWait:
 		ActionSelectionWaitTick(_DeltaTime);
 		break;
+	case EPokemonUIState::SwitchSelectionWait:
+		SwitchSelectionWaitTick(_DeltaTime);
 	case EPokemonUIState::Switch:
 		SwitchTick(_DeltaTime);
 		break;
@@ -214,9 +226,6 @@ void UPokemonUILevelPage::Tick(float _DeltaTime)
 
 void UPokemonUILevelPage::TargetSelectionWaitTick(float _DeltaTime)
 {
-	TargetSelectionMsgBoxRenderer->SetActive(true);
-	ActionSelectionMsgBoxRenderer->SetActive(false);
-
 	if (true == UEngineInput::IsDown('X'))
 	{
 		UPokemonLevel* CurLevel = dynamic_cast<UPokemonLevel*>(GetWorld());
@@ -267,12 +276,20 @@ void UPokemonUILevelPage::TargetSelectionWaitTick(float _DeltaTime)
 	}
 }
 
-void UPokemonUILevelPage::MoveTargetCursor(int _Cursor)
+void UPokemonUILevelPage::MoveTargetCursor(int _Cursor, bool _SwitchSelectionMode)
 {
 	// 이전 커서 위치의 이미지 변경
 	if (true == IsFirst(TargetCursor))
 	{
-		DrawFirst(ETargetImageState::Unfocused);
+		if (true == _SwitchSelectionMode && TargetCursor == SwitchFromCursor)
+		{
+			// 스위치 모드에서 이전 커서가 From 커서인 경우
+			DrawFirst(ETargetImageState::From);
+		}
+		else
+		{
+			DrawFirst(ETargetImageState::Unfocused);
+		}
 	}
 	else if (true == IsCancel(TargetCursor))
 	{
@@ -280,7 +297,15 @@ void UPokemonUILevelPage::MoveTargetCursor(int _Cursor)
 	}
 	else if (true == IsEntry(TargetCursor))
 	{
-		DrawEntry(ETargetImageState::Unfocused, TargetCursor);
+		if (true == _SwitchSelectionMode && TargetCursor == SwitchFromCursor)
+		{
+			// 스위치 모드에서 이전 커서가 From 커서인 경우
+			DrawEntry(ETargetImageState::From, TargetCursor);
+		}
+		else
+		{
+			DrawEntry(ETargetImageState::Unfocused, TargetCursor);
+		}
 	}
 
 	TargetCursor = _Cursor;
@@ -312,8 +337,6 @@ void UPokemonUILevelPage::TargetSelect()
 	else
 	{
 		State = EPokemonUIState::ActionSelectionWait;
-
-		// UI 띄우기
 		TargetSelectionMsgBoxRenderer->SetActive(false);
 		ActionSelectionMsgBoxRenderer->SetActive(true);
 		ActionBoxRenderer->SetActive(true);
@@ -462,6 +485,8 @@ void UPokemonUILevelPage::ActionSelectionWaitTick(float _DeltaTime)
 	else if (UEngineInput::IsDown('X'))
 	{
 		State = EPokemonUIState::TargetSelectionWait;
+		TargetSelectionMsgBoxRenderer->SetActive(true);
+		ActionSelectionMsgBoxRenderer->SetActive(false);
 		ActionBoxRenderer->SetActive(false);
 	}
 	else if (UEngineInput::IsDown('Z'))
@@ -480,11 +505,12 @@ void UPokemonUILevelPage::ActionSelect()
 	case 1:
 		// Switch 상태로 전환
 		State = EPokemonUIState::SwitchSelectionWait;
-		ActionBoxRenderer->SetActive(false);
-		ActionSelectionMsgBoxRenderer->SetActive(false);
+		SwitchSelectionWaitStart();
 		break;
 	case 2:
 		State = EPokemonUIState::TargetSelectionWait;
+		TargetSelectionMsgBoxRenderer->SetActive(true);
+		ActionSelectionMsgBoxRenderer->SetActive(false);
 		ActionBoxRenderer->SetActive(false);
 		break;
 	default:
@@ -492,9 +518,67 @@ void UPokemonUILevelPage::ActionSelect()
 	}
 }
 
+void UPokemonUILevelPage::SwitchSelectionWaitStart()
+{
+	ActionBoxRenderer->SetActive(false);
+	ActionSelectionMsgBoxRenderer->SetActive(false);
+	SwitchSelectionMsgBoxRenderer->SetActive(true);
+	SwitchFromCursor = TargetCursor;
+}
+
 void UPokemonUILevelPage::SwitchSelectionWaitTick(float _DeltaTime)
 {
+	UEngineDebug::OutPutDebugText("TC: " + std::to_string(TargetCursor));
 
+	if (true == UEngineInput::IsDown('X'))
+	{
+		State = EPokemonUIState::TargetSelectionWait;
+		SwitchSelectionMsgBoxRenderer->SetActive(false);
+		TargetSelectionMsgBoxRenderer->SetActive(true);
+		return;
+	}
+
+	if (true == UEngineInput::IsDown('Z'))
+	{
+		//SwitchSelect();
+		return;
+	}
+
+	int EntrySize = UPlayerData::GetPokemonEntrySize();
+	if (true == UEngineInput::IsDown(VK_LEFT) && IsEntry(TargetCursor))
+	{
+		MemoryEntryCursor = TargetCursor;
+		MoveTargetCursor(0, true);
+		return;
+	}
+
+	if (true == UEngineInput::IsDown(VK_RIGHT) && IsFirst(TargetCursor))
+	{
+		MoveTargetCursor(MemoryEntryCursor, true);
+		return;
+	}
+
+	if (true == UEngineInput::IsDown(VK_UP))
+	{
+		if (true == IsEntry(TargetCursor))
+		{
+			MemoryEntryCursor = TargetCursor;
+		}
+
+		MoveTargetCursor(UPokemonMath::Mod(TargetCursor - 1, EntrySize + 1), true);
+		return;
+	}
+
+	if (true == UEngineInput::IsDown(VK_DOWN))
+	{
+		if (true == IsEntry(TargetCursor))
+		{
+			MemoryEntryCursor = TargetCursor;
+		}
+
+		MoveTargetCursor(UPokemonMath::Mod(TargetCursor + 1, EntrySize + 1), true);
+		return;
+	}
 }
 
 void UPokemonUILevelPage::SwitchTick(float _DeltaTime)
