@@ -411,8 +411,40 @@ void UPokemonUILevelPage::SwitchSelect()
 	}
 	
 	State = EPokemonUIState::Switch;
+	SwitchStart();
+}
+
+void UPokemonUILevelPage::SwitchStart()
+{
 	SwitchMoveState = ESwitchMoveState::Out;
 	SwitchMoveTimer = SwitchMoveOutTime;
+
+	if (true == IsFirst(SwitchFromCursor))
+	{
+		SwitchMoveSwitchFromRenderer = FirstRenderer;
+		SwitchFromPrevPos = SwitchMoveSwitchFromRenderer->GetPosition();
+		SwitchFromOutPos = SwitchFromPrevPos - FVector(0.5f * Global::FloatScreenX, 0.0f);
+	}
+	else
+	{
+		SwitchMoveSwitchFromRenderer = EntryRenderers[SwitchFromCursor - 1];
+		SwitchFromPrevPos = SwitchMoveSwitchFromRenderer->GetPosition();
+		SwitchFromOutPos = SwitchFromPrevPos + FVector(0.75f * Global::FloatScreenX, 0.0f);
+	}
+
+	if (true == IsFirst(TargetCursor))
+	{
+		SwitchMoveTargetRenderer = FirstRenderer;
+		TargetPrevPos = SwitchMoveTargetRenderer->GetPosition();
+		TargetOutPos = TargetPrevPos - FVector(0.5f * Global::FloatScreenX, 0.0f);
+	}
+	else
+	{
+		SwitchMoveTargetRenderer = EntryRenderers[TargetCursor - 1];
+		TargetPrevPos = SwitchMoveTargetRenderer->GetPosition();
+		TargetOutPos = TargetPrevPos + FVector(0.75f * Global::FloatScreenX, 0.0f);
+	}
+
 }
 
 void UPokemonUILevelPage::SwitchTick(float _DeltaTime)
@@ -438,6 +470,10 @@ void UPokemonUILevelPage::SwitchMoveOutTick(float _DeltaTime)
 {
 	SwitchMoveTimer -= _DeltaTime;
 
+	float t = 1.0f - SwitchMoveTimer / SwitchMoveOutTime;
+	SwitchMoveSwitchFromRenderer->SetPosition(UPokemonMath::Lerp(SwitchFromPrevPos, SwitchFromOutPos, t));
+	SwitchMoveTargetRenderer->SetPosition(UPokemonMath::Lerp(TargetPrevPos, TargetOutPos, t));
+
 	if (SwitchMoveTimer <= 0.0f)
 	{
 		SwitchMoveState = ESwitchMoveState::Wait;
@@ -461,6 +497,10 @@ void UPokemonUILevelPage::SwitchMoveWaitTick(float _DeltaTime)
 void UPokemonUILevelPage::SwitchMoveInTick(float _DeltaTime)
 {
 	SwitchMoveTimer -= _DeltaTime;
+
+	float t = SwitchMoveTimer / SwitchMoveInTime;
+	SwitchMoveSwitchFromRenderer->SetPosition(UPokemonMath::Lerp(SwitchFromPrevPos, SwitchFromOutPos, t));
+	SwitchMoveTargetRenderer->SetPosition(UPokemonMath::Lerp(TargetPrevPos, TargetOutPos, t));
 
 	if (SwitchMoveTimer <= 0.0f)
 	{
@@ -539,10 +579,13 @@ void UPokemonUILevelPage::RefreshFirst()
 		break;
 	}
 
-	FirstRenderer->SetImage(ImageName);
-	FVector RenderScale = UPokemonUtil::GetRenderScale(FirstRenderer);
-	FVector Pos = RenderScale.Half2D() + AddPos;
-	FirstRenderer->SetTransform({ Pos, RenderScale });
+	if (State != EPokemonUIState::Switch)
+	{
+		FirstRenderer->SetImage(ImageName);
+		FVector RenderScale = UPokemonUtil::GetRenderScale(FirstRenderer);
+		FVector Pos = RenderScale.Half2D() + AddPos;
+		FirstRenderer->SetTransform({ Pos, RenderScale });
+	}
 
 	const UPokemon& Pokemon = UPlayerData::GetPokemonInEntry(0);
 	EPokedexNo PokedexNo = Pokemon.GetPokedexNo();
@@ -638,10 +681,13 @@ void UPokemonUILevelPage::RefreshEntry(int _Index)
 		break;
 	}
 
-	EntryRenderers[_Index - 1]->SetImage(ImageName);
-	FVector RenderScale = UPokemonUtil::GetRenderScale(EntryRenderers[_Index - 1]);
-	FVector Pos = UPokemonUtil::GetRightTopAlignPos(RenderScale) + AddPos;
-	EntryRenderers[_Index - 1]->SetTransform({ Pos, RenderScale });
+	if (State != EPokemonUIState::Switch)
+	{
+		EntryRenderers[_Index - 1]->SetImage(ImageName);
+		FVector RenderScale = UPokemonUtil::GetRenderScale(EntryRenderers[_Index - 1]);
+		FVector Pos = UPokemonUtil::GetRightTopAlignPos(RenderScale) + AddPos;
+		EntryRenderers[_Index - 1]->SetTransform({ Pos, RenderScale });
+	}
 
 	if (_Index < 0 || _Index >= UPlayerData::GetPokemonEntrySize())
 	{
