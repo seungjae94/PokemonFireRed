@@ -21,6 +21,7 @@ private:
 	UImageRenderer* Background = nullptr;
 	UImageRenderer* CommonBox = nullptr;
 	UImageRenderer* InfoBox = nullptr;
+	UImageRenderer* NavInfo = nullptr;
 
 };
 
