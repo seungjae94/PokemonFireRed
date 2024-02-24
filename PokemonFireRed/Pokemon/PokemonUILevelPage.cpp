@@ -77,30 +77,22 @@ void UPokemonUILevelPage::BeginPlay()
 
 	// 엔트리 박스
 	FirstRenderer = CreateImageRenderer(ERenderingOrder::UpperUI);
-	FirstMiniPokemonRenderer = CreateImageRenderer(ERenderingOrder::Upper2UI);
-	UPokemonUtil::CreateMiniPokemonAnimations(FirstMiniPokemonRenderer);
 
 	EntryRenderers.reserve(6);
 	for (int i = 1; i < UPlayerData::GetPokemonEntrySize(); ++i)
 	{
 		UImageRenderer* Renderer = CreateImageRenderer(ERenderingOrder::UpperUI);
-		UImageRenderer* MiniPokemonRenderer = CreateImageRenderer(ERenderingOrder::Upper2UI);
-		UPokemonUtil::CreateMiniPokemonAnimations(MiniPokemonRenderer);
 		EntryRenderers.push_back(Renderer);
-		EntryMiniPokemonRenderers.push_back(MiniPokemonRenderer);
 	}
 	for (int i = UPlayerData::GetPokemonEntrySize(); i < 6; ++i)
 	{
 		UImageRenderer* Renderer = CreateImageRenderer(ERenderingOrder::UpperUI);
-		UImageRenderer* MiniPokemonRenderer = CreateImageRenderer(ERenderingOrder::Upper2UI);
-		UPokemonUtil::CreateMiniPokemonAnimations(MiniPokemonRenderer);
 		EntryRenderers.push_back(Renderer);
-		EntryMiniPokemonRenderers.push_back(MiniPokemonRenderer);
 	}
 
 	CancelRenderer = CreateImageRenderer(ERenderingOrder::UpperUI);
 
-	// 첫 번째 포켓몬 텍스트
+	// 텍스트, 아이콘, 스크롤바
 	UPokemon& First = UPlayerData::GetPokemonInEntry(0);
 	FirstNameText = CreateText(
 		FirstRenderer,
@@ -134,14 +126,17 @@ void UPokemonUILevelPage::BeginPlay()
 		-25, -3,
 		EFontColor::WhiteGray, EFontSize::Mini
 	);
-
-	// 첫 번째 포켓몬 스크롤 바
 	FirstHpBar = CreateScrollBar(
 		FirstRenderer,
 		EScrollType::Hp,
 		First.GetCurHp(), First.GetHp(),
 		EPivotType::RightBot,
 		-53, -15
+	);
+	FirstPokemonIcon = CreatePokemonIcon(
+		FirstRenderer,
+		EPivotType::LeftBot,
+		-2, -46
 	);
 
 	for (int i = 1; i < UPlayerData::GetPokemonEntrySize(); ++i)
@@ -180,13 +175,6 @@ void UPokemonUILevelPage::BeginPlay()
 			-25, 0,
 			EFontColor::WhiteGray, EFontSize::Mini
 		);
-
-		EntryNameTexts.push_back(NameText);
-		EntryLevelTexts.push_back(LevelText);
-		EntryHpTexts.push_back(HpText);
-		EntryCurHpTexts.push_back(CurHpText);
-
-		// i번째 포켓몬 스크롤 바
 		AScrollBar* HpBar = CreateScrollBar(
 			EntryRenderers[i - 1],
 			EScrollType::Hp,
@@ -194,7 +182,18 @@ void UPokemonUILevelPage::BeginPlay()
 			EPivotType::RightBot,
 			-53, -13
 		);
+		APokemonIcon* Icon = CreatePokemonIcon(
+			EntryRenderers[i - 1],
+			EPivotType::LeftBot,
+			-3, -20
+		);
+
+		EntryNameTexts.push_back(NameText);
+		EntryLevelTexts.push_back(LevelText);
+		EntryHpTexts.push_back(HpText);
+		EntryCurHpTexts.push_back(CurHpText);
 		EntryHpBars.push_back(HpBar);
+		EntryPokemonIcons.push_back(Icon);
 	}
 
 	RefreshAllTargets();
@@ -588,11 +587,6 @@ void UPokemonUILevelPage::RefreshFirst()
 	}
 
 	const UPokemon& Pokemon = UPlayerData::GetPokemonInEntry(0);
-	EPokedexNo PokedexNo = Pokemon.GetPokedexNo();
-	FirstMiniPokemonRenderer->ChangeAnimation(Global::PokemonMiniPrefix + UPokemon::GetSpeciesName(PokedexNo));
-	FVector MiniRenderScale = Global::MiniPokemonRenderScale;
-	FVector MiniPos = FirstRenderer->GetTransform().LeftTop() + MiniAddPos + MiniRenderScale.Half2D();
-	FirstMiniPokemonRenderer->SetTransform({ MiniPos, MiniRenderScale });
 
 	FirstNameText->SetText(Pokemon.GetName());
 	FirstLevelText->SetText(std::to_wstring(Pokemon.GetLevel()));
@@ -601,6 +595,8 @@ void UPokemonUILevelPage::RefreshFirst()
 
 	FirstHpBar->SetMaxValue(Pokemon.GetHp());
 	FirstHpBar->SetValue(Pokemon.GetCurHp());
+
+	FirstPokemonIcon->SetPokemon(Pokemon);
 }
 
 void UPokemonUILevelPage::RefreshEntry(int _Index)
@@ -695,19 +691,16 @@ void UPokemonUILevelPage::RefreshEntry(int _Index)
 	}
 
 	const UPokemon& Pokemon = UPlayerData::GetPokemonInEntry(_Index);
-	EPokedexNo PokedexNo = Pokemon.GetPokedexNo();
-	EntryMiniPokemonRenderers[_Index - 1]->ChangeAnimation(Global::PokemonMiniPrefix + UPokemon::GetSpeciesName(PokedexNo));
-
-	FVector MiniRenderScale = Global::MiniPokemonRenderScale;
-	FVector MiniPos = EntryRenderers[_Index - 1]->GetTransform().LeftTop() + MiniAddPos + MiniRenderScale.Half2D();
-	EntryMiniPokemonRenderers[_Index - 1]->SetTransform({ MiniPos, MiniRenderScale });
 
 	EntryNameTexts[_Index - 1]->SetText(Pokemon.GetName());
 	EntryLevelTexts[_Index - 1]->SetText(std::to_wstring(Pokemon.GetLevel()));
 	EntryHpTexts[_Index - 1]->SetText(std::to_wstring(Pokemon.GetHp()));
 	EntryCurHpTexts[_Index - 1]->SetText(std::to_wstring(Pokemon.GetCurHp()));
+
 	EntryHpBars[_Index - 1]->SetMaxValue(Pokemon.GetHp());
 	EntryHpBars[_Index - 1]->SetValue(Pokemon.GetCurHp());
+
+	EntryPokemonIcons[_Index - 1]->SetPokemon(Pokemon);
 }
 
 void UPokemonUILevelPage::RefreshCancel()

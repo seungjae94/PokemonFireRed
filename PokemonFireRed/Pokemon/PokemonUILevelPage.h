@@ -2,6 +2,7 @@
 #include "Page.h"
 #include "PokemonText.h"
 #include "ScrollBar.h"
+#include "PokemonIcon.h"
 #include "PlayerData.h"
 
 enum class EPokemonUIState
@@ -60,7 +61,7 @@ private:
 	ACursor* ActionCursor = nullptr;
 
 	UImageRenderer* FirstRenderer = nullptr;
-	UImageRenderer* FirstMiniPokemonRenderer = nullptr;
+	APokemonIcon* FirstPokemonIcon = nullptr;
 	APokemonText* FirstNameText = nullptr;
 	APokemonText* FirstLevelText = nullptr;
 	APokemonText* FirstHpText = nullptr;
@@ -68,7 +69,7 @@ private:
 	AScrollBar* FirstHpBar = nullptr;
 
 	std::vector<UImageRenderer*> EntryRenderers;
-	std::vector<UImageRenderer*> EntryMiniPokemonRenderers;
+	std::vector<APokemonIcon*> EntryPokemonIcons;
 	std::vector<APokemonText*> EntryNameTexts;
 	std::vector<APokemonText*> EntryLevelTexts;
 	std::vector<APokemonText*> EntryHpTexts;

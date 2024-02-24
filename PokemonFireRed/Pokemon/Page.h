@@ -3,6 +3,7 @@
 #include "PokemonText.h"
 #include "ScrollBar.h"
 #include "Cursor.h"
+#include "PokemonIcon.h"
 
 class UEventProcessor;
 
@@ -51,6 +52,13 @@ public:
 		int _RelativePixelX = 0,
 		int _RelativePixelY = 0,
 		int _PixelGap = 16
+	);
+
+	APokemonIcon* CreatePokemonIcon(
+		UImageRenderer* _Container,
+		EPivotType _PivotType = EPivotType::LeftTop,
+		int _RelativePixelX = 0,
+		int _RelativePixelY = 0
 	);
 
 	UImageRenderer* CreateLeftTopAlignedRenderer()
