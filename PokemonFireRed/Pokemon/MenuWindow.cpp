@@ -166,7 +166,7 @@ void AMenuWindow::MenuAction()
 	case MenuIndex::Pokemon:
 	{
 		UPokemonLevel* CurLevel = dynamic_cast<UPokemonLevel*>(GetWorld());
-		CurLevel->ChangeLevelFade(Global::PokemonUILevel);
+		CurLevel->ChangeLevelFade(Global::PokemonUILevel, 0.3f, 0.3f);
 		break;
 	}
 	case MenuIndex::Bag:

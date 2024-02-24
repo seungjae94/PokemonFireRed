@@ -227,7 +227,8 @@ void UPokemonUILevelPage::TargetSelectionWaitTick(float _DeltaTime)
 	if (true == UEngineInput::IsDown('X'))
 	{
 		UPokemonLevel* CurLevel = dynamic_cast<UPokemonLevel*>(GetWorld());
-		CurLevel->ChangeLevelFade(PrevMapLevelName);
+		CurLevel->ChangeLevelFade(PrevMapLevelName, 0.3f, 0.3f);
+		ActionCursor->SetCursor(0);
 		return;
 	}
 
@@ -291,6 +292,7 @@ void UPokemonUILevelPage::TargetSelect()
 		TargetSelectionMsgBoxRenderer->SetActive(false);
 		ActionSelectionMsgBoxRenderer->SetActive(true);
 		ActionBoxRenderer->SetActive(true);
+		ActionCursor->SetCursor(0);
 	}
 }
 

@@ -101,9 +101,9 @@ private:
 	void SwitchMoveWaitTick(float _DeltaTime);
 	void SwitchMoveInTick(float _DeltaTime);
 	ESwitchMoveState SwitchMoveState = ESwitchMoveState::Out;
-	float SwitchMoveOutTime = 1 / 3.0f;
-	float SwitchMoveWaitTime = 1 / 3.0f;
-	float SwitchMoveInTime = 1 / 3.0f;
+	float SwitchMoveOutTime = 1 / 4.0f;
+	float SwitchMoveWaitTime = 1 / 5.0f;
+	float SwitchMoveInTime = 1 / 4.0f;
 	float SwitchMoveTimer = 0.0f;
 	FVector SwitchFromPrevPos;
 	FVector SwitchFromOutPos;
