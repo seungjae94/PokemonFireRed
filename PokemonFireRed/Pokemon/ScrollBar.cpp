@@ -62,8 +62,8 @@ void AScrollBar::DrawHp(int _Value)
 void AScrollBar::DrawExp(int _Value)
 {
 	float Prop = _Value / static_cast<float>(MaxValue);
-	float TotalWidth = 64 * Global::FloatPixelSize;
-	float FillWidth = Prop * TotalWidth;
+	int TotalPixelWidth = 64;
+	int FillPixelWidth = UPokemonMath::Floor((Prop * TotalPixelWidth));
 
 	std::string ImageName = RN::ExpBar;
 
@@ -90,7 +90,10 @@ void AScrollBar::DrawExp(int _Value)
 		UImageRenderer* FillRenderer = CreateImageRenderer(ERenderingOrder::ScrollBar);
 		FillRenderer->SetImage(ImageName);
 
-		FVector RenderScale = FVector(FillWidth, 3.0f * Global::FloatPixelSize);
+		UWindowImage* FillImage = FillRenderer->GetImage();
+		FillImage->SetCuttingTransform({ {0, 0}, {FillPixelWidth, 3} });
+
+		FVector RenderScale = FVector(FillPixelWidth, 3) * Global::FloatPixelSize;
 		FVector Pos = RenderScale.Half2D();
 		FillRenderer->SetTransform({ Pos, RenderScale });
 		Renderers.push_back(FillRenderer);

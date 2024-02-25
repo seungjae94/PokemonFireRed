@@ -514,6 +514,11 @@ void UWindowImage::Cutting(int _X, int _Y)
 	}
 }
 
+void UWindowImage::SetCuttingTransform(const FTransform& _CuttingTrans, int _Index)
+{
+	Infos[_Index].CuttingTrans = _CuttingTrans;
+}
+
 void UWindowImage::DrawRectangle(const FTransform& _Trans)
 {
 	Rectangle(ImageDC, _Trans.iLeft(), _Trans.iTop(), _Trans.iRight(), _Trans.iBottom());

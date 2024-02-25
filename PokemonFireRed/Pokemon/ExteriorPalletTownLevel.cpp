@@ -109,7 +109,7 @@ and POKéMON as data via PC.)"
 	Pokemon0.SetCurHp(Pokemon0.GetHp() / 2);
 	Pokemon1.SetCurHp(Pokemon1.GetHp() / 6);
 	Pokemon2.HealAll();
-	Pokemon0.GainExp(10);
+	Pokemon0.GainExp(20);
 	Pokemon1.GainExp(5);
 	UPlayerData::AddPokemonToEntry(Pokemon0);
 	UPlayerData::AddPokemonToEntry(Pokemon1);
