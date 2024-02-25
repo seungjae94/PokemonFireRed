@@ -18,7 +18,5 @@ void AImageElement::SetImage(std::string_view _ImageName)
 	}
 
 	Renderer->SetImage(_ImageName);
-	FVector RenderScale = UPokemonUtil::GetRenderScale(Renderer);
-	FVector Pos = FVector::Zero;
-	Renderer->SetTransform({ Pos, RenderScale });
+	UPokemonUtil::AlignImage(Renderer, PivotType);
 }

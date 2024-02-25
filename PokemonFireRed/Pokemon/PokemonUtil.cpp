@@ -53,19 +53,27 @@ void UPokemonUtil::AlignImage(
 		Pos = RenderScale.Half2D();
 		break;
 	case EPivotType::LeftBot:
-		Pos = RenderScale.Half2D() + FVector(0.0f, - RenderScale.Y);
+		Pos = RenderScale.Half2D() + FVector(0.0f, -RenderScale.Y + Global::FloatPixelSize);
 		break;
 	case EPivotType::RightTop:
-		Pos = RenderScale.Half2D() + FVector(-RenderScale.X, 0.0f);
+		Pos = RenderScale.Half2D() + FVector(-RenderScale.X + Global::FloatPixelSize, 0.0f);
 		break;
 	case EPivotType::RightBot:
-		Pos = RenderScale.Half2D() + FVector(-RenderScale.X, -RenderScale.Y);
+		Pos = RenderScale.Half2D() + FVector(-RenderScale.X + Global::FloatPixelSize, -RenderScale.Y + Global::FloatPixelSize);
 		break;
 	case EPivotType::CenterTop:
-		Pos = FVector(0.0f, RenderScale.hY());
+	{
+		int PixelScaleX = RenderScale.iX() / Global::PixelSize;
+		int PixelScaleY = RenderScale.iY() / Global::PixelSize;
+		Pos = RenderScale.Half2D() + FVector((PixelScaleX / 2) * Global::FloatPixelSize, 0.0f);
+	}
 		break;
 	case EPivotType::CenterBot:
-		Pos = FVector(0.0f, RenderScale.hY() - RenderScale.Y);
+	{
+		int PixelScaleX = RenderScale.iX() / Global::PixelSize;
+		int PixelScaleY = RenderScale.iY() / Global::PixelSize;
+		Pos = RenderScale.Half2D() + FVector((PixelScaleX / 2) * Global::FloatPixelSize, -RenderScale.Y + Global::FloatPixelSize);
+	}
 		break;
 	default:
 		break;
@@ -83,25 +91,34 @@ void UPokemonUtil::PlaceImageOnScreen(
 	_Renderer->CameraEffectOff();
 	AlignImage(_Renderer, _PivotType);
 	FVector Pos = _Renderer->GetPosition();
+	FVector RendererScale = _Renderer->GetTransform().GetScale();
 
 	switch (_PivotType)
 	{
 	case EPivotType::LeftTop:
 		break;
 	case EPivotType::LeftBot:
-		Pos += FVector(0.0f, Global::FloatScreenY);
+		Pos += FVector(0.0f, Global::FloatScreenY - Global::FloatPixelSize);
 		break;
 	case EPivotType::RightTop:
-		Pos += FVector(Global::FloatScreenX, 0.0f);
+		Pos += FVector(Global::FloatScreenX - Global::FloatPixelSize, 0.0f);
 		break;
 	case EPivotType::RightBot:
-		Pos += FVector(Global::FloatScreenX, Global::FloatScreenY);
+		Pos += FVector(Global::FloatScreenX - Global::FloatPixelSize, Global::FloatScreenY - Global::FloatPixelSize);
 		break;
 	case EPivotType::CenterTop:
-		Pos += FVector(Global::FloatHalfScreenX, 0.0f);
+	{
+		int PixelScaleX = Global::ScreenX / Global::PixelSize;
+		int PixelScaleY = Global::ScreenY / Global::PixelSize;
+		Pos += FVector((PixelScaleX / 2) * Global::FloatPixelSize, 0.0f);
+	}
 		break;
 	case EPivotType::CenterBot:
-		Pos += FVector(Global::FloatHalfScreenX, 0.0f);
+	{
+		int PixelScaleX = Global::ScreenX / Global::PixelSize;
+		int PixelScaleY = Global::ScreenY / Global::PixelSize;
+		Pos += FVector((PixelScaleX / 2) * Global::FloatPixelSize, Global::FloatScreenY - Global::FloatPixelSize);
+	}
 		break;
 	default:
 		break;

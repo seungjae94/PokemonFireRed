@@ -144,8 +144,8 @@ void UPokemonUILevelPage::BeginPlay()
 	);
 	FirstGender = CreateImageElement(
 		FirstRenderer,
-		EPivotType::RightTop,
-		-13, 29
+		EPivotType::RightBot,
+		-9, -19
 	);
 
 	for (int i = 1; i < UPlayerData::GetPokemonEntrySize(); ++i)
