@@ -19,10 +19,10 @@ void ATitleLevelManager::BeginPlay()
 	Renderer->CameraEffectOff();
 	Renderer->SetTransColor(Color8Bit::White);
 
-	//TitleBattleSoundPlayer = UEngineSound::SoundPlay(RN::BgmTitleBattle);
-	//TitleScreenSoundPlayer = UEngineSound::SoundPlay(RN::BgmTitleScreen);
-	//TitleBattleSoundPlayer.Off();
-	//TitleScreenSoundPlayer.Off();
+	TitleBattleSoundPlayer = UEngineSound::SoundPlay(RN::BgmTitleBattle);
+	TitleScreenSoundPlayer = UEngineSound::SoundPlay(RN::BgmTitleScreen);
+	TitleBattleSoundPlayer.Off();
+	TitleScreenSoundPlayer.Off();
 }
 
 void ATitleLevelManager::Tick(float _DeltaTime)
@@ -70,8 +70,8 @@ void ATitleLevelManager::Video1Logic(float _DeltaTime)
 {
 	if (true == IsFirstTick)
 	{
-		//TitleBattleSoundPlayer.Replay();
-		//TitleBattleSoundPlayer.On();
+		TitleBattleSoundPlayer.Replay();
+		TitleBattleSoundPlayer.On();
 		IsFirstTick = false;
 	}
 
@@ -93,9 +93,9 @@ void ATitleLevelManager::Video2Logic(float _DeltaTime)
 {
 	if (true == IsFirstTick)
 	{
-		//TitleBattleSoundPlayer.Off();
-		//TitleScreenSoundPlayer.Replay();
-		//TitleScreenSoundPlayer.On();
+		TitleBattleSoundPlayer.Off();
+		TitleScreenSoundPlayer.Replay();
+		TitleScreenSoundPlayer.On();
 		IsFirstTick = false;
 	}
 
@@ -132,6 +132,12 @@ void ATitleLevelManager::Video3Logic(float _DeltaTime)
 
 void ATitleLevelManager::Video4Logic(float _DeltaTime)
 {
+	if (true == IsFirstTick)
+	{
+		TitleScreenSoundPlayer.Off();
+		IsFirstTick = false;
+	}
+
 	if (Timer < 0.0f)
 	{
 		// 비디오 재생이 끝난 뒤에만 다음 파트로 넘어간다.
@@ -164,12 +170,6 @@ void ATitleLevelManager::PlayNextVideo()
 void ATitleLevelManager::Play()
 {
 	std::string ImageName = GetImageName();
-
-	// 아직 비디오가 로드되지 않은 경우 로드한다.
-	/*if (false == ImageLoaded[ImageIndex])
-	{
-		ImageLoaded[ImageIndex] = true;
-	}*/
 	UWindowImage* CurImage = Renderer->GetImage();
 	UEngineResourcesManager::GetInst().UnloadImg(CurImage->GetName());
 	UEngineResourcesManager::GetInst().LoadImg(CurDir->AppendPath(GetPathName()));

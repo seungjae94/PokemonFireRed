@@ -45,7 +45,6 @@ private:
 	int VideoNo = 0;
 	int ImageIndex = -1;
 	int VideoStartIndex[5] = { 0, 187, 1447, 1709, 4151 };
-	bool ImageLoaded[4972] = { false, };
 
 	void Video0Logic(float _DeltaTime);
 	void Video1Logic(float _DeltaTime);
