@@ -16,13 +16,14 @@ void APokemonSummaryPage::BeginPlay()
 {
 	APage::BeginPlay();
 
+	// 최상위 요소
 	Background = CreateImageRenderer(ERenderingOrder::Background);
 	Background->SetImage(RN::PokemonSummaryUIBackground);
 	UPokemonUtil::PlaceImageOnScreen(Background);
 
-	NavInfo = CreateImageRenderer(ERenderingOrder::LowerUI);
-	NavInfo->SetImage(RN::PokemonSummaryUINavInfo);
-	UPokemonUtil::PlaceImageOnScreen(NavInfo);
+	Nav = CreateImageRenderer(ERenderingOrder::LowerUI);
+	Nav->SetImage(RN::PokemonSummaryUINavInfo);
+	UPokemonUtil::PlaceImageOnScreen(Nav);
 
 	CommonBox = CreateImageRenderer(ERenderingOrder::LowerUI);
 	CommonBox->SetImage(RN::PokemonSummaryUICommonBox);
@@ -31,6 +32,10 @@ void APokemonSummaryPage::BeginPlay()
 	InfoBox = CreateImageRenderer(ERenderingOrder::LowerUI);
 	InfoBox->SetImage(RN::PokemonSummaryUIInfoBox);
 	UPokemonUtil::PlaceImageOnScreen(InfoBox, EPivotType::LeftTop, 0, 16);
+
+	SkillsBox = CreateImageRenderer(ERenderingOrder::LowerUI);
+	SkillsBox->SetImage(RN::PokemonSummaryUISkillsBox);
+	UPokemonUtil::PlaceImageOnScreen(SkillsBox, EPivotType::LeftTop, 0, 16);
 
 	// CommonBox 요소
 	NameText =  CreateText(
@@ -107,6 +112,29 @@ void APokemonSummaryPage::BeginPlay()
 		8, -33,
 		EFontColor::Black
 	);
+
+	// SkillsBox 요소
+	HpText = CreateText(SkillsBox, L"27/30", EPivotType::RightTop, EAlignType::Right, -3, 15, EFontColor::Black);
+	AtkText = CreateText(SkillsBox, L"16", EPivotType::RightTop, EAlignType::Right, -3, 33, EFontColor::Black);
+	DefText = CreateText(SkillsBox, L"14", EPivotType::RightTop, EAlignType::Right, -3, 46, EFontColor::Black);
+	SpAtkText = CreateText(SkillsBox, L"13", EPivotType::RightTop, EAlignType::Right, -3, 59, EFontColor::Black);
+	SpDefText = CreateText(SkillsBox, L"12", EPivotType::RightTop, EAlignType::Right, -3, 72, EFontColor::Black);
+	SpeedText = CreateText(SkillsBox, L"17", EPivotType::RightTop, EAlignType::Right, -3, 85, EFontColor::Black);
+	AccExpText = CreateText(SkillsBox, L"570", EPivotType::RightTop, EAlignType::Right, -3, 98, EFontColor::Black);
+	NextLevelExpText = CreateText(SkillsBox, L"172", EPivotType::RightTop, EAlignType::Right, -3, 111, EFontColor::Black);
+	AbilityText = CreateText(SkillsBox, L"KEEN EYE", EPivotType::LeftTop, EAlignType::Left, 74, 124, EFontColor::Black);
+	AbilityExplainText = CreateText(SkillsBox, L"Prevents loss of accuracy.", EPivotType::LeftBot, EAlignType::Left, 10, -5, EFontColor::Black);
+	HpBar = CreateScrollBar(SkillsBox, EScrollType::Hp, 100, 100, EPivotType::RightTop, 55, 34);
+	ExpBar = CreateScrollBar(SkillsBox, EScrollType::Exp, 100, 100, EPivotType::RightBot, -71, -29);
+
+	// Active 설정
+	Background->SetActive(true);
+	CommonBox->SetActive(true);
+	InfoBox->SetActive(true);
+	SkillsBox->SetActive(false);
+	//MovesBox->SetActive(false);
+	Nav->SetActive(true);
+
 }
 
 void APokemonSummaryPage::RefreshAll()
@@ -180,5 +208,15 @@ void APokemonSummaryPage::InfoTick(float _DeltaTime)
 	if (true == UEngineInput::IsDown('Z') || true == UEngineInput::IsDown('X'))
 	{
 		UEventManager::ChangeLevelFade(GetWorld(), Global::PokemonUILevel);
+		return;
+	}
+
+	if (true == UEngineInput::IsDown(VK_RIGHT))
+	{
+		State = EPokemonSummaryPageState::Skills;
+		Nav->SetImage(RN::PokemonSummaryUINavSkills);
+		InfoBox->SetActive(false);
+		SkillsBox->SetActive(true);
+		return;
 	}
 }

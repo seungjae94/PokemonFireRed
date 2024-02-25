@@ -41,10 +41,14 @@ private:
 
 	// 데이터
 	UPokemon* Pokemon = nullptr;
+
+	// 최상위 요소
 	UImageRenderer* Background = nullptr;
 	UImageRenderer* CommonBox = nullptr;
 	UImageRenderer* InfoBox = nullptr;
-	UImageRenderer* NavInfo = nullptr;
+	UImageRenderer* SkillsBox = nullptr;
+	UImageRenderer* MovesBox = nullptr;
+	UImageRenderer* Nav = nullptr;
 
 	// CommonBox 요소
 	AText* NameText = nullptr;
@@ -60,5 +64,19 @@ private:
 	AText* IdNoText = nullptr;
 	AText* ItemText = nullptr;
 	AText* TrainerMemo = nullptr;
+
+	// SkillsBox 요소
+	AText* HpText = nullptr;
+	AText* AtkText = nullptr;
+	AText* DefText = nullptr;
+	AText* SpAtkText = nullptr;
+	AText* SpDefText = nullptr;
+	AText* SpeedText = nullptr;
+	AText* AccExpText = nullptr;
+	AText* NextLevelExpText = nullptr;
+	AText* AbilityText = nullptr;
+	AText* AbilityExplainText = nullptr;
+	AScrollBar* HpBar = nullptr;
+	AScrollBar* ExpBar = nullptr;
 };
 
