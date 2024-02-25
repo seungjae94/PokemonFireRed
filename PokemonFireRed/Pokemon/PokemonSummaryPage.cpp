@@ -113,6 +113,17 @@ void APokemonSummaryPage::BeginPlay()
 		EFontColor::Black
 	);
 
+	for (int i = 0; i < 2; ++i)
+	{
+		AImageElement* TypeImage = CreateImageElement(
+			InfoBox,
+			EPivotType::RightTop,
+			-41 + 34 * i, 35
+		);
+		TypeImage->SetImage(RN::TypePlaceHolder);
+		TypeImages.push_back(TypeImage);
+	}
+
 	// SkillsBox 요소
 	HpText = CreateText(SkillsBox, L"27/30", EPivotType::RightTop, EAlignType::Right, -3, 15, EFontColor::Black);
 	AtkText = CreateText(SkillsBox, L"16", EPivotType::RightTop, EAlignType::Right, -3, 33, EFontColor::Black);
@@ -142,7 +153,7 @@ void APokemonSummaryPage::RefreshAll()
 	EPokedexNo PokedexNo = Pokemon->GetPokedexNo();
 	std::wstring PokedexNoString = std::to_wstring(static_cast<int>(PokedexNo));
 	ENature Nature = Pokemon->GetNature();
-	std::list<EPokemonType> Types = Pokemon->GetTypes();
+	std::vector<EPokemonType> Types = Pokemon->GetTypes();
 	EGender Gender = Pokemon->GetGender();
 
 	NameText->SetText(Pokemon->GetName());
@@ -154,24 +165,15 @@ void APokemonSummaryPage::RefreshAll()
 	FrontImage->SetPokemon(Pokemon);
 
 	// 타입 이미지 렌더링
-	if (TypeIcons.size() > 0)
+	int TypeSize = static_cast<int>(Types.size());
+	for (int i = 0; i < TypeSize; ++i)
 	{
-		for (UImageRenderer* Icon : TypeIcons)
-		{
-			Icon->Destroy();
-		}
-		TypeIcons.clear();
+		std::string ImageName = UPokemon::GetTypeImageName(Types[i]);
+		TypeImages[i]->SetImage(ImageName);
 	}
-
-	int TypeIndex = 0;
-	for (EPokemonType Type : Types)
+	for (int i = TypeSize; i < 2; ++i)
 	{
-		UImageRenderer* Renderer = CreateImageRenderer(ERenderingOrder::UpperUI);
-		std::string IconName = UPokemon::GetTypeImageName(Type);
-		Renderer->SetImage(IconName);
-		UPokemonUtil::PlaceImageOnScreen(Renderer, EPivotType::RightTop, -41 + TypeIndex * 34, 51);
-		TypeIcons.push_back(Renderer);
-		++TypeIndex;
+		TypeImages[i]->SetImage(RN::TypePlaceHolder);
 	}
 
 	// 성별 이미지 렌더링

@@ -189,7 +189,7 @@ public:
 	}
 
 
-	std::list<EPokemonType> GetTypes() const
+	std::vector<EPokemonType> GetTypes() const
 	{
 		return Types;
 	}
@@ -318,7 +318,7 @@ protected:
 	// ±‚≈∏
 	EAbility Ability = EAbility::NONE;
 	EExperienceGroup ExpGroup = EExperienceGroup::NONE;
-	std::list<EPokemonType> Types;
+	std::vector<EPokemonType> Types;
 	int CatchRate = 0;
 	int Friendship = 0;
 

@@ -59,7 +59,7 @@ private:
 	// InfoBox ¿ä¼Ò
 	AText* PokedexNoText = nullptr;
 	AText* SpeciesNameText = nullptr;
-	std::list<UImageRenderer*> TypeIcons;
+	std::vector<AImageElement*> TypeImages;
 	AText* TrainerText = nullptr;
 	AText* IdNoText = nullptr;
 	AText* ItemText = nullptr;
