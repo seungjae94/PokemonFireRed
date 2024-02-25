@@ -55,7 +55,7 @@ void ATitleLevelManager::Video0Logic(float _DeltaTime)
 {
 	if (true == IsFirstTick)
 	{
-		//TitleScreenSoundPlayer.Off();
+		TitleScreenSoundPlayer.Off();
 		IsFirstTick = false;
 	}
 
@@ -132,12 +132,6 @@ void ATitleLevelManager::Video3Logic(float _DeltaTime)
 
 void ATitleLevelManager::Video4Logic(float _DeltaTime)
 {
-	if (true == IsFirstTick)
-	{
-		TitleScreenSoundPlayer.Off();
-		IsFirstTick = false;
-	}
-
 	if (Timer < 0.0f)
 	{
 		// 비디오 재생이 끝난 뒤에만 다음 파트로 넘어간다.
