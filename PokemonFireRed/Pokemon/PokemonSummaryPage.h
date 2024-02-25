@@ -30,6 +30,7 @@ public:
 	}
 
 	void RefreshAll();
+	void Reset();
 
 protected:
 	void BeginPlay() override;

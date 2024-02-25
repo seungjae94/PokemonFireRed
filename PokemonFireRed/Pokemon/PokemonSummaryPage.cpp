@@ -137,15 +137,6 @@ void APokemonSummaryPage::BeginPlay()
 	AbilityExplainText = CreateText(SkillsBox, L"Prevents loss of accuracy.", EPivotType::LeftBot, EAlignType::Left, 10, -5, EFontColor::Black);
 	HpBar = CreateScrollBar(SkillsBox, EScrollType::Hp, 100, 100, EPivotType::RightTop, 55, 34);
 	ExpBar = CreateScrollBar(SkillsBox, EScrollType::Exp, 100, 100, EPivotType::RightBot, -71, -29);
-
-	// Active ¼³Á¤
-	Background->SetActive(true);
-	CommonBox->SetActive(true);
-	InfoBox->SetActive(true);
-	SkillsBox->SetActive(false);
-	//MovesBox->SetActive(false);
-	Nav->SetActive(true);
-
 }
 
 void APokemonSummaryPage::RefreshAll()
@@ -183,6 +174,18 @@ void APokemonSummaryPage::RefreshAll()
 	}
 	GenderIcon->SetImage(UPokemon::GetBigGenderImageName(Gender));
 	UPokemonUtil::PlaceImageOnScreen(GenderIcon, EPivotType::LeftTop, 105, 19);
+}
+
+void APokemonSummaryPage::Reset()
+{
+	State = EPokemonSummaryPageState::Info;
+	Background->SetActive(true);
+	CommonBox->SetActive(true);
+	InfoBox->SetActive(true);
+	SkillsBox->SetActive(false);
+	//MovesBox->SetActive(false);
+	Nav->SetActive(true);
+	Nav->SetImage(RN::PokemonSummaryUINavInfo);
 }
 
 void APokemonSummaryPage::Tick(float _DeltaTime)

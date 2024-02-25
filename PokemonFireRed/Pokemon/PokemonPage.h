@@ -36,6 +36,10 @@ public:
 		TargetCursor = 0;
 		MemoryEntryCursor = 1;
 		ActionCursor->SetCursor(0);
+	}
+
+	void RefreshAll()
+	{
 		RefreshAllTargets();
 	}
 
