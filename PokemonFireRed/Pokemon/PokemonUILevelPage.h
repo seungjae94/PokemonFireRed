@@ -30,6 +30,15 @@ public:
 		PrevMapLevelName = _Name;
 	}
 
+	// 커서 상태 초기화
+	void Reset()
+	{
+		TargetCursor = 0;
+		MemoryEntryCursor = 1;
+		ActionCursor->SetCursor(0);
+		RefreshAllTargets();
+	}
+
 	UPokemon* GetTargetPokemon()
 	{
 		if (true == IsCancel(TargetCursor))

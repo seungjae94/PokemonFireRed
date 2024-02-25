@@ -379,6 +379,7 @@ void UPokemonUILevelPage::SwitchSelectionWaitTick(float _DeltaTime)
 		State = EPokemonUIState::TargetSelectionWait;
 		SwitchSelectionMsgBoxRenderer->SetActive(false);
 		TargetSelectionMsgBoxRenderer->SetActive(true);
+		RefreshAllTargets();
 		return;
 	}
 
@@ -429,6 +430,7 @@ void UPokemonUILevelPage::SwitchSelect()
 		State = EPokemonUIState::TargetSelectionWait;
 		SwitchSelectionMsgBoxRenderer->SetActive(false);
 		TargetSelectionMsgBoxRenderer->SetActive(true);
+		RefreshAllTargets();
 		return;
 	}
 
@@ -542,6 +544,7 @@ void UPokemonUILevelPage::RefreshFirst()
 	switch (State)
 	{
 	case EPokemonUIState::TargetSelectionWait:
+	case EPokemonUIState::ActionSelectionWait:
 		if (TargetCursor == 0)
 		{
 			TargetState = ETargetState::Focused;
@@ -630,6 +633,7 @@ void UPokemonUILevelPage::RefreshEntry(int _Index)
 	switch (State)
 	{
 	case EPokemonUIState::TargetSelectionWait:
+	case EPokemonUIState::ActionSelectionWait:
 		if (false == IsEntry(_Index))
 		{
 			TargetState = ETargetState::Empty;

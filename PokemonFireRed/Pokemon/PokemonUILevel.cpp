@@ -39,5 +39,6 @@ void UPokemonUILevel::LevelStart(ULevel* _PrevLevel)
 	if (nullptr != MapLevel)
 	{
 		Manager->SetPrevMapLevelName(MapLevel->GetName());
+		Manager->Reset();
 	}
 }
