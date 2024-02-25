@@ -14,6 +14,11 @@ public:
 	ATrainerCardPage& operator=(const ATrainerCardPage& _Other) = delete;
 	ATrainerCardPage& operator=(ATrainerCardPage&& _Other) noexcept = delete;
 
+	void SetPrevMapLevelName(std::string_view _PrevMapLevelName)
+	{
+		PrevMapLevelName = _PrevMapLevelName;
+	}
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
@@ -21,5 +26,9 @@ private:
 	std::string PrevMapLevelName;
 
 	UImageRenderer* Background = nullptr;
+	AText* IdNo = nullptr;
+	AText* Name = nullptr;
+	AText* Money = nullptr;
+	AText* PokedexOwned = nullptr;
 };
 
