@@ -58,15 +58,6 @@
     <Filter Include="2. UI\Window">
       <UniqueIdentifier>{d71a5ab4-ae77-40de-bd65-1c7df6b2d98d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="3. Pokemon">
-      <UniqueIdentifier>{c8a233f3-17a7-4d3f-a007-59e257088024}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="4. Data">
-      <UniqueIdentifier>{53b6b7a6-4c1e-40a5-a2dd-7329c5a17555}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="5. Trigger">
-      <UniqueIdentifier>{5afc955f-9fe3-4a6d-bd92-3b7ac4681b20}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Level\3. PokemonUILevel">
       <UniqueIdentifier>{4d6642c5-eaf8-48c7-88cc-115fe2b883fd}</UniqueIdentifier>
     </Filter>
@@ -78,6 +69,15 @@
     </Filter>
     <Filter Include="Level\4. TrainerCardUILevel">
       <UniqueIdentifier>{76b99926-9a09-4cd1-9ce3-494305579f9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3. Data">
+      <UniqueIdentifier>{53b6b7a6-4c1e-40a5-a2dd-7329c5a17555}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3. Data\Pokemon">
+      <UniqueIdentifier>{c8a233f3-17a7-4d3f-a007-59e257088024}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4. Trigger">
+      <UniqueIdentifier>{5afc955f-9fe3-4a6d-bd92-3b7ac4681b20}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -205,22 +205,22 @@
       <Filter>Level\2. MapLevel\4. Tile</Filter>
     </ClInclude>
     <ClInclude Include="Pokemon.h">
-      <Filter>3. Pokemon</Filter>
+      <Filter>3. Data\Pokemon</Filter>
     </ClInclude>
     <ClInclude Include="Bulbasaur.h">
-      <Filter>3. Pokemon</Filter>
+      <Filter>3. Data\Pokemon</Filter>
     </ClInclude>
     <ClInclude Include="PlayerData.h">
-      <Filter>4. Data</Filter>
+      <Filter>3. Data</Filter>
     </ClInclude>
     <ClInclude Include="FadeLevelChanger.h">
-      <Filter>5. Trigger</Filter>
+      <Filter>4. Trigger</Filter>
     </ClInclude>
     <ClInclude Include="Charmander.h">
-      <Filter>3. Pokemon</Filter>
+      <Filter>3. Data\Pokemon</Filter>
     </ClInclude>
     <ClInclude Include="Squirtle.h">
-      <Filter>3. Pokemon</Filter>
+      <Filter>3. Data\Pokemon</Filter>
     </ClInclude>
     <ClInclude Include="ScrollBar.h">
       <Filter>2. UI\Element</Filter>
@@ -266,6 +266,9 @@
     </ClInclude>
     <ClInclude Include="SoundManager.h">
       <Filter>1. Event</Filter>
+    </ClInclude>
+    <ClInclude Include="PokemonData.h">
+      <Filter>3. Data\Pokemon</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -393,22 +396,22 @@
       <Filter>Level\2. MapLevel\4. Tile</Filter>
     </ClCompile>
     <ClCompile Include="Pokemon.cpp">
-      <Filter>3. Pokemon</Filter>
+      <Filter>3. Data\Pokemon</Filter>
     </ClCompile>
     <ClCompile Include="Bulbasaur.cpp">
-      <Filter>3. Pokemon</Filter>
+      <Filter>3. Data\Pokemon</Filter>
     </ClCompile>
     <ClCompile Include="PlayerData.cpp">
-      <Filter>4. Data</Filter>
+      <Filter>3. Data</Filter>
     </ClCompile>
     <ClCompile Include="FadeLevelChanger.cpp">
-      <Filter>5. Trigger</Filter>
+      <Filter>4. Trigger</Filter>
     </ClCompile>
     <ClCompile Include="Charmander.cpp">
-      <Filter>3. Pokemon</Filter>
+      <Filter>3. Data\Pokemon</Filter>
     </ClCompile>
     <ClCompile Include="Squirtle.cpp">
-      <Filter>3. Pokemon</Filter>
+      <Filter>3. Data\Pokemon</Filter>
     </ClCompile>
     <ClCompile Include="ScrollBar.cpp">
       <Filter>2. UI\Element</Filter>
@@ -448,6 +451,9 @@
     </ClCompile>
     <ClCompile Include="SoundManager.cpp">
       <Filter>1. Event</Filter>
+    </ClCompile>
+    <ClCompile Include="PokemonData.cpp">
+      <Filter>3. Data\Pokemon</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

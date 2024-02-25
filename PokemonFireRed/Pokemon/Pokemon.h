@@ -6,118 +6,10 @@
 #include <EngineBase/EngineDebug.h>
 #include <EngineBase/EngineString.h>
 #include "Global.h"
-
-enum class EPokedexNo
-{
-	None,
-	Bulbasaur = 1,
-	Charmander = 4,
-	Squirtle = 7,
-};
-
-enum class EAbility
-{
-	NONE,
-	Overgrow,
-	Blaze,
-	Torrent,
-	ShieldDust,
-	ShedSkin,
-	CompoundEyes,
-	Swarm,
-	KeenEye,
-	RunAway,
-	Guts,
-	Intimidate,
-	Static,
-	SandVeil,
-	PoisonPoint,
-};
-
-enum class EGender
-{
-	Male,
-	Female
-};
-
-enum class ENature
-{
-	NONE,		// Inc (x1.1)	Dec (x0.9)
-	Hardy,		// None			None
-	Lonely,		// Atk			Def
-	Brave,		// Atk			Speed
-	Adamant,	// Atk			SpAtk
-	Naughty,	// Atk			SpDef
-	Docile,		// None			None
-	Bold,		// Def			Atk
-	Relaxed,	// Def			Speed
-	Impish,		// Def			SpAtk
-	Lax,		// Def			SpDef
-	Serious,	// None			None
-	Timid,		// Speed		Atk
-	Hasty,		// Speed		Def
-	Jolly,		// Speed		SpAtk
-	Naive,		// Speed		SpDef
-	Bashful,	// None			None
-	Modest,		// SpAtk		Atk
-	Mild,		// SpAtk		Def
-	Quiet,		// SpAtk		Speed
-	Rash,		// SpAtk		SpDef
-	Quirky,		// None			None
-	Calm,		// SpDef		Atk
-	Gentle,		// SpDef		Def
-	Sassy,		// SpDef		Speed
-	Careful,	// SpDef		SpAtk
-	MAX,
-};
-
-enum class EPokemonStatus
-{
-	Normal,
-	Sleep,
-	Poison,
-	Burn,
-	Freeze,
-	Paralysis,
-};
-
-// 종에 소속
-enum class EExperienceGroup
-{	
-	NONE,		// 레벨 100 기준 누적 경험치		누적 경험치 공식
-	Erratic,	// 600,000						piecewise
-	Fast,		// 800,000						0.8n^3
-	MediumFast,	// 1,000,000					n^3
-	MediumSlow,	// 1,059,860					1.2n^3 - 15n^2 + 100n - 140
-	Slow,		// 1,250,000					1.25n^3
-	Fluctuating	// 1,640,000					piecewise
-};
-
-enum class EPokemonType
-{
-	Normal,
-	Fighting,
-	Flying,
-	Poison,
-	Ground,
-	Rock,
-	Bug,
-	Ghost,
-	Steel,
-	Fire,
-	Water,
-	Grass,
-	Electric,
-	Psychic,
-	Ice,
-	Dragon,
-	Dark,
-	Fairy
-};
+#include "PokemonData.h"
 
 class UPokemon
 {
-	friend class PokemonInitiator;
 public:
 	// constructor destructor
 	UPokemon();
@@ -129,7 +21,7 @@ public:
 	UPokemon& operator=(const UPokemon& _Other) = default;
 	UPokemon& operator=(UPokemon&& _Other) noexcept = default;
 
-	std::wstring GetName() const
+	std::wstring GetNameW() const
 	{
 		return Name;
 	}
@@ -138,10 +30,19 @@ public:
 	{
 		return Level;
 	}
+	std::wstring GetLevelW() const
+	{
+		return std::to_wstring(GetLevel());
+	}
 
 	int GetCurHp() const
 	{
 		return CurHp;
+	}
+
+	std::wstring GetCurHpW() const
+	{
+		return std::to_wstring(GetCurHp());
 	}
 
 	void SetCurHp(int _CurHp)
@@ -154,9 +55,50 @@ public:
 		return PokedexNo;
 	}
 
+	std::string GetSpeciesA() const
+	{
+		return UPokemonData::GetSpeciesName(PokedexNo);
+	}
+
+	std::wstring GetSpeciesW() const
+	{
+		return UPokemonData::GetSpeciesNameW(PokedexNo);
+	}
+
 	ENature GetNature() const
 	{
 		return Nature;
+	}
+
+	std::wstring GetNatureW() const
+	{
+		return UPokemonData::GetNatureNameW(Nature);
+	}
+
+	EAbility GetAbility() const
+	{
+		return Ability;
+	}
+
+	std::string GetAbilityA() const
+	{
+		return UPokemonData::GetAbilityName(Ability);
+	}
+
+	std::wstring GetAbilityW() const
+	{
+		return UPokemonData::GetAbilityNameW(Ability);
+	}
+
+	std::wstring GetAbilityUpperW() const
+	{
+		std::string UpperA = UEngineString::ToUpper(GetAbilityA());
+		return UEngineString::AnsiToUniCode(UpperA);
+	}
+
+	std::wstring GetAbilityExplainW() const
+	{
+		return UPokemonData::GetAbilityExplainTextW(Ability);
 	}
 
 	EGender GetGender() const
@@ -166,48 +108,39 @@ public:
 
 	std::string GetGenderImageName() const
 	{
-		if (Gender == EGender::Male)
-		{
-			return RN::GenderMarkMale;
-		}
-		else
-		{
-			return RN::GenderMarkFemale;
-		}
+		return UPokemonData::GetGenderImageName(Gender);
 	}
 
 	std::string GetBigGenderImageName() const
 	{
-		if (Gender == EGender::Male)
-		{
-			return RN::BigGenderMarkMale;
-		}
-		else
-		{
-			return RN::BigGenderMarkFemale;
-		}
+		return UPokemonData::GetBigGenderImageName(Gender);
 	}
-
 
 	std::vector<EPokemonType> GetTypes() const
 	{
 		return Types;
 	}
 
-	void Heal(int _Value)
+	std::vector<std::string> GetTypeImageNames(bool _PlaceHolder = true) const
 	{
-		if (_Value < 0)
+		std::vector<std::string> Result;
+
+		int TypeSize = static_cast<int>(Types.size());
+
+		for (int i = 0; i < TypeSize; ++i)
 		{
-			MsgBoxAssert("음수만큼 HP를 회복할 수 없습니다.");
-			return;
+			std::string ImageName = UPokemonData::GetTypeImageName(Types[i]);
+			Result.push_back(ImageName);
+		}
+		for (int i = TypeSize; i < 2; ++i)
+		{
+			Result.push_back(RN::TypePlaceHolder);
 		}
 
-		CurHp += _Value;
-		if (CurHp > GetHp())
-		{
-			CurHp = GetHp();
-		}
+		return Result;
 	}
+
+	void Heal(int _Value);
 
 	void HealAll()
 	{
@@ -215,33 +148,50 @@ public:
 	}
 
 	int GetHp() const;
-	int GetAtk() const;
-	int GetDef() const;
-	int GetSpAtk() const;
-	int GetSpDef() const;
-	int GetSpeed() const;
-
-	void GainExp(int _Exp)
+	std::wstring GetHpW() const
 	{
-		if (Level >= 100)
-		{
-			return;
-		}
-
-		AccExp += _Exp;
-
-		if (GetNextLevelExp() <= 0)
-		{
-			int PrevHp = GetHp();
-			++Level;
-			int NextHp = GetHp();
-			CurHp += NextHp - PrevHp;
-		}
+		return std::to_wstring(GetHp());
 	}
+
+	int GetAtk() const;
+	std::wstring GetAtkW() const
+	{
+		return std::to_wstring(GetAtk());
+	}
+
+	int GetDef() const;
+	std::wstring GetDefW() const
+	{
+		return std::to_wstring(GetDef());
+	}
+
+	int GetSpAtk() const;
+	std::wstring GetSpAtkW() const
+	{
+		return std::to_wstring(GetSpAtk());
+	}
+
+	int GetSpDef() const;
+	std::wstring GetSpDefW() const
+	{
+		return std::to_wstring(GetSpDef());
+	}
+
+	int GetSpeed() const;
+	std::wstring GetSpeedW() const
+	{
+		return std::to_wstring(GetSpeed());
+	}
+
+	void GainExp(int _Exp);
 
 	int GetAccExp() const
 	{
 		return AccExp;
+	}
+	std::wstring GetAccExpW() const
+	{
+		return std::to_wstring(GetAccExp());
 	}
 	
 	// (경험치 구간의 길이) = (다음 레벨의 누적 경험치) - (현재 레벨의 누적 경험치)
@@ -249,6 +199,10 @@ public:
 
 	// (다음 레벨까지 필요한 경험치) = (다음 레벨의 누적 경험치) - (누적 경험치)
 	int GetNextLevelExp() const;
+	std::wstring GetNextLevelExpW() const
+	{
+		return std::to_wstring(GetNextLevelExp());
+	}
 
 	// (현재 레벨에서 얻은 경험치) = (경험치 구간의 길이) - (다음 레벨까지 필요한 경험치)
 	int GetExp() const;
@@ -256,61 +210,6 @@ public:
 	void SetLevel(int _Level)
 	{
 		Level = _Level;
-	}
-
-	// 유틸 함수
-	static std::wstring GetSpeciesNameW(EPokedexNo _No)
-	{
-		return UEngineString::AnsiToUniCode(SpeciesNames[_No]);
-	}
-
-	static std::string GetSpeciesName(EPokedexNo _No)
-	{
-		return SpeciesNames[_No];
-	}
-
-	static std::wstring GetNatureNameW(ENature _Nature)
-	{
-		return UEngineString::AnsiToUniCode(NatureNames[_Nature]);
-	}
-
-	static std::string GetNatureName(ENature _Nature)
-	{
-		return NatureNames[_Nature];
-	}
-
-	static std::string GetTypeImageName(EPokemonType _Type)
-	{
-		return TypeImageNames[_Type];
-	}
-
-	static std::string GetGenderImageName(EGender _Gender)
-	{
-		if (_Gender == EGender::Male)
-		{
-			return RN::GenderMarkMale;
-		}
-		else
-		{
-			return RN::GenderMarkFemale;
-		}
-	}
-
-	static std::string GetBigGenderImageName(EGender _Gender)
-	{
-		if (_Gender == EGender::Male)
-		{
-			return RN::BigGenderMarkMale;
-		}
-		else
-		{
-			return RN::BigGenderMarkFemale;
-		}
-	}
-
-	static std::list<EPokedexNo> GetImplementedSpeciesNo()
-	{
-		return ImplementedSpeciesNo;
 	}
 
 protected:
@@ -374,9 +273,6 @@ private:
 	// 기타
 	EGender Gender = EGender::Male;
 
-	static std::map<EPokedexNo, std::string> SpeciesNames;
-	static std::map<ENature, std::string> NatureNames;
-	static std::map<EPokemonType, std::string> TypeImageNames;
-	static std::list<EPokedexNo> ImplementedSpeciesNo;
+
 };
 

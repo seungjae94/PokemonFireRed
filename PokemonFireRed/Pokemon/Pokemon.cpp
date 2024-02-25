@@ -2,79 +2,27 @@
 #include "PokemonMath.h"
 #include <random>
 
-std::map<EPokedexNo, std::string> UPokemon::SpeciesNames;
-std::map<ENature, std::string> UPokemon::NatureNames;
-std::map<EPokemonType, std::string> UPokemon::TypeImageNames;
-std::list<EPokedexNo> UPokemon::ImplementedSpeciesNo;
-
-class PokemonInitiator
-{
-public:
-	PokemonInitiator()
-	{
-		UPokemon::SpeciesNames[EPokedexNo::Bulbasaur] = "BULBASAUR";
-		UPokemon::SpeciesNames[EPokedexNo::Charmander] = "CHARMANDER";
-		UPokemon::SpeciesNames[EPokedexNo::Squirtle] = "SQUIRTLE";
-
-		UPokemon::ImplementedSpeciesNo.push_back(EPokedexNo::Bulbasaur);
-		UPokemon::ImplementedSpeciesNo.push_back(EPokedexNo::Charmander);
-		UPokemon::ImplementedSpeciesNo.push_back(EPokedexNo::Squirtle);
-
-		UPokemon::NatureNames[ENature::Adamant] = UEngineString::ToUpper("Adamant");
-		UPokemon::NatureNames[ENature::Bashful] = UEngineString::ToUpper("Bashful");
-		UPokemon::NatureNames[ENature::Bold] = UEngineString::ToUpper("Bold");
-		UPokemon::NatureNames[ENature::Brave] = UEngineString::ToUpper("Brave");
-		UPokemon::NatureNames[ENature::Calm] = UEngineString::ToUpper("Calm");
-		UPokemon::NatureNames[ENature::Careful] = UEngineString::ToUpper("Careful");
-		UPokemon::NatureNames[ENature::Docile] = UEngineString::ToUpper("Docile");
-		UPokemon::NatureNames[ENature::Gentle] = UEngineString::ToUpper("Gentle");
-		UPokemon::NatureNames[ENature::Hardy] = UEngineString::ToUpper("Hardy");
-		UPokemon::NatureNames[ENature::Hasty] = UEngineString::ToUpper("Hasty");
-		UPokemon::NatureNames[ENature::Impish] = UEngineString::ToUpper("Impish");
-		UPokemon::NatureNames[ENature::Jolly] = UEngineString::ToUpper("Jolly");
-		UPokemon::NatureNames[ENature::Lax] = UEngineString::ToUpper("Lax");
-		UPokemon::NatureNames[ENature::Lonely] = UEngineString::ToUpper("Lonely");
-		UPokemon::NatureNames[ENature::Mild] = UEngineString::ToUpper("Mild");
-		UPokemon::NatureNames[ENature::Modest] = UEngineString::ToUpper("Modest");
-		UPokemon::NatureNames[ENature::Naive] = UEngineString::ToUpper("Naive");
-		UPokemon::NatureNames[ENature::Naughty] = UEngineString::ToUpper("Naughty");
-		UPokemon::NatureNames[ENature::Quiet] = UEngineString::ToUpper("Quiet");
-		UPokemon::NatureNames[ENature::Quirky] = UEngineString::ToUpper("Quirky");
-		UPokemon::NatureNames[ENature::Rash] = UEngineString::ToUpper("Rash");
-		UPokemon::NatureNames[ENature::Relaxed] = UEngineString::ToUpper("Relaxed");
-		UPokemon::NatureNames[ENature::Sassy] = UEngineString::ToUpper("Sassy");
-		UPokemon::NatureNames[ENature::Serious] = UEngineString::ToUpper("Serious");
-		UPokemon::NatureNames[ENature::Timid] = UEngineString::ToUpper("Timid");
-
-		UPokemon::TypeImageNames[EPokemonType::Normal] = "TypeNormal.png";
-		UPokemon::TypeImageNames[EPokemonType::Fighting] = "TypeFighting.png";
-		UPokemon::TypeImageNames[EPokemonType::Flying] = "TypeFlying.png";
-		UPokemon::TypeImageNames[EPokemonType::Poison] = "TypePoison.png";
-		UPokemon::TypeImageNames[EPokemonType::Ground] = "TypeGround.png";
-		UPokemon::TypeImageNames[EPokemonType::Rock] = "TypeRock.png";
-		UPokemon::TypeImageNames[EPokemonType::Bug] = "TypeBug.png";
-		UPokemon::TypeImageNames[EPokemonType::Ghost] = "TypeGhost.png";
-		UPokemon::TypeImageNames[EPokemonType::Steel] = "TypeSteel.png";
-		UPokemon::TypeImageNames[EPokemonType::Fire] = "TypeFire.png";
-		UPokemon::TypeImageNames[EPokemonType::Water] = "TypeWater.png";
-		UPokemon::TypeImageNames[EPokemonType::Grass] = "TypeGrass.png";
-		UPokemon::TypeImageNames[EPokemonType::Electric] = "TypeElectric.png";
-		UPokemon::TypeImageNames[EPokemonType::Psychic] = "TypePsychic.png";
-		UPokemon::TypeImageNames[EPokemonType::Ice] = "TypeIce.png";
-		UPokemon::TypeImageNames[EPokemonType::Dragon] = "TypeDragon.png";
-		UPokemon::TypeImageNames[EPokemonType::Dark] = "TypeDark.png";
-		UPokemon::TypeImageNames[EPokemonType::Fairy] = "TypeFairy.png";
-	}
-};
-
-PokemonInitiator Init;
-
 UPokemon::UPokemon()
 {
 }
 
 UPokemon::~UPokemon()
 {
+}
+
+void UPokemon::Heal(int _Value)
+{
+	if (_Value < 0)
+	{
+		MsgBoxAssert("음수만큼 HP를 회복할 수 없습니다.");
+		return;
+	}
+
+	CurHp += _Value;
+	if (CurHp > GetHp())
+	{
+		CurHp = GetHp();
+	}
 }
 
 int UPokemon::GetHp() const
@@ -200,6 +148,24 @@ int UPokemon::GetSpeed() const
 	}
 
 	return UPokemonMath::Floor(((2 * BSpeed + ISpeed + ESpeed / 4) * Level / 100 + 5) * N);
+}
+
+void UPokemon::GainExp(int _Exp)
+{
+	if (Level >= 100)
+	{
+		return;
+	}
+
+	AccExp += _Exp;
+
+	if (GetNextLevelExp() <= 0)
+	{
+		int PrevHp = GetHp();
+		++Level;
+		int NextHp = GetHp();
+		CurHp += NextHp - PrevHp;
+	}
 }
 
 int UPokemon::GetExpSize() const

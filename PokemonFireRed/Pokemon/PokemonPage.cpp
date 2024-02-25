@@ -100,7 +100,7 @@ void APokemonPage::BeginPlay()
 	UPokemon& First = UPlayerData::GetPokemonInEntry(0);
 	FirstNameText = CreateText(
 		FirstRenderer,
-		First.GetName(),
+		First.GetNameW(),
 		EPivotType::RightBot,
 		EAlignType::Left,
 		-53, -28,
@@ -155,7 +155,7 @@ void APokemonPage::BeginPlay()
 
 		AText* NameText = CreateText(
 			EntryRenderers[i - 1],
-			Pokemon.GetName(),
+			Pokemon.GetNameW(),
 			EPivotType::RightBot,
 			EAlignType::Left,
 			-119, -9,
@@ -611,7 +611,7 @@ void APokemonPage::RefreshFirst()
 
 	const UPokemon& Pokemon = UPlayerData::GetPokemonInEntry(0);
 
-	FirstNameText->SetText(Pokemon.GetName());
+	FirstNameText->SetText(Pokemon.GetNameW());
 	FirstLevelText->SetText(std::to_wstring(Pokemon.GetLevel()));
 	FirstHpText->SetText(std::to_wstring(Pokemon.GetHp()));
 	FirstCurHpText->SetText(std::to_wstring(Pokemon.GetCurHp()));
@@ -717,10 +717,10 @@ void APokemonPage::RefreshEntry(int _Index)
 	}
 
 	const UPokemon& Pokemon = UPlayerData::GetPokemonInEntry(_Index);
-	EntryNameTexts[_Index - 1]->SetText(Pokemon.GetName());
-	EntryLevelTexts[_Index - 1]->SetText(std::to_wstring(Pokemon.GetLevel()));
-	EntryHpTexts[_Index - 1]->SetText(std::to_wstring(Pokemon.GetHp()));
-	EntryCurHpTexts[_Index - 1]->SetText(std::to_wstring(Pokemon.GetCurHp()));
+	EntryNameTexts[_Index - 1]->SetText(Pokemon.GetNameW());
+	EntryLevelTexts[_Index - 1]->SetText(Pokemon.GetLevelW());
+	EntryHpTexts[_Index - 1]->SetText(Pokemon.GetHpW());
+	EntryCurHpTexts[_Index - 1]->SetText(Pokemon.GetCurHpW());
 	EntryHpBars[_Index - 1]->SetMaxValue(Pokemon.GetHp());
 	EntryHpBars[_Index - 1]->SetValue(Pokemon.GetCurHp());
 	EntryPokemonIcons[_Index - 1]->SetPokemon(Pokemon);

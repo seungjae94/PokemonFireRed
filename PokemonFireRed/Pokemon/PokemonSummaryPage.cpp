@@ -148,44 +148,39 @@ void APokemonSummaryPage::RefreshAll()
 	EGender Gender = Pokemon->GetGender();
 
 	// CommonBox
-	NameText->SetText(Pokemon->GetName());
+	NameText->SetText(Pokemon->GetNameW());
 	LevelText->SetText(std::to_wstring(Pokemon->GetLevel()));
 	FrontImage->SetPokemon(Pokemon);
 	if (nullptr == GenderIcon)
 	{
 		GenderIcon = CreateImageRenderer(ERenderingOrder::UpperUI);
 	}
-	GenderIcon->SetImage(UPokemon::GetBigGenderImageName(Gender));
+	GenderIcon->SetImage(Pokemon->GetBigGenderImageName());
 	UPokemonUtil::PlaceImageOnScreen(GenderIcon, EPivotType::LeftTop, 105, 19);
 
 	// InfoBox
 	PokedexNoText->SetText(UPokemonString::PadLeft(PokedexNoString, 3, L'0'));
-	SpeciesNameText->SetText(UPokemon::GetSpeciesNameW(PokedexNo));
+	SpeciesNameText->SetText(Pokemon->GetSpeciesW());
 	TrainerText->SetText(L"RED");
-	TrainerMemo->SetText(UPokemon::GetNatureNameW(Nature) + L" nature.");
+	TrainerMemo->SetText(Pokemon->GetNatureW() + L" nature.");
 
-	int TypeSize = static_cast<int>(Types.size());
-	for (int i = 0; i < TypeSize; ++i)
+	std::vector<std::string> TypeImageNames = Pokemon->GetTypeImageNames();
+	for (int i = 0; i < 2; ++i)
 	{
-		std::string ImageName = UPokemon::GetTypeImageName(Types[i]);
-		TypeImages[i]->SetImage(ImageName);
-	}
-	for (int i = TypeSize; i < 2; ++i)
-	{
-		TypeImages[i]->SetImage(RN::TypePlaceHolder);
+		TypeImages[i]->SetImage(TypeImageNames[i]);
 	}
 
 	// SkillsBox
-	HpText->SetText(std::to_wstring(Pokemon->GetCurHp()) + L"/" + std::to_wstring(Pokemon->GetHp()));
-	AtkText->SetText(std::to_wstring(Pokemon->GetAtk()));
-	DefText->SetText(std::to_wstring(Pokemon->GetDef()));
-	SpAtkText->SetText(std::to_wstring(Pokemon->GetSpAtk()));
-	SpDefText->SetText(std::to_wstring(Pokemon->GetSpDef()));
-	SpeedText->SetText(std::to_wstring(Pokemon->GetSpeed()));
-	AccExpText->SetText(std::to_wstring(Pokemon->GetAccExp()));
-	NextLevelExpText->SetText(std::to_wstring(Pokemon->GetNextLevelExp()));
-	//AbilityText->SetText(std::to_wstring(Pokemon->GetA()));
-	//AbilityExplainText->SetText(std::to_wstring(Pokemon->GetAtk()));
+	HpText->SetText(Pokemon->GetCurHpW() + L"/" + Pokemon->GetHpW());
+	AtkText->SetText(Pokemon->GetAtkW());
+	DefText->SetText(Pokemon->GetDefW());
+	SpAtkText->SetText(Pokemon->GetSpAtkW());
+	SpDefText->SetText(Pokemon->GetSpDefW());
+	SpeedText->SetText(Pokemon->GetSpeedW());
+	AccExpText->SetText(Pokemon->GetAccExpW());
+	NextLevelExpText->SetText(Pokemon->GetNextLevelExpW());
+	AbilityText->SetText(Pokemon->GetAbilityUpperW());
+	AbilityExplainText->SetText(Pokemon->GetAbilityExplainW());
 	HpBar->SetMaxValue(Pokemon->GetHp());
 	HpBar->SetValue(Pokemon->GetCurHp());
 	ExpBar->SetMaxValue(Pokemon->GetExpSize());
