@@ -195,6 +195,7 @@ void APokemonSummaryPage::Tick(float _DeltaTime)
 		InfoTick(_DeltaTime);
 		break;
 	case EPokemonSummaryPageState::Skills:
+		SkillsTick(_DeltaTime);
 		break;
 	case EPokemonSummaryPageState::Moves:
 		break;
@@ -219,6 +220,24 @@ void APokemonSummaryPage::InfoTick(float _DeltaTime)
 		Nav->SetImage(RN::PokemonSummaryUINavSkills);
 		InfoBox->SetActive(false);
 		SkillsBox->SetActive(true);
+		return;
+	}
+}
+
+void APokemonSummaryPage::SkillsTick(float _DeltaTime)
+{
+	if (true == UEngineInput::IsDown('X'))
+	{
+		UEventManager::ChangeLevelFade(GetWorld(), Global::PokemonUILevel);
+		return;
+	}
+
+	if (true == UEngineInput::IsDown(VK_LEFT))
+	{
+		State = EPokemonSummaryPageState::Info;
+		Nav->SetImage(RN::PokemonSummaryUINavInfo);
+		InfoBox->SetActive(true);
+		SkillsBox->SetActive(false);
 		return;
 	}
 }
