@@ -258,7 +258,7 @@ void UPokemon::SetRandomGender(float _MaleRatio)
 
 void UPokemon::SetRandomNature()
 {
-	int NatureInt = UPokemonMath::RandomInt(0, static_cast<int>(ENature::MAX) - 1);
+	int NatureInt = UPokemonMath::RandomInt(1, static_cast<int>(ENature::MAX) - 1);
 	Nature = static_cast<ENature>(NatureInt);
 }
 
