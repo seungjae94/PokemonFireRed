@@ -19,6 +19,8 @@ public:
 		PrevMapLevelName = _PrevMapLevelName;
 	}
 
+	void RefreshAll();
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
@@ -27,7 +29,7 @@ private:
 
 	UImageRenderer* Background = nullptr;
 	AText* IdNo = nullptr;
-	AText* Name = nullptr;
+	AText* Nickname = nullptr;
 	AText* Money = nullptr;
 	AText* PokedexOwned = nullptr;
 };

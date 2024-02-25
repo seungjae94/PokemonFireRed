@@ -1,5 +1,6 @@
 #include "TrainerCardPage.h"
 #include <EnginePlatform/EngineInput.h>
+#include "PlayerData.h"
 #include "TrainerCardUILevel.h"
 #include "PokemonUtil.h"
 
@@ -32,7 +33,7 @@ void ATrainerCardPage::BeginPlay()
 		EFontColor::Gray
 	);
 
-	Name = CreateText(
+	Nickname = CreateText(
 		Background,
 		L"RED",
 		EPivotType::LeftTop,
@@ -58,6 +59,14 @@ void ATrainerCardPage::BeginPlay()
 		143, 91,
 		EFontColor::Gray
 	);
+}
+
+void ATrainerCardPage::RefreshAll()
+{
+	IdNo->SetText(std::to_wstring(UPlayerData::GetIdNo()));
+	Nickname->SetText(UPlayerData::GetNickNameW());
+	Money->SetText(std::to_wstring(UPlayerData::GetMoney()) + L"G");
+	PokedexOwned->SetText(std::to_wstring(UPlayerData::GetOwnedPokemonCount()));
 }
 
 void ATrainerCardPage::Tick(float _DeltaTime)

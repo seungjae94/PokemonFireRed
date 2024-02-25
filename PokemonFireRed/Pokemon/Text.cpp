@@ -69,6 +69,7 @@ void AText::SetText(std::wstring_view _Text)
 	else
 	{
 		RenderEnd = true;
+		FollowContainer();
 	}
 }
 

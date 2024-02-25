@@ -33,4 +33,5 @@ void UTrainerCardUILevel::LevelStart(ULevel* _PrevLevel)
 {
 	std::string PrevMapLevelName = _PrevLevel->GetName();
 	Page->SetPrevMapLevelName(PrevMapLevelName);
+	Page->RefreshAll();
 }

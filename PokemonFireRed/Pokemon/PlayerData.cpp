@@ -1,14 +1,20 @@
 #include "PlayerData.h"
+#include "PokemonMath.h"
 
+int UPlayerData::IdNo = -1;
+std::string UPlayerData::Nickname = "RED";
+int UPlayerData::Money = 3000;
 std::vector<UPokemon> UPlayerData::PokemonEntry;
 std::vector<UPokemon> UPlayerData::PokemonInComputer;
 std::map<EAchievement, bool> UPlayerData::AchievementMap;
+std::map<EPokedexNo, bool> UPlayerData::PokedexSeenMap;
+std::map<EPokedexNo, bool> UPlayerData::PokedexOwnedMap;
 
-UPlayerData::UPlayerData() 
+UPlayerData::UPlayerData()
 {
 }
 
-UPlayerData::~UPlayerData() 
+UPlayerData::~UPlayerData()
 {
 }
 
@@ -25,6 +31,7 @@ void UPlayerData::AddPokemonToEntry(const UPokemon& _Pokemon)
 		return;
 	}
 
+	OwnPokemon(_Pokemon.GetPokedexNo());
 	PokemonEntry.push_back(_Pokemon);
 }
 
@@ -51,6 +58,18 @@ void UPlayerData::SwapEntry(int _Index0, int _Index1)
 	UPokemon Pokemon1 = PokemonEntry[_Index1];
 	PokemonEntry[_Index0] = Pokemon1;
 	PokemonEntry[_Index1] = Pokemon0;
+}
+
+int UPlayerData::GetIdNo()
+{
+	if (IdNo == -1)
+	{
+		// 아직 IdNo 값이 할당되지 않은 경우 랜덤하게 값을 할당해서 반환한다.
+		IdNo = UPokemonMath::RandomInt(0, 65535);
+	}
+
+	return IdNo;
+
 }
 
 
