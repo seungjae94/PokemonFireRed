@@ -29,6 +29,12 @@ void UTutorialLevel::BeginPlay()
 		UEngineResourcesManager::GetInst().LoadImg(File.GetFullPath());
 	}
 
+	std::list<UEngineFile> Sounds = CurDir.AllFile({ ".wav" }, false);
+	for (UEngineFile& Sound : Sounds)
+	{
+		UEngineSound::Load(Sound.GetFullPath());
+	}
+
 	// 액터 생성
 	Manager = SpawnActor<ATutorialLevelManager>();
 
@@ -47,6 +53,17 @@ void UTutorialLevel::BeginPlay()
 		>> ES::Wait(1.0f)
 		>> ES::End(true)
 	);
+}
+
+void UTutorialLevel::LevelStart(ULevel* _PrevLevel)
+{
+	BgmPlayer = UEngineSound::SoundPlay(RN::BgmTutorial);
+	BgmPlayer.Loop();
+}
+
+void UTutorialLevel::LevelEnd(ULevel* _NextLevel)
+{
+	BgmPlayer.Off();
 }
 
 
