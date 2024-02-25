@@ -30,6 +30,8 @@ public:
 	// 절대 경로와 이미지 이름을 받아서 이미지 객체를 생성하고 리소스 매니저에 저장한다.
 	// - 이미지 객체의 Load 함수를 호출해 파일 경로에서 실제 이미지를 로딩한다.
 	UWindowImage* LoadImg(std::string_view _Path, std::string_view _Name);
+	
+	void UnloadImg(std::string_view _Name);
 
 	// 이미지 이름을 받아서 리소스 매니저가 가진 맵에서 이미지를 찾아준다.
 	UWindowImage* FindImg(std::string_view _Name);

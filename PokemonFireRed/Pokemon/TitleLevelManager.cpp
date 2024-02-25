@@ -19,10 +19,10 @@ void ATitleLevelManager::BeginPlay()
 	Renderer->CameraEffectOff();
 	Renderer->SetTransColor(Color8Bit::White);
 
-	TitleBattleSoundPlayer = UEngineSound::SoundPlay(RN::BgmTitleBattle);
-	TitleScreenSoundPlayer = UEngineSound::SoundPlay(RN::BgmTitleScreen);
-	TitleBattleSoundPlayer.Off();
-	TitleScreenSoundPlayer.Off();
+	//TitleBattleSoundPlayer = UEngineSound::SoundPlay(RN::BgmTitleBattle);
+	//TitleScreenSoundPlayer = UEngineSound::SoundPlay(RN::BgmTitleScreen);
+	//TitleBattleSoundPlayer.Off();
+	//TitleScreenSoundPlayer.Off();
 }
 
 void ATitleLevelManager::Tick(float _DeltaTime)
@@ -55,7 +55,7 @@ void ATitleLevelManager::Video0Logic(float _DeltaTime)
 {
 	if (true == IsFirstTick)
 	{
-		TitleScreenSoundPlayer.Off();
+		//TitleScreenSoundPlayer.Off();
 		IsFirstTick = false;
 	}
 
@@ -70,8 +70,8 @@ void ATitleLevelManager::Video1Logic(float _DeltaTime)
 {
 	if (true == IsFirstTick)
 	{
-		TitleBattleSoundPlayer.On();
-		TitleBattleSoundPlayer.Replay();
+		//TitleBattleSoundPlayer.Replay();
+		//TitleBattleSoundPlayer.On();
 		IsFirstTick = false;
 	}
 
@@ -93,9 +93,9 @@ void ATitleLevelManager::Video2Logic(float _DeltaTime)
 {
 	if (true == IsFirstTick)
 	{
-		TitleBattleSoundPlayer.Off();
-		TitleScreenSoundPlayer.On();
-		TitleScreenSoundPlayer.Replay();
+		//TitleBattleSoundPlayer.Off();
+		//TitleScreenSoundPlayer.Replay();
+		//TitleScreenSoundPlayer.On();
 		IsFirstTick = false;
 	}
 
@@ -166,12 +166,13 @@ void ATitleLevelManager::Play()
 	std::string ImageName = GetImageName();
 
 	// 아직 비디오가 로드되지 않은 경우 로드한다.
-	if (false == ImageLoaded[ImageIndex])
+	/*if (false == ImageLoaded[ImageIndex])
 	{
-		UEngineResourcesManager::GetInst().LoadImg(CurDir->AppendPath(GetPathName()));
 		ImageLoaded[ImageIndex] = true;
-	}
-
+	}*/
+	UWindowImage* CurImage = Renderer->GetImage();
+	UEngineResourcesManager::GetInst().UnloadImg(CurImage->GetName());
+	UEngineResourcesManager::GetInst().LoadImg(CurDir->AppendPath(GetPathName()));
 	Renderer->SetImage(ImageName);
 	Timer = Interval;
 }
