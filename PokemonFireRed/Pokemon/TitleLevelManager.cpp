@@ -1,4 +1,5 @@
 #include "TitleLevelManager.h"
+#include <EnginePlatform/EngineSound.h>
 #include <EngineCore/EngineCore.h>
 #include "EventManager.h"
 #include "PokemonUtil.h"
@@ -57,6 +58,12 @@ void ATitleLevelManager::Video0Logic(float _DeltaTime)
 
 void ATitleLevelManager::Video1Logic(float _DeltaTime)
 {
+	if (true == IsFirstTick)
+	{
+		UEngineSound::SoundPlay(RN::BgmTitleBattle);
+		IsFirstTick = false;
+	}
+
 	if (true == UPokemonInput::IsAnykeyDown())
 	{
 		// 아무 키나 누르면 즉시 다음 영상으로 넘어간다.
@@ -73,6 +80,12 @@ void ATitleLevelManager::Video1Logic(float _DeltaTime)
 
 void ATitleLevelManager::Video2Logic(float _DeltaTime)
 {
+	if (true == IsFirstTick)
+	{
+		UEngineSound::SoundPlay(RN::BgmTitleScreen);
+		IsFirstTick = false;
+	}
+
 	if (true == UPokemonInput::IsAnykeyDown())
 	{
 		// 아무 키나 누르면 즉시 다음 영상으로 넘어간다.

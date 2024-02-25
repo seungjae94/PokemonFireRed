@@ -85,5 +85,8 @@ private:
 	void PlayNextPart();
 	void PlayNextVideo();
 	void Play();
+
+	// 사운드 재생
+	bool IsFirstTick = true;
 };
 

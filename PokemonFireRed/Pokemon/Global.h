@@ -149,6 +149,10 @@ public:
 	static const std::string TypeWater;
 	static const std::string TypePlaceHolder;
 	static const std::string MaleTrainerCard;
+
+	static const std::string BgmTitleBattle;
+	static const std::string BgmTitleScreen;
+	static const std::string BgmTutorial;
 protected:
 
 private:
