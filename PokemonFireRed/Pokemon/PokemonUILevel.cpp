@@ -41,5 +41,4 @@ void UPokemonUILevel::LevelStart(ULevel* _PrevLevel)
 		Page->Reset();
 		Page->RefreshAll();
 	}
-
 }

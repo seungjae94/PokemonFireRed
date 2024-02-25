@@ -135,7 +135,7 @@ void APokemonSummaryPage::BeginPlay()
 	NextLevelExpText = CreateText(SkillsBox, L"172", EPivotType::RightTop, EAlignType::Right, -3, 111, EFontColor::Black);
 	AbilityText = CreateText(SkillsBox, L"KEEN EYE", EPivotType::LeftTop, EAlignType::Left, 74, 124, EFontColor::Black);
 	AbilityExplainText = CreateText(SkillsBox, L"Prevents loss of accuracy.", EPivotType::LeftBot, EAlignType::Left, 10, -5, EFontColor::Black);
-	HpBar = CreateScrollBar(SkillsBox, EScrollType::Hp, 100, 100, EPivotType::RightTop, 55, 34);
+	HpBar = CreateScrollBar(SkillsBox, EScrollType::Hp, 100, 100, EPivotType::RightTop, -55, 18);
 	ExpBar = CreateScrollBar(SkillsBox, EScrollType::Exp, 100, 100, EPivotType::RightBot, -71, -29);
 }
 
