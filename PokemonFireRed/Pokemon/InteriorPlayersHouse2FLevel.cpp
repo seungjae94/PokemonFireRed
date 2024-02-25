@@ -61,6 +61,8 @@ void UInteriorPlayersHouse2FLevel::BeginPlay()
 
 void UInteriorPlayersHouse2FLevel::LevelStart(ULevel* _PrevLevel)
 {
+	UMapLevel::LevelStart(_PrevLevel);
+
 	if (nullptr == _PrevLevel || _PrevLevel->GetName() == UEngineString::ToUpper(Global::TutorialLevel))
 	{
 		USoundManager::PlayBgm(RN::BgmPalletTown);

@@ -119,6 +119,8 @@ and POKéMON as data via PC.)"
 
 void UExteriorPalletTownLevel::LevelStart(ULevel* _PrevLevel)
 {
+	UMapLevel::LevelStart(_PrevLevel);
+
 	if (nullptr == _PrevLevel)
 	{
 		// 디버그용

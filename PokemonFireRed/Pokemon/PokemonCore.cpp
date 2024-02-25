@@ -44,7 +44,7 @@ void UPokemonCore::BeginPlay()
 	CreateLevel<UTrainerCardUILevel>(Global::TrainerCardUILevel);
 
 	// 시작 레벨 설정
-	UEventManager::SetLevel(Global::TitleLevel);
+	UEventManager::SetLevel(Global::ExteriorPalletTownLevel);
 }
 
 void UPokemonCore::Tick(float _DeltaTime)
