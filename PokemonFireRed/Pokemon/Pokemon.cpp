@@ -202,19 +202,34 @@ int UPokemon::GetSpeed() const
 	return UPokemonMath::Floor(((2 * BSpeed + ISpeed + ESpeed / 4) * Level / 100 + 5) * N);
 }
 
-int UPokemon::GetExpForNextLevel() const
+int UPokemon::GetExpSize() const
 {
-	if (Level >= 100)
+	if (Level >= 100 || Level <= 0)
 	{
 		return 0;
 	}
 
-	if (Level <= 0)
+	return GetAccExpForLevel(Level + 1) - GetAccExpForLevel(Level);
+}
+
+int UPokemon::GetNextLevelExp() const
+{
+	if (Level >= 100 || Level <= 0)
 	{
 		return 0;
 	}
 
 	return GetAccExpForLevel(Level + 1) - AccExp;
+}
+
+int UPokemon::GetExp() const
+{
+	if (Level >= 100 || Level <= 0)
+	{
+		return 0;
+	}
+
+	return GetExpSize() - GetNextLevelExp();
 }
 
 void UPokemon::SetRandomIVs()

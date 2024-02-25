@@ -147,15 +147,23 @@ void APokemonSummaryPage::RefreshAll()
 	std::vector<EPokemonType> Types = Pokemon->GetTypes();
 	EGender Gender = Pokemon->GetGender();
 
+	// CommonBox
 	NameText->SetText(Pokemon->GetName());
 	LevelText->SetText(std::to_wstring(Pokemon->GetLevel()));
+	FrontImage->SetPokemon(Pokemon);
+	if (nullptr == GenderIcon)
+	{
+		GenderIcon = CreateImageRenderer(ERenderingOrder::UpperUI);
+	}
+	GenderIcon->SetImage(UPokemon::GetBigGenderImageName(Gender));
+	UPokemonUtil::PlaceImageOnScreen(GenderIcon, EPivotType::LeftTop, 105, 19);
+
+	// InfoBox
 	PokedexNoText->SetText(UPokemonString::PadLeft(PokedexNoString, 3, L'0'));
 	SpeciesNameText->SetText(UPokemon::GetSpeciesNameW(PokedexNo));
 	TrainerText->SetText(L"RED");
 	TrainerMemo->SetText(UPokemon::GetNatureNameW(Nature) + L" nature.");
-	FrontImage->SetPokemon(Pokemon);
 
-	// 타입 이미지 렌더링
 	int TypeSize = static_cast<int>(Types.size());
 	for (int i = 0; i < TypeSize; ++i)
 	{
@@ -167,13 +175,21 @@ void APokemonSummaryPage::RefreshAll()
 		TypeImages[i]->SetImage(RN::TypePlaceHolder);
 	}
 
-	// 성별 이미지 렌더링
-	if (nullptr == GenderIcon)
-	{
-		GenderIcon = CreateImageRenderer(ERenderingOrder::UpperUI);
-	}
-	GenderIcon->SetImage(UPokemon::GetBigGenderImageName(Gender));
-	UPokemonUtil::PlaceImageOnScreen(GenderIcon, EPivotType::LeftTop, 105, 19);
+	// SkillsBox
+	HpText->SetText(std::to_wstring(Pokemon->GetCurHp()) + L"/" + std::to_wstring(Pokemon->GetHp()));
+	AtkText->SetText(std::to_wstring(Pokemon->GetAtk()));
+	DefText->SetText(std::to_wstring(Pokemon->GetDef()));
+	SpAtkText->SetText(std::to_wstring(Pokemon->GetSpAtk()));
+	SpDefText->SetText(std::to_wstring(Pokemon->GetSpDef()));
+	SpeedText->SetText(std::to_wstring(Pokemon->GetSpeed()));
+	AccExpText->SetText(std::to_wstring(Pokemon->GetAccExp()));
+	NextLevelExpText->SetText(std::to_wstring(Pokemon->GetNextLevelExp()));
+	//AbilityText->SetText(std::to_wstring(Pokemon->GetA()));
+	//AbilityExplainText->SetText(std::to_wstring(Pokemon->GetAtk()));
+	HpBar->SetMaxValue(Pokemon->GetHp());
+	HpBar->SetValue(Pokemon->GetCurHp());
+	ExpBar->SetMaxValue(Pokemon->GetExpSize());
+	ExpBar->SetValue(Pokemon->GetExp());
 }
 
 void APokemonSummaryPage::Reset()

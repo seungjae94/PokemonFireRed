@@ -226,7 +226,14 @@ public:
 		return AccExp;
 	}
 	
-	int GetExpForNextLevel() const;
+	// (경험치 구간의 길이) = (다음 레벨의 누적 경험치) - (현재 레벨의 누적 경험치)
+	int GetExpSize() const;
+
+	// (다음 레벨까지 필요한 경험치) = (다음 레벨의 누적 경험치) - (누적 경험치)
+	int GetNextLevelExp() const;
+
+	// (현재 레벨에서 얻은 경험치) = (경험치 구간의 길이) - (다음 레벨까지 필요한 경험치)
+	int GetExp() const;
 
 	void SetLevel(int _Level)
 	{
