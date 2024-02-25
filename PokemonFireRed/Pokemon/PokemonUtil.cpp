@@ -128,8 +128,14 @@ void UPokemonUtil::PlaceImageOnScreen(
 	_Renderer->SetPosition(FinalPos);
 }
 
-void UPokemonUtil::CreateMiniPokemonAnimations(UImageRenderer* _Renderer)
+void UPokemonUtil::CreatePokemonMiniAnimations(UImageRenderer* _Renderer)
 {
+	if (nullptr == _Renderer)
+	{
+		MsgBoxAssert("nullptr인 렌더러에서 PokemonMini 애니메이션을 만들려고 했습니다.");
+		return;
+	}
+
 	if (nullptr == _Renderer->GetImage())
 	{
 		_Renderer->SetImage(RN::PokemonMini);
@@ -143,6 +149,33 @@ void UPokemonUtil::CreateMiniPokemonAnimations(UImageRenderer* _Renderer)
 			RN::PokemonMini, 
 			Idx * 2 - 2, Idx * 2 - 1, 1.0f / 6, true);
 	}
+}
+
+void UPokemonUtil::CreatePokemonFrontAnimations(UImageRenderer* _Renderer)
+{
+	if (nullptr == _Renderer)
+	{
+		MsgBoxAssert("nullptr인 렌더러에서 PokemonFront 애니메이션을 만들려고 했습니다.");
+		return;
+	}
+
+	if (nullptr == _Renderer->GetImage())
+	{
+		_Renderer->SetImage(RN::PokemonFront);
+	}
+
+	for (EPokedexNo No : UPokemon::GetImplementedSpeciesNo())
+	{
+		int Idx = static_cast<int>(No) * 2  - 2;
+		_Renderer->CreateAnimation(
+			Global::PokemonFrontPrefix + UPokemon::GetSpeciesName(No),
+			RN::PokemonFront,
+			Idx, Idx, 1.0f / 6, false);
+	}
+}
+
+void UPokemonUtil::CreatePokemonBackAnimations(UImageRenderer* _Renderer)
+{
 }
 
 std::vector<std::string> UPokemonUtil::StringSplit(const std::string& _Str, char _Delimeter)

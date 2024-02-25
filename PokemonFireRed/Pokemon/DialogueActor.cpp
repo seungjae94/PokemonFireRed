@@ -2,7 +2,7 @@
 #include "EventManager.h"
 #include "EventCondition.h"
 #include "EventStream.h"
-#include "PokemonText.h"
+#include "Text.h"
 #include "Player.h"
 #include "PokemonLevel.h"
 

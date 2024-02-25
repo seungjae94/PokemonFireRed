@@ -2,7 +2,7 @@
 #include "Page.h"
 
 class UImageRenderer;
-class APokemonText;
+class AText;
 enum class EFontColor;
 
 enum class EDialogueWindowState
@@ -46,6 +46,6 @@ private:
 	std::vector<std::wstring> Dialogue;
 
 	UImageRenderer* DialogueWindowRenderer = nullptr;
-	APokemonText* Text = nullptr;
+	AText* Text = nullptr;
 };
 

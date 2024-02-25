@@ -1,6 +1,6 @@
 #pragma once
 #include "Page.h"
-#include "PokemonText.h"
+#include "Text.h"
 #include "Global.h"
 
 enum class EMapNameWindowState
@@ -31,7 +31,7 @@ protected:
 	void Tick(float _DeltaTime) override;
 private:
 	UImageRenderer* Renderer = nullptr;
-	APokemonText* MapNameText = nullptr;
+	AText* MapNameText = nullptr;
 
 	FVector HidePos;
 	FVector ShowPos;

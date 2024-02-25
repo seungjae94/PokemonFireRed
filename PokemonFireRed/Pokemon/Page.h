@@ -20,7 +20,7 @@ public:
 
 	void SetActive(bool _Active, float _ActiveTime = 0.0f) override;
 
-	APokemonText* CreateText(
+	AText* CreateText(
 		UImageRenderer* _Container,
 		std::wstring _Text,
 		EPivotType _PivotType = EPivotType::LeftTop,
@@ -51,7 +51,7 @@ public:
 		int _PixelGap = 16
 	);
 
-	APokemonIcon* CreatePokemonIcon(
+	APokemonElement* CreatePokemonIcon(
 		UImageRenderer* _Container,
 		EPivotType _PivotType = EPivotType::LeftTop,
 		int _RelativePixelX = 0,

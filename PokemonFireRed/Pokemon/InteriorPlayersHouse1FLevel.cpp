@@ -2,7 +2,7 @@
 #include "Stair.h"
 #include "InteriorDoor.h"
 #include "DialogueActor.h"
-#include "PokemonText.h"
+#include "Text.h"
 #include "EventCondition.h"
 #include "EventStream.h"
 

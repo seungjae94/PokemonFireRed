@@ -152,7 +152,7 @@ void UPokemonUILevelPage::BeginPlay()
 	{
 		UPokemon& Pokemon = UPlayerData::GetPokemonInEntry(i);
 
-		APokemonText* NameText = CreateText(
+		AText* NameText = CreateText(
 			EntryRenderers[i - 1],
 			Pokemon.GetName(),
 			EPivotType::RightBot,
@@ -160,7 +160,7 @@ void UPokemonUILevelPage::BeginPlay()
 			-119, -9,
 			EFontColor::WhiteGray, EFontSize::Mini
 		);
-		APokemonText* LevelText = CreateText(
+		AText* LevelText = CreateText(
 			EntryRenderers[i - 1],
 			std::to_wstring(Pokemon.GetLevel()),
 			EPivotType::LeftBot,
@@ -168,7 +168,7 @@ void UPokemonUILevelPage::BeginPlay()
 			48, 0,
 			EFontColor::WhiteGray, EFontSize::Mini
 		);
-		APokemonText* HpText = CreateText(
+		AText* HpText = CreateText(
 			EntryRenderers[i - 1],
 			std::to_wstring(Pokemon.GetHp()),
 			EPivotType::RightBot,
@@ -176,7 +176,7 @@ void UPokemonUILevelPage::BeginPlay()
 			-5, 0,
 			EFontColor::WhiteGray, EFontSize::Mini
 		);
-		APokemonText* CurHpText = CreateText(
+		AText* CurHpText = CreateText(
 			EntryRenderers[i - 1],
 			std::to_wstring(Pokemon.GetCurHp()),
 			EPivotType::RightBot,
@@ -191,7 +191,7 @@ void UPokemonUILevelPage::BeginPlay()
 			EPivotType::RightBot,
 			-53, -13
 		);
-		APokemonIcon* Icon = CreatePokemonIcon(
+		APokemonElement* Icon = CreatePokemonIcon(
 			EntryRenderers[i - 1],
 			EPivotType::LeftBot,
 			-3, -20

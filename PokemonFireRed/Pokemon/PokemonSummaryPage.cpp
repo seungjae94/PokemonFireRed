@@ -47,6 +47,11 @@ void APokemonSummaryPage::BeginPlay()
 		EAlignType::Left,
 		14, 13
 	);
+	FrontImage = CreateImageElement(
+		CommonBox,
+		EPivotType::LeftTop,
+		20, 6
+	);
 
 	// InfoBox ¿ä¼Ò
 	PokedexNoText = CreateText(

@@ -4,12 +4,11 @@
 #include "Global.h"
 #include "PokemonUtil.h"
 #include "EventManager.h"
-#include "PokemonText.h"
+#include "Text.h"
 #include "MapLevel.h"
 #include "EventTrigger.h"
 #include "EventCondition.h"
 #include "EventStream.h"
-#include "PokemonText.h"
 #include "PlayerData.h"
 
 int AMenuWindow::MenuCount = 3;
@@ -50,7 +49,7 @@ void AMenuWindow::BeginPlay()
 
 	for (int i = 0; i < 5; i++)
 	{
-		APokemonText* MenuText = CreateText(
+		AText* MenuText = CreateText(
 			MenuWindowRenderer,
 			L"",
 			EPivotType::LeftTop,

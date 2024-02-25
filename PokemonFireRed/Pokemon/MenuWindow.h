@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "Page.h"
-#include "PokemonText.h"
+#include "Text.h"
 
 class AEventTrigger;
 
@@ -40,8 +40,8 @@ private:
 	UImageRenderer* MenuWindowExplainRenderer = nullptr;
 	UImageRenderer* ArrowRenderer = nullptr;
 
-	APokemonText* MenuExplainText = nullptr;
-	std::vector<APokemonText*> MenuTexts;
+	AText* MenuExplainText = nullptr;
+	std::vector<AText*> MenuTexts;
 	std::vector<std::wstring> MenuNames = {L"POKéDEX", L"POKéMON", L"BAG", L"RED", L"EXIT"};
 	std::vector<std::wstring> MenuExplains = {
 		LR"(A device that records POKéMON secrets

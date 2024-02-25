@@ -3,7 +3,7 @@
 #include "Global.h"
 #include "ExteriorDoor.h"
 #include "DialogueActor.h"
-#include "PokemonText.h"
+#include "Text.h"
 #include "PlayerData.h"
 #include "AllPokemons.h"
 

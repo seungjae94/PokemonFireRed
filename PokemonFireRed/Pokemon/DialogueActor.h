@@ -1,6 +1,6 @@
 #pragma once
 #include "EventTrigger.h"
-#include "PokemonText.h"
+#include "Text.h"
 
 class UPokemonLevel;
 

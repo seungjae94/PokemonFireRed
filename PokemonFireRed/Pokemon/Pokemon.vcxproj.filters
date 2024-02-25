@@ -165,7 +165,7 @@
     <ClInclude Include="FadeScreen.h">
       <Filter>2. UI\Fade</Filter>
     </ClInclude>
-    <ClInclude Include="PokemonText.h">
+    <ClInclude Include="Text.h">
       <Filter>2. UI\Element</Filter>
     </ClInclude>
     <ClInclude Include="Map.h">
@@ -234,7 +234,7 @@
     <ClInclude Include="Cursor.h">
       <Filter>2. UI\Element</Filter>
     </ClInclude>
-    <ClInclude Include="PokemonIcon.h">
+    <ClInclude Include="PokemonElement.h">
       <Filter>2. UI\Element</Filter>
     </ClInclude>
     <ClInclude Include="PokemonSummaryUILevel.h">
@@ -344,7 +344,7 @@
     <ClCompile Include="FadeScreen.cpp">
       <Filter>2. UI\Fade</Filter>
     </ClCompile>
-    <ClCompile Include="PokemonText.cpp">
+    <ClCompile Include="Text.cpp">
       <Filter>2. UI\Element</Filter>
     </ClCompile>
     <ClCompile Include="Map.cpp">
@@ -413,7 +413,7 @@
     <ClCompile Include="Cursor.cpp">
       <Filter>2. UI\Element</Filter>
     </ClCompile>
-    <ClCompile Include="PokemonIcon.cpp">
+    <ClCompile Include="PokemonElement.cpp">
       <Filter>2. UI\Element</Filter>
     </ClCompile>
     <ClCompile Include="PokemonSummaryPage.cpp">

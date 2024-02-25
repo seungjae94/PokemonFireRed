@@ -1,6 +1,6 @@
 #pragma once
 #include "Cursor.h"
 #include "ScrollBar.h"
-#include "PokemonText.h"
-#include "PokemonIcon.h"
+#include "Text.h"
+#include "PokemonElement.h"
 #include "ImageElement.h"

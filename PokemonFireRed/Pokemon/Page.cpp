@@ -1,5 +1,5 @@
 #include "Page.h"
-#include "PokemonText.h"
+#include "Text.h"
 #include "ScrollBar.h"
 #include "PokemonUtil.h"
 
@@ -33,7 +33,7 @@ void APage::SetActive(bool _Active, float _ActiveTime)
 	}
 }
 
-APokemonText* APage::CreateText(
+AText* APage::CreateText(
 	UImageRenderer* _Container, 
 	std::wstring _Text, 
 	EPivotType _PivotType, 
@@ -42,7 +42,7 @@ APokemonText* APage::CreateText(
 	EFontColor _Color, EFontSize _Size
 )
 {
-	APokemonText* Text = GetWorld()->SpawnActor<APokemonText>();
+	AText* Text = GetWorld()->SpawnActor<AText>();
 	Text->Container = _Container;
 	Text->PivotType = _PivotType;
 	Text->AlignType = _AlignType;
@@ -86,9 +86,9 @@ ACursor* APage::CreateCursor(UImageRenderer* _Container, int _Cursor, int _Optio
 	return Cursor;
 }
 
-APokemonIcon* APage::CreatePokemonIcon(UImageRenderer* _Container, EPivotType _PivotType, int _RelativePixelX, int _RelativePixelY)
+APokemonElement* APage::CreatePokemonIcon(UImageRenderer* _Container, EPivotType _PivotType, int _RelativePixelX, int _RelativePixelY)
 {
-	APokemonIcon* Icon = GetWorld()->SpawnActor<APokemonIcon>();
+	APokemonElement* Icon = GetWorld()->SpawnActor<APokemonElement>();
 	Icon->Container = _Container;
 	Icon->PivotType = _PivotType;
 	Icon->SetRelativePos(UPokemonUtil::PixelVector(_RelativePixelX, _RelativePixelY));

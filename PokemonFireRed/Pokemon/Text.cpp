@@ -1,18 +1,18 @@
-﻿#include "PokemonText.h"
+﻿#include "Text.h"
 #include "Global.h"
 #include "PokemonUtil.h"
 
-std::map<EFontSize, std::map<wchar_t, APokemonText::GlyphAlignRule>> APokemonText::AlignRuleMap;
+std::map<EFontSize, std::map<wchar_t, AText::GlyphAlignRule>> AText::AlignRuleMap;
 
-APokemonText::APokemonText()
+AText::AText()
 {
 }
 
-APokemonText::~APokemonText()
+AText::~AText()
 {
 }
 
-void APokemonText::FollowContainer()
+void AText::FollowContainer()
 {
 	AUIElement::FollowContainer();
 
@@ -37,7 +37,7 @@ void APokemonText::FollowContainer()
 	SetActorLocation(AbsolutePos);
 }
 
-void APokemonText::SetText(std::wstring_view _Text)
+void AText::SetText(std::wstring_view _Text)
 {
 	std::vector<std::wstring> Lines = UPokemonUtil::StringSplit(_Text, L'\n');
 
@@ -72,7 +72,7 @@ void APokemonText::SetText(std::wstring_view _Text)
 	}
 }
 
-void APokemonText::PrepareLine(const std::wstring& _Line, int _Bot)
+void AText::PrepareLine(const std::wstring& _Line, int _Bot)
 {
 	std::string ImageNamePrefix = "";
 	if (Size == EFontSize::Mini)
@@ -147,13 +147,13 @@ void APokemonText::PrepareLine(const std::wstring& _Line, int _Bot)
 	LineWidth = max(Left, LineWidth);
 }
 
-void APokemonText::BeginPlay()
+void AText::BeginPlay()
 {
 	AUIElement::BeginPlay();
 	SetActive(false);
 }
 
-void APokemonText::Tick(float _DeltaTime)
+void AText::Tick(float _DeltaTime)
 {
 	if (nullptr == Container)
 	{
@@ -183,7 +183,7 @@ void APokemonText::Tick(float _DeltaTime)
 	++CharShowIndex;
 }
 
-void APokemonText::InitAlignRuleMap()
+void AText::InitAlignRuleMap()
 {
 	// string ImageName, int MarginLeft, int MarginRight, int Base
 
@@ -289,7 +289,7 @@ class AlignRuleMapInitiator
 public:
 	AlignRuleMapInitiator()
 	{
-		APokemonText::InitAlignRuleMap();
+		AText::InitAlignRuleMap();
 	}
 };
 AlignRuleMapInitiator AlignRuleMapInitiatorObject = AlignRuleMapInitiator();

@@ -27,21 +27,21 @@ enum class EAlignType
 // 텍스트를 그리는 액터.
 // - 액터 위치 X값에 첫 글자의 왼쪽 끝을 맞춘다.
 // - 액터 위치 Y값을 BaseLine의 높이로 두고 그린다.
-class APokemonText : public AUIElement
+class AText : public AUIElement
 {
 	class GlyphAlignRule;
 	friend class AlignRuleMapInitiator;
 	friend class APage;
 public:
 	// constructor destructor
-	APokemonText();
-	~APokemonText();
+	AText();
+	~AText();
 
 	// delete Function
-	APokemonText(const APokemonText& _Other) = delete;
-	APokemonText(APokemonText&& _Other) noexcept = delete;
-	APokemonText& operator=(const APokemonText& _Other) = delete;
-	APokemonText& operator=(APokemonText&& _Other) noexcept = delete;
+	AText(const AText& _Other) = delete;
+	AText(AText&& _Other) noexcept = delete;
+	AText& operator=(const AText& _Other) = delete;
+	AText& operator=(AText&& _Other) noexcept = delete;
 
 	void SetColor(EFontColor _Color)
 	{

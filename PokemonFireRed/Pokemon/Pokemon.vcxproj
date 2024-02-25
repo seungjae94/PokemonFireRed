@@ -324,7 +324,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="PokemonIcon.h">
+    <ClInclude Include="PokemonElement.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -340,7 +340,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="PokemonText.h">
+    <ClInclude Include="Text.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -554,7 +554,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="PokemonIcon.cpp">
+    <ClCompile Include="PokemonElement.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -570,7 +570,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="PokemonText.cpp">
+    <ClCompile Include="Text.cpp">
       <SubType>
       </SubType>
     </ClCompile>

@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 #include "PokemonMath.h"
-#include "PokemonText.h"
+#include "Text.h"
 
 #define ES UEventStream
 

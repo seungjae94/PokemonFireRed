@@ -4,7 +4,7 @@
 #include <EngineCore/ImageRenderer.h>
 #include <EngineCore/EngineResourcesManager.h>
 #include "PokemonLevel.h"
-#include "PokemonText.h"
+#include "Text.h"
 #include "PokemonUtil.h"
 #include "Global.h"
 

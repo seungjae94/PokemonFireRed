@@ -1,7 +1,7 @@
 #pragma once
 #include "Page.h"
-#include "PokemonText.h"
-#include "PokemonIcon.h"
+#include "Text.h"
+#include "PokemonElement.h"
 
 enum class EPokemonSummaryPageState
 {
@@ -47,17 +47,18 @@ private:
 	UImageRenderer* NavInfo = nullptr;
 
 	// CommonBox 요소
-	APokemonText* NameText = nullptr;
-	APokemonText* LevelText = nullptr;
+	AText* NameText = nullptr;
+	AText* LevelText = nullptr;
 	UImageRenderer* GenderIcon = nullptr;
+	AImageElement* FrontImage = nullptr;
 
 	// InfoBox 요소
-	APokemonText* PokedexNoText = nullptr;
-	APokemonText* SpeciesNameText = nullptr;
+	AText* PokedexNoText = nullptr;
+	AText* SpeciesNameText = nullptr;
 	std::list<UImageRenderer*> TypeIcons;
-	APokemonText* TrainerText = nullptr;
-	APokemonText* IdNoText = nullptr;
-	APokemonText* ItemText = nullptr;
-	APokemonText* TrainerMemo = nullptr;
+	AText* TrainerText = nullptr;
+	AText* IdNoText = nullptr;
+	AText* ItemText = nullptr;
+	AText* TrainerMemo = nullptr;
 };
 
