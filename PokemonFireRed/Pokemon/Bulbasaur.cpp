@@ -7,12 +7,8 @@ UBulbasaur::UBulbasaur()
 	Name = L"BULBASAUR";
 	Level = 1;
 	AccExp = 0;
-
-	// 기본 데이터 설정
 	float MaleRatio = 7 / 8.0f;
 	SetRandomGender(MaleRatio);
-	SetRandomNature();
-	SetRandomAbility({EAbility::Overgrow});
 
 	// 능력치 설정
 	BHp = 45;
@@ -22,12 +18,15 @@ UBulbasaur::UBulbasaur()
 	BSpDef = 65;
 	BSpeed = 45;
 	SetRandomIVs();
+	SetRandomNature();
+	SetRandomAbility({ EAbility::Overgrow });
+	CurHp = GetHp();
 
-	// 종족 능력치 설정
+	// 종족 관련 설정
 	YSpAtk = 1;
 	CatchRate = 45;
 	Friendship = 70;
-
+	ExpGroup = EExperienceGroup::MediumSlow;
 	Types.push_back(EPokemonType::Grass);
 	Types.push_back(EPokemonType::Poison);
 }

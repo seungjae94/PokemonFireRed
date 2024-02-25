@@ -7,12 +7,8 @@ USquirtle::USquirtle()
 	Name = L"SQUIRTLE";
 	Level = 1;
 	AccExp = 0;
-
-	// 기본 데이터 설정
 	float MaleRatio = 7 / 8.0f;
 	SetRandomGender(MaleRatio);
-	SetRandomNature();
-	SetRandomAbility({ EAbility::Torrent });
 
 	// 능력치 설정
 	BHp = 44;
@@ -22,12 +18,15 @@ USquirtle::USquirtle()
 	BSpDef = 64;
 	BSpeed = 43;
 	SetRandomIVs();
+	SetRandomNature();
+	SetRandomAbility({ EAbility::Torrent });
+	CurHp = GetHp();
 
 	// 종족 능력치 설정
 	YDef = 1;
 	CatchRate = 45;
 	Friendship = 70;
-
+	ExpGroup = EExperienceGroup::MediumSlow;
 	Types.push_back(EPokemonType::Water);
 }
 

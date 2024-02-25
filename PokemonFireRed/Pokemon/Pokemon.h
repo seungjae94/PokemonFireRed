@@ -319,13 +319,11 @@ protected:
 	int AccExp = 0;
 	int CurHp = 0;
 
-	// Nature
-	ENature Nature = ENature::NONE;
-
-	// 기타
+	// 상세 정보
 	EAbility Ability = EAbility::NONE;
 	EExperienceGroup ExpGroup = EExperienceGroup::NONE;
 	std::vector<EPokemonType> Types;
+	ENature Nature = ENature::NONE;
 	int CatchRate = 0;
 	int Friendship = 0;
 
