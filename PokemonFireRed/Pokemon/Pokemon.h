@@ -221,6 +221,24 @@ public:
 	int GetSpDef() const;
 	int GetSpeed() const;
 
+	void GainExp(int _Exp)
+	{
+		if (Level >= 100)
+		{
+			return;
+		}
+
+		AccExp += _Exp;
+
+		if (GetNextLevelExp() <= 0)
+		{
+			int PrevHp = GetHp();
+			++Level;
+			int NextHp = GetHp();
+			CurHp += NextHp - PrevHp;
+		}
+	}
+
 	int GetAccExp() const
 	{
 		return AccExp;
