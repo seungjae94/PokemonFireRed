@@ -368,6 +368,14 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="TrainerCardUILevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="TrainerCardPage.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="TutorialLevel.h">
       <SubType>
       </SubType>
@@ -384,7 +392,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="PokemonUILevelPage.h">
+    <ClInclude Include="PokemonPage.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -598,6 +606,14 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="TrainerCardUILevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="TrainerCardPage.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="TutorialLevel.cpp">
       <SubType>
       </SubType>
@@ -614,7 +630,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="PokemonUILevelPage.cpp">
+    <ClCompile Include="PokemonPage.cpp">
       <SubType>
       </SubType>
     </ClCompile>

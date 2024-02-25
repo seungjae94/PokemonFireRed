@@ -12,18 +12,18 @@ enum class EPokemonUIState
 
 class UPokemonUILevel;
 
-class UPokemonUILevelPage : public APage
+class APokemonPage : public APage
 {
 public:
 	// constructor destructor
-	UPokemonUILevelPage();
-	~UPokemonUILevelPage();
+	APokemonPage();
+	~APokemonPage();
 
 	// delete Function
-	UPokemonUILevelPage(const UPokemonUILevelPage& _Other) = delete;
-	UPokemonUILevelPage(UPokemonUILevelPage&& _Other) noexcept = delete;
-	UPokemonUILevelPage& operator=(const UPokemonUILevelPage& _Other) = delete;
-	UPokemonUILevelPage& operator=(UPokemonUILevelPage&& _Other) noexcept = delete;
+	APokemonPage(const APokemonPage& _Other) = delete;
+	APokemonPage(APokemonPage&& _Other) noexcept = delete;
+	APokemonPage& operator=(const APokemonPage& _Other) = delete;
+	APokemonPage& operator=(APokemonPage&& _Other) noexcept = delete;
 
 	void SetPrevMapLevelName(std::string_view _Name)
 	{

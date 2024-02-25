@@ -2,7 +2,7 @@
 #include <EngineBase/EngineDirectory.h>
 #include <EngineBase/EngineFile.h>
 #include <EngineCore/EngineResourcesManager.h>
-#include "PokemonUILevelPage.h"
+#include "PokemonPage.h"
 #include "MapLevel.h"
 
 UPokemonUILevel::UPokemonUILevel()
@@ -17,11 +17,10 @@ void UPokemonUILevel::BeginPlay()
 {
 	UPokemonLevel::BeginPlay();
 
-	// 기본 경로 설정
 	UEngineDirectory CurDir;
 	CurDir.MoveParent();
 	CurDir.Move("Resources");
-	CurDir.Move("UIPokemonLevel");
+	CurDir.Move("PokemonUILevel");
 
 	std::list<UEngineFile> Files = CurDir.AllFile({".bmp", ".png"}, true);
 	for (UEngineFile& File : Files)
@@ -29,7 +28,7 @@ void UPokemonUILevel::BeginPlay()
 		UEngineResourcesManager::GetInst().LoadImg(File.GetFullPath());
 	}
 
-	Manager = SpawnActor<UPokemonUILevelPage>();
+	Page = SpawnActor<APokemonPage>();
 }
 
 void UPokemonUILevel::LevelStart(ULevel* _PrevLevel)
@@ -38,7 +37,7 @@ void UPokemonUILevel::LevelStart(ULevel* _PrevLevel)
 
 	if (nullptr != MapLevel)
 	{
-		Manager->SetPrevMapLevelName(MapLevel->GetName());
-		Manager->Reset();
+		Page->SetPrevMapLevelName(MapLevel->GetName());
+		Page->Reset();
 	}
 }

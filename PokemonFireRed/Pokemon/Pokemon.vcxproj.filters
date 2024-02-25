@@ -76,6 +76,9 @@
     <Filter Include="Level\3. PokemonUILevel\SummaryLevel">
       <UniqueIdentifier>{29fdf0d7-262d-4e47-913c-54d49556092d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Level\4. TrainerCardUILevel">
+      <UniqueIdentifier>{76b99926-9a09-4cd1-9ce3-494305579f9f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PokemonCore.h">
@@ -228,7 +231,7 @@
     <ClInclude Include="PokemonUILevel.h">
       <Filter>Level\3. PokemonUILevel</Filter>
     </ClInclude>
-    <ClInclude Include="PokemonUILevelPage.h">
+    <ClInclude Include="PokemonPage.h">
       <Filter>Level\3. PokemonUILevel</Filter>
     </ClInclude>
     <ClInclude Include="Cursor.h">
@@ -254,6 +257,12 @@
     </ClInclude>
     <ClInclude Include="ImageElement.h">
       <Filter>2. UI\Element</Filter>
+    </ClInclude>
+    <ClInclude Include="TrainerCardUILevel.h">
+      <Filter>Level\4. TrainerCardUILevel</Filter>
+    </ClInclude>
+    <ClInclude Include="TrainerCardPage.h">
+      <Filter>Level\4. TrainerCardUILevel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -407,7 +416,7 @@
     <ClCompile Include="PokemonUILevel.cpp">
       <Filter>Level\3. PokemonUILevel</Filter>
     </ClCompile>
-    <ClCompile Include="PokemonUILevelPage.cpp">
+    <ClCompile Include="PokemonPage.cpp">
       <Filter>Level\3. PokemonUILevel</Filter>
     </ClCompile>
     <ClCompile Include="Cursor.cpp">
@@ -427,6 +436,12 @@
     </ClCompile>
     <ClCompile Include="ImageElement.cpp">
       <Filter>2. UI\Element</Filter>
+    </ClCompile>
+    <ClCompile Include="TrainerCardUILevel.cpp">
+      <Filter>Level\4. TrainerCardUILevel</Filter>
+    </ClCompile>
+    <ClCompile Include="TrainerCardPage.cpp">
+      <Filter>Level\4. TrainerCardUILevel</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

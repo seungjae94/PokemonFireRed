@@ -8,6 +8,7 @@
 #include "InteriorRivalsHouseLevel.h"
 #include "PokemonUILevel.h"
 #include "PokemonSummaryUILevel.h"
+#include "TrainerCardUILevel.h"
 #include "Global.h"
 
 UPokemonCore::UPokemonCore()
@@ -40,6 +41,7 @@ void UPokemonCore::BeginPlay()
 	CreateLevel<UInteriorRivalsHouseLevel>(Global::InteriorRivalsHouseLevel);
 	CreateLevel<UPokemonUILevel>(Global::PokemonUILevel);
 	CreateLevel<UPokemonSummaryUILevel>(Global::PokemonSummaryUILevel);
+	CreateLevel<UTrainerCardUILevel>(Global::TrainerCardUILevel);
 
 	// 시작 레벨 설정
 	UEventManager::SetLevel(Global::ExteriorPalletTownLevel);

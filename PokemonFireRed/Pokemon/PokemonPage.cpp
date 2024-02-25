@@ -1,4 +1,4 @@
-#include "PokemonUILevelPage.h"
+#include "PokemonPage.h"
 #include <EnginePlatform/EngineInput.h>
 #include "EventManager.h"
 #include "Global.h"
@@ -6,15 +6,15 @@
 #include "PokemonUILevel.h"
 #include "Pokemon.h"
 
-UPokemonUILevelPage::UPokemonUILevelPage()
+APokemonPage::APokemonPage()
 {
 }
 
-UPokemonUILevelPage::~UPokemonUILevelPage()
+APokemonPage::~APokemonPage()
 {
 }
 
-void UPokemonUILevelPage::BeginPlay()
+void APokemonPage::BeginPlay()
 {
 	// 백그라운드
 	BackgroundRenderer = CreateImageRenderer(ERenderingOrder::LowerUI);
@@ -216,7 +216,7 @@ void UPokemonUILevelPage::BeginPlay()
 	RefreshAllTargets();
 }
 
-void UPokemonUILevelPage::Tick(float _DeltaTime)
+void APokemonPage::Tick(float _DeltaTime)
 {
 	APage::Tick(_DeltaTime);
 
@@ -239,7 +239,7 @@ void UPokemonUILevelPage::Tick(float _DeltaTime)
 	}
 }
 
-void UPokemonUILevelPage::TargetSelectionWaitTick(float _DeltaTime)
+void APokemonPage::TargetSelectionWaitTick(float _DeltaTime)
 {
 	if (true == UEngineInput::IsDown('X'))
 	{
@@ -289,13 +289,13 @@ void UPokemonUILevelPage::TargetSelectionWaitTick(float _DeltaTime)
 	}
 }
 
-void UPokemonUILevelPage::MoveTargetCursor(int _Cursor)
+void APokemonPage::MoveTargetCursor(int _Cursor)
 {
 	TargetCursor = _Cursor;
 	RefreshAllTargets();
 }
 
-void UPokemonUILevelPage::TargetSelect()
+void APokemonPage::TargetSelect()
 {
 	if (TargetCursor == UPlayerData::GetPokemonEntrySize())
 	{
@@ -313,7 +313,7 @@ void UPokemonUILevelPage::TargetSelect()
 	}
 }
 
-void UPokemonUILevelPage::ActionSelectionWaitTick(float _DeltaTime)
+void APokemonPage::ActionSelectionWaitTick(float _DeltaTime)
 {
 	if (UEngineInput::IsDown(VK_UP))
 	{
@@ -336,7 +336,7 @@ void UPokemonUILevelPage::ActionSelectionWaitTick(float _DeltaTime)
 	}
 }
 
-void UPokemonUILevelPage::ActionSelect()
+void APokemonPage::ActionSelect()
 {
 	switch (ActionCursor->GetCursor())
 	{
@@ -363,7 +363,7 @@ void UPokemonUILevelPage::ActionSelect()
 	}
 }
 
-void UPokemonUILevelPage::SwitchSelectionWaitStart()
+void APokemonPage::SwitchSelectionWaitStart()
 {
 	ActionBoxRenderer->SetActive(false);
 	ActionSelectionMsgBoxRenderer->SetActive(false);
@@ -372,7 +372,7 @@ void UPokemonUILevelPage::SwitchSelectionWaitStart()
 	RefreshAllTargets();
 }
 
-void UPokemonUILevelPage::SwitchSelectionWaitTick(float _DeltaTime)
+void APokemonPage::SwitchSelectionWaitTick(float _DeltaTime)
 {
 	if (true == UEngineInput::IsDown('X'))
 	{
@@ -422,7 +422,7 @@ void UPokemonUILevelPage::SwitchSelectionWaitTick(float _DeltaTime)
 	}
 }
 
-void UPokemonUILevelPage::SwitchSelect()
+void APokemonPage::SwitchSelect()
 {
 	if (TargetCursor == SwitchFromCursor || true == IsCancel(TargetCursor))
 	{
@@ -438,7 +438,7 @@ void UPokemonUILevelPage::SwitchSelect()
 	SwitchStart();
 }
 
-void UPokemonUILevelPage::SwitchStart()
+void APokemonPage::SwitchStart()
 {
 	SwitchMoveState = ESwitchMoveState::Out;
 	SwitchMoveTimer = SwitchMoveOutTime;
@@ -471,18 +471,18 @@ void UPokemonUILevelPage::SwitchStart()
 
 }
 
-void UPokemonUILevelPage::SwitchTick(float _DeltaTime)
+void APokemonPage::SwitchTick(float _DeltaTime)
 {
 	// 교체가 전부 끝나면 상태 변경 후 메시지 박스 변경
 	switch (SwitchMoveState)
 	{
-	case UPokemonUILevelPage::ESwitchMoveState::Out:
+	case APokemonPage::ESwitchMoveState::Out:
 		SwitchMoveOutTick(_DeltaTime);
 		break;
-	case UPokemonUILevelPage::ESwitchMoveState::Wait:
+	case APokemonPage::ESwitchMoveState::Wait:
 		SwitchMoveWaitTick(_DeltaTime);
 		break;
-	case UPokemonUILevelPage::ESwitchMoveState::In:
+	case APokemonPage::ESwitchMoveState::In:
 		SwitchMoveInTick(_DeltaTime);
 		break;
 	default:
@@ -490,7 +490,7 @@ void UPokemonUILevelPage::SwitchTick(float _DeltaTime)
 	}
 }
 
-void UPokemonUILevelPage::SwitchMoveOutTick(float _DeltaTime)
+void APokemonPage::SwitchMoveOutTick(float _DeltaTime)
 {
 	SwitchMoveTimer -= _DeltaTime;
 
@@ -507,7 +507,7 @@ void UPokemonUILevelPage::SwitchMoveOutTick(float _DeltaTime)
 	}
 }
 
-void UPokemonUILevelPage::SwitchMoveWaitTick(float _DeltaTime)
+void APokemonPage::SwitchMoveWaitTick(float _DeltaTime)
 {
 	SwitchMoveTimer -= _DeltaTime;
 
@@ -518,7 +518,7 @@ void UPokemonUILevelPage::SwitchMoveWaitTick(float _DeltaTime)
 	}
 }
 
-void UPokemonUILevelPage::SwitchMoveInTick(float _DeltaTime)
+void APokemonPage::SwitchMoveInTick(float _DeltaTime)
 {
 	SwitchMoveTimer -= _DeltaTime;
 
@@ -537,7 +537,7 @@ void UPokemonUILevelPage::SwitchMoveInTick(float _DeltaTime)
 
 // Refresh 함수
 
-void UPokemonUILevelPage::RefreshFirst()
+void APokemonPage::RefreshFirst()
 {
 	ETargetState TargetState = ETargetState::Empty;
 
@@ -579,22 +579,22 @@ void UPokemonUILevelPage::RefreshFirst()
 
 	switch (TargetState)
 	{
-	case UPokemonUILevelPage::ETargetState::Unfocused:
+	case APokemonPage::ETargetState::Unfocused:
 		ImageName = RN::PokemonUIFirstBox;
 		PixelX = 2;
 		PixelY = 20;
 		break;
-	case UPokemonUILevelPage::ETargetState::Focused:
+	case APokemonPage::ETargetState::Focused:
 		ImageName = RN::PokemonUIFirstFocusedBox;
 		PixelX = 2;
 		PixelY = 18;
 		break;
-	case UPokemonUILevelPage::ETargetState::From:
+	case APokemonPage::ETargetState::From:
 		ImageName = RN::PokemonUIFirstFromBox;
 		PixelX = 2;
 		PixelY = 20;
 		break;
-	case UPokemonUILevelPage::ETargetState::To:
+	case APokemonPage::ETargetState::To:
 		ImageName = RN::PokemonUIFirstToBox;
 		PixelX = 2;
 		PixelY = 18;
@@ -626,7 +626,7 @@ void UPokemonUILevelPage::RefreshFirst()
 	FirstGender->SetImage(Pokemon.GetGenderImageName());
 }
 
-void UPokemonUILevelPage::RefreshEntry(int _Index)
+void APokemonPage::RefreshEntry(int _Index)
 {
 	ETargetState TargetState = ETargetState::Empty;
 
@@ -677,27 +677,27 @@ void UPokemonUILevelPage::RefreshEntry(int _Index)
 
 	switch (TargetState)
 	{
-	case UPokemonUILevelPage::ETargetState::Empty:
+	case APokemonPage::ETargetState::Empty:
 		ImageName = RN::PokemonUIEntryEmptyBox;
 		PixelX = -2;
 		PixelY = 10 + 24 * (_Index - 1);
 		break;
-	case UPokemonUILevelPage::ETargetState::Unfocused:
+	case APokemonPage::ETargetState::Unfocused:
 		ImageName = RN::PokemonUIEntryBox;
 		PixelX = -2;
 		PixelY = 10 + 24 * (_Index - 1);
 		break;
-	case UPokemonUILevelPage::ETargetState::Focused:
+	case APokemonPage::ETargetState::Focused:
 		ImageName = RN::PokemonUIEntryFocusedBox;
 		PixelX = -2;
 		PixelY = 9 + 24 * (_Index - 1);
 		break;
-	case UPokemonUILevelPage::ETargetState::From:
+	case APokemonPage::ETargetState::From:
 		ImageName = RN::PokemonUIEntryFromBox;
 		PixelX = -2;
 		PixelY = 10 + 24 * (_Index - 1);
 		break;
-	case UPokemonUILevelPage::ETargetState::To:
+	case APokemonPage::ETargetState::To:
 		ImageName = RN::PokemonUIEntryToBox;
 		PixelX = -2;
 		PixelY = 9 + 24 * (_Index - 1);
@@ -732,7 +732,7 @@ void UPokemonUILevelPage::RefreshEntry(int _Index)
 	EntryGenders[_Index - 1]->SetImage(Pokemon.GetGenderImageName());
 }
 
-void UPokemonUILevelPage::RefreshCancel()
+void APokemonPage::RefreshCancel()
 {
 	ETargetState TargetState = ETargetState::Unfocused;
 
@@ -747,12 +747,12 @@ void UPokemonUILevelPage::RefreshCancel()
 
 	switch (TargetState)
 	{
-	case UPokemonUILevelPage::ETargetState::Unfocused:
+	case APokemonPage::ETargetState::Unfocused:
 		ImageName = RN::PokemonUICancel;
 		PixelX = -2;
 		PixelY = -6;
 		break;
-	case UPokemonUILevelPage::ETargetState::Focused:
+	case APokemonPage::ETargetState::Focused:
 		ImageName = RN::PokemonUICancelFocused;
 		PixelX = -2;
 		PixelY = -4;
@@ -770,7 +770,7 @@ void UPokemonUILevelPage::RefreshCancel()
 	);
 }
 
-void UPokemonUILevelPage::RefreshAllTargets()
+void APokemonPage::RefreshAllTargets()
 {
 	RefreshFirst();
 	for (int i = 1; i <= 5; ++i)

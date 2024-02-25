@@ -39,6 +39,7 @@ const std::string Global::InteriorPlayersHouse1FLevel = "InteriorPlayersHouse1FL
 const std::string Global::InteriorPlayersHouse2FLevel = "InteriorPlayersHouse2FLevel";
 const std::string Global::PokemonUILevel = "PokemonUILevel";
 const std::string Global::PokemonSummaryUILevel = "PokemonUISummaryLevel";
+const std::string Global::TrainerCardUILevel = "TrainerCardUILevel";
 
 const std::string Global::PokemonFrontPrefix = "PokemonFront";
 const std::string Global::PokemonBackPrefix = "PokemonBack";
