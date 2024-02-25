@@ -1,5 +1,6 @@
 #pragma once
 #include <EngineBase/EngineDirectory.h>
+#include <EnginePlatform/EngineSound.h>
 #include <EngineCore/Actor.h>
 #include <EngineCore/ImageRenderer.h>
 #include <EngineCore/EngineResourcesManager.h>
@@ -42,7 +43,7 @@ private:
 
 	const int ImageCount = 4331;
 	int VideoNo = 0;
-	int ImageIndex = 0;
+	int ImageIndex = -1;
 	int VideoStartIndex[5] = { 0, 187, 1447, 1709, 4151 };
 	bool ImageLoaded[4972] = { false, };
 
@@ -88,5 +89,7 @@ private:
 
 	// 사운드 재생
 	bool IsFirstTick = true;
+	UEngineSoundPlayer TitleBattleSoundPlayer;
+	UEngineSoundPlayer TitleScreenSoundPlayer;
 };
 

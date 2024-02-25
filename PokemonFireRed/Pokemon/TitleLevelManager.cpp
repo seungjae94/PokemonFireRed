@@ -1,5 +1,4 @@
 #include "TitleLevelManager.h"
-#include <EnginePlatform/EngineSound.h>
 #include <EngineCore/EngineCore.h>
 #include "EventManager.h"
 #include "PokemonUtil.h"
@@ -19,6 +18,11 @@ void ATitleLevelManager::BeginPlay()
 	Renderer = CreateImageRenderer(ERenderingOrder::LowerUI);
 	Renderer->CameraEffectOff();
 	Renderer->SetTransColor(Color8Bit::White);
+
+	TitleBattleSoundPlayer = UEngineSound::SoundPlay(RN::BgmTitleBattle);
+	TitleScreenSoundPlayer = UEngineSound::SoundPlay(RN::BgmTitleScreen);
+	TitleBattleSoundPlayer.Off();
+	TitleScreenSoundPlayer.Off();
 }
 
 void ATitleLevelManager::Tick(float _DeltaTime)
@@ -49,6 +53,12 @@ void ATitleLevelManager::Tick(float _DeltaTime)
 
 void ATitleLevelManager::Video0Logic(float _DeltaTime)
 {
+	if (true == IsFirstTick)
+	{
+		TitleScreenSoundPlayer.Off();
+		IsFirstTick = false;
+	}
+
 	if (Timer < 0.0f)
 	{
 		// 비디오 재생이 끝난 뒤에만 다음 영상으로 넘어간다.
@@ -60,7 +70,8 @@ void ATitleLevelManager::Video1Logic(float _DeltaTime)
 {
 	if (true == IsFirstTick)
 	{
-		UEngineSound::SoundPlay(RN::BgmTitleBattle);
+		TitleBattleSoundPlayer.On();
+		TitleBattleSoundPlayer.Replay();
 		IsFirstTick = false;
 	}
 
@@ -82,7 +93,9 @@ void ATitleLevelManager::Video2Logic(float _DeltaTime)
 {
 	if (true == IsFirstTick)
 	{
-		UEngineSound::SoundPlay(RN::BgmTitleScreen);
+		TitleBattleSoundPlayer.Off();
+		TitleScreenSoundPlayer.On();
+		TitleScreenSoundPlayer.Replay();
 		IsFirstTick = false;
 	}
 
@@ -106,6 +119,7 @@ void ATitleLevelManager::Video3Logic(float _DeltaTime)
 	{
 		// 아무 키나 누르면 타이틀 레벨을 종료한다.
 		UEventManager::ChangeLevelFade(GetWorld(), Global::TutorialLevel, 1.0f, 1.0f);
+		TitleScreenSoundPlayer.Off();
 		return;
 	}
 
@@ -133,6 +147,7 @@ void ATitleLevelManager::PlayNextPart()
 	if (ImageIndex == VideoStartIndex[NextVideoNo])
 	{
 		VideoNo = NextVideoNo;
+		IsFirstTick = true;
 	}
 
 	Play();
@@ -142,7 +157,7 @@ void ATitleLevelManager::PlayNextVideo()
 {
 	VideoNo = (VideoNo + 1) % 5;
 	ImageIndex = VideoStartIndex[VideoNo];
-
+	IsFirstTick = true;
 	Play();
 }
 
