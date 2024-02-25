@@ -47,10 +47,11 @@ void APokemonSummaryPage::BeginPlay()
 		EAlignType::Left,
 		14, 13
 	);
-	FrontImage = CreateImageElement(
+	FrontImage = CreatePokemonElement(
 		CommonBox,
-		EPivotType::LeftTop,
-		20, 6
+		EPokemonElementType::Front,
+		EPivotType::RightTop,
+		-28, 17
 	);
 
 	// InfoBox 요소
@@ -122,6 +123,7 @@ void APokemonSummaryPage::RefreshAll()
 	SpeciesNameText->SetText(UPokemon::GetSpeciesNameW(PokedexNo));
 	TrainerText->SetText(L"RED");
 	TrainerMemo->SetText(UPokemon::GetNatureNameW(Nature) + L" nature.");
+	FrontImage->SetPokemon(Pokemon);
 
 	// 타입 이미지 렌더링
 	if (TypeIcons.size() > 0)

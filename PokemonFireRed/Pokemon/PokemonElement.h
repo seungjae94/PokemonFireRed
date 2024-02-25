@@ -23,6 +23,7 @@ public:
 	APokemonElement& operator=(const APokemonElement& _Other) = delete;
 	APokemonElement& operator=(APokemonElement&& _Other) noexcept = delete;
 
+	void SetPokemon(const UPokemon* _Pokemon);
 	void SetPokemon(const UPokemon& _Pokemon);
 
 protected:

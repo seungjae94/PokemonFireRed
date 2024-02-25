@@ -9,7 +9,7 @@ APokemonElement::~APokemonElement()
 {
 }
 
-void APokemonElement::SetPokemon(const UPokemon& _Pokemon)
+void APokemonElement::SetPokemon(const UPokemon* _Pokemon)
 {
 	if (nullptr == Renderer)
 	{
@@ -37,8 +37,27 @@ void APokemonElement::SetPokemon(const UPokemon& _Pokemon)
 		UPokemonUtil::AlignImage(Renderer, PivotType);
 	}
 
-	EPokedexNo PokedexNo = _Pokemon.GetPokedexNo();
-	std::string AnimName = Global::PokemonMiniPrefix + UPokemon::GetSpeciesName(PokedexNo);
-	Renderer->ChangeAnimation(AnimName);
+	EPokedexNo PokedexNo = _Pokemon->GetPokedexNo();
+	std::string AnimPrefix; 
+	switch (Type)
+	{
+	case EPokemonElementType::Mini:
+		AnimPrefix = Global::PokemonMiniPrefix;
+		break;
+	case EPokemonElementType::Front:
+		AnimPrefix = Global::PokemonFrontPrefix;
+		break;
+	case EPokemonElementType::Back:
+		AnimPrefix = Global::PokemonBackPrefix;
+		break;
+	default:
+		break;
+	}
+	Renderer->ChangeAnimation(AnimPrefix + UPokemon::GetSpeciesName(PokedexNo));
+}
+
+void APokemonElement::SetPokemon(const UPokemon& _Pokemon)
+{
+	SetPokemon(&_Pokemon);
 }
 

@@ -50,7 +50,7 @@ private:
 	AText* NameText = nullptr;
 	AText* LevelText = nullptr;
 	UImageRenderer* GenderIcon = nullptr;
-	AImageElement* FrontImage = nullptr;
+	APokemonElement* FrontImage = nullptr;
 
 	// InfoBox ¿ä¼Ò
 	AText* PokedexNoText = nullptr;
