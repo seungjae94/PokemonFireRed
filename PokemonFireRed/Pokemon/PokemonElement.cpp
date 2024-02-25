@@ -15,10 +15,26 @@ void APokemonElement::SetPokemon(const UPokemon& _Pokemon)
 	{
 		Renderer = CreateImageRenderer(ERenderingOrder::Upper2UI);
 		Renderer->CameraEffectOff();
-		UPokemonUtil::CreatePokemonMiniAnimations(Renderer);
-		FVector RenderScale = Global::MiniPokemonRenderScale;
-		FVector Pos = RenderScale.Half2D();
-		Renderer->SetTransform({ Pos, RenderScale });
+		
+		switch (Type)
+		{
+		case EPokemonElementType::Mini:
+			Renderer->SetImage(RN::PokemonMiniPlaceHolder);
+			UPokemonUtil::CreatePokemonMiniAnimations(Renderer);
+			break;
+		case EPokemonElementType::Front:
+			Renderer->SetImage(RN::PokemonFrontPlaceHolder);
+			UPokemonUtil::CreatePokemonFrontAnimations(Renderer);
+			break;
+		case EPokemonElementType::Back:
+			Renderer->SetImage(RN::PokemonBackPlaceHolder);
+			UPokemonUtil::CreatePokemonBackAnimations(Renderer);
+			break;
+		default:
+			break;
+		}
+
+		UPokemonUtil::AlignImage(Renderer, PivotType);
 	}
 
 	EPokedexNo PokedexNo = _Pokemon.GetPokedexNo();

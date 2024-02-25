@@ -24,7 +24,6 @@ const float Global::FloatHalfScreenY = static_cast<float>(ScreenY / 2);
 
 const FVector Global::Screen = FVector(ScreenX, ScreenY);
 const FVector Global::HalfScreen = FVector(HalfScreenX, HalfScreenY);
-const FVector Global::MiniPokemonRenderScale = FVector(32.0f, 24.0f) * Global::FloatPixelSize;
 const FVector Global::HpBarAreaRenderScale = FVector(48.0f, 3.0f) * Global::FloatPixelSize;
 const FVector Global::ExpBarAreaRenderScale = FVector(64.0f, 3.0f) * Global::FloatPixelSize;
 
@@ -52,6 +51,9 @@ const Color8Bit Global::PixelColliderBlockUpDown = Color8Bit(255, 1, 255, 0);
 const std::string RN::PokemonFront = "PokemonFront.png";
 const std::string RN::PokemonBack = "PokemonBack.png";
 const std::string RN::PokemonMini = "PokemonMini.png";
+const std::string RN::PokemonFrontPlaceHolder = "PokemonFrontPlaceHolder.png";
+const std::string RN::PokemonBackPlaceHolder = "PokemonBackPlaceHolder.png";
+const std::string RN::PokemonMiniPlaceHolder = "PokemonMiniPlaceHolder.png";
 const std::string RN::GenderMarkMale = "GenderMarkMale.png";
 const std::string RN::GenderMarkFemale = "GenderMarkFemale.png";
 const std::string RN::BigGenderMarkMale = "BigGenderMarkMale.png";

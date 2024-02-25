@@ -2,6 +2,13 @@
 #include "UIElement.h"
 #include "Pokemon.h"
 
+enum class EPokemonElementType
+{
+	Mini,
+	Front,
+	Back
+};
+
 class APokemonElement : public AUIElement
 {
 	friend class APage;
@@ -22,5 +29,6 @@ protected:
 
 private:
 	UImageRenderer* Renderer = nullptr;
+	EPokemonElementType Type = EPokemonElementType::Mini;
 };
 

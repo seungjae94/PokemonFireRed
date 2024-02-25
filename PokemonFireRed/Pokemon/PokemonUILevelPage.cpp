@@ -137,10 +137,11 @@ void UPokemonUILevelPage::BeginPlay()
 		EPivotType::RightBot,
 		-53, -15
 	);
-	FirstPokemonIcon = CreatePokemonIcon(
+	FirstPokemonIcon = CreatePokemonElement(
 		FirstRenderer,
+		EPokemonElementType::Mini,
 		EPivotType::LeftBot,
-		-2, -46
+		-2, -23
 	);
 	FirstGender = CreateImageElement(
 		FirstRenderer,
@@ -191,10 +192,11 @@ void UPokemonUILevelPage::BeginPlay()
 			EPivotType::RightBot,
 			-53, -13
 		);
-		APokemonElement* Icon = CreatePokemonIcon(
+		APokemonElement* Icon = CreatePokemonElement(
 			EntryRenderers[i - 1],
+			EPokemonElementType::Mini,
 			EPivotType::LeftBot,
-			-3, -20
+			-3, 3
 		);
 		AImageElement* Gender = CreateImageElement(
 			EntryRenderers[i - 1],

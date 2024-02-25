@@ -86,10 +86,15 @@ ACursor* APage::CreateCursor(UImageRenderer* _Container, int _Cursor, int _Optio
 	return Cursor;
 }
 
-APokemonElement* APage::CreatePokemonIcon(UImageRenderer* _Container, EPivotType _PivotType, int _RelativePixelX, int _RelativePixelY)
+APokemonElement* APage::CreatePokemonElement(
+	UImageRenderer* _Container, 
+	EPokemonElementType _ElementType,
+	EPivotType _PivotType, 
+	int _RelativePixelX, int _RelativePixelY)
 {
 	APokemonElement* Icon = GetWorld()->SpawnActor<APokemonElement>();
 	Icon->Container = _Container;
+	Icon->Type = _ElementType;
 	Icon->PivotType = _PivotType;
 	Icon->SetRelativePos(UPokemonUtil::PixelVector(_RelativePixelX, _RelativePixelY));
 	Elements[_Container].push_back(Icon);

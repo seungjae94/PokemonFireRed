@@ -51,8 +51,9 @@ public:
 		int _PixelGap = 16
 	);
 
-	APokemonElement* CreatePokemonIcon(
+	APokemonElement* CreatePokemonElement(
 		UImageRenderer* _Container,
+		EPokemonElementType _ElementType,
 		EPivotType _PivotType = EPivotType::LeftTop,
 		int _RelativePixelX = 0,
 		int _RelativePixelY = 0

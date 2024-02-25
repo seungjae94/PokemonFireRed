@@ -51,7 +51,6 @@ public:
 
 	static const FVector Screen;
 	static const FVector HalfScreen;
-	static const FVector MiniPokemonRenderScale;
 	static const FVector HpBarAreaRenderScale;
 	static const FVector ExpBarAreaRenderScale;
 
@@ -89,6 +88,9 @@ public:
 	static const std::string PokemonFront;
 	static const std::string PokemonBack;
 	static const std::string PokemonMini;
+	static const std::string PokemonFrontPlaceHolder;
+	static const std::string PokemonBackPlaceHolder;
+	static const std::string PokemonMiniPlaceHolder;
 	static const std::string GenderMarkMale;
 	static const std::string GenderMarkFemale;
 	static const std::string BigGenderMarkMale;
