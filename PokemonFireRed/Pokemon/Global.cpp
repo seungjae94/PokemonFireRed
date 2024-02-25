@@ -111,3 +111,5 @@ const std::string RN::TypePsychic = "TypePsychic.png";
 const std::string RN::TypeRock = "TypeRock.png";
 const std::string RN::TypeSteel = "TypeSteel.png";
 const std::string RN::TypeWater = "TypeWater.png";
+
+const std::string RN::MaleTrainerCard = "MaleTrainerCard.png";

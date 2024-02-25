@@ -4,6 +4,7 @@
 #include <functional>
 #include <EngineBase/EngineDebug.h>
 #include <EngineBase/EngineString.h>
+#include <EngineCore/Level.h>
 #include "PokemonMath.h"
 #include "EventCondition.h"
 
@@ -52,6 +53,8 @@ public:
 	static void SetDirection(std::string_view _MapName, std::string_view _TargetName, const FTileVector& _Direction);
 	
 	static void SetCurLevelPlayerState(EPlayerState _State);
+
+	static void ChangeLevelFade(ULevel* _World, std::string_view _MapName, float _FadeInTime = 0.3f, float _FadeOutTime = 0.3f);
 
 	// 찾기 편의 함수
 	template <typename UIType>

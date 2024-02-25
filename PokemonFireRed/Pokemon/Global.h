@@ -147,6 +147,7 @@ public:
 	static const std::string TypeRock;
 	static const std::string TypeSteel;
 	static const std::string TypeWater;
+	static const std::string MaleTrainerCard;
 protected:
 
 private:

@@ -53,6 +53,8 @@ protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 private:
+	std::string PrevMapLevelName;
+
 	enum class ETargetState
 	{
 		Empty,
@@ -102,7 +104,6 @@ private:
 	void TargetSelectionWaitTick(float _DeltaTime);
 	int TargetCursor = 0;
 	int MemoryEntryCursor = 1;
-	std::string PrevMapLevelName;
 	void TargetSelect();
 
 	void ActionSelectionWaitTick(float _DeltaTime);

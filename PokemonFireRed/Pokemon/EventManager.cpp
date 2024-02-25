@@ -338,6 +338,19 @@ void UEventManager::SetCurLevelPlayerState(EPlayerState _State)
 	Player->StateChange(_State);
 }
 
+void UEventManager::ChangeLevelFade(ULevel* _World, std::string_view _MapName, float _FadeInTime, float _FadeOutTime)
+{
+	UPokemonLevel* CurLevel = dynamic_cast<UPokemonLevel*>(_World);
+
+	if (nullptr == CurLevel)
+	{
+		MsgBoxAssert("현재 레벨이 포켓몬 레벨이 아닙니다. 레벨 설정이 잘못되었습니다.");
+		return;
+	}
+
+	CurLevel->ChangeLevelFade(_MapName, _FadeInTime, _FadeOutTime);
+}
+
 // 메모리 릴리즈
 
 void UEventManager::Release()

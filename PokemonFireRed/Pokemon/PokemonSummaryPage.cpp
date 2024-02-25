@@ -179,7 +179,6 @@ void APokemonSummaryPage::InfoTick(float _DeltaTime)
 {
 	if (true == UEngineInput::IsDown('Z') || true == UEngineInput::IsDown('X'))
 	{
-		UPokemonLevel* CurLevel = dynamic_cast<UPokemonLevel*>(GetWorld());
-		CurLevel->ChangeLevelFade(Global::PokemonUILevel, 0.3f, 0.3f);
+		UEventManager::ChangeLevelFade(GetWorld(), Global::PokemonUILevel);
 	}
 }

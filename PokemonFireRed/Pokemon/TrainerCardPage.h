@@ -15,8 +15,11 @@ public:
 	ATrainerCardPage& operator=(ATrainerCardPage&& _Other) noexcept = delete;
 
 protected:
-
+	void BeginPlay() override;
+	void Tick(float _DeltaTime) override;
 private:
+	std::string PrevMapLevelName;
 
+	UImageRenderer* Background = nullptr;
 };
 

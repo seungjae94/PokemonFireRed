@@ -40,8 +40,6 @@ void AMenuWindow::BeginPlay()
 {
 	APage::BeginPlay();
 
-	UPokemonLevel* CurLevel = dynamic_cast<UPokemonLevel*>(GetWorld());
-
 	// 우상단 메뉴창
 	MenuWindowRenderer = CreateImageRenderer(ERenderingOrder::LowerUI);
 	MenuWindowRenderer->CameraEffectOff();
@@ -162,14 +160,12 @@ void AMenuWindow::MenuAction()
 	case EMenuIndex::Pokedex:
 		break;
 	case EMenuIndex::Pokemon:
-	{
-		UPokemonLevel* CurLevel = dynamic_cast<UPokemonLevel*>(GetWorld());
-		CurLevel->ChangeLevelFade(Global::PokemonUILevel, 0.3f, 0.3f);
-	}
-	break;
+		UEventManager::ChangeLevelFade(GetWorld(), Global::PokemonUILevel);
+		break;
 	case EMenuIndex::Bag:
 		break;
 	case EMenuIndex::Player:
+		UEventManager::ChangeLevelFade(GetWorld(), Global::TrainerCardUILevel);
 		break;
 	case EMenuIndex::Exit:
 		Close();
