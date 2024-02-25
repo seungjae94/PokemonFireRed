@@ -4,6 +4,7 @@
 #include <EngineCore/EngineCore.h>
 #include <EngineBase/EngineDebug.h>
 #include <EnginePlatform/EngineInput.h>
+#include <EnginePlatform/EngineSound.h>
 #include "PokemonDebug.h"
 #include "EventManager.h"
 #include "EventCondition.h"
@@ -35,12 +36,13 @@ void UMapLevel::BeginPlay()
 	CurDir.Move("Resources");
 	CurDir.Move("MapLevel");
 
-	// 캐릭터, 트리거 리소스 로드 (전 게임에 걸쳐 1번만 실행)
+	// 캐릭터, 트리거, 타일, BGM 로드 (전 게임에 걸쳐 1번만 실행)
 	if (false == IsCommonResourceLoaded)
 	{
 		LoadCharacterResources();
 		LoadObjectResources();
 		LoadTileResources();
+		LoadBgms();
 		IsCommonResourceLoaded = true;
 	}
 
@@ -237,6 +239,20 @@ void UMapLevel::LoadTileResources()
 	// 이미지 분할
 	UEngineResourcesManager::GetInst().CuttingImage("AnimatedFlower.png", 5, 1);
 	UEngineResourcesManager::GetInst().CuttingImage("AnimatedSea.png", 8, 1);
+
+	CurDir.MoveParent();
+}
+
+void UMapLevel::LoadBgms()
+{
+	CurDir.Move("BGM");
+
+	std::list<UEngineFile> AllFiles = CurDir.AllFile({ ".wav", ".mp3" }, false);
+	for (UEngineFile& File : AllFiles)
+	{
+		std::string Path = File.GetFullPath();
+		UEngineSound::Load(Path);
+	}
 
 	CurDir.MoveParent();
 }

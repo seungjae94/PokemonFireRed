@@ -4,6 +4,7 @@
 #include "DialogueActor.h"
 #include "EventStream.h"
 #include "EventCondition.h"
+#include "SoundManager.h"
 
 UInteriorPlayersHouse2FLevel::UInteriorPlayersHouse2FLevel()
 {
@@ -56,4 +57,12 @@ void UInteriorPlayersHouse2FLevel::BeginPlay()
 	};
 	ADialogueActor* BookShelf0 = ADialogueActor::GenerateObject(this, "BookShelf0", { 3, 1 }, EFontColor::Gray, DialogueBookShelf);
 	ADialogueActor* BookShelf1 = ADialogueActor::GenerateObject(this, "BookShelf1", { 4, 1 }, EFontColor::Gray, DialogueBookShelf);
+}
+
+void UInteriorPlayersHouse2FLevel::LevelStart(ULevel* _PrevLevel)
+{
+	if (nullptr == _PrevLevel || _PrevLevel->GetName() == UEngineString::ToUpper(Global::TutorialLevel))
+	{
+		USoundManager::PlayBgm(RN::BgmPalletTown);
+	}
 }

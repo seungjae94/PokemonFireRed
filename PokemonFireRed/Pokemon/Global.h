@@ -153,6 +153,7 @@ public:
 	static const std::string BgmTitleBattle;
 	static const std::string BgmTitleScreen;
 	static const std::string BgmTutorial;
+	static const std::string BgmPalletTown;
 protected:
 
 private:

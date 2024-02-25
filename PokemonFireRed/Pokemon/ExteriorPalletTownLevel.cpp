@@ -1,11 +1,11 @@
 ﻿#include "ExteriorPalletTownLevel.h"
-
 #include "Global.h"
 #include "ExteriorDoor.h"
 #include "DialogueActor.h"
 #include "Text.h"
 #include "PlayerData.h"
 #include "AllPokemons.h"
+#include "SoundManager.h"
 
 UExteriorPalletTownLevel::UExteriorPalletTownLevel()
 {
@@ -115,4 +115,13 @@ and POKéMON as data via PC.)"
 	UPlayerData::AddPokemonToEntry(Pokemon1);
 	UPlayerData::AddPokemonToEntry(Pokemon2);
 	UPlayerData::Achieve(EAchievement::GetFirstPokemon);
+}
+
+void UExteriorPalletTownLevel::LevelStart(ULevel* _PrevLevel)
+{
+	if (nullptr == _PrevLevel)
+	{
+		// 디버그용
+		USoundManager::PlayBgm(RN::BgmPalletTown);
+	}
 }
