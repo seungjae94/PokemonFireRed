@@ -68,13 +68,13 @@ private:
 	ACursor* ActionCursor = nullptr;
 
 	UImageRenderer* FirstRenderer = nullptr;
-	AImageElement* FirstGender = nullptr;
 	APokemonIcon* FirstPokemonIcon = nullptr;
 	APokemonText* FirstNameText = nullptr;
 	APokemonText* FirstLevelText = nullptr;
 	APokemonText* FirstHpText = nullptr;
 	APokemonText* FirstCurHpText = nullptr;
 	AScrollBar* FirstHpBar = nullptr;
+	AImageElement* FirstGender = nullptr;
 
 	std::vector<UImageRenderer*> EntryRenderers;
 	std::vector<APokemonIcon*> EntryPokemonIcons;
@@ -83,6 +83,7 @@ private:
 	std::vector<APokemonText*> EntryHpTexts;
 	std::vector<APokemonText*> EntryCurHpTexts;
 	std::vector<AScrollBar*> EntryHpBars;
+	std::vector<AImageElement*> EntryGenders;
 
 	UImageRenderer* CancelRenderer = nullptr;
 

@@ -196,6 +196,11 @@ void UPokemonUILevelPage::BeginPlay()
 			EPivotType::LeftBot,
 			-3, -20
 		);
+		AImageElement* Gender = CreateImageElement(
+			EntryRenderers[i - 1],
+			EPivotType::RightBot,
+			-72, 0
+		);
 
 		EntryNameTexts.push_back(NameText);
 		EntryLevelTexts.push_back(LevelText);
@@ -203,6 +208,7 @@ void UPokemonUILevelPage::BeginPlay()
 		EntryCurHpTexts.push_back(CurHpText);
 		EntryHpBars.push_back(HpBar);
 		EntryPokemonIcons.push_back(Icon);
+		EntryGenders.push_back(Gender);
 	}
 
 	RefreshAllTargets();
@@ -717,6 +723,7 @@ void UPokemonUILevelPage::RefreshEntry(int _Index)
 	EntryHpBars[_Index - 1]->SetMaxValue(Pokemon.GetHp());
 	EntryHpBars[_Index - 1]->SetValue(Pokemon.GetCurHp());
 	EntryPokemonIcons[_Index - 1]->SetPokemon(Pokemon);
+	EntryGenders[_Index - 1]->SetImage(Pokemon.GetGenderImageName());
 }
 
 void UPokemonUILevelPage::RefreshCancel()
