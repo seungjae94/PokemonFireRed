@@ -57,13 +57,12 @@ void UTutorialLevel::BeginPlay()
 
 void UTutorialLevel::LevelStart(ULevel* _PrevLevel)
 {
-	BgmPlayer = UEngineSound::SoundPlay(RN::BgmTutorial);
-	BgmPlayer.Loop();
+	USoundManager::PlayBgm(RN::BgmTutorial);
 }
 
 void UTutorialLevel::LevelEnd(ULevel* _NextLevel)
 {
-	BgmPlayer.Off();
+	USoundManager::StopBgm();
 }
 
 

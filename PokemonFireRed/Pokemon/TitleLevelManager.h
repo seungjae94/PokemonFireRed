@@ -88,7 +88,5 @@ private:
 
 	// 사운드 재생
 	bool IsFirstTick = true;
-	UEngineSoundPlayer TitleBattleSoundPlayer;
-	UEngineSoundPlayer TitleScreenSoundPlayer;
 };
 

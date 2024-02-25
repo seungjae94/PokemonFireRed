@@ -4,6 +4,7 @@
 #include "PokemonUtil.h"
 #include "PokemonInput.h"
 #include "TitleLevel.h"
+#include "SoundManager.h"
 
 ATitleLevelManager::ATitleLevelManager()
 {
@@ -19,10 +20,10 @@ void ATitleLevelManager::BeginPlay()
 	Renderer->CameraEffectOff();
 	Renderer->SetTransColor(Color8Bit::White);
 
-	TitleBattleSoundPlayer = UEngineSound::SoundPlay(RN::BgmTitleBattle);
-	TitleScreenSoundPlayer = UEngineSound::SoundPlay(RN::BgmTitleScreen);
-	TitleBattleSoundPlayer.Off();
-	TitleScreenSoundPlayer.Off();
+	//TitleBattleSoundPlayer = UEngineSound::SoundPlay(RN::BgmTitleBattle);
+	//TitleScreenSoundPlayer = UEngineSound::SoundPlay(RN::BgmTitleScreen);
+	//TitleBattleSoundPlayer.Off();
+	//TitleScreenSoundPlayer.Off();
 }
 
 void ATitleLevelManager::Tick(float _DeltaTime)
@@ -55,7 +56,7 @@ void ATitleLevelManager::Video0Logic(float _DeltaTime)
 {
 	if (true == IsFirstTick)
 	{
-		TitleScreenSoundPlayer.Off();
+		USoundManager::StopBgm();
 		IsFirstTick = false;
 	}
 
@@ -70,8 +71,7 @@ void ATitleLevelManager::Video1Logic(float _DeltaTime)
 {
 	if (true == IsFirstTick)
 	{
-		TitleBattleSoundPlayer.Replay();
-		TitleBattleSoundPlayer.On();
+		USoundManager::PlayBgm(RN::BgmTitleBattle);
 		IsFirstTick = false;
 	}
 
@@ -93,9 +93,7 @@ void ATitleLevelManager::Video2Logic(float _DeltaTime)
 {
 	if (true == IsFirstTick)
 	{
-		TitleBattleSoundPlayer.Off();
-		TitleScreenSoundPlayer.Replay();
-		TitleScreenSoundPlayer.On();
+		USoundManager::PlayBgm(RN::BgmTitleScreen);
 		IsFirstTick = false;
 	}
 
@@ -119,7 +117,6 @@ void ATitleLevelManager::Video3Logic(float _DeltaTime)
 	{
 		// 아무 키나 누르면 타이틀 레벨을 종료한다.
 		UEventManager::ChangeLevelFade(GetWorld(), Global::TutorialLevel, 1.0f, 1.0f);
-		TitleScreenSoundPlayer.Off();
 		return;
 	}
 

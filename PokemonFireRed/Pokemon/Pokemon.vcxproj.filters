@@ -264,6 +264,9 @@
     <ClInclude Include="TrainerCardPage.h">
       <Filter>Level\4. TrainerCardUILevel</Filter>
     </ClInclude>
+    <ClInclude Include="SoundManager.h">
+      <Filter>1. Event</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PokemonCore.cpp">
@@ -442,6 +445,9 @@
     </ClCompile>
     <ClCompile Include="TrainerCardPage.cpp">
       <Filter>Level\4. TrainerCardUILevel</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>1. Event</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
