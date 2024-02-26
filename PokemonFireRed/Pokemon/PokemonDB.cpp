@@ -29,7 +29,7 @@ public:
 		UPokemonDB::Species[EPokedexNo::Bulbasaur] = Bulbasaur;
 
 		FPokemonSpecies Charmander = FPokemonSpecies(
-			EPokedexNo::Bulbasaur, "CHARMANDER",
+			EPokedexNo::Charmander, "CHARMANDER",
 			39, 52, 43, 60, 50, 65,
 			0, 0, 0, 0, 0, 1,
 			EExperienceGroup::MediumSlow,

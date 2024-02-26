@@ -4,6 +4,7 @@
 enum class EFontColor
 {
 	Black,
+	Black2,
 	Gray,
 	White,
 	Blue,

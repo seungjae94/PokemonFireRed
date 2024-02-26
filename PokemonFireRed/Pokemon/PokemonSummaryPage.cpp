@@ -48,12 +48,12 @@ void APokemonSummaryPage::BeginPlay()
 	FrontImage = CreatePokemonElement(CommonBox, EPokemonElementType::Front, EPivotType::RightTop, -28, 17);
 
 	// InfoBox 요소
-	PokedexNoText = CreateText(InfoBox, L"000", EPivotType::RightTop, EAlignType::Left, -72, 15, EFontColor::Black);
-	SpeciesNameText = CreateText(InfoBox, L"UNDEFINED", EPivotType::RightTop, EAlignType::Left, -72, 30, EFontColor::Black);
-	TrainerText = CreateText(InfoBox, L"RED", EPivotType::RightTop, EAlignType::Left, -72, 60, EFontColor::Black);
-	IdNoText = CreateText(InfoBox, L"00000", EPivotType::RightTop, EAlignType::Left, -72, 75, EFontColor::Black);
-	ItemText = CreateText(InfoBox, L"NONE", EPivotType::RightTop, EAlignType::Left, -72, 90, EFontColor::Black);
-	TrainerMemo = CreateText(InfoBox, L"XXXX Nature.", EPivotType::LeftBot, EAlignType::Left, 8, -33, EFontColor::Black);
+	PokedexNoText = CreateText(InfoBox, L"000", EPivotType::RightTop, EAlignType::Left, -72, 15, EFontColor::Black2);
+	SpeciesNameText = CreateText(InfoBox, L"UNDEFINED", EPivotType::RightTop, EAlignType::Left, -72, 30, EFontColor::Black2);
+	TrainerText = CreateText(InfoBox, L"RED", EPivotType::RightTop, EAlignType::Left, -72, 60, EFontColor::Black2);
+	IdNoText = CreateText(InfoBox, L"00000", EPivotType::RightTop, EAlignType::Left, -72, 75, EFontColor::Black2);
+	ItemText = CreateText(InfoBox, L"NONE", EPivotType::RightTop, EAlignType::Left, -72, 90, EFontColor::Black2);
+	TrainerMemo = CreateText(InfoBox, L"XXXX Nature.", EPivotType::LeftBot, EAlignType::Left, 8, -33, EFontColor::Black2);
 
 	for (int i = 0; i < 2; ++i)
 	{
@@ -63,26 +63,26 @@ void APokemonSummaryPage::BeginPlay()
 	}
 
 	// SkillsBox 요소
-	HpText = CreateText(SkillsBox, L"27/30", EPivotType::RightTop, EAlignType::Right, -3, 15, EFontColor::Black);
-	AtkText = CreateText(SkillsBox, L"16", EPivotType::RightTop, EAlignType::Right, -3, 33, EFontColor::Black);
-	DefText = CreateText(SkillsBox, L"14", EPivotType::RightTop, EAlignType::Right, -3, 46, EFontColor::Black);
-	SpAtkText = CreateText(SkillsBox, L"13", EPivotType::RightTop, EAlignType::Right, -3, 59, EFontColor::Black);
-	SpDefText = CreateText(SkillsBox, L"12", EPivotType::RightTop, EAlignType::Right, -3, 72, EFontColor::Black);
-	SpeedText = CreateText(SkillsBox, L"17", EPivotType::RightTop, EAlignType::Right, -3, 85, EFontColor::Black);
-	AccExpText = CreateText(SkillsBox, L"570", EPivotType::RightTop, EAlignType::Right, -3, 98, EFontColor::Black);
-	NextLevelExpText = CreateText(SkillsBox, L"172", EPivotType::RightTop, EAlignType::Right, -3, 111, EFontColor::Black);
-	AbilityText = CreateText(SkillsBox, L"KEEN EYE", EPivotType::LeftTop, EAlignType::Left, 74, 124, EFontColor::Black);
-	AbilityExplainText = CreateText(SkillsBox, L"Prevents loss of accuracy.", EPivotType::LeftBot, EAlignType::Left, 10, -5, EFontColor::Black);
+	HpText = CreateText(SkillsBox, L"27/30", EPivotType::RightTop, EAlignType::Right, -3, 15, EFontColor::Black2);
+	AtkText = CreateText(SkillsBox, L"16", EPivotType::RightTop, EAlignType::Right, -3, 33, EFontColor::Black2);
+	DefText = CreateText(SkillsBox, L"14", EPivotType::RightTop, EAlignType::Right, -3, 46, EFontColor::Black2);
+	SpAtkText = CreateText(SkillsBox, L"13", EPivotType::RightTop, EAlignType::Right, -3, 59, EFontColor::Black2);
+	SpDefText = CreateText(SkillsBox, L"12", EPivotType::RightTop, EAlignType::Right, -3, 72, EFontColor::Black2);
+	SpeedText = CreateText(SkillsBox, L"17", EPivotType::RightTop, EAlignType::Right, -3, 85, EFontColor::Black2);
+	AccExpText = CreateText(SkillsBox, L"570", EPivotType::RightTop, EAlignType::Right, -3, 98, EFontColor::Black2);
+	NextLevelExpText = CreateText(SkillsBox, L"172", EPivotType::RightTop, EAlignType::Right, -3, 111, EFontColor::Black2);
+	AbilityText = CreateText(SkillsBox, L"KEEN EYE", EPivotType::LeftTop, EAlignType::Left, 74, 124, EFontColor::Black2);
+	AbilityExplainText = CreateText(SkillsBox, L"Prevents loss of accuracy.", EPivotType::LeftBot, EAlignType::Left, 10, -5, EFontColor::Black2);
 	HpBar = CreateScrollBar(SkillsBox, EScrollType::Hp, 100, 100, EPivotType::RightTop, -55, 18);
 	ExpBar = CreateScrollBar(SkillsBox, EScrollType::Exp, 100, 100, EPivotType::RightBot, -71, -29);
 
 	// MovesBox 요소
 	for (int i = 0; i < 4; ++i)
 	{
-		AText* MoveNameText = CreateText(MovesBox, L"-", EPivotType::LeftTop, EAlignType::Left, 43, 16 + 28 * i, EFontColor::Black);
+		AText* MoveNameText = CreateText(MovesBox, L"-", EPivotType::LeftTop, EAlignType::Left, 43, 16 + 28 * i, EFontColor::Black2);
 		MoveNameTexts.push_back(MoveNameText);
 
-		AText* MovePPText = CreateText(MovesBox, L"99/99", EPivotType::RightTop, EAlignType::Left, -33, 27 + 28 * i, EFontColor::Black);
+		AText* MovePPText = CreateText(MovesBox, L"99/99", EPivotType::RightTop, EAlignType::Left, -33, 27 + 28 * i, EFontColor::Black2);
 		MovePPTexts.push_back(MovePPText);
 
 		AImageElement* MoveTypeImage = CreateImageElement(MovesBox, EPivotType::LeftTop, 4, 5 + 28 * i);

@@ -86,6 +86,9 @@ void AText::PrepareLine(const std::wstring& _Line, int _Bot)
 	case EFontColor::Black:
 		ImageNamePrefix += "Black";
 		break;
+	case EFontColor::Black2:
+		ImageNamePrefix += "Black2";
+		break;
 	case EFontColor::Gray:
 		ImageNamePrefix += "Gray";
 		break;
