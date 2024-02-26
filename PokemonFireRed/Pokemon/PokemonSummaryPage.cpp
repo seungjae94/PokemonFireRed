@@ -341,6 +341,16 @@ void APokemonSummaryPage::MovesDetailTick(float _DeltaTime)
 		return;
 	}
 
+	if (true == MoveFocusCursor->IsLast() && true == UEngineInput::IsDown('Z'))
+	{
+		State = EPokemonSummaryPageState::Moves;
+		Nav->SetImage(RN::PokemonSummaryUINavMoves);
+		CommonBox->SetActive(true);
+		SmallCommonBox->SetActive(false);
+		MovesDetailBox->SetActive(false);
+		return;
+	}
+
 	if (true == UEngineInput::IsDown(VK_DOWN))
 	{
 		MoveFocusCursor->IncCursor();
