@@ -139,7 +139,7 @@ void APokemonPage::BeginPlay()
 	);
 	FirstPokemonIcon = CreatePokemonElement(
 		FirstRenderer,
-		EPokemonElementType::Mini,
+		EPokemonElementType::MiniMove,
 		EPivotType::LeftBot,
 		-2, -23
 	);
@@ -194,7 +194,7 @@ void APokemonPage::BeginPlay()
 		);
 		APokemonElement* Icon = CreatePokemonElement(
 			EntryRenderers[i - 1],
-			EPokemonElementType::Mini,
+			EPokemonElementType::MiniMove,
 			EPivotType::LeftBot,
 			-3, 3
 		);

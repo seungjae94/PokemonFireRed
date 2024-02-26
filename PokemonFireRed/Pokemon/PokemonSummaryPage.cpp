@@ -100,7 +100,7 @@ void APokemonSummaryPage::BeginPlay()
 	}
 
 	// SmallCommonBox ¿ä¼Ò
-	//APokemonElement* SCBMiniImage = nullptr;
+	SCBMiniStopImage = CreatePokemonElement(SmallCommonBox, EPokemonElementType::MiniStop, EPivotType::LeftTop, 6, 8);
 	SCBGenderIcon = CreateImageElement(SmallCommonBox, EPivotType::LeftTop, 105, 3);
 	SCBGenderIcon->SetImage(RN::BigGenderMarkMale);
 	SCBNameText = CreateText(SmallCommonBox, L"POKEMON", EPivotType::LeftTop, EAlignType::Left, 40, 13, EFontColor::White);
@@ -175,6 +175,7 @@ void APokemonSummaryPage::RefreshAll()
 	}
 
 	// SmalCommonBox
+	SCBMiniStopImage->SetPokemon(Pokemon);
 	SCBGenderIcon->SetImage(Pokemon->GetBigGenderImageName());
 	SCBNameText->SetText(Pokemon->GetSpeciesNameW());
 

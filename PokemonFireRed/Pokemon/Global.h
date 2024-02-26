@@ -70,7 +70,8 @@ public:
 
 	static const std::string PokemonFrontPrefix;
 	static const std::string PokemonBackPrefix;
-	static const std::string PokemonMiniPrefix;
+	static const std::string PokemonMiniMovePrefix;
+	static const std::string PokemonMiniStopPrefix;
 	static const std::string PlayerName;
 
 	static const Color8Bit PixelColliderBlock;

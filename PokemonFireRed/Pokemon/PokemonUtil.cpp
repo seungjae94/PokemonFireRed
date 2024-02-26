@@ -128,11 +128,11 @@ void UPokemonUtil::PlaceImageOnScreen(
 	_Renderer->SetPosition(FinalPos);
 }
 
-void UPokemonUtil::CreatePokemonMiniAnimations(UImageRenderer* _Renderer)
+void UPokemonUtil::CreatePokemonMiniMoveAnimations(UImageRenderer* _Renderer)
 {
 	if (nullptr == _Renderer)
 	{
-		MsgBoxAssert("nullptr인 렌더러에서 PokemonMini 애니메이션을 만들려고 했습니다.");
+		MsgBoxAssert("nullptr인 렌더러에서 PokemonMini Move 애니메이션을 만들려고 했습니다.");
 		return;
 	}
 
@@ -143,11 +143,34 @@ void UPokemonUtil::CreatePokemonMiniAnimations(UImageRenderer* _Renderer)
 
 	for (EPokedexNo No : UPokemonDB::GetImplementedSpeciesNo())
 	{
-		int Idx = static_cast<int>(No);
+		int Idx = static_cast<int>(No) * 2 - 2;
 		_Renderer->CreateAnimation(
-			Global::PokemonMiniPrefix + UPokemonDB::GetSpeciesName(No),
+			Global::PokemonMiniMovePrefix + UPokemonDB::GetSpeciesName(No),
 			RN::PokemonMini, 
-			Idx * 2 - 2, Idx * 2 - 1, 1.0f / 6, true);
+			Idx, Idx + 1, 1.0f / 6, true);
+	}
+}
+
+void UPokemonUtil::CreatePokemonMiniStopAnimations(UImageRenderer* _Renderer)
+{
+	if (nullptr == _Renderer)
+	{
+		MsgBoxAssert("nullptr인 렌더러에서 PokemonMini Stop 애니메이션을 만들려고 했습니다.");
+		return;
+	}
+
+	if (nullptr == _Renderer->GetImage())
+	{
+		_Renderer->SetImage(RN::PokemonMini);
+	}
+
+	for (EPokedexNo No : UPokemonDB::GetImplementedSpeciesNo())
+	{
+		int Idx = static_cast<int>(No) * 2 - 2;
+		_Renderer->CreateAnimation(
+			Global::PokemonMiniStopPrefix + UPokemonDB::GetSpeciesName(No),
+			RN::PokemonMini,
+			Idx, Idx, 1.0f / 6, true);
 	}
 }
 

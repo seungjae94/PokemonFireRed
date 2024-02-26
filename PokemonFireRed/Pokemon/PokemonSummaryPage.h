@@ -91,7 +91,7 @@ private:
 	std::vector<AImageElement*> MoveTypeImages;
 
 	// SmallCommonBox ¿ä¼Ò
-	APokemonElement* SCBMiniImage = nullptr;
+	APokemonElement* SCBMiniStopImage = nullptr;
 	AImageElement* SCBGenderIcon = nullptr;
 	AText* SCBNameText = nullptr;
 	std::vector<AImageElement*> SCBTypeImages;

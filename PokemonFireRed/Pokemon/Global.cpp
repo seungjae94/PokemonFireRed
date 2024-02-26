@@ -43,7 +43,8 @@ const std::string Global::TrainerCardUILevel = "TrainerCardUILevel";
 
 const std::string Global::PokemonFrontPrefix = "PokemonFront";
 const std::string Global::PokemonBackPrefix = "PokemonBack";
-const std::string Global::PokemonMiniPrefix = "PokemonMini";
+const std::string Global::PokemonMiniMovePrefix = "PokemonMiniMove";
+const std::string Global::PokemonMiniStopPrefix = "PokemonMiniStop";
 const std::string Global::PlayerName = "Player";
 
 const Color8Bit Global::PixelColliderBlock = Color8Bit(255, 0, 255, 0);

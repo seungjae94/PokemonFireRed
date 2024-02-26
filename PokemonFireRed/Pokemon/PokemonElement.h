@@ -4,7 +4,8 @@
 
 enum class EPokemonElementType
 {
-	Mini,
+	MiniMove,
+	MiniStop,
 	Front,
 	Back
 };
@@ -30,6 +31,6 @@ protected:
 
 private:
 	UImageRenderer* Renderer = nullptr;
-	EPokemonElementType Type = EPokemonElementType::Mini;
+	EPokemonElementType Type = EPokemonElementType::MiniMove;
 };
 

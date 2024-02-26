@@ -58,7 +58,8 @@ public:
 		int _ScreenPixelX = 0, int _ScreenPixelY = 0
 	);
 
-	static void CreatePokemonMiniAnimations(UImageRenderer* _Renderer);
+	static void CreatePokemonMiniMoveAnimations(UImageRenderer* _Renderer);
+	static void CreatePokemonMiniStopAnimations(UImageRenderer* _Renderer);
 	static void CreatePokemonFrontAnimations(UImageRenderer* _Renderer);
 	static void CreatePokemonBackAnimations(UImageRenderer* _Renderer);
 

@@ -18,9 +18,13 @@ void APokemonElement::SetPokemon(const UPokemon* _Pokemon)
 		
 		switch (Type)
 		{
-		case EPokemonElementType::Mini:
+		case EPokemonElementType::MiniMove:
 			Renderer->SetImage(RN::PokemonMiniPlaceHolder);
-			UPokemonUtil::CreatePokemonMiniAnimations(Renderer);
+			UPokemonUtil::CreatePokemonMiniMoveAnimations(Renderer);
+			break;
+		case EPokemonElementType::MiniStop:
+			Renderer->SetImage(RN::PokemonMiniPlaceHolder);
+			UPokemonUtil::CreatePokemonMiniStopAnimations(Renderer);
 			break;
 		case EPokemonElementType::Front:
 			Renderer->SetImage(RN::PokemonFrontPlaceHolder);
@@ -41,8 +45,11 @@ void APokemonElement::SetPokemon(const UPokemon* _Pokemon)
 	std::string AnimPrefix; 
 	switch (Type)
 	{
-	case EPokemonElementType::Mini:
-		AnimPrefix = Global::PokemonMiniPrefix;
+	case EPokemonElementType::MiniMove:
+		AnimPrefix = Global::PokemonMiniMovePrefix;
+		break;
+	case EPokemonElementType::MiniStop:
+		AnimPrefix = Global::PokemonMiniStopPrefix;
 		break;
 	case EPokemonElementType::Front:
 		AnimPrefix = Global::PokemonFrontPrefix;
