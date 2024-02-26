@@ -116,6 +116,7 @@ void APokemonSummaryPage::BeginPlay()
 	MovePowerText = CreateText(MovesDetailBox, L"120", EPivotType::RightTop, EAlignType::Right, -46, 19, EFontColor::Black);
 	MoveAccuracyText = CreateText(MovesDetailBox, L"100", EPivotType::RightTop, EAlignType::Right, -46, 33, EFontColor::Black);
 	MoveExplainText = CreateText(MovesDetailBox, L"Hello\nWorld", EPivotType::LeftBot, EAlignType::Left, 7, -50, EFontColor::Black);
+	MoveSelectCursor = CreateCursor(MovesDetailBox, RN::PokemonSummaryUIMoveFocus, 0, 5, EPivotType::RightTop, 119, -31, 16);
 }
 
 void APokemonSummaryPage::RefreshAll()
@@ -189,10 +190,27 @@ void APokemonSummaryPage::RefreshAll()
 	}
 
 	// MovesDetailBox
-	MovePowerText->SetText(Pokemon->GetMovePowerW(0));
-	MoveAccuracyText->SetText(Pokemon->GetMoveAccuracyW(0));
-	MoveExplainText->SetText(Pokemon->GetMoveExplainW(0));
+	RefreshMoveDetailBox();
+}
 
+
+void APokemonSummaryPage::RefreshMoveDetailBox()
+{
+	MoveSelectCursor->SetOptionCount(Pokemon->GetMoveCount());
+
+	if (true == MoveSelectCursor->IsCancel())
+	{
+		MovePowerText->SetText(L"");
+		MoveAccuracyText->SetText(L"");
+		MoveExplainText->SetText(L"");
+	}
+	else
+	{
+		int Cursor = MoveSelectCursor->GetCursor();
+		MovePowerText->SetText(Pokemon->GetMovePowerW(Cursor));
+		MoveAccuracyText->SetText(Pokemon->GetMoveAccuracyW(Cursor));
+		MoveExplainText->SetText(Pokemon->GetMoveExplainW(Cursor));
+	}
 }
 
 void APokemonSummaryPage::Reset()

@@ -23,6 +23,7 @@ public:
 
 	void SetCursor(int _Cursor);
 
+
 	void SetOptionCount(int _OptionCount)
 	{
 		OptionCount = _OptionCount;
@@ -38,14 +39,25 @@ public:
 		Cursor = UPokemonMath::Mod(Cursor - 1, OptionCount);
 	}
 
+	void EnableCancel(int _CancelPixelX, int _CancelPixelY);
+
+	void SetImage(std::string_view _ImageName);
+
+	bool IsCancel();
+
 	void FollowContainer() override;
 
 protected:
 
 private:
+	std::string ImageName = RN::BlackCursor;
 	UImageRenderer* Renderer = nullptr;
 	int Cursor = 0;
 	int OptionCount = 0;
 	int PixelGap = 16;
+
+	bool HasCancel = false;
+	int CancelPixelX = 0;
+	int CancelPixelY = 0;
 };
 

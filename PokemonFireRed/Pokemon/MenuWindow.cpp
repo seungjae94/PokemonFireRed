@@ -80,6 +80,7 @@ void AMenuWindow::BeginPlay()
 	// 메뉴창 커서
 	Cursor = CreateCursor(
 		MenuWindowRenderer,
+		RN::BlackCursor,
 		0, MenuCount,
 		EPivotType::LeftTop,
 		8, 9, 15

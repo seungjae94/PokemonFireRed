@@ -100,5 +100,9 @@ private:
 	AText* MovePowerText = nullptr;
 	AText* MoveAccuracyText = nullptr;
 	AText* MoveExplainText = nullptr;
+	ACursor* MoveSelectCursor = nullptr;
+
+	// À¯Æ¿
+	void RefreshMoveDetailBox();
 };
 

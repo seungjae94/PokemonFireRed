@@ -59,6 +59,7 @@ void APokemonPage::BeginPlay()
 		// 액션 선택 커서
 		ActionCursor = CreateCursor(
 			ActionBoxRenderer,
+			RN::BlackCursor,
 			0, 3,
 			EPivotType::LeftTop,
 			8, 11, 16

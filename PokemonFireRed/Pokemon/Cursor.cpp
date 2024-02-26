@@ -15,12 +15,29 @@ void ACursor::SetCursor(int _Cursor)
 	{
 		Renderer = CreateImageRenderer(ERenderingOrder::Text);
 		Renderer->CameraEffectOff();
-		Renderer->SetImage(RN::BlackCursor);
-		FVector RenderScale = UPokemonUtil::GetRenderScale(Renderer);
-		Renderer->SetTransform({ RenderScale.Half2D(), RenderScale });
 	}
 
+	Renderer->SetImage(ImageName);
+	UPokemonUtil::AlignImage(Renderer, PivotType);
+
 	Cursor = _Cursor;
+}
+
+void ACursor::EnableCancel(int _CancelPixelX, int _CancelPixelY)
+{
+	HasCancel = true;
+	CancelPixelX = _CancelPixelX;
+	CancelPixelY = _CancelPixelY;
+}
+
+bool ACursor::IsCancel()
+{
+	if (false == HasCancel)
+	{
+		return false;
+	}
+
+	return Cursor == OptionCount - 1;
 }
 
 void ACursor::FollowContainer()

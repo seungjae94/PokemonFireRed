@@ -43,6 +43,7 @@ public:
 
 	ACursor* CreateCursor(
 		UImageRenderer* _Container,
+		std::string _ImageName,
 		int _Cursor,
 		int _OptionCount,
 		EPivotType _PivotType = EPivotType::LeftTop,
