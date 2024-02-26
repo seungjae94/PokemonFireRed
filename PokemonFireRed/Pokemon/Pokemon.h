@@ -191,7 +191,6 @@ private:
 	const FPokemonSpecies* Species = nullptr;
 
 	// 전투 관련 정보
-	std::vector<FPokemonType*> Types;
 	const FPokemonNature* Nature = nullptr;
 	const FPokemonAbility* Ability = nullptr;
 

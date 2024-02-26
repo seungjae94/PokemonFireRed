@@ -23,12 +23,12 @@ UPokemon::~UPokemon()
 std::vector<std::string> UPokemon::GetTypeImageNames(bool _PlaceHolder) const
 {
 	std::vector<std::string> Result;
-
-	int TypeSize = static_cast<int>(Types.size());
+	int TypeSize = static_cast<int>(Species->TypeIds.size());
 
 	for (int i = 0; i < TypeSize; ++i)
 	{
-		Result.push_back(Types[i]->ImageName);
+		EPokemonType TypeId = Species->TypeIds[i];
+		Result.push_back(UPokemonDB::FindType(TypeId)->ImageName);
 	}
 	for (int i = TypeSize; i < 2; ++i)
 	{
@@ -165,9 +165,9 @@ void UPokemon::InitRandomNature()
 
 void UPokemon::InitRandomAbility()
 {
-	int AbilitySize = static_cast<int>(Species->AbilityCandidates.size());
+	int AbilitySize = static_cast<int>(Species->AbilityCandidateIds.size());
 	int AbilityInt = UPokemonMath::RandomInt(0, AbilitySize - 1);
-	EPokemonAbility AbilityId = Species->AbilityCandidates[AbilityInt];
+	EPokemonAbility AbilityId = Species->AbilityCandidateIds[AbilityInt];
 	Ability = UPokemonDB::FindAbility(AbilityId);
 }
 

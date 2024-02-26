@@ -283,7 +283,7 @@ public:
 		: PokedexNo(_PokedexNo), SpeciesName(_SpeciesName), 
 		BHp(_BHp), BAtk(_BAtk), BDef(_BDef), BSpAtk(_BSpAtk), BSpDef(_BSpDef), BSpeed(_BSpeed),
 		YHp(_YHp), YAtk(_YAtk), YDef(_YDef), YSpAtk(_YSpAtk), YSpDef(_YSpDef), YSpeed(_YSpeed),
-		ExpGroup(_ExpGroup), Types(_Types), AbilityCandidates(_AbilityCandidates),
+		ExpGroup(_ExpGroup), TypeIds(_Types), AbilityCandidateIds(_AbilityCandidates),
 		MaleRatio(_MaleRatio), CatchRate(_CatchRate), Friendship(_Friendship)
 	{}
 
@@ -312,8 +312,8 @@ public:
 	std::string SpeciesName;
 	EPokedexNo PokedexNo = EPokedexNo::None;
 	EExperienceGroup ExpGroup = EExperienceGroup::NONE;
-	std::vector<EPokemonType> Types;
-	std::vector<EPokemonAbility> AbilityCandidates;
+	std::vector<EPokemonType> TypeIds;
+	std::vector<EPokemonAbility> AbilityCandidateIds;
 	std::map<int, EPokemonMove> LevelUpMoves;
 	float MaleRatio = 0.0f;
 	int CatchRate = 0;
