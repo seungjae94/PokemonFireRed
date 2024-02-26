@@ -15,7 +15,7 @@ public:
 	PokemonDBInitiator()
 	{
 		FPokemonSpecies Bulbasaur = FPokemonSpecies(
-			EPokedexNo::Bulbasaur, "Bulbasaur",
+			EPokedexNo::Bulbasaur, "BULBASAUR",
 			45, 49, 49, 65, 65, 45,
 			0, 0, 0, 1, 0, 0,
 			EExperienceGroup::MediumSlow,
@@ -29,7 +29,7 @@ public:
 		UPokemonDB::Species[EPokedexNo::Bulbasaur] = Bulbasaur;
 
 		FPokemonSpecies Charmander = FPokemonSpecies(
-			EPokedexNo::Bulbasaur, "Charmander",
+			EPokedexNo::Bulbasaur, "CHARMANDER",
 			39, 52, 43, 60, 50, 65,
 			0, 0, 0, 0, 0, 1,
 			EExperienceGroup::MediumSlow,
@@ -43,7 +43,7 @@ public:
 		UPokemonDB::Species[EPokedexNo::Charmander] = Charmander;
 
 		FPokemonSpecies Squirtle = FPokemonSpecies(
-			EPokedexNo::Squirtle, "Squirtle",
+			EPokedexNo::Squirtle, "SQUIRTLE",
 			44, 48, 65, 50, 64, 43,
 			0, 0, 1, 0, 0, 0,
 			EExperienceGroup::MediumSlow,
@@ -62,67 +62,67 @@ public:
 
 		UPokemonDB::Moves[EPokemonMove::Absorb] = FPokemonMove(
 			EPokemonMove::Absorb,
-			"Absorb", "	An attack that absorbs\nhalf the damage it\ninflicted to restore HP.",
+			"ABSORB", "	An attack that absorbs\nhalf the damage it\ninflicted to restore HP.",
 			EPokemonType::Grass,
 			20, 20, 100
 		);
 		UPokemonDB::Moves[EPokemonMove::Bubble] = FPokemonMove(
 			EPokemonMove::Bubble,
-			"Bubble", "A spray of bubbles hits the foe. It may lower the foe¡¯s SPEED stat.",
+			"BUBBLE", "A spray of bubbles hits the foe. It may lower the foe¡¯s SPEED stat.",
 			EPokemonType::Water,
 			30, 20, 100
 		);
 		UPokemonDB::Moves[EPokemonMove::Ember] = FPokemonMove(
 			EPokemonMove::Ember,
-			"Ember", "The foe is attacked with small flames. The foe may suffer a burn.",
+			"EMBER", "The foe is attacked with small flames. The foe may suffer a burn.",
 			EPokemonType::Fire,
 			25, 40, 100
 		);
 		UPokemonDB::Moves[EPokemonMove::Growl] = FPokemonMove(
 			EPokemonMove::Growl,
-			"Growl", "The user growls in a cute way, making the foe lower its ATTACK stat.",
+			"GROWL", "The user growls in a cute way, making the foe lower its ATTACK stat.",
 			EPokemonType::Normal,
 			40, 0, 100
 		);
 		UPokemonDB::Moves[EPokemonMove::Gust] = FPokemonMove(
 			EPokemonMove::Gust,
-			"Gust", "Strikes the foe with a gust of wind whipped up by wings.",
+			"GUST", "Strikes the foe with a gust of wind whipped up by wings.",
 			EPokemonType::Flying,
 			35, 40, 100
 		);
 		UPokemonDB::Moves[EPokemonMove::LeechSeed] = FPokemonMove(
 			EPokemonMove::LeechSeed,
-			"Leech Seed", "A seed is planted on the foe to steal some HP for the user on every turn.",
+			"LEECH SEED", "A seed is planted on the foe to steal some HP for the user on every turn.",
 			EPokemonType::Grass,
 			10, 0, 90
 		);
 		UPokemonDB::Moves[EPokemonMove::QuickAttack] = FPokemonMove(
 			EPokemonMove::QuickAttack,
-			"Quick Attack", "An almost invisibly fast attack that is certain to strike first.",
+			"QUICK ATTACK", "An almost invisibly fast attack that is certain to strike first.",
 			EPokemonType::Normal,
 			30, 40, 100
 		);
 		UPokemonDB::Moves[EPokemonMove::SandAttack] = FPokemonMove(
 			EPokemonMove::SandAttack,
-			"Sand Attack", "A lot of sand is hurled in the foe¡¯s face, reducing its accuracy.",
+			"SAND ATTACK", "A lot of sand is hurled in the foe¡¯s face, reducing its accuracy.",
 			EPokemonType::Ground,
 			15, 0, 100
 		);
 		UPokemonDB::Moves[EPokemonMove::Scratch] = FPokemonMove(
 			EPokemonMove::Scratch,
-			"Scratch", "Hard, pointed, and\nsharp claws rake\nthe foe.",
+			"SCRATCH", "Hard, pointed, and\nsharp claws rake\nthe foe.",
 			EPokemonType::Normal,
 			35, 40, 100
 		);
 		UPokemonDB::Moves[EPokemonMove::TailWhip] = FPokemonMove(
 			EPokemonMove::TailWhip,
-			"Tail Whip", "The user wags its tail cutely, making the foe lower its DEFENSE stat.",
+			"TAIL WHIP", "The user wags its tail cutely, making the foe lower its DEFENSE stat.",
 			EPokemonType::Normal,
 			30, 0, 100
 		);
 		UPokemonDB::Moves[EPokemonMove::Tackle] = FPokemonMove(
 			EPokemonMove::Tackle,
-			"Tackle", "A physical attack in which the user charges, full body, into the foe.",
+			"TACKLE", "A physical attack in which the user charges, full body, into the foe.",
 			EPokemonType::Normal,
 			35, 35, 95
 		);

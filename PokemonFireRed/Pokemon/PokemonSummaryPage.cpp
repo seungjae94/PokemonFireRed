@@ -134,6 +134,14 @@ void APokemonSummaryPage::RefreshAll()
 	HpBar->SetValue(Pokemon->GetCurHp());
 	ExpBar->SetMaxValue(Pokemon->GetExpSize());
 	ExpBar->SetValue(Pokemon->GetExp());
+
+	// MovesBox
+	for (int i = 0; i < 4; ++i)
+	{
+		MoveNameTexts[i]->SetText(Pokemon->GetMoveNameW(i));
+		MovePPTexts[i]->SetText(Pokemon->GetMovePPW(i));
+		MoveTypeImages[i]->SetImage(Pokemon->GetMoveTypeImageName(i));
+	}
 }
 
 void APokemonSummaryPage::Reset()

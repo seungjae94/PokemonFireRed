@@ -105,6 +105,60 @@ public:
 
 	std::vector<std::string> GetTypeImageNames(bool _PlaceHolder = true) const;
 
+	int GetMoveCount() const
+	{
+		return static_cast<int>(Moves.size());
+	}
+
+	std::wstring GetMoveNameW(int _Index) const
+	{
+		if (_Index < 0 || _Index >= 4)
+		{
+			MsgBoxAssert("인덱스 " + std::to_string(_Index) + "가 잘못 되어 Move 이름을 찾을 수 없습니다.");
+			return L"";
+		}
+
+		if (_Index < Moves.size())
+		{
+			return Moves[_Index]->GetNameW();
+		}
+
+		return L"-";
+	}
+
+	std::wstring GetMovePPW(int _Index) const
+	{
+		if (_Index < 0 || _Index >= 4)
+		{
+			MsgBoxAssert("인덱스 " + std::to_string(_Index) + "가 잘못 되어 Move 이름을 찾을 수 없습니다.");
+			return L"";
+		}
+
+		if (_Index < Moves.size())
+		{
+			return std::to_wstring(Moves[_Index]->PP);
+		}
+
+		return L"--";
+	}
+
+	std::string GetMoveTypeImageName(int _Index) const
+	{
+		if (_Index < 0 || _Index >= 4)
+		{
+			MsgBoxAssert("인덱스 " + std::to_string(_Index) + "가 잘못 되어 Move 이름을 찾을 수 없습니다.");
+			return "";
+		}
+
+		if (_Index < Moves.size())
+		{
+			const FPokemonType* Type = UPokemonDB::FindType(Moves[_Index]->Type);
+			return Type->ImageName;
+		}
+
+		return RN::TypePlaceHolder;
+	}
+
 	void Heal(int _Value);
 
 	void HealAll()

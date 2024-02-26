@@ -244,12 +244,12 @@ public:
 
 	std::wstring GetNameW() const
 	{
-		UEngineString::AnsiToUniCode(Name);
+		return UEngineString::AnsiToUniCode(Name);
 	}
 
 	std::wstring GetExplainW() const
 	{
-		UEngineString::AnsiToUniCode(Explain);
+		return UEngineString::AnsiToUniCode(Explain);
 	}
 };
 
