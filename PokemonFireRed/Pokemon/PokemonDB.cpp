@@ -116,7 +116,7 @@ public:
 		);
 		UPokemonDB::Moves[EPokemonMove::TailWhip] = FPokemonMove(
 			EPokemonMove::TailWhip,
-			"TAIL WHIP", "The user wags its tail cutely, making the foe lower its DEFENSE stat.",
+			"TAIL WHIP", "The user wags its\ntail cutely, making\nthe foe lower its\nDEFENSE stat.",
 			EPokemonType::Normal,
 			30, 0, 100
 		);
