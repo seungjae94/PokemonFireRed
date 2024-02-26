@@ -41,6 +41,7 @@ private:
 	void InfoTick(float _DeltaTime);
 	void SkillsTick(float _DeltaTime);
 	void MovesTick(float _DeltaTime);
+	void MovesDetailTick(float _DeltaTime);
 
 	// ตฅภฬลอ
 	UPokemon* Pokemon = nullptr;

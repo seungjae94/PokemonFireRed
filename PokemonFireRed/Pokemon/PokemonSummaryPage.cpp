@@ -182,6 +182,7 @@ void APokemonSummaryPage::Tick(float _DeltaTime)
 		MovesTick(_DeltaTime);
 		break;
 	case EPokemonSummaryPageState::MovesDetail:
+		MovesDetailTick(_DeltaTime);
 		break;
 	default:
 		break;
@@ -235,6 +236,12 @@ void APokemonSummaryPage::SkillsTick(float _DeltaTime)
 
 void APokemonSummaryPage::MovesTick(float _DeltaTime)
 {
+	if (true == UEngineInput::IsDown('X'))
+	{
+		UEventManager::ChangeLevelFade(GetWorld(), Global::PokemonUILevel);
+		return;
+	}
+
 	if (true == UEngineInput::IsDown(VK_LEFT))
 	{
 		State = EPokemonSummaryPageState::Skills;
@@ -251,5 +258,17 @@ void APokemonSummaryPage::MovesTick(float _DeltaTime)
 		CommonBox->SetActive(false);
 		SmallCommonBox->SetActive(true);
 		MovesDetailBox->SetActive(true);
+	}
+}
+
+void APokemonSummaryPage::MovesDetailTick(float _DeltaTime)
+{
+	if (true == UEngineInput::IsDown('X'))
+	{
+		State = EPokemonSummaryPageState::Moves;
+		Nav->SetImage(RN::PokemonSummaryUINavMoves);
+		CommonBox->SetActive(true);
+		SmallCommonBox->SetActive(false);
+		MovesDetailBox->SetActive(false);
 	}
 }
