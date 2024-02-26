@@ -103,14 +103,14 @@ and POKéMON as data via PC.)"
 	});
 
 	// 디버그용 포켓몬 추가 이벤트
-	UPokemon Pokemon0 = UPokemon(EPokedexNo::Bulbasaur);
-	UPokemon Pokemon1 = UPokemon(EPokedexNo::Charmander);
-	UPokemon Pokemon2 = UPokemon(EPokedexNo::Squirtle);
-	Pokemon0.SetCurHp(Pokemon0.GetHp() / 2);
+	UPokemon Pokemon0 = UPokemon(EPokedexNo::Bulbasaur, 4);
+	UPokemon Pokemon1 = UPokemon(EPokedexNo::Charmander, 4);
+	UPokemon Pokemon2 = UPokemon(EPokedexNo::Squirtle, 4);
+	Pokemon0.SetCurHp(Pokemon0.GetHp() / 3);
 	Pokemon1.SetCurHp(Pokemon1.GetHp() / 6);
 	Pokemon2.HealAll();
-	Pokemon0.GainExp(20);
-	Pokemon1.GainExp(5);
+	Pokemon0.GainExp(30);
+	Pokemon1.GainExp(15);
 	UPlayerData::AddPokemonToEntry(Pokemon0);
 	UPlayerData::AddPokemonToEntry(Pokemon1);
 	UPlayerData::AddPokemonToEntry(Pokemon2);

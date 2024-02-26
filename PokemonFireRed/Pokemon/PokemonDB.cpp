@@ -14,7 +14,7 @@ class PokemonDBInitiator
 public:
 	PokemonDBInitiator()
 	{
-		UPokemonDB::Species[EPokedexNo::Bulbasaur] = FPokemonSpecies(
+		FPokemonSpecies Bulbasaur = FPokemonSpecies(
 			EPokedexNo::Bulbasaur, "Bulbasaur",
 			45, 49, 49, 65, 65, 45,
 			0, 0, 0, 1, 0, 0,
@@ -23,8 +23,12 @@ public:
 			{ EPokemonAbility::Overgrow },
 			7.0f / 8, 45, 70
 		);
+		Bulbasaur.AddLevelUpMove(0, EPokemonMove::Tackle);
+		Bulbasaur.AddLevelUpMove(4, EPokemonMove::Growl);
+		Bulbasaur.AddLevelUpMove(7, EPokemonMove::LeechSeed);
+		UPokemonDB::Species[EPokedexNo::Bulbasaur] = Bulbasaur;
 
-		UPokemonDB::Species[EPokedexNo::Charmander] = FPokemonSpecies(
+		FPokemonSpecies Charmander = FPokemonSpecies(
 			EPokedexNo::Bulbasaur, "Charmander",
 			39, 52, 43, 60, 50, 65,
 			0, 0, 0, 0, 0, 1,
@@ -33,8 +37,12 @@ public:
 			{ EPokemonAbility::Blaze },
 			7.0f / 8, 45, 70
 		);
+		Charmander.AddLevelUpMove(0, EPokemonMove::Scratch);
+		Charmander.AddLevelUpMove(0, EPokemonMove::Growl);
+		Charmander.AddLevelUpMove(7, EPokemonMove::Ember);
+		UPokemonDB::Species[EPokedexNo::Charmander] = Charmander;
 
-		UPokemonDB::Species[EPokedexNo::Squirtle] = FPokemonSpecies(
+		FPokemonSpecies Squirtle = FPokemonSpecies(
 			EPokedexNo::Squirtle, "Squirtle",
 			44, 48, 65, 50, 64, 43,
 			0, 0, 1, 0, 0, 0,
@@ -43,6 +51,10 @@ public:
 			{ EPokemonAbility::Torrent },
 			7.0f / 8, 45, 70
 		);
+		Squirtle.AddLevelUpMove(0, EPokemonMove::Tackle);
+		Squirtle.AddLevelUpMove(4, EPokemonMove::TailWhip);
+		Squirtle.AddLevelUpMove(7, EPokemonMove::Bubble);
+		UPokemonDB::Species[EPokedexNo::Squirtle] = Squirtle;
 
 		UPokemonDB::ImplementedSpeciesNo.push_back(EPokedexNo::Bulbasaur);
 		UPokemonDB::ImplementedSpeciesNo.push_back(EPokedexNo::Charmander);

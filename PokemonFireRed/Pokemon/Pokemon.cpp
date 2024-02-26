@@ -7,8 +7,9 @@ UPokemon::UPokemon(EPokedexNo _Id, int _Level)
 {
 	Species = UPokemonDB::FindSpecies(_Id);
 	Name = UPokemonString::ToUpperW(Species->SpeciesName);
-	Level = 1;
+	Level = _Level;
 	AccExp = 0;
+	InitMoves();
 	InitRandomIVs();
 	InitRandomGender();
 	InitRandomNature();
@@ -129,6 +130,36 @@ int UPokemon::GetExp() const
 	}
 
 	return GetExpSize() - GetNextLevelExp();
+}
+
+void UPokemon::InitMoves()
+{
+	for (std::pair<int, EPokemonMove> Pair : Species->LevelUpMoves)
+	{
+		int LearnLevel = Pair.first;
+
+		// 더이상 배울 수 있는 스킬이 없다.
+		if (LearnLevel > Level)
+		{
+			break;
+		}
+		
+		const FPokemonMove* Move = UPokemonDB::FindMove(Pair.second);
+
+		if (Moves.size() == 4)
+		{
+			// 가장 앞에 있는 Move를 지운다.
+			Moves.erase(Moves.begin());
+
+		}
+		Moves.push_back(Move);
+	}
+
+	if (Moves.size() == 0 || Moves.size() > 4)
+	{
+		MsgBoxAssert("포켓몬 기술 초기화가 잘못되었습니다. Moves의 크기가 0이거나 4 초과입니다.");
+		return;
+	}
 }
 
 void UPokemon::InitRandomIVs()

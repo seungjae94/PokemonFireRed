@@ -193,6 +193,7 @@ private:
 	// 전투 관련 정보
 	const FPokemonNature* Nature = nullptr;
 	const FPokemonAbility* Ability = nullptr;
+	std::vector<const FPokemonMove*> Moves;
 
 	// Individual Value
 	int IHp = 0;
@@ -214,7 +215,7 @@ private:
 	int GetAccExpForLevel(int _Level) const;
 	int GetErraticAccExpForLevel(int _Level) const;
 	int GetFluctuatingAccExpForLevel(int _Level) const;
-	void InitRandomId();
+	void InitMoves();
 	void InitRandomIVs();
 	void InitRandomGender();
 	void InitRandomNature();
