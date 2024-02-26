@@ -103,61 +103,24 @@ public:
 		return Gender->BigImageName;
 	}
 
-	std::vector<std::string> GetTypeImageNames(bool _PlaceHolder = true) const;
+	int GetTypeCount() const
+	{
+		return static_cast<int>(Species->TypeIds.size());
+	}
+
+	std::string GetTypeImageName(int _Index) const;
 
 	int GetMoveCount() const
 	{
 		return static_cast<int>(Moves.size());
 	}
 
-	std::wstring GetMoveNameW(int _Index) const
-	{
-		if (_Index < 0 || _Index >= 4)
-		{
-			MsgBoxAssert("인덱스 " + std::to_string(_Index) + "가 잘못 되어 Move 이름을 찾을 수 없습니다.");
-			return L"";
-		}
-
-		if (_Index < Moves.size())
-		{
-			return Moves[_Index]->GetNameW();
-		}
-
-		return L"-";
-	}
-
-	std::wstring GetMovePPW(int _Index) const
-	{
-		if (_Index < 0 || _Index >= 4)
-		{
-			MsgBoxAssert("인덱스 " + std::to_string(_Index) + "가 잘못 되어 Move 이름을 찾을 수 없습니다.");
-			return L"";
-		}
-
-		if (_Index < Moves.size())
-		{
-			return std::to_wstring(Moves[_Index]->PP);
-		}
-
-		return L"--";
-	}
-
-	std::string GetMoveTypeImageName(int _Index) const
-	{
-		if (_Index < 0 || _Index >= 4)
-		{
-			MsgBoxAssert("인덱스 " + std::to_string(_Index) + "가 잘못 되어 Move 이름을 찾을 수 없습니다.");
-			return "";
-		}
-
-		if (_Index < Moves.size())
-		{
-			const FPokemonType* Type = UPokemonDB::FindType(Moves[_Index]->Type);
-			return Type->ImageName;
-		}
-
-		return RN::TypePlaceHolder;
-	}
+	std::wstring GetMoveNameW(int _Index) const;
+	std::wstring GetMovePPW(int _Index) const;
+	std::string GetMoveTypeImageName(int _Index) const;
+	std::wstring GetMovePowerW(int _Index) const;
+	std::wstring GetMoveAccuracyW(int _Index) const;
+	std::wstring GetMoveExplainW(int _Index) const;
 
 	void Heal(int _Value);
 

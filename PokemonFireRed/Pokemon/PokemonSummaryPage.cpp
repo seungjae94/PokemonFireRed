@@ -135,10 +135,13 @@ void APokemonSummaryPage::RefreshAll()
 	TrainerText->SetText(L"RED");
 	TrainerMemo->SetText(Pokemon->GetNatureNameW() + L" nature.");
 
-	std::vector<std::string> TypeImageNames = Pokemon->GetTypeImageNames();
-	for (int i = 0; i < 2; ++i)
+	for (int i = 0; i < Pokemon->GetTypeCount(); ++i)
 	{
-		TypeImages[i]->SetImage(TypeImageNames[i]);
+		TypeImages[i]->SetImage(Pokemon->GetTypeImageName(i));
+	}
+	for (int i = Pokemon->GetTypeCount(); i < 2; ++i)
+	{
+		TypeImages[i]->SetImage(RN::TypePlaceHolder);
 	}
 
 	// SkillsBox
@@ -158,12 +161,37 @@ void APokemonSummaryPage::RefreshAll()
 	ExpBar->SetValue(Pokemon->GetExp());
 
 	// MovesBox
-	for (int i = 0; i < 4; ++i)
+	for (int i = 0; i < Pokemon->GetMoveCount(); ++i)
 	{
 		MoveNameTexts[i]->SetText(Pokemon->GetMoveNameW(i));
 		MovePPTexts[i]->SetText(Pokemon->GetMovePPW(i));
 		MoveTypeImages[i]->SetImage(Pokemon->GetMoveTypeImageName(i));
 	}
+	for (int i = Pokemon->GetMoveCount(); i < 4; ++i)
+	{
+		MoveNameTexts[i]->SetText(L"-");
+		MovePPTexts[i]->SetText(L"--");
+		MoveTypeImages[i]->SetImage(RN::TypePlaceHolder);
+	}
+
+	// SmalCommonBox
+	SCBGenderIcon->SetImage(Pokemon->GetBigGenderImageName());
+	SCBNameText->SetText(Pokemon->GetSpeciesNameW());
+
+	for (int i = 0; i < Pokemon->GetTypeCount(); ++i)
+	{
+		SCBTypeImages[i]->SetImage(Pokemon->GetTypeImageName(i));
+	}
+	for (int i = Pokemon->GetTypeCount(); i < 2; ++i)
+	{
+		SCBTypeImages[i]->SetImage(RN::TypePlaceHolder);
+	}
+
+	// MovesDetailBox
+	MovePowerText->SetText(Pokemon->GetMovePowerW(0));
+	MoveAccuracyText->SetText(Pokemon->GetMoveAccuracyW(0));
+	MoveExplainText->SetText(Pokemon->GetMoveExplainW(0));
+
 }
 
 void APokemonSummaryPage::Reset()

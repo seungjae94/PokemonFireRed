@@ -38,7 +38,7 @@ public:
 			7.0f / 8, 45, 70
 		);
 		Charmander.AddLevelUpMove(0, EPokemonMove::Scratch);
-		Charmander.AddLevelUpMove(0, EPokemonMove::Growl);
+		Charmander.AddLevelUpMove(1, EPokemonMove::Growl);
 		Charmander.AddLevelUpMove(7, EPokemonMove::Ember);
 		UPokemonDB::Species[EPokedexNo::Charmander] = Charmander;
 
@@ -80,7 +80,7 @@ public:
 		);
 		UPokemonDB::Moves[EPokemonMove::Growl] = FPokemonMove(
 			EPokemonMove::Growl,
-			"GROWL", "The user growls in a cute way, making the foe lower its ATTACK stat.",
+			"GROWL", "The user growls in\na cute way, making\nthe foe lower its\nATTACK stat.",
 			EPokemonType::Normal,
 			40, 0, 100
 		);
@@ -122,7 +122,7 @@ public:
 		);
 		UPokemonDB::Moves[EPokemonMove::Tackle] = FPokemonMove(
 			EPokemonMove::Tackle,
-			"TACKLE", "A physical attack in which the user charges, full body, into the foe.",
+			"TACKLE", "A physical attack\nin which the user\ncharges, full body,\ninto the foe.",
 			EPokemonType::Normal,
 			35, 35, 95
 		);

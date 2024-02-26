@@ -21,22 +21,83 @@ UPokemon::~UPokemon()
 {
 }
 
-std::vector<std::string> UPokemon::GetTypeImageNames(bool _PlaceHolder) const
+std::string UPokemon::GetTypeImageName(int _Index) const
 {
-	std::vector<std::string> Result;
-	int TypeSize = static_cast<int>(Species->TypeIds.size());
-
-	for (int i = 0; i < TypeSize; ++i)
+	if (_Index < 0 || _Index >= GetTypeCount())
 	{
-		EPokemonType TypeId = Species->TypeIds[i];
-		Result.push_back(UPokemonDB::FindType(TypeId)->ImageName);
-	}
-	for (int i = TypeSize; i < 2; ++i)
-	{
-		Result.push_back(RN::TypePlaceHolder);
+		MsgBoxAssert("ÀÎµ¦½º " + std::to_string(_Index) + "°¡ º¸À¯ÇÑ Å¸ÀÔ ¹üÀ§¸¦ ¹þ¾î³³´Ï´Ù");
+		return "";
 	}
 
-	return Result;
+	EPokemonType TypeId = Species->TypeIds[_Index];
+	return UPokemonDB::FindType(TypeId)->ImageName;
+}
+
+std::wstring UPokemon::GetMoveNameW(int _Index) const
+{
+	if (_Index < 0 || _Index >= GetMoveCount())
+	{
+		MsgBoxAssert("ÀÎµ¦½º " + std::to_string(_Index) + "°¡ º¸À¯ÇÑ Move ¹üÀ§¸¦ ¹þ¾î³³´Ï´Ù");
+		return L"";
+	}
+
+	return Moves[_Index]->GetNameW();
+}
+
+std::wstring UPokemon::GetMovePPW(int _Index) const
+{
+	if (_Index < 0 || _Index >= GetMoveCount())
+	{
+		MsgBoxAssert("ÀÎµ¦½º " + std::to_string(_Index) + "°¡ º¸À¯ÇÑ Move ¹üÀ§¸¦ ¹þ¾î³³´Ï´Ù");
+		return L"";
+	}
+
+	return std::to_wstring(Moves[_Index]->PP);
+}
+
+std::string UPokemon::GetMoveTypeImageName(int _Index) const
+{
+	if (_Index < 0 || _Index >= GetMoveCount())
+	{
+		MsgBoxAssert("ÀÎµ¦½º " + std::to_string(_Index) + "°¡ º¸À¯ÇÑ Move ¹üÀ§¸¦ ¹þ¾î³³´Ï´Ù.");
+		return "";
+	}
+
+	const FPokemonType* Type = UPokemonDB::FindType(Moves[_Index]->Type);
+	return Type->ImageName;
+}
+
+std::wstring UPokemon::GetMovePowerW(int _Index) const
+{
+	if (_Index < 0 || _Index >= GetMoveCount())
+	{
+		MsgBoxAssert("ÀÎµ¦½º " + std::to_string(_Index) + "°¡ º¸À¯ÇÑ Move ¹üÀ§¸¦ ¹þ¾î³³´Ï´Ù");
+		return L"";
+	}
+
+	return std::to_wstring(Moves[_Index]->BasePower);
+}
+
+std::wstring UPokemon::GetMoveAccuracyW(int _Index) const
+{
+	if (_Index < 0 || _Index >= GetMoveCount())
+	{
+		MsgBoxAssert("ÀÎµ¦½º " + std::to_string(_Index) + "°¡ º¸À¯ÇÑ Move ¹üÀ§¸¦ ¹þ¾î³³´Ï´Ù");
+		return L"";
+	}
+
+	return std::to_wstring(Moves[_Index]->Accuracy);
+}
+
+std::wstring UPokemon::GetMoveExplainW(int _Index) const
+{
+	if (_Index < 0 || _Index >= GetMoveCount())
+	{
+		MsgBoxAssert("ÀÎµ¦½º " + std::to_string(_Index) + "°¡ º¸À¯ÇÑ Move ¹üÀ§¸¦ ¹þ¾î³³´Ï´Ù");
+		return L"";
+	}
+
+	return Moves[_Index]->GetExplainW();
 }
 
 void UPokemon::Heal(int _Value)
