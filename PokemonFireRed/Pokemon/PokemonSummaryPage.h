@@ -89,5 +89,16 @@ private:
 	std::vector<AText*> MoveNameTexts;
 	std::vector<AText*> MovePPTexts;
 	std::vector<AImageElement*> MoveTypeImages;
+
+	// SmallCommonBox 요소
+	APokemonElement* SCBMiniImage = nullptr;
+	AImageElement* SCBGenderIcon = nullptr;
+	AText* SCBNameText = nullptr;
+	std::vector<AImageElement*> SCBTypeImages;
+
+	// MovesDetailBox 요소
+	AText* MovePowerText = nullptr;
+	AText* MoveAccuracyText = nullptr;
+	AText* MoveExplainText = nullptr;
 };
 

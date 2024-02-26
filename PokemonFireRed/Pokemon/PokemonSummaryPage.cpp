@@ -98,6 +98,24 @@ void APokemonSummaryPage::BeginPlay()
 		MoveTypeImage->SetImage(RN::TypeBug);
 		MoveTypeImages.push_back(MoveTypeImage);
 	}
+
+	// SmallCommonBox 요소
+	//APokemonElement* SCBMiniImage = nullptr;
+	SCBGenderIcon = CreateImageElement(SmallCommonBox, EPivotType::LeftTop, 105, 3);
+	SCBGenderIcon->SetImage(RN::BigGenderMarkMale);
+	SCBNameText = CreateText(SmallCommonBox, L"POKEMON", EPivotType::LeftTop, EAlignType::Left, 40, 13, EFontColor::White);
+
+	for (int i = 0; i < 2; ++i)
+	{
+		AImageElement* TypeImage = CreateImageElement(SmallCommonBox, EPivotType::LeftTop, 48 + 36 * i, 19);
+		TypeImage->SetImage(RN::TypeNormal);
+		SCBTypeImages.push_back(TypeImage);
+	}
+
+	// MovesDetailBox 요소
+	MovePowerText = CreateText(MovesDetailBox, L"120", EPivotType::RightTop, EAlignType::Right, -46, 19, EFontColor::Black);
+	MoveAccuracyText = CreateText(MovesDetailBox, L"100", EPivotType::RightTop, EAlignType::Right, -46, 33, EFontColor::Black);
+	MoveExplainText = CreateText(MovesDetailBox, L"Hello\nWorld", EPivotType::LeftBot, EAlignType::Left, 7, -50, EFontColor::Black);
 }
 
 void APokemonSummaryPage::RefreshAll()
