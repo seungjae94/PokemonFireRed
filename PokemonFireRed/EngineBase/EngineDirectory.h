@@ -11,6 +11,8 @@ public:
 	UEngineDirectory(const UEnginePath& _Path);
 	~UEngineDirectory();
 
+	void MoveToSearchChild(std::string_view _Path);
+
 	/// <summary>
 	/// 경로 내의 모든 파일을 찾아서 반환.
 	/// </summary>
@@ -22,9 +24,13 @@ public:
 	/// </param>
 	std::list<UEngineFile> AllFile(std::vector<std::string> _Ext = std::vector<std::string>(), bool _Recursive = false);
 
+	std::list<UEngineDirectory> AllDirectory(bool _Recursive = false);
 protected:
 
 private:
+	// 재귀적으로 경로 내의 모든 디렉터리를 찾는 함수
+	void AllDirectoryRecursive(const std::string_view _Path, std::list<UEngineDirectory>& _Result, bool _Recursive = false);
+
 	// 재귀적으로 경로 내의 모든 파일을 찾는 함수 
 	void AllFileRecursive(const std::string_view _Path, std::list<UEngineFile>& _Result, std::vector<std::string> _Ext = std::vector<std::string>(), bool _Recursive = false);
 };

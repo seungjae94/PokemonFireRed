@@ -16,8 +16,7 @@ void UTrainerCardUILevel::BeginPlay()
 	UPokemonLevel::BeginPlay();
 
 	UEngineDirectory CurDir;
-	CurDir.MoveParent();
-	CurDir.Move("Resources");
+	CurDir.MoveToSearchChild("Resources");
 	CurDir.Move("TrainerCardUILevel");
 
 	std::list<UEngineFile> Files = CurDir.AllFile({ ".bmp", ".png" }, true);

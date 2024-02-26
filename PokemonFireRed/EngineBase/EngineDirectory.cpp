@@ -1,6 +1,7 @@
 #include "EngineDirectory.h"
 #include "EngineFile.h"
 #include "EngineString.h"
+#include "EngineDebug.h"
 
 UEngineDirectory::UEngineDirectory()
 {
@@ -19,17 +20,17 @@ UEngineDirectory::~UEngineDirectory()
 void UEngineDirectory::AllFileRecursive(
 	const std::string_view _Path,
 	std::list<UEngineFile>& _Result,
-	std::vector<std::string> _Ext,
-	bool _Recursive)
+	std::vector<std::string> _Ext /*= std::vector<std::string>()*/,
+	bool _Recursive /*= false*/)
 {
 	std::filesystem::directory_iterator DirIter = std::filesystem::directory_iterator(_Path);
+
 	for (const std::filesystem::directory_entry& Entry : DirIter)
 	{
 		std::filesystem::path Path = Entry.path();
 		std::filesystem::path Ext = Entry.path().extension();
 		std::string UpperExt = UEngineString::ToUpper(Ext.string());
 
-		// 디렉터리인 경우 재귀 탐색
 		if (true == Entry.is_directory())
 		{
 			if (true == _Recursive)
@@ -46,8 +47,8 @@ void UEngineDirectory::AllFileRecursive(
 			continue;
 		}
 
-		// UpperExt가 _Ext에 포함되어 있는지 체크한다.
 		bool Check = false;
+
 		for (size_t i = 0; i < _Ext.size(); i++)
 		{
 			if (_Ext[i] == UpperExt)
@@ -65,8 +66,8 @@ void UEngineDirectory::AllFileRecursive(
 }
 
 std::list<UEngineFile> UEngineDirectory::AllFile(
-	std::vector<std::string> _Ext ,
-	bool _Rescursive
+	std::vector<std::string> _Ext /*= std::vector<std::string>()*/,
+	bool _Rescursive /*= false*/
 )
 {
 	std::list<UEngineFile> Result;
@@ -78,4 +79,62 @@ std::list<UEngineFile> UEngineDirectory::AllFile(
 
 	AllFileRecursive(Path.string(), Result, _Ext, _Rescursive);
 	return Result;
+}
+
+std::list<UEngineDirectory> UEngineDirectory::AllDirectory(bool _Recursive/* = false*/)
+{
+	std::list<UEngineDirectory> Result;
+	AllDirectoryRecursive(Path.string(), Result, _Recursive);
+	return Result;
+}
+
+void UEngineDirectory::AllDirectoryRecursive(const std::string_view _Path, std::list<UEngineDirectory>& _Result, bool _Recursive/* = false*/)
+{
+	std::filesystem::directory_iterator DirIter = std::filesystem::directory_iterator(_Path);
+
+	for (const std::filesystem::directory_entry& Entry : DirIter)
+	{
+		std::filesystem::path Path = Entry.path();
+		std::filesystem::path Ext = Entry.path().extension();
+		std::string UpperExt = UEngineString::ToUpper(Ext.string());
+
+		if (true != Entry.is_directory())
+		{
+			continue;
+		}
+
+		_Result.push_back(UEngineDirectory(Path));
+
+		if (true == _Recursive)
+		{
+			AllDirectoryRecursive(Path.string(), _Result, _Recursive);
+		}
+	}
+}
+
+void UEngineDirectory::MoveToSearchChild(std::string_view _Path)
+{
+	while (true)
+	{
+		std::list<UEngineDirectory> Dir = AllDirectory();
+
+		for (UEngineDirectory& _Dir : Dir)
+		{
+			std::string UpperLeft = UEngineString::ToUpper(_Dir.GetFileName());
+			std::string UpperRight = UEngineString::ToUpper(_Path);
+
+			if (UpperLeft == UpperRight)
+			{
+				Move(_Path);
+				return;
+			}
+		}
+
+		if (IsRoot())
+		{
+			MsgBoxAssert("루트디렉토리까지 존재하지 않는 경로 입니다." + std::string(_Path));
+		}
+
+		MoveParent();
+	}
 }

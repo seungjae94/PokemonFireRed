@@ -21,8 +21,7 @@ void UTitleLevel::BeginPlay()
 {
 	UPokemonLevel::BeginPlay();
 
-	CurDir.MoveParent();
-	CurDir.Move("Resources");
+	CurDir.MoveToSearchChild("Resources");
 	CurDir.Move("TitleLevel");
 
 	// 사운드 로드

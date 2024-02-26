@@ -32,8 +32,7 @@ void UMapLevel::BeginPlay()
 	UPokemonLevel::BeginPlay();
 
 	// 기본 경로 설정
-	CurDir.MoveParent();
-	CurDir.Move("Resources");
+	CurDir.MoveToSearchChild("Resources");
 	CurDir.Move("MapLevel");
 
 	// 캐릭터, 트리거, 타일, BGM 로드 (전 게임에 걸쳐 1번만 실행)

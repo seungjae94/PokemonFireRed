@@ -57,8 +57,7 @@ void UPokemonCore::Tick(float _DeltaTime)
 
 void UPokemonCore::LoadUIResources()
 {
-	CurDir.MoveParent();
-	CurDir.Move("Resources");
+	CurDir.MoveToSearchChild("Resources");
 	CurDir.Move("UI");
 
 	std::list<UEngineFile> AllFiles = CurDir.AllFile({ ".png", ".bmp" }, true);

@@ -18,8 +18,7 @@ void UTutorialLevel::BeginPlay()
 	UPokemonLevel::BeginPlay();
 
 	UEngineDirectory CurDir;
-	CurDir.MoveParent();
-	CurDir.Move("Resources");
+	CurDir.MoveToSearchChild("Resources");
 	CurDir.Move("TutorialLevel");
 
 	// 리소스 로드
