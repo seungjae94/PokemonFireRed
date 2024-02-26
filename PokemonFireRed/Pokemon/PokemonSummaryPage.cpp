@@ -205,7 +205,16 @@ void APokemonSummaryPage::RefreshMoveDetailBox()
 	}
 	else
 	{
-		MovePowerText->SetText(Pokemon->GetMovePowerW(Cursor));
+		int MovePower = Pokemon->GetMovePower(Cursor);
+		if (0 == MovePower)
+		{
+			MovePowerText->SetText(L"---");
+		}
+		else
+		{
+			MovePowerText->SetText(Pokemon->GetMovePowerW(Cursor));
+		}
+		
 		MoveAccuracyText->SetText(Pokemon->GetMoveAccuracyW(Cursor));
 		MoveExplainText->SetText(Pokemon->GetMoveExplainW(Cursor));
 	}

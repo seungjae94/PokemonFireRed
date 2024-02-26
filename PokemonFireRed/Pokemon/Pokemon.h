@@ -118,6 +118,11 @@ public:
 	std::wstring GetMoveNameW(int _Index) const;
 	std::wstring GetMovePPW(int _Index) const;
 	std::string GetMoveTypeImageName(int _Index) const;
+	
+	int GetMovePower(int _Index) const
+	{
+		return Moves[_Index]->BasePower;
+	}
 	std::wstring GetMovePowerW(int _Index) const;
 	std::wstring GetMoveAccuracyW(int _Index) const;
 	std::wstring GetMoveExplainW(int _Index) const;
