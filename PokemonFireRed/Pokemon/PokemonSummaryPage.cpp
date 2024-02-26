@@ -40,7 +40,15 @@ void APokemonSummaryPage::BeginPlay()
 
 	MovesBox = CreateImageRenderer(ERenderingOrder::LowerUI);
 	MovesBox->SetImage(RN::PokemonSummaryUIMovesBox);
-	UPokemonUtil::PlaceImageOnScreen(MovesBox, EPivotType::LeftTop, 120, 16);
+	UPokemonUtil::PlaceImageOnScreen(MovesBox, EPivotType::LeftTop, 119, 16);
+
+	MovesDetailBox = CreateImageRenderer(ERenderingOrder::LowerUI);
+	MovesDetailBox->SetImage(RN::PokemonSummaryUIMovesDetailBox);
+	UPokemonUtil::PlaceImageOnScreen(MovesDetailBox, EPivotType::LeftTop, 0, 49);
+
+	SmallCommonBox = CreateImageRenderer(ERenderingOrder::LowerUI);
+	SmallCommonBox->SetImage(RN::PokemonSummaryUISmallCommonBox);
+	UPokemonUtil::PlaceImageOnScreen(SmallCommonBox, EPivotType::LeftTop, 0, 16);
 
 	// CommonBox ¿ä¼Ò
 	NameText = CreateText(CommonBox, L"NAME", EPivotType::LeftTop, EAlignType::Left, 40, 13);
@@ -149,9 +157,11 @@ void APokemonSummaryPage::Reset()
 	State = EPokemonSummaryPageState::Info;
 	Background->SetActive(true);
 	CommonBox->SetActive(true);
+	SmallCommonBox->SetActive(false);
 	InfoBox->SetActive(true);
 	SkillsBox->SetActive(false);
 	MovesBox->SetActive(false);
+	MovesDetailBox->SetActive(false);
 	Nav->SetActive(true);
 	Nav->SetImage(RN::PokemonSummaryUINavInfo);
 }
@@ -232,5 +242,14 @@ void APokemonSummaryPage::MovesTick(float _DeltaTime)
 		SkillsBox->SetActive(true);
 		MovesBox->SetActive(false);
 		return;
+	}
+
+	if (true == UEngineInput::IsDown('Z'))
+	{
+		State = EPokemonSummaryPageState::MovesDetail;
+		Nav->SetImage(RN::PokemonSummaryUINavMovesDetail);
+		CommonBox->SetActive(false);
+		SmallCommonBox->SetActive(true);
+		MovesDetailBox->SetActive(true);
 	}
 }

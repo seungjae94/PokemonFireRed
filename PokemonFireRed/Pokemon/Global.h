@@ -121,6 +121,7 @@ public:
 	static const std::string PokemonUICancelFocused;
 	static const std::string PokemonSummaryUIBackground;
 	static const std::string PokemonSummaryUICommonBox;
+	static const std::string PokemonSummaryUISmallCommonBox;
 	static const std::string PokemonSummaryUIInfoBox;
 	static const std::string PokemonSummaryUISkillsBox;
 	static const std::string PokemonSummaryUIMovesBox;

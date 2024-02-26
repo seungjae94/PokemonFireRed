@@ -84,6 +84,7 @@ const std::string RN::PokemonUICancel = "UPCancel.png";
 const std::string RN::PokemonUICancelFocused = "UPCancelFocused.png";
 const std::string RN::PokemonSummaryUIBackground = "UPSBackground.png";
 const std::string RN::PokemonSummaryUICommonBox = "UPSCommonBox.png";
+const std::string RN::PokemonSummaryUISmallCommonBox = "UPSSmallCommonBox.png";
 const std::string RN::PokemonSummaryUIInfoBox = "UPSInfoBox.png";
 const std::string RN::PokemonSummaryUISkillsBox = "UPSSkillsBox.png";
 const std::string RN::PokemonSummaryUIMovesBox = "UPSMovesBox.png";

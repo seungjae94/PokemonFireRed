@@ -51,6 +51,8 @@ private:
 	UImageRenderer* InfoBox = nullptr;
 	UImageRenderer* SkillsBox = nullptr;
 	UImageRenderer* MovesBox = nullptr;
+	UImageRenderer* MovesDetailBox = nullptr;
+	UImageRenderer* SmallCommonBox = nullptr;
 	UImageRenderer* Nav = nullptr;
 
 	// CommonBox ¿ä¼Ò
