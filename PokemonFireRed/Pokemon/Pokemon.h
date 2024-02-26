@@ -215,7 +215,6 @@ private:
 	int GetAccExpForLevel(int _Level) const;
 	int GetErraticAccExpForLevel(int _Level) const;
 	int GetFluctuatingAccExpForLevel(int _Level) const;
-	void Init();
 	void InitRandomIVs();
 	void InitRandomGender();
 	void InitRandomNature();

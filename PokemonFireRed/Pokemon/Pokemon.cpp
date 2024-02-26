@@ -6,7 +6,14 @@ UPokemon::UPokemon(EPokedexNo _Id, int _Level)
 	: Level(_Level)
 {
 	Species = UPokemonDB::FindSpecies(_Id);
-	Init();
+	Name = UPokemonString::ToUpperW(Species->SpeciesName);
+	Level = 1;
+	AccExp = 0;
+	InitRandomIVs();
+	InitRandomGender();
+	InitRandomNature();
+	InitRandomAbility();
+	CurHp = GetHp();
 }
 
 UPokemon::~UPokemon()
@@ -228,16 +235,4 @@ int UPokemon::GetFluctuatingAccExpForLevel(int _Level) const
 	}
 
 	return UPokemonMath::Pow(_Level, 3) * ((_Level / 2) + 32) / 50;
-}
-
-void UPokemon::Init()
-{
-	Name = UPokemonString::ToUpperW(Species->SpeciesName);
-	Level = 1;
-	AccExp = 0;
-	InitRandomIVs();
-	InitRandomGender();
-	InitRandomNature();
-	InitRandomAbility();
-	CurHp = GetHp();
 }

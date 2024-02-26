@@ -108,7 +108,7 @@ void APokemonSummaryPage::RefreshAll()
 
 	// InfoBox
 	PokedexNoText->SetText(UPokemonString::PadLeft(PokedexNoString, 3, L'0'));
-	SpeciesNameText->SetText(Pokemon->GetSpeciesNameW());
+	SpeciesNameText->SetText(UPokemonString::ToUpperW(Pokemon->GetSpeciesNameW()));
 	TrainerText->SetText(L"RED");
 	TrainerMemo->SetText(Pokemon->GetNatureNameW() + L" nature.");
 
