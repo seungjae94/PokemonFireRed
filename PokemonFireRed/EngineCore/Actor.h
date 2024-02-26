@@ -100,6 +100,7 @@ public:
 
 protected:
 	void Tick(float _DeltaTime) override;
+	void ChildTick(float _DeltaTime);
 private:
 	std::list<UImageRenderer*> Renderers;
 	std::list<UCollision*> Collisions;

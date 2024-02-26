@@ -38,16 +38,20 @@ void ULevel::ActorInit(AActor* _Actor)
 
 void ULevel::LevelTick(float _DeltaTime)
 {
-	for (std::pair<const int, std::list<AActor*>>& Pair : AllActor)
+	for (std::pair<const int, std::list<AActor*>>& OrderListPair : AllActor)
 	{
-		std::list<AActor*>& ActorList = Pair.second;
+		int Order = OrderListPair.first;
+
+		if (false == TimeScale.contains(Order))
+		{
+			TimeScale[Order] = 1.0f;
+		}
+
+		float OrderTime = _DeltaTime * TimeScale[Order];
+
+		std::list<AActor*>& ActorList = OrderListPair.second;
 		for (AActor* Actor : ActorList)
 		{
-			/*if (Actor == nullptr)
-			{
-				MsgBoxAssert("업데이트 구조에서 액터가 nullptr인 경우가 존재합니다.")
-			}*/
-
 			Actor->ActiveUpdate(_DeltaTime);
 			Actor->DestroyUpdate(_DeltaTime);
 
@@ -56,7 +60,8 @@ void ULevel::LevelTick(float _DeltaTime)
 				continue;
 			}
 
-			Actor->Tick(_DeltaTime);
+			Actor->Tick(OrderTime);
+			Actor->ChildTick(OrderTime);
 		}
 	}
 }

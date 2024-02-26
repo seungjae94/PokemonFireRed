@@ -19,13 +19,10 @@ void UImageRenderer::SetOrder(int _Order)
 
 	std::map<int, std::list<UImageRenderer*>>& Renderers = Level->Renderers;
 	
-	// Renderers[Order]에서 this를 제거한다.
 	Renderers[GetOrder()].remove(this);
 
-	// 부모 멤버 Order를 변경한다.
 	UTickObject::SetOrder(_Order);
 
-	// Renderers[Order]에 this를 추가한다.
 	Renderers[GetOrder()].push_back(this);
 }
 
@@ -45,13 +42,13 @@ int UAnimationInfo::Update(float _DeltaTime)
 		}
 	}
 
+	//  6                 6
 	if (Indexs.size() <= CurFrame)
 	{
 		if (1 < Indexs.size())
 		{
 			IsEnd = true;
 		}
-
 		if (true == Loop)
 		{
 			CurFrame = 0;
@@ -74,90 +71,26 @@ void UImageRenderer::Render(float _DeltaTime)
 	{
 		TextRender(_DeltaTime);
 	}
-	else
-	{
+	else {
 		ImageRender(_DeltaTime);
 	}
+
 }
 
-void UImageRenderer::TextRender(float _DeltaTime)
+void UImageRenderer::BeginPlay()
 {
-	FTransform RendererTrans = GetRenderTransForm();
-
-	switch (TextEffect)
-	{
-	case 1:
-		GEngine->MainWindow.GetBackBufferImage()->TextCopy(Text, Font, Size, RendererTrans, TextColor, TextColor2);
-		break;
-	case 2:
-		GEngine->MainWindow.GetBackBufferImage()->TextCopyBold(Text, Font, Size, RendererTrans, TextColor);
-		break;
-	default:
-		GEngine->MainWindow.GetBackBufferImage()->TextCopy(Text, Font, Size, RendererTrans, TextColor);
-		break;
-	}
+	USceneComponent::BeginPlay();
 }
 
-void UImageRenderer::ImageRender(float _DeltaTime)
+void UImageRenderer::Tick(float _DeltaTime)
 {
-
-	if (nullptr == Image)
-	{
-		MsgBoxAssert("이미지가 존재하지 않는 랜더러 입니다");
-	}
+	USceneComponent::Tick(_DeltaTime);
 
 	if (nullptr != CurAnimation)
 	{
 		Image = CurAnimation->Image;
 		InfoIndex = CurAnimation->Update(_DeltaTime);
 	}
-
-	FTransform RendererTrans = GetRenderTransForm();
-
-	EWIndowImageType ImageType = Image->GetImageType();
-
-	switch (ImageType)
-	{
-	case EWIndowImageType::IMG_BMP:
-		GEngine->MainWindow.GetBackBufferImage()->TransCopy(Image, RendererTrans, InfoIndex, TransColor);
-		break;
-	case EWIndowImageType::IMG_PNG:
-		if (0.0f == Angle)
-		{
-			GEngine->MainWindow.GetBackBufferImage()->AlphaCopy(Image, RendererTrans, InfoIndex, TransColor);
-		}
-		else
-		{
-			GEngine->MainWindow.GetBackBufferImage()->PlgCopy(Image, RendererTrans, InfoIndex, Angle * UEngineMath::DToR);
-		}
-		break;
-	default:
-		MsgBoxAssert("투명처리가 불가능한 이미지 입니다.");
-		break;
-	}
-}
-
-FTransform UImageRenderer::GetRenderTransForm()
-{
-	FTransform RendererTrans = GetActorBaseTransform();
-
-	if (true == CameraEffect)
-	{
-		AActor* Actor = GetOwner();
-		ULevel* World = Actor->GetWorld();
-		FVector CameraPos = World->GetCameraPos();
-		CameraPos *= CameraRatio;
-		RendererTrans.AddPosition(-CameraPos);
-	}
-
-	return RendererTrans;
-}
-
-void UImageRenderer::BeginPlay()
-{
-	// UTickObject::BeginPlay가 아무런 동작도 하지 않고 있지만 부모의 함수는 항상 실행해주는 습관을 가져야 한다.
-	// 언제 엔진이 변경돼서 부모 함수에 동작이 추가될지 모르기 때문이다.		
-	USceneComponent::BeginPlay();
 }
 
 void UImageRenderer::SetImage(std::string_view _Name, int _InfoIndex /*= 0*/)
@@ -179,11 +112,10 @@ void UImageRenderer::CreateAnimation(
 	int _Start,
 	int _End,
 	float _Inter,
-	bool _Loop 
+	bool _Loop /*= true*/
 )
 {
 	std::vector<int> Indexs;
-
 	int Size = _End - _Start;
 
 	for (int i = _Start; i <= _End; i++)
@@ -192,14 +124,16 @@ void UImageRenderer::CreateAnimation(
 	}
 
 	CreateAnimation(_AnimationName, _ImageName, Indexs, _Inter, _Loop);
+
 }
 
+
 void UImageRenderer::CreateAnimation(
-	std::string_view _AnimationName, 
-	std::string_view _ImageName, 
-	std::vector<int> _Indexs, 
-	float _Inter, 
-	bool _Loop
+	std::string_view _AnimationName,
+	std::string_view _ImageName,
+	std::vector<int> _Indexs,
+	float _Inter,
+	bool _Loop/* = true*/
 )
 {
 	UWindowImage* FindImage = UEngineResourcesManager::GetInst().FindImg(_ImageName);
@@ -225,6 +159,7 @@ void UImageRenderer::CreateAnimation(
 	Info.CurTime = 0.0f;
 	Info.Loop = _Loop;
 
+	//          12         0
 	int Size = static_cast<int>(_Indexs.size());
 	Info.Times.reserve(Size);
 	for (int i = 0; i <= Size; i++)
@@ -235,12 +170,7 @@ void UImageRenderer::CreateAnimation(
 	Info.Indexs = _Indexs;
 }
 
-void UImageRenderer::ChangeAnimation(
-	std::string_view _AnimationName, 
-	bool _IsForce,
-	int _StartIndex,
-	float _Time
-)
+void UImageRenderer::ChangeAnimation(std::string_view _AnimationName, bool _IsForce /*= false*/, int _StartIndex/* = 0*/, float _Time /*= -1.0f*/)
 {
 	std::string UpperAniName = UEngineString::ToUpper(_AnimationName);
 
@@ -270,4 +200,71 @@ void UImageRenderer::ChangeAnimation(
 void UImageRenderer::AnimationReset()
 {
 	CurAnimation = nullptr;
+}
+
+FTransform UImageRenderer::GetRenderTransForm()
+{
+	FTransform RendererTrans = GetActorBaseTransform();
+
+	if (true == CameraEffect)
+	{
+		AActor* Actor = GetOwner();
+		ULevel* World = Actor->GetWorld();
+		FVector CameraPos = World->GetCameraPos();
+		CameraPos *= CameraRatio;
+		RendererTrans.AddPosition(-CameraPos);
+	}
+
+	return RendererTrans;
+}
+
+void UImageRenderer::TextRender(float _DeltaTime)
+{
+	FTransform RendererTrans = GetRenderTransForm();
+
+	switch (TextEffect)
+	{
+	case 1:
+		GEngine->MainWindow.GetBackBufferImage()->TextCopy(Text, Font, Size, RendererTrans, TextColor, TextColor2);
+		break;
+	case 2:
+		GEngine->MainWindow.GetBackBufferImage()->TextCopyBold(Text, Font, Size, RendererTrans, TextColor);
+		break;
+	default:
+		GEngine->MainWindow.GetBackBufferImage()->TextCopy(Text, Font, Size, RendererTrans, TextColor);
+		break;
+	}
+}
+
+void UImageRenderer::ImageRender(float _DeltaTime)
+{
+
+	if (nullptr == Image)
+	{
+		MsgBoxAssert("이미지가 존재하지 않는 랜더러 입니다");
+	}
+
+	FTransform RendererTrans = GetRenderTransForm();
+
+	EWIndowImageType ImageType = Image->GetImageType();
+
+	switch (ImageType)
+	{
+	case EWIndowImageType::IMG_BMP:
+		GEngine->MainWindow.GetBackBufferImage()->TransCopy(Image, RendererTrans, InfoIndex, TransColor);
+		break;
+	case EWIndowImageType::IMG_PNG:
+		if (0.0f == Angle)
+		{
+			GEngine->MainWindow.GetBackBufferImage()->AlphaCopy(Image, RendererTrans, InfoIndex, TransColor);
+		}
+		else
+		{
+			GEngine->MainWindow.GetBackBufferImage()->PlgCopy(Image, RendererTrans, InfoIndex, Angle * UEngineMath::DToR);
+		}
+		break;
+	default:
+		MsgBoxAssert("투명처리가 불가능한 이미지 입니다.");
+		break;
+	}
 }
