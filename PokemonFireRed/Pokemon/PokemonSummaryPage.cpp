@@ -116,7 +116,7 @@ void APokemonSummaryPage::BeginPlay()
 	MovePowerText = CreateText(MovesDetailBox, L"120", EPivotType::RightTop, EAlignType::Right, -46, 19, EFontColor::Black);
 	MoveAccuracyText = CreateText(MovesDetailBox, L"100", EPivotType::RightTop, EAlignType::Right, -46, 33, EFontColor::Black);
 	MoveExplainText = CreateText(MovesDetailBox, L"Hello\nWorld", EPivotType::LeftBot, EAlignType::Left, 7, -50, EFontColor::Black);
-	MoveSelectCursor = CreateCursor(MovesDetailBox, RN::PokemonSummaryUIMoveFocus, 0, 5, EPivotType::RightTop, 119, -31, 16);
+	MoveFocusCursor = CreateCursor(MovesDetailBox, RN::PokemonSummaryUIMoveFocus, 0, 5, EPivotType::RightTop, 119, -31, 28);
 }
 
 void APokemonSummaryPage::RefreshAll()
@@ -196,9 +196,8 @@ void APokemonSummaryPage::RefreshAll()
 
 void APokemonSummaryPage::RefreshMoveDetailBox()
 {
-	MoveSelectCursor->SetOptionCount(Pokemon->GetMoveCount());
-
-	if (true == MoveSelectCursor->IsCancel())
+	int Cursor = MoveFocusCursor->GetCursor();
+	if (Cursor >= Pokemon->GetMoveCount())
 	{
 		MovePowerText->SetText(L"");
 		MoveAccuracyText->SetText(L"");
@@ -206,7 +205,6 @@ void APokemonSummaryPage::RefreshMoveDetailBox()
 	}
 	else
 	{
-		int Cursor = MoveSelectCursor->GetCursor();
 		MovePowerText->SetText(Pokemon->GetMovePowerW(Cursor));
 		MoveAccuracyText->SetText(Pokemon->GetMoveAccuracyW(Cursor));
 		MoveExplainText->SetText(Pokemon->GetMoveExplainW(Cursor));
@@ -331,5 +329,44 @@ void APokemonSummaryPage::MovesDetailTick(float _DeltaTime)
 		CommonBox->SetActive(true);
 		SmallCommonBox->SetActive(false);
 		MovesDetailBox->SetActive(false);
+		return;
+	}
+
+	if (true == UEngineInput::IsDown(VK_DOWN))
+	{
+		MoveFocusCursor->IncCursor();
+		while (true)
+		{
+			int Cursor = MoveFocusCursor->GetCursor();
+
+			if (Cursor < Pokemon->GetMoveCount() || true == MoveFocusCursor->IsLast())
+			{
+				break;
+			}
+
+			MoveFocusCursor->IncCursor();
+		}
+
+		RefreshMoveDetailBox();
+		return;
+	}
+	
+	if (true == UEngineInput::IsUp(VK_UP))
+	{
+		MoveFocusCursor->DecCursor();
+		while (true)
+		{
+			int Cursor = MoveFocusCursor->GetCursor();
+
+			if (Cursor < Pokemon->GetMoveCount() || true == MoveFocusCursor->IsLast())
+			{
+				break;
+			}
+
+			MoveFocusCursor->DecCursor();
+		}
+
+		RefreshMoveDetailBox();
+		return;
 	}
 }

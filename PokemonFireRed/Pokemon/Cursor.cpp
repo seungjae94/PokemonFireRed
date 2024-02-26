@@ -23,20 +23,8 @@ void ACursor::SetCursor(int _Cursor)
 	Cursor = _Cursor;
 }
 
-void ACursor::EnableCancel(int _CancelPixelX, int _CancelPixelY)
+bool ACursor::IsLast() const
 {
-	HasCancel = true;
-	CancelPixelX = _CancelPixelX;
-	CancelPixelY = _CancelPixelY;
-}
-
-bool ACursor::IsCancel()
-{
-	if (false == HasCancel)
-	{
-		return false;
-	}
-
 	return Cursor == OptionCount - 1;
 }
 

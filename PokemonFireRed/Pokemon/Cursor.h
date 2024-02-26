@@ -39,11 +39,7 @@ public:
 		Cursor = UPokemonMath::Mod(Cursor - 1, OptionCount);
 	}
 
-	void EnableCancel(int _CancelPixelX, int _CancelPixelY);
-
-	void SetImage(std::string_view _ImageName);
-
-	bool IsCancel();
+	bool IsLast() const;
 
 	void FollowContainer() override;
 
