@@ -33,7 +33,7 @@ enum class EPokemonAbility
 struct FPokemonAbility
 {
 public:
-	FPokemonAbility() 
+	FPokemonAbility()
 	{}
 
 	FPokemonAbility(
@@ -43,7 +43,7 @@ public:
 	) : Id(_Id), Name(_Name), Explain(_Explain)
 	{}
 
-	EPokemonAbility Id;
+	EPokemonAbility Id = EPokemonAbility::NONE;
 	std::string Name;
 	std::string Explain;
 
@@ -78,7 +78,7 @@ public:
 		: Id(_Id), ImageName(_ImageName), BigImageName(_BigImageName)
 	{}
 
-	EPokemonGender Id;
+	EPokemonGender Id = EPokemonGender::Male;
 	std::string ImageName;
 	std::string BigImageName;
 };
@@ -125,7 +125,7 @@ public:
 		float _NAtk, float _NDef, float _NSpAtk, float _NSpDef, float _NSpeed
 	) : Id(_Id), Name(_Name), NAtk(_NAtk), NDef(_NDef), NSpAtk(_NSpAtk), NSpDef(_NSpDef), NSpeed(_NSpeed)
 	{}
-	EPokemonNature Id;
+	EPokemonNature Id = EPokemonNature::NONE;
 	std::string Name;
 	float NAtk = 1.0f;
 	float NDef = 1.0f;
@@ -160,7 +160,7 @@ public:
 	)
 		: Id(_Id), ImageName(_ImageName)
 	{}
-	EPokemonStatus Id;
+	EPokemonStatus Id = EPokemonStatus::Normal;
 	std::string ImageName;
 };
 
@@ -198,7 +198,7 @@ public:
 		: Id(_Id), ImageName(_ImageName)
 	{}
 
-	EPokemonType Id;
+	EPokemonType Id = EPokemonType::Normal;
 	std::string ImageName;
 };
 
@@ -234,20 +234,20 @@ public:
 		PP(_PP), BasePower(_BasePower), Accuracy(_Accuracy)
 	{}
 
-	EPokemonMove Id;
+	EPokemonMove Id = EPokemonMove::None;
+	EPokemonType Type = EPokemonType::Normal;
 	std::string Name;
 	std::string Explain;
-	EPokemonType Type;
 	int PP = 0;
 	int BasePower = 0;
 	int Accuracy = 100;
 
-	std::wstring GetNameW()
+	std::wstring GetNameW() const
 	{
 		UEngineString::AnsiToUniCode(Name);
 	}
 
-	std::wstring GetExplainW()
+	std::wstring GetExplainW() const
 	{
 		UEngineString::AnsiToUniCode(Explain);
 	}
