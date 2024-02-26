@@ -161,6 +161,7 @@ void APokemonSummaryPage::Tick(float _DeltaTime)
 		SkillsTick(_DeltaTime);
 		break;
 	case EPokemonSummaryPageState::Moves:
+		MovesTick(_DeltaTime);
 		break;
 	case EPokemonSummaryPageState::MovesDetail:
 		break;
@@ -210,6 +211,18 @@ void APokemonSummaryPage::SkillsTick(float _DeltaTime)
 		Nav->SetImage(RN::PokemonSummaryUINavMoves);
 		MovesBox->SetActive(true);
 		SkillsBox->SetActive(false);
+		return;
+	}
+}
+
+void APokemonSummaryPage::MovesTick(float _DeltaTime)
+{
+	if (true == UEngineInput::IsDown(VK_LEFT))
+	{
+		State = EPokemonSummaryPageState::Skills;
+		Nav->SetImage(RN::PokemonSummaryUINavSkills);
+		SkillsBox->SetActive(true);
+		MovesBox->SetActive(false);
 		return;
 	}
 }

@@ -40,6 +40,7 @@ private:
 	EPokemonSummaryPageState State = EPokemonSummaryPageState::Info;
 	void InfoTick(float _DeltaTime);
 	void SkillsTick(float _DeltaTime);
+	void MovesTick(float _DeltaTime);
 
 	// ตฅภฬลอ
 	UPokemon* Pokemon = nullptr;
