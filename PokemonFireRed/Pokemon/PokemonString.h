@@ -1,4 +1,5 @@
 #pragma once
+#include <EngineBase/EngineString.h>
 #include <string>
 
 class UPokemonString
@@ -26,6 +27,11 @@ public:
 		std::wstring Result = _Text.data();
 		Result.insert(0, _Width - _Text.size(), _PadChar);
 		return Result;
+	}
+
+	static std::wstring ToUpperW(std::string_view _Text)
+	{
+		return UEngineString::AnsiToUniCode(UEngineString::ToUpper(_Text));
 	}
 
 protected:

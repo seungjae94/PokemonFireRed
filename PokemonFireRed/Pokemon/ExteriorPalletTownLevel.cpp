@@ -4,7 +4,7 @@
 #include "DialogueActor.h"
 #include "Text.h"
 #include "PlayerData.h"
-#include "AllPokemons.h"
+#include "Pokemon.h"
 #include "SoundManager.h"
 
 UExteriorPalletTownLevel::UExteriorPalletTownLevel()
@@ -103,9 +103,9 @@ and POKéMON as data via PC.)"
 	});
 
 	// 디버그용 포켓몬 추가 이벤트
-	UBulbasaur Pokemon0;
-	UCharmander Pokemon1;
-	USquirtle Pokemon2;
+	UPokemon Pokemon0 = UPokemon(EPokedexNo::Bulbasaur);
+	UPokemon Pokemon1 = UPokemon(EPokedexNo::Charmander);
+	UPokemon Pokemon2 = UPokemon(EPokedexNo::Squirtle);
 	Pokemon0.SetCurHp(Pokemon0.GetHp() / 2);
 	Pokemon1.SetCurHp(Pokemon1.GetHp() / 6);
 	Pokemon2.HealAll();

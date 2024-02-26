@@ -79,6 +79,9 @@
     <Filter Include="4. Trigger">
       <UniqueIdentifier>{5afc955f-9fe3-4a6d-bd92-3b7ac4681b20}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3. Data\Pokemon\DB">
+      <UniqueIdentifier>{eced8de5-9ab0-456a-abb7-bf3bcec28c58}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PokemonCore.h">
@@ -207,20 +210,11 @@
     <ClInclude Include="Pokemon.h">
       <Filter>3. Data\Pokemon</Filter>
     </ClInclude>
-    <ClInclude Include="Bulbasaur.h">
-      <Filter>3. Data\Pokemon</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerData.h">
       <Filter>3. Data</Filter>
     </ClInclude>
     <ClInclude Include="FadeLevelChanger.h">
       <Filter>4. Trigger</Filter>
-    </ClInclude>
-    <ClInclude Include="Charmander.h">
-      <Filter>3. Data\Pokemon</Filter>
-    </ClInclude>
-    <ClInclude Include="Squirtle.h">
-      <Filter>3. Data\Pokemon</Filter>
     </ClInclude>
     <ClInclude Include="ScrollBar.h">
       <Filter>2. UI\Element</Filter>
@@ -249,9 +243,6 @@
     <ClInclude Include="AllUIElements.h">
       <Filter>0. Util</Filter>
     </ClInclude>
-    <ClInclude Include="AllPokemons.h">
-      <Filter>0. Util</Filter>
-    </ClInclude>
     <ClInclude Include="PokemonString.h">
       <Filter>0. Util</Filter>
     </ClInclude>
@@ -267,8 +258,11 @@
     <ClInclude Include="SoundManager.h">
       <Filter>1. Event</Filter>
     </ClInclude>
-    <ClInclude Include="PokemonData.h">
-      <Filter>3. Data\Pokemon</Filter>
+    <ClInclude Include="PokemonDB.h">
+      <Filter>3. Data\Pokemon\DB</Filter>
+    </ClInclude>
+    <ClInclude Include="PokemonStruct.h">
+      <Filter>3. Data\Pokemon\DB</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -398,20 +392,11 @@
     <ClCompile Include="Pokemon.cpp">
       <Filter>3. Data\Pokemon</Filter>
     </ClCompile>
-    <ClCompile Include="Bulbasaur.cpp">
-      <Filter>3. Data\Pokemon</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerData.cpp">
       <Filter>3. Data</Filter>
     </ClCompile>
     <ClCompile Include="FadeLevelChanger.cpp">
       <Filter>4. Trigger</Filter>
-    </ClCompile>
-    <ClCompile Include="Charmander.cpp">
-      <Filter>3. Data\Pokemon</Filter>
-    </ClCompile>
-    <ClCompile Include="Squirtle.cpp">
-      <Filter>3. Data\Pokemon</Filter>
     </ClCompile>
     <ClCompile Include="ScrollBar.cpp">
       <Filter>2. UI\Element</Filter>
@@ -452,8 +437,8 @@
     <ClCompile Include="SoundManager.cpp">
       <Filter>1. Event</Filter>
     </ClCompile>
-    <ClCompile Include="PokemonData.cpp">
-      <Filter>3. Data\Pokemon</Filter>
+    <ClCompile Include="PokemonDB.cpp">
+      <Filter>3. Data\Pokemon\DB</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

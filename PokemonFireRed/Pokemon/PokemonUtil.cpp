@@ -141,11 +141,11 @@ void UPokemonUtil::CreatePokemonMiniAnimations(UImageRenderer* _Renderer)
 		_Renderer->SetImage(RN::PokemonMini);
 	}
 
-	for (EPokedexNo No : UPokemonData::GetImplementedSpeciesNo())
+	for (EPokedexNo No : UPokemonDB::GetImplementedSpeciesNo())
 	{
 		int Idx = static_cast<int>(No);
 		_Renderer->CreateAnimation(
-			Global::PokemonMiniPrefix + UPokemonData::GetSpeciesName(No),
+			Global::PokemonMiniPrefix + UPokemonDB::GetSpeciesName(No),
 			RN::PokemonMini, 
 			Idx * 2 - 2, Idx * 2 - 1, 1.0f / 6, true);
 	}
@@ -164,11 +164,11 @@ void UPokemonUtil::CreatePokemonFrontAnimations(UImageRenderer* _Renderer)
 		_Renderer->SetImage(RN::PokemonFront);
 	}
 
-	for (EPokedexNo No : UPokemonData::GetImplementedSpeciesNo())
+	for (EPokedexNo No : UPokemonDB::GetImplementedSpeciesNo())
 	{
 		int Idx = static_cast<int>(No) * 2  - 2;
 		_Renderer->CreateAnimation(
-			Global::PokemonFrontPrefix + UPokemonData::GetSpeciesName(No),
+			Global::PokemonFrontPrefix + UPokemonDB::GetSpeciesName(No),
 			RN::PokemonFront,
 			Idx, Idx, 1.0f / 6, false);
 	}

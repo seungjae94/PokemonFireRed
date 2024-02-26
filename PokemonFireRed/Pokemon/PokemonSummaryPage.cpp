@@ -94,9 +94,6 @@ void APokemonSummaryPage::RefreshAll()
 {
 	EPokedexNo PokedexNo = Pokemon->GetPokedexNo();
 	std::wstring PokedexNoString = std::to_wstring(static_cast<int>(PokedexNo));
-	ENature Nature = Pokemon->GetNature();
-	std::vector<EPokemonType> Types = Pokemon->GetTypes();
-	EGender Gender = Pokemon->GetGender();
 
 	// CommonBox
 	NameText->SetText(Pokemon->GetNameW());
@@ -111,9 +108,9 @@ void APokemonSummaryPage::RefreshAll()
 
 	// InfoBox
 	PokedexNoText->SetText(UPokemonString::PadLeft(PokedexNoString, 3, L'0'));
-	SpeciesNameText->SetText(Pokemon->GetSpeciesW());
+	SpeciesNameText->SetText(Pokemon->GetSpeciesNameW());
 	TrainerText->SetText(L"RED");
-	TrainerMemo->SetText(Pokemon->GetNatureW() + L" nature.");
+	TrainerMemo->SetText(Pokemon->GetNatureNameW() + L" nature.");
 
 	std::vector<std::string> TypeImageNames = Pokemon->GetTypeImageNames();
 	for (int i = 0; i < 2; ++i)

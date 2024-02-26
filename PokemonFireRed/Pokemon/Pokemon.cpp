@@ -2,12 +2,33 @@
 #include "PokemonMath.h"
 #include <random>
 
-UPokemon::UPokemon()
+UPokemon::UPokemon(EPokedexNo _Id, int _Level)
+	: Level(_Level)
 {
+	Species = UPokemonDB::FindSpecies(_Id);
+	Init();
 }
 
 UPokemon::~UPokemon()
 {
+}
+
+std::vector<std::string> UPokemon::GetTypeImageNames(bool _PlaceHolder) const
+{
+	std::vector<std::string> Result;
+
+	int TypeSize = static_cast<int>(Types.size());
+
+	for (int i = 0; i < TypeSize; ++i)
+	{
+		Result.push_back(Types[i]->ImageName);
+	}
+	for (int i = TypeSize; i < 2; ++i)
+	{
+		Result.push_back(RN::TypePlaceHolder);
+	}
+
+	return Result;
 }
 
 void UPokemon::Heal(int _Value)
@@ -27,127 +48,32 @@ void UPokemon::Heal(int _Value)
 
 int UPokemon::GetHp() const
 {
-	return (2 * BHp + IHp + EHp / 4) * Level / 100 + Level + 10;
+	return (2 * Species->BHp + IHp + EHp / 4) * Level / 100 + Level + 10;
 }
 
 int UPokemon::GetAtk() const
 {
-	float N = 1.0f;
-	switch (Nature)
-	{
-	case ENature::Lonely:
-	case ENature::Brave:
-	case ENature::Adamant:
-	case ENature::Naughty:
-		N = 1.1f;
-		break;
-	case ENature::Bold:
-	case ENature::Timid:
-	case ENature::Modest:
-	case ENature::Calm:
-		N = 0.9f;
-		break;
-	default:
-		break;
-	}
-
-	return UPokemonMath::Floor(((2 * BAtk + IAtk + EAtk / 4) * Level / 100 + 5) * N);
+	return UPokemonMath::Floor(((2 * Species->BAtk + IAtk + EAtk / 4) * Level / 100 + 5) * Nature->NAtk);
 }
 
 int UPokemon::GetDef() const
 {
-	float N = 1.0f;
-	switch (Nature)
-	{
-	case ENature::Bold:
-	case ENature::Relaxed:
-	case ENature::Impish:
-	case ENature::Lax:
-		N = 1.1f;
-		break;
-	case ENature::Lonely:
-	case ENature::Hasty:
-	case ENature::Mild:
-	case ENature::Gentle:
-		N = 0.9f;
-		break;
-	default:
-		break;
-	}
-
-	return UPokemonMath::Floor(((2 * BDef + IDef + EDef / 4) * Level / 100 + 5) * N);
+	return UPokemonMath::Floor(((2 * Species->BDef + IDef + EDef / 4) * Level / 100 + 5) * Nature->NDef);
 }
 
 int UPokemon::GetSpAtk() const
 {
-	float N = 1.0f;
-	switch (Nature)
-	{
-	case ENature::Modest:
-	case ENature::Mild:
-	case ENature::Quiet:
-	case ENature::Rash:
-		N = 1.1f;
-		break;
-	case ENature::Adamant:
-	case ENature::Impish:
-	case ENature::Jolly:
-	case ENature::Careful:
-		N = 0.9f;
-		break;
-	default:
-		break;
-	}
-
-	return UPokemonMath::Floor(((2 * BSpAtk + ISpAtk + ESpAtk / 4) * Level / 100 + 5) * N);
+	return UPokemonMath::Floor(((2 * Species->BSpAtk + ISpAtk + ESpAtk / 4) * Level / 100 + 5) * Nature->NSpAtk);
 }
 
 int UPokemon::GetSpDef() const
 {
-	float N = 1.0f;
-	switch (Nature)
-	{
-	case ENature::Calm:
-	case ENature::Gentle:
-	case ENature::Sassy:
-	case ENature::Careful:
-		N = 1.1f;
-		break;
-	case ENature::Naughty:
-	case ENature::Lax:
-	case ENature::Naive:
-	case ENature::Rash:
-		N = 0.9f;
-		break;
-	default:
-		break;
-	}
-
-	return UPokemonMath::Floor(((2 * BSpDef + ISpDef + ESpDef / 4) * Level / 100 + 5) * N);
+	return UPokemonMath::Floor(((2 * Species->BSpDef + ISpDef + ESpDef / 4) * Level / 100 + 5) * Nature->NSpDef);
 }
 
 int UPokemon::GetSpeed() const
 {
-	float N = 1.0f;
-	switch (Nature)
-	{
-	case ENature::Timid:
-	case ENature::Hasty:
-	case ENature::Jolly:
-	case ENature::Naive:
-		N = 1.1f;
-		break;
-	case ENature::Brave:
-	case ENature::Relaxed:
-	case ENature::Quiet:
-	case ENature::Sassy:
-		N = 0.9f;
-		break;
-	default:
-		break;
-	}
-
-	return UPokemonMath::Floor(((2 * BSpeed + ISpeed + ESpeed / 4) * Level / 100 + 5) * N);
+	return UPokemonMath::Floor(((2 * Species->BSpeed + ISpeed + ESpeed / 4) * Level / 100 + 5) * Nature->NSpeed);
 }
 
 void UPokemon::GainExp(int _Exp)
@@ -198,7 +124,7 @@ int UPokemon::GetExp() const
 	return GetExpSize() - GetNextLevelExp();
 }
 
-void UPokemon::SetRandomIVs()
+void UPokemon::InitRandomIVs()
 {
 	IHp = UPokemonMath::RandomInt(0, 31);
 	IAtk = UPokemonMath::RandomInt(0, 31);
@@ -208,31 +134,34 @@ void UPokemon::SetRandomIVs()
 	ISpeed = UPokemonMath::RandomInt(0, 31);
 }
 
-void UPokemon::SetRandomGender(float _MaleRatio)
+void UPokemon::InitRandomGender()
 {
 	float GenderInt = UPokemonMath::Random(0.0f, 1.0f);
+	float MaleRatio = Species->MaleRatio;
 
-	if (GenderInt <= _MaleRatio)
+	if (GenderInt <= MaleRatio)
 	{
-		Gender = EGender::Male;
+		Gender = UPokemonDB::FindGender(EPokemonGender::Male);
 	}
 	else
 	{
-		Gender = EGender::Female;
+		Gender = UPokemonDB::FindGender(EPokemonGender::Female);
 	}
 }
 
-void UPokemon::SetRandomNature()
+void UPokemon::InitRandomNature()
 {
-	int NatureInt = UPokemonMath::RandomInt(1, static_cast<int>(ENature::MAX) - 1);
-	Nature = static_cast<ENature>(NatureInt);
+	int NatureInt = UPokemonMath::RandomInt(1, static_cast<int>(EPokemonNature::MAX) - 1);
+	EPokemonNature NatureId = static_cast<EPokemonNature>(NatureInt);
+	Nature = UPokemonDB::FindNature(NatureId);
 }
 
-void UPokemon::SetRandomAbility(std::vector<EAbility> _Abilities)
+void UPokemon::InitRandomAbility()
 {
-	int AbilitySize = static_cast<int>(_Abilities.size());
+	int AbilitySize = static_cast<int>(Species->AbilityCandidates.size());
 	int AbilityInt = UPokemonMath::RandomInt(0, AbilitySize - 1);
-	Ability = _Abilities[AbilityInt];
+	EPokemonAbility AbilityId = Species->AbilityCandidates[AbilityInt];
+	Ability = UPokemonDB::FindAbility(AbilityId);
 }
 
 int UPokemon::GetAccExpForLevel(int _Level) const
@@ -244,7 +173,7 @@ int UPokemon::GetAccExpForLevel(int _Level) const
 
 	double Result = 0;
 
-	switch (ExpGroup)
+	switch (Species->ExpGroup)
 	{
 	case EExperienceGroup::Erratic:
 		return GetErraticAccExpForLevel(_Level);
@@ -299,4 +228,16 @@ int UPokemon::GetFluctuatingAccExpForLevel(int _Level) const
 	}
 
 	return UPokemonMath::Pow(_Level, 3) * ((_Level / 2) + 32) / 50;
+}
+
+void UPokemon::Init()
+{
+	Name = UPokemonString::ToUpperW(Species->SpeciesName);
+	Level = 1;
+	AccExp = 0;
+	InitRandomIVs();
+	InitRandomGender();
+	InitRandomNature();
+	InitRandomAbility();
+	CurHp = GetHp();
 }

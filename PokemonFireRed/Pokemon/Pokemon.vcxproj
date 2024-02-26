@@ -170,7 +170,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AllPokemons.h" />
     <ClInclude Include="AllUIElements.h" />
     <ClInclude Include="AnimatedFlower.h">
       <SubType>
@@ -181,14 +180,6 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="BlackScreen.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="Bulbasaur.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="Charmander.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -308,7 +299,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="PokemonData.h">
+    <ClInclude Include="PokemonDB.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -332,6 +323,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="PokemonStruct.h" />
     <ClInclude Include="PokemonString.h">
       <SubType>
       </SubType>
@@ -357,10 +349,6 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="ScrollBar.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="Squirtle.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -427,14 +415,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="BlackScreen.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="Bulbasaur.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="Charmander.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -554,7 +534,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="PokemonData.cpp">
+    <ClCompile Include="PokemonDB.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -603,10 +583,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="ScrollBar.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="Squirtle.cpp">
       <SubType>
       </SubType>
     </ClCompile>

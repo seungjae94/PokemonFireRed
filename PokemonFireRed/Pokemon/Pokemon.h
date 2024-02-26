@@ -4,15 +4,15 @@
 #include <map>
 #include <string>
 #include <EngineBase/EngineDebug.h>
-#include <EngineBase/EngineString.h>
+#include "PokemonString.h"
 #include "Global.h"
-#include "PokemonData.h"
+#include "PokemonDB.h"
 
 class UPokemon
 {
 public:
 	// constructor destructor
-	UPokemon();
+	UPokemon(EPokedexNo _Id, int _Level = 1);
 	~UPokemon();
 
 	// delete Function
@@ -52,93 +52,56 @@ public:
 
 	EPokedexNo GetPokedexNo() const
 	{
-		return PokedexNo;
+		return Species->PokedexNo;
 	}
 
-	std::string GetSpeciesA() const
+	std::string GetSpeciesNameA() const
 	{
-		return UPokemonData::GetSpeciesName(PokedexNo);
+		return Species->SpeciesName;
 	}
 
-	std::wstring GetSpeciesW() const
+	std::wstring GetSpeciesNameW() const
 	{
-		return UPokemonData::GetSpeciesNameW(PokedexNo);
+		return UEngineString::AnsiToUniCode(Species->SpeciesName);
 	}
 
-	ENature GetNature() const
+	std::wstring GetNatureNameW() const
 	{
-		return Nature;
+		return UEngineString::AnsiToUniCode(Nature->Name);
 	}
 
-	std::wstring GetNatureW() const
+	std::string GetAbilityNameA() const
 	{
-		return UPokemonData::GetNatureNameW(Nature);
+		return Ability->Name;
 	}
 
-	EAbility GetAbility() const
+	std::wstring GetAbilityNameW() const
 	{
-		return Ability;
-	}
-
-	std::string GetAbilityA() const
-	{
-		return UPokemonData::GetAbilityName(Ability);
-	}
-
-	std::wstring GetAbilityW() const
-	{
-		return UPokemonData::GetAbilityNameW(Ability);
+		return UEngineString::AnsiToUniCode(Ability->Name);
 	}
 
 	std::wstring GetAbilityUpperW() const
 	{
-		std::string UpperA = UEngineString::ToUpper(GetAbilityA());
+		std::string UpperA = UEngineString::ToUpper(GetAbilityNameA());
 		return UEngineString::AnsiToUniCode(UpperA);
 	}
 
 	std::wstring GetAbilityExplainW() const
 	{
-		return UPokemonData::GetAbilityExplainTextW(Ability);
-	}
-
-	EGender GetGender() const
-	{
-		return Gender;
+		return UEngineString::AnsiToUniCode(Ability->Explain);
 	}
 
 	std::string GetGenderImageName() const
 	{
-		return UPokemonData::GetGenderImageName(Gender);
+		return Gender->ImageName;
 	}
 
 	std::string GetBigGenderImageName() const
 	{
-		return UPokemonData::GetBigGenderImageName(Gender);
+		return Gender->BigImageName;
 	}
 
-	std::vector<EPokemonType> GetTypes() const
-	{
-		return Types;
-	}
-
-	std::vector<std::string> GetTypeImageNames(bool _PlaceHolder = true) const
-	{
-		std::vector<std::string> Result;
-
-		int TypeSize = static_cast<int>(Types.size());
-
-		for (int i = 0; i < TypeSize; ++i)
-		{
-			std::string ImageName = UPokemonData::GetTypeImageName(Types[i]);
-			Result.push_back(ImageName);
-		}
-		for (int i = TypeSize; i < 2; ++i)
-		{
-			Result.push_back(RN::TypePlaceHolder);
-		}
-
-		return Result;
-	}
+	std::vector<std::string> GetTypeImageNames(bool _PlaceHolder = true) const;
 
 	void Heal(int _Value);
 
@@ -213,47 +176,25 @@ public:
 	}
 
 protected:
-	// Base Stat
-	int BHp = 0;
-	int BAtk = 0;
-	int BDef = 0;
-	int BSpAtk = 0;
-	int BSpDef = 0;
-	int BSpeed = 0;
 
-	// Effort Value Yield (기절했을 때 상대에게 주는 노력치)
-	int YHp = 0;
-	int YAtk = 0;
-	int YDef = 0;
-	int YSpAtk = 0;
-	int YSpDef = 0;
-	int YSpeed = 0;
-
+private:
 	// 기본 정보
 	std::wstring Name;
-	EPokedexNo PokedexNo = EPokedexNo::None;
+	const FPokemonGender* Gender = nullptr;
+
+	int Id = 0;
 	int Level = 0;
 	int AccExp = 0;
 	int CurHp = 0;
 
-	// 상세 정보
-	EAbility Ability = EAbility::NONE;
-	EExperienceGroup ExpGroup = EExperienceGroup::NONE;
-	std::vector<EPokemonType> Types;
-	ENature Nature = ENature::NONE;
-	int CatchRate = 0;
-	int Friendship = 0;
+	// 종족 정보
+	const FPokemonSpecies* Species = nullptr;
 
-	// 함수
-	void SetRandomIVs();
-	void SetRandomGender(float _MaleRatio);
-	void SetRandomNature();
-	void SetRandomAbility(std::vector<EAbility> _Abilities);
-	int GetAccExpForLevel(int _Level) const;
-	int GetErraticAccExpForLevel(int _Level) const;
-	int GetFluctuatingAccExpForLevel(int _Level) const;
+	// 전투 관련 정보
+	std::vector<FPokemonType*> Types;
+	const FPokemonNature* Nature = nullptr;
+	const FPokemonAbility* Ability = nullptr;
 
-private:
 	// Individual Value
 	int IHp = 0;
 	int IAtk = 0;
@@ -270,9 +211,14 @@ private:
 	int ESpDef = 0;
 	int ESpeed = 0;
 
-	// 기타
-	EGender Gender = EGender::Male;
-
-
+	// 함수
+	int GetAccExpForLevel(int _Level) const;
+	int GetErraticAccExpForLevel(int _Level) const;
+	int GetFluctuatingAccExpForLevel(int _Level) const;
+	void Init();
+	void InitRandomIVs();
+	void InitRandomGender();
+	void InitRandomNature();
+	void InitRandomAbility();
 };
 
