@@ -8,7 +8,7 @@ UPokemon::UPokemon(EPokedexNo _Id, int _Level)
 	Species = UPokemonDB::FindSpecies(_Id);
 	Name = UPokemonString::ToUpperW(Species->SpeciesName);
 	Level = _Level;
-	AccExp = 0;
+	AccExp = GetAccExpForLevel(_Level);
 	InitMoves();
 	InitRandomIVs();
 	InitRandomGender();
