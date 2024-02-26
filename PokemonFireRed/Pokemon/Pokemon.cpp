@@ -15,6 +15,10 @@ UPokemon::UPokemon(EPokedexNo _Id, int _Level)
 	InitRandomNature();
 	InitRandomAbility();
 	CurHp = GetHp();
+	for (int i = 0; i < GetMoveCount(); ++i)
+	{
+		MoveCurPPs.push_back(Moves[i]->PP);
+	}
 }
 
 UPokemon::~UPokemon()
@@ -53,6 +57,17 @@ std::wstring UPokemon::GetMovePPW(int _Index) const
 	}
 
 	return std::to_wstring(Moves[_Index]->PP);
+}
+
+std::wstring UPokemon::GetMoveCurPPW(int _Index) const
+{
+	if (_Index < 0 || _Index >= GetMoveCount())
+	{
+		MsgBoxAssert("인덱스 " + std::to_string(_Index) + "가 보유한 Move 범위를 벗어납니다");
+		return L"";
+	}
+
+	return std::to_wstring(MoveCurPPs[_Index]);
 }
 
 std::string UPokemon::GetMoveTypeImageName(int _Index) const

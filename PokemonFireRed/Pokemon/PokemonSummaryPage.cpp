@@ -165,7 +165,7 @@ void APokemonSummaryPage::RefreshAll()
 	for (int i = 0; i < Pokemon->GetMoveCount(); ++i)
 	{
 		MoveNameTexts[i]->SetText(Pokemon->GetMoveNameW(i));
-		MovePPTexts[i]->SetText(Pokemon->GetMovePPW(i));
+		MovePPTexts[i]->SetText(Pokemon->GetMoveCurPPW(i) + L"/" + Pokemon->GetMovePPW(i));
 		MoveTypeImages[i]->SetImage(Pokemon->GetMoveTypeImageName(i));
 	}
 	for (int i = Pokemon->GetMoveCount(); i < 4; ++i)
