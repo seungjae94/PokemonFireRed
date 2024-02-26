@@ -69,7 +69,6 @@ int UPlayerData::GetIdNo()
 	}
 
 	return IdNo;
-
 }
 
 

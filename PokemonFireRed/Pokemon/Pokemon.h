@@ -39,12 +39,10 @@ public:
 	{
 		return CurHp;
 	}
-
 	std::wstring GetCurHpW() const
 	{
 		return std::to_wstring(GetCurHp());
 	}
-
 	void SetCurHp(int _CurHp)
 	{
 		CurHp = _CurHp;
@@ -53,6 +51,10 @@ public:
 	EPokedexNo GetPokedexNo() const
 	{
 		return Species->PokedexNo;
+	}
+	std::wstring GetPokedexNoW() const
+	{
+		return UPokemonString::PadLeft(std::to_wstring(static_cast<int>(GetPokedexNo())), 3, L'0');
 	}
 
 	std::string GetSpeciesNameA() const
@@ -181,8 +183,6 @@ private:
 	// 기본 정보
 	std::wstring Name;
 	const FPokemonGender* Gender = nullptr;
-
-	int Id = 0;
 	int Level = 0;
 	int AccExp = 0;
 	int CurHp = 0;
@@ -215,6 +215,7 @@ private:
 	int GetAccExpForLevel(int _Level) const;
 	int GetErraticAccExpForLevel(int _Level) const;
 	int GetFluctuatingAccExpForLevel(int _Level) const;
+	void InitRandomId();
 	void InitRandomIVs();
 	void InitRandomGender();
 	void InitRandomNature();

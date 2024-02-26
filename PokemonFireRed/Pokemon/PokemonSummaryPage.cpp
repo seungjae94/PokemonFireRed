@@ -3,6 +3,7 @@
 #include "PokemonString.h"
 #include "PokemonLevel.h"
 #include "PokemonUtil.h"
+#include "PlayerData.h"
 
 APokemonSummaryPage::APokemonSummaryPage()
 {
@@ -93,11 +94,11 @@ void APokemonSummaryPage::BeginPlay()
 void APokemonSummaryPage::RefreshAll()
 {
 	EPokedexNo PokedexNo = Pokemon->GetPokedexNo();
-	std::wstring PokedexNoString = std::to_wstring(static_cast<int>(PokedexNo));
 
 	// CommonBox
 	NameText->SetText(Pokemon->GetNameW());
 	LevelText->SetText(std::to_wstring(Pokemon->GetLevel()));
+	IdNoText->SetText(UPlayerData::GetIdNoW());
 	FrontImage->SetPokemon(Pokemon);
 	if (nullptr == GenderIcon)
 	{
@@ -107,7 +108,7 @@ void APokemonSummaryPage::RefreshAll()
 	UPokemonUtil::PlaceImageOnScreen(GenderIcon, EPivotType::LeftTop, 105, 19);
 
 	// InfoBox
-	PokedexNoText->SetText(UPokemonString::PadLeft(PokedexNoString, 3, L'0'));
+	PokedexNoText->SetText(Pokemon->GetPokedexNoW());
 	SpeciesNameText->SetText(UPokemonString::ToUpperW(Pokemon->GetSpeciesNameW()));
 	TrainerText->SetText(L"RED");
 	TrainerMemo->SetText(Pokemon->GetNatureNameW() + L" nature.");

@@ -2,6 +2,7 @@
 #include <vector>
 #include <map>
 #include "Pokemon.h"
+#include "PokemonString.h"
 
 enum class EPokedexState
 {
@@ -65,6 +66,10 @@ public:
 	}
 
 	static int GetIdNo();
+	static std::wstring GetIdNoW()
+	{
+		return UPokemonString::PadLeft(std::to_wstring(GetIdNo()), 5, L'0');
+	}
 
 	static std::wstring GetNickNameW()
 	{
