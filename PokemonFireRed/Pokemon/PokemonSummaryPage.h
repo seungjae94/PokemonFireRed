@@ -59,7 +59,7 @@ private:
 	// CommonBox 요소
 	AText* NameText = nullptr;
 	AText* LevelText = nullptr;
-	UImageRenderer* GenderIcon = nullptr;
+	AImageElement* GenderIcon = nullptr;
 	APokemonElement* FrontImage = nullptr;
 
 	// InfoBox 요소

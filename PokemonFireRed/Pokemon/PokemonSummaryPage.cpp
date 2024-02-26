@@ -53,6 +53,7 @@ void APokemonSummaryPage::BeginPlay()
 	// CommonBox 요소
 	NameText = CreateText(CommonBox, L"NAME", EPivotType::LeftTop, EAlignType::Left, 40, 13);
 	LevelText = CreateText(CommonBox, L"99", EPivotType::LeftTop, EAlignType::Left, 14, 13);
+	GenderIcon = CreateImageElement(CommonBox, EPivotType::LeftTop, 105, 3);
 	FrontImage = CreatePokemonElement(CommonBox, EPokemonElementType::Front, EPivotType::RightTop, -28, 17);
 
 	// InfoBox 요소
@@ -108,12 +109,7 @@ void APokemonSummaryPage::RefreshAll()
 	LevelText->SetText(std::to_wstring(Pokemon->GetLevel()));
 	IdNoText->SetText(UPlayerData::GetIdNoW());
 	FrontImage->SetPokemon(Pokemon);
-	if (nullptr == GenderIcon)
-	{
-		GenderIcon = CreateImageRenderer(ERenderingOrder::UpperUI);
-	}
 	GenderIcon->SetImage(Pokemon->GetBigGenderImageName());
-	UPokemonUtil::PlaceImageOnScreen(GenderIcon, EPivotType::LeftTop, 105, 19);
 
 	// InfoBox
 	PokedexNoText->SetText(Pokemon->GetPokedexNoW());
