@@ -276,6 +276,7 @@ void AText::InitAlignRuleMap()
 	AlignRuleMap[EFontSize::Normal][L'‘'] = { "SpecialLeftSingleQuotation", 0, 0, -7 };
 	AlignRuleMap[EFontSize::Normal][L'’'] = { "SpecialRightDoubleQuotation", 0, 0, -7 };
 	AlignRuleMap[EFontSize::Normal][L'/'] = { "SpecialSlash", 0, 0, 0 };
+	AlignRuleMap[EFontSize::Normal][L'-'] = { "SpecialMinus", 0, 0, -4 };
 
 	AlignRuleMap[EFontSize::Mini][L'.'] = { "SpecialPeriod", 1, 1, 0 };
 	AlignRuleMap[EFontSize::Mini][L','] = { "SpecialComma", 1, 1, 2 };

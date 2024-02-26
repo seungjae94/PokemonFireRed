@@ -80,5 +80,10 @@ private:
 	AText* AbilityExplainText = nullptr;
 	AScrollBar* HpBar = nullptr;
 	AScrollBar* ExpBar = nullptr;
+
+	// MovesBox ¿ä¼Ò
+	std::vector<AText*> MoveNameTexts;
+	std::vector<AText*> MovePPTexts;
+	std::vector<AImageElement*> MoveTypeImages;
 };
 

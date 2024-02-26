@@ -37,89 +37,26 @@ void APokemonSummaryPage::BeginPlay()
 	SkillsBox->SetImage(RN::PokemonSummaryUISkillsBox);
 	UPokemonUtil::PlaceImageOnScreen(SkillsBox, EPivotType::LeftTop, 0, 16);
 
+	MovesBox = CreateImageRenderer(ERenderingOrder::LowerUI);
+	MovesBox->SetImage(RN::PokemonSummaryUIMovesBox);
+	UPokemonUtil::PlaceImageOnScreen(MovesBox, EPivotType::LeftTop, 120, 16);
+
 	// CommonBox 요소
-	NameText =  CreateText(
-		CommonBox,
-		L"NAME",
-		EPivotType::LeftTop,
-		EAlignType::Left,
-		40, 13
-	);
-	LevelText = CreateText(
-		CommonBox,
-		L"99",
-		EPivotType::LeftTop,
-		EAlignType::Left,
-		14, 13
-	);
-	FrontImage = CreatePokemonElement(
-		CommonBox,
-		EPokemonElementType::Front,
-		EPivotType::RightTop,
-		-28, 17
-	);
+	NameText = CreateText(CommonBox, L"NAME", EPivotType::LeftTop, EAlignType::Left, 40, 13);
+	LevelText = CreateText(CommonBox, L"99", EPivotType::LeftTop, EAlignType::Left, 14, 13);
+	FrontImage = CreatePokemonElement(CommonBox, EPokemonElementType::Front, EPivotType::RightTop, -28, 17);
 
 	// InfoBox 요소
-	PokedexNoText = CreateText(
-		InfoBox,
-		L"000",
-		EPivotType::RightTop,
-		EAlignType::Left,
-		-72, 15,
-		EFontColor::Black
-	);
-	SpeciesNameText = CreateText(
-		InfoBox,
-		L"UNDEFINED",
-		EPivotType::RightTop,
-		EAlignType::Left,
-		-72, 30,
-		EFontColor::Black
-	);
-
-	TrainerText = CreateText(
-		InfoBox,
-		L"RED",
-		EPivotType::RightTop,
-		EAlignType::Left,
-		-72, 60,
-		EFontColor::Black
-	);
-
-	IdNoText = CreateText(
-		InfoBox,
-		L"00000",
-		EPivotType::RightTop,
-		EAlignType::Left,
-		-72, 75,
-		EFontColor::Black
-	);
-
-	ItemText = CreateText(
-		InfoBox,
-		L"NONE",
-		EPivotType::RightTop,
-		EAlignType::Left,
-		-72, 90,
-		EFontColor::Black
-	);
-
-	TrainerMemo = CreateText(
-		InfoBox,
-		L"XXXX Nature.",
-		EPivotType::LeftBot,
-		EAlignType::Left,
-		8, -33,
-		EFontColor::Black
-	);
+	PokedexNoText = CreateText(InfoBox, L"000", EPivotType::RightTop, EAlignType::Left, -72, 15, EFontColor::Black);
+	SpeciesNameText = CreateText(InfoBox, L"UNDEFINED", EPivotType::RightTop, EAlignType::Left, -72, 30, EFontColor::Black);
+	TrainerText = CreateText(InfoBox, L"RED", EPivotType::RightTop, EAlignType::Left, -72, 60, EFontColor::Black);
+	IdNoText = CreateText(InfoBox, L"00000", EPivotType::RightTop, EAlignType::Left, -72, 75, EFontColor::Black);
+	ItemText = CreateText(InfoBox, L"NONE", EPivotType::RightTop, EAlignType::Left, -72, 90, EFontColor::Black);
+	TrainerMemo = CreateText(InfoBox, L"XXXX Nature.", EPivotType::LeftBot, EAlignType::Left, 8, -33, EFontColor::Black);
 
 	for (int i = 0; i < 2; ++i)
 	{
-		AImageElement* TypeImage = CreateImageElement(
-			InfoBox,
-			EPivotType::RightTop,
-			-41 + 34 * i, 35
-		);
+		AImageElement* TypeImage = CreateImageElement(InfoBox, EPivotType::RightTop, -41 + 34 * i, 35);
 		TypeImage->SetImage(RN::TypePlaceHolder);
 		TypeImages.push_back(TypeImage);
 	}
@@ -137,6 +74,20 @@ void APokemonSummaryPage::BeginPlay()
 	AbilityExplainText = CreateText(SkillsBox, L"Prevents loss of accuracy.", EPivotType::LeftBot, EAlignType::Left, 10, -5, EFontColor::Black);
 	HpBar = CreateScrollBar(SkillsBox, EScrollType::Hp, 100, 100, EPivotType::RightTop, -55, 18);
 	ExpBar = CreateScrollBar(SkillsBox, EScrollType::Exp, 100, 100, EPivotType::RightBot, -71, -29);
+
+	// MovesBox 요소
+	for (int i = 0; i < 4; ++i)
+	{
+		AText* MoveNameText = CreateText(MovesBox, L"-", EPivotType::LeftTop, EAlignType::Left, 43, 16 + 28 * i, EFontColor::Black);
+		MoveNameTexts.push_back(MoveNameText);
+
+		AText* MovePPText = CreateText(MovesBox, L"99/99", EPivotType::RightTop, EAlignType::Left, -33, 27 + 28 * i, EFontColor::Black);
+		MovePPTexts.push_back(MovePPText);
+
+		AImageElement* MoveTypeImage = CreateImageElement(MovesBox, EPivotType::LeftTop, 4, 5 + 28 * i);
+		MoveTypeImage->SetImage(RN::TypeBug);
+		MoveTypeImages.push_back(MoveTypeImage);
+	}
 }
 
 void APokemonSummaryPage::RefreshAll()
@@ -194,7 +145,7 @@ void APokemonSummaryPage::Reset()
 	CommonBox->SetActive(true);
 	InfoBox->SetActive(true);
 	SkillsBox->SetActive(false);
-	//MovesBox->SetActive(false);
+	MovesBox->SetActive(false);
 	Nav->SetActive(true);
 	Nav->SetImage(RN::PokemonSummaryUINavInfo);
 }
@@ -251,6 +202,15 @@ void APokemonSummaryPage::SkillsTick(float _DeltaTime)
 		State = EPokemonSummaryPageState::Info;
 		Nav->SetImage(RN::PokemonSummaryUINavInfo);
 		InfoBox->SetActive(true);
+		SkillsBox->SetActive(false);
+		return;
+	}
+
+	if (true == UEngineInput::IsDown(VK_RIGHT))
+	{
+		State = EPokemonSummaryPageState::Moves;
+		Nav->SetImage(RN::PokemonSummaryUINavMoves);
+		MovesBox->SetActive(true);
 		SkillsBox->SetActive(false);
 		return;
 	}
