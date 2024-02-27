@@ -2,6 +2,8 @@
 #include <EngineBase/EngineDirectory.h>
 #include "CsvReader.h"
 
+std::map<std::string, int> UPokemonDB::NameResolver;
+
 std::map<EPokedexNo, FPokemonSpecies> UPokemonDB::Species;
 std::map<EPokemonMove, FPokemonMove> UPokemonDB::Moves;
 std::map<EPokemonNature, FPokemonNature> UPokemonDB::Natures;
@@ -19,6 +21,7 @@ public:
 	PokemonDBInitiator()
 	{
 		CurDir.MoveToSearchChild("GameData");
+		InitNameResolver();
 		GeneratePokemons();
 		GenerateMoves();
 		GenerateAbilities();
@@ -28,6 +31,27 @@ public:
 		GenerateWildPokemonZones();
 	}
 	
+	void InitNameResolver()
+	{
+		UPokemonDB::NameResolver[""] = 0;
+
+		std::string FilePath = CurDir.AppendPath("NameResolver.csv");
+		UCsvReader Reader = UCsvReader(FilePath);
+		std::vector<std::vector<std::string>> Lines = Reader.ReadLines();
+
+		for (std::vector<std::string>& Line : Lines)
+		{
+			int IntValue = std::stoi(Line[0]);
+			for (int i = 1; i < Line.size(); ++i)
+			{
+				if (false == Line[i].empty())
+				{
+					UPokemonDB::NameResolver[UEngineString::ToUpper(Line[i])] = IntValue;
+				}
+			}
+		}
+	}
+
 	void GeneratePokemons() {
 		// 레벨업 스킬 추가
 		std::map<EPokedexNo, std::map<int, std::vector<EPokemonMove>>> LevelUpMoveMap;
@@ -38,9 +62,9 @@ public:
 
 		for (std::vector<std::string>& Line : LevelUpMoveLines)
 		{
-			EPokedexNo Id = static_cast<EPokedexNo>(std::stoi(Line[1]));
-			int Level = std::stoi(Line[2]);
-			EPokemonMove MoveId = static_cast<EPokemonMove>(std::stoi(Line[3]));
+			EPokedexNo Id = static_cast<EPokedexNo>(UPokemonDB::Resolve(Line[0]));
+			int Level = std::stoi(Line[1]);
+			EPokemonMove MoveId = static_cast<EPokemonMove>(std::stoi(Line[2]));
 
 			LevelUpMoveMap[Id][Level].push_back(MoveId);
 		}
@@ -74,7 +98,7 @@ public:
 			
 			for (int i = 18; i <= 19; ++i)
 			{
-				int LineInt = std::stoi(Line[i]);
+				int LineInt = UPokemonDB::Resolve(Line[i]);
 
 				if (0 == LineInt)
 				{
@@ -86,7 +110,7 @@ public:
 
 			for (int i = 20; i <= 22; ++i)
 			{
-				int LineInt = std::stoi(Line[i]);
+				int LineInt = UPokemonDB::Resolve(Line[i]);
 
 				if (0 == LineInt)
 				{
@@ -120,7 +144,7 @@ public:
 			Move.Id = static_cast<EPokemonMove>(std::stoi(Line[0]));
 			Move.Name = Line[1];
 			Move.Explain = Line[2];
-			Move.Type = static_cast<EPokemonType>(std::stoi(Line[3]));
+			Move.Type = static_cast<EPokemonType>(UPokemonDB::Resolve(Line[3]));
 			Move.PP = std::stoi(Line[4]);
 			Move.BasePower = std::stoi(Line[5]);
 			Move.Accuracy = std::stoi(Line[6]);
@@ -206,7 +230,7 @@ public:
 
 			UWildPokemonZone& Zone = UPokemonDB::WildPokemonZones[MapName][ZoneId];
 			FWildPokemonEncounter Encounter;
-			Encounter.Id = static_cast<EPokedexNo>(std::stoi(Line[2]));
+			Encounter.Id = static_cast<EPokedexNo>(UPokemonDB::Resolve(Line[2]));
 			Encounter.Prop = std::stof(Line[3]);
 			Encounter.MinLevel = std::stoi(Line[4]);
 			Encounter.MaxLevel = std::stoi(Line[5]);

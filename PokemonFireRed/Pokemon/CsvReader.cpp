@@ -25,12 +25,11 @@ std::vector<std::string> UCsvReader::ReadLine()
 	std::getline(FileStream, Buffer, '\n');
 
 	return ComplexSplit(Buffer);
-	//return UPokemonString::Split(Buffer, ',');
 }
 
 std::vector<std::vector<std::string>> UCsvReader::ReadLines()
 {
-	ReadLine();
+	std::vector<std::string>&& TitleLine = ReadLine();
 
 	std::vector<std::vector<std::string>> Lines;
 
@@ -38,7 +37,8 @@ std::vector<std::vector<std::string>> UCsvReader::ReadLines()
 	{
 		std::vector<std::string>&& Line = ReadLine();
 
-		if (0 == Line.size())
+		// 제목 라인보다 크기가 작으면 종료
+		if (Line.size() < TitleLine.size())
 		{
 			break;
 		}
@@ -147,10 +147,7 @@ std::vector<std::string> UCsvReader::ComplexSplit(std::string_view _Line)
 		}
 	}
 
-	if (Buffer.size() > 0)
-	{
-		Result.push_back(Buffer);
-	}
+	Result.push_back(Buffer);
 
 	return Result;
 }

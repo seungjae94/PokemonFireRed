@@ -2,6 +2,7 @@
 #include <map>
 #include <vector>
 #include <list>
+#include <EngineBase/EngineDebug.h>
 #include <EngineBase/EngineString.h>
 #include "Global.h"
 #include "WildPokemonZone.h"
@@ -64,6 +65,21 @@ public:
 protected:
 
 private:
+	// NameResolver
+	static std::map<std::string, int> NameResolver;
+	static int Resolve(std::string_view _Name)
+	{
+		std::string UpperName = UEngineString::ToUpper(_Name);
+		
+		if (false == NameResolver.contains(UpperName))
+		{
+			MsgBoxAssert("UPokemonDB::NameResolver에서 에러가 발생했습니다.");
+			return -1;
+		}
+
+		return NameResolver[UpperName];
+	}
+
 	// 포켓몬
 	static std::map<EPokedexNo, FPokemonSpecies> Species;
 	static std::map<EPokemonMove, FPokemonMove> Moves;
@@ -74,7 +90,7 @@ private:
 	static std::map<EPokemonType, FPokemonType> Types;
 	static std::list<EPokedexNo> ImplementedSpeciesNo;
 
-	// 수풀 : Zones[맵 이름][번호] = (Zone 객체)
+	// Zones[맵 이름][번호] = (Zone 객체)
 	static std::map<std::string, std::map<int, UWildPokemonZone>> WildPokemonZones;
 
 	// constructor destructor
