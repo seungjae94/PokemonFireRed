@@ -123,6 +123,7 @@ private:
 
 	// 충돌 체크
 	bool IsLedge(FTileVector _Direction);
+	bool IsGrass();
 	bool IsPixelCollider(FTileVector _Direction);
 	bool IsComponentCollider(FTileVector _Direction);
 	bool IsCollider(FTileVector _Direction);

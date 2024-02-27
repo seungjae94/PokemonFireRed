@@ -1,5 +1,6 @@
 #pragma once
 #include <map>
+#include <vector>
 #include <list>
 #include <EngineBase/EngineString.h>
 #include "Global.h"
@@ -58,6 +59,7 @@ public:
 protected:
 
 private:
+	// 포켓몬
 	static std::map<EPokedexNo, FPokemonSpecies> Species;
 	static std::map<EPokemonMove, FPokemonMove> Moves;
 	static std::map<EPokemonNature, FPokemonNature> Natures;
@@ -65,8 +67,10 @@ private:
 	static std::map<EPokemonGender, FPokemonGender> Genders;
 	static std::map<EPokemonStatus, FPokemonStatus> Status;
 	static std::map<EPokemonType, FPokemonType> Types;
-
 	static std::list<EPokedexNo> ImplementedSpeciesNo;
+
+	// 수풀 : GrassInfos[맵 이름][번호] = (GrassInfo 객체)
+	static std::map <std::string, std::vector<FGrassInfo>> GrassInfos;
 
 	// constructor destructor
 	UPokemonDB() {}

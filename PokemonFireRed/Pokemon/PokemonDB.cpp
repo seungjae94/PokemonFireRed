@@ -20,6 +20,7 @@ public:
 		GenerateNatures();
 		GenerateTypes();
 		GenerateGenders();
+		GenerateGrassInfos();
 	}
 	
 	void GeneratePokemons() {
@@ -210,6 +211,20 @@ public:
 		UPokemonDB::Genders[EPokemonGender::Female] = FPokemonGender(
 			EPokemonGender::Female, RN::GenderMarkFemale, RN::BigGenderMarkFemale
 		);
+	}
+	
+	void GenerateGrassInfos()
+	{
+		//// ExteriorPalletTownLevel
+		//// 1번 도로(0): 구구, 꼬렛
+		//// 22번 도로(1): 꼬렛, 망키, 깨비참
+		//// 2번 도로(2): 구구, 꼬렛, 캐터피, 뿔충이
+		//FGrassInfo Info;
+		//Info.AddWildPokemonInfo({EPokedexNo::});
+
+		//// 상록숲
+		//// 0: 캐터피, 단데기, 뿔충이, 피카츄
+
 	}
 };
 

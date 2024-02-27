@@ -7,8 +7,42 @@ enum class EPokedexNo
 {
 	None,
 	Bulbasaur = 1,
+	Ivysaur = 2,
+	Venusaur = 3,
 	Charmander = 4,
+	Charmeleon = 5,
+	Charizard = 6,
 	Squirtle = 7,
+	Wartortle = 8,
+	Blastoise = 9,
+	Caterpie = 10,
+	Metapod = 11,
+	Butterfree = 12,
+	Weedle = 13,
+	Kakuna = 14,
+	Beedrill = 15,
+	Pidgey = 16,
+	Pidgeotto = 17,
+	Pidgeot = 18,
+	Rattata = 19,
+	Raticate = 20,
+	Spearow = 21,
+	Fearow = 22,
+	Ekans = 23,
+	Arbok = 24,
+	Pikachu = 25,
+	Raichu = 26,
+	Sandshrew = 27,
+	Sandslash = 28,
+	NidoranFemale = 29,
+	Nidorina = 30,
+	Nidoqueen = 31,
+	NidoranMale = 32,
+	Nidorino = 33,
+	Nidoking = 34,
+
+
+
 };
 
 enum class EPokemonAbility
@@ -320,3 +354,33 @@ public:
 	int Friendship = 0;
 };
 
+// 수풀 정보를 담는 구조체
+struct FWildPokemonInfo
+{
+public:
+	FWildPokemonInfo()
+	{}
+
+	FWildPokemonInfo(
+		EPokedexNo _Id, float _Prop, int _MinLevel, int _MaxLevel
+	)
+	{}
+
+	EPokedexNo Id = EPokedexNo::None;
+	float Prop = 0.0f;
+	int MinLevel = 1;
+	int MaxLevel = 100;
+};
+
+struct FGrassInfo
+{
+public:
+	FGrassInfo() {}
+
+	std::vector<FWildPokemonInfo> WildPokemonInfos;
+
+	void AddWildPokemonInfo(const FWildPokemonInfo& _Info)
+	{
+		WildPokemonInfos.push_back(_Info);
+	}
+};

@@ -86,6 +86,9 @@ bool UWindowImage::Load(UWindowImage* _Image)
 			MsgBoxAssert("Png 형식 리소스 로드에 실패했습니다.");
 		}
 
+		delete pBitMap;
+		delete pImage;
+
 		ImageType = EWIndowImageType::IMG_PNG;
 	}
 
@@ -162,6 +165,9 @@ bool UWindowImage::LoadFolder(UWindowImage* _Image)
 			{
 				MsgBoxAssert("Png 형식 리소스 로드에 실패했습니다.");
 			}
+
+			delete pBitMap;
+			delete pImage;
 
 			ImageType = EWIndowImageType::IMG_PNG;
 		}

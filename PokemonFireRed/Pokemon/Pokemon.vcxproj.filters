@@ -82,6 +82,15 @@
     <Filter Include="3. Data\Pokemon\DB">
       <UniqueIdentifier>{eced8de5-9ab0-456a-abb7-bf3bcec28c58}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Level\5. BagUILevel">
+      <UniqueIdentifier>{f6f386fd-7840-4b40-a1ac-fb2df2c32aae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level\6. PokedexUILevel">
+      <UniqueIdentifier>{8c7696ec-b90f-4918-83f7-92b65a26d7e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level\7. BattleLevel">
+      <UniqueIdentifier>{b0506102-f58f-4ae7-983f-b06abe5ca310}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PokemonCore.h">
@@ -264,6 +273,9 @@
     <ClInclude Include="PokemonStruct.h">
       <Filter>3. Data\Pokemon\DB</Filter>
     </ClInclude>
+    <ClInclude Include="BattleLevel.h">
+      <Filter>Level\7. BattleLevel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PokemonCore.cpp">
@@ -439,6 +451,9 @@
     </ClCompile>
     <ClCompile Include="PokemonDB.cpp">
       <Filter>3. Data\Pokemon\DB</Filter>
+    </ClCompile>
+    <ClCompile Include="BattleLevel.cpp">
+      <Filter>Level\7. BattleLevel</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

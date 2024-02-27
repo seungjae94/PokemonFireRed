@@ -581,10 +581,9 @@ bool APlayer::IsLedge(FTileVector _Direction)
 {
 	// ¸Ê(ÀÌ¹ÌÁö ÁÂ»ó´Ü)À» ±âÁØÀ¸·Î ÇÑ Å¸°ÙÀÇ »ó´ë ÁÂÇ¥
 	FVector MapRelativeTargetPos = (GetActorLocation() - Map->GetActorLocation()) + _Direction.ToFVector();
-	FVector MapRelativeTargetPosInImage = MapRelativeTargetPos;
 	Color8Bit Color = Map->GetCollisionImage()->GetColor(
-		MapRelativeTargetPosInImage.iX(),
-		MapRelativeTargetPosInImage.iY(),
+		MapRelativeTargetPos.iX(),
+		MapRelativeTargetPos.iY(),
 		Color8Bit::WhiteA
 	);
 
@@ -594,6 +593,18 @@ bool APlayer::IsLedge(FTileVector _Direction)
 	}
 
 	return false;
+}
+
+bool APlayer::IsGrass()
+{
+	FVector MapRelativeCurPos = GetActorLocation() - Map->GetActorLocation();
+	Color8Bit Color = Map->GetCollisionImage()->GetColor(
+		MapRelativeCurPos.iX(),
+		MapRelativeCurPos.iY(),
+		Color8Bit::WhiteA
+	);
+
+	return Color.G == 0 ;
 }
 
 bool APlayer::IsPixelCollider(FTileVector _Direction)
