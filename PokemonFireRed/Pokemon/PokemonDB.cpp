@@ -1,4 +1,7 @@
 #include "PokemonDB.h"
+//#include <EngineBase/EngineDebug.h>
+#include <EngineBase/EngineDirectory.h>
+#include "CsvReader.h"
 
 std::map<EPokedexNo, FPokemonSpecies> UPokemonDB::Species;
 std::map<EPokemonMove, FPokemonMove> UPokemonDB::Moves;
@@ -14,6 +17,7 @@ class PokemonDBInitiator
 public:
 	PokemonDBInitiator()
 	{
+		CurDir.MoveToSearchChild("GameData");
 		GeneratePokemons();
 		GenerateMoves();
 		GenerateAbilities();
@@ -24,50 +28,85 @@ public:
 	}
 	
 	void GeneratePokemons() {
-		FPokemonSpecies Bulbasaur = FPokemonSpecies(
-			EPokedexNo::Bulbasaur, "BULBASAUR",
-			45, 49, 49, 65, 65, 45,
-			0, 0, 0, 1, 0, 0,
-			EExperienceGroup::MediumSlow,
-			{ EPokemonType::Grass, EPokemonType::Poison },
-			{ EPokemonAbility::Overgrow },
-			7.0f / 8, 45, 70
-		);
-		Bulbasaur.AddLevelUpMove(0, EPokemonMove::Tackle);
-		Bulbasaur.AddLevelUpMove(4, EPokemonMove::Growl);
-		Bulbasaur.AddLevelUpMove(7, EPokemonMove::LeechSeed);
-		UPokemonDB::Species[EPokedexNo::Bulbasaur] = Bulbasaur;
-		UPokemonDB::ImplementedSpeciesNo.push_back(EPokedexNo::Bulbasaur);
+		std::string PokemonFilePath = CurDir.AppendPath("Pokemon.csv");
+		UCsvReader PokemonFileReader = UCsvReader(PokemonFilePath);
+		std::vector<std::vector<std::string>> PokemonLines = PokemonFileReader.ReadLines();
 
-		FPokemonSpecies Charmander = FPokemonSpecies(
-			EPokedexNo::Charmander, "CHARMANDER",
-			39, 52, 43, 60, 50, 65,
-			0, 0, 0, 0, 0, 1,
-			EExperienceGroup::MediumSlow,
-			{ EPokemonType::Fire },
-			{ EPokemonAbility::Blaze },
-			7.0f / 8, 45, 70
-		);
-		Charmander.AddLevelUpMove(0, EPokemonMove::Scratch);
-		Charmander.AddLevelUpMove(1, EPokemonMove::Growl);
-		Charmander.AddLevelUpMove(7, EPokemonMove::Ember);
-		UPokemonDB::Species[EPokedexNo::Charmander] = Charmander;
-		UPokemonDB::ImplementedSpeciesNo.push_back(EPokedexNo::Charmander);
+		// 레벨업 스킬 추가
+		std::map<EPokedexNo, std::map<int, std::vector<EPokemonMove>>> LevelUpMoveMap;
 
-		FPokemonSpecies Squirtle = FPokemonSpecies(
-			EPokedexNo::Squirtle, "SQUIRTLE",
-			44, 48, 65, 50, 64, 43,
-			0, 0, 1, 0, 0, 0,
-			EExperienceGroup::MediumSlow,
-			{ EPokemonType::Water },
-			{ EPokemonAbility::Torrent },
-			7.0f / 8, 45, 70
-		);
-		Squirtle.AddLevelUpMove(0, EPokemonMove::Tackle);
-		Squirtle.AddLevelUpMove(4, EPokemonMove::TailWhip);
-		Squirtle.AddLevelUpMove(7, EPokemonMove::Bubble);
-		UPokemonDB::Species[EPokedexNo::Squirtle] = Squirtle;
-		UPokemonDB::ImplementedSpeciesNo.push_back(EPokedexNo::Squirtle);
+		std::string LevelUpMoveFilePath = CurDir.AppendPath("LevelUpMove.csv");
+		UCsvReader LevelUpMoveFileReader = UCsvReader(LevelUpMoveFilePath);
+		std::vector<std::vector<std::string>> LevelUpMoveLines = LevelUpMoveFileReader.ReadLines();
+
+		for (std::vector<std::string>& Line : LevelUpMoveLines)
+		{
+			EPokedexNo Id = static_cast<EPokedexNo>(std::stoi(Line[1]));
+			int Level = std::stoi(Line[2]);
+			EPokemonMove MoveId = static_cast<EPokemonMove>(std::stoi(Line[3]));
+
+			LevelUpMoveMap[Id][Level].push_back(MoveId);
+		}
+
+		// 포켓몬 종족 추가
+		for (std::vector<std::string>& Line : PokemonLines)
+		{
+			FPokemonSpecies Species = FPokemonSpecies();
+			Species.Id = static_cast<EPokedexNo>(std::stoi(Line[0]));
+			Species.Name = Line[1];
+			Species.BHp = std::stoi(Line[2]);
+			Species.BAtk = std::stoi(Line[3]);
+			Species.BDef = std::stoi(Line[4]);
+			Species.BSpAtk = std::stoi(Line[5]);
+			Species.BSpDef = std::stoi(Line[6]);
+			Species.BSpeed = std::stoi(Line[7]);
+			Species.YHp = std::stoi(Line[8]);
+			Species.YAtk = std::stoi(Line[9]);
+			Species.YDef = std::stoi(Line[10]);
+			Species.YSpAtk = std::stoi(Line[11]);
+			Species.YSpDef = std::stoi(Line[12]);
+			Species.YSpeed = std::stoi(Line[13]);
+			Species.ExpGroup = static_cast<EExperienceGroup>(std::stoi(Line[14]));
+			Species.MaleRatio = std::stof(Line[15]);
+			Species.CatchRate = std::stoi(Line[16]);
+			Species.Friendship = std::stoi(Line[17]);
+			
+			for (int i = 18; i <= 19; ++i)
+			{
+				int LineInt = std::stoi(Line[i]);
+
+				if (0 == LineInt)
+				{
+					continue;
+				}
+
+				Species.TypeIds.push_back(static_cast<EPokemonType>(LineInt));
+			}
+
+			for (int i = 20; i <= 22; ++i)
+			{
+				int LineInt = std::stoi(Line[i]);
+
+				if (0 == LineInt)
+				{
+					continue;
+				}
+
+				Species.AbilityCandidateIds.push_back(static_cast<EPokemonAbility>(LineInt));
+			}
+
+			for (const std::pair<int, std::vector<EPokemonMove>>& Pair : LevelUpMoveMap[Species.Id])
+			{
+				int Level = Pair.first;
+				for (EPokemonMove MoveId : Pair.second)
+				{
+					Species.AddLevelUpMove(Level, MoveId);
+				}
+			}
+
+			UPokemonDB::Species[Species.Id] = Species;
+			UPokemonDB::ImplementedSpeciesNo.push_back(Species.Id);
+		}
 	}
 	void GenerateMoves() {
 		UPokemonDB::Moves[EPokemonMove::Absorb] = FPokemonMove(
@@ -226,6 +265,8 @@ public:
 		//// 0: 캐터피, 단데기, 뿔충이, 피카츄
 
 	}
+
+	UEngineDirectory CurDir;
 };
 
 PokemonDBInitiator Init;

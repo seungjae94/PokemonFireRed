@@ -276,6 +276,9 @@
     <ClInclude Include="BattleLevel.h">
       <Filter>Level\7. BattleLevel</Filter>
     </ClInclude>
+    <ClInclude Include="CsvReader.h">
+      <Filter>0. Util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PokemonCore.cpp">
@@ -454,6 +457,9 @@
     </ClCompile>
     <ClCompile Include="BattleLevel.cpp">
       <Filter>Level\7. BattleLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="CsvReader.cpp">
+      <Filter>0. Util</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

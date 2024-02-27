@@ -53,7 +53,7 @@ public:
 
 	static std::string GetSpeciesName(EPokedexNo _Id)
 	{
-		return Species[_Id].SpeciesName;
+		return Species[_Id].Name;
 	}
 
 protected:

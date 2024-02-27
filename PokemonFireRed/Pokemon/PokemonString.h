@@ -2,6 +2,8 @@
 #include <EngineBase/EngineString.h>
 #include <cwctype>
 #include <string>
+#include <sstream>
+#include <vector>
 
 class UPokemonString
 {
@@ -46,6 +48,10 @@ public:
 	{
 		return ToUpperW(UEngineString::AnsiToUniCode(_Text));
 	}
+
+	static std::vector<std::string> Split(const std::string& _Str, char _Delimeter = '\n');
+	static std::vector<std::wstring> Split(std::wstring_view _Str, wchar_t _Delimeter = L'\n');
+
 
 protected:
 

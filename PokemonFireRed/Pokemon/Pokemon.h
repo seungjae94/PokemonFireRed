@@ -50,7 +50,7 @@ public:
 
 	EPokedexNo GetPokedexNo() const
 	{
-		return Species->PokedexNo;
+		return Species->Id;
 	}
 	std::wstring GetPokedexNoW() const
 	{
@@ -59,12 +59,12 @@ public:
 
 	std::string GetSpeciesNameA() const
 	{
-		return Species->SpeciesName;
+		return Species->Name;
 	}
 
 	std::wstring GetSpeciesNameW() const
 	{
-		return UEngineString::AnsiToUniCode(Species->SpeciesName);
+		return UEngineString::AnsiToUniCode(Species->Name);
 	}
 
 	std::wstring GetNatureNameW() const

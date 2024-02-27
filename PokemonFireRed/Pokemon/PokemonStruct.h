@@ -47,7 +47,7 @@ enum class EPokedexNo
 
 enum class EPokemonAbility
 {
-	NONE,
+	None,
 	Overgrow,
 	Blaze,
 	Torrent,
@@ -77,7 +77,7 @@ public:
 	) : Id(_Id), Name(_Name), Explain(_Explain)
 	{}
 
-	EPokemonAbility Id = EPokemonAbility::NONE;
+	EPokemonAbility Id = EPokemonAbility::None;
 	std::string Name;
 	std::string Explain;
 
@@ -119,7 +119,7 @@ public:
 
 enum class EPokemonNature
 {
-	NONE,		// Inc (x1.1)	Dec (x0.9)
+	None,		// Inc (x1.1)	Dec (x0.9)
 	Adamant,	// Atk			SpAtk
 	Bashful,	// None			None
 	Bold,		// Def			Atk
@@ -159,7 +159,7 @@ public:
 		float _NAtk, float _NDef, float _NSpAtk, float _NSpDef, float _NSpeed
 	) : Id(_Id), Name(_Name), NAtk(_NAtk), NDef(_NDef), NSpAtk(_NSpAtk), NSpDef(_NSpDef), NSpeed(_NSpeed)
 	{}
-	EPokemonNature Id = EPokemonNature::NONE;
+	EPokemonNature Id = EPokemonNature::None;
 	std::string Name;
 	float NAtk = 1.0f;
 	float NDef = 1.0f;
@@ -200,6 +200,7 @@ public:
 
 enum class EPokemonType
 {
+	None,
 	Normal,
 	Fighting,
 	Flying,
@@ -289,7 +290,7 @@ public:
 
 enum class EExperienceGroup
 {
-	NONE,		// 레벨 100 기준 누적 경험치		누적 경험치 공식
+	None,		// 레벨 100 기준 누적 경험치		누적 경험치 공식
 	Erratic,	// 600,000						piecewise
 	Fast,		// 800,000						0.8n^3
 	MediumFast,	// 1,000,000					n^3
@@ -314,7 +315,7 @@ public:
 		const std::vector<EPokemonAbility>& _AbilityCandidates,
 		float _MaleRatio, int _CatchRate, int _Friendship
 	)
-		: PokedexNo(_PokedexNo), SpeciesName(_SpeciesName), 
+		: Id(_PokedexNo), Name(_SpeciesName), 
 		BHp(_BHp), BAtk(_BAtk), BDef(_BDef), BSpAtk(_BSpAtk), BSpDef(_BSpDef), BSpeed(_BSpeed),
 		YHp(_YHp), YAtk(_YAtk), YDef(_YDef), YSpAtk(_YSpAtk), YSpDef(_YSpDef), YSpeed(_YSpeed),
 		ExpGroup(_ExpGroup), TypeIds(_Types), AbilityCandidateIds(_AbilityCandidates),
@@ -323,7 +324,7 @@ public:
 
 	void AddLevelUpMove(int _Level, EPokemonMove _Move)
 	{
-		LevelUpMoves[_Level] = _Move;
+		LevelUpMoves[_Level].push_back(_Move);
 	}
 
 	// Base Stat
@@ -343,12 +344,12 @@ public:
 	int YSpeed = 0;
 
 	// 기타
-	std::string SpeciesName;
-	EPokedexNo PokedexNo = EPokedexNo::None;
-	EExperienceGroup ExpGroup = EExperienceGroup::NONE;
+	EPokedexNo Id = EPokedexNo::None;
+	std::string Name;
+	EExperienceGroup ExpGroup = EExperienceGroup::None;
 	std::vector<EPokemonType> TypeIds;
 	std::vector<EPokemonAbility> AbilityCandidateIds;
-	std::map<int, EPokemonMove> LevelUpMoves;
+	std::map<int, std::vector<EPokemonMove>> LevelUpMoves;
 	float MaleRatio = 0.0f;
 	int CatchRate = 0;
 	int Friendship = 0;

@@ -39,7 +39,7 @@ void AText::FollowContainer()
 
 void AText::SetText(std::wstring_view _Text)
 {
-	std::vector<std::wstring> Lines = UPokemonUtil::StringSplit(_Text, L'\n');
+	std::vector<std::wstring> Lines = UPokemonString::Split(_Text, L'\n');
 
 	if (GlyphRenderers.size() > 0)
 	{

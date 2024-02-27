@@ -6,7 +6,7 @@ UPokemon::UPokemon(EPokedexNo _Id, int _Level)
 	: Level(_Level)
 {
 	Species = UPokemonDB::FindSpecies(_Id);
-	Name = UPokemonString::ToUpperW(Species->SpeciesName);
+	Name = UPokemonString::ToUpperW(Species->Name);
 	Level = _Level;
 	AccExp = GetAccExpForLevel(_Level);
 	InitMoves();
@@ -210,7 +210,7 @@ int UPokemon::GetExp() const
 
 void UPokemon::InitMoves()
 {
-	for (std::pair<int, EPokemonMove> Pair : Species->LevelUpMoves)
+	for (std::pair<const int, std::vector<EPokemonMove>> Pair : Species->LevelUpMoves)
 	{
 		int LearnLevel = Pair.first;
 
@@ -219,16 +219,22 @@ void UPokemon::InitMoves()
 		{
 			break;
 		}
-		
-		const FPokemonMove* Move = UPokemonDB::FindMove(Pair.second);
 
-		if (Moves.size() == 4)
+		std::vector<EPokemonMove>& MoveIds = Pair.second;
+
+		for (EPokemonMove MoveId : MoveIds)
 		{
-			// 가장 앞에 있는 Move를 지운다.
-			Moves.erase(Moves.begin());
+			const FPokemonMove* Move = UPokemonDB::FindMove(MoveId);
 
+			if (Moves.size() == 4)
+			{
+				// 가장 앞에 있는 Move를 지운다.
+				Moves.erase(Moves.begin());
+
+			}
+			Moves.push_back(Move);
 		}
-		Moves.push_back(Move);
+
 	}
 
 	if (Moves.size() == 0 || Moves.size() > 4)

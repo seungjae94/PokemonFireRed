@@ -62,10 +62,6 @@ public:
 	static void CreatePokemonMiniStopAnimations(UImageRenderer* _Renderer);
 	static void CreatePokemonFrontAnimations(UImageRenderer* _Renderer);
 	static void CreatePokemonBackAnimations(UImageRenderer* _Renderer);
-
-	static std::vector<std::string> StringSplit(const std::string& _Str, char _Delimeter = '\n');
-	static std::vector<std::wstring> StringSplit(std::wstring_view _Str, wchar_t _Delimeter = L'\n');
-
 protected:
 
 private:
