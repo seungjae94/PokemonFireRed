@@ -1,5 +1,4 @@
 #include "PokemonDB.h"
-//#include <EngineBase/EngineDebug.h>
 #include <EngineBase/EngineDirectory.h>
 #include "CsvReader.h"
 
@@ -11,6 +10,8 @@ std::map<EPokemonGender, FPokemonGender> UPokemonDB::Genders;
 std::map<EPokemonStatus, FPokemonStatus> UPokemonDB::Status;
 std::map<EPokemonType, FPokemonType> UPokemonDB::Types;
 std::list<EPokedexNo> UPokemonDB::ImplementedSpeciesNo;
+
+std::map<std::string, std::map<int, UWildPokemonZone>> UPokemonDB::WildPokemonZones;
 
 class PokemonDBInitiator
 {
@@ -24,7 +25,7 @@ public:
 		GenerateNatures();
 		GenerateTypes();
 		GenerateGenders();
-		GenerateGrassInfos();
+		GenerateWildPokemonZones();
 	}
 	
 	void GeneratePokemons() {
@@ -192,18 +193,25 @@ public:
 		);
 	}
 	
-	void GenerateGrassInfos()
+	void GenerateWildPokemonZones()
 	{
-		//// ExteriorPalletTownLevel
-		//// 1¹ø µµ·Î(0): ±¸±¸, ²¿·¿
-		//// 22¹ø µµ·Î(1): ²¿·¿, ¸ÁÅ°, ±úºñÂü
-		//// 2¹ø µµ·Î(2): ±¸±¸, ²¿·¿, Ä³ÅÍÇÇ, »ÔÃæÀÌ
-		//FGrassInfo Info;
-		//Info.AddWildPokemonInfo({EPokedexNo::});
+		std::string FilePath = CurDir.AppendPath("WildPokemonZone.csv");
+		UCsvReader Reader = UCsvReader(FilePath);
+		std::vector<std::vector<std::string>> Lines = Reader.ReadLines();
 
-		//// »ó·Ï½£
-		//// 0: Ä³ÅÍÇÇ, ´Üµ¥±â, »ÔÃæÀÌ, ÇÇÄ«Ãò
+		for (std::vector<std::string>& Line : Lines)
+		{
+			std::string MapName = Line[0];
+			int ZoneId = std::stoi(Line[1]);
 
+			UWildPokemonZone& Zone = UPokemonDB::WildPokemonZones[MapName][ZoneId];
+			FWildPokemonEncounter Encounter;
+			Encounter.Id = static_cast<EPokedexNo>(std::stoi(Line[2]));
+			Encounter.Prop = std::stof(Line[3]);
+			Encounter.MinLevel = std::stoi(Line[4]);
+			Encounter.MaxLevel = std::stoi(Line[5]);
+			Zone.InsertWildPokemonInfo(Encounter);
+		}
 	}
 
 	UEngineDirectory CurDir;

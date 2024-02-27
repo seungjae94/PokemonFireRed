@@ -120,10 +120,13 @@ private:
 	bool TryArrowClickEvent();
 	bool TryStepOnEvent();
 	bool TryMenuEvent();
+	bool TryBattleEvent();
 
 	// 충돌 체크
+	Color8Bit GetPointColor(FTileVector _RelativePoint = FTileVector::Zero); // 충돌맵에서 (CurPoint + _RelativePoint)의 색상
 	bool IsLedge(FTileVector _Direction);
 	bool IsGrass();
+	//const FGrassInfo* GetGrassType();
 	bool IsPixelCollider(FTileVector _Direction);
 	bool IsComponentCollider(FTileVector _Direction);
 	bool IsCollider(FTileVector _Direction);

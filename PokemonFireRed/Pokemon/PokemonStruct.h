@@ -1,4 +1,5 @@
 #pragma once
+#include <map>
 #include <string>
 #include <vector>
 #include <EngineBase/EngineString.h>
@@ -40,6 +41,7 @@ enum class EPokedexNo
 	NidoranMale = 32,
 	Nidorino = 33,
 	Nidoking = 34,
+	Mankey = 56,
 };
 
 enum class EPokemonAbility
@@ -187,7 +189,7 @@ public:
 	std::string ImageName;
 
 	// EffectTo[EnemyType] = 적을 공격할 때 타입으로 인한 데미지 배율
-	std::map<EPokemonType, float> EffectTo; 
+	std::map<EPokemonType, float> EffectTo;
 };
 
 enum class EPokemonMove
@@ -243,25 +245,6 @@ enum class EExperienceGroup
 struct FPokemonSpecies
 {
 public:
-	FPokemonSpecies()
-	{}
-
-	FPokemonSpecies(
-		EPokedexNo _PokedexNo, std::string_view _SpeciesName,
-		int _BHp, int _BAtk, int _BDef, int _BSpAtk, int _BSpDef, int _BSpeed,
-		int _YHp, int _YAtk, int _YDef, int _YSpAtk, int _YSpDef, int _YSpeed,
-		EExperienceGroup _ExpGroup,
-		const std::vector<EPokemonType>& _Types,
-		const std::vector<EPokemonAbility>& _AbilityCandidates,
-		float _MaleRatio, int _CatchRate, int _Friendship
-	)
-		: Id(_PokedexNo), Name(_SpeciesName), 
-		BHp(_BHp), BAtk(_BAtk), BDef(_BDef), BSpAtk(_BSpAtk), BSpDef(_BSpDef), BSpeed(_BSpeed),
-		YHp(_YHp), YAtk(_YAtk), YDef(_YDef), YSpAtk(_YSpAtk), YSpDef(_YSpDef), YSpeed(_YSpeed),
-		ExpGroup(_ExpGroup), TypeIds(_Types), AbilityCandidateIds(_AbilityCandidates),
-		MaleRatio(_MaleRatio), CatchRate(_CatchRate), Friendship(_Friendship)
-	{}
-
 	void AddLevelUpMove(int _Level, EPokemonMove _Move)
 	{
 		LevelUpMoves[_Level].push_back(_Move);
@@ -293,35 +276,4 @@ public:
 	float MaleRatio = 0.0f;
 	int CatchRate = 0;
 	int Friendship = 0;
-};
-
-// 수풀 정보를 담는 구조체
-struct FWildPokemonInfo
-{
-public:
-	FWildPokemonInfo()
-	{}
-
-	FWildPokemonInfo(
-		EPokedexNo _Id, float _Prop, int _MinLevel, int _MaxLevel
-	)
-	{}
-
-	EPokedexNo Id = EPokedexNo::None;
-	float Prop = 0.0f;
-	int MinLevel = 1;
-	int MaxLevel = 100;
-};
-
-struct FGrassInfo
-{
-public:
-	FGrassInfo() {}
-
-	std::vector<FWildPokemonInfo> WildPokemonInfos;
-
-	void AddWildPokemonInfo(const FWildPokemonInfo& _Info)
-	{
-		WildPokemonInfos.push_back(_Info);
-	}
 };

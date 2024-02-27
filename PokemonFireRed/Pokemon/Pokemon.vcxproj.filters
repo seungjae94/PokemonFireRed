@@ -282,6 +282,9 @@
     <ClInclude Include="SoundManager.h">
       <Filter>7. Sound</Filter>
     </ClInclude>
+    <ClInclude Include="WildPokemonZone.h">
+      <Filter>6. Data\Pokemon\DB</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PokemonCore.cpp">
@@ -463,6 +466,9 @@
     </ClCompile>
     <ClCompile Include="SoundManager.cpp">
       <Filter>7. Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="WildPokemonZone.cpp">
+      <Filter>6. Data\Pokemon\DB</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

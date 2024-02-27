@@ -4,7 +4,7 @@
 #include <list>
 #include <EngineBase/EngineString.h>
 #include "Global.h"
-#include "PokemonStruct.h"
+#include "WildPokemonZone.h"
 
 class UPokemonDB
 {
@@ -46,6 +46,11 @@ public:
 		return &Types[_Id];
 	}
 
+	static const UWildPokemonZone* FindWildPokemonZone(std::string_view _MapName, int _Index)
+	{
+		return &WildPokemonZones[_MapName.data()][_Index];
+	}
+
 	static std::list<EPokedexNo> GetImplementedSpeciesNo()
 	{
 		return ImplementedSpeciesNo;
@@ -69,8 +74,8 @@ private:
 	static std::map<EPokemonType, FPokemonType> Types;
 	static std::list<EPokedexNo> ImplementedSpeciesNo;
 
-	// ¼öÇ® : GrassInfos[¸Ê ÀÌ¸§][¹øÈ£] = (GrassInfo °´Ã¼)
-	static std::map <std::string, std::vector<FGrassInfo>> GrassInfos;
+	// ¼öÇ® : Zones[¸Ê ÀÌ¸§][¹øÈ£] = (Zone °´Ã¼)
+	static std::map<std::string, std::map<int, UWildPokemonZone>> WildPokemonZones;
 
 	// constructor destructor
 	UPokemonDB() {}

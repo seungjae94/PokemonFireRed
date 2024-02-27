@@ -6,6 +6,7 @@
 #include "EventTrigger.h"
 #include "EventManager.h"
 #include "MenuWindow.h"
+#include "Pokemon.h"
 
 APlayer::APlayer()
 {
@@ -284,7 +285,14 @@ void APlayer::Walk(float _DeltaTime)
 		return;
 	}
 
-	// 3. 기억하고 있는 입력 방향이 없다. 즉, 방향키를 누르지 않았다.
+	// 3. Battle 이벤트가 발생했다.
+	bool BattleOccurResult = TryBattleEvent();
+	if (true == BattleOccurResult)
+	{
+		return;
+	}
+
+	// 4. 기억하고 있는 입력 방향이 없다. 즉, 방향키를 누르지 않았다.
 	if (MemoryDirection == FTileVector::Zero)
 	{
 		StateChange(EPlayerState::Idle);
@@ -292,7 +300,7 @@ void APlayer::Walk(float _DeltaTime)
 	}
 	Direction = MemoryDirection;
 
-	// 4. ArrowClick 이벤트가 발생했다. 
+	// 5. ArrowClick 이벤트가 발생했다. 
 	// - 입력 방향이 있기 때문에 ArrowClick 액션이 유효하다.
 	bool ArrowClickResult = TryArrowClickEvent();
 	if (true == ArrowClickResult)
@@ -300,21 +308,21 @@ void APlayer::Walk(float _DeltaTime)
 		return;
 	}
 
-	// 5. 입력 방향에 Ledge가 있다.
+	// 6. 입력 방향에 Ledge가 있다.
 	if (IsLedge(Direction) == true)
 	{
 		StateChange(EPlayerState::Jump);
 		return;
 	}
 
-	// 6. 입력 방향에 충돌체가 있다.
+	// 7. 입력 방향에 충돌체가 있다.
 	if (true == IsCollider(Direction))
 	{
 		StateChange(EPlayerState::WalkInPlace);
 		return;
 	}
 
-	// 7. 방향키를 누르고 있지만 이벤트도 충돌도 발생하지 않았다.
+	// 8. 방향키를 누르고 있지만 이벤트도 충돌도 발생하지 않았다.
 	// -> 계속 걷는다.
 	WalkStart();
 }
@@ -446,7 +454,14 @@ void APlayer::Jump(float _DeltaTime)
 		return;
 	}
 
-	// 3. 기억하고 있는 입력 방향이 없다.
+	// 3. 배틀 이벤트가 발생했다.
+	bool BattleOccurResult = TryBattleEvent();
+	if (true == BattleOccurResult)
+	{
+		return;
+	}
+
+	// 4. 기억하고 있는 입력 방향이 없다.
 	if (MemoryDirection == FTileVector::Zero)
 	{
 		StateChange(EPlayerState::Idle);
@@ -454,7 +469,7 @@ void APlayer::Jump(float _DeltaTime)
 	}
 	Direction = MemoryDirection;
 
-	// 4. ArrowClick 이벤트가 발생했다. 
+	// 5. ArrowClick 이벤트가 발생했다. 
 	// - 입력 방향이 있기 때문에 ArrowClick 액션이 유효하다.
 	bool ArrowClickResult = TryArrowClickEvent();
 	if (true == ArrowClickResult)
@@ -462,14 +477,14 @@ void APlayer::Jump(float _DeltaTime)
 		return;
 	}
 
-	// 5. 입력 방향에 Ledge가 있다.
+	// 6. 입력 방향에 Ledge가 있다.
 	if (IsLedge(Direction) == true)
 	{
 		JumpStart();
 		return;
 	}
 
-	// 6. 입력 방향에 충돌체가 있다.
+	// 7. 입력 방향에 충돌체가 있다.
 	if (true == IsCollider(Direction))
 	{
 
@@ -477,7 +492,7 @@ void APlayer::Jump(float _DeltaTime)
 		return;
 	}
 
-	// 7. 그 외의 경우
+	// 8. 그 외의 경우
 	StateChange(EPlayerState::Walk);
 }
 
@@ -577,15 +592,47 @@ bool APlayer::TryMenuEvent()
 	return true;
 }
 
-bool APlayer::IsLedge(FTileVector _Direction)
+bool APlayer::TryBattleEvent()
 {
-	// 맵(이미지 좌상단)을 기준으로 한 타겟의 상대 좌표
-	FVector MapRelativeTargetPos = (GetActorLocation() - Map->GetActorLocation()) + _Direction.ToFVector();
+	if (false == IsGrass())
+	{
+		return false;
+	}
+
+	Color8Bit CurPointColor = GetPointColor();
+	int ZoneIndex = CurPointColor.R;
+
+	int RandomNumber = UPokemonMath::RandomInt(0, 2879);
+	int ZoneBoundNumber = 320;
+
+	// 난수 < 320 일 때만 배틀을 시작한다.
+	if (RandomNumber >= ZoneBoundNumber)
+	{
+		return false;
+	}
+
+	const UWildPokemonZone* Zone = UPokemonDB::FindWildPokemonZone(GetWorld()->GetName(), ZoneIndex);
+	UPokemon Pokemon = Zone->NewWildPokemon();
+	//UEventManager::WildPokemonBattle(Pokemon);
+
+	return false;
+}
+
+Color8Bit APlayer::GetPointColor(FTileVector _RelativePoint)
+{
+	// 맵을 이미지 좌상단을 기준으로 계산한 타겟의 상대 좌표
+	FVector MapRelativeTargetPos = (GetActorLocation() - Map->GetActorLocation()) + _RelativePoint.ToFVector();
 	Color8Bit Color = Map->GetCollisionImage()->GetColor(
 		MapRelativeTargetPos.iX(),
 		MapRelativeTargetPos.iY(),
 		Color8Bit::WhiteA
 	);
+	return Color;
+}
+
+bool APlayer::IsLedge(FTileVector _Direction)
+{
+	Color8Bit Color = GetPointColor(_Direction);
 
 	if (_Direction == FTileVector::Down)
 	{
@@ -597,14 +644,8 @@ bool APlayer::IsLedge(FTileVector _Direction)
 
 bool APlayer::IsGrass()
 {
-	FVector MapRelativeCurPos = GetActorLocation() - Map->GetActorLocation();
-	Color8Bit Color = Map->GetCollisionImage()->GetColor(
-		MapRelativeCurPos.iX(),
-		MapRelativeCurPos.iY(),
-		Color8Bit::WhiteA
-	);
-
-	return Color.G == 0 ;
+	Color8Bit Color = GetPointColor();
+	return Color.G == 255 && Color.B == 0;
 }
 
 bool APlayer::IsPixelCollider(FTileVector _Direction)
