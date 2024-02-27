@@ -128,70 +128,60 @@ public:
 	}
 	void GenerateNatures()
 	{
-		UPokemonDB::Natures[EPokemonNature::Adamant] = FPokemonNature(EPokemonNature::Adamant, "Adamant", 1.1f, 1.0f, 0.9f, 1.0f, 1.0f);
-		UPokemonDB::Natures[EPokemonNature::Bashful] = FPokemonNature(EPokemonNature::Bashful, "Bashful", 1.0f, 1.0f, 1.0f, 1.0f, 1.0f);
-		UPokemonDB::Natures[EPokemonNature::Bold] = FPokemonNature(EPokemonNature::Bold, "Bold", 0.9f, 1.1f, 1.0f, 1.0f, 1.0f);
-		UPokemonDB::Natures[EPokemonNature::Brave] = FPokemonNature(EPokemonNature::Brave, "Brave", 1.1f, 1.0f, 1.0f, 1.0f, 0.9f);
-		UPokemonDB::Natures[EPokemonNature::Calm] = FPokemonNature(EPokemonNature::Calm, "Calm", 0.9f, 1.0f, 1.0f, 1.1f, 1.0f);
-		UPokemonDB::Natures[EPokemonNature::Careful] = FPokemonNature(EPokemonNature::Careful, "Careful", 1.0f, 1.0f, 0.9f, 1.1f, 1.0f);
-		UPokemonDB::Natures[EPokemonNature::Docile] = FPokemonNature(EPokemonNature::Docile, "Docile", 1.0f, 1.0f, 1.0f, 1.0f, 1.0f);
-		UPokemonDB::Natures[EPokemonNature::Gentle] = FPokemonNature(EPokemonNature::Gentle, "Gentle", 1.0f, 0.9f, 1.0f, 1.1f, 1.0f);
-		UPokemonDB::Natures[EPokemonNature::Hardy] = FPokemonNature(EPokemonNature::Hardy, "Hardy", 1.0f, 1.0f, 1.0f, 1.0f, 1.0f);
-		UPokemonDB::Natures[EPokemonNature::Hasty] = FPokemonNature(EPokemonNature::Hasty, "Hasty", 1.0f, 0.9f, 1.0f, 1.0f, 1.1f);
-		UPokemonDB::Natures[EPokemonNature::Impish] = FPokemonNature(EPokemonNature::Impish, "Impish", 1.0f, 1.1f, 0.9f, 1.0f, 1.0f);
-		UPokemonDB::Natures[EPokemonNature::Jolly] = FPokemonNature(EPokemonNature::Jolly, "Jolly", 1.0f, 1.0f, 0.9f, 1.0f, 1.1f);
-		UPokemonDB::Natures[EPokemonNature::Lax] = FPokemonNature(EPokemonNature::Lax, "Lax", 1.0f, 1.1f, 1.0f, 0.9f, 1.0f);
-		UPokemonDB::Natures[EPokemonNature::Lonely] = FPokemonNature(EPokemonNature::Lonely, "Lonely", 1.1f, 0.9f, 1.0f, 1.0f, 1.0f);
-		UPokemonDB::Natures[EPokemonNature::Mild] = FPokemonNature(EPokemonNature::Mild, "Mild", 1.0f, 0.9f, 1.1f, 1.0f, 1.0f);
-		UPokemonDB::Natures[EPokemonNature::Modest] = FPokemonNature(EPokemonNature::Modest, "Modest", 0.9f, 1.0f, 1.1f, 1.0f, 1.0f);
-		UPokemonDB::Natures[EPokemonNature::Naive] = FPokemonNature(EPokemonNature::Naive, "Naive", 1.0f, 1.0f, 1.0f, 0.9f, 1.1f);
-		UPokemonDB::Natures[EPokemonNature::Naughty] = FPokemonNature(EPokemonNature::Naughty, "Naughty", 1.1f, 1.0f, 1.0f, 0.9f, 1.0f);
-		UPokemonDB::Natures[EPokemonNature::Quiet] = FPokemonNature(EPokemonNature::Quiet, "Quiet", 1.0f, 1.0f, 1.1f, 1.0f, 0.9f);
-		UPokemonDB::Natures[EPokemonNature::Quirky] = FPokemonNature(EPokemonNature::Quirky, "Quirky", 1.0f, 1.0f, 1.0f, 1.0f, 1.0f);
-		UPokemonDB::Natures[EPokemonNature::Rash] = FPokemonNature(EPokemonNature::Rash, "Rash", 1.0f, 1.0f, 1.1f, 0.9f, 1.0f);
-		UPokemonDB::Natures[EPokemonNature::Relaxed] = FPokemonNature(EPokemonNature::Relaxed, "Relaxed", 1.0f, 1.1f, 1.0f, 1.0f, 0.9f);
-		UPokemonDB::Natures[EPokemonNature::Sassy] = FPokemonNature(EPokemonNature::Sassy, "Sassy", 1.0f, 1.0f, 1.0f, 1.1f, 0.9f);
-		UPokemonDB::Natures[EPokemonNature::Serious] = FPokemonNature(EPokemonNature::Serious, "Serious", 1.0f, 1.0f, 1.0f, 1.0f, 1.0f);
-		UPokemonDB::Natures[EPokemonNature::Timid] = FPokemonNature(EPokemonNature::Timid, "Timid", 0.9f, 1.0f, 1.0f, 1.0f, 1.1f);
+		std::string FilePath = CurDir.AppendPath("Nature.csv");
+		UCsvReader Reader = UCsvReader(FilePath);
+		std::vector<std::vector<std::string>> Lines = Reader.ReadLines();
+
+		for (std::vector<std::string>& Line : Lines)
+		{
+			FPokemonNature Nature = FPokemonNature();
+			Nature.Id = static_cast<EPokemonNature>(std::stoi(Line[0]));
+			Nature.Name = Line[1];
+			Nature.NAtk = std::stof(Line[2]);
+			Nature.NDef = std::stof(Line[3]);
+			Nature.NSpAtk = std::stof(Line[4]);
+			Nature.NSpDef = std::stof(Line[5]);
+			Nature.NSpeed = std::stof(Line[6]);
+			UPokemonDB::Natures[Nature.Id] = Nature;
+		}
 	}
 	void GenerateAbilities()
 	{
-		UPokemonDB::Abilities[EPokemonAbility::Overgrow] = FPokemonAbility(EPokemonAbility::Overgrow, "Overgrow", "Ups GRASS moves in a pinch.");
-		UPokemonDB::Abilities[EPokemonAbility::Blaze] = FPokemonAbility(EPokemonAbility::Blaze, "Blaze", "Ups FIRE moves in a pinch.");
-		UPokemonDB::Abilities[EPokemonAbility::Torrent] = FPokemonAbility(EPokemonAbility::Torrent, "Torrent", "Ups WATER moves in a pinch.");
-		UPokemonDB::Abilities[EPokemonAbility::ShieldDust] = FPokemonAbility(EPokemonAbility::ShieldDust, "ShieldDust", "Prevents added effects.");
-		UPokemonDB::Abilities[EPokemonAbility::ShedSkin] = FPokemonAbility(EPokemonAbility::ShedSkin, "ShedSkin", "Heals the body by shedding.");
-		UPokemonDB::Abilities[EPokemonAbility::CompoundEyes] = FPokemonAbility(EPokemonAbility::CompoundEyes, "CompoundEyes", "Raises accuracy.");
-		UPokemonDB::Abilities[EPokemonAbility::Swarm] = FPokemonAbility(EPokemonAbility::Swarm, "Swarm", "Ups BUG moves in a pinch.");
-		UPokemonDB::Abilities[EPokemonAbility::KeenEye] = FPokemonAbility(EPokemonAbility::KeenEye, "KeenEye", "Prevents loss of accuracy.");
-		UPokemonDB::Abilities[EPokemonAbility::RunAway] = FPokemonAbility(EPokemonAbility::RunAway, "RunAway", "Makes escaping easier.");
-		UPokemonDB::Abilities[EPokemonAbility::Guts] = FPokemonAbility(EPokemonAbility::Guts, "Guts", "Ups ATTACK if suffering.");
-		UPokemonDB::Abilities[EPokemonAbility::Intimidate] = FPokemonAbility(EPokemonAbility::Intimidate, "Intimidate", "Lowers the foe¡¯s ATTACK.");
-		UPokemonDB::Abilities[EPokemonAbility::Static] = FPokemonAbility(EPokemonAbility::Static, "Static", "Paralyzes on contact.");
-		UPokemonDB::Abilities[EPokemonAbility::SandVeil] = FPokemonAbility(EPokemonAbility::SandVeil, "SandVeil", "Ups evasion in a sandstorm.");
-		UPokemonDB::Abilities[EPokemonAbility::PoisonPoint] = FPokemonAbility(EPokemonAbility::PoisonPoint, "PoisonPoint", "Poisons foe on contact.");
+		std::string FilePath = CurDir.AppendPath("Ability.csv");
+		UCsvReader Reader = UCsvReader(FilePath);
+		std::vector<std::vector<std::string>> Lines = Reader.ReadLines();
+
+		for (std::vector<std::string>& Line : Lines)
+		{
+			FPokemonAbility Ability = FPokemonAbility();
+			Ability.Id = static_cast<EPokemonAbility>(std::stoi(Line[0]));
+			Ability.Name = Line[1];
+			Ability.Explain = Line[2];
+			UPokemonDB::Abilities[Ability.Id] = Ability;
+		}
 	}
 	void GenerateTypes()
 	{
-		UPokemonDB::Types[EPokemonType::Normal] = FPokemonType(EPokemonType::Normal, "TypeNormal.png");
-		UPokemonDB::Types[EPokemonType::Fighting] = FPokemonType(EPokemonType::Fighting, "TypeFighting.png");
-		UPokemonDB::Types[EPokemonType::Flying] = FPokemonType(EPokemonType::Flying, "TypeFlying.png");
-		UPokemonDB::Types[EPokemonType::Poison] = FPokemonType(EPokemonType::Poison, "TypePoison.png");
-		UPokemonDB::Types[EPokemonType::Ground] = FPokemonType(EPokemonType::Ground, "TypeGround.png");
-		UPokemonDB::Types[EPokemonType::Rock] = FPokemonType(EPokemonType::Rock, "TypeRock.png");
-		UPokemonDB::Types[EPokemonType::Bug] = FPokemonType(EPokemonType::Bug, "TypeBug.png");
-		UPokemonDB::Types[EPokemonType::Ghost] = FPokemonType(EPokemonType::Ghost, "TypeGhost.png");
-		UPokemonDB::Types[EPokemonType::Steel] = FPokemonType(EPokemonType::Steel, "TypeSteel.png");
-		UPokemonDB::Types[EPokemonType::Fire] = FPokemonType(EPokemonType::Fire, "TypeFire.png");
-		UPokemonDB::Types[EPokemonType::Water] = FPokemonType(EPokemonType::Water, "TypeWater.png");
-		UPokemonDB::Types[EPokemonType::Grass] = FPokemonType(EPokemonType::Grass, "TypeGrass.png");
-		UPokemonDB::Types[EPokemonType::Electric] = FPokemonType(EPokemonType::Electric, "TypeElectric.png");
-		UPokemonDB::Types[EPokemonType::Psychic] = FPokemonType(EPokemonType::Psychic, "TypePsychic.png");
-		UPokemonDB::Types[EPokemonType::Ice] = FPokemonType(EPokemonType::Ice, "TypeIce.png");
-		UPokemonDB::Types[EPokemonType::Dragon] = FPokemonType(EPokemonType::Dragon, "TypeDragon.png");
-		UPokemonDB::Types[EPokemonType::Dark] = FPokemonType(EPokemonType::Dark, "TypeDark.png");
-		UPokemonDB::Types[EPokemonType::Fairy] = FPokemonType(EPokemonType::Fairy, "TypeFairy.png");
+		std::string FilePath = CurDir.AppendPath("Type.csv");
+		UCsvReader Reader = UCsvReader(FilePath);
+		std::vector<std::vector<std::string>> Lines = Reader.ReadLines();
+
+		for (std::vector<std::string>& Line : Lines)
+		{
+			FPokemonType Type = FPokemonType();
+			Type.Id = static_cast<EPokemonType>(std::stoi(Line[0]));
+			Type.ImageName = Line[1];
+
+			for (int i = 2; i <= 18; ++i)
+			{
+				EPokemonType EnemyType = static_cast<EPokemonType>(i - 1);
+				Type.EffectTo[EnemyType] = std::stof(Line[i]);
+			}
+
+			UPokemonDB::Types[Type.Id] = Type;
+		}
 	}
+
 	void GenerateGenders()
 	{
 		UPokemonDB::Genders[EPokemonGender::Male] = FPokemonGender(

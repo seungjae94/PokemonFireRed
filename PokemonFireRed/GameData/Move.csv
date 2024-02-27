@@ -1,12 +1,12 @@
 ID,Name,Explain,TypeId,PP,BasePower,Accuracy
-1,ABSORB,An attack that\nabsorbs half the\ndamage it inflicted\nto restore HP.,12,20,20,100
-2,BUBBLE,A spray of bubbles\nhits the foe. It\nmay lower the\nfoe¡¯s SPEED stat.,11,30,20,100
-3,EMBER,The foe is attacked with small flames. The foe may suffer a burn.,10,25,40,100
+1,ABSORB,An attack that\nabsorbs half the\ndamage it inflicted\nto restore HP.,5,20,20,100
+2,BUBBLE,A spray of bubbles\nhits the foe. It\nmay lower the\nfoe¡¯s SPEED stat.,3,30,20,100
+3,EMBER,The foe is attacked with small flames. The foe may suffer a burn.,2,25,40,100
 4,GROWL,"The user growls in\na cute way, making\nthe foe lower its\nATTACK stat.",1,40,0,100
-5,GUST,Strikes the foe with a gust of wind whipped up by wings.,3,35,40,100
-6,LEECH SEED,A seed is planted on the foe to steal some HP for the user on every turn.,12,10,0,90
+5,GUST,Strikes the foe with a gust of wind whipped up by wings.,10,35,40,100
+6,LEECH SEED,A seed is planted on the foe to steal some HP for the user on every turn.,5,10,0,90
 7,QUICK ATTACK,An almost invisibly fast attack that is certain to strike first.,1,30,40,100
-8,SAND ATTACK,"A lot of sand is hurled in the foe¡¯s face, reducing its accuracy.",5,15,0,100
+8,SAND ATTACK,"A lot of sand is hurled in the foe¡¯s face, reducing its accuracy.",9,15,0,100
 9,SCRATCH,"Hard, pointed, and\nsharp claws rake\nthe foe.",1,35,40,100
 10,TACKLE,"A physical attack\nin which the user\ncharges, full body,\ninto the foe.",1,35,35,95
 11,TAIL WHIP,"The user wags its\ntail cutely, making\nthe foe lower its\nDEFENSE stat.",1,30,0,100

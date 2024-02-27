@@ -40,9 +40,6 @@ enum class EPokedexNo
 	NidoranMale = 32,
 	Nidorino = 33,
 	Nidoking = 34,
-
-
-
 };
 
 enum class EPokemonAbility
@@ -67,16 +64,6 @@ enum class EPokemonAbility
 struct FPokemonAbility
 {
 public:
-	FPokemonAbility()
-	{}
-
-	FPokemonAbility(
-		EPokemonAbility _Id, 
-		std::string_view _Name, 
-		std::string_view _Explain
-	) : Id(_Id), Name(_Name), Explain(_Explain)
-	{}
-
 	EPokemonAbility Id = EPokemonAbility::None;
 	std::string Name;
 	std::string Explain;
@@ -101,17 +88,6 @@ enum class EPokemonGender
 struct FPokemonGender
 {
 public:
-	FPokemonGender()
-	{}
-
-	FPokemonGender(
-		EPokemonGender _Id, 
-		std::string_view _ImageName,
-		std::string_view _BigImageName
-	)
-		: Id(_Id), ImageName(_ImageName), BigImageName(_BigImageName)
-	{}
-
 	EPokemonGender Id = EPokemonGender::Male;
 	std::string ImageName;
 	std::string BigImageName;
@@ -151,14 +127,6 @@ enum class EPokemonNature
 struct FPokemonNature
 {
 public:
-	FPokemonNature()
-	{}
-
-	FPokemonNature(
-		EPokemonNature _Id, std::string_view _Name,
-		float _NAtk, float _NDef, float _NSpAtk, float _NSpDef, float _NSpeed
-	) : Id(_Id), Name(_Name), NAtk(_NAtk), NDef(_NDef), NSpAtk(_NSpAtk), NSpDef(_NSpDef), NSpeed(_NSpeed)
-	{}
 	EPokemonNature Id = EPokemonNature::None;
 	std::string Name;
 	float NAtk = 1.0f;
@@ -186,14 +154,6 @@ enum class EPokemonStatus
 struct FPokemonStatus
 {
 public:
-	FPokemonStatus()
-	{}
-
-	FPokemonStatus(
-		EPokemonStatus _Id, std::string_view _ImageName
-	)
-		: Id(_Id), ImageName(_ImageName)
-	{}
 	EPokemonStatus Id = EPokemonStatus::Normal;
 	std::string ImageName;
 };
@@ -202,39 +162,32 @@ enum class EPokemonType
 {
 	None,
 	Normal,
-	Fighting,
-	Flying,
-	Poison,
-	Ground,
-	Rock,
-	Bug,
-	Ghost,
-	Steel,
 	Fire,
 	Water,
-	Grass,
 	Electric,
-	Psychic,
+	Grass,
 	Ice,
+	Fighting,
+	Poison,
+	Ground,
+	Flying,
+	Psychic,
+	Bug,
+	Rock,
+	Ghost,
 	Dragon,
 	Dark,
-	Fairy
+	Steel
 };
 
 struct FPokemonType
 {
 public:
-	FPokemonType()
-	{}
-
-	FPokemonType(
-		EPokemonType _Id, std::string_view _ImageName
-	)
-		: Id(_Id), ImageName(_ImageName)
-	{}
-
 	EPokemonType Id = EPokemonType::Normal;
 	std::string ImageName;
+
+	// EffectTo[EnemyType] = 적을 공격할 때 타입으로 인한 데미지 배율
+	std::map<EPokemonType, float> EffectTo; 
 };
 
 enum class EPokemonMove
@@ -256,19 +209,6 @@ enum class EPokemonMove
 struct FPokemonMove
 {
 public:
-	FPokemonMove()
-	{}
-
-	FPokemonMove(
-		EPokemonMove _Id,
-		std::string_view _Name, std::string_view _Explain,
-		EPokemonType _Type,
-		int _PP, int _BasePower, int _Accuracy
-	)
-		: Id(_Id), Name(_Name), Explain(_Explain), Type(_Type), 
-		PP(_PP), BasePower(_BasePower), Accuracy(_Accuracy)
-	{}
-
 	EPokemonMove Id = EPokemonMove::None;
 	EPokemonType Type = EPokemonType::Normal;
 	std::string Name;

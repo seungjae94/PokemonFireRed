@@ -1,10 +1,15 @@
-NAME,ID,Level,MoveId
-BULBASAUR,1,0,1
-BULBASAUR,1,4,2
-BULBASAUR,1,7,4
-CHARMANDER,4,0,6
-CHARMANDER,4,1,2
-CHARMANDER,4,7,7
-SQUIRTLE,7,0,1
-SQUIRTLE,7,4,5
-SQUIRTLE,7,7,8
+ID,NAME,EXPLAIN
+1,Overgrow,Ups GRASS moves in a pinch.
+2,Blaze,Ups FIRE moves in a pinch.
+3,Torrent,Ups WATER moves in a pinch.
+4,ShieldDust,Prevents added effects.
+5,ShedSkin,Heals the body by shedding.
+6,CompoundEyes,Raises accuracy.
+7,Swarm,Ups BUG moves in a pinch.
+8,KeenEye,Prevents loss of accuracy.
+9,RunAway,Makes escaping easier.
+10,Guts,Ups ATTACK if suffering.
+11,Intimidate,Lowers the foe¡¯s ATTACK.
+12,Static,Paralyzes on contact.
+13,SandVeil,Ups evasion in a sandstorm.
+14,PoisonPoint,Poisons foe on contact.
