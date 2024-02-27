@@ -25,5 +25,7 @@ private:
 	std::ifstream FileStream;
 
 	std::vector<std::string> ComplexSplit(std::string_view _Line);
+
+	std::string ConvertLinespace(std::string_view _Buffer);
 };
 

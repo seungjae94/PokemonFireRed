@@ -1,5 +1,5 @@
 ID,Name,Explain,TypeId,PP,BasePower,Accuracy
-1,ABSORB,"An ""attack"" that absorbs\nhalf the damage it\ninflicted to restore HP.",12,20,20,100
+1,ABSORB,An attack that\nabsorbs half the\ndamage it inflicted\nto restore HP.,12,20,20,100
 2,BUBBLE,A spray of bubbles\nhits the foe. It\nmay lower the\nfoe¡¯s SPEED stat.,11,30,20,100
 3,EMBER,The foe is attacked with small flames. The foe may suffer a burn.,10,25,40,100
 4,GROWL,"The user growls in\na cute way, making\nthe foe lower its\nATTACK stat.",1,40,0,100

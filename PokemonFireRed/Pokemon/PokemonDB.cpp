@@ -118,11 +118,12 @@ public:
 			FPokemonMove Move = FPokemonMove();
 			Move.Id = static_cast<EPokemonMove>(std::stoi(Line[0]));
 			Move.Name = Line[1];
-			Move.Explain = std::stoi(Line[2]);
+			Move.Explain = Line[2];
 			Move.Type = static_cast<EPokemonType>(std::stoi(Line[3]));
 			Move.PP = std::stoi(Line[4]);
 			Move.BasePower = std::stoi(Line[5]);
 			Move.Accuracy = std::stoi(Line[6]);
+			UPokemonDB::Moves[Move.Id] = Move;
 		}
 	}
 	void GenerateNatures()
