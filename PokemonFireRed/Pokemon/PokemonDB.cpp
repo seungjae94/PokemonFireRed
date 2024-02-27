@@ -14,6 +14,15 @@ class PokemonDBInitiator
 public:
 	PokemonDBInitiator()
 	{
+		GeneratePokemons();
+		GenerateMoves();
+		GenerateAbilities();
+		GenerateNatures();
+		GenerateTypes();
+		GenerateGenders();
+	}
+	
+	void GeneratePokemons() {
 		FPokemonSpecies Bulbasaur = FPokemonSpecies(
 			EPokedexNo::Bulbasaur, "BULBASAUR",
 			45, 49, 49, 65, 65, 45,
@@ -27,6 +36,7 @@ public:
 		Bulbasaur.AddLevelUpMove(4, EPokemonMove::Growl);
 		Bulbasaur.AddLevelUpMove(7, EPokemonMove::LeechSeed);
 		UPokemonDB::Species[EPokedexNo::Bulbasaur] = Bulbasaur;
+		UPokemonDB::ImplementedSpeciesNo.push_back(EPokedexNo::Bulbasaur);
 
 		FPokemonSpecies Charmander = FPokemonSpecies(
 			EPokedexNo::Charmander, "CHARMANDER",
@@ -41,6 +51,7 @@ public:
 		Charmander.AddLevelUpMove(1, EPokemonMove::Growl);
 		Charmander.AddLevelUpMove(7, EPokemonMove::Ember);
 		UPokemonDB::Species[EPokedexNo::Charmander] = Charmander;
+		UPokemonDB::ImplementedSpeciesNo.push_back(EPokedexNo::Charmander);
 
 		FPokemonSpecies Squirtle = FPokemonSpecies(
 			EPokedexNo::Squirtle, "SQUIRTLE",
@@ -55,11 +66,9 @@ public:
 		Squirtle.AddLevelUpMove(4, EPokemonMove::TailWhip);
 		Squirtle.AddLevelUpMove(7, EPokemonMove::Bubble);
 		UPokemonDB::Species[EPokedexNo::Squirtle] = Squirtle;
-
-		UPokemonDB::ImplementedSpeciesNo.push_back(EPokedexNo::Bulbasaur);
-		UPokemonDB::ImplementedSpeciesNo.push_back(EPokedexNo::Charmander);
 		UPokemonDB::ImplementedSpeciesNo.push_back(EPokedexNo::Squirtle);
-
+	}
+	void GenerateMoves() {
 		UPokemonDB::Moves[EPokemonMove::Absorb] = FPokemonMove(
 			EPokemonMove::Absorb,
 			"ABSORB", "	An attack that absorbs\nhalf the damage it\ninflicted to restore HP.",
@@ -126,7 +135,9 @@ public:
 			EPokemonType::Normal,
 			35, 35, 95
 		);
-
+	}
+	void GenerateNatures()
+	{
 		UPokemonDB::Natures[EPokemonNature::Adamant] = FPokemonNature(EPokemonNature::Adamant, "Adamant", 1.1f, 1.0f, 0.9f, 1.0f, 1.0f);
 		UPokemonDB::Natures[EPokemonNature::Bashful] = FPokemonNature(EPokemonNature::Bashful, "Bashful", 1.0f, 1.0f, 1.0f, 1.0f, 1.0f);
 		UPokemonDB::Natures[EPokemonNature::Bold] = FPokemonNature(EPokemonNature::Bold, "Bold", 0.9f, 1.1f, 1.0f, 1.0f, 1.0f);
@@ -152,7 +163,9 @@ public:
 		UPokemonDB::Natures[EPokemonNature::Sassy] = FPokemonNature(EPokemonNature::Sassy, "Sassy", 1.0f, 1.0f, 1.0f, 1.1f, 0.9f);
 		UPokemonDB::Natures[EPokemonNature::Serious] = FPokemonNature(EPokemonNature::Serious, "Serious", 1.0f, 1.0f, 1.0f, 1.0f, 1.0f);
 		UPokemonDB::Natures[EPokemonNature::Timid] = FPokemonNature(EPokemonNature::Timid, "Timid", 0.9f, 1.0f, 1.0f, 1.0f, 1.1f);
-
+	}
+	void GenerateAbilities()
+	{
 		UPokemonDB::Abilities[EPokemonAbility::Overgrow] = FPokemonAbility(EPokemonAbility::Overgrow, "Overgrow", "Ups GRASS moves in a pinch.");
 		UPokemonDB::Abilities[EPokemonAbility::Blaze] = FPokemonAbility(EPokemonAbility::Blaze, "Blaze", "Ups FIRE moves in a pinch.");
 		UPokemonDB::Abilities[EPokemonAbility::Torrent] = FPokemonAbility(EPokemonAbility::Torrent, "Torrent", "Ups WATER moves in a pinch.");
@@ -167,7 +180,9 @@ public:
 		UPokemonDB::Abilities[EPokemonAbility::Static] = FPokemonAbility(EPokemonAbility::Static, "Static", "Paralyzes on contact.");
 		UPokemonDB::Abilities[EPokemonAbility::SandVeil] = FPokemonAbility(EPokemonAbility::SandVeil, "SandVeil", "Ups evasion in a sandstorm.");
 		UPokemonDB::Abilities[EPokemonAbility::PoisonPoint] = FPokemonAbility(EPokemonAbility::PoisonPoint, "PoisonPoint", "Poisons foe on contact.");
-
+	}
+	void GenerateTypes()
+	{
 		UPokemonDB::Types[EPokemonType::Normal] = FPokemonType(EPokemonType::Normal, "TypeNormal.png");
 		UPokemonDB::Types[EPokemonType::Fighting] = FPokemonType(EPokemonType::Fighting, "TypeFighting.png");
 		UPokemonDB::Types[EPokemonType::Flying] = FPokemonType(EPokemonType::Flying, "TypeFlying.png");
@@ -186,7 +201,9 @@ public:
 		UPokemonDB::Types[EPokemonType::Dragon] = FPokemonType(EPokemonType::Dragon, "TypeDragon.png");
 		UPokemonDB::Types[EPokemonType::Dark] = FPokemonType(EPokemonType::Dark, "TypeDark.png");
 		UPokemonDB::Types[EPokemonType::Fairy] = FPokemonType(EPokemonType::Fairy, "TypeFairy.png");
-
+	}
+	void GenerateGenders()
+	{
 		UPokemonDB::Genders[EPokemonGender::Male] = FPokemonGender(
 			EPokemonGender::Male, RN::GenderMarkMale, RN::BigGenderMarkMale
 		);
