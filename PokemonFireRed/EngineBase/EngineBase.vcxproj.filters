@@ -51,6 +51,9 @@
     <ClInclude Include="EngineString.h">
       <Filter>String</Filter>
     </ClInclude>
+    <ClInclude Include="EngineSerializer.h">
+      <Filter>IO</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineDebug.cpp">
@@ -82,6 +85,9 @@
     </ClCompile>
     <ClCompile Include="EngineString.cpp">
       <Filter>String</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSerializer.cpp">
+      <Filter>IO</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

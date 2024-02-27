@@ -40,7 +40,7 @@ void UEngineDirectory::AllFileRecursive(
 			continue;
 		}
 
-		// 확장자를 제공하지 않은 경우 모든 파일을 찾는다.
+		// 확장자 벡터가 비어있는 경우 모든 확장자의 파일을 찾는다.
 		if (0 == _Ext.size())
 		{
 			_Result.push_back(UEngineFile(Path.string()));
@@ -63,6 +63,12 @@ void UEngineDirectory::AllFileRecursive(
 		}
 
 	}
+}
+
+UEngineFile UEngineDirectory::NewFile(std::string_view FileName)
+{
+	std::string NewFilePath = GetFullPath() + "\\" + FileName.data();
+	return std::filesystem::path(NewFilePath);
 }
 
 std::list<UEngineFile> UEngineDirectory::AllFile(
