@@ -28,10 +28,6 @@ public:
 	}
 	
 	void GeneratePokemons() {
-		std::string PokemonFilePath = CurDir.AppendPath("Pokemon.csv");
-		UCsvReader PokemonFileReader = UCsvReader(PokemonFilePath);
-		std::vector<std::vector<std::string>> PokemonLines = PokemonFileReader.ReadLines();
-
 		// 레벨업 스킬 추가
 		std::map<EPokedexNo, std::map<int, std::vector<EPokemonMove>>> LevelUpMoveMap;
 
@@ -49,6 +45,10 @@ public:
 		}
 
 		// 포켓몬 종족 추가
+		std::string PokemonFilePath = CurDir.AppendPath("Pokemon.csv");
+		UCsvReader PokemonFileReader = UCsvReader(PokemonFilePath);
+		std::vector<std::vector<std::string>> PokemonLines = PokemonFileReader.ReadLines();
+
 		for (std::vector<std::string>& Line : PokemonLines)
 		{
 			FPokemonSpecies Species = FPokemonSpecies();
@@ -109,72 +109,21 @@ public:
 		}
 	}
 	void GenerateMoves() {
-		UPokemonDB::Moves[EPokemonMove::Absorb] = FPokemonMove(
-			EPokemonMove::Absorb,
-			"ABSORB", "	An attack that absorbs\nhalf the damage it\ninflicted to restore HP.",
-			EPokemonType::Grass,
-			20, 20, 100
-		);
-		UPokemonDB::Moves[EPokemonMove::Bubble] = FPokemonMove(
-			EPokemonMove::Bubble,
-			"BUBBLE", "A spray of bubbles hits the foe. It may lower the foe’s SPEED stat.",
-			EPokemonType::Water,
-			30, 20, 100
-		);
-		UPokemonDB::Moves[EPokemonMove::Ember] = FPokemonMove(
-			EPokemonMove::Ember,
-			"EMBER", "The foe is attacked with small flames. The foe may suffer a burn.",
-			EPokemonType::Fire,
-			25, 40, 100
-		);
-		UPokemonDB::Moves[EPokemonMove::Growl] = FPokemonMove(
-			EPokemonMove::Growl,
-			"GROWL", "The user growls in\na cute way, making\nthe foe lower its\nATTACK stat.",
-			EPokemonType::Normal,
-			40, 0, 100
-		);
-		UPokemonDB::Moves[EPokemonMove::Gust] = FPokemonMove(
-			EPokemonMove::Gust,
-			"GUST", "Strikes the foe with a gust of wind whipped up by wings.",
-			EPokemonType::Flying,
-			35, 40, 100
-		);
-		UPokemonDB::Moves[EPokemonMove::LeechSeed] = FPokemonMove(
-			EPokemonMove::LeechSeed,
-			"LEECH SEED", "A seed is planted on the foe to steal some HP for the user on every turn.",
-			EPokemonType::Grass,
-			10, 0, 90
-		);
-		UPokemonDB::Moves[EPokemonMove::QuickAttack] = FPokemonMove(
-			EPokemonMove::QuickAttack,
-			"QUICK ATTACK", "An almost invisibly fast attack that is certain to strike first.",
-			EPokemonType::Normal,
-			30, 40, 100
-		);
-		UPokemonDB::Moves[EPokemonMove::SandAttack] = FPokemonMove(
-			EPokemonMove::SandAttack,
-			"SAND ATTACK", "A lot of sand is hurled in the foe’s face, reducing its accuracy.",
-			EPokemonType::Ground,
-			15, 0, 100
-		);
-		UPokemonDB::Moves[EPokemonMove::Scratch] = FPokemonMove(
-			EPokemonMove::Scratch,
-			"SCRATCH", "Hard, pointed, and\nsharp claws rake\nthe foe.",
-			EPokemonType::Normal,
-			35, 40, 100
-		);
-		UPokemonDB::Moves[EPokemonMove::TailWhip] = FPokemonMove(
-			EPokemonMove::TailWhip,
-			"TAIL WHIP", "The user wags its\ntail cutely, making\nthe foe lower its\nDEFENSE stat.",
-			EPokemonType::Normal,
-			30, 0, 100
-		);
-		UPokemonDB::Moves[EPokemonMove::Tackle] = FPokemonMove(
-			EPokemonMove::Tackle,
-			"TACKLE", "A physical attack\nin which the user\ncharges, full body,\ninto the foe.",
-			EPokemonType::Normal,
-			35, 35, 95
-		);
+		std::string FilePath = CurDir.AppendPath("Move.csv");
+		UCsvReader Reader = UCsvReader(FilePath);
+		std::vector<std::vector<std::string>> Lines = Reader.ReadLines();
+
+		for (std::vector<std::string>& Line : Lines)
+		{
+			FPokemonMove Move = FPokemonMove();
+			Move.Id = static_cast<EPokemonMove>(std::stoi(Line[0]));
+			Move.Name = Line[1];
+			Move.Explain = std::stoi(Line[2]);
+			Move.Type = static_cast<EPokemonType>(std::stoi(Line[3]));
+			Move.PP = std::stoi(Line[4]);
+			Move.BasePower = std::stoi(Line[5]);
+			Move.Accuracy = std::stoi(Line[6]);
+		}
 	}
 	void GenerateNatures()
 	{

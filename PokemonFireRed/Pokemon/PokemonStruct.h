@@ -240,17 +240,17 @@ public:
 enum class EPokemonMove
 {
 	None,
-	Tackle,
-	Growl,
 	Absorb,
-	LeechSeed,
-	TailWhip,
-	Scratch,
-	Ember,
 	Bubble,
-	SandAttack,
+	Ember,
+	Growl,
 	Gust,
-	QuickAttack
+	LeechSeed,
+	QuickAttack,
+	SandAttack,
+	Scratch,
+	Tackle,
+	TailWhip,
 };
 
 struct FPokemonMove
