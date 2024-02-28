@@ -106,14 +106,22 @@ and POKéMON as data via PC.)"
 	UPokemon Pokemon0 = UPokemon(EPokedexNo::Bulbasaur, 4);
 	UPokemon Pokemon1 = UPokemon(EPokedexNo::Charmander, 4);
 	UPokemon Pokemon2 = UPokemon(EPokedexNo::Squirtle, 4);
+	UPokemon Pokemon3 = UPokemon(EPokedexNo::Pidgey, 2);
+	UPokemon Pokemon4 = UPokemon(EPokedexNo::Rattata, 2);
+	UPokemon Pokemon5 = UPokemon(EPokedexNo::Caterpie, 3);
 	Pokemon0.SetCurHp(Pokemon0.GetHp() / 3);
 	Pokemon1.SetCurHp(Pokemon1.GetHp() / 6);
-	Pokemon2.HealAll();
 	Pokemon0.GainExp(30);
 	Pokemon1.GainExp(15);
+	Pokemon2.GainExp(5);
+	Pokemon3.GainExp(3);
+	Pokemon4.GainExp(1);
 	UPlayerData::AddPokemonToEntry(Pokemon0);
 	UPlayerData::AddPokemonToEntry(Pokemon1);
 	UPlayerData::AddPokemonToEntry(Pokemon2);
+	UPlayerData::AddPokemonToEntry(Pokemon3);
+	UPlayerData::AddPokemonToEntry(Pokemon4);
+	UPlayerData::AddPokemonToEntry(Pokemon5);
 	UPlayerData::Achieve(EAchievement::GetFirstPokemon);
 }
 
