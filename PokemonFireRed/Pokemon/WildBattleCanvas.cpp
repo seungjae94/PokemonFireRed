@@ -64,6 +64,85 @@ void AWildBattleCanvas::BeginPlay()
 		EPivotType::RightBot,
 		-10, -49
 	);
+
+	// EnemyPokemonBox 요소
+	EnemyPokemonNameText = CreateText(
+		EnemyPokemonBox,
+		L"UNDEFINED",
+		EPivotType::LeftTop,
+		EAlignType::Left,
+		7, 12,
+		EFontColor::Black,
+		EFontSize::Mini
+	);
+	EnemyPokemonLevelText = CreateText(
+		EnemyPokemonBox,
+		L"Lv100",
+		EPivotType::LeftTop,
+		EAlignType::Right,
+		85, 12,
+		EFontColor::Black,
+		EFontSize::Mini
+	);
+	EnemyPokemonHpBar = CreateScrollBar(
+		EnemyPokemonBox,
+		EScrollType::Hp,
+		50, 100,
+		EPivotType::LeftTop,
+		39, 17
+	);
+
+	// PlayerPokemonBox 요소
+	PlayerPokemonNameText = CreateText(
+		PlayerPokemonBox,
+		L"UNDEFINED",
+		EPivotType::RightTop,
+		EAlignType::Left,
+		-84, 12,
+		EFontColor::Black,
+		EFontSize::Mini
+	);
+	PlayerPokemonLevelText = CreateText(
+		PlayerPokemonBox,
+		L"Lv100",
+		EPivotType::RightTop,
+		EAlignType::Right,
+		-6, 12,
+		EFontColor::Black,
+		EFontSize::Mini
+	);
+	PlayerPokemonCurHpText = CreateText(
+		PlayerPokemonBox,
+		L"999",
+		EPivotType::RightBot,
+		EAlignType::Right,
+		-29, -6,
+		EFontColor::Black,
+		EFontSize::Mini
+	);
+	PlayerPokemonHpText = CreateText(
+		PlayerPokemonBox,
+		L"999",
+		EPivotType::RightBot,
+		EAlignType::Right,
+		-9, -6,
+		EFontColor::Black,
+		EFontSize::Mini
+	);
+	PlayerPokemonHpBar = CreateScrollBar(
+		PlayerPokemonBox,
+		EScrollType::Hp,
+		50, 100,
+		EPivotType::RightTop,
+		-55, 17
+	);
+	PlayerPokemonExpBar = CreateScrollBar(
+		PlayerPokemonBox,
+		EScrollType::Exp,
+		50, 100,
+		EPivotType::RightTop,
+		-71, 33
+	);
 }
 
 void AWildBattleCanvas::Tick(float _DeltaTime)
