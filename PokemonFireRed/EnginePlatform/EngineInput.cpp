@@ -14,6 +14,58 @@ UEngineInput::~UEngineInput()
 {
 }
 
+void UEngineInput::EngineKey::KeyCheck(float _DeltaTime)
+{
+	// 실제로 키가 눌려있는 경우
+	if (GetAsyncKeyState(Key) != 0)
+	{
+		PressTime += _DeltaTime;
+		if (Free == true)
+		{
+			// 키가 막 눌린 경우
+			Down = true;
+			Up = false;
+			Press = true;
+			Free = false;
+		}
+		else if (Down == true)
+		{
+			UpTime = 0.0f;
+
+			// Down의 다음 프레임인 경우
+			Down = false;
+			Up = false;
+			Press = true;
+			Free = false;
+		}
+	}
+	// 실제로 키가 눌려있지 않은 경우
+	else
+	{
+		UpTime += _DeltaTime;
+		if (Press == true)
+		{
+			PressTime = 0.0f;
+
+			// 키가 막 떼어진 경우
+			Down = false;
+			Up = true;
+			Press = false;
+			Free = true;
+		}
+		else if (Up == true)
+		{
+			PressTime = 0.0f;
+
+			// Up 다음 프레임인 경우
+			Down = false;
+			Up = false;
+			Press = false;
+			Free = true;
+		}
+	}
+}
+
 void UEngineInput::KeyCheckTick(float _DeltaTime)
 {
 	bool KeyCheck = false;
@@ -174,60 +226,6 @@ void UEngineInput::InputInit()
 	for (int i = '0'; i <= '9'; ++i)
 	{
 		AllKeys[i] = EngineKey(i);
-	}
-}
-
-void UEngineInput::EngineKey::KeyCheck(float _DeltaTime)
-{
-	// 실제로 키가 눌려있는 경우
-	if (GetAsyncKeyState(Key) != 0)
-	{
-		if (Free == true)
-		{
-			PressTime = 0.0f;
-
-			// 키가 막 눌린 경우
-			Down = true;
-			Up = false;
-			Press = true;
-			Free = false;
-		}
-		else if (Down == true)
-		{
-			UpTime = 0.0f;
-			PressTime += _DeltaTime;
-
-			// Down의 다음 프레임인 경우
-			Down = false;
-			Up = false;
-			Press = true;
-			Free = false;
-		}
-	}
-	// 실제로 키가 눌려있지 않은 경우
-	else
-	{
-		UpTime += _DeltaTime;
-		if (Press == true)
-		{
-			PressTime = 0.0f;
-
-			// 키가 막 떼어진 경우
-			Down = false;
-			Up = true;
-			Press = false;
-			Free = true;
-		}
-		else if (Up == true)
-		{
-			PressTime = 0.0f;
-
-			// Up 다음 프레임인 경우
-			Down = false;
-			Up = false;
-			Press = false;
-			Free = true;
-		}
 	}
 }
 
