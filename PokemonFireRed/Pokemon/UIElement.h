@@ -1,5 +1,6 @@
 #pragma once
 #include <EngineCore/Actor.h>
+#include "Global.h"
 
 enum class EPivotType
 {
@@ -26,12 +27,18 @@ public:
 
 	virtual void SetRelativePos(FVector _PivotRelativePos);
 	virtual void FollowContainer();
+	
+	void SetRenderingOrder(ERenderingOrder _Order)
+	{
+		RenderingOrder = _Order;
+	}
 
 protected:
 	UImageRenderer* Container = nullptr;
 	FVector Pivot = FVector::Zero;
 	FVector RelativePos = FVector::Zero;
 	EPivotType PivotType = EPivotType::LeftTop;
+	ERenderingOrder RenderingOrder = ERenderingOrder::UI2;
 private:
 
 };

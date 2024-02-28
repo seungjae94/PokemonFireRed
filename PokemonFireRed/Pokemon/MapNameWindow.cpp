@@ -36,7 +36,7 @@ void AMapNameWindow::BeginPlay()
 	APage::BeginPlay();
 
 	// 배경 이미지 렌더러 설정
-	Renderer = CreateImageRenderer(ERenderingOrder::LowerUI);
+	Renderer = CreateImageRenderer(ERenderingOrder::UI0);
 
 	std::string ImageName = "MapNameWindow.png";
 	Renderer->SetImage(ImageName);

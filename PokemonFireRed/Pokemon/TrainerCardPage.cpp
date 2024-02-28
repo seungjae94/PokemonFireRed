@@ -16,7 +16,7 @@ void ATrainerCardPage::BeginPlay()
 {
 	APage::BeginPlay();
 
-	Background = CreateImageRenderer(ERenderingOrder::LowerUI);
+	Background = CreateImageRenderer(ERenderingOrder::UI0);
 	Background->SetImage(RN::MaleTrainerCard);
 	UPokemonUtil::PlaceImageOnScreen(
 		Background,

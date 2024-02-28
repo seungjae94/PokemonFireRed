@@ -17,7 +17,7 @@ APokemonPage::~APokemonPage()
 void APokemonPage::BeginPlay()
 {
 	// 백그라운드
-	BackgroundRenderer = CreateImageRenderer(ERenderingOrder::LowerUI);
+	BackgroundRenderer = CreateImageRenderer(ERenderingOrder::UI0);
 	BackgroundRenderer->SetImage(RN::PokemonUIBackground);
 	FVector BackgroundRenderScale = UPokemonUtil::GetRenderScale(BackgroundRenderer);
 	FVector BackgroundPos = BackgroundRenderScale.Half2D();
@@ -25,7 +25,7 @@ void APokemonPage::BeginPlay()
 
 	// 타겟 선택 메시지 박스
 	{
-		TargetSelectionMsgBoxRenderer = CreateImageRenderer(ERenderingOrder::UpperUI);
+		TargetSelectionMsgBoxRenderer = CreateImageRenderer(ERenderingOrder::UI1);
 		TargetSelectionMsgBoxRenderer->SetImage(RN::PokemonUITargetSelectionMsgBox);
 		UPokemonUtil::PlaceImageOnScreen(
 			TargetSelectionMsgBoxRenderer,
@@ -36,7 +36,7 @@ void APokemonPage::BeginPlay()
 
 	// 액션 선택 메시지 박스
 	{
-		ActionSelectionMsgBoxRenderer = CreateImageRenderer(ERenderingOrder::UpperUI);
+		ActionSelectionMsgBoxRenderer = CreateImageRenderer(ERenderingOrder::UI1);
 		ActionSelectionMsgBoxRenderer->SetImage(RN::PokemonUIActionSelectionMsgBox);
 		ActionSelectionMsgBoxRenderer->SetActive(false);
 		UPokemonUtil::PlaceImageOnScreen(
@@ -48,7 +48,7 @@ void APokemonPage::BeginPlay()
 
 	// 액션 선택 창
 	{
-		ActionBoxRenderer = CreateImageRenderer(ERenderingOrder::Upper2UI);
+		ActionBoxRenderer = CreateImageRenderer(ERenderingOrder::UI4);
 		ActionBoxRenderer->SetImage(RN::PokemonUIActionBox);
 		UPokemonUtil::PlaceImageOnScreen(
 			ActionBoxRenderer,
@@ -62,7 +62,8 @@ void APokemonPage::BeginPlay()
 			RN::BlackCursor,
 			0, 3,
 			EPivotType::LeftTop,
-			8, 11, 16
+			8, 11, 16,
+			ERenderingOrder::UI5
 		);
 
 		ActionBoxRenderer->SetActive(false);
@@ -70,7 +71,7 @@ void APokemonPage::BeginPlay()
 
 	// 스위치 선택 메시지 박스
 	{
-		SwitchSelectionMsgBoxRenderer = CreateImageRenderer(ERenderingOrder::UpperUI);
+		SwitchSelectionMsgBoxRenderer = CreateImageRenderer(ERenderingOrder::UI1);
 		SwitchSelectionMsgBoxRenderer->SetImage(RN::PokemonUISwitchSelectionMsgBox);
 		UPokemonUtil::PlaceImageOnScreen(
 			SwitchSelectionMsgBoxRenderer,
@@ -81,21 +82,21 @@ void APokemonPage::BeginPlay()
 	}
 
 	// 엔트리 박스
-	FirstRenderer = CreateImageRenderer(ERenderingOrder::UpperUI);
+	FirstRenderer = CreateImageRenderer(ERenderingOrder::UI1);
 
 	EntryRenderers.reserve(6);
 	for (int i = 1; i < UPlayerData::GetPokemonEntrySize(); ++i)
 	{
-		UImageRenderer* Renderer = CreateImageRenderer(ERenderingOrder::UpperUI);
+		UImageRenderer* Renderer = CreateImageRenderer(ERenderingOrder::UI1);
 		EntryRenderers.push_back(Renderer);
 	}
 	for (int i = UPlayerData::GetPokemonEntrySize(); i < 6; ++i)
 	{
-		UImageRenderer* Renderer = CreateImageRenderer(ERenderingOrder::UpperUI);
+		UImageRenderer* Renderer = CreateImageRenderer(ERenderingOrder::UI1);
 		EntryRenderers.push_back(Renderer);
 	}
 
-	CancelRenderer = CreateImageRenderer(ERenderingOrder::UpperUI);
+	CancelRenderer = CreateImageRenderer(ERenderingOrder::UI1);
 
 	// 텍스트, 아이콘, 스크롤바
 	UPokemon& First = UPlayerData::GetPokemonInEntry(0);

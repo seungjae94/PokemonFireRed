@@ -48,6 +48,7 @@ protected:
 private:
 	std::string ImageName = RN::BlackCursor;
 	UImageRenderer* Renderer = nullptr;
+
 	int Cursor = 0;
 	int OptionCount = 0;
 	int PixelGap = 16;

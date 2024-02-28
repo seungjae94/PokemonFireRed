@@ -16,7 +16,7 @@ ATitleLevelManager::~ATitleLevelManager()
 
 void ATitleLevelManager::BeginPlay()
 {
-	Renderer = CreateImageRenderer(ERenderingOrder::LowerUI);
+	Renderer = CreateImageRenderer(ERenderingOrder::UI0);
 	Renderer->CameraEffectOff();
 	Renderer->SetTransColor(Color8Bit::White);
 

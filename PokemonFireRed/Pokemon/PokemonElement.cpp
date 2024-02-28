@@ -13,7 +13,7 @@ void APokemonElement::SetPokemon(const UPokemon* _Pokemon)
 {
 	if (nullptr == Renderer)
 	{
-		Renderer = CreateImageRenderer(ERenderingOrder::Upper2UI);
+		Renderer = CreateImageRenderer(RenderingOrder);
 		Renderer->CameraEffectOff();
 		
 		switch (Type)

@@ -18,35 +18,35 @@ void APokemonSummaryPage::BeginPlay()
 	APage::BeginPlay();
 
 	// 최상위 요소
-	Background = CreateImageRenderer(ERenderingOrder::Background);
+	Background = CreateImageRenderer(ERenderingOrder::UI0);
 	Background->SetImage(RN::PokemonSummaryUIBackground);
 	UPokemonUtil::PlaceImageOnScreen(Background);
 
-	Nav = CreateImageRenderer(ERenderingOrder::LowerUI);
+	Nav = CreateImageRenderer(ERenderingOrder::UI1);
 	Nav->SetImage(RN::PokemonSummaryUINavInfo);
 	UPokemonUtil::PlaceImageOnScreen(Nav);
 
-	CommonBox = CreateImageRenderer(ERenderingOrder::LowerUI);
+	CommonBox = CreateImageRenderer(ERenderingOrder::UI1);
 	CommonBox->SetImage(RN::PokemonSummaryUICommonBox);
 	UPokemonUtil::PlaceImageOnScreen(CommonBox, EPivotType::LeftTop, 0, 16);
 
-	InfoBox = CreateImageRenderer(ERenderingOrder::LowerUI);
+	InfoBox = CreateImageRenderer(ERenderingOrder::UI1);
 	InfoBox->SetImage(RN::PokemonSummaryUIInfoBox);
 	UPokemonUtil::PlaceImageOnScreen(InfoBox, EPivotType::LeftTop, 0, 16);
 
-	SkillsBox = CreateImageRenderer(ERenderingOrder::LowerUI);
+	SkillsBox = CreateImageRenderer(ERenderingOrder::UI1);
 	SkillsBox->SetImage(RN::PokemonSummaryUISkillsBox);
 	UPokemonUtil::PlaceImageOnScreen(SkillsBox, EPivotType::LeftTop, 0, 16);
 
-	MovesBox = CreateImageRenderer(ERenderingOrder::LowerUI);
+	MovesBox = CreateImageRenderer(ERenderingOrder::UI1);
 	MovesBox->SetImage(RN::PokemonSummaryUIMovesBox);
 	UPokemonUtil::PlaceImageOnScreen(MovesBox, EPivotType::LeftTop, 119, 16);
 
-	MovesDetailBox = CreateImageRenderer(ERenderingOrder::LowerUI);
+	MovesDetailBox = CreateImageRenderer(ERenderingOrder::UI1);
 	MovesDetailBox->SetImage(RN::PokemonSummaryUIMovesDetailBox);
 	UPokemonUtil::PlaceImageOnScreen(MovesDetailBox, EPivotType::LeftTop, 0, 49);
 
-	SmallCommonBox = CreateImageRenderer(ERenderingOrder::LowerUI);
+	SmallCommonBox = CreateImageRenderer(ERenderingOrder::UI1);
 	SmallCommonBox->SetImage(RN::PokemonSummaryUISmallCommonBox);
 	UPokemonUtil::PlaceImageOnScreen(SmallCommonBox, EPivotType::LeftTop, 0, 16);
 

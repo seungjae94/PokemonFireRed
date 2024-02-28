@@ -39,7 +39,7 @@ void AScrollBar::DrawHp(int _Value)
 	}
 
 	{
-		UImageRenderer* AreaRenderer = CreateImageRenderer(ERenderingOrder::ScrollBarArea);
+		UImageRenderer* AreaRenderer = CreateImageRenderer(RenderingOrder);
 		AreaRenderer->SetImage(RN::HpBarArea);
 
 		FVector RenderScale = Global::HpBarAreaRenderScale;
@@ -49,7 +49,7 @@ void AScrollBar::DrawHp(int _Value)
 	}
 
 	{
-		UImageRenderer* FillRenderer = CreateImageRenderer(ERenderingOrder::ScrollBar);
+		UImageRenderer* FillRenderer = CreateImageRenderer(RenderingOrder + 1);
 		FillRenderer->SetImage(ImageName);
 
 		FVector RenderScale = FVector(FillWidth, 3.0f * Global::FloatPixelSize);
@@ -77,7 +77,7 @@ void AScrollBar::DrawExp(int _Value)
 	}
 
 	{
-		UImageRenderer* AreaRenderer = CreateImageRenderer(ERenderingOrder::ScrollBarArea);
+		UImageRenderer* AreaRenderer = CreateImageRenderer(RenderingOrder);
 		AreaRenderer->SetImage(RN::ExpBarArea);
 
 		FVector RenderScale = Global::ExpBarAreaRenderScale;
@@ -87,7 +87,7 @@ void AScrollBar::DrawExp(int _Value)
 	}
 
 	{
-		UImageRenderer* FillRenderer = CreateImageRenderer(ERenderingOrder::ScrollBar);
+		UImageRenderer* FillRenderer = CreateImageRenderer(RenderingOrder + 1);
 		FillRenderer->SetImage(ImageName);
 
 		UWindowImage* FillImage = FillRenderer->GetImage();

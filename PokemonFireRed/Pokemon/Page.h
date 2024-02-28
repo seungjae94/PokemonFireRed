@@ -28,7 +28,8 @@ public:
 		int _RelativePixelX = 0,
 		int _RelativePixelY = 0,
 		EFontColor _Color = EFontColor::White,
-		EFontSize _Size = EFontSize::Normal
+		EFontSize _Size = EFontSize::Normal,
+		ERenderingOrder _Order = ERenderingOrder::UI2
 	);
 
 	AScrollBar* CreateScrollBar(
@@ -38,7 +39,8 @@ public:
 		int _MaxValue,
 		EPivotType _PivotType = EPivotType::LeftTop,
 		int _RelativePixelX = 0,
-		int _RelativePixelY = 0
+		int _RelativePixelY = 0,
+		ERenderingOrder _Order = ERenderingOrder::UI2
 	);
 
 	ACursor* CreateCursor(
@@ -49,7 +51,8 @@ public:
 		EPivotType _PivotType = EPivotType::LeftTop,
 		int _RelativePixelX = 0,
 		int _RelativePixelY = 0,
-		int _PixelGap = 16
+		int _PixelGap = 16,
+		ERenderingOrder _Order = ERenderingOrder::UI2
 	);
 
 	APokemonElement* CreatePokemonElement(
@@ -57,14 +60,16 @@ public:
 		EPokemonElementType _ElementType,
 		EPivotType _PivotType = EPivotType::LeftTop,
 		int _RelativePixelX = 0,
-		int _RelativePixelY = 0
+		int _RelativePixelY = 0,
+		ERenderingOrder _Order = ERenderingOrder::UI2
 	);
 
 	AImageElement* CreateImageElement(
 		UImageRenderer* _Container,
 		EPivotType _PivotType = EPivotType::LeftTop,
 		int _RelativePixelX = 0,
-		int _RelativePixelY = 0
+		int _RelativePixelY = 0,
+		ERenderingOrder _Order = ERenderingOrder::UI2
 	);
 
 protected:

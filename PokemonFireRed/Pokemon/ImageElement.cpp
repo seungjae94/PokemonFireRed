@@ -13,7 +13,7 @@ void AImageElement::SetImage(std::string_view _ImageName)
 {
 	if (nullptr == Renderer)
 	{
-		Renderer = CreateImageRenderer(ERenderingOrder::Upper2UI);
+		Renderer = CreateImageRenderer(RenderingOrder);
 		Renderer->CameraEffectOff();
 	}
 

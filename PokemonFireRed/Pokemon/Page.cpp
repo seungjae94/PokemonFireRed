@@ -39,7 +39,8 @@ AText* APage::CreateText(
 	EPivotType _PivotType, 
 	EAlignType _AlignType, 
 	int _RelativePixelX, int _RelativePixelY, 
-	EFontColor _Color, EFontSize _Size
+	EFontColor _Color, EFontSize _Size,
+	ERenderingOrder _Order
 )
 {
 	AText* Text = GetWorld()->SpawnActor<AText>();
@@ -50,6 +51,7 @@ AText* APage::CreateText(
 	Text->Size = _Size;
 	Text->SetText(_Text);
 	Text->SetRelativePos(UPokemonUtil::PixelVector(_RelativePixelX, _RelativePixelY));
+	Text->SetRenderingOrder(_Order);
 	Elements[_Container].push_back(Text);
 	return Text;
 }
@@ -59,7 +61,8 @@ AScrollBar* APage::CreateScrollBar(
 	EScrollType _ScrollType, 
 	int _CurValue, int _MaxValue, 
 	EPivotType _PivotType, 
-	int _RelativePixelX, int _RelativePixelY
+	int _RelativePixelX, int _RelativePixelY,
+	ERenderingOrder _Order
 )
 {
 	AScrollBar* Bar = GetWorld()->SpawnActor<AScrollBar>();
@@ -69,6 +72,7 @@ AScrollBar* APage::CreateScrollBar(
 	Bar->SetRelativePos(UPokemonUtil::PixelVector(_RelativePixelX, _RelativePixelY));
 	Bar->SetMaxValue(_MaxValue);
 	Bar->SetValue(_CurValue);
+	Bar->SetRenderingOrder(_Order);
 	Elements[_Container].push_back(Bar);
 	return Bar;
 }
@@ -77,7 +81,8 @@ ACursor* APage::CreateCursor(
 	UImageRenderer* _Container, std::string _ImageName,
 	int _Cursor, int _OptionCount, 
 	EPivotType _PivotType, 
-	int _RelativePixelX, int _RelativePixelY, int _PixelGap
+	int _RelativePixelX, int _RelativePixelY, int _PixelGap,
+	ERenderingOrder _Order
 )
 {
 	ACursor* Cursor = GetWorld()->SpawnActor<ACursor>();
@@ -87,6 +92,7 @@ ACursor* APage::CreateCursor(
 	Cursor->PixelGap = _PixelGap;
 	Cursor->OptionCount = _OptionCount;
 	Cursor->SetRelativePos(UPokemonUtil::PixelVector(_RelativePixelX, _RelativePixelY));
+	Cursor->SetRenderingOrder(_Order);
 	Cursor->SetCursor(_Cursor);
 	Elements[_Container].push_back(Cursor);
 	return Cursor;
@@ -96,23 +102,32 @@ APokemonElement* APage::CreatePokemonElement(
 	UImageRenderer* _Container, 
 	EPokemonElementType _ElementType,
 	EPivotType _PivotType, 
-	int _RelativePixelX, int _RelativePixelY)
+	int _RelativePixelX, int _RelativePixelY,
+	ERenderingOrder _Order
+)
 {
 	APokemonElement* Icon = GetWorld()->SpawnActor<APokemonElement>();
 	Icon->Container = _Container;
 	Icon->Type = _ElementType;
 	Icon->PivotType = _PivotType;
 	Icon->SetRelativePos(UPokemonUtil::PixelVector(_RelativePixelX, _RelativePixelY));
+	Icon->SetRenderingOrder(_Order);
 	Elements[_Container].push_back(Icon);
 	return Icon;
 }
 
-AImageElement* APage::CreateImageElement(UImageRenderer* _Container, EPivotType _PivotType, int _RelativePixelX, int _RelativePixelY)
+AImageElement* APage::CreateImageElement(
+	UImageRenderer* _Container, 
+	EPivotType _PivotType, 
+	int _RelativePixelX, int _RelativePixelY,
+	ERenderingOrder _Order
+)
 {
 	AImageElement* Image = GetWorld()->SpawnActor<AImageElement>();
 	Image->Container = _Container;
 	Image->PivotType = _PivotType;
 	Image->SetRelativePos(UPokemonUtil::PixelVector(_RelativePixelX, _RelativePixelY));
+	Image->SetRenderingOrder(_Order);
 	Elements[_Container].push_back(Image);
 	return Image;
 }

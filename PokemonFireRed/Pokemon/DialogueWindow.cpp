@@ -35,7 +35,7 @@ void ADialogueWindow::BeginPlay()
 	// 컨테이너(메시지 박스)가 열려 있을 때 자동으로 모든 텍스트가 켜지는 걸 막는다.
 	ContainerElementSyncOff();
 
-	DialogueWindowRenderer = CreateImageRenderer(ERenderingOrder::LowerUI);
+	DialogueWindowRenderer = CreateImageRenderer(ERenderingOrder::UI0);
 	DialogueWindowRenderer->CameraEffectOff();
 	DialogueWindowRenderer->SetImage("DialogueWindow.png");
 	

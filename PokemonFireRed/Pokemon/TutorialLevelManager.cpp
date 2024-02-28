@@ -20,12 +20,12 @@ ATutorialLevelManager::~ATutorialLevelManager()
 
 void ATutorialLevelManager::BeginPlay()
 {
-	Renderer = CreateImageRenderer(ERenderingOrder::LowerUI);
+	Renderer = CreateImageRenderer(ERenderingOrder::UI0);
 	Renderer->CameraEffectOff();
 	Renderer->SetImage(GetPageName());
 	Renderer->SetTransform({ Global::HalfScreen, Global::Screen });
 
-	ArrowRenderer = CreateImageRenderer(ERenderingOrder::LowerUI);
+	ArrowRenderer = CreateImageRenderer(ERenderingOrder::UI0);
 	ArrowRenderer->CameraEffectOff();
 	ArrowRenderer->SetImage("RedArrowDown.png");
 
@@ -34,7 +34,7 @@ void ATutorialLevelManager::BeginPlay()
 	ArrowDownPos = Global::Screen - ArrowScale.Half2D() - FVector(15, 15);
 	ArrowRenderer->SetTransform({ArrowDownPos, ArrowScale});
 
-	PikachuRenderer = CreateImageRenderer(ERenderingOrder::UpperUI);
+	PikachuRenderer = CreateImageRenderer(ERenderingOrder::UI2);
 	PikachuRenderer->CameraEffectOff();
 	
 	PikachuRenderer->SetImage(PikachuImageName);

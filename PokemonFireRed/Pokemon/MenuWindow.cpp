@@ -41,7 +41,7 @@ void AMenuWindow::BeginPlay()
 	APage::BeginPlay();
 
 	// 우상단 메뉴창
-	MenuWindowRenderer = CreateImageRenderer(ERenderingOrder::LowerUI);
+	MenuWindowRenderer = CreateImageRenderer(ERenderingOrder::UI0);
 	MenuWindowRenderer->CameraEffectOff();
 	RefreshMenuWindow();
 
@@ -60,7 +60,7 @@ void AMenuWindow::BeginPlay()
 	RefreshMenuTexts();
 	
 	// 하단 메뉴 설명창
-	MenuWindowExplainRenderer = CreateImageRenderer(ERenderingOrder::LowerUI);
+	MenuWindowExplainRenderer = CreateImageRenderer(ERenderingOrder::UI0);
 	MenuWindowExplainRenderer->CameraEffectOff();
 	MenuWindowExplainRenderer->SetImage("MenuWindowExplain.png");
 

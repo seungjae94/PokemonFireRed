@@ -128,7 +128,7 @@ void AText::PrepareLine(const std::wstring& _Line, int _Bot)
 
 		const GlyphAlignRule& Rule = AlignRuleMap[Size][Ch];
 
-		UImageRenderer* Renderer = CreateImageRenderer(ERenderingOrder::Text);
+		UImageRenderer* Renderer = CreateImageRenderer(RenderingOrder);
 		Renderer->SetImage(ImageNamePrefix + Rule.ImageName + ".png");
 		Renderer->CameraEffectOff();
 
@@ -189,8 +189,6 @@ void AText::Tick(float _DeltaTime)
 
 void AText::InitAlignRuleMap()
 {
-	// string ImageName, int MarginLeft, int MarginRight, int Base
-
 	char NameCh = '0';
 	for (wchar_t Ch = L'0'; Ch <= L'9'; Ch++)
 	{

@@ -13,7 +13,7 @@ void ACursor::SetCursor(int _Cursor)
 {
 	if (nullptr == Renderer)
 	{
-		Renderer = CreateImageRenderer(ERenderingOrder::Text);
+		Renderer = CreateImageRenderer(RenderingOrder);
 		Renderer->CameraEffectOff();
 	}
 
