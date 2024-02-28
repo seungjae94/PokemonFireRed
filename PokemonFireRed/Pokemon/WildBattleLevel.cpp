@@ -101,6 +101,9 @@ void UWildBattleLevel::ProcessBattleStart(float _DeltaTime)
 	case EBattleStartSubstate::PlayerBattlerThrow:
 		ProcessBattleStartPlayerBattlerThrow(_DeltaTime);
 		break;
+	case EBattleStartSubstate::PlayerPokemonTakeout:
+		ProcessBattleStartPlayerPokemonTakeout(_DeltaTime);
+		break;
 	case EBattleStartSubstate::PlayerPokemonBoxMove:
 		ProcessBattleStartPlayerPokemonBoxMove(_DeltaTime);
 		break;
@@ -163,6 +166,17 @@ void UWildBattleLevel::ProcessBattleStartPlayerBattlerThrow(float _DeltaTime)
 
 	if (Timer <= 0.0f)
 	{
+		Timer = PlayerPokemonTakeoutTime;
+		BattleStartSubstate = EBattleStartSubstate::PlayerPokemonTakeout;
+	}
+}
+
+void UWildBattleLevel::ProcessBattleStartPlayerPokemonTakeout(float _DeltaTime)
+{
+	Canvas->TakeOutPokemonFromBall(Timer / PlayerPokemonTakeoutTime);
+
+	if (Timer <= 0.0f)
+	{
 		Timer = PlayerPokemonBoxMoveTime;
 		BattleStartSubstate = EBattleStartSubstate::PlayerPokemonBoxMove;
 	}
@@ -170,4 +184,10 @@ void UWildBattleLevel::ProcessBattleStartPlayerBattlerThrow(float _DeltaTime)
 
 void UWildBattleLevel::ProcessBattleStartPlayerPokemonBoxMove(float _DeltaTime)
 {
+	Canvas->LerpShowPlayerPokemonBox(Timer / EnemyPokemonBoxMoveTime);
+
+	if (Timer <= 0.0f)
+	{
+		State = EBattleState::PlayerAction;
+	}
 }

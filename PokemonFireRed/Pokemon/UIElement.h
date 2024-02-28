@@ -26,6 +26,11 @@ public:
 	AUIElement& operator=(const AUIElement& _Other) = delete;
 	AUIElement& operator=(AUIElement&& _Other) noexcept = delete;
 
+	virtual FVector GetRelativePos()
+	{
+		return RelativePos;
+	}
+
 	virtual void SetRelativePos(FVector _PivotRelativePos);
 	virtual void AddRelativePos(FVector _PivotRelativePos);
 	virtual void FollowContainer();

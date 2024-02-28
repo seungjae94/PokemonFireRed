@@ -20,17 +20,16 @@ void AWildBattleCanvas::Init(const UPokemon& _PlayerPokemon, const UPokemon& _En
 	// 볼 날아가는 애니메이션 숨겨두기
 	ThrowedBall->SetActive(false);
 
+	// 아군 포켓몬 숨겨두기
+	PlayerPokemonImage->SetScaleFactor(0.0f);
+
 	// 적 UI는 왼쪽에 숨겨두기
-	EnemyGroundHidePos = EnemyGroundInitPos + FVector::Left * Global::FloatScreenX;
-	EnemyPokemonBoxHidePos = EnemyPokemonBoxInitPos + FVector::Left * Global::FloatScreenX;
 	EnemyGround->SetPosition(EnemyGroundHidePos);
 	EnemyPokemonBox->SetPosition(EnemyPokemonBoxHidePos);
 
 	// 아군 UI는 오른쪽에 숨겨두기
-	PlayerGroundHidePos = PlayerGroundInitPos + FVector::Right * Global::FloatScreenX;
-	PlayerPokemonBoxHidePos = PlayerPokemonBoxInitPos + FVector::Right * Global::FloatScreenX;
-	PlayerGround->SetPosition(PlayerGroundHidePos);
 	PlayerPokemonBox->SetPosition(PlayerPokemonBoxHidePos);
+	PlayerGround->SetPosition(PlayerGroundHidePos);
 }
 
 void AWildBattleCanvas::PrepareElements(const UPokemon& _PlayerPokemon, const UPokemon& _EnemyPokemon)
@@ -61,6 +60,7 @@ void AWildBattleCanvas::PrepareElements(const UPokemon& _PlayerPokemon, const UP
 
 	EnemyPokemonImage->SetPokemon(_EnemyPokemon);
 	PlayerBattler->SetAnimation(Global::PlayerBattlerIdle);
+	PlayerPokemonImage->SetPokemon(_PlayerPokemon);
 }
 
 
@@ -95,6 +95,20 @@ void AWildBattleCanvas::PlayThrowedBallAnimation()
 	ThrowedBall->ChangeAnimation(Global::ThrowedBall);
 }
 
+void AWildBattleCanvas::TakeOutPokemonFromBall(float _t)
+{
+	float t = _t;
+	if (t < 0.0f)
+	{
+		t = 0.0f;
+	}
+
+	PlayerPokemonImage->SetScaleFactor(1.0f - t);
+
+	FVector PlayerPokemonImagePos = UPokemonMath::Lerp(PlayerPokemonImageInitRelativePos, PlayerPokemonImageHideRelativePos, _t);
+	PlayerPokemonImage->SetRelativePos(PlayerPokemonImagePos);
+}
+
 void AWildBattleCanvas::LerpShowPlayerPokemonBox(float _t)
 {
 	FVector PlayerPokemonBoxPos = UPokemonMath::Lerp(PlayerPokemonBoxInitPos, PlayerPokemonBoxHidePos, _t);
@@ -126,24 +140,28 @@ void AWildBattleCanvas::BeginPlay()
 	EnemyPokemonBox->SetImage(RN::BattleEnemyPokemonBox);
 	UPokemonUtil::PlaceImageOnScreen(EnemyPokemonBox, EPivotType::LeftTop, 13, 16);
 	EnemyPokemonBoxInitPos = EnemyPokemonBox->GetPosition();
+	EnemyPokemonBoxHidePos = EnemyPokemonBoxInitPos + FVector::Left * Global::FloatScreenX;
 
 	PlayerPokemonBox = CreateImageRenderer(ERenderingOrder::UI2);
 	PlayerPokemonBox->CameraEffectOff();
 	PlayerPokemonBox->SetImage(RN::BattlePlayerPokemonBox);
-	UPokemonUtil::PlaceImageOnScreen(PlayerPokemonBox, EPivotType::RightBot, -10, -49);
+	UPokemonUtil::PlaceImageOnScreen(PlayerPokemonBox, EPivotType::RightBot, -10, -48);
 	PlayerPokemonBoxInitPos = PlayerPokemonBox->GetPosition();
+	PlayerPokemonBoxHidePos = PlayerPokemonBoxInitPos + FVector::Right * Global::FloatScreenX;
 
 	EnemyGround = CreateImageRenderer(ERenderingOrder::UI1);
 	EnemyGround->CameraEffectOff();
 	EnemyGround->SetImage(RN::BattleEnemyGround);
 	UPokemonUtil::PlaceImageOnScreen(EnemyGround, EPivotType::RightTop, 0, 46);
 	EnemyGroundInitPos = EnemyGround->GetPosition();
+	EnemyGroundHidePos = EnemyGroundInitPos + FVector::Left * Global::FloatScreenX;
 
 	PlayerGround = CreateImageRenderer(ERenderingOrder::UI1);
 	PlayerGround->CameraEffectOff();
 	PlayerGround->SetImage(RN::BattlePlayerGround);
 	UPokemonUtil::PlaceImageOnScreen(PlayerGround, EPivotType::LeftBot, 4, -48);
 	PlayerGroundInitPos = PlayerGround->GetPosition();
+	PlayerGroundHidePos = PlayerGroundInitPos + FVector::Right * Global::FloatScreenX;
 
 	// MsgBox 요소
 	MsgText = CreateText(MsgBox, L"Wild ABCDEF appeared!", EPivotType::LeftTop, EAlignType::Left, 11, 21, EFontColor::White, EFontSize::Normal, ERenderingOrder::UI3);
@@ -175,6 +193,10 @@ void AWildBattleCanvas::BeginPlay()
 	ThrowedBall->SetImage(Global::ThrowedBall);
 	UPokemonUtil::PlaceImageOnScreen(ThrowedBall, EPivotType::LeftBot, 30, -35);
 	ThrowedBall->CreateAnimation(Global::ThrowedBall, Global::ThrowedBall, 0, 11, 0.045f, false);
+
+	PlayerPokemonImage = CreatePokemonElement(PlayerGround, EPokemonElementType::Back, EPivotType::LeftTop, 36, -33, ERenderingOrder::UI3);
+	PlayerPokemonImageInitRelativePos = PlayerPokemonImage->GetRelativePos();
+	PlayerPokemonImageHideRelativePos = PlayerPokemonImageInitRelativePos + UPokemonUtil::PixelVector(0, 17);
 }
 
 void AWildBattleCanvas::Tick(float _DeltaTime)

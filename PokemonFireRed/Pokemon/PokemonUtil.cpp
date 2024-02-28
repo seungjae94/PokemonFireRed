@@ -200,4 +200,23 @@ void UPokemonUtil::CreatePokemonFrontAnimations(UImageRenderer* _Renderer)
 
 void UPokemonUtil::CreatePokemonBackAnimations(UImageRenderer* _Renderer)
 {
+	if (nullptr == _Renderer)
+	{
+		MsgBoxAssert("nullptr인 렌더러에서 PokemonBack 애니메이션을 만들려고 했습니다.");
+		return;
+	}
+
+	if (nullptr == _Renderer->GetImage())
+	{
+		_Renderer->SetImage(RN::PokemonBack);
+	}
+
+	for (EPokedexNo No : UPokemonDB::GetImplementedSpeciesNo())
+	{
+		int Idx = static_cast<int>(No) * 2 - 2;
+		_Renderer->CreateAnimation(
+			Global::PokemonBackPrefix + UPokemonDB::GetSpeciesName(No),
+			RN::PokemonBack,
+			Idx, Idx, 1.0f / 6, false);
+	}
 }

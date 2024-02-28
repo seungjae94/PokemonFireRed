@@ -27,9 +27,15 @@ public:
 	void SetPokemon(const UPokemon* _Pokemon);
 	void SetPokemon(const UPokemon& _Pokemon);
 
+	void SetScaleFactor(float _Factor)
+	{
+		Renderer->SetScale(OriginalRenderScale * _Factor);
+	}
+
 protected:
 
 private:
+	FVector OriginalRenderScale;
 	UImageRenderer* Renderer = nullptr;
 	EPokemonElementType Type = EPokemonElementType::MiniMove;
 };

@@ -39,6 +39,8 @@ void APokemonElement::SetPokemon(const UPokemon* _Pokemon)
 		}
 
 		UPokemonUtil::AlignImage(Renderer, PivotType);
+
+		OriginalRenderScale = UPokemonUtil::GetRenderScale(Renderer);
 	}
 
 	EPokedexNo PokedexNo = _Pokemon->GetPokedexNo();
