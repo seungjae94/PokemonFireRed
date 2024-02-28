@@ -65,10 +65,10 @@ private:
 	float FadeWaitTime = 0.5f;
 	float GroundMoveTime = 1.5f;
 	float EnemyPokemonBoxMoveTime = 0.5f;
-	float PlayerBattleThrowTime = 1.2f;
-	float BallThrowMotionWaitTime = 0.6f;
+	float PlayerBattleThrowTime = 1.3f;
+	float BallThrowMotionWaitTime = 0.5f;
 	bool BallThrowAnimationPlayed = false;
-	float PlayerPokemonTakeoutTime = 0.25f;
+	float PlayerPokemonTakeoutTime = 0.3f;
 	float PlayerPokemonBoxMoveTime = 0.5f;
 };
 

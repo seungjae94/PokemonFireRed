@@ -192,7 +192,7 @@ void AWildBattleCanvas::BeginPlay()
 	ThrowedBall = CreateImageRenderer(ERenderingOrder::UI1);
 	ThrowedBall->SetImage(Global::ThrowedBall);
 	UPokemonUtil::PlaceImageOnScreen(ThrowedBall, EPivotType::LeftBot, 30, -35);
-	ThrowedBall->CreateAnimation(Global::ThrowedBall, Global::ThrowedBall, 0, 11, 0.045f, false);
+	ThrowedBall->CreateAnimation(Global::ThrowedBall, Global::ThrowedBall, 0, 11, 0.06f, false);
 
 	PlayerPokemonImage = CreatePokemonElement(PlayerGround, EPokemonElementType::Back, EPivotType::LeftTop, 36, -33, ERenderingOrder::UI3);
 	PlayerPokemonImageInitRelativePos = PlayerPokemonImage->GetRelativePos();
