@@ -12,7 +12,14 @@ AWildBattleCanvas::~AWildBattleCanvas()
 
 void AWildBattleCanvas::BattleStart(const UPokemon& _PlayerPokemon, const UPokemon& _EnemyPokemon)
 {
-	// 임시로 데이터만 보여주기
+	PrepareElements(_PlayerPokemon, _EnemyPokemon);
+	ActionBox->SetActive(false);
+}
+
+void AWildBattleCanvas::PrepareElements(const UPokemon& _PlayerPokemon, const UPokemon& _EnemyPokemon)
+{
+	MsgText->SetText(L"Wild " + _EnemyPokemon.GetNameW()  + L" appeared!");
+
 	EnemyPokemonNameText->SetText(_EnemyPokemon.GetNameW());
 	EnemyPokemonLevelText->SetText(L"ℓ" + _EnemyPokemon.GetLevelW());
 	EnemyPokemonHpBar->SetMaxValue(_EnemyPokemon.GetHp());
@@ -79,6 +86,9 @@ void AWildBattleCanvas::BeginPlay()
 	PlayerGround->SetImage(RN::BattlePlayerGround);
 	UPokemonUtil::PlaceImageOnScreen(PlayerGround, EPivotType::LeftBot, 4, -48);
 
+	// MsgBox 요소
+	MsgText = CreateText(MsgBox, L"Wild ABCDEF appeared!", EPivotType::LeftTop, EAlignType::Left, 11, 21, EFontColor::White, EFontSize::Normal, ERenderingOrder::UI3);
+
 	// EnemyPokemonBox 요소
 	EnemyPokemonNameText = CreateText(EnemyPokemonBox, L"UNDEFINED", EPivotType::LeftTop, EAlignType::Left, 7, 12, EFontColor::Black, EFontSize::Mini, ERenderingOrder::UI3);
 	EnemyPokemonLevelText = CreateText(EnemyPokemonBox, L"Lv100", EPivotType::LeftTop, EAlignType::Right, 85, 12, EFontColor::Black, EFontSize::Mini, ERenderingOrder::UI3);
@@ -98,9 +108,9 @@ void AWildBattleCanvas::BeginPlay()
 	EnemyPokemonImage = CreatePokemonElement(EnemyGround, EPokemonElementType::Front, EPivotType::LeftTop, 36, -25, ERenderingOrder::UI3);
 
 	// PlayerGround 요소
-	PlayerBattler = CreateAnimationElement(PlayerGround, EPivotType::RightBot, -12, 0, ERenderingOrder::UI3);
-	PlayerBattler->CreateAnimation(Global::PlayerBattlerIdle, RN::PlayerBattler, 0, 0, 0.0f, false);
-	PlayerBattler->CreateAnimation(Global::PlayerBattlerThrow, RN::PlayerBattler, 0, 4, 0.2f, false);
+	PlayerBattler = CreateAnimationElement(PlayerGround, RN::PlayerBattler, EPivotType::RightBot, -12, 0, ERenderingOrder::UI3);
+	PlayerBattler->CreateAnimation(Global::PlayerBattlerIdle, 0, 0, 0.0f, false);
+	PlayerBattler->CreateAnimation(Global::PlayerBattlerThrow, 0, 4, 0.2f, false);
 }
 
 void AWildBattleCanvas::Tick(float _DeltaTime)

@@ -2,6 +2,11 @@
 #include "Canvas.h"
 #include "Pokemon.h"
 
+enum class EBattleState
+{
+	BattleStart,
+};
+
 class AWildBattleCanvas : public ACanvas
 {
 public:
@@ -16,12 +21,15 @@ public:
 	AWildBattleCanvas& operator=(AWildBattleCanvas&& _Other) noexcept = delete;
 
 	void BattleStart(const UPokemon& _PlayerPokemon, const UPokemon& _EnemyPokemon);
-
 protected:
 
 private:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
+
+	// FSM
+	void PrepareElements(const UPokemon& _PlayerPokemon, const UPokemon& _EnemyPokemon);
+	EBattleState State = EBattleState::BattleStart;
 
 	UImageRenderer* Background = nullptr;
 
@@ -32,6 +40,9 @@ private:
 	UImageRenderer* PlayerPokemonBox = nullptr;
 	UImageRenderer* EnemyGround = nullptr;
 	UImageRenderer* PlayerGround = nullptr;
+
+	// MsgBox 요소
+	AText* MsgText = nullptr;
 
 	// EnemyPokemonBox 요소
 	AText* EnemyPokemonNameText = nullptr;

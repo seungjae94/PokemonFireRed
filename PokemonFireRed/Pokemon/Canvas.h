@@ -74,6 +74,7 @@ public:
 
 	AAnimationElement* CreateAnimationElement(
 		UImageRenderer* _Container,
+		std::string_view _ImageName,
 		EPivotType _PivotType = EPivotType::LeftTop,
 		int _RelativePixelX = 0,
 		int _RelativePixelY = 0,

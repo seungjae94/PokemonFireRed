@@ -132,11 +132,18 @@ AImageElement* ACanvas::CreateImageElement(
 	return Image;
 }
 
-AAnimationElement* ACanvas::CreateAnimationElement(UImageRenderer* _Container, EPivotType _PivotType, int _RelativePixelX, int _RelativePixelY, ERenderingOrder _Order)
+AAnimationElement* ACanvas::CreateAnimationElement(
+	UImageRenderer* _Container, 
+	std::string_view _ImageName,
+	EPivotType _PivotType, 
+	int _RelativePixelX, int _RelativePixelY, 
+	ERenderingOrder _Order
+)
 {
 	AAnimationElement* Anim = GetWorld()->SpawnActor<AAnimationElement>();
 	Anim->Container = _Container;
 	Anim->PivotType = _PivotType;
+	Anim->ImageName = _ImageName;
 	Anim->SetRelativePos(UPokemonUtil::PixelVector(_RelativePixelX, _RelativePixelY));
 	Anim->SetRenderingOrder(_Order);
 	Elements[_Container].push_back(Anim);
