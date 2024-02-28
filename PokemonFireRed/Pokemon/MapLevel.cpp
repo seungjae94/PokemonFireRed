@@ -138,17 +138,12 @@ void UMapLevel::DrawFlowers(const std::vector<FTileVector>& _Points)
 	}
 }
 
-void UMapLevel::DrawSeas(const std::vector<FTriple<int, int, int>> _Triples)
+void UMapLevel::DrawSeas(const std::vector<FTileVector>& _Points)
 {
-	for (const FTriple<int, int, int>& Triple : _Triples)
+	for (const FTileVector& Point : _Points)
 	{
-		int PointX = Triple.first;
-		int PointY = Triple.second;
-		int Index = Triple.third;
-
 		AnimatedSea* Sea = SpawnActor<AnimatedSea>();
-		Sea->SetActorLocation(FTileVector(PointX, PointY).ToFVector());
-		Sea->Init(Index);
+		Sea->SetActorLocation(Point.ToFVector());
 	}
 }
 

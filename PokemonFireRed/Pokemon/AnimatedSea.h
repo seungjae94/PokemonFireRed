@@ -15,12 +15,9 @@ public:
 	AnimatedSea& operator=(const AnimatedSea& _Other) = delete;
 	AnimatedSea& operator=(AnimatedSea&& _Other) noexcept = delete;
 
-	void Init(int _Index);
-
 protected:
 	void BeginPlay() override;
 private:
 	UImageRenderer* Renderer = nullptr;
-	static bool AnimationCreated;
 };
 

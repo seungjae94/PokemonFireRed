@@ -43,7 +43,7 @@ protected:
 	void LevelStart(ULevel* _PrevLevel) override;
 
 	void DrawFlowers(const std::vector<FTileVector>& _Points);
-	void DrawSeas(const std::vector<FTriple<int, int, int>> _Triples);
+	void DrawSeas(const std::vector<FTileVector>& _Points);
 
 private:
 	void LoadCharacterResources();

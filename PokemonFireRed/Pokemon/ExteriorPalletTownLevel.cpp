@@ -51,7 +51,6 @@ void UExteriorPalletTownLevel::BeginPlay()
 	PlayersHouseDoor->SetMoveDirection(FTileVector::Up);
 	PlayersHouseDoor->RegisterPredefinedEvent();
 
-
 	UEventTargetInit RivalsHouseDoorSetting;
 	RivalsHouseDoorSetting.SetName("RivalsHouseDoor");
 	RivalsHouseDoorSetting.SetPoint({ 79, 141 });
@@ -64,7 +63,6 @@ void UExteriorPalletTownLevel::BeginPlay()
 	RivalsHouseDoor->SetTargetPoint({ 4, 8 });
 	RivalsHouseDoor->SetMoveDirection(FTileVector::Up);
 	RivalsHouseDoor->RegisterPredefinedEvent();
-
 
 	UEventTargetInit FatManSetting;
 	FatManSetting.SetName("FatMan");
@@ -92,14 +90,14 @@ and POKéMON as data via PC.)"
 	});
 
 	DrawSeas({
-		{71, 151, 0}, {72, 151, 0}, {73, 151, 0}, {74, 151, 0},
-		{71, 152, 0}, {72, 152, 0}, {73, 152, 0}, {74, 152, 0},
-		{71, 153, 0}, {72, 153, 0}, {73, 153, 0}, {74, 153, 0},
-		{71, 154, 0}, {72, 154, 0}, {73, 154, 0}, {74, 154, 0},
-		{71, 155, 0}, {72, 155, 0}, {73, 155, 0}, {74, 155, 0},
-		{71, 156, 0}, {72, 156, 0}, {73, 156, 0}, {74, 156, 0},
-		{71, 157, 0}, {72, 157, 0}, {73, 157, 0}, {74, 157, 0},
-		{71, 158, 0}, {72, 158, 0}, {73, 158, 0}, {74, 158, 0},
+		{71, 151}, {72, 151}, {73, 151}, {74, 151},
+		{71, 152}, {72, 152}, {73, 152}, {74, 152},
+		{71, 153}, {72, 153}, {73, 153}, {74, 153},
+		{71, 154}, {72, 154}, {73, 154}, {74, 154},
+		{71, 155}, {72, 155}, {73, 155}, {74, 155},
+		{71, 156}, {72, 156}, {73, 156}, {74, 156},
+		{71, 157}, {72, 157}, {73, 157}, {74, 157},
+		{71, 158}, {72, 158}, {73, 158}, {74, 158},
 	});
 
 	// 디버그용 포켓몬 추가 이벤트
