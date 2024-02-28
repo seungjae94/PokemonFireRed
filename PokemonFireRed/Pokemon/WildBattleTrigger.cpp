@@ -19,7 +19,7 @@ void AWildBattleTrigger::RegisterPredefinedEvent()
 {
 	AEventTrigger::RegisterPredefinedEvent();
 	UEventManager::RegisterEvent(this, Cond,
-		ES::Start(false)
+		ES::Start(true)
 		// 4¹ø ±ôºı°Å¸®±â
 		>> ES::FadeOut(BlinkTime)
 		>> ES::Wait(BlinkTime)
@@ -37,8 +37,11 @@ void AWildBattleTrigger::RegisterPredefinedEvent()
 		>> ES::Wait(BlinkTime)
 		>> ES::FadeIn(BlinkTime)
 		>> ES::Wait(BlinkTime)
+		>> ES::FadeOut(0.5f)
 		// ·¹º§ º¯°æ
 		>> ES::ChangeLevel(Global::BattleLevel)
+		>> ES::Wait(0.3f)
+		>> ES::FadeIn(0.5f)
 		>> ES::End(false)
 	);
 }

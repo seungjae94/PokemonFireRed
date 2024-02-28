@@ -110,12 +110,26 @@ void UEventProcessor::Tick(float _DeltaTime)
 void UEventProcessor::ActivatePlayerControl()
 {
 	APlayer* CurPlayer = UEventManager::FindCurLevelTarget<APlayer>(Global::Player);
+
+	// 맵 레벨이 아닌 경우 플레이어의 상태를 바꾸려고 하지 않는다.
+	if (nullptr == CurPlayer)
+	{
+		return;
+	}
+
 	CurPlayer->StateChange(EPlayerState::Idle);
 }
 
 void UEventProcessor::DeactivatePlayerControl()
 {
 	APlayer* CurPlayer = UEventManager::FindCurLevelTarget<APlayer>(Global::Player);
+
+	// 맵 레벨이 아닌 경우 플레이어의 상태를 바꾸려고 하지 않는다.
+	if (nullptr == CurPlayer)
+	{
+		return;
+	}
+
 	CurPlayer->StateChange(EPlayerState::OutOfControl);
 }
 

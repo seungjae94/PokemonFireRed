@@ -26,7 +26,7 @@ protected:
 private:
 	UEventCondition Cond;
 	UPokemon Pokemon;
-	float BlinkTime = 0.3f;
+	float BlinkTime = 0.15f;
 
 	void Update(const UPokemon& _Pokemon);
 	void RegisterPredefinedEvent() override;
