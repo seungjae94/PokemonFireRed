@@ -132,6 +132,17 @@ AImageElement* ACanvas::CreateImageElement(
 	return Image;
 }
 
+AAnimationElement* ACanvas::CreateAnimationElement(UImageRenderer* _Container, EPivotType _PivotType, int _RelativePixelX, int _RelativePixelY, ERenderingOrder _Order)
+{
+	AAnimationElement* Anim = GetWorld()->SpawnActor<AAnimationElement>();
+	Anim->Container = _Container;
+	Anim->PivotType = _PivotType;
+	Anim->SetRelativePos(UPokemonUtil::PixelVector(_RelativePixelX, _RelativePixelY));
+	Anim->SetRenderingOrder(_Order);
+	Elements[_Container].push_back(Anim);
+	return Anim;
+}
+
 void ACanvas::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);

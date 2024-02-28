@@ -47,6 +47,9 @@ const std::string Global::PokemonBackPrefix = "PokemonBack";
 const std::string Global::PokemonMiniMovePrefix = "PokemonMiniMove";
 const std::string Global::PokemonMiniStopPrefix = "PokemonMiniStop";
 
+const std::string Global::PlayerBattlerIdle = "PlayerBattlerIdle";
+const std::string Global::PlayerBattlerThrow = "PlayerBattlerThrow";
+
 const std::string Global::Player = "Player";
 const std::string Global::BlackScreen = "BlackScreen";
 const std::string Global::WhiteScreen = "WhiteScreen";
@@ -136,3 +139,4 @@ const std::string RN::BattleEnemyPokemonBox = "BattleEnemyPokemonBox.png";
 const std::string RN::BattlePlayerPokemonBox = "BattlePlayerPokemonBox.png";
 const std::string RN::BattleEnemyGround = "BattleEnemyGround.png";
 const std::string RN::BattlePlayerGround = "BattlePlayerGround.png";
+const std::string RN::PlayerBattler = "PlayerBattler.png";

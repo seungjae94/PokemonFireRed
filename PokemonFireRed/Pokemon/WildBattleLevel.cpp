@@ -18,6 +18,8 @@ void UWildBattleLevel::BeginPlay()
 	UPokemonLevel::BeginPlay();
 	UPokemonUtil::LoadAllResourcesIn(RN::BattleLevel);
 
+	UEngineResourcesManager::GetInst().CuttingImage(RN::PlayerBattler, 5, 1);
+
 	Canvas = SpawnActor<AWildBattleCanvas>();
 }
 

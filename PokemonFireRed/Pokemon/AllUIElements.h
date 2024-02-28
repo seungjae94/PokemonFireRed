@@ -4,3 +4,4 @@
 #include "Text.h"
 #include "PokemonElement.h"
 #include "ImageElement.h"
+#include "AnimationElement.h"

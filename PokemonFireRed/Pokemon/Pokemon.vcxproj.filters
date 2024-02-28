@@ -291,6 +291,9 @@
     <ClInclude Include="WildBattleCanvas.h">
       <Filter>2. Level\8. BattleLevel</Filter>
     </ClInclude>
+    <ClInclude Include="AnimationElement.h">
+      <Filter>5. UI\Element</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PokemonCore.cpp">
@@ -481,6 +484,9 @@
     </ClCompile>
     <ClCompile Include="WildBattleCanvas.cpp">
       <Filter>2. Level\8. BattleLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationElement.cpp">
+      <Filter>5. UI\Element</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

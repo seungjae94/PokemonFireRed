@@ -36,6 +36,7 @@ void AWildBattleCanvas::BattleStart(const UPokemon& _PlayerPokemon, const UPokem
 	PlayerPokemonGenderMark->SetImage(_PlayerPokemon.GetGenderImageName());
 
 	EnemyPokemonImage->SetPokemon(_EnemyPokemon);
+	PlayerBattler->SetAnimation(Global::PlayerBattlerIdle);
 }
 
 void AWildBattleCanvas::BeginPlay()
@@ -97,6 +98,9 @@ void AWildBattleCanvas::BeginPlay()
 	EnemyPokemonImage = CreatePokemonElement(EnemyGround, EPokemonElementType::Front, EPivotType::LeftTop, 36, -25, ERenderingOrder::UI3);
 
 	// PlayerGround ¿ä¼Ò
+	PlayerBattler = CreateAnimationElement(PlayerGround, EPivotType::RightBot, -12, 0, ERenderingOrder::UI3);
+	PlayerBattler->CreateAnimation(Global::PlayerBattlerIdle, RN::PlayerBattler, 0, 0, 0.0f, false);
+	PlayerBattler->CreateAnimation(Global::PlayerBattlerThrow, RN::PlayerBattler, 0, 4, 0.2f, false);
 }
 
 void AWildBattleCanvas::Tick(float _DeltaTime)

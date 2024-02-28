@@ -72,6 +72,14 @@ public:
 		ERenderingOrder _Order = ERenderingOrder::UI2
 	);
 
+	AAnimationElement* CreateAnimationElement(
+		UImageRenderer* _Container,
+		EPivotType _PivotType = EPivotType::LeftTop,
+		int _RelativePixelX = 0,
+		int _RelativePixelY = 0,
+		ERenderingOrder _Order = ERenderingOrder::UI2
+	);
+
 protected:
 	virtual void Sync(ACanvas* _Other) {}
 	

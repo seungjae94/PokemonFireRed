@@ -52,7 +52,7 @@ private:
 	APokemonElement* EnemyPokemonImage = nullptr;
 
 	// PlayerPokemonGround ¿ä¼Ò
-	AImageElement* PlayerImage = nullptr;
+	AAnimationElement* PlayerBattler = nullptr;
 	APokemonElement* PlayerPokemonImage = nullptr;
 };
 

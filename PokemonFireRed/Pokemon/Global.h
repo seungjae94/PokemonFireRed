@@ -74,6 +74,9 @@ public:
 	static const std::string PokemonMiniMovePrefix;
 	static const std::string PokemonMiniStopPrefix;
 
+	static const std::string PlayerBattlerIdle;
+	static const std::string PlayerBattlerThrow;
+
 	static const std::string Player;
 	static const std::string BlackScreen;
 	static const std::string WhiteScreen;
@@ -172,6 +175,7 @@ public:
 	static const std::string BattlePlayerPokemonBox;
 	static const std::string BattleEnemyGround;
 	static const std::string BattlePlayerGround;
+	static const std::string PlayerBattler;
 protected:
 
 private:

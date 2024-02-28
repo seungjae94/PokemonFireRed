@@ -34,13 +34,12 @@ std::vector<int> UPokemonUtil::FrameCountVectorToIndexVector(std::vector<int> _F
 FVector UPokemonUtil::GetImageScale(UImageRenderer* _Renderer)
 {
 	UWindowImage* Image = _Renderer->GetImage();
-	return Image->GetScale();
+	return Image->ImageInfo(0).CuttingTrans.GetScale();;
 }
 
 FVector UPokemonUtil::GetRenderScale(UImageRenderer* _Renderer)
 {
-	UWindowImage* Image = _Renderer->GetImage();
-	return Image->GetScale() * Global::FloatPixelSize;
+	return GetImageScale(_Renderer) * Global::FloatPixelSize;
 }
 
 void UPokemonUtil::AlignImage(
