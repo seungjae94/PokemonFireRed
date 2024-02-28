@@ -91,7 +91,7 @@ public:
 			Species.YSpAtk = std::stoi(Line[11]);
 			Species.YSpDef = std::stoi(Line[12]);
 			Species.YSpeed = std::stoi(Line[13]);
-			Species.ExpGroup = static_cast<EExperienceGroup>(std::stoi(Line[14]));
+			Species.ExpGroup = static_cast<EExperienceGroup>(UPokemonDB::Resolve(Line[14]));
 			Species.MaleRatio = std::stof(Line[15]);
 			Species.CatchRate = std::stoi(Line[16]);
 			Species.Friendship = std::stoi(Line[17]);
@@ -108,7 +108,7 @@ public:
 				Species.TypeIds.push_back(static_cast<EPokemonType>(LineInt));
 			}
 
-			for (int i = 20; i <= 22; ++i)
+			for (int i = 20; i <= 21; ++i)
 			{
 				int LineInt = UPokemonDB::Resolve(Line[i]);
 
