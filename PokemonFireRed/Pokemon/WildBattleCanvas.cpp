@@ -68,7 +68,7 @@ void AWildBattleCanvas::BeginPlay()
 		0, 0
 	);
 
-	EnemyPokemonBox = CreateImageRenderer(ERenderingOrder::UI1);
+	EnemyPokemonBox = CreateImageRenderer(ERenderingOrder::UI2);
 	EnemyPokemonBox->CameraEffectOff();
 	EnemyPokemonBox->SetImage(RN::BattleEnemyPokemonBox);
 	UPokemonUtil::PlaceImageOnScreen(
@@ -77,13 +77,31 @@ void AWildBattleCanvas::BeginPlay()
 		13, 16
 	);
 
-	PlayerPokemonBox = CreateImageRenderer(ERenderingOrder::UI1);
+	PlayerPokemonBox = CreateImageRenderer(ERenderingOrder::UI2);
 	PlayerPokemonBox->CameraEffectOff();
 	PlayerPokemonBox->SetImage(RN::BattlePlayerPokemonBox);
 	UPokemonUtil::PlaceImageOnScreen(
 		PlayerPokemonBox,
 		EPivotType::RightBot,
 		-10, -49
+	);
+
+	EnemyPokemonGround = CreateImageRenderer(ERenderingOrder::UI1);
+	EnemyPokemonGround->CameraEffectOff();
+	EnemyPokemonGround->SetImage(RN::BattleEnemyPokemonGround);
+	UPokemonUtil::PlaceImageOnScreen(
+		EnemyPokemonGround,
+		EPivotType::RightTop,
+		0, 46
+	);
+
+	PlayerPokemonGround = CreateImageRenderer(ERenderingOrder::UI1);
+	PlayerPokemonGround->CameraEffectOff();
+	PlayerPokemonGround->SetImage(RN::BattlePlayerPokemonGround);
+	UPokemonUtil::PlaceImageOnScreen(
+		PlayerPokemonGround,
+		EPivotType::LeftBot,
+		4, -48
 	);
 
 	// EnemyPokemonBox 요소
@@ -94,7 +112,8 @@ void AWildBattleCanvas::BeginPlay()
 		EAlignType::Left,
 		7, 12,
 		EFontColor::Black,
-		EFontSize::Mini
+		EFontSize::Mini,
+		ERenderingOrder::UI3
 	);
 	EnemyPokemonLevelText = CreateText(
 		EnemyPokemonBox,
@@ -103,20 +122,22 @@ void AWildBattleCanvas::BeginPlay()
 		EAlignType::Right,
 		85, 12,
 		EFontColor::Black,
-		EFontSize::Mini
+		EFontSize::Mini,
+		ERenderingOrder::UI3
 	);
 	EnemyPokemonHpBar = CreateScrollBar(
 		EnemyPokemonBox,
 		EScrollType::Hp,
 		50, 100,
 		EPivotType::LeftTop,
-		39, 17
+		39, 17,
+		ERenderingOrder::UI3
 	);
 	EnemyPokemonGenderMark = CreateImageElement(
 		EnemyPokemonBox,
 		EPivotType::LeftTop,
 		10, 5,
-		ERenderingOrder::UI2
+		ERenderingOrder::UI3
 	);
 
 	// PlayerPokemonBox 요소
@@ -127,7 +148,8 @@ void AWildBattleCanvas::BeginPlay()
 		EAlignType::Left,
 		-84, 12,
 		EFontColor::Black,
-		EFontSize::Mini
+		EFontSize::Mini,
+		ERenderingOrder::UI3
 	);
 	PlayerPokemonLevelText = CreateText(
 		PlayerPokemonBox,
@@ -136,7 +158,8 @@ void AWildBattleCanvas::BeginPlay()
 		EAlignType::Right,
 		-9, 12,
 		EFontColor::Black,
-		EFontSize::Mini
+		EFontSize::Mini,
+		ERenderingOrder::UI3
 	);
 	PlayerPokemonCurHpText = CreateText(
 		PlayerPokemonBox,
@@ -145,7 +168,8 @@ void AWildBattleCanvas::BeginPlay()
 		EAlignType::Right,
 		-29, -6,
 		EFontColor::Black,
-		EFontSize::Mini
+		EFontSize::Mini,
+		ERenderingOrder::UI3
 	);
 	PlayerPokemonHpText = CreateText(
 		PlayerPokemonBox,
@@ -154,27 +178,30 @@ void AWildBattleCanvas::BeginPlay()
 		EAlignType::Right,
 		-9, -6,
 		EFontColor::Black,
-		EFontSize::Mini
+		EFontSize::Mini,
+		ERenderingOrder::UI3
 	);
 	PlayerPokemonHpBar = CreateScrollBar(
 		PlayerPokemonBox,
 		EScrollType::Hp,
 		50, 100,
 		EPivotType::RightTop,
-		-55, 17
+		-55, 17,
+		ERenderingOrder::UI3
 	);
 	PlayerPokemonExpBar = CreateScrollBar(
 		PlayerPokemonBox,
 		EScrollType::Exp,
 		50, 100,
 		EPivotType::RightTop,
-		-71, 33
+		-71, 33,
+		ERenderingOrder::UI3
 	);
 	PlayerPokemonGenderMark = CreateImageElement(
 		PlayerPokemonBox,
 		EPivotType::LeftTop,
 		10, 5,
-		ERenderingOrder::UI2
+		ERenderingOrder::UI3
 	);
 }
 

@@ -30,6 +30,8 @@ private:
 	UImageRenderer* ActionBox = nullptr;
 	UImageRenderer* EnemyPokemonBox = nullptr;
 	UImageRenderer* PlayerPokemonBox = nullptr;
+	UImageRenderer* EnemyPokemonGround = nullptr;
+	UImageRenderer* PlayerPokemonGround = nullptr;
 
 	// EnemyPokemonBox ¿ä¼Ò
 	AText* EnemyPokemonNameText = nullptr;
