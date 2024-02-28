@@ -10,10 +10,29 @@ AWildBattleCanvas::~AWildBattleCanvas()
 {
 }
 
-void AWildBattleCanvas::BattleStart(const UPokemon& _PlayerPokemon, const UPokemon& _EnemyPokemon)
+void AWildBattleCanvas::Init(const UPokemon& _PlayerPokemon, const UPokemon& _EnemyPokemon)
 {
 	PrepareElements(_PlayerPokemon, _EnemyPokemon);
+
+	// 액션 박스 꺼두기
 	ActionBox->SetActive(false);
+
+	// 적 UI는 왼쪽에 숨겨두기
+	EnemyGroundHidePos = EnemyGroundInitPos + FVector::Left * Global::FloatScreenX;
+	EnemyPokemonBoxHidePos = EnemyPokemonBoxInitPos + FVector::Left * Global::FloatScreenX;
+	EnemyGround->SetPosition(EnemyGroundHidePos);
+	EnemyPokemonBox->SetPosition(EnemyPokemonBoxHidePos);
+
+	// 아군 UI는 오른쪽에 숨겨두기
+	PlayerGroundHidePos = PlayerGroundInitPos + FVector::Right * Global::FloatScreenX;
+	PlayerPokemonBoxHidePos = PlayerPokemonBoxInitPos + FVector::Right * Global::FloatScreenX;
+	PlayerGround->SetPosition(PlayerGroundHidePos);
+	PlayerPokemonBox->SetPosition(PlayerPokemonBoxHidePos);
+
+	// 상태 초기화
+	State = EBattleState::BattleStart;
+	BattleStartState = EBattleStartState::GroundMove;
+	Timer = FadeWaitTime;
 }
 
 void AWildBattleCanvas::PrepareElements(const UPokemon& _PlayerPokemon, const UPokemon& _EnemyPokemon)
@@ -46,6 +65,72 @@ void AWildBattleCanvas::PrepareElements(const UPokemon& _PlayerPokemon, const UP
 	PlayerBattler->SetAnimation(Global::PlayerBattlerIdle);
 }
 
+void AWildBattleCanvas::ProcessBattleStart(float _DeltaTime)
+{
+	switch (BattleStartState)
+	{
+	case EBattleStartState::FadeWait:
+		ProcessBattleStartFadeWait(_DeltaTime);
+		break;
+	case EBattleStartState::GroundMove:
+		ProcessBattleStartGroundMove(_DeltaTime);
+		break;
+	case EBattleStartState::EnemyPokemonBoxMove:
+		ProcessBattleStartEnemyPokemonBoxMove(_DeltaTime);
+		break;
+	case EBattleStartState::ZClickWait:
+		ProcessBattleStartZClickWait(_DeltaTime);
+		break;
+	case EBattleStartState::SendOutFirstPokemon:
+		ProcessBattleStartSendOutFirstPokemon(_DeltaTime);
+		break;
+	case EBattleStartState::PlayerPokemonBoxMove:
+		ProcessBattleStartPlayerPokemonBoxMove(_DeltaTime);
+		break;
+	default:
+		break;
+	}
+}
+
+void AWildBattleCanvas::ProcessBattleStartFadeWait(float _DeltaTime)
+{
+	if (Timer <= 0.0f)
+	{
+		Timer = GroundMoveTime;
+		BattleStartState = EBattleStartState::GroundMove;
+	}
+}
+
+void AWildBattleCanvas::ProcessBattleStartGroundMove(float _DeltaTime)
+{
+	FVector EnemyGroundPos = UPokemonMath::Lerp(EnemyGroundInitPos, EnemyGroundHidePos, Timer/GroundMoveTime);
+	FVector PlayerGroundPos = UPokemonMath::Lerp(PlayerGroundInitPos, PlayerGroundHidePos, Timer/GroundMoveTime);
+	EnemyGround->SetPosition(EnemyGroundPos);
+	PlayerGround->SetPosition(PlayerGroundPos);
+
+	if (Timer < 0.0f)
+	{
+		Timer = EnemyPokemonBoxMoveTime;
+		BattleStartState = EBattleStartState::EnemyPokemonBoxMove;
+	}
+}
+
+void AWildBattleCanvas::ProcessBattleStartEnemyPokemonBoxMove(float _DeltaTime)
+{
+}
+
+void AWildBattleCanvas::ProcessBattleStartZClickWait(float _DeltaTime)
+{
+}
+
+void AWildBattleCanvas::ProcessBattleStartSendOutFirstPokemon(float _DeltaTime)
+{
+}
+
+void AWildBattleCanvas::ProcessBattleStartPlayerPokemonBoxMove(float _DeltaTime)
+{
+}
+
 void AWildBattleCanvas::BeginPlay()
 {
 	ACanvas::BeginPlay();
@@ -70,21 +155,25 @@ void AWildBattleCanvas::BeginPlay()
 	EnemyPokemonBox->CameraEffectOff();
 	EnemyPokemonBox->SetImage(RN::BattleEnemyPokemonBox);
 	UPokemonUtil::PlaceImageOnScreen(EnemyPokemonBox, EPivotType::LeftTop, 13, 16);
+	EnemyPokemonBoxInitPos = EnemyPokemonBox->GetPosition();
 
 	PlayerPokemonBox = CreateImageRenderer(ERenderingOrder::UI2);
 	PlayerPokemonBox->CameraEffectOff();
 	PlayerPokemonBox->SetImage(RN::BattlePlayerPokemonBox);
 	UPokemonUtil::PlaceImageOnScreen(PlayerPokemonBox, EPivotType::RightBot, -10, -49);
+	PlayerPokemonBoxInitPos = PlayerPokemonBox->GetPosition();
 
 	EnemyGround = CreateImageRenderer(ERenderingOrder::UI1);
 	EnemyGround->CameraEffectOff();
 	EnemyGround->SetImage(RN::BattleEnemyGround);
 	UPokemonUtil::PlaceImageOnScreen(EnemyGround, EPivotType::RightTop, 0, 46);
+	EnemyGroundInitPos = EnemyGround->GetPosition();
 
 	PlayerGround = CreateImageRenderer(ERenderingOrder::UI1);
 	PlayerGround->CameraEffectOff();
 	PlayerGround->SetImage(RN::BattlePlayerGround);
 	UPokemonUtil::PlaceImageOnScreen(PlayerGround, EPivotType::LeftBot, 4, -48);
+	PlayerGroundInitPos = PlayerGround->GetPosition();
 
 	// MsgBox 요소
 	MsgText = CreateText(MsgBox, L"Wild ABCDEF appeared!", EPivotType::LeftTop, EAlignType::Left, 11, 21, EFontColor::White, EFontSize::Normal, ERenderingOrder::UI3);
@@ -108,7 +197,7 @@ void AWildBattleCanvas::BeginPlay()
 	EnemyPokemonImage = CreatePokemonElement(EnemyGround, EPokemonElementType::Front, EPivotType::LeftTop, 36, -25, ERenderingOrder::UI3);
 
 	// PlayerGround 요소
-	PlayerBattler = CreateAnimationElement(PlayerGround, RN::PlayerBattler, EPivotType::RightBot, -12, 0, ERenderingOrder::UI3);
+	PlayerBattler = CreateAnimationElement(PlayerGround, RN::PlayerBattler, EPivotType::RightBot, -12, 0, ERenderingOrder::UI4);
 	PlayerBattler->CreateAnimation(Global::PlayerBattlerIdle, 0, 0, 0.0f, false);
 	PlayerBattler->CreateAnimation(Global::PlayerBattlerThrow, 0, 4, 0.2f, false);
 }
@@ -116,5 +205,16 @@ void AWildBattleCanvas::BeginPlay()
 void AWildBattleCanvas::Tick(float _DeltaTime)
 {
 	ACanvas::Tick(_DeltaTime);
+
+	Timer -= _DeltaTime;
+
+	switch (State)
+	{
+	case EBattleState::BattleStart:
+		ProcessBattleStart(_DeltaTime);
+		break;
+	default:
+		break;
+	}
 }
 

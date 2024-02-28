@@ -2,13 +2,29 @@
 #include "Canvas.h"
 #include "Pokemon.h"
 
-enum class EBattleState
-{
-	BattleStart,
-};
-
 class AWildBattleCanvas : public ACanvas
 {
+private:
+	enum class EBattleState
+	{
+		BattleStart,
+		PlayerAction,
+		PlayerMove,
+		EnemyMove,
+		PlayerSecondaryEffect,
+		EnemySecondaryEffect,
+		BattleEnd
+	};
+
+	enum class EBattleStartState
+	{
+		FadeWait,
+		GroundMove,
+		EnemyPokemonBoxMove,
+		ZClickWait,
+		SendOutFirstPokemon,
+		PlayerPokemonBoxMove,
+	};
 public:
 	// constructor destructor
 	AWildBattleCanvas();
@@ -20,17 +36,43 @@ public:
 	AWildBattleCanvas& operator=(const AWildBattleCanvas& _Other) = delete;
 	AWildBattleCanvas& operator=(AWildBattleCanvas&& _Other) noexcept = delete;
 
-	void BattleStart(const UPokemon& _PlayerPokemon, const UPokemon& _EnemyPokemon);
+	void Init(const UPokemon& _PlayerPokemon, const UPokemon& _EnemyPokemon);
 protected:
 
 private:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
-	// FSM
 	void PrepareElements(const UPokemon& _PlayerPokemon, const UPokemon& _EnemyPokemon);
+	
+	// FSM
 	EBattleState State = EBattleState::BattleStart;
+	float Timer = 0.0f;
 
+	void ProcessBattleStart(float _DeltaTime);
+	void ProcessBattleStartFadeWait(float _DeltaTime);
+	void ProcessBattleStartGroundMove(float _DeltaTime);
+	void ProcessBattleStartEnemyPokemonBoxMove(float _DeltaTime);
+	void ProcessBattleStartZClickWait(float _DeltaTime);
+	void ProcessBattleStartSendOutFirstPokemon(float _DeltaTime);
+	void ProcessBattleStartPlayerPokemonBoxMove(float _DeltaTime);
+	EBattleStartState BattleStartState = EBattleStartState::GroundMove;
+	float FadeWaitTime = 2.0f;
+	float GroundMoveTime = 2.0f;
+	float EnemyPokemonBoxMoveTime = 0.3f;
+	float PlayePokemonBoxMoveTime = 0.3f;
+
+	// 최초 위치 기억
+	FVector EnemyPokemonBoxInitPos;
+	FVector EnemyPokemonBoxHidePos;
+	FVector PlayerPokemonBoxInitPos;
+	FVector PlayerPokemonBoxHidePos;
+	FVector EnemyGroundInitPos;
+	FVector EnemyGroundHidePos;
+	FVector PlayerGroundInitPos;
+	FVector PlayerGroundHidePos;
+
+	// 배경
 	UImageRenderer* Background = nullptr;
 
 	// 최상위 요소
