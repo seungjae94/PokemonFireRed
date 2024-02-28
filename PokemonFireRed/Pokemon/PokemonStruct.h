@@ -61,6 +61,7 @@ enum class EPokemonAbility
 	Static,
 	SandVeil,
 	PoisonPoint,
+	VitalSpirit
 };
 
 struct FPokemonAbility
@@ -206,6 +207,11 @@ enum class EPokemonMove
 	Scratch,
 	Tackle,
 	TailWhip,
+	StringShot,
+	PoisonString,
+	Peck,
+	Leer,
+	LowKick
 };
 
 struct FPokemonMove

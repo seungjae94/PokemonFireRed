@@ -46,7 +46,9 @@ public:
 			{
 				if (false == Line[i].empty())
 				{
-					UPokemonDB::NameResolver[UEngineString::ToUpper(Line[i])] = IntValue;
+					std::string UpperLine = UEngineString::ToUpper(Line[i]);
+					UPokemonDB::NameResolver[UpperLine] = IntValue;
+					UPokemonDB::NameResolver[UPokemonString::RemoveSpace(UpperLine)] = IntValue;
 				}
 			}
 		}
@@ -64,7 +66,7 @@ public:
 		{
 			EPokedexNo Id = static_cast<EPokedexNo>(UPokemonDB::Resolve(Line[0]));
 			int Level = std::stoi(Line[1]);
-			EPokemonMove MoveId = static_cast<EPokemonMove>(std::stoi(Line[2]));
+			EPokemonMove MoveId = static_cast<EPokemonMove>(UPokemonDB::Resolve(Line[2]));
 
 			LevelUpMoveMap[Id][Level].push_back(MoveId);
 		}

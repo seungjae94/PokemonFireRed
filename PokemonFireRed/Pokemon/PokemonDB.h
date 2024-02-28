@@ -4,6 +4,7 @@
 #include <list>
 #include <EngineBase/EngineDebug.h>
 #include <EngineBase/EngineString.h>
+#include "PokemonString.h"
 #include "Global.h"
 #include "WildPokemonZone.h"
 

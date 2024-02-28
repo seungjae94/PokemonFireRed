@@ -49,6 +49,13 @@ public:
 		return ToUpperW(UEngineString::AnsiToUniCode(_Text));
 	}
 
+	static std::string RemoveSpace(std::string_view _Text)
+	{
+		std::string Text = _Text.data();
+		std::erase(Text, ' ');
+		return Text;
+	}
+
 	static std::vector<std::string> Split(const std::string& _Str, char _Delimeter = '\n');
 	static std::vector<std::wstring> Split(std::wstring_view _Str, wchar_t _Delimeter = L'\n');
 
