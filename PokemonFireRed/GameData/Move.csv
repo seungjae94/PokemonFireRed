@@ -10,7 +10,7 @@ ID,Name,Explain,Type,PP,BasePower,Accuracy,Contact
 9,SCRATCH,"Hard, pointed, and\nsharp claws rake\nthe foe.",Normal,35,40,100,Yes
 10,TACKLE,"A physical attack\nin which the user\ncharges, full body,\ninto the foe.",Normal,35,35,95,Yes
 11,TAIL WHIP,"The user wags its\ntail cutely, making\nthe foe lower its\nDEFENSE stat.",Normal,30,0,100,No
-12,STRING SHOT,The foe is bound\nwith strings shot\nfrom the mouth\nto reduce its SPEED.,Bug,40,0,95,No
+12,STRING SHOT,The foe is bound\nwith strings shot\nfrom the mouth to\nreduce its SPEED.,Bug,40,0,95,No
 13,POISON STRING,"The foe is stabbed\nwith a toxic\nbarb, etc. It\nmay poison the foe.",Poison,35,15,100,No
 14,PECK,The foe is jabbed\nwith a sharply\npointed beak or horn.,Flying,35,35,100,Yes
 15,LEER,The foe is given\nan intimidating look\nthat lowers its\nDEFENSE stat.,Normal,30,0,100,No
