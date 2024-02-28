@@ -2,10 +2,10 @@
 #include <EngineBase\EngineDebug.h>
 #include <EngineBase\EngineString.h>
 #include <EngineBase\EngineTime.h>
-
 #include <EnginePlatform\EngineWindow.h>
 #include <EnginePlatform\EngineInput.h>
 #include <map>
+#include <vector>
 
 
 // 하위 개념인 레벨을 헤더로 직접 참조할 때 발생할 수 있는 순환 참조를 방지하기 위해 클래스 전방 선언
@@ -57,6 +57,8 @@ public:
 		AllLevel.insert(std::pair<std::string, ULevel*>(UpperName, NewLevel));
 	}
 
+	void DestroyLevel(std::string_view _Name);
+
 	void ChangeLevel(std::string_view _Name);
 
 	void SetFrame(int _Frame)
@@ -90,6 +92,8 @@ private:
 	std::map<std::string, ULevel*> AllLevel;
 	ULevel* CurLevel = nullptr;
 	ULevel* NextLevel = nullptr;
+	std::vector<std::string> DestroyLevelName;
+
 	void LevelInit(ULevel* _Level, std::string_view _Name); // 레벨의 BeginPlay 함수를 호출해주는 함수
 
 	// 메시지 루프 콜백 함수
