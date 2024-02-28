@@ -67,7 +67,7 @@ public:
 	static const std::string PokemonUILevel;
 	static const std::string PokemonSummaryUILevel;
 	static const std::string TrainerCardUILevel;
-	static const std::string BattleLevel;
+	static const std::string WildBattleLevel;
 
 	static const std::string PokemonFrontPrefix;
 	static const std::string PokemonBackPrefix;
@@ -163,6 +163,9 @@ public:
 	static const std::string BgmTitleScreen;
 	static const std::string BgmTutorial;
 	static const std::string BgmPalletTown;
+
+	static const std::string BattleLevel;
+	static const std::string BattleBackground;
 protected:
 
 private:

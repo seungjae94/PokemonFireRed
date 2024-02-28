@@ -150,7 +150,7 @@
     <ClInclude Include="PokemonUtil.h">
       <Filter>3. Util</Filter>
     </ClInclude>
-    <ClInclude Include="Page.h">
+    <ClInclude Include="Canvas.h">
       <Filter>5. UI</Filter>
     </ClInclude>
     <ClInclude Include="TutorialLevel.h">
@@ -234,7 +234,7 @@
     <ClInclude Include="PokemonUILevel.h">
       <Filter>2. Level\3. PokemonUILevel</Filter>
     </ClInclude>
-    <ClInclude Include="PokemonPage.h">
+    <ClInclude Include="PokemonCanvas.h">
       <Filter>2. Level\3. PokemonUILevel</Filter>
     </ClInclude>
     <ClInclude Include="Cursor.h">
@@ -246,7 +246,7 @@
     <ClInclude Include="PokemonSummaryUILevel.h">
       <Filter>2. Level\3. PokemonUILevel\SummaryLevel</Filter>
     </ClInclude>
-    <ClInclude Include="PokemonSummaryPage.h">
+    <ClInclude Include="PokemonSummaryCanvas.h">
       <Filter>2. Level\3. PokemonUILevel\SummaryLevel</Filter>
     </ClInclude>
     <ClInclude Include="AllUIElements.h">
@@ -261,7 +261,7 @@
     <ClInclude Include="TrainerCardUILevel.h">
       <Filter>2. Level\4. TrainerCardUILevel</Filter>
     </ClInclude>
-    <ClInclude Include="TrainerCardPage.h">
+    <ClInclude Include="TrainerCardCanvas.h">
       <Filter>2. Level\4. TrainerCardUILevel</Filter>
     </ClInclude>
     <ClInclude Include="PokemonDB.h">
@@ -270,7 +270,7 @@
     <ClInclude Include="PokemonStruct.h">
       <Filter>6. Data\Pokemon\DB</Filter>
     </ClInclude>
-    <ClInclude Include="BattleLevel.h">
+    <ClInclude Include="WildBattleLevel.h">
       <Filter>2. Level\7. BattleLevel</Filter>
     </ClInclude>
     <ClInclude Include="CsvReader.h">
@@ -344,7 +344,7 @@
     <ClCompile Include="PokemonUtil.cpp">
       <Filter>3. Util</Filter>
     </ClCompile>
-    <ClCompile Include="Page.cpp">
+    <ClCompile Include="Canvas.cpp">
       <Filter>5. UI</Filter>
     </ClCompile>
     <ClCompile Include="TutorialLevel.cpp">
@@ -428,7 +428,7 @@
     <ClCompile Include="PokemonUILevel.cpp">
       <Filter>2. Level\3. PokemonUILevel</Filter>
     </ClCompile>
-    <ClCompile Include="PokemonPage.cpp">
+    <ClCompile Include="PokemonCanvas.cpp">
       <Filter>2. Level\3. PokemonUILevel</Filter>
     </ClCompile>
     <ClCompile Include="Cursor.cpp">
@@ -437,7 +437,7 @@
     <ClCompile Include="PokemonElement.cpp">
       <Filter>5. UI\Element</Filter>
     </ClCompile>
-    <ClCompile Include="PokemonSummaryPage.cpp">
+    <ClCompile Include="PokemonSummaryCanvas.cpp">
       <Filter>2. Level\3. PokemonUILevel\SummaryLevel</Filter>
     </ClCompile>
     <ClCompile Include="PokemonSummaryUILevel.cpp">
@@ -452,13 +452,13 @@
     <ClCompile Include="TrainerCardUILevel.cpp">
       <Filter>2. Level\4. TrainerCardUILevel</Filter>
     </ClCompile>
-    <ClCompile Include="TrainerCardPage.cpp">
+    <ClCompile Include="TrainerCardCanvas.cpp">
       <Filter>2. Level\4. TrainerCardUILevel</Filter>
     </ClCompile>
     <ClCompile Include="PokemonDB.cpp">
       <Filter>6. Data\Pokemon\DB</Filter>
     </ClCompile>
-    <ClCompile Include="BattleLevel.cpp">
+    <ClCompile Include="WildBattleLevel.cpp">
       <Filter>2. Level\7. BattleLevel</Filter>
     </ClCompile>
     <ClCompile Include="CsvReader.cpp">

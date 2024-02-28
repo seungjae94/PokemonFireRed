@@ -33,7 +33,7 @@ void AMapNameWindow::Open(std::wstring_view _MapName)
 
 void AMapNameWindow::BeginPlay()
 {
-	APage::BeginPlay();
+	ACanvas::BeginPlay();
 
 	// 배경 이미지 렌더러 설정
 	Renderer = CreateImageRenderer(ERenderingOrder::UI0);
@@ -60,7 +60,7 @@ void AMapNameWindow::BeginPlay()
 
 void AMapNameWindow::Tick(float _DeltaTime)
 {
-	APage::Tick(_DeltaTime);
+	ACanvas::Tick(_DeltaTime);
 
 	switch (State)
 	{

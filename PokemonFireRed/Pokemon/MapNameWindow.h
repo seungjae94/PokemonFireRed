@@ -1,5 +1,5 @@
 #pragma once
-#include "Page.h"
+#include "Canvas.h"
 #include "Text.h"
 #include "Global.h"
 
@@ -11,7 +11,7 @@ enum class EMapNameWindowState
 	Show,
 };
 
-class AMapNameWindow : public APage
+class AMapNameWindow : public ACanvas
 {
 public:
 	// constructor destructor

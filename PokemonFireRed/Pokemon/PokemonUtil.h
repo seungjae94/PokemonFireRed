@@ -3,7 +3,7 @@
 #include <EngineBase/Transform.h>
 #include <EngineCore/Actor.h>
 #include "Global.h"
-#include "Page.h"
+#include "Canvas.h"
 
 class UPokemonUtil
 {
@@ -62,6 +62,8 @@ public:
 	static void CreatePokemonMiniStopAnimations(UImageRenderer* _Renderer);
 	static void CreatePokemonFrontAnimations(UImageRenderer* _Renderer);
 	static void CreatePokemonBackAnimations(UImageRenderer* _Renderer);
+
+	static void LoadAllResourcesIn(std::string_view _DirName);
 protected:
 
 private:

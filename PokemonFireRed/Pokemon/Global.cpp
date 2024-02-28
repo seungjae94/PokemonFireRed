@@ -40,7 +40,7 @@ const std::string Global::InteriorPlayersHouse2FLevel = "InteriorPlayersHouse2FL
 const std::string Global::PokemonUILevel = "PokemonUILevel";
 const std::string Global::PokemonSummaryUILevel = "PokemonUISummaryLevel";
 const std::string Global::TrainerCardUILevel = "TrainerCardUILevel";
-const std::string Global::BattleLevel = "BattleLevel";
+const std::string Global::WildBattleLevel = "WildBattleLevel";
 
 const std::string Global::PokemonFrontPrefix = "PokemonFront";
 const std::string Global::PokemonBackPrefix = "PokemonBack";
@@ -127,3 +127,6 @@ const std::string RN::BgmTitleBattle = "TitleBattle.wav";
 const std::string RN::BgmTitleScreen = "TitleScreen.wav";
 const std::string RN::BgmTutorial = "Tutorial.wav";
 const std::string RN::BgmPalletTown = "PalletTown.wav";
+
+const std::string RN::BattleLevel = "BattleLevel";
+const std::string RN::BattleBackground = "BattleBackground.png";

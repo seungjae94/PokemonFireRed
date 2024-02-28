@@ -1,21 +1,21 @@
-#include "PokemonSummaryPage.h"
+#include "PokemonSummaryCanvas.h"
 #include <EnginePlatform/EngineInput.h>
 #include "PokemonString.h"
 #include "PokemonLevel.h"
 #include "PokemonUtil.h"
 #include "PlayerData.h"
 
-APokemonSummaryPage::APokemonSummaryPage()
+APokemonSummaryCanvas::APokemonSummaryCanvas()
 {
 }
 
-APokemonSummaryPage::~APokemonSummaryPage()
+APokemonSummaryCanvas::~APokemonSummaryCanvas()
 {
 }
 
-void APokemonSummaryPage::BeginPlay()
+void APokemonSummaryCanvas::BeginPlay()
 {
-	APage::BeginPlay();
+	ACanvas::BeginPlay();
 
 	// 최상위 요소
 	Background = CreateImageRenderer(ERenderingOrder::UI0);
@@ -119,7 +119,7 @@ void APokemonSummaryPage::BeginPlay()
 	MoveFocusCursor = CreateCursor(MovesDetailBox, RN::PokemonSummaryUIMoveFocus, 0, 5, EPivotType::RightTop, 119, -31, 28);
 }
 
-void APokemonSummaryPage::RefreshAll()
+void APokemonSummaryCanvas::RefreshAll()
 {
 	EPokedexNo PokedexNo = Pokemon->GetPokedexNo();
 
@@ -194,7 +194,7 @@ void APokemonSummaryPage::RefreshAll()
 }
 
 
-void APokemonSummaryPage::RefreshMoveDetailBox()
+void APokemonSummaryCanvas::RefreshMoveDetailBox()
 {
 	int Cursor = MoveFocusCursor->GetCursor();
 	if (Cursor >= Pokemon->GetMoveCount())
@@ -220,7 +220,7 @@ void APokemonSummaryPage::RefreshMoveDetailBox()
 	}
 }
 
-void APokemonSummaryPage::Reset()
+void APokemonSummaryCanvas::Reset()
 {
 	State = EPokemonSummaryPageState::Info;
 	Background->SetActive(true);
@@ -234,9 +234,9 @@ void APokemonSummaryPage::Reset()
 	Nav->SetImage(RN::PokemonSummaryUINavInfo);
 }
 
-void APokemonSummaryPage::Tick(float _DeltaTime)
+void APokemonSummaryCanvas::Tick(float _DeltaTime)
 {
-	APage::Tick(_DeltaTime);
+	ACanvas::Tick(_DeltaTime);
 
 	switch (State)
 	{
@@ -257,7 +257,7 @@ void APokemonSummaryPage::Tick(float _DeltaTime)
 	}
 }
 
-void APokemonSummaryPage::InfoTick(float _DeltaTime)
+void APokemonSummaryCanvas::InfoTick(float _DeltaTime)
 {
 	if (true == UEngineInput::IsDown('Z') || true == UEngineInput::IsDown('X'))
 	{
@@ -275,7 +275,7 @@ void APokemonSummaryPage::InfoTick(float _DeltaTime)
 	}
 }
 
-void APokemonSummaryPage::SkillsTick(float _DeltaTime)
+void APokemonSummaryCanvas::SkillsTick(float _DeltaTime)
 {
 	if (true == UEngineInput::IsDown('X'))
 	{
@@ -302,7 +302,7 @@ void APokemonSummaryPage::SkillsTick(float _DeltaTime)
 	}
 }
 
-void APokemonSummaryPage::MovesTick(float _DeltaTime)
+void APokemonSummaryCanvas::MovesTick(float _DeltaTime)
 {
 	if (true == UEngineInput::IsDown('X'))
 	{
@@ -329,7 +329,7 @@ void APokemonSummaryPage::MovesTick(float _DeltaTime)
 	}
 }
 
-void APokemonSummaryPage::MovesDetailTick(float _DeltaTime)
+void APokemonSummaryCanvas::MovesDetailTick(float _DeltaTime)
 {
 	if (true == UEngineInput::IsDown('X'))
 	{

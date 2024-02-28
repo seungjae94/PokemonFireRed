@@ -32,7 +32,7 @@ class AText : public AUIElement
 {
 	class GlyphAlignRule;
 	friend class AlignRuleMapInitiator;
-	friend class APage;
+	friend class ACanvas;
 public:
 	// constructor destructor
 	AText();

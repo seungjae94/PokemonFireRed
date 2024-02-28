@@ -1,7 +1,7 @@
 #pragma once
-#include "Page.h"
+#include "Canvas.h"
 
-class AFadeScreen : public APage
+class AFadeScreen : public ACanvas
 {
 public:
 	// constructor destructor
@@ -60,7 +60,7 @@ public:
 		AllRenderersActiveOn();
 	}
 
-	void Sync(APage* _Other) override
+	void Sync(ACanvas* _Other) override
 	{
 		AFadeScreen* Other = dynamic_cast<AFadeScreen*>(_Other);
 		

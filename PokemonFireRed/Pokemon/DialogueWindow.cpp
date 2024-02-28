@@ -30,7 +30,7 @@ void ADialogueWindow::SetDialogue(const std::vector<std::wstring>& _Dialogue, EF
 
 void ADialogueWindow::BeginPlay()
 {
-	APage::BeginPlay();
+	ACanvas::BeginPlay();
 	
 	// 컨테이너(메시지 박스)가 열려 있을 때 자동으로 모든 텍스트가 켜지는 걸 막는다.
 	ContainerElementSyncOff();
@@ -58,7 +58,7 @@ void ADialogueWindow::BeginPlay()
 
 void ADialogueWindow::Tick(float _DeltaTime)
 {
-	APage::Tick(_DeltaTime);
+	ACanvas::Tick(_DeltaTime);
 
 	if (true == IsFirstTick)
 	{

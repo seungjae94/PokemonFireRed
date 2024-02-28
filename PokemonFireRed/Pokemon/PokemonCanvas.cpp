@@ -1,4 +1,4 @@
-#include "PokemonPage.h"
+#include "PokemonCanvas.h"
 #include <EnginePlatform/EngineInput.h>
 #include "EventManager.h"
 #include "Global.h"
@@ -6,15 +6,15 @@
 #include "PokemonUILevel.h"
 #include "Pokemon.h"
 
-APokemonPage::APokemonPage()
+APokemonCanvas::APokemonCanvas()
 {
 }
 
-APokemonPage::~APokemonPage()
+APokemonCanvas::~APokemonCanvas()
 {
 }
 
-void APokemonPage::BeginPlay()
+void APokemonCanvas::BeginPlay()
 {
 	// 백그라운드
 	BackgroundRenderer = CreateImageRenderer(ERenderingOrder::UI0);
@@ -218,9 +218,9 @@ void APokemonPage::BeginPlay()
 	RefreshAllTargets();
 }
 
-void APokemonPage::Tick(float _DeltaTime)
+void APokemonCanvas::Tick(float _DeltaTime)
 {
-	APage::Tick(_DeltaTime);
+	ACanvas::Tick(_DeltaTime);
 
 	switch (State)
 	{
@@ -241,7 +241,7 @@ void APokemonPage::Tick(float _DeltaTime)
 	}
 }
 
-void APokemonPage::TargetSelectionWaitTick(float _DeltaTime)
+void APokemonCanvas::TargetSelectionWaitTick(float _DeltaTime)
 {
 	if (true == UEngineInput::IsDown('X'))
 	{
@@ -290,13 +290,13 @@ void APokemonPage::TargetSelectionWaitTick(float _DeltaTime)
 	}
 }
 
-void APokemonPage::MoveTargetCursor(int _Cursor)
+void APokemonCanvas::MoveTargetCursor(int _Cursor)
 {
 	TargetCursor = _Cursor;
 	RefreshAllTargets();
 }
 
-void APokemonPage::TargetSelect()
+void APokemonCanvas::TargetSelect()
 {
 	if (TargetCursor == UPlayerData::GetPokemonEntrySize())
 	{
@@ -313,7 +313,7 @@ void APokemonPage::TargetSelect()
 	}
 }
 
-void APokemonPage::ActionSelectionWaitTick(float _DeltaTime)
+void APokemonCanvas::ActionSelectionWaitTick(float _DeltaTime)
 {
 	if (UEngineInput::IsDown(VK_UP))
 	{
@@ -336,7 +336,7 @@ void APokemonPage::ActionSelectionWaitTick(float _DeltaTime)
 	}
 }
 
-void APokemonPage::ActionSelect()
+void APokemonCanvas::ActionSelect()
 {
 	switch (ActionCursor->GetCursor())
 	{
@@ -360,7 +360,7 @@ void APokemonPage::ActionSelect()
 	}
 }
 
-void APokemonPage::SwitchSelectionWaitStart()
+void APokemonCanvas::SwitchSelectionWaitStart()
 {
 	ActionBoxRenderer->SetActive(false);
 	ActionSelectionMsgBoxRenderer->SetActive(false);
@@ -369,7 +369,7 @@ void APokemonPage::SwitchSelectionWaitStart()
 	RefreshAllTargets();
 }
 
-void APokemonPage::SwitchSelectionWaitTick(float _DeltaTime)
+void APokemonCanvas::SwitchSelectionWaitTick(float _DeltaTime)
 {
 	if (true == UEngineInput::IsDown('X'))
 	{
@@ -419,7 +419,7 @@ void APokemonPage::SwitchSelectionWaitTick(float _DeltaTime)
 	}
 }
 
-void APokemonPage::SwitchSelect()
+void APokemonCanvas::SwitchSelect()
 {
 	if (TargetCursor == SwitchFromCursor || true == IsCancel(TargetCursor))
 	{
@@ -435,7 +435,7 @@ void APokemonPage::SwitchSelect()
 	SwitchStart();
 }
 
-void APokemonPage::SwitchStart()
+void APokemonCanvas::SwitchStart()
 {
 	SwitchMoveState = ESwitchMoveState::Out;
 	SwitchMoveTimer = SwitchMoveOutTime;
@@ -468,18 +468,18 @@ void APokemonPage::SwitchStart()
 
 }
 
-void APokemonPage::SwitchTick(float _DeltaTime)
+void APokemonCanvas::SwitchTick(float _DeltaTime)
 {
 	// 교체가 전부 끝나면 상태 변경 후 메시지 박스 변경
 	switch (SwitchMoveState)
 	{
-	case APokemonPage::ESwitchMoveState::Out:
+	case APokemonCanvas::ESwitchMoveState::Out:
 		SwitchMoveOutTick(_DeltaTime);
 		break;
-	case APokemonPage::ESwitchMoveState::Wait:
+	case APokemonCanvas::ESwitchMoveState::Wait:
 		SwitchMoveWaitTick(_DeltaTime);
 		break;
-	case APokemonPage::ESwitchMoveState::In:
+	case APokemonCanvas::ESwitchMoveState::In:
 		SwitchMoveInTick(_DeltaTime);
 		break;
 	default:
@@ -487,7 +487,7 @@ void APokemonPage::SwitchTick(float _DeltaTime)
 	}
 }
 
-void APokemonPage::SwitchMoveOutTick(float _DeltaTime)
+void APokemonCanvas::SwitchMoveOutTick(float _DeltaTime)
 {
 	SwitchMoveTimer -= _DeltaTime;
 
@@ -504,7 +504,7 @@ void APokemonPage::SwitchMoveOutTick(float _DeltaTime)
 	}
 }
 
-void APokemonPage::SwitchMoveWaitTick(float _DeltaTime)
+void APokemonCanvas::SwitchMoveWaitTick(float _DeltaTime)
 {
 	SwitchMoveTimer -= _DeltaTime;
 
@@ -515,7 +515,7 @@ void APokemonPage::SwitchMoveWaitTick(float _DeltaTime)
 	}
 }
 
-void APokemonPage::SwitchMoveInTick(float _DeltaTime)
+void APokemonCanvas::SwitchMoveInTick(float _DeltaTime)
 {
 	SwitchMoveTimer -= _DeltaTime;
 
@@ -534,7 +534,7 @@ void APokemonPage::SwitchMoveInTick(float _DeltaTime)
 
 // Refresh 함수
 
-void APokemonPage::RefreshFirst()
+void APokemonCanvas::RefreshFirst()
 {
 	ETargetState TargetState = ETargetState::Empty;
 
@@ -576,22 +576,22 @@ void APokemonPage::RefreshFirst()
 
 	switch (TargetState)
 	{
-	case APokemonPage::ETargetState::Unfocused:
+	case APokemonCanvas::ETargetState::Unfocused:
 		ImageName = RN::PokemonUIFirstBox;
 		PixelX = 2;
 		PixelY = 20;
 		break;
-	case APokemonPage::ETargetState::Focused:
+	case APokemonCanvas::ETargetState::Focused:
 		ImageName = RN::PokemonUIFirstFocusedBox;
 		PixelX = 2;
 		PixelY = 18;
 		break;
-	case APokemonPage::ETargetState::From:
+	case APokemonCanvas::ETargetState::From:
 		ImageName = RN::PokemonUIFirstFromBox;
 		PixelX = 2;
 		PixelY = 20;
 		break;
-	case APokemonPage::ETargetState::To:
+	case APokemonCanvas::ETargetState::To:
 		ImageName = RN::PokemonUIFirstToBox;
 		PixelX = 2;
 		PixelY = 18;
@@ -623,7 +623,7 @@ void APokemonPage::RefreshFirst()
 	FirstGender->SetImage(Pokemon.GetGenderImageName());
 }
 
-void APokemonPage::RefreshEntry(int _Index)
+void APokemonCanvas::RefreshEntry(int _Index)
 {
 	ETargetState TargetState = ETargetState::Empty;
 
@@ -674,27 +674,27 @@ void APokemonPage::RefreshEntry(int _Index)
 
 	switch (TargetState)
 	{
-	case APokemonPage::ETargetState::Empty:
+	case APokemonCanvas::ETargetState::Empty:
 		ImageName = RN::PokemonUIEntryEmptyBox;
 		PixelX = -2;
 		PixelY = 10 + 24 * (_Index - 1);
 		break;
-	case APokemonPage::ETargetState::Unfocused:
+	case APokemonCanvas::ETargetState::Unfocused:
 		ImageName = RN::PokemonUIEntryBox;
 		PixelX = -2;
 		PixelY = 10 + 24 * (_Index - 1);
 		break;
-	case APokemonPage::ETargetState::Focused:
+	case APokemonCanvas::ETargetState::Focused:
 		ImageName = RN::PokemonUIEntryFocusedBox;
 		PixelX = -2;
 		PixelY = 9 + 24 * (_Index - 1);
 		break;
-	case APokemonPage::ETargetState::From:
+	case APokemonCanvas::ETargetState::From:
 		ImageName = RN::PokemonUIEntryFromBox;
 		PixelX = -2;
 		PixelY = 10 + 24 * (_Index - 1);
 		break;
-	case APokemonPage::ETargetState::To:
+	case APokemonCanvas::ETargetState::To:
 		ImageName = RN::PokemonUIEntryToBox;
 		PixelX = -2;
 		PixelY = 9 + 24 * (_Index - 1);
@@ -729,7 +729,7 @@ void APokemonPage::RefreshEntry(int _Index)
 	EntryGenders[_Index - 1]->SetImage(Pokemon.GetGenderImageName());
 }
 
-void APokemonPage::RefreshCancel()
+void APokemonCanvas::RefreshCancel()
 {
 	ETargetState TargetState = ETargetState::Unfocused;
 
@@ -744,12 +744,12 @@ void APokemonPage::RefreshCancel()
 
 	switch (TargetState)
 	{
-	case APokemonPage::ETargetState::Unfocused:
+	case APokemonCanvas::ETargetState::Unfocused:
 		ImageName = RN::PokemonUICancel;
 		PixelX = -2;
 		PixelY = -6;
 		break;
-	case APokemonPage::ETargetState::Focused:
+	case APokemonCanvas::ETargetState::Focused:
 		ImageName = RN::PokemonUICancelFocused;
 		PixelX = -2;
 		PixelY = -4;
@@ -767,7 +767,7 @@ void APokemonPage::RefreshCancel()
 	);
 }
 
-void APokemonPage::RefreshAllTargets()
+void APokemonCanvas::RefreshAllTargets()
 {
 	RefreshFirst();
 	for (int i = 1; i <= 5; ++i)

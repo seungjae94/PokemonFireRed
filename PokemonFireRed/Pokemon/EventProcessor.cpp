@@ -350,7 +350,7 @@ bool UEventProcessor::ProcessHideUI()
 	int CurIndexOfType = GetCurIndexOfType(EEventType::HideUI);
 	ES::HideUI& Data = CurStream->HideUIDataSet[CurIndexOfType];
 
-	APage* Element = UEventManager::FindCurLevelUIElement<APage>(Data.ElementName);
+	ACanvas* Element = UEventManager::FindCurLevelUIElement<ACanvas>(Data.ElementName);
 
 	if (nullptr == Element)
 	{
@@ -525,18 +525,18 @@ bool UEventProcessor::ProcessChangeLevel()
 	}
 
 	// 여러 레벨의 페이드 스크린을 같은 상태로 만들기
-	for (std::pair<const std::string, APage*>& Pair 
+	for (std::pair<const std::string, ACanvas*>& Pair 
 		: UEventManager::AllUIElements[PrevLevelName])
 	{
 		std::string PrevElementName = Pair.first;
-		APage* PrevElement = Pair.second;
+		ACanvas* PrevElement = Pair.second;
 
 		if (false == UEventManager::AllUIElements[NextLevelName].contains(PrevElementName))
 		{
 			continue;
 		}
 
-		APage* NextElement = UEventManager::AllUIElements[NextLevelName][PrevElementName];
+		ACanvas* NextElement = UEventManager::AllUIElements[NextLevelName][PrevElementName];
 		NextElement->Sync(PrevElement);
 	}
 

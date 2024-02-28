@@ -58,7 +58,7 @@ void ACurtainScreen::Tick(float _DeltaTime)
 	}
 }
 
-void ACurtainScreen::Sync(APage* _Other)
+void ACurtainScreen::Sync(ACanvas* _Other)
 {
 	AFadeScreen::Sync(_Other);
 

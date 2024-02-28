@@ -12,7 +12,7 @@ enum class EPokemonElementType
 
 class APokemonElement : public AUIElement
 {
-	friend class APage;
+	friend class ACanvas;
 public:
 	// constructor destructor
 	APokemonElement();

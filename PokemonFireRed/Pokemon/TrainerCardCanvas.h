@@ -1,18 +1,18 @@
 #pragma once
-#include "Page.h"
+#include "Canvas.h"
 
-class ATrainerCardPage : public APage
+class ATrainerCardCanvas : public ACanvas
 {
 public:
 	// constructor destructor
-	ATrainerCardPage();
-	~ATrainerCardPage();
+	ATrainerCardCanvas();
+	~ATrainerCardCanvas();
 
 	// delete Function
-	ATrainerCardPage(const ATrainerCardPage& _Other) = delete;
-	ATrainerCardPage(ATrainerCardPage&& _Other) noexcept = delete;
-	ATrainerCardPage& operator=(const ATrainerCardPage& _Other) = delete;
-	ATrainerCardPage& operator=(ATrainerCardPage&& _Other) noexcept = delete;
+	ATrainerCardCanvas(const ATrainerCardCanvas& _Other) = delete;
+	ATrainerCardCanvas(ATrainerCardCanvas&& _Other) noexcept = delete;
+	ATrainerCardCanvas& operator=(const ATrainerCardCanvas& _Other) = delete;
+	ATrainerCardCanvas& operator=(ATrainerCardCanvas&& _Other) noexcept = delete;
 
 	void SetPrevMapLevelName(std::string_view _PrevMapLevelName)
 	{

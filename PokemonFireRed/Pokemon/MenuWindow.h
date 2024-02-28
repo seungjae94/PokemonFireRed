@@ -1,10 +1,10 @@
 ﻿#pragma once
-#include "Page.h"
+#include "Canvas.h"
 #include "Text.h"
 
 class AEventTrigger;
 
-class AMenuWindow : public APage
+class AMenuWindow : public ACanvas
 {
 public:
 	// constructor destructor

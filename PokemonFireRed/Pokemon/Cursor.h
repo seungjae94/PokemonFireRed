@@ -4,7 +4,7 @@
 
 class ACursor : public AUIElement
 {
-	friend class APage;
+	friend class ACanvas;
 public:
 	// constructor destructor
 	ACursor();

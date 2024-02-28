@@ -12,7 +12,7 @@ UPokemonSummaryUILevel::~UPokemonSummaryUILevel()
 void UPokemonSummaryUILevel::BeginPlay()
 {
 	UPokemonLevel::BeginPlay();
-	Page = SpawnActor<APokemonSummaryPage>();
+	Page = SpawnActor<APokemonSummaryCanvas>();
 }
 
 void UPokemonSummaryUILevel::LevelStart(ULevel* _PrevLevel)

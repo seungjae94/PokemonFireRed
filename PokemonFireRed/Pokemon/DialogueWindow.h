@@ -1,5 +1,5 @@
 #pragma once
-#include "Page.h"
+#include "Canvas.h"
 
 class UImageRenderer;
 class AText;
@@ -12,7 +12,7 @@ enum class EDialogueWindowState
 	End
 };
 
-class ADialogueWindow : public APage
+class ADialogueWindow : public ACanvas
 {
 public:
 	// constructor destructor

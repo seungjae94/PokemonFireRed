@@ -18,7 +18,7 @@ class UEventStream;
 class APlayer;
 class UEventManagerReleaser;
 class UEventCondition;
-class APage;
+class ACanvas;
 enum class EFontColor;
 enum class EPlayerState;
 
@@ -72,7 +72,7 @@ public:
 			return nullptr;
 		}
 
-		APage* Element = AllUIElements[LevelName][ElementName];
+		ACanvas* Element = AllUIElements[LevelName][ElementName];
 		UIType* Result = dynamic_cast<UIType*>(Element);
 		
 		if (nullptr == Result)
@@ -204,7 +204,7 @@ private:
 
 	// AllMenuWindows[LevelName][ElementName]
 	// - 메뉴창, 대화창도 커서 이동 등 플레이어 타입으로 다뤄야 할 일이 있기 때문에 추가로 보관한다.
-	static std::map<std::string, std::map<std::string, APage*>> AllUIElements;
+	static std::map<std::string, std::map<std::string, ACanvas*>> AllUIElements;
 
 	// AllTargets[LevelName][TargetName]
 	// - 'A레벨의 B라는 이름의 액터를 이동시켜줘'라는 요청을 처리하려면 A레벨의 B라는 이름의 액터를 찾을 수 있어야 한다.
@@ -226,7 +226,7 @@ private:
 	static void AddTarget(AEventTarget* _Target, const UEventTargetInit& _Setting);
 	static void AddTrigger(AEventTrigger* _Trigger, const UEventTargetInit& _Setting);
 	static void AddPlayer(APlayer* _Player, const FTileVector& _Point);
-	static void AddUIElement(APage* _UIElement, std::string_view _Name);
+	static void AddUIElement(ACanvas* _UIElement, std::string_view _Name);
 
 	// DeltaTime 기록
 	static float DeltaTime;

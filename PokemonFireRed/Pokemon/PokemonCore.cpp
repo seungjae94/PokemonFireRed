@@ -9,7 +9,7 @@
 #include "PokemonUILevel.h"
 #include "PokemonSummaryUILevel.h"
 #include "TrainerCardUILevel.h"
-#include "BattleLevel.h"
+#include "WildBattleLevel.h"
 #include "Global.h"
 
 UPokemonCore::UPokemonCore()
@@ -43,7 +43,7 @@ void UPokemonCore::BeginPlay()
 	CreateLevel<UPokemonUILevel>(Global::PokemonUILevel);
 	CreateLevel<UPokemonSummaryUILevel>(Global::PokemonSummaryUILevel);
 	CreateLevel<UTrainerCardUILevel>(Global::TrainerCardUILevel);
-	CreateLevel<UBattleLevel>(Global::BattleLevel);
+	CreateLevel<UWildBattleLevel>(Global::WildBattleLevel);
 
 	// 시작 레벨 설정
 	UEventManager::SetLevel(Global::ExteriorPalletTownLevel);

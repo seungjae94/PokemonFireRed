@@ -2,7 +2,7 @@
 #include <EngineBase/EngineDirectory.h>
 #include <EngineBase/EngineFile.h>
 #include <EngineCore/EngineResourcesManager.h>
-#include "PokemonPage.h"
+#include "PokemonCanvas.h"
 #include "MapLevel.h"
 
 UPokemonUILevel::UPokemonUILevel()
@@ -27,7 +27,7 @@ void UPokemonUILevel::BeginPlay()
 		UEngineResourcesManager::GetInst().LoadImg(File.GetFullPath());
 	}
 
-	Page = SpawnActor<APokemonPage>();
+	Page = SpawnActor<APokemonCanvas>();
 }
 
 void UPokemonUILevel::LevelStart(ULevel* _PrevLevel)

@@ -1,5 +1,5 @@
 #pragma once
-#include "Page.h"
+#include "Canvas.h"
 #include "Text.h"
 #include "PokemonElement.h"
 
@@ -11,18 +11,18 @@ enum class EPokemonSummaryPageState
 	MovesDetail,
 };
 
-class APokemonSummaryPage : public APage
+class APokemonSummaryCanvas : public ACanvas
 {
 public:
 	// constructor destructor
-	APokemonSummaryPage();
-	~APokemonSummaryPage();
+	APokemonSummaryCanvas();
+	~APokemonSummaryCanvas();
 
 	// delete Function
-	APokemonSummaryPage(const APokemonSummaryPage& _Other) = delete;
-	APokemonSummaryPage(APokemonSummaryPage&& _Other) noexcept = delete;
-	APokemonSummaryPage& operator=(const APokemonSummaryPage& _Other) = delete;
-	APokemonSummaryPage& operator=(APokemonSummaryPage&& _Other) noexcept = delete;
+	APokemonSummaryCanvas(const APokemonSummaryCanvas& _Other) = delete;
+	APokemonSummaryCanvas(APokemonSummaryCanvas&& _Other) noexcept = delete;
+	APokemonSummaryCanvas& operator=(const APokemonSummaryCanvas& _Other) = delete;
+	APokemonSummaryCanvas& operator=(APokemonSummaryCanvas&& _Other) noexcept = delete;
 
 	void SetPokemon(UPokemon* _Pokemon)
 	{

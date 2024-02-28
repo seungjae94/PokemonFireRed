@@ -1,6 +1,6 @@
 #pragma once
 #include "PokemonLevel.h"
-#include "TrainerCardPage.h"
+#include "TrainerCardCanvas.h"
 
 class UTrainerCardUILevel : public UPokemonLevel
 {
@@ -19,6 +19,6 @@ protected:
 	void BeginPlay() override;
 	void LevelStart(ULevel* _PrevLevel) override;
 private:
-	ATrainerCardPage* Page = nullptr;
+	ATrainerCardCanvas* Page = nullptr;
 };
 

@@ -1,5 +1,5 @@
 #pragma once
-#include "Page.h"
+#include "Canvas.h"
 #include "PlayerData.h"
 
 enum class EPokemonUIState
@@ -12,18 +12,18 @@ enum class EPokemonUIState
 
 class UPokemonUILevel;
 
-class APokemonPage : public APage
+class APokemonCanvas : public ACanvas
 {
 public:
 	// constructor destructor
-	APokemonPage();
-	~APokemonPage();
+	APokemonCanvas();
+	~APokemonCanvas();
 
 	// delete Function
-	APokemonPage(const APokemonPage& _Other) = delete;
-	APokemonPage(APokemonPage&& _Other) noexcept = delete;
-	APokemonPage& operator=(const APokemonPage& _Other) = delete;
-	APokemonPage& operator=(APokemonPage&& _Other) noexcept = delete;
+	APokemonCanvas(const APokemonCanvas& _Other) = delete;
+	APokemonCanvas(APokemonCanvas&& _Other) noexcept = delete;
+	APokemonCanvas& operator=(const APokemonCanvas& _Other) = delete;
+	APokemonCanvas& operator=(APokemonCanvas&& _Other) noexcept = delete;
 
 	void SetPrevMapLevelName(std::string_view _Name)
 	{

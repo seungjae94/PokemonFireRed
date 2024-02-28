@@ -38,7 +38,7 @@ void AMenuWindow::Close()
 
 void AMenuWindow::BeginPlay()
 {
-	APage::BeginPlay();
+	ACanvas::BeginPlay();
 
 	// 우상단 메뉴창
 	MenuWindowRenderer = CreateImageRenderer(ERenderingOrder::UI0);
@@ -89,7 +89,7 @@ void AMenuWindow::BeginPlay()
 
 void AMenuWindow::Tick(float _DeltaTime)
 {
-	APage::Tick(_DeltaTime);
+	ACanvas::Tick(_DeltaTime);
 
 	// 이벤트 매니저가 MenuWindow를 ActiveOn한 다음 틱부터 로직을 실행한다.
 	// - ActiveOn한 틱에는 UEngineInput::IsDown(VK_RETURN) 값이 true로 들어가 있기 때문이다.

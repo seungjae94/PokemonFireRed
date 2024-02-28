@@ -39,7 +39,7 @@ void AWildBattleTrigger::RegisterPredefinedEvent()
 		>> ES::Wait(BlinkTime)
 		>> ES::FadeOut(0.5f)
 		// 레벨 변경
-		>> ES::ChangeLevel(Global::BattleLevel)
+		>> ES::ChangeLevel(Global::WildBattleLevel)
 		>> ES::Wait(0.3f)
 		>> ES::FadeIn(0.5f)
 		>> ES::End(false)

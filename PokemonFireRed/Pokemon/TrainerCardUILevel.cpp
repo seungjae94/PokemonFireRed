@@ -25,7 +25,7 @@ void UTrainerCardUILevel::BeginPlay()
 		UEngineResourcesManager::GetInst().LoadImg(File.GetFullPath());
 	}
 
-	Page = SpawnActor<ATrainerCardPage>();
+	Page = SpawnActor<ATrainerCardCanvas>();
 }
 
 void UTrainerCardUILevel::LevelStart(ULevel* _PrevLevel)

@@ -179,7 +179,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="BattleLevel.h">
+    <ClInclude Include="WildBattleLevel.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -336,7 +336,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="PokemonSummaryPage.h">
+    <ClInclude Include="PokemonSummaryCanvas.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -376,7 +376,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="TrainerCardPage.h">
+    <ClInclude Include="TrainerCardCanvas.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -388,7 +388,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Page.h">
+    <ClInclude Include="Canvas.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -396,7 +396,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="PokemonPage.h">
+    <ClInclude Include="PokemonCanvas.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -430,7 +430,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="BattleLevel.cpp">
+    <ClCompile Include="WildBattleLevel.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -586,7 +586,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="PokemonSummaryPage.cpp">
+    <ClCompile Include="PokemonSummaryCanvas.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -626,7 +626,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="TrainerCardPage.cpp">
+    <ClCompile Include="TrainerCardCanvas.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -638,7 +638,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Page.cpp">
+    <ClCompile Include="Canvas.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -646,7 +646,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="PokemonPage.cpp">
+    <ClCompile Include="PokemonCanvas.cpp">
       <SubType>
       </SubType>
     </ClCompile>

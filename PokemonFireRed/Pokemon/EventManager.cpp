@@ -14,7 +14,7 @@
 #include "WildBattleTrigger.h"
 
 std::string UEventManager::CurLevelName;
-std::map<std::string, std::map<std::string, APage*>> UEventManager::AllUIElements;
+std::map<std::string, std::map<std::string, ACanvas*>> UEventManager::AllUIElements;
 std::map<std::string, std::map<std::string, AEventTarget*>> UEventManager::AllTargets;
 std::map<std::string, std::map<FTileVector, std::list<AEventTrigger*>>> UEventManager::AllTriggers;
 std::map<AEventTrigger*, UEventProcessor*> UEventManager::AllProcessors;
@@ -255,7 +255,7 @@ void UEventManager::AddPlayer(APlayer* _Player, const FTileVector& _Point)
 	}
 }
 
-void UEventManager::AddUIElement(APage* _UIElement, std::string_view _Name)
+void UEventManager::AddUIElement(ACanvas* _UIElement, std::string_view _Name)
 {
 	std::string LevelName = UEngineString::ToUpper(_UIElement->GetWorld()->GetName());
 	std::string Name = UEngineString::ToUpper(_Name.data());

@@ -1,7 +1,7 @@
 #pragma once
 #include "PokemonLevel.h"
 #include "FadeLevelChanger.h"
-#include "PokemonPage.h"
+#include "PokemonCanvas.h"
 
 class UPokemonUILevel : public UPokemonLevel
 {
@@ -25,6 +25,6 @@ protected:
 	void BeginPlay() override;
 	void LevelStart(ULevel* _PrevLevel) override;
 private:
-	APokemonPage* Page = nullptr;
+	APokemonCanvas* Page = nullptr;
 };
 

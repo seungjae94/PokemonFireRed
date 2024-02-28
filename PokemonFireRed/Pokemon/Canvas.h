@@ -4,19 +4,19 @@
 
 class UEventProcessor;
 
-class APage : public AActor
+class ACanvas : public AActor
 {
 	friend UEventProcessor;
 public:
 	// constructor destructor
-	APage();
-	~APage();
+	ACanvas();
+	~ACanvas();
 
 	// delete Function
-	APage(const APage& _Other) = delete;
-	APage(APage&& _Other) noexcept = delete;
-	APage& operator=(const APage& _Other) = delete;
-	APage& operator=(APage&& _Other) noexcept = delete;
+	ACanvas(const ACanvas& _Other) = delete;
+	ACanvas(ACanvas&& _Other) noexcept = delete;
+	ACanvas& operator=(const ACanvas& _Other) = delete;
+	ACanvas& operator=(ACanvas&& _Other) noexcept = delete;
 
 	void SetActive(bool _Active, float _ActiveTime = 0.0f) override;
 
@@ -73,7 +73,7 @@ public:
 	);
 
 protected:
-	virtual void Sync(APage* _Other) {}
+	virtual void Sync(ACanvas* _Other) {}
 	
 	void ContainerElementSyncOff()
 	{

@@ -1,17 +1,17 @@
-#include "Page.h"
+#include "Canvas.h"
 #include "Text.h"
 #include "ScrollBar.h"
 #include "PokemonUtil.h"
 
-APage::APage()
+ACanvas::ACanvas()
 {
 }
 
-APage::~APage()
+ACanvas::~ACanvas()
 {
 }
 
-void APage::SetActive(bool _Active, float _ActiveTime)
+void ACanvas::SetActive(bool _Active, float _ActiveTime)
 {
 	AActor::SetActive(_Active, _ActiveTime);
 	
@@ -33,7 +33,7 @@ void APage::SetActive(bool _Active, float _ActiveTime)
 	}
 }
 
-AText* APage::CreateText(
+AText* ACanvas::CreateText(
 	UImageRenderer* _Container, 
 	std::wstring _Text, 
 	EPivotType _PivotType, 
@@ -56,7 +56,7 @@ AText* APage::CreateText(
 	return Text;
 }
 
-AScrollBar* APage::CreateScrollBar(
+AScrollBar* ACanvas::CreateScrollBar(
 	UImageRenderer* _Container, 
 	EScrollType _ScrollType, 
 	int _CurValue, int _MaxValue, 
@@ -77,7 +77,7 @@ AScrollBar* APage::CreateScrollBar(
 	return Bar;
 }
 
-ACursor* APage::CreateCursor(
+ACursor* ACanvas::CreateCursor(
 	UImageRenderer* _Container, std::string _ImageName,
 	int _Cursor, int _OptionCount, 
 	EPivotType _PivotType, 
@@ -98,7 +98,7 @@ ACursor* APage::CreateCursor(
 	return Cursor;
 }
 
-APokemonElement* APage::CreatePokemonElement(
+APokemonElement* ACanvas::CreatePokemonElement(
 	UImageRenderer* _Container, 
 	EPokemonElementType _ElementType,
 	EPivotType _PivotType, 
@@ -116,7 +116,7 @@ APokemonElement* APage::CreatePokemonElement(
 	return Icon;
 }
 
-AImageElement* APage::CreateImageElement(
+AImageElement* ACanvas::CreateImageElement(
 	UImageRenderer* _Container, 
 	EPivotType _PivotType, 
 	int _RelativePixelX, int _RelativePixelY,
@@ -132,7 +132,7 @@ AImageElement* APage::CreateImageElement(
 	return Image;
 }
 
-void APage::Tick(float _DeltaTime)
+void ACanvas::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
 

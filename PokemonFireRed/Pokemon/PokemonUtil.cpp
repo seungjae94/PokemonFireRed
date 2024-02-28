@@ -1,7 +1,10 @@
 #include "PokemonUtil.h"
+#include <EngineBase/EngineDirectory.h>
+#include <EngineBase/EngineFile.h>
+#include <EngineCore/EngineResourcesManager.h>
 #include "Global.h"
 #include "Pokemon.h"
-#include "Page.h"
+#include "Canvas.h"
 
 UPokemonUtil::UPokemonUtil()
 {
@@ -198,4 +201,17 @@ void UPokemonUtil::CreatePokemonFrontAnimations(UImageRenderer* _Renderer)
 
 void UPokemonUtil::CreatePokemonBackAnimations(UImageRenderer* _Renderer)
 {
+}
+
+void UPokemonUtil::LoadAllResourcesIn(std::string_view _DirName)
+{
+	UEngineDirectory CurDir;
+	CurDir.MoveToSearchChild("Resources");
+	CurDir.Move(_DirName);
+
+	std::list<UEngineFile> AllFiles = CurDir.AllFile({ ".bmp", ".png" }, true);
+	for (UEngineFile& File : AllFiles)
+	{
+		UEngineResourcesManager::GetInst().LoadImg(File.GetFullPath());
+	}
 }

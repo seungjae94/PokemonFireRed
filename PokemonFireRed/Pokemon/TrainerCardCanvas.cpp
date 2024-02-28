@@ -1,20 +1,20 @@
-#include "TrainerCardPage.h"
+#include "TrainerCardCanvas.h"
 #include <EnginePlatform/EngineInput.h>
 #include "PlayerData.h"
 #include "TrainerCardUILevel.h"
 #include "PokemonUtil.h"
 
-ATrainerCardPage::ATrainerCardPage()
+ATrainerCardCanvas::ATrainerCardCanvas()
 {
 }
 
-ATrainerCardPage::~ATrainerCardPage()
+ATrainerCardCanvas::~ATrainerCardCanvas()
 {
 }
 
-void ATrainerCardPage::BeginPlay()
+void ATrainerCardCanvas::BeginPlay()
 {
-	APage::BeginPlay();
+	ACanvas::BeginPlay();
 
 	Background = CreateImageRenderer(ERenderingOrder::UI0);
 	Background->SetImage(RN::MaleTrainerCard);
@@ -61,7 +61,7 @@ void ATrainerCardPage::BeginPlay()
 	);
 }
 
-void ATrainerCardPage::RefreshAll()
+void ATrainerCardCanvas::RefreshAll()
 {
 	IdNo->SetText(std::to_wstring(UPlayerData::GetIdNo()));
 	Nickname->SetText(UPlayerData::GetNickNameW());
@@ -69,7 +69,7 @@ void ATrainerCardPage::RefreshAll()
 	PokedexOwned->SetText(std::to_wstring(UPlayerData::GetOwnedPokemonCount()));
 }
 
-void ATrainerCardPage::Tick(float _DeltaTime)
+void ATrainerCardCanvas::Tick(float _DeltaTime)
 {
 	if (true == UEngineInput::IsDown('Z') || true == UEngineInput::IsDown('X'))
 	{
