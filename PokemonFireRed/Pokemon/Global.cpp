@@ -134,5 +134,5 @@ const std::string RN::BattleMsgBox = "BattleMsgBox.png";
 const std::string RN::BattleActionBox = "BattleActionBox.png";
 const std::string RN::BattleEnemyPokemonBox = "BattleEnemyPokemonBox.png";
 const std::string RN::BattlePlayerPokemonBox = "BattlePlayerPokemonBox.png";
-const std::string RN::BattleEnemyPokemonGround = "BattleEnemyPokemonGround.png";
-const std::string RN::BattlePlayerPokemonGround = "BattlePlayerPokemonGround.png";
+const std::string RN::BattleEnemyGround = "BattleEnemyGround.png";
+const std::string RN::BattlePlayerGround = "BattlePlayerGround.png";

@@ -170,8 +170,8 @@ public:
 	static const std::string BattleActionBox;
 	static const std::string BattleEnemyPokemonBox;
 	static const std::string BattlePlayerPokemonBox;
-	static const std::string BattleEnemyPokemonGround;
-	static const std::string BattlePlayerPokemonGround;
+	static const std::string BattleEnemyGround;
+	static const std::string BattlePlayerGround;
 protected:
 
 private:

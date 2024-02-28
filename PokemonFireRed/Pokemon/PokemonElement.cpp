@@ -60,6 +60,7 @@ void APokemonElement::SetPokemon(const UPokemon* _Pokemon)
 	default:
 		break;
 	}
+
 	Renderer->ChangeAnimation(AnimPrefix + _Pokemon->GetSpeciesNameA());
 }
 

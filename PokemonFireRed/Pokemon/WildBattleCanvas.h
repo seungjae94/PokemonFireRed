@@ -30,8 +30,8 @@ private:
 	UImageRenderer* ActionBox = nullptr;
 	UImageRenderer* EnemyPokemonBox = nullptr;
 	UImageRenderer* PlayerPokemonBox = nullptr;
-	UImageRenderer* EnemyPokemonGround = nullptr;
-	UImageRenderer* PlayerPokemonGround = nullptr;
+	UImageRenderer* EnemyGround = nullptr;
+	UImageRenderer* PlayerGround = nullptr;
 
 	// EnemyPokemonBox 요소
 	AText* EnemyPokemonNameText = nullptr;
@@ -47,5 +47,12 @@ private:
 	AScrollBar* PlayerPokemonHpBar = nullptr;
 	AScrollBar* PlayerPokemonExpBar = nullptr;
 	AImageElement* PlayerPokemonGenderMark = nullptr;
+
+	// EnemyPokemonGround 요소
+	APokemonElement* EnemyPokemonImage = nullptr;
+
+	// PlayerPokemonGround 요소
+	AImageElement* PlayerImage = nullptr;
+	APokemonElement* PlayerPokemonImage = nullptr;
 };
 
