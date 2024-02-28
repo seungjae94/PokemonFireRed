@@ -15,7 +15,7 @@ public:
 	AWildBattleCanvas& operator=(const AWildBattleCanvas& _Other) = delete;
 	AWildBattleCanvas& operator=(AWildBattleCanvas&& _Other) noexcept = delete;
 
-	void BattleStart(const UPokemon& _Pokemon);
+	void BattleStart(const UPokemon& _PlayerPokemon, const UPokemon& _EnemyPokemon);
 
 protected:
 

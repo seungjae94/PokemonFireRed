@@ -283,6 +283,7 @@ void AText::InitAlignRuleMap()
 	AlignRuleMap[EFontSize::Mini][L','] = { "SpecialComma", 1, 1, 2 };
 	AlignRuleMap[EFontSize::Mini][L'!'] = { "SpecialExclamation", 1, 1, 0 };
 	AlignRuleMap[EFontSize::Mini][L'?'] = { "SpecialQuestion", 0, 0, 0 };
+	AlignRuleMap[EFontSize::Mini][L'ℓ'] = { "SpecialLv", 0, 0, 0 };
 
 	// 라틴 소문자
 	AlignRuleMap[EFontSize::Normal][L'é'] = { "LatinLowerE", 0, 0, 0 };

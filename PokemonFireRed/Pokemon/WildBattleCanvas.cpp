@@ -1,5 +1,6 @@
 #include "WildBattleCanvas.h"
 #include "PokemonUtil.h"
+#include "PlayerData.h"
 
 AWildBattleCanvas::AWildBattleCanvas() 
 {
@@ -9,10 +10,22 @@ AWildBattleCanvas::~AWildBattleCanvas()
 {
 }
 
-void AWildBattleCanvas::BattleStart(const UPokemon& _Pokemon)
+void AWildBattleCanvas::BattleStart(const UPokemon& _PlayerPokemon, const UPokemon& _EnemyPokemon)
 {
-	// 임시로 그냥 데이터 보여주기만 하기
+	// 임시로 데이터만 보여주기
+	EnemyPokemonNameText->SetText(_EnemyPokemon.GetNameW());
+	EnemyPokemonLevelText->SetText(L"ℓ" + _EnemyPokemon.GetLevelW());
+	EnemyPokemonHpBar->SetMaxValue(_EnemyPokemon.GetHp());
+	EnemyPokemonHpBar->SetValue(_EnemyPokemon.GetCurHp());
 
+	PlayerPokemonNameText->SetText(_PlayerPokemon.GetNameW());
+	PlayerPokemonLevelText->SetText(L"ℓ" + _PlayerPokemon.GetLevelW());
+	PlayerPokemonCurHpText->SetText(_PlayerPokemon.GetCurHpW());
+	PlayerPokemonHpText->SetText(_PlayerPokemon.GetHpW());
+	PlayerPokemonHpBar->SetMaxValue(_PlayerPokemon.GetHp());
+	PlayerPokemonHpBar->SetValue(_PlayerPokemon.GetCurHp());
+	PlayerPokemonExpBar->SetMaxValue(_PlayerPokemon.GetExpSize());
+	PlayerPokemonExpBar->SetValue(_PlayerPokemon.GetExp());
 }
 
 void AWildBattleCanvas::BeginPlay()

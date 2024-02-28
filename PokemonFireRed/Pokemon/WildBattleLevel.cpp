@@ -31,7 +31,7 @@ void UWildBattleLevel::LevelStart(ULevel* _PrevLevel)
 	UPokemonLevel::LevelStart(_PrevLevel);
 
 	EnemyPokemon = UPlayerData::EnemyWildPokemon;
-	Canvas->BattleStart(EnemyPokemon);
+	Canvas->BattleStart(UPlayerData::GetPokemonInEntry(0), EnemyPokemon);
 }
 
 void UWildBattleLevel::LevelEnd(ULevel* _NextLevel)
