@@ -1,6 +1,7 @@
 #pragma once
 #include <EngineCore/Actor.h>
 #include "Global.h"
+#include "PokemonMath.h"
 
 enum class EPivotType
 {

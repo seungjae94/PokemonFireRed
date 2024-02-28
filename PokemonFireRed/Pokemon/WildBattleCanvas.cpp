@@ -18,6 +18,10 @@ void AWildBattleCanvas::BattleStart(const UPokemon& _PlayerPokemon, const UPokem
 	EnemyPokemonHpBar->SetMaxValue(_EnemyPokemon.GetHp());
 	EnemyPokemonHpBar->SetValue(_EnemyPokemon.GetCurHp());
 
+	int EPNTPixelWidth = EnemyPokemonNameText->GetPixelLineWidth();
+	EnemyPokemonGenderMark->SetRelativePos(UPokemonUtil::PixelVector(7 + EPNTPixelWidth, 5));
+	EnemyPokemonGenderMark->SetImage(_EnemyPokemon.GetGenderImageName());
+
 	PlayerPokemonNameText->SetText(_PlayerPokemon.GetNameW());
 	PlayerPokemonLevelText->SetText(L"§¤" + _PlayerPokemon.GetLevelW());
 	PlayerPokemonCurHpText->SetText(_PlayerPokemon.GetCurHpW());
@@ -26,6 +30,10 @@ void AWildBattleCanvas::BattleStart(const UPokemon& _PlayerPokemon, const UPokem
 	PlayerPokemonHpBar->SetValue(_PlayerPokemon.GetCurHp());
 	PlayerPokemonExpBar->SetMaxValue(_PlayerPokemon.GetExpSize());
 	PlayerPokemonExpBar->SetValue(_PlayerPokemon.GetExp());
+
+	int PPNTPixelWidth = PlayerPokemonNameText->GetPixelLineWidth();
+	PlayerPokemonGenderMark->SetRelativePos(UPokemonUtil::PixelVector(19 + PPNTPixelWidth, 5));
+	PlayerPokemonGenderMark->SetImage(_PlayerPokemon.GetGenderImageName());
 }
 
 void AWildBattleCanvas::BeginPlay()
@@ -104,6 +112,12 @@ void AWildBattleCanvas::BeginPlay()
 		EPivotType::LeftTop,
 		39, 17
 	);
+	EnemyPokemonGenderMark = CreateImageElement(
+		EnemyPokemonBox,
+		EPivotType::LeftTop,
+		10, 5,
+		ERenderingOrder::UI2
+	);
 
 	// PlayerPokemonBox ¿ä¼Ò
 	PlayerPokemonNameText = CreateText(
@@ -155,6 +169,12 @@ void AWildBattleCanvas::BeginPlay()
 		50, 100,
 		EPivotType::RightTop,
 		-71, 33
+	);
+	PlayerPokemonGenderMark = CreateImageElement(
+		PlayerPokemonBox,
+		EPivotType::LeftTop,
+		10, 5,
+		ERenderingOrder::UI2
 	);
 }
 

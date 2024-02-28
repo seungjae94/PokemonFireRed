@@ -35,6 +35,7 @@ private:
 	AText* EnemyPokemonNameText = nullptr;
 	AText* EnemyPokemonLevelText = nullptr;
 	AScrollBar* EnemyPokemonHpBar = nullptr;
+	AImageElement* EnemyPokemonGenderMark = nullptr;
 
 	// PlayerPokemonBox ¿ä¼Ò
 	AText* PlayerPokemonNameText = nullptr;
@@ -43,5 +44,6 @@ private:
 	AText* PlayerPokemonHpText = nullptr;
 	AScrollBar* PlayerPokemonHpBar = nullptr;
 	AScrollBar* PlayerPokemonExpBar = nullptr;
+	AImageElement* PlayerPokemonGenderMark = nullptr;
 };
 

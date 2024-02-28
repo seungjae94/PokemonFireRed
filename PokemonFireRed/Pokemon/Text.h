@@ -83,6 +83,11 @@ public:
 
 	void SetText(std::wstring_view _Text);
 
+	int GetPixelLineWidth() const
+	{
+		return LineWidth / Global::PixelSize;
+	}
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
