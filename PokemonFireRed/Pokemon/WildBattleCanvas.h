@@ -4,27 +4,6 @@
 
 class AWildBattleCanvas : public ACanvas
 {
-private:
-	enum class EBattleState
-	{
-		BattleStart,
-		PlayerAction,
-		PlayerMove,
-		EnemyMove,
-		PlayerSecondaryEffect,
-		EnemySecondaryEffect,
-		BattleEnd
-	};
-
-	enum class EBattleStartState
-	{
-		FadeWait,
-		GroundMove,
-		EnemyPokemonBoxMove,
-		ZClickWait,
-		SendOutFirstPokemon,
-		PlayerPokemonBoxMove,
-	};
 public:
 	// constructor destructor
 	AWildBattleCanvas();
@@ -37,6 +16,10 @@ public:
 	AWildBattleCanvas& operator=(AWildBattleCanvas&& _Other) noexcept = delete;
 
 	void Init(const UPokemon& _PlayerPokemon, const UPokemon& _EnemyPokemon);
+
+	void LerpGrounds(float _t);
+	void LerpEnemyPokemonBox(float _t);
+
 protected:
 
 private:
@@ -44,23 +27,6 @@ private:
 	void Tick(float _DeltaTime) override;
 
 	void PrepareElements(const UPokemon& _PlayerPokemon, const UPokemon& _EnemyPokemon);
-	
-	// FSM
-	EBattleState State = EBattleState::BattleStart;
-	float Timer = 0.0f;
-
-	void ProcessBattleStart(float _DeltaTime);
-	void ProcessBattleStartFadeWait(float _DeltaTime);
-	void ProcessBattleStartGroundMove(float _DeltaTime);
-	void ProcessBattleStartEnemyPokemonBoxMove(float _DeltaTime);
-	void ProcessBattleStartZClickWait(float _DeltaTime);
-	void ProcessBattleStartSendOutFirstPokemon(float _DeltaTime);
-	void ProcessBattleStartPlayerPokemonBoxMove(float _DeltaTime);
-	EBattleStartState BattleStartState = EBattleStartState::GroundMove;
-	float FadeWaitTime = 2.0f;
-	float GroundMoveTime = 2.0f;
-	float EnemyPokemonBoxMoveTime = 0.3f;
-	float PlayePokemonBoxMoveTime = 0.3f;
 
 	// 최초 위치 기억
 	FVector EnemyPokemonBoxInitPos;

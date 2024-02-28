@@ -28,16 +28,11 @@ void AWildBattleCanvas::Init(const UPokemon& _PlayerPokemon, const UPokemon& _En
 	PlayerPokemonBoxHidePos = PlayerPokemonBoxInitPos + FVector::Right * Global::FloatScreenX;
 	PlayerGround->SetPosition(PlayerGroundHidePos);
 	PlayerPokemonBox->SetPosition(PlayerPokemonBoxHidePos);
-
-	// 상태 초기화
-	State = EBattleState::BattleStart;
-	BattleStartState = EBattleStartState::GroundMove;
-	Timer = FadeWaitTime;
 }
 
 void AWildBattleCanvas::PrepareElements(const UPokemon& _PlayerPokemon, const UPokemon& _EnemyPokemon)
 {
-	MsgText->SetText(L"Wild " + _EnemyPokemon.GetNameW()  + L" appeared!");
+	MsgText->SetText(L"Wild " + _EnemyPokemon.GetNameW() + L" appeared!");
 
 	EnemyPokemonNameText->SetText(_EnemyPokemon.GetNameW());
 	EnemyPokemonLevelText->SetText(L"ℓ" + _EnemyPokemon.GetLevelW());
@@ -65,70 +60,19 @@ void AWildBattleCanvas::PrepareElements(const UPokemon& _PlayerPokemon, const UP
 	PlayerBattler->SetAnimation(Global::PlayerBattlerIdle);
 }
 
-void AWildBattleCanvas::ProcessBattleStart(float _DeltaTime)
-{
-	switch (BattleStartState)
-	{
-	case EBattleStartState::FadeWait:
-		ProcessBattleStartFadeWait(_DeltaTime);
-		break;
-	case EBattleStartState::GroundMove:
-		ProcessBattleStartGroundMove(_DeltaTime);
-		break;
-	case EBattleStartState::EnemyPokemonBoxMove:
-		ProcessBattleStartEnemyPokemonBoxMove(_DeltaTime);
-		break;
-	case EBattleStartState::ZClickWait:
-		ProcessBattleStartZClickWait(_DeltaTime);
-		break;
-	case EBattleStartState::SendOutFirstPokemon:
-		ProcessBattleStartSendOutFirstPokemon(_DeltaTime);
-		break;
-	case EBattleStartState::PlayerPokemonBoxMove:
-		ProcessBattleStartPlayerPokemonBoxMove(_DeltaTime);
-		break;
-	default:
-		break;
-	}
-}
 
-void AWildBattleCanvas::ProcessBattleStartFadeWait(float _DeltaTime)
+void AWildBattleCanvas::LerpGrounds(float _t)
 {
-	if (Timer <= 0.0f)
-	{
-		Timer = GroundMoveTime;
-		BattleStartState = EBattleStartState::GroundMove;
-	}
-}
-
-void AWildBattleCanvas::ProcessBattleStartGroundMove(float _DeltaTime)
-{
-	FVector EnemyGroundPos = UPokemonMath::Lerp(EnemyGroundInitPos, EnemyGroundHidePos, Timer/GroundMoveTime);
-	FVector PlayerGroundPos = UPokemonMath::Lerp(PlayerGroundInitPos, PlayerGroundHidePos, Timer/GroundMoveTime);
+	FVector EnemyGroundPos = UPokemonMath::Lerp(EnemyGroundInitPos, EnemyGroundHidePos, _t);
+	FVector PlayerGroundPos = UPokemonMath::Lerp(PlayerGroundInitPos, PlayerGroundHidePos, _t);
 	EnemyGround->SetPosition(EnemyGroundPos);
 	PlayerGround->SetPosition(PlayerGroundPos);
-
-	if (Timer < 0.0f)
-	{
-		Timer = EnemyPokemonBoxMoveTime;
-		BattleStartState = EBattleStartState::EnemyPokemonBoxMove;
-	}
 }
 
-void AWildBattleCanvas::ProcessBattleStartEnemyPokemonBoxMove(float _DeltaTime)
+void AWildBattleCanvas::LerpEnemyPokemonBox(float _t)
 {
-}
-
-void AWildBattleCanvas::ProcessBattleStartZClickWait(float _DeltaTime)
-{
-}
-
-void AWildBattleCanvas::ProcessBattleStartSendOutFirstPokemon(float _DeltaTime)
-{
-}
-
-void AWildBattleCanvas::ProcessBattleStartPlayerPokemonBoxMove(float _DeltaTime)
-{
+	FVector EnemyPokemonBoxPos = UPokemonMath::Lerp(EnemyPokemonBoxInitPos, EnemyPokemonBoxHidePos, _t);
+	EnemyPokemonBox->SetPosition(EnemyPokemonBoxPos);
 }
 
 void AWildBattleCanvas::BeginPlay()
@@ -205,16 +149,5 @@ void AWildBattleCanvas::BeginPlay()
 void AWildBattleCanvas::Tick(float _DeltaTime)
 {
 	ACanvas::Tick(_DeltaTime);
-
-	Timer -= _DeltaTime;
-
-	switch (State)
-	{
-	case EBattleState::BattleStart:
-		ProcessBattleStart(_DeltaTime);
-		break;
-	default:
-		break;
-	}
 }
 
