@@ -107,7 +107,7 @@ void AWildBattleCanvas::BeginPlay()
 		L"Lv100",
 		EPivotType::RightTop,
 		EAlignType::Right,
-		-6, 12,
+		-9, 12,
 		EFontColor::Black,
 		EFontSize::Mini
 	);
