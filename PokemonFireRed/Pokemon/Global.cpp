@@ -49,6 +49,7 @@ const std::string Global::PokemonMiniStopPrefix = "PokemonMiniStop";
 
 const std::string Global::PlayerBattlerIdle = "PlayerBattlerIdle";
 const std::string Global::PlayerBattlerThrow = "PlayerBattlerThrow";
+const std::string Global::ThrowedBall = "ThrowedBall";
 
 const std::string Global::Player = "Player";
 const std::string Global::BlackScreen = "BlackScreen";

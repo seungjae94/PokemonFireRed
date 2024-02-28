@@ -17,6 +17,9 @@ void AWildBattleCanvas::Init(const UPokemon& _PlayerPokemon, const UPokemon& _En
 	// 액션 박스 꺼두기
 	ActionBox->SetActive(false);
 
+	// 볼 날아가는 애니메이션 숨겨두기
+	ThrowedBall->SetActive(false);
+
 	// 적 UI는 왼쪽에 숨겨두기
 	EnemyGroundHidePos = EnemyGroundInitPos + FVector::Left * Global::FloatScreenX;
 	EnemyPokemonBoxHidePos = EnemyPokemonBoxInitPos + FVector::Left * Global::FloatScreenX;
@@ -86,6 +89,12 @@ void AWildBattleCanvas::HidePlayerBattler(float _HideTime, float _DeltaTime)
 	PlayerBattler->AddRelativePos(FVector::Left * Speed * _DeltaTime);
 }
 
+void AWildBattleCanvas::PlayThrowedBallAnimation()
+{
+	ThrowedBall->SetActive(true);
+	ThrowedBall->ChangeAnimation(Global::ThrowedBall);
+}
+
 void AWildBattleCanvas::LerpShowPlayerPokemonBox(float _t)
 {
 	FVector PlayerPokemonBoxPos = UPokemonMath::Lerp(PlayerPokemonBoxInitPos, PlayerPokemonBoxHidePos, _t);
@@ -102,12 +111,12 @@ void AWildBattleCanvas::BeginPlay()
 	UPokemonUtil::PlaceImageOnScreen(Background, EPivotType::LeftTop, 0, 0);
 
 	// 최상위 요소
-	MsgBox = CreateImageRenderer(ERenderingOrder::UI1);
+	MsgBox = CreateImageRenderer(ERenderingOrder::UI2);
 	MsgBox->CameraEffectOff();
 	MsgBox->SetImage(RN::BattleMsgBox);
 	UPokemonUtil::PlaceImageOnScreen(MsgBox, EPivotType::LeftBot, 0, 0);
 
-	ActionBox = CreateImageRenderer(ERenderingOrder::UI1);
+	ActionBox = CreateImageRenderer(ERenderingOrder::UI4);
 	ActionBox->CameraEffectOff();
 	ActionBox->SetImage(RN::BattleActionBox);
 	UPokemonUtil::PlaceImageOnScreen(ActionBox, EPivotType::RightBot, 0, 0);
@@ -160,7 +169,12 @@ void AWildBattleCanvas::BeginPlay()
 	// PlayerGround 요소
 	PlayerBattler = CreateAnimationElement(PlayerGround, RN::PlayerBattler, EPivotType::RightBot, -12, 0, ERenderingOrder::UI4);
 	PlayerBattler->CreateAnimation(Global::PlayerBattlerIdle, 0, 0, 0.0f, false);
-	PlayerBattler->CreateAnimation(Global::PlayerBattlerThrow, { 1, 2, 3, 4 }, {0.35f, 0.14f, 0.07f, 0.07f}, false);
+	PlayerBattler->CreateAnimation(Global::PlayerBattlerThrow, { 1, 2, 3, 4 }, { 0.28f, 0.14f, 0.07f, 0.07f }, false);
+
+	ThrowedBall = CreateImageRenderer(ERenderingOrder::UI1);
+	ThrowedBall->SetImage(Global::ThrowedBall);
+	UPokemonUtil::PlaceImageOnScreen(ThrowedBall, EPivotType::LeftBot, 30, -30);
+	ThrowedBall->CreateAnimation(Global::ThrowedBall, Global::ThrowedBall, 0, 11, 0.05f, false);
 }
 
 void AWildBattleCanvas::Tick(float _DeltaTime)

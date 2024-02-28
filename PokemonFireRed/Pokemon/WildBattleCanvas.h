@@ -21,6 +21,7 @@ public:
 	void LerpShowEnemyPokemonBox(float _t);
 	void PlayBattlerThrowingAnimation();
 	void HidePlayerBattler(float _HideTime, float _DeltaTime);
+	void PlayThrowedBallAnimation();
 	void LerpShowPlayerPokemonBox(float _t);
 
 protected:
@@ -51,6 +52,7 @@ private:
 	UImageRenderer* PlayerPokemonBox = nullptr;
 	UImageRenderer* EnemyGround = nullptr;
 	UImageRenderer* PlayerGround = nullptr;
+	UImageRenderer* ThrowedBall = nullptr;
 
 	// MsgBox ¿ä¼Ò
 	AText* MsgText = nullptr;

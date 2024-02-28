@@ -64,6 +64,8 @@ private:
 	float GroundMoveTime = 1.5f;
 	float EnemyPokemonBoxMoveTime = 0.5f;
 	float PlayerBattleThrowTime = 0.85f;
+	float BallThrowMotionWaitTime = 0.6f;
+	bool BallThrowAnimationPlayed = false;
 	float PlayerPokemonBoxMoveTime = 0.f;
 };
 

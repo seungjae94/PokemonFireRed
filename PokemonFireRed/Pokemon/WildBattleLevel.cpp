@@ -17,10 +17,22 @@ UWildBattleLevel::~UWildBattleLevel()
 void UWildBattleLevel::BeginPlay()
 {
 	UPokemonLevel::BeginPlay();
-	UPokemonUtil::LoadAllResourcesIn(RN::BattleLevel);
+
+	// 배틀 레벨 리소스 로드
+	UEngineDirectory CurDir;
+	CurDir.MoveToSearchChild("Resources");
+	CurDir.Move(RN::BattleLevel);
+
+	std::list<UEngineFile> AllFiles = CurDir.AllFile({ ".bmp", ".png" }, false);
+	for (UEngineFile& File : AllFiles)
+	{
+		UEngineResourcesManager::GetInst().LoadImg(File.GetFullPath());
+	}
 
 	UEngineResourcesManager::GetInst().CuttingImage(RN::PlayerBattler, 5, 1);
+	UEngineResourcesManager::GetInst().LoadFolder(CurDir.AppendPath(Global::ThrowedBall));
 
+	// 액터 생성
 	Canvas = SpawnActor<AWildBattleCanvas>();
 }
 
@@ -134,12 +146,20 @@ void UWildBattleLevel::ProcessBattleStartZClickWait(float _DeltaTime)
 		Timer = PlayerBattleThrowTime;
 		BattleStartSubstate = EBattleStartSubstate::PlayerBattlerThrow;
 		Canvas->PlayBattlerThrowingAnimation();
+		BallThrowAnimationPlayed = false;
 	}
 }
 
 void UWildBattleLevel::ProcessBattleStartPlayerBattlerThrow(float _DeltaTime)
 {
 	Canvas->HidePlayerBattler(PlayerBattleThrowTime, _DeltaTime);
+
+	if (Timer <= PlayerBattleThrowTime - BallThrowMotionWaitTime && false == BallThrowAnimationPlayed)
+	{
+		// 일정 시간이 지난 뒤 볼이 날아가는 애니메이션을 재생한다.
+		Canvas->PlayThrowedBallAnimation();
+		BallThrowAnimationPlayed = true;
+	}
 
 	if (Timer <= 0.0f)
 	{

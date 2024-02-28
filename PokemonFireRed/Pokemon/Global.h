@@ -76,6 +76,7 @@ public:
 
 	static const std::string PlayerBattlerIdle;
 	static const std::string PlayerBattlerThrow;
+	static const std::string ThrowedBall;
 
 	static const std::string Player;
 	static const std::string BlackScreen;

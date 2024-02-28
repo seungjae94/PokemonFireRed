@@ -62,8 +62,6 @@ public:
 	static void CreatePokemonMiniStopAnimations(UImageRenderer* _Renderer);
 	static void CreatePokemonFrontAnimations(UImageRenderer* _Renderer);
 	static void CreatePokemonBackAnimations(UImageRenderer* _Renderer);
-
-	static void LoadAllResourcesIn(std::string_view _DirName);
 protected:
 
 private:
