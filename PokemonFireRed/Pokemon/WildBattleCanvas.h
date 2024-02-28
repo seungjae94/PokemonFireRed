@@ -17,8 +17,11 @@ public:
 
 	void Init(const UPokemon& _PlayerPokemon, const UPokemon& _EnemyPokemon);
 
-	void LerpGrounds(float _t);
-	void LerpEnemyPokemonBox(float _t);
+	void LerpShowGrounds(float _t);
+	void LerpShowEnemyPokemonBox(float _t);
+	void PlayBattlerThrowingAnimation();
+	void HidePlayerBattler(float _HideTime, float _DeltaTime);
+	void LerpShowPlayerPokemonBox(float _t);
 
 protected:
 

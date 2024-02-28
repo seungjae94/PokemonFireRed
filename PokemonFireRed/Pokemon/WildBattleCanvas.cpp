@@ -61,7 +61,7 @@ void AWildBattleCanvas::PrepareElements(const UPokemon& _PlayerPokemon, const UP
 }
 
 
-void AWildBattleCanvas::LerpGrounds(float _t)
+void AWildBattleCanvas::LerpShowGrounds(float _t)
 {
 	FVector EnemyGroundPos = UPokemonMath::Lerp(EnemyGroundInitPos, EnemyGroundHidePos, _t);
 	FVector PlayerGroundPos = UPokemonMath::Lerp(PlayerGroundInitPos, PlayerGroundHidePos, _t);
@@ -69,10 +69,27 @@ void AWildBattleCanvas::LerpGrounds(float _t)
 	PlayerGround->SetPosition(PlayerGroundPos);
 }
 
-void AWildBattleCanvas::LerpEnemyPokemonBox(float _t)
+void AWildBattleCanvas::LerpShowEnemyPokemonBox(float _t)
 {
 	FVector EnemyPokemonBoxPos = UPokemonMath::Lerp(EnemyPokemonBoxInitPos, EnemyPokemonBoxHidePos, _t);
 	EnemyPokemonBox->SetPosition(EnemyPokemonBoxPos);
+}
+
+void AWildBattleCanvas::PlayBattlerThrowingAnimation()
+{
+	PlayerBattler->SetAnimation(Global::PlayerBattlerThrow);
+}
+
+void AWildBattleCanvas::HidePlayerBattler(float _HideTime, float _DeltaTime)
+{
+	float Speed = Global::FloatHalfScreenX / _HideTime;
+	PlayerBattler->AddRelativePos(FVector::Left * Speed * _DeltaTime);
+}
+
+void AWildBattleCanvas::LerpShowPlayerPokemonBox(float _t)
+{
+	FVector PlayerPokemonBoxPos = UPokemonMath::Lerp(PlayerPokemonBoxInitPos, PlayerPokemonBoxHidePos, _t);
+	PlayerPokemonBox->SetPosition(PlayerPokemonBoxPos);
 }
 
 void AWildBattleCanvas::BeginPlay()
@@ -143,7 +160,7 @@ void AWildBattleCanvas::BeginPlay()
 	// PlayerGround ¿ä¼Ò
 	PlayerBattler = CreateAnimationElement(PlayerGround, RN::PlayerBattler, EPivotType::RightBot, -12, 0, ERenderingOrder::UI4);
 	PlayerBattler->CreateAnimation(Global::PlayerBattlerIdle, 0, 0, 0.0f, false);
-	PlayerBattler->CreateAnimation(Global::PlayerBattlerThrow, 0, 4, 0.2f, false);
+	PlayerBattler->CreateAnimation(Global::PlayerBattlerThrow, { 1, 2, 3, 4 }, {0.35f, 0.14f, 0.07f, 0.07f}, false);
 }
 
 void AWildBattleCanvas::Tick(float _DeltaTime)

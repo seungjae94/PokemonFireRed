@@ -15,6 +15,11 @@ void AUIElement::SetRelativePos(FVector _PivotRelativePos)
 	FollowContainer();
 }
 
+void AUIElement::AddRelativePos(FVector _PivotRelativePos)
+{
+	SetRelativePos(RelativePos + _PivotRelativePos);
+}
+
 void AUIElement::FollowContainer()
 {
 	FTransform ContainerTrans = Container->GetTransform();

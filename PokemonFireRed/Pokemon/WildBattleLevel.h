@@ -19,7 +19,7 @@ enum class EBattleStartSubstate
 	GroundMove,
 	EnemyPokemonBoxMove,
 	ZClickWait,
-	SendOutFirstPokemon,
+	PlayerBattlerThrow,
 	PlayerPokemonBoxMove,
 };
 
@@ -51,7 +51,7 @@ private:
 	void ProcessBattleStartGroundMove(float _DeltaTime);
 	void ProcessBattleStartEnemyPokemonBoxMove(float _DeltaTime);
 	void ProcessBattleStartZClickWait(float _DeltaTime);
-	void ProcessBattleStartSendOutFirstPokemon(float _DeltaTime);
+	void ProcessBattleStartPlayerBattlerThrow(float _DeltaTime);
 	void ProcessBattleStartPlayerPokemonBoxMove(float _DeltaTime);
 
 	// FSM
@@ -63,6 +63,7 @@ private:
 	float FadeWaitTime = 0.5f;
 	float GroundMoveTime = 1.5f;
 	float EnemyPokemonBoxMoveTime = 0.5f;
+	float PlayerBattleThrowTime = 0.85f;
 	float PlayerPokemonBoxMoveTime = 0.f;
 };
 

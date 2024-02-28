@@ -1,6 +1,7 @@
 #include "WildBattleLevel.h"
 #include <EngineBase/EngineDirectory.h>
 #include <EngineBase/EngineFile.h>
+#include <EnginePlatform/EngineInput.h>
 #include <EngineCore/EngineResourcesManager.h>
 #include "PlayerData.h"
 #include "PokemonUtil.h"
@@ -85,8 +86,8 @@ void UWildBattleLevel::ProcessBattleStart(float _DeltaTime)
 	case EBattleStartSubstate::ZClickWait:
 		ProcessBattleStartZClickWait(_DeltaTime);
 		break;
-	case EBattleStartSubstate::SendOutFirstPokemon:
-		ProcessBattleStartSendOutFirstPokemon(_DeltaTime);
+	case EBattleStartSubstate::PlayerBattlerThrow:
+		ProcessBattleStartPlayerBattlerThrow(_DeltaTime);
 		break;
 	case EBattleStartSubstate::PlayerPokemonBoxMove:
 		ProcessBattleStartPlayerPokemonBoxMove(_DeltaTime);
@@ -107,9 +108,9 @@ void UWildBattleLevel::ProcessBattleStartFadeWait(float _DeltaTime)
 
 void UWildBattleLevel::ProcessBattleStartGroundMove(float _DeltaTime)
 {
-	Canvas->LerpGrounds(Timer/GroundMoveTime);
+	Canvas->LerpShowGrounds(Timer/GroundMoveTime);
 
-	if (Timer < 0.0f)
+	if (Timer <= 0.0f)
 	{
 		Timer = EnemyPokemonBoxMoveTime;
 		BattleStartSubstate = EBattleStartSubstate::EnemyPokemonBoxMove;
@@ -118,21 +119,33 @@ void UWildBattleLevel::ProcessBattleStartGroundMove(float _DeltaTime)
 
 void UWildBattleLevel::ProcessBattleStartEnemyPokemonBoxMove(float _DeltaTime)
 {
-	Canvas->LerpEnemyPokemonBox(Timer / EnemyPokemonBoxMoveTime);
+	Canvas->LerpShowEnemyPokemonBox(Timer / EnemyPokemonBoxMoveTime);
 
-	if (Timer < 0.0f)
+	if (Timer <= 0.0f)
 	{
-		Timer = PlayerPokemonBoxMoveTime;
 		BattleStartSubstate = EBattleStartSubstate::ZClickWait;
 	}
 }
 
 void UWildBattleLevel::ProcessBattleStartZClickWait(float _DeltaTime)
 {
+	if (true == UEngineInput::IsDown('Z') || true == UEngineInput::IsDown('X'))
+	{
+		Timer = PlayerBattleThrowTime;
+		BattleStartSubstate = EBattleStartSubstate::PlayerBattlerThrow;
+		Canvas->PlayBattlerThrowingAnimation();
+	}
 }
 
-void UWildBattleLevel::ProcessBattleStartSendOutFirstPokemon(float _DeltaTime)
+void UWildBattleLevel::ProcessBattleStartPlayerBattlerThrow(float _DeltaTime)
 {
+	Canvas->HidePlayerBattler(PlayerBattleThrowTime, _DeltaTime);
+
+	if (Timer <= 0.0f)
+	{
+		Timer = PlayerPokemonBoxMoveTime;
+		BattleStartSubstate = EBattleStartSubstate::PlayerPokemonBoxMove;
+	}
 }
 
 void UWildBattleLevel::ProcessBattleStartPlayerPokemonBoxMove(float _DeltaTime)

@@ -27,6 +27,7 @@ public:
 	AUIElement& operator=(AUIElement&& _Other) noexcept = delete;
 
 	virtual void SetRelativePos(FVector _PivotRelativePos);
+	virtual void AddRelativePos(FVector _PivotRelativePos);
 	virtual void FollowContainer();
 	
 	void SetRenderingOrder(ERenderingOrder _Order)
