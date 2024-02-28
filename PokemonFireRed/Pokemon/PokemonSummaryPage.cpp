@@ -261,7 +261,7 @@ void APokemonSummaryPage::InfoTick(float _DeltaTime)
 {
 	if (true == UEngineInput::IsDown('Z') || true == UEngineInput::IsDown('X'))
 	{
-		UEventManager::ChangeLevelFade(GetWorld(), Global::PokemonUILevel);
+		UEventManager::FadeChangeLevel(Global::PokemonUILevel);
 		return;
 	}
 
@@ -279,7 +279,7 @@ void APokemonSummaryPage::SkillsTick(float _DeltaTime)
 {
 	if (true == UEngineInput::IsDown('X'))
 	{
-		UEventManager::ChangeLevelFade(GetWorld(), Global::PokemonUILevel);
+		UEventManager::FadeChangeLevel(Global::PokemonUILevel);
 		return;
 	}
 
@@ -306,7 +306,7 @@ void APokemonSummaryPage::MovesTick(float _DeltaTime)
 {
 	if (true == UEngineInput::IsDown('X'))
 	{
-		UEventManager::ChangeLevelFade(GetWorld(), Global::PokemonUILevel);
+		UEventManager::FadeChangeLevel(Global::PokemonUILevel);
 		return;
 	}
 

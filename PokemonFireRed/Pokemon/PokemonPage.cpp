@@ -245,7 +245,7 @@ void APokemonPage::TargetSelectionWaitTick(float _DeltaTime)
 {
 	if (true == UEngineInput::IsDown('X'))
 	{
-		UEventManager::ChangeLevelFade(GetWorld(), PrevMapLevelName);
+		UEventManager::FadeChangeLevel(PrevMapLevelName);
 		ActionCursor->SetCursor(0);
 		return;
 	}
@@ -301,7 +301,7 @@ void APokemonPage::TargetSelect()
 	if (TargetCursor == UPlayerData::GetPokemonEntrySize())
 	{
 		// 캔슬 버튼 입력
-		UEventManager::ChangeLevelFade(GetWorld(), PrevMapLevelName);
+		UEventManager::FadeChangeLevel(PrevMapLevelName);
 	}
 	else
 	{
@@ -342,7 +342,7 @@ void APokemonPage::ActionSelect()
 	{
 	case 0:
 		// PokemonSummaryUI 레벨로 전환
-		UEventManager::ChangeLevelFade(GetWorld(), Global::PokemonSummaryUILevel);
+		UEventManager::FadeChangeLevel(Global::PokemonSummaryUILevel);
 	break;
 	case 1:
 		// Switch 상태로 전환

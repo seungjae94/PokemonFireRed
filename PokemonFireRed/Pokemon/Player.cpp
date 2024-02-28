@@ -613,9 +613,8 @@ bool APlayer::TryBattleEvent()
 
 	const UWildPokemonZone* Zone = UPokemonDB::FindWildPokemonZone(GetWorld()->GetName(), ZoneIndex);
 	UPokemon Pokemon = Zone->NewWildPokemon();
-	//UEventManager::WildPokemonBattle(Pokemon);
-
-	return false;
+	UEventManager::WildBattle(Pokemon);
+	return true;
 }
 
 Color8Bit APlayer::GetPointColor(FTileVector _RelativePoint)

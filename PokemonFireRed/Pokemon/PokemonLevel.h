@@ -65,11 +65,6 @@ public:
 		return EventTrigger;
 	}
 
-	void ChangeLevelFade(std::string_view _Name, float _FadeInTime = 0.5f, float _FadeOutTime = 0.5f)
-	{
-		FadeLevelChanger->ChangeLevel(_Name, _FadeInTime, _FadeOutTime);
-	}
-
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;

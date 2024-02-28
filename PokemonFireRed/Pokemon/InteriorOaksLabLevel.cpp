@@ -18,8 +18,8 @@ void UInteriorOaksLabLevel::BeginPlay()
 	UMapLevel::BeginPlay();
 
 	// 플레이어 시작 위치 설정
-	UEventManager::SetPoint(GetName(), Global::PlayerName, { 6, 6 });
-	UEventManager::SetDirection(GetName(), Global::PlayerName, FTileVector::Up);
+	UEventManager::SetPoint(GetName(), Global::Player, { 6, 6 });
+	UEventManager::SetDirection(GetName(), Global::Player, FTileVector::Up);
 
 
 	// 이벤트 트리거 생성

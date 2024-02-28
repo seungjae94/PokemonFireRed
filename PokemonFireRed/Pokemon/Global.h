@@ -67,12 +67,19 @@ public:
 	static const std::string PokemonUILevel;
 	static const std::string PokemonSummaryUILevel;
 	static const std::string TrainerCardUILevel;
+	static const std::string BattleLevel;
 
 	static const std::string PokemonFrontPrefix;
 	static const std::string PokemonBackPrefix;
 	static const std::string PokemonMiniMovePrefix;
 	static const std::string PokemonMiniStopPrefix;
-	static const std::string PlayerName;
+
+	static const std::string Player;
+	static const std::string BlackScreen;
+	static const std::string WhiteScreen;
+	static const std::string CurtainScreen;
+	static const std::string FadeLevelChanger;
+	static const std::string WildBattleTrigger;
 
 	static const Color8Bit PixelColliderBlock;
 	static const Color8Bit PixelColliderBlockUpDown;

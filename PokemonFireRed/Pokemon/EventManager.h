@@ -7,6 +7,7 @@
 #include <EngineCore/Level.h>
 #include "PokemonMath.h"
 #include "EventCondition.h"
+#include "Pokemon.h"
 
 class UPokemonLevel;
 class AEventTarget;
@@ -54,7 +55,9 @@ public:
 	
 	static void SetCurLevelPlayerState(EPlayerState _State);
 
-	static void ChangeLevelFade(ULevel* _World, std::string_view _MapName, float _FadeInTime = 0.3f, float _FadeOutTime = 0.3f);
+	static void FadeChangeLevel(std::string_view _TargetLevelName, float _FadeInTime = 0.3f, float _FadeOutTime = 0.3f);
+	
+	static void WildBattle(const UPokemon& _Pokemon);
 
 	// 찾기 편의 함수
 	template <typename UIType>

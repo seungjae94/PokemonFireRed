@@ -24,8 +24,12 @@ public:
 	AEventTrigger& operator=(AEventTrigger&& _Other) noexcept = delete;
 
 	virtual void RegisterPredefinedEvent() {};
-
 protected:
+	UEventCondition Cond;
+
+	virtual void UnregisterEvent() {
+		UEventManager::UnregisterEvent(this, Cond);
+	};
 private:
 };
 

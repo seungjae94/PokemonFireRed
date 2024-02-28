@@ -7,9 +7,6 @@
     <Filter Include="0. Player">
       <UniqueIdentifier>{303e1108-7ab1-4371-9aaa-464f75f69743}</UniqueIdentifier>
     </Filter>
-    <Filter Include="1. Trigger">
-      <UniqueIdentifier>{5afc955f-9fe3-4a6d-bd92-3b7ac4681b20}</UniqueIdentifier>
-    </Filter>
     <Filter Include="2. Level">
       <UniqueIdentifier>{c65502e2-f0b1-44bb-b6d8-55257fcad413}</UniqueIdentifier>
     </Filter>
@@ -93,6 +90,9 @@
     </Filter>
     <Filter Include="7. Sound">
       <UniqueIdentifier>{134a8738-739c-45a2-bbf1-7006446013ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1. GlobalTrigger">
+      <UniqueIdentifier>{5afc955f-9fe3-4a6d-bd92-3b7ac4681b20}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -223,7 +223,7 @@
       <Filter>6. Data</Filter>
     </ClInclude>
     <ClInclude Include="FadeLevelChanger.h">
-      <Filter>1. Trigger</Filter>
+      <Filter>1. GlobalTrigger</Filter>
     </ClInclude>
     <ClInclude Include="ScrollBar.h">
       <Filter>5. UI\Element</Filter>
@@ -284,6 +284,9 @@
     </ClInclude>
     <ClInclude Include="WildPokemonZone.h">
       <Filter>6. Data\Pokemon\DB</Filter>
+    </ClInclude>
+    <ClInclude Include="WildBattleTrigger.h">
+      <Filter>1. GlobalTrigger</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -414,7 +417,7 @@
       <Filter>6. Data</Filter>
     </ClCompile>
     <ClCompile Include="FadeLevelChanger.cpp">
-      <Filter>1. Trigger</Filter>
+      <Filter>1. GlobalTrigger</Filter>
     </ClCompile>
     <ClCompile Include="ScrollBar.cpp">
       <Filter>5. UI\Element</Filter>
@@ -469,6 +472,9 @@
     </ClCompile>
     <ClCompile Include="WildPokemonZone.cpp">
       <Filter>6. Data\Pokemon\DB</Filter>
+    </ClCompile>
+    <ClCompile Include="WildBattleTrigger.cpp">
+      <Filter>1. GlobalTrigger</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

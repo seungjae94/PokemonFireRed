@@ -12,6 +12,7 @@ class UPokemon
 {
 public:
 	// constructor destructor
+	UPokemon() {};
 	UPokemon(EPokedexNo _Id, int _Level = 1);
 	~UPokemon();
 

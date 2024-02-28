@@ -40,12 +40,19 @@ const std::string Global::InteriorPlayersHouse2FLevel = "InteriorPlayersHouse2FL
 const std::string Global::PokemonUILevel = "PokemonUILevel";
 const std::string Global::PokemonSummaryUILevel = "PokemonUISummaryLevel";
 const std::string Global::TrainerCardUILevel = "TrainerCardUILevel";
+const std::string Global::BattleLevel = "BattleLevel";
 
 const std::string Global::PokemonFrontPrefix = "PokemonFront";
 const std::string Global::PokemonBackPrefix = "PokemonBack";
 const std::string Global::PokemonMiniMovePrefix = "PokemonMiniMove";
 const std::string Global::PokemonMiniStopPrefix = "PokemonMiniStop";
-const std::string Global::PlayerName = "Player";
+
+const std::string Global::Player = "Player";
+const std::string Global::BlackScreen = "BlackScreen";
+const std::string Global::WhiteScreen = "WhiteScreen";
+const std::string Global::CurtainScreen = "CurtainScreen";
+const std::string Global::FadeLevelChanger = "FadeLevelChanger";
+const std::string Global::WildBattleTrigger = "WildBattleTrigger";
 
 const Color8Bit Global::PixelColliderBlock = Color8Bit(255, 0, 255, 0);
 const Color8Bit Global::PixelColliderBlockUpDown = Color8Bit(255, 1, 255, 0);

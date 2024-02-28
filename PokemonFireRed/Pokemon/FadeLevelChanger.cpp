@@ -8,6 +8,20 @@ AFadeLevelChanger::~AFadeLevelChanger()
 {
 }
 
+void AFadeLevelChanger::Update(std::string_view _TargetLevelName, float _FadeInTime, float _FadeOutTime)
+{
+	FadeInTime = _FadeInTime;
+	FadeOutTime = _FadeOutTime;
+
+	if (TargetLevelName != _TargetLevelName)
+	{
+		UnregisterEvent();
+	}
+
+	TargetLevelName = _TargetLevelName;
+	RegisterPredefinedEvent();
+}
+
 void AFadeLevelChanger::RegisterPredefinedEvent()
 {
 	AEventTrigger::RegisterPredefinedEvent();
@@ -21,9 +35,3 @@ void AFadeLevelChanger::RegisterPredefinedEvent()
 		>> ES::End(false)
 	);
 }
-
-void AFadeLevelChanger::UnregisterEvent()
-{
-	UEventManager::UnregisterEvent(this, Cond);
-}
-

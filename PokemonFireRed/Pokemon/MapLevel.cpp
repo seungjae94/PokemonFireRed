@@ -16,6 +16,7 @@
 #include "MapNameWindow.h"
 #include "AnimatedFlower.h"
 #include "AnimatedSea.h"
+#include "WildBattleTrigger.h"
 
 UMapLevel::UMapLevel()
 {
@@ -35,7 +36,7 @@ void UMapLevel::BeginPlay()
 	CurDir.MoveToSearchChild("Resources");
 	CurDir.Move("MapLevel");
 
-	// 캐릭터, 트리거, 타일, BGM 로드 (전 게임에 걸쳐 1번만 실행)
+	// 캐릭터, 트리거, 타일, BGM 리소스 로드 (전 게임에 걸쳐 1번만 실행)
 	if (false == IsCommonResourceLoaded)
 	{
 		LoadCharacterResources();
@@ -86,6 +87,9 @@ void UMapLevel::BeginPlay()
 	MapNameWindow = SpawnUIElement<AMapNameWindow>("MapNameWindow");
 	MapNameWindow->SetActive(false);
 
+	// 야생 배틀 트리거 생성
+	SpawnEventTrigger<AWildBattleTrigger>(Global::WildBattleTrigger);
+
 	// 페이드 인 이벤트용 트리거 생성
 	UEventTargetInit Setting; 
 	Setting.SetName("FadeInTrigger");
@@ -108,7 +112,7 @@ void UMapLevel::Tick(float _DeltaTime)
 
 	if (UEngineInput::IsDown(VK_F2))
 	{
-		PokemonDebug::ReportPosition(Player, Global::PlayerName);
+		PokemonDebug::ReportPosition(Player, Global::Player);
 	}
 
 	if (UEngineInput::IsDown('O'))
@@ -160,7 +164,7 @@ void UMapLevel::LoadCharacterResources()
 
 	// Idle 애니메이션을 로드할 캐릭터 이름을 정의
 	std::vector<std::string> IdleCharacterNames = {
-		Global::PlayerName,
+		Global::Player,
 		"FatMan",
 		"PlayersMom"
 	};
@@ -173,7 +177,7 @@ void UMapLevel::LoadCharacterResources()
 
 	// Walk 애니메이션을 로드할 캐릭터 이름을 정의
 	std::vector<std::string> WalkCharacterNames = {
-		Global::PlayerName,
+		Global::Player,
 		"FatMan"
 	};
 

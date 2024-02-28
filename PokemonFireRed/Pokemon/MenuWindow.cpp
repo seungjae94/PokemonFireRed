@@ -161,12 +161,12 @@ void AMenuWindow::MenuAction()
 	case EMenuIndex::Pokedex:
 		break;
 	case EMenuIndex::Pokemon:
-		UEventManager::ChangeLevelFade(GetWorld(), Global::PokemonUILevel);
+		UEventManager::FadeChangeLevel(Global::PokemonUILevel);
 		break;
 	case EMenuIndex::Bag:
 		break;
 	case EMenuIndex::Player:
-		UEventManager::ChangeLevelFade(GetWorld(), Global::TrainerCardUILevel);
+		UEventManager::FadeChangeLevel(Global::TrainerCardUILevel);
 		break;
 	case EMenuIndex::Exit:
 		Close();

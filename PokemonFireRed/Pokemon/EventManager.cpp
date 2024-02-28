@@ -7,10 +7,11 @@
 #include "EventCondition.h"
 #include "EventStream.h"
 #include "Player.h"
-#include "PokemonLevel.h"
+#include "MapLevel.h"
 #include "MenuWindow.h"
 #include "DialogueWindow.h"
 #include "BlackScreen.h"
+#include "WildBattleTrigger.h"
 
 std::string UEventManager::CurLevelName;
 std::map<std::string, std::map<std::string, APage*>> UEventManager::AllUIElements;
@@ -213,7 +214,7 @@ void UEventManager::AddTrigger(AEventTrigger* _Trigger, const UEventTargetInit& 
 void UEventManager::AddPlayer(APlayer* _Player, const FTileVector& _Point)
 {
 	UEventTargetInit PlayerSetting; 
-	PlayerSetting.SetName(Global::PlayerName);
+	PlayerSetting.SetName(Global::Player);
 	PlayerSetting.SetPoint(_Point);
 	PlayerSetting.SetDirection(FTileVector::Down);
 	PlayerSetting.SetCollidable(true);
@@ -242,13 +243,13 @@ void UEventManager::AddPlayer(APlayer* _Player, const FTileVector& _Point)
 
 	for (std::string& DirectionName : AllDirectionNames)
 	{
-		std::string ImageName = Global::PlayerName + "Walk" + DirectionName + ".png";
+		std::string ImageName = Global::Player + "Walk" + DirectionName + ".png";
 
-		std::string UpperBodyAnimName = Global::PlayerName + "SlowWalk" + DirectionName + Global::SuffixUpperBody;
+		std::string UpperBodyAnimName = Global::Player + "SlowWalk" + DirectionName + Global::SuffixUpperBody;
 		_Player->UpperBodyRenderer->CreateAnimation(UpperBodyAnimName + "0", ImageName, { 0, 1 }, SlowWalkInterval, false); // 오른발
 		_Player->UpperBodyRenderer->CreateAnimation(UpperBodyAnimName + "1", ImageName, { 2, 3 }, SlowWalkInterval, false); // 왼발
 
-		std::string LowerBodyAnimName = Global::PlayerName + "SlowWalk" + DirectionName + Global::SuffixLowerBody;
+		std::string LowerBodyAnimName = Global::Player + "SlowWalk" + DirectionName + Global::SuffixLowerBody;
 		_Player->LowerBodyRenderer->CreateAnimation(LowerBodyAnimName + "0", ImageName, { 4, 5 }, SlowWalkInterval, false); // 오른발
 		_Player->LowerBodyRenderer->CreateAnimation(LowerBodyAnimName + "1", ImageName, { 6, 7 }, SlowWalkInterval, false); // 왼발
 	}
@@ -334,21 +335,34 @@ void UEventManager::SetDirection(std::string_view _MapName, std::string_view _Ta
 
 void UEventManager::SetCurLevelPlayerState(EPlayerState _State)
 {
-	APlayer* Player = FindCurLevelTarget<APlayer>(Global::PlayerName);
+	APlayer* Player = FindCurLevelTarget<APlayer>(Global::Player);
 	Player->StateChange(_State);
 }
 
-void UEventManager::ChangeLevelFade(ULevel* _World, std::string_view _MapName, float _FadeInTime, float _FadeOutTime)
+void UEventManager::FadeChangeLevel(std::string_view _TargetMapName, float _FadeInTime, float _FadeOutTime)
 {
-	UPokemonLevel* CurLevel = dynamic_cast<UPokemonLevel*>(_World);
+	AFadeLevelChanger* LevelChanger = FindTarget<AFadeLevelChanger>(CurLevelName, Global::FadeLevelChanger);
 
-	if (nullptr == CurLevel)
+	if (nullptr == LevelChanger)
 	{
-		MsgBoxAssert("현재 레벨이 포켓몬 레벨이 아닙니다. 레벨 설정이 잘못되었습니다.");
+		MsgBoxAssert(CurLevelName + "에 FadeLevelChanger가 생성되지 않았습니다.");
 		return;
 	}
 
-	CurLevel->ChangeLevelFade(_MapName, _FadeInTime, _FadeOutTime);
+	LevelChanger->Trigger(_TargetMapName, _FadeInTime, _FadeOutTime);
+}
+
+void UEventManager::WildBattle(const UPokemon& _Pokemon)
+{
+	AWildBattleTrigger* WildBattleTrigger = FindTarget<AWildBattleTrigger>(CurLevelName, Global::WildBattleTrigger);
+
+	if (nullptr == WildBattleTrigger)
+	{
+		MsgBoxAssert(std::string(CurLevelName) + "에 WildBattleTrigger가 생성되지 않았습니다.");
+		return;
+	}
+
+	WildBattleTrigger->Trigger(_Pokemon);
 }
 
 // 메모리 릴리즈

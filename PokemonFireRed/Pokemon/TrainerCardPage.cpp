@@ -73,7 +73,7 @@ void ATrainerCardPage::Tick(float _DeltaTime)
 {
 	if (true == UEngineInput::IsDown('Z') || true == UEngineInput::IsDown('X'))
 	{
-		UEventManager::ChangeLevelFade(GetWorld(), PrevMapLevelName);
+		UEventManager::FadeChangeLevel(PrevMapLevelName);
 		return;
 	}
 }
