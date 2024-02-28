@@ -19,6 +19,6 @@ protected:
 	void BeginPlay() override;
 	void LevelStart(ULevel* _PrevLevel) override;
 private:
-	ATrainerCardCanvas* Page = nullptr;
+	ATrainerCardCanvas* Canvas = nullptr;
 };
 

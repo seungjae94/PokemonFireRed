@@ -25,12 +25,12 @@ void UTrainerCardUILevel::BeginPlay()
 		UEngineResourcesManager::GetInst().LoadImg(File.GetFullPath());
 	}
 
-	Page = SpawnActor<ATrainerCardCanvas>();
+	Canvas = SpawnActor<ATrainerCardCanvas>();
 }
 
 void UTrainerCardUILevel::LevelStart(ULevel* _PrevLevel)
 {
 	std::string PrevMapLevelName = _PrevLevel->GetName();
-	Page->SetPrevMapLevelName(PrevMapLevelName);
-	Page->RefreshAll();
+	Canvas->SetPrevMapLevelName(PrevMapLevelName);
+	Canvas->RefreshAll();
 }

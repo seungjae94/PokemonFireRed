@@ -201,6 +201,7 @@ protected:
 	~UEventManager();
 private:
 	static std::string CurLevelName;
+	static ULevel* BattleLevel;
 
 	// AllMenuWindows[LevelName][ElementName]
 	// - 메뉴창, 대화창도 커서 이동 등 플레이어 타입으로 다뤄야 할 일이 있기 때문에 추가로 보관한다.

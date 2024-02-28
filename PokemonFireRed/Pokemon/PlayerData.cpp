@@ -10,6 +10,8 @@ std::map<EAchievement, bool> UPlayerData::AchievementMap;
 std::map<EPokedexNo, bool> UPlayerData::PokedexSeenMap;
 std::map<EPokedexNo, bool> UPlayerData::PokedexOwnedMap;
 
+UPokemon UPlayerData::EnemyWildPokemon;
+
 UPlayerData::UPlayerData()
 {
 }

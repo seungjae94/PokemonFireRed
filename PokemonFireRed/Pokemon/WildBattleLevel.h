@@ -1,5 +1,6 @@
 #pragma once
 #include "PokemonLevel.h"
+#include "WildBattleCanvas.h"
 
 class UWildBattleLevel : public UPokemonLevel
 {
@@ -14,11 +15,6 @@ public:
 	UWildBattleLevel& operator=(const UWildBattleLevel& _Other) = delete;
 	UWildBattleLevel& operator=(UWildBattleLevel&& _Other) noexcept = delete;
 
-	void SetPokemon(const UPokemon& _Pokemon)
-	{
-		Pokemon = _Pokemon;
-	}
-
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
@@ -26,5 +22,6 @@ protected:
 	void LevelEnd(ULevel* _NextLevel) override;
 private:
 	UPokemon Pokemon;
+	AWildBattleCanvas* Canvas = nullptr;
 };
 

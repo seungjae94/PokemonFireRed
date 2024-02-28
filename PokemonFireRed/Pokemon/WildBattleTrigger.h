@@ -17,7 +17,7 @@ public:
 
 	void Trigger(const UPokemon& _Pokemon)
 	{
-		Update(Pokemon);
+		Update(_Pokemon);
 		UEventManager::TriggerEvent(this, EEventTriggerAction::Direct);
 	}
 
@@ -25,7 +25,6 @@ protected:
 
 private:
 	UEventCondition Cond;
-	UPokemon Pokemon;
 	float BlinkTime = 0.15f;
 
 	void Update(const UPokemon& _Pokemon);

@@ -27,7 +27,7 @@ void UPokemonUILevel::BeginPlay()
 		UEngineResourcesManager::GetInst().LoadImg(File.GetFullPath());
 	}
 
-	Page = SpawnActor<APokemonCanvas>();
+	Canvas = SpawnActor<APokemonCanvas>();
 }
 
 void UPokemonUILevel::LevelStart(ULevel* _PrevLevel)
@@ -36,8 +36,8 @@ void UPokemonUILevel::LevelStart(ULevel* _PrevLevel)
 
 	if (nullptr != MapLevel)
 	{
-		Page->SetPrevMapLevelName(MapLevel->GetName());
-		Page->Reset();
-		Page->RefreshAll();
+		Canvas->SetPrevMapLevelName(MapLevel->GetName());
+		Canvas->Reset();
+		Canvas->RefreshAll();
 	}
 }

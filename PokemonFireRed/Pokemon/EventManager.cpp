@@ -14,6 +14,7 @@
 #include "WildBattleTrigger.h"
 
 std::string UEventManager::CurLevelName;
+ULevel* UEventManager::BattleLevel = nullptr;
 std::map<std::string, std::map<std::string, ACanvas*>> UEventManager::AllUIElements;
 std::map<std::string, std::map<std::string, AEventTarget*>> UEventManager::AllTargets;
 std::map<std::string, std::map<FTileVector, std::list<AEventTrigger*>>> UEventManager::AllTriggers;
@@ -361,6 +362,7 @@ void UEventManager::WildBattle(const UPokemon& _Pokemon)
 		MsgBoxAssert(std::string(CurLevelName) + "에 WildBattleTrigger가 생성되지 않았습니다.");
 		return;
 	}
+
 
 	WildBattleTrigger->Trigger(_Pokemon);
 }

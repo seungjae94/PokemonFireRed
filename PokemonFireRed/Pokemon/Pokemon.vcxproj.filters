@@ -46,21 +46,6 @@
     <Filter Include="2. Level\3. PokemonUILevel">
       <UniqueIdentifier>{4d6642c5-eaf8-48c7-88cc-115fe2b883fd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2. Level\3. PokemonUILevel\SummaryLevel">
-      <UniqueIdentifier>{29fdf0d7-262d-4e47-913c-54d49556092d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2. Level\4. TrainerCardUILevel">
-      <UniqueIdentifier>{76b99926-9a09-4cd1-9ce3-494305579f9f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2. Level\5. BagUILevel">
-      <UniqueIdentifier>{f6f386fd-7840-4b40-a1ac-fb2df2c32aae}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2. Level\6. PokedexUILevel">
-      <UniqueIdentifier>{8c7696ec-b90f-4918-83f7-92b65a26d7e8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2. Level\7. BattleLevel">
-      <UniqueIdentifier>{b0506102-f58f-4ae7-983f-b06abe5ca310}</UniqueIdentifier>
-    </Filter>
     <Filter Include="3. Util">
       <UniqueIdentifier>{363b44f9-6ba5-4290-afb2-239aea3b0006}</UniqueIdentifier>
     </Filter>
@@ -93,6 +78,21 @@
     </Filter>
     <Filter Include="1. GlobalTrigger">
       <UniqueIdentifier>{5afc955f-9fe3-4a6d-bd92-3b7ac4681b20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2. Level\4. PokemonUISummaryLevel">
+      <UniqueIdentifier>{29fdf0d7-262d-4e47-913c-54d49556092d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2. Level\5. TrainerCardUILevel">
+      <UniqueIdentifier>{76b99926-9a09-4cd1-9ce3-494305579f9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2. Level\6. BagUILevel">
+      <UniqueIdentifier>{f6f386fd-7840-4b40-a1ac-fb2df2c32aae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2. Level\7. PokedexUILevel">
+      <UniqueIdentifier>{8c7696ec-b90f-4918-83f7-92b65a26d7e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2. Level\8. BattleLevel">
+      <UniqueIdentifier>{b0506102-f58f-4ae7-983f-b06abe5ca310}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -244,10 +244,10 @@
       <Filter>5. UI\Element</Filter>
     </ClInclude>
     <ClInclude Include="PokemonSummaryUILevel.h">
-      <Filter>2. Level\3. PokemonUILevel\SummaryLevel</Filter>
+      <Filter>2. Level\4. PokemonUISummaryLevel</Filter>
     </ClInclude>
     <ClInclude Include="PokemonSummaryCanvas.h">
-      <Filter>2. Level\3. PokemonUILevel\SummaryLevel</Filter>
+      <Filter>2. Level\4. PokemonUISummaryLevel</Filter>
     </ClInclude>
     <ClInclude Include="AllUIElements.h">
       <Filter>3. Util</Filter>
@@ -259,10 +259,10 @@
       <Filter>5. UI\Element</Filter>
     </ClInclude>
     <ClInclude Include="TrainerCardUILevel.h">
-      <Filter>2. Level\4. TrainerCardUILevel</Filter>
+      <Filter>2. Level\5. TrainerCardUILevel</Filter>
     </ClInclude>
     <ClInclude Include="TrainerCardCanvas.h">
-      <Filter>2. Level\4. TrainerCardUILevel</Filter>
+      <Filter>2. Level\5. TrainerCardUILevel</Filter>
     </ClInclude>
     <ClInclude Include="PokemonDB.h">
       <Filter>6. Data\Pokemon\DB</Filter>
@@ -271,7 +271,7 @@
       <Filter>6. Data\Pokemon\DB</Filter>
     </ClInclude>
     <ClInclude Include="WildBattleLevel.h">
-      <Filter>2. Level\7. BattleLevel</Filter>
+      <Filter>2. Level\8. BattleLevel</Filter>
     </ClInclude>
     <ClInclude Include="CsvReader.h">
       <Filter>3. Util</Filter>
@@ -287,6 +287,9 @@
     </ClInclude>
     <ClInclude Include="WildBattleTrigger.h">
       <Filter>1. GlobalTrigger</Filter>
+    </ClInclude>
+    <ClInclude Include="WildBattleCanvas.h">
+      <Filter>2. Level\8. BattleLevel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -438,10 +441,10 @@
       <Filter>5. UI\Element</Filter>
     </ClCompile>
     <ClCompile Include="PokemonSummaryCanvas.cpp">
-      <Filter>2. Level\3. PokemonUILevel\SummaryLevel</Filter>
+      <Filter>2. Level\4. PokemonUISummaryLevel</Filter>
     </ClCompile>
     <ClCompile Include="PokemonSummaryUILevel.cpp">
-      <Filter>2. Level\3. PokemonUILevel\SummaryLevel</Filter>
+      <Filter>2. Level\4. PokemonUISummaryLevel</Filter>
     </ClCompile>
     <ClCompile Include="PokemonString.cpp">
       <Filter>3. Util</Filter>
@@ -450,16 +453,16 @@
       <Filter>5. UI\Element</Filter>
     </ClCompile>
     <ClCompile Include="TrainerCardUILevel.cpp">
-      <Filter>2. Level\4. TrainerCardUILevel</Filter>
+      <Filter>2. Level\5. TrainerCardUILevel</Filter>
     </ClCompile>
     <ClCompile Include="TrainerCardCanvas.cpp">
-      <Filter>2. Level\4. TrainerCardUILevel</Filter>
+      <Filter>2. Level\5. TrainerCardUILevel</Filter>
     </ClCompile>
     <ClCompile Include="PokemonDB.cpp">
       <Filter>6. Data\Pokemon\DB</Filter>
     </ClCompile>
     <ClCompile Include="WildBattleLevel.cpp">
-      <Filter>2. Level\7. BattleLevel</Filter>
+      <Filter>2. Level\8. BattleLevel</Filter>
     </ClCompile>
     <ClCompile Include="CsvReader.cpp">
       <Filter>3. Util</Filter>
@@ -475,6 +478,9 @@
     </ClCompile>
     <ClCompile Include="WildBattleTrigger.cpp">
       <Filter>1. GlobalTrigger</Filter>
+    </ClCompile>
+    <ClCompile Include="WildBattleCanvas.cpp">
+      <Filter>2. Level\8. BattleLevel</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

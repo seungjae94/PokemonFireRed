@@ -81,6 +81,9 @@ public:
 		return Money;
 	}
 
+	// 싸울 포켓몬 정보
+	static UPokemon EnemyWildPokemon;
+
 protected:
 
 private:

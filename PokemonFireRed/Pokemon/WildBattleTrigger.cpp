@@ -1,4 +1,5 @@
 #include "WildBattleTrigger.h"
+#include "PlayerData.h"
 
 AWildBattleTrigger::AWildBattleTrigger() 
 {
@@ -11,7 +12,7 @@ AWildBattleTrigger::~AWildBattleTrigger()
 void AWildBattleTrigger::Update(const UPokemon& _Pokemon)
 {
 	UnregisterEvent();
-	Pokemon = _Pokemon;
+	UPlayerData::EnemyWildPokemon = _Pokemon;
 	RegisterPredefinedEvent();
 }
 
@@ -37,11 +38,13 @@ void AWildBattleTrigger::RegisterPredefinedEvent()
 		>> ES::Wait(BlinkTime)
 		>> ES::FadeIn(BlinkTime)
 		>> ES::Wait(BlinkTime)
-		>> ES::FadeOut(0.5f)
+		>> ES::FadeOut(BlinkTime)
+		>> ES::Wait(BlinkTime)
 		// 레벨 변경
 		>> ES::ChangeLevel(Global::WildBattleLevel)
-		>> ES::Wait(0.3f)
+		>> ES::Wait(0.1f)
 		>> ES::FadeIn(0.5f)
+		>> ES::Wait(0.5f)
 		>> ES::End(false)
 	);
 }
