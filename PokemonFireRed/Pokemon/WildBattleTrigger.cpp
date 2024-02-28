@@ -34,8 +34,9 @@ void AWildBattleTrigger::RegisterPredefinedEvent()
 		>> ES::Wait(FadeOutTime)
 		// 레벨 변경
 		>> ES::ChangeLevel(Global::WildBattleLevel)
-		>> ES::Wait(0.1f)
-		>> ES::FadeIn(0.5f)
+		>> ES::Wait(0.5f)
+		>> ES::HideUI(Global::BlackScreen)
+		>> ES::FadeIn(0.5f, EFadeType::Curtain)
 		>> ES::Wait(0.5f)
 		>> ES::End(false)
 	);
