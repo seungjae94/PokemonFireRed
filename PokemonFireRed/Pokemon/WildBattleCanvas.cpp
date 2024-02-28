@@ -173,8 +173,8 @@ void AWildBattleCanvas::BeginPlay()
 
 	ThrowedBall = CreateImageRenderer(ERenderingOrder::UI1);
 	ThrowedBall->SetImage(Global::ThrowedBall);
-	UPokemonUtil::PlaceImageOnScreen(ThrowedBall, EPivotType::LeftBot, 30, -30);
-	ThrowedBall->CreateAnimation(Global::ThrowedBall, Global::ThrowedBall, 0, 11, 0.05f, false);
+	UPokemonUtil::PlaceImageOnScreen(ThrowedBall, EPivotType::LeftBot, 30, -35);
+	ThrowedBall->CreateAnimation(Global::ThrowedBall, Global::ThrowedBall, 0, 11, 0.045f, false);
 }
 
 void AWildBattleCanvas::Tick(float _DeltaTime)
