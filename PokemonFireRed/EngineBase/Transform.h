@@ -45,6 +45,10 @@ public:
 	{
 		Scale = _Value;
 	}
+	void AddScale(FVector _Value)
+	{
+		Scale += _Value;
+	}
 	FVector GetScale() const
 	{
 		return Scale;
