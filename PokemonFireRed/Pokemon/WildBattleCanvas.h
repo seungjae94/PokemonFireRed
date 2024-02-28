@@ -24,5 +24,11 @@ private:
 	void Tick(float _DeltaTime) override;
 
 	UImageRenderer* Background = nullptr;
+
+	// 최상위 요소
+	UImageRenderer* MsgBox = nullptr;
+	UImageRenderer* ActionBox = nullptr;
+	UImageRenderer* EnemyPokemonBox = nullptr;
+	UImageRenderer* PlayerPokemonBox = nullptr;
 };
 

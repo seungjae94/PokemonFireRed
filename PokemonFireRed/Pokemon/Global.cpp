@@ -130,3 +130,7 @@ const std::string RN::BgmPalletTown = "PalletTown.wav";
 
 const std::string RN::BattleLevel = "BattleLevel";
 const std::string RN::BattleBackground = "BattleBackground.png";
+const std::string RN::BattleMsgBox = "BattleMsgBox.png";
+const std::string RN::BattleActionBox = "BattleActionBox.png";
+const std::string RN::BattleEnemyPokemonBox = "BattleEnemyPokemonBox.png";
+const std::string RN::BattlePlayerPokemonBox = "BattlePlayerPokemonBox.png";

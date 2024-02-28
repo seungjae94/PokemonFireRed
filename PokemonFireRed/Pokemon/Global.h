@@ -166,6 +166,10 @@ public:
 
 	static const std::string BattleLevel;
 	static const std::string BattleBackground;
+	static const std::string BattleMsgBox;
+	static const std::string BattleActionBox;
+	static const std::string BattleEnemyPokemonBox;
+	static const std::string BattlePlayerPokemonBox;
 protected:
 
 private:

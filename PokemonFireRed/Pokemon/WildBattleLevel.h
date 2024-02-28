@@ -21,7 +21,7 @@ protected:
 	void LevelStart(ULevel* _PrevLevel) override;
 	void LevelEnd(ULevel* _NextLevel) override;
 private:
-	UPokemon Pokemon;
+	UPokemon EnemyPokemon;
 	AWildBattleCanvas* Canvas = nullptr;
 };
 
