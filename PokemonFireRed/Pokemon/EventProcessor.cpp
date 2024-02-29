@@ -470,7 +470,7 @@ bool UEventProcessor::ProcessPlayAnimation()
 
 bool UEventProcessor::ProcessChat()
 {
-	ADialogueCanvas* CurDialogueCanvas = UEventManager::FindCurLevelMapLevelCanvas<ADialogueCanvas>("DialogueCanvas");
+	ADialogueCanvas* CurDialogueCanvas = UEventManager::FindCurLevelMapLevelCanvas<ADialogueCanvas>(Global::DialogueWindow);
 
 	int CurIndexOfType = GetCurIndexOfType(EEventType::Chat);
 	ES::Chat& Data = CurStream->ChatDataSet[CurIndexOfType];
