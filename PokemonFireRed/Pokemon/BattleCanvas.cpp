@@ -126,28 +126,28 @@ void ABattleCanvas::BeginPlay()
 	Background->SetImage(RN::BattleBackground);
 
 	// 최상위 요소
-	MsgBox = CreateImageElement(Background, ERenderingOrder::UI4, EPivotType::LeftBot, 0, 0);
+	MsgBox = CreateImageElement(this, ERenderingOrder::UI4, EPivotType::LeftBot, 0, 0);
 	MsgBox->SetImage(RN::BattleMsgBox);
 
-	ActionBox = CreateImageElement(Background, ERenderingOrder::UI6, EPivotType::RightBot, 0, 0);
+	ActionBox = CreateImageElement(this, ERenderingOrder::UI6, EPivotType::RightBot, 0, 0);
 	ActionBox->SetImage(RN::BattleActionBox);
 
-	EnemyPokemonBox = CreateImageElement(Background, ERenderingOrder::UI1, EPivotType::LeftTop, 13, 16);
+	EnemyPokemonBox = CreateImageElement(this, ERenderingOrder::UI1, EPivotType::LeftTop, 13, 16);
 	EnemyPokemonBox->SetImage(RN::BattleEnemyPokemonBox);
 	EnemyPokemonBoxInitPos = EnemyPokemonBox->GetRelativePosition();
 	EnemyPokemonBoxHidePos = EnemyPokemonBoxInitPos + FVector::Left * Global::FloatScreenX;
 
-	PlayerPokemonBox = CreateImageElement(Background, ERenderingOrder::UI4, EPivotType::RightBot, -10, -48);
+	PlayerPokemonBox = CreateImageElement(this, ERenderingOrder::UI4, EPivotType::RightBot, -10, -48);
 	PlayerPokemonBox->SetImage(RN::BattlePlayerPokemonBox);
 	PlayerPokemonBoxInitPos = PlayerPokemonBox->GetRelativePosition();
 	PlayerPokemonBoxHidePos = PlayerPokemonBoxInitPos + FVector::Right * Global::FloatScreenX;
 
-	EnemyGround = CreateImageElement(Background, ERenderingOrder::UI1, EPivotType::RightTop, 0, 46);
+	EnemyGround = CreateImageElement(this, ERenderingOrder::UI1, EPivotType::RightTop, 0, 46);
 	EnemyGround->SetImage(RN::BattleEnemyGround);
 	EnemyGroundInitPos = EnemyGround->GetRelativePosition();
 	EnemyGroundHidePos = EnemyGroundInitPos + FVector::Left * Global::FloatScreenX;
 
-	PlayerGround = CreateImageElement(Background, ERenderingOrder::UI1, EPivotType::LeftBot, 4, -48);
+	PlayerGround = CreateImageElement(this, ERenderingOrder::UI1, EPivotType::LeftBot, 4, -48);
 	PlayerGround->SetImage(RN::BattlePlayerGround);
 	PlayerGroundInitPos = PlayerGround->GetRelativePosition();
 	PlayerGroundHidePos = PlayerGroundInitPos + FVector::Right * Global::FloatScreenX;
@@ -180,7 +180,7 @@ void ABattleCanvas::BeginPlay()
 	PlayerBattlerInitPos = PlayerBattler->GetRelativePosition();
 	PlayerBattlerHidePos = PlayerBattlerInitPos + UPokemonUtil::PixelVector(-120, 0);
 
-	ThrowedBall = CreateAnimationElement(PlayerGround, ERenderingOrder::UI2, EPivotType::LeftBot, 30, -35, Global::ThrowedBall);
+	ThrowedBall = CreateAnimationElement(PlayerGround, ERenderingOrder::UI2, EPivotType::LeftBot, 30, 0, Global::ThrowedBall);
 	ThrowedBall->CreateAnimation(Global::ThrowedBall, 0, 11, 0.06f, false);
 
 	PlayerPokemonImage = CreatePokemonElement(PlayerGround, ERenderingOrder::UI2, EPivotType::LeftTop, 35, -49, EPokemonElementType::Back);
