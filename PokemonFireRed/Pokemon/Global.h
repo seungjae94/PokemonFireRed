@@ -66,7 +66,7 @@ namespace Global
 	const std::string PokemonUILevel = "PokemonUILevel";
 	const std::string PokemonSummaryUILevel = "PokemonUISummaryLevel";
 	const std::string TrainerCardUILevel = "TrainerCardUILevel";
-	const std::string WildBattleLevel = "WildBattleLevel";
+	const std::string BattleLevel = "BattleLevel";
 	const std::string PokemonFrontPrefix = "PokemonFront";
 	const std::string PokemonBackPrefix = "PokemonBack";
 	const std::string PokemonMiniMovePrefix = "PokemonMiniMove";

@@ -1,6 +1,6 @@
 #pragma once
 #include "PokemonLevel.h"
-#include "WildBattleCanvas.h"
+#include "BattleCanvas.h"
 
 enum class EBattleState
 {
@@ -24,23 +24,23 @@ enum class EBattleStartSubstate
 	PlayerPokemonBoxMove,
 };
 
-class UWildBattleLevel : public UPokemonLevel
+class UBattleLevel : public UPokemonLevel
 {
 public:
 	// constructor destructor
-	UWildBattleLevel();
-	~UWildBattleLevel();
+	UBattleLevel();
+	~UBattleLevel();
 
 	// delete Function
-	UWildBattleLevel(const UWildBattleLevel& _Other) = delete;
-	UWildBattleLevel(UWildBattleLevel&& _Other) noexcept = delete;
-	UWildBattleLevel& operator=(const UWildBattleLevel& _Other) = delete;
-	UWildBattleLevel& operator=(UWildBattleLevel&& _Other) noexcept = delete;
+	UBattleLevel(const UBattleLevel& _Other) = delete;
+	UBattleLevel(UBattleLevel&& _Other) noexcept = delete;
+	UBattleLevel& operator=(const UBattleLevel& _Other) = delete;
+	UBattleLevel& operator=(UBattleLevel&& _Other) noexcept = delete;
 
 protected:
 private:
 	UPokemon EnemyPokemon;
-	AWildBattleCanvas* Canvas = nullptr;
+	ABattleCanvas* Canvas = nullptr;
 
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;

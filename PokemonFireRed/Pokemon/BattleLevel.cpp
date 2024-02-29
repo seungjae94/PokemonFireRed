@@ -1,4 +1,4 @@
-#include "WildBattleLevel.h"
+#include "BattleLevel.h"
 #include <EngineBase/EngineDirectory.h>
 #include <EngineBase/EngineFile.h>
 #include <EnginePlatform/EngineInput.h>
@@ -6,15 +6,15 @@
 #include "PlayerData.h"
 #include "PokemonUtil.h"
 
-UWildBattleLevel::UWildBattleLevel() 
+UBattleLevel::UBattleLevel() 
 {
 }
 
-UWildBattleLevel::~UWildBattleLevel() 
+UBattleLevel::~UBattleLevel() 
 {
 }
 
-void UWildBattleLevel::BeginPlay()
+void UBattleLevel::BeginPlay()
 {
 	UPokemonLevel::BeginPlay();
 
@@ -33,10 +33,10 @@ void UWildBattleLevel::BeginPlay()
 	UEngineResourcesManager::GetInst().LoadFolder(CurDir.AppendPath(Global::ThrowedBall));
 
 	// 액터 생성
-	Canvas = SpawnActor<AWildBattleCanvas>();
+	Canvas = SpawnActor<ABattleCanvas>();
 }
 
-void UWildBattleLevel::Tick(float _DeltaTime)
+void UBattleLevel::Tick(float _DeltaTime)
 {
 	UPokemonLevel::Tick(_DeltaTime);
 
@@ -64,7 +64,7 @@ void UWildBattleLevel::Tick(float _DeltaTime)
 	}
 }
 
-void UWildBattleLevel::LevelStart(ULevel* _PrevLevel)
+void UBattleLevel::LevelStart(ULevel* _PrevLevel)
 {
 	UPokemonLevel::LevelStart(_PrevLevel);
 
@@ -77,12 +77,12 @@ void UWildBattleLevel::LevelStart(ULevel* _PrevLevel)
 	Timer = FadeWaitTime;
 }
 
-void UWildBattleLevel::LevelEnd(ULevel* _NextLevel)
+void UBattleLevel::LevelEnd(ULevel* _NextLevel)
 {
 	UPokemonLevel::LevelEnd(_NextLevel);
 }
 
-void UWildBattleLevel::ProcessBattleStart(float _DeltaTime)
+void UBattleLevel::ProcessBattleStart(float _DeltaTime)
 {
 	switch (BattleStartSubstate)
 	{
@@ -112,7 +112,7 @@ void UWildBattleLevel::ProcessBattleStart(float _DeltaTime)
 	}
 }
 
-void UWildBattleLevel::ProcessBattleStartFadeWait(float _DeltaTime)
+void UBattleLevel::ProcessBattleStartFadeWait(float _DeltaTime)
 {
 	if (Timer <= 0.0f)
 	{
@@ -121,7 +121,7 @@ void UWildBattleLevel::ProcessBattleStartFadeWait(float _DeltaTime)
 	}
 }
 
-void UWildBattleLevel::ProcessBattleStartGroundMove(float _DeltaTime)
+void UBattleLevel::ProcessBattleStartGroundMove(float _DeltaTime)
 {
 	Canvas->LerpShowGrounds(Timer/GroundMoveTime);
 
@@ -132,7 +132,7 @@ void UWildBattleLevel::ProcessBattleStartGroundMove(float _DeltaTime)
 	}
 }
 
-void UWildBattleLevel::ProcessBattleStartEnemyPokemonBoxMove(float _DeltaTime)
+void UBattleLevel::ProcessBattleStartEnemyPokemonBoxMove(float _DeltaTime)
 {
 	Canvas->LerpShowEnemyPokemonBox(Timer / EnemyPokemonBoxMoveTime);
 
@@ -142,7 +142,7 @@ void UWildBattleLevel::ProcessBattleStartEnemyPokemonBoxMove(float _DeltaTime)
 	}
 }
 
-void UWildBattleLevel::ProcessBattleStartZClickWait(float _DeltaTime)
+void UBattleLevel::ProcessBattleStartZClickWait(float _DeltaTime)
 {
 	if (true == UEngineInput::IsDown('Z') || true == UEngineInput::IsDown('X'))
 	{
@@ -153,7 +153,7 @@ void UWildBattleLevel::ProcessBattleStartZClickWait(float _DeltaTime)
 	}
 }
 
-void UWildBattleLevel::ProcessBattleStartPlayerBattlerThrow(float _DeltaTime)
+void UBattleLevel::ProcessBattleStartPlayerBattlerThrow(float _DeltaTime)
 {
 	Canvas->HidePlayerBattler(PlayerBattleThrowTime, _DeltaTime);
 
@@ -171,7 +171,7 @@ void UWildBattleLevel::ProcessBattleStartPlayerBattlerThrow(float _DeltaTime)
 	}
 }
 
-void UWildBattleLevel::ProcessBattleStartPlayerPokemonTakeout(float _DeltaTime)
+void UBattleLevel::ProcessBattleStartPlayerPokemonTakeout(float _DeltaTime)
 {
 	Canvas->TakeOutPokemonFromBall(Timer / PlayerPokemonTakeoutTime);
 
@@ -182,7 +182,7 @@ void UWildBattleLevel::ProcessBattleStartPlayerPokemonTakeout(float _DeltaTime)
 	}
 }
 
-void UWildBattleLevel::ProcessBattleStartPlayerPokemonBoxMove(float _DeltaTime)
+void UBattleLevel::ProcessBattleStartPlayerPokemonBoxMove(float _DeltaTime)
 {
 	Canvas->LerpShowPlayerPokemonBox(Timer / EnemyPokemonBoxMoveTime);
 

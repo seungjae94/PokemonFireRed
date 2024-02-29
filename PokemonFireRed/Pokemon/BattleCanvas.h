@@ -2,18 +2,18 @@
 #include "Canvas.h"
 #include "Pokemon.h"
 
-class AWildBattleCanvas : public ACanvas
+class ABattleCanvas : public ACanvas
 {
 public:
 	// constructor destructor
-	AWildBattleCanvas();
-	~AWildBattleCanvas();
+	ABattleCanvas();
+	~ABattleCanvas();
 
 	// delete Function
-	AWildBattleCanvas(const AWildBattleCanvas& _Other) = delete;
-	AWildBattleCanvas(AWildBattleCanvas&& _Other) noexcept = delete;
-	AWildBattleCanvas& operator=(const AWildBattleCanvas& _Other) = delete;
-	AWildBattleCanvas& operator=(AWildBattleCanvas&& _Other) noexcept = delete;
+	ABattleCanvas(const ABattleCanvas& _Other) = delete;
+	ABattleCanvas(ABattleCanvas&& _Other) noexcept = delete;
+	ABattleCanvas& operator=(const ABattleCanvas& _Other) = delete;
+	ABattleCanvas& operator=(ABattleCanvas&& _Other) noexcept = delete;
 
 	void Init(const UPokemon& _PlayerPokemon, const UPokemon& _EnemyPokemon);
 

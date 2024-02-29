@@ -1,16 +1,16 @@
-#include "WildBattleCanvas.h"
+#include "BattleCanvas.h"
 #include "PokemonUtil.h"
 #include "PlayerData.h"
 
-AWildBattleCanvas::AWildBattleCanvas()
+ABattleCanvas::ABattleCanvas()
 {
 }
 
-AWildBattleCanvas::~AWildBattleCanvas()
+ABattleCanvas::~ABattleCanvas()
 {
 }
 
-void AWildBattleCanvas::Init(const UPokemon& _PlayerPokemon, const UPokemon& _EnemyPokemon)
+void ABattleCanvas::Init(const UPokemon& _PlayerPokemon, const UPokemon& _EnemyPokemon)
 {
 	PrepareElements(_PlayerPokemon, _EnemyPokemon);
 
@@ -32,7 +32,7 @@ void AWildBattleCanvas::Init(const UPokemon& _PlayerPokemon, const UPokemon& _En
 	PlayerGround->SetPosition(PlayerGroundHidePos);
 }
 
-void AWildBattleCanvas::PrepareElements(const UPokemon& _PlayerPokemon, const UPokemon& _EnemyPokemon)
+void ABattleCanvas::PrepareElements(const UPokemon& _PlayerPokemon, const UPokemon& _EnemyPokemon)
 {
 	MsgText->SetText(L"Wild " + _EnemyPokemon.GetNameW() + L" appeared!");
 
@@ -64,7 +64,7 @@ void AWildBattleCanvas::PrepareElements(const UPokemon& _PlayerPokemon, const UP
 }
 
 
-void AWildBattleCanvas::LerpShowGrounds(float _t)
+void ABattleCanvas::LerpShowGrounds(float _t)
 {
 	FVector EnemyGroundPos = UPokemonMath::Lerp(EnemyGroundInitPos, EnemyGroundHidePos, _t);
 	FVector PlayerGroundPos = UPokemonMath::Lerp(PlayerGroundInitPos, PlayerGroundHidePos, _t);
@@ -72,30 +72,30 @@ void AWildBattleCanvas::LerpShowGrounds(float _t)
 	PlayerGround->SetPosition(PlayerGroundPos);
 }
 
-void AWildBattleCanvas::LerpShowEnemyPokemonBox(float _t)
+void ABattleCanvas::LerpShowEnemyPokemonBox(float _t)
 {
 	FVector EnemyPokemonBoxPos = UPokemonMath::Lerp(EnemyPokemonBoxInitPos, EnemyPokemonBoxHidePos, _t);
 	EnemyPokemonBox->SetPosition(EnemyPokemonBoxPos);
 }
 
-void AWildBattleCanvas::PlayBattlerThrowingAnimation()
+void ABattleCanvas::PlayBattlerThrowingAnimation()
 {
 	PlayerBattler->SetAnimation(Global::PlayerBattlerThrow);
 }
 
-void AWildBattleCanvas::HidePlayerBattler(float _HideTime, float _DeltaTime)
+void ABattleCanvas::HidePlayerBattler(float _HideTime, float _DeltaTime)
 {
 	float Speed = Global::FloatHalfScreenX / _HideTime;
 	PlayerBattler->AddRelativePos(FVector::Left * Speed * _DeltaTime);
 }
 
-void AWildBattleCanvas::PlayThrowedBallAnimation()
+void ABattleCanvas::PlayThrowedBallAnimation()
 {
 	ThrowedBall->SetActive(true);
 	ThrowedBall->ChangeAnimation(Global::ThrowedBall);
 }
 
-void AWildBattleCanvas::TakeOutPokemonFromBall(float _t)
+void ABattleCanvas::TakeOutPokemonFromBall(float _t)
 {
 	float t = _t;
 	if (t < 0.0f)
@@ -109,13 +109,13 @@ void AWildBattleCanvas::TakeOutPokemonFromBall(float _t)
 	PlayerPokemonImage->SetRelativePos(PlayerPokemonImagePos);
 }
 
-void AWildBattleCanvas::LerpShowPlayerPokemonBox(float _t)
+void ABattleCanvas::LerpShowPlayerPokemonBox(float _t)
 {
 	FVector PlayerPokemonBoxPos = UPokemonMath::Lerp(PlayerPokemonBoxInitPos, PlayerPokemonBoxHidePos, _t);
 	PlayerPokemonBox->SetPosition(PlayerPokemonBoxPos);
 }
 
-void AWildBattleCanvas::BeginPlay()
+void ABattleCanvas::BeginPlay()
 {
 	ACanvas::BeginPlay();
 
@@ -199,7 +199,7 @@ void AWildBattleCanvas::BeginPlay()
 	PlayerPokemonImageHideRelativePos = PlayerPokemonImageInitRelativePos + UPokemonUtil::PixelVector(0, 17);
 }
 
-void AWildBattleCanvas::Tick(float _DeltaTime)
+void ABattleCanvas::Tick(float _DeltaTime)
 {
 	ACanvas::Tick(_DeltaTime);
 }

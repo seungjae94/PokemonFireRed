@@ -270,7 +270,7 @@
     <ClInclude Include="PokemonStruct.h">
       <Filter>6. Data\Pokemon\DB</Filter>
     </ClInclude>
-    <ClInclude Include="WildBattleLevel.h">
+    <ClInclude Include="BattleLevel.h">
       <Filter>2. Level\8. BattleLevel</Filter>
     </ClInclude>
     <ClInclude Include="CsvReader.h">
@@ -288,11 +288,14 @@
     <ClInclude Include="WildBattleTrigger.h">
       <Filter>1. GlobalTrigger</Filter>
     </ClInclude>
-    <ClInclude Include="WildBattleCanvas.h">
+    <ClInclude Include="BattleCanvas.h">
       <Filter>2. Level\8. BattleLevel</Filter>
     </ClInclude>
     <ClInclude Include="AnimationElement.h">
       <Filter>5. UI\Element</Filter>
+    </ClInclude>
+    <ClInclude Include="BattleStartStateManchine.h">
+      <Filter>2. Level\8. BattleLevel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -461,7 +464,7 @@
     <ClCompile Include="PokemonDB.cpp">
       <Filter>6. Data\Pokemon\DB</Filter>
     </ClCompile>
-    <ClCompile Include="WildBattleLevel.cpp">
+    <ClCompile Include="BattleLevel.cpp">
       <Filter>2. Level\8. BattleLevel</Filter>
     </ClCompile>
     <ClCompile Include="CsvReader.cpp">
@@ -479,11 +482,14 @@
     <ClCompile Include="WildBattleTrigger.cpp">
       <Filter>1. GlobalTrigger</Filter>
     </ClCompile>
-    <ClCompile Include="WildBattleCanvas.cpp">
+    <ClCompile Include="BattleCanvas.cpp">
       <Filter>2. Level\8. BattleLevel</Filter>
     </ClCompile>
     <ClCompile Include="AnimationElement.cpp">
       <Filter>5. UI\Element</Filter>
+    </ClCompile>
+    <ClCompile Include="BattleStartStateManchine.cpp">
+      <Filter>2. Level\8. BattleLevel</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

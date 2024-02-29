@@ -183,7 +183,11 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="WildBattleLevel.h">
+    <ClInclude Include="BattleStartStateManchine.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="BattleLevel.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -416,7 +420,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="WildBattleCanvas.h">
+    <ClInclude Include="BattleCanvas.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -442,7 +446,11 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="WildBattleLevel.cpp">
+    <ClCompile Include="BattleStartStateManchine.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="BattleLevel.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -670,7 +678,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="WildBattleCanvas.cpp">
+    <ClCompile Include="BattleCanvas.cpp">
       <SubType>
       </SubType>
     </ClCompile>
