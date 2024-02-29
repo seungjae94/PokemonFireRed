@@ -3,7 +3,6 @@
 
 class AImageElement : public AUIElement
 {
-	friend class ACanvas;
 public:
 	// constructor destructor
 	AImageElement();

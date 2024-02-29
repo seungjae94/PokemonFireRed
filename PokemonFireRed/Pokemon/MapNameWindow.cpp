@@ -35,27 +35,12 @@ void AMapNameWindow::BeginPlay()
 {
 	ACanvas::BeginPlay();
 
-	// 배경 이미지 렌더러 설정
-	Renderer = CreateImageRenderer(ERenderingOrder::UI0);
-
-	std::string ImageName = "MapNameWindow.png";
-	Renderer->SetImage(ImageName);
-	Renderer->CameraEffectOff();
-	UWindowImage* Image = UEngineResourcesManager::GetInst().FindImg(ImageName);
-	FVector ImageRenderScale = Image->GetScale() * Global::FloatPixelSize;
-	ShowPos = ImageRenderScale.Half2D() + UPokemonUtil::PixelVector(2, 0);
-	HidePos = ShowPos - FVector(0.0f, ImageRenderScale.Y);
-	Renderer->SetTransform({ HidePos, ImageRenderScale });
+	// 배경 이미지 생성
+	MapNameBox = CreateImageElement(this, ERenderingOrder::UI0, EPivotType::LeftTop, 0, 0);
+	MapNameBox->SetImage("MapNameWindow.png");
 
 	// 텍스트 설정
-	MapNameText = CreateText(
-		Renderer,
-		L"",
-		EPivotType::CenterBot,
-		EAlignType::Center,
-		0, -8,
-		EFontColor::Gray
-	);
+	MapNameText = CreateText(MapNameBox, ERenderingOrder::UI1, EPivotType::CenterBot, 0, -8, EAlignType::Center, EFontColor::Gray);
 }
 
 void AMapNameWindow::Tick(float _DeltaTime)
@@ -85,7 +70,7 @@ void AMapNameWindow::OpenTick(float _DeltaTime)
 	CurChangeTime -= _DeltaTime;
 		
 	FVector Pos = UPokemonMath::Lerp(ShowPos, HidePos, CurChangeTime / ChangeTime);
-	Renderer->SetPosition(Pos);
+	MapNameBox->SetRelativePosition(Pos);
 
 	if (CurChangeTime < 0.0f)
 	{
@@ -110,7 +95,7 @@ void AMapNameWindow::CloseTick(float _DeltaTime)
 	CurChangeTime -= _DeltaTime;
 	
 	FVector Pos = UPokemonMath::Lerp(HidePos, ShowPos, CurChangeTime / ChangeTime);
-	Renderer->SetPosition(Pos);
+	MapNameBox->SetRelativePosition(Pos);
 
 	if (CurChangeTime < 0.0f)
 	{

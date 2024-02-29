@@ -5,7 +5,6 @@ class ACanvas;
 
 class AAnimationElement : public AUIElement
 {
-	friend ACanvas;
 public:
 	// constructor destructor
 	AAnimationElement();
@@ -17,9 +16,14 @@ public:
 	AAnimationElement& operator=(const AAnimationElement& _Other) = delete;
 	AAnimationElement& operator=(AAnimationElement&& _Other) noexcept = delete;
 
+	void SetImage(std::string_view _ImageName)
+	{
+		ImageName = _ImageName;
+	}
+
 	void CreateAnimation(std::string_view _AnimName, int _Start, int _End, float _Interval, bool _Loop);
 	void CreateAnimation(std::string_view _AnimName, const std::vector<int>& _Indexs, std::vector<float> _Times, bool _Loop);
-	void SetAnimation(std::string_view _AnimName);
+	void ChangeAnimation(std::string_view _AnimName, bool _IsForce = false);
 
 protected:
 

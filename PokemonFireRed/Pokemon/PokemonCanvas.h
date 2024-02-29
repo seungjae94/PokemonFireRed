@@ -75,14 +75,14 @@ private:
 		In
 	};
 
-	UImageRenderer* BackgroundRenderer = nullptr;
-	UImageRenderer* TargetSelectionMsgBoxRenderer = nullptr;
-	UImageRenderer* ActionSelectionMsgBoxRenderer = nullptr;
-	UImageRenderer* SwitchSelectionMsgBoxRenderer = nullptr;
-	UImageRenderer* ActionBoxRenderer = nullptr;
+	AImageElement* Background = nullptr;
+	AImageElement* TargetSelectionMsgBox = nullptr;
+	AImageElement* ActionSelectionMsgBox = nullptr;
+	AImageElement* SwitchSelectionMsgBox = nullptr;
+	AImageElement* ActionBox = nullptr;
 	ACursor* ActionCursor = nullptr;
 
-	UImageRenderer* FirstRenderer = nullptr;
+	AImageElement* FirstBox = nullptr;
 	APokemonElement* FirstPokemonIcon = nullptr;
 	AText* FirstNameText = nullptr;
 	AText* FirstLevelText = nullptr;
@@ -91,7 +91,7 @@ private:
 	AScrollBar* FirstHpBar = nullptr;
 	AImageElement* FirstGender = nullptr;
 
-	std::vector<UImageRenderer*> EntryRenderers;
+	std::vector<AImageElement*> EntryBoxes;
 	std::vector<APokemonElement*> EntryPokemonIcons;
 	std::vector<AText*> EntryNameTexts;
 	std::vector<AText*> EntryLevelTexts;
@@ -100,7 +100,7 @@ private:
 	std::vector<AScrollBar*> EntryHpBars;
 	std::vector<AImageElement*> EntryGenders;
 
-	UImageRenderer* CancelRenderer = nullptr;
+	AImageElement* CancelButton = nullptr;
 
 	// 상태 처리
 	EPokemonUIState State = EPokemonUIState::TargetSelectionWait;
@@ -130,10 +130,10 @@ private:
 	float SwitchMoveTimer = 0.0f;
 	FVector SwitchFromPrevPos;
 	FVector SwitchFromOutPos;
-	UImageRenderer* SwitchMoveSwitchFromRenderer = nullptr;
+	AImageElement* SwitchMoveSwitchFrom = nullptr;
 	FVector TargetPrevPos;
 	FVector TargetOutPos;
-	UImageRenderer* SwitchMoveTargetRenderer = nullptr;
+	AImageElement* SwitchMoveTarget = nullptr;
 
 	// Refresh 함수
 	void RefreshFirst();

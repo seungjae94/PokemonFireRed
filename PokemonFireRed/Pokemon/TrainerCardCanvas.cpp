@@ -16,49 +16,13 @@ void ATrainerCardCanvas::BeginPlay()
 {
 	ACanvas::BeginPlay();
 
-	Background = CreateImageRenderer(ERenderingOrder::UI0);
+	Background = CreateImageElement(this, ERenderingOrder::UI0, EPivotType::LeftTop, 0, 0);
 	Background->SetImage(RN::MaleTrainerCard);
-	UPokemonUtil::PlaceImageOnScreen(
-		Background,
-		EPivotType::LeftTop,
-		0, 0
-	);
 
-	IdNo = CreateText(
-		Background,
-		L"99999",
-		EPivotType::RightTop,
-		EAlignType::Left,
-		-60, 29,
-		EFontColor::Gray
-	);
-
-	Nickname = CreateText(
-		Background,
-		L"RED",
-		EPivotType::LeftTop,
-		EAlignType::Left,
-		63, 48,
-		EFontColor::Gray
-	);
-
-	Money = CreateText(
-		Background,
-		L"99999G",
-		EPivotType::LeftTop,
-		EAlignType::Right,
-		143, 75,
-		EFontColor::Gray
-	);
-
-	PokedexOwned = CreateText(
-		Background,
-		L"0",
-		EPivotType::LeftTop,
-		EAlignType::Right,
-		143, 91,
-		EFontColor::Gray
-	);
+	IdNo = CreateText(Background, ERenderingOrder::UI1, EPivotType::RightTop, -60, 29, EAlignType::Left, EFontColor::Gray);
+	Nickname = CreateText(Background, ERenderingOrder::UI1, EPivotType::LeftTop, 63, 48, EAlignType::Left, EFontColor::Gray);
+	Money = CreateText(Background, ERenderingOrder::UI1, EPivotType::LeftTop, 143, 75, EAlignType::Right, EFontColor::Gray);
+	PokedexOwned = CreateText(Background, ERenderingOrder::UI1, EPivotType::LeftTop, 143, 91, EAlignType::Right, EFontColor::Gray);
 }
 
 void ATrainerCardCanvas::RefreshAll()

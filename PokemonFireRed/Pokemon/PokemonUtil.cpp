@@ -83,51 +83,51 @@ void UPokemonUtil::AlignImage(
 	_Renderer->SetTransform({ Pos, RenderScale });
 }
 
-
-void UPokemonUtil::PlaceImageOnScreen(
-	UImageRenderer* _Renderer, 
-	EPivotType _PivotType, 
-	int _ScreenPixelX, int _ScreenPixelY)
-{
-	_Renderer->CameraEffectOff();
-	AlignImage(_Renderer, _PivotType);
-	FVector Pos = _Renderer->GetPosition();
-	FVector RendererScale = _Renderer->GetTransform().GetScale();
-
-	switch (_PivotType)
-	{
-	case EPivotType::LeftTop:
-		break;
-	case EPivotType::LeftBot:
-		Pos += FVector(0.0f, Global::FloatScreenY - Global::FloatPixelSize);
-		break;
-	case EPivotType::RightTop:
-		Pos += FVector(Global::FloatScreenX - Global::FloatPixelSize, 0.0f);
-		break;
-	case EPivotType::RightBot:
-		Pos += FVector(Global::FloatScreenX - Global::FloatPixelSize, Global::FloatScreenY - Global::FloatPixelSize);
-		break;
-	case EPivotType::CenterTop:
-	{
-		int PixelScaleX = Global::ScreenX / Global::PixelSize;
-		int PixelScaleY = Global::ScreenY / Global::PixelSize;
-		Pos += FVector((PixelScaleX / 2) * Global::FloatPixelSize, 0.0f);
-	}
-		break;
-	case EPivotType::CenterBot:
-	{
-		int PixelScaleX = Global::ScreenX / Global::PixelSize;
-		int PixelScaleY = Global::ScreenY / Global::PixelSize;
-		Pos += FVector((PixelScaleX / 2) * Global::FloatPixelSize, Global::FloatScreenY - Global::FloatPixelSize);
-	}
-		break;
-	default:
-		break;
-	}
-
-	FVector FinalPos = Pos + UPokemonUtil::PixelVector(_ScreenPixelX, _ScreenPixelY);
-	_Renderer->SetPosition(FinalPos);
-}
+//
+//void UPokemonUtil::PlaceImageOnScreen(
+//	UImageRenderer* _Renderer, 
+//	EPivotType _PivotType, 
+//	int _ScreenPixelX, int _ScreenPixelY)
+//{
+//	_Renderer->CameraEffectOff();
+//	AlignImage(_Renderer, _PivotType);
+//	FVector Pos = _Renderer->GetPosition();
+//	FVector RendererScale = _Renderer->GetTransform().GetScale();
+//
+//	switch (_PivotType)
+//	{
+//	case EPivotType::LeftTop:
+//		break;
+//	case EPivotType::LeftBot:
+//		Pos += FVector(0.0f, Global::FloatScreenY - Global::FloatPixelSize);
+//		break;
+//	case EPivotType::RightTop:
+//		Pos += FVector(Global::FloatScreenX - Global::FloatPixelSize, 0.0f);
+//		break;
+//	case EPivotType::RightBot:
+//		Pos += FVector(Global::FloatScreenX - Global::FloatPixelSize, Global::FloatScreenY - Global::FloatPixelSize);
+//		break;
+//	case EPivotType::CenterTop:
+//	{
+//		int PixelScaleX = Global::ScreenX / Global::PixelSize;
+//		int PixelScaleY = Global::ScreenY / Global::PixelSize;
+//		Pos += FVector((PixelScaleX / 2) * Global::FloatPixelSize, 0.0f);
+//	}
+//		break;
+//	case EPivotType::CenterBot:
+//	{
+//		int PixelScaleX = Global::ScreenX / Global::PixelSize;
+//		int PixelScaleY = Global::ScreenY / Global::PixelSize;
+//		Pos += FVector((PixelScaleX / 2) * Global::FloatPixelSize, Global::FloatScreenY - Global::FloatPixelSize);
+//	}
+//		break;
+//	default:
+//		break;
+//	}
+//
+//	FVector FinalPos = Pos + UPokemonUtil::PixelVector(_ScreenPixelX, _ScreenPixelY);
+//	_Renderer->SetPosition(FinalPos);
+//}
 
 void UPokemonUtil::CreatePokemonMiniMoveAnimations(UImageRenderer* _Renderer)
 {

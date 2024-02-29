@@ -9,20 +9,9 @@ AUIElement::~AUIElement()
 {
 }
 
-void AUIElement::SetRelativePos(FVector _PivotRelativePos)
+void AUIElement::FollowParentPosition()
 {
-	RelativePos = _PivotRelativePos;
-	FollowContainer();
-}
-
-void AUIElement::AddRelativePos(FVector _PivotRelativePos)
-{
-	SetRelativePos(RelativePos + _PivotRelativePos);
-}
-
-void AUIElement::FollowContainer()
-{
-	FTransform ContainerTrans = Container->GetTransform();
+	FTransform ContainerTrans = Parent->GetTransform();
 	float ContainerWidth = ContainerTrans.GetScale().X;
 	float ContainerHeight = ContainerTrans.GetScale().Y;
 	switch (PivotType)
@@ -56,4 +45,12 @@ void AUIElement::FollowContainer()
 	}
 
 	SetActorLocation(Pivot + RelativePos);
+
+	for (AUIElement* Child : Children)
+	{
+		if (true == Child->GetIsFollowParentPosition())
+		{
+			Child->FollowParentPosition();
+		}
+	}
 }

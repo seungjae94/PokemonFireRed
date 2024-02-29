@@ -32,7 +32,6 @@ class AText : public AUIElement
 {
 	class GlyphAlignRule;
 	friend class AlignRuleMapInitiator;
-	friend class ACanvas;
 public:
 	// constructor destructor
 	AText();
@@ -43,6 +42,11 @@ public:
 	AText(AText&& _Other) noexcept = delete;
 	AText& operator=(const AText& _Other) = delete;
 	AText& operator=(AText&& _Other) noexcept = delete;
+
+	void SetAlignType(EAlignType _AlignType)
+	{
+		AlignType = _AlignType;
+	}
 
 	void SetColor(EFontColor _Color)
 	{
@@ -74,7 +78,7 @@ public:
 		}
 	}
 
-	void FollowContainer() override;
+	void FollowParentPosition() override;
 
 	void SetLineSpace(int _LineSpace)
 	{

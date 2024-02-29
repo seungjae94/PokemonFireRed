@@ -89,6 +89,8 @@ namespace Global
 // Resource Name
 namespace RN
 {
+	const std::string MenuWindowExplain = "MenuWindowExplain.png";
+
 	const std::string PokemonFront = "PokemonFront.png"; 
 	const std::string PokemonBack = "PokemonBack.png"; 
 	const std::string PokemonMini = "PokemonMini.png"; 
@@ -190,6 +192,9 @@ enum ERenderingOrder
 	UI4,
 	UI5,
 	UI6,
+	UI7,
+	UI8,
+	UI9,
 	Fade,
 	Super
 };

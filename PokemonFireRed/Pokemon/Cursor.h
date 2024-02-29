@@ -4,7 +4,6 @@
 
 class ACursor : public AUIElement
 {
-	friend class ACanvas;
 public:
 	// constructor destructor
 	ACursor();
@@ -23,6 +22,15 @@ public:
 
 	void SetCursor(int _Cursor);
 
+	void SetImage(std::string_view _ImageName)
+	{
+		ImageName = _ImageName;
+	}
+
+	void SetPixelGap(int _PixelGap)
+	{
+		PixelGap = _PixelGap;
+	}
 
 	void SetOptionCount(int _OptionCount)
 	{
@@ -41,7 +49,7 @@ public:
 
 	bool IsLast() const;
 
-	void FollowContainer() override;
+	void FollowParentPosition() override;
 
 protected:
 

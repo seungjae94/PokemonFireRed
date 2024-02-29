@@ -47,14 +47,14 @@ private:
 	UPokemon* Pokemon = nullptr;
 
 	// 최상위 요소
-	UImageRenderer* Background = nullptr;
-	UImageRenderer* CommonBox = nullptr;
-	UImageRenderer* InfoBox = nullptr;
-	UImageRenderer* SkillsBox = nullptr;
-	UImageRenderer* MovesBox = nullptr;
-	UImageRenderer* MovesDetailBox = nullptr;
-	UImageRenderer* SmallCommonBox = nullptr;
-	UImageRenderer* Nav = nullptr;
+	AImageElement* Background = nullptr;
+	AImageElement* CommonBox = nullptr;
+	AImageElement* InfoBox = nullptr;
+	AImageElement* SkillsBox = nullptr;
+	AImageElement* MovesBox = nullptr;
+	AImageElement* MovesDetailBox = nullptr;
+	AImageElement* SmallCommonBox = nullptr;
+	AImageElement* Nav = nullptr;
 
 	// CommonBox 요소
 	AText* NameText = nullptr;

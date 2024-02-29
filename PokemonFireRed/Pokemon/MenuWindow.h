@@ -36,12 +36,12 @@ private:
 
 	bool IsFirstTick = true;
 
-	UImageRenderer* MenuWindowRenderer = nullptr;
-	UImageRenderer* MenuWindowExplainRenderer = nullptr;
-	UImageRenderer* ArrowRenderer = nullptr;
+	AImageElement* MenuBox = nullptr;
+	AImageElement* MenuExplainBox = nullptr;
 
 	AText* MenuExplainText = nullptr;
 	std::vector<AText*> MenuTexts;
+
 	std::vector<std::wstring> MenuNames = {L"POKéDEX", L"POKéMON", L"BAG", L"RED", L"EXIT"};
 	std::vector<std::wstring> MenuExplains = {
 		LR"(A device that records POKéMON secrets
@@ -68,7 +68,7 @@ you bought, received, or found.)",
 		return static_cast<int>(MenuNames.size() - MenuCount + Cursor->GetCursor());
 	}
 
-	void RefreshMenuWindow();
+	void RefreshMenuBoxImage();
 	void RefreshMenuTexts();
 	void RefreshExplainText();
 };

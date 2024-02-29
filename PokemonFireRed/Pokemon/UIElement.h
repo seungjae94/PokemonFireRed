@@ -1,7 +1,8 @@
 #pragma once
-#include <EngineCore/Actor.h>
+#include "UIParent.h"
 #include "Global.h"
 #include "PokemonMath.h"
+#include "PokemonUtil.h"
 
 enum class EPivotType
 {
@@ -13,7 +14,7 @@ enum class EPivotType
 	CenterBot,
 };
 
-class AUIElement : public AActor
+class AUIElement : public AUIParent
 {
 public:
 	// constructor destructor
@@ -26,26 +27,78 @@ public:
 	AUIElement& operator=(const AUIElement& _Other) = delete;
 	AUIElement& operator=(AUIElement&& _Other) noexcept = delete;
 
-	virtual FVector GetRelativePos()
+	void SetParent(AUIParent* _Parent)
 	{
-		return RelativePos;
+		Parent = _Parent;
 	}
 
-	virtual void SetRelativePos(FVector _PivotRelativePos);
-	virtual void AddRelativePos(FVector _PivotRelativePos);
-	virtual void FollowContainer();
-	
+	void SetPivotType(EPivotType _PivotType)
+	{
+		PivotType = _PivotType;
+	}
+
 	void SetRenderingOrder(ERenderingOrder _Order)
 	{
 		RenderingOrder = _Order;
 	}
 
+	FVector GetRelativePosition() const
+	{
+		return RelativePos;
+	}
+
+	virtual void SetRelativePosition(FVector _RelativePos)
+	{
+		RelativePos = _RelativePos;
+		FollowParentPosition();
+	}
+
+	virtual void SetRelativePosition(int _PixelX, int _PixelY)
+	{
+		SetRelativePosition(UPokemonUtil::PixelVector(_PixelX, _PixelY));
+	}
+
+	virtual void AddRelativePosition(FVector _RelativePos)
+	{
+		SetRelativePosition(RelativePos + _RelativePos);
+	}
+
+	virtual void AddRelativePosition(int _PixelX, int _PixelY)
+	{
+		AddRelativePosition(UPokemonUtil::PixelVector(_PixelX, _PixelY));
+	}
+
+	virtual void FollowParentPosition();
+
+	bool GetIsFollowParentPosition() const
+	{
+		return IsFollowParentPosition;
+	}
+
+	void SetIsFollowParentPosition(bool _Value)
+	{
+		IsFollowParentPosition = _Value;
+	}
+
+	bool GetIsFollowParentActive() const
+	{
+		return IsFollowParentActive;
+	}
+
+	void SetIsFollowParentActive(bool _Value)
+	{
+		IsFollowParentPosition = _Value;
+	}
+
 protected:
-	UImageRenderer* Container = nullptr;
+	AUIParent* Parent = nullptr;
+	ERenderingOrder RenderingOrder = ERenderingOrder::UI0;
 	FVector Pivot = FVector::Zero;
 	FVector RelativePos = FVector::Zero;
 	EPivotType PivotType = EPivotType::LeftTop;
-	ERenderingOrder RenderingOrder = ERenderingOrder::UI2;
+
+	bool IsFollowParentPosition = true;
+	bool IsFollowParentActive = true;
 private:
 
 };

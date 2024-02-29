@@ -35,7 +35,7 @@ void AAnimationElement::CreateAnimation(std::string_view _AnimName, const std::v
 	Renderer->CreateAnimation(_AnimName, ImageName, _Indexs, _Times, _Loop);
 }
 
-void AAnimationElement::SetAnimation(std::string_view _AnimName)
+void AAnimationElement::ChangeAnimation(std::string_view _AnimName, bool _IsForce)
 {
 	if (nullptr == Renderer)
 	{
@@ -43,5 +43,5 @@ void AAnimationElement::SetAnimation(std::string_view _AnimName)
 		return;
 	}
 
-	Renderer->ChangeAnimation(_AnimName);
+	Renderer->ChangeAnimation(_AnimName, _IsForce);
 }

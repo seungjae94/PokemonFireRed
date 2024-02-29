@@ -27,7 +27,7 @@ protected:
 private:
 	std::string PrevMapLevelName;
 
-	UImageRenderer* Background = nullptr;
+	AImageElement* Background = nullptr;
 	AText* IdNo = nullptr;
 	AText* Nickname = nullptr;
 	AText* Money = nullptr;

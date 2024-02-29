@@ -297,6 +297,9 @@
     <ClInclude Include="BattleStartStateManchine.h">
       <Filter>2. Level\8. BattleLevel</Filter>
     </ClInclude>
+    <ClInclude Include="UIParent.h">
+      <Filter>5. UI\Element</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PokemonCore.cpp">
@@ -490,6 +493,9 @@
     </ClCompile>
     <ClCompile Include="BattleStartStateManchine.cpp">
       <Filter>2. Level\8. BattleLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="UIParent.cpp">
+      <Filter>5. UI\Element</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

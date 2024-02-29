@@ -16,7 +16,7 @@ void APokemonElement::SetPokemon(const UPokemon* _Pokemon)
 		Renderer = CreateImageRenderer(RenderingOrder);
 		Renderer->CameraEffectOff();
 		
-		switch (Type)
+		switch (ElementType)
 		{
 		case EPokemonElementType::MiniMove:
 			Renderer->SetImage(RN::PokemonMiniPlaceHolder);
@@ -45,7 +45,7 @@ void APokemonElement::SetPokemon(const UPokemon* _Pokemon)
 
 	EPokedexNo PokedexNo = _Pokemon->GetPokedexNo();
 	std::string AnimPrefix; 
-	switch (Type)
+	switch (ElementType)
 	{
 	case EPokemonElementType::MiniMove:
 		AnimPrefix = Global::PokemonMiniMovePrefix;

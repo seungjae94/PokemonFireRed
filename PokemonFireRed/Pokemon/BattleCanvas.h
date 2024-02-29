@@ -43,22 +43,22 @@ private:
 	FVector EnemyGroundHidePos;
 	FVector PlayerGroundInitPos;
 	FVector PlayerGroundHidePos;
-	FVector PlayerPokemonImageInitRelativePos;
-	FVector PlayerPokemonImageHideRelativePos;
-	FVector PlayerBattlerInitRelativePos;
-	FVector PlayerBattlerHideRelativePos;
+	FVector PlayerPokemonImageInitPos;
+	FVector PlayerPokemonImageHidePos;
+	FVector PlayerBattlerInitPos;
+	FVector PlayerBattlerHidePos;
 
 	// 배경
-	UImageRenderer* Background = nullptr;
+	AImageElement* Background = nullptr;
 
 	// 최상위 요소
-	UImageRenderer* MsgBox = nullptr;
-	UImageRenderer* ActionBox = nullptr;
-	UImageRenderer* EnemyPokemonBox = nullptr;
-	UImageRenderer* PlayerPokemonBox = nullptr;
-	UImageRenderer* EnemyGround = nullptr;
-	UImageRenderer* PlayerGround = nullptr;
-	UImageRenderer* ThrowedBall = nullptr;
+	AImageElement* MsgBox = nullptr;
+	AImageElement* ActionBox = nullptr;
+	AImageElement* EnemyPokemonBox = nullptr;
+	AImageElement* PlayerPokemonBox = nullptr;
+	AImageElement* EnemyGround = nullptr;
+	AImageElement* PlayerGround = nullptr;
+	AAnimationElement* ThrowedBall = nullptr;
 
 	// MsgBox 요소
 	AText* MsgText = nullptr;

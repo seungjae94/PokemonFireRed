@@ -3,7 +3,8 @@
 #include <EngineBase/Transform.h>
 #include <EngineCore/Actor.h>
 #include "Global.h"
-#include "Canvas.h"
+
+enum class EPivotType;
 
 class UPokemonUtil
 {
@@ -50,12 +51,6 @@ public:
 	static void AlignImage(
 		UImageRenderer* _Renderer, 
 		EPivotType _PivotType
-	);
-
-	static void PlaceImageOnScreen(
-		UImageRenderer* _Renderer, 
-		EPivotType _PivotType = EPivotType::LeftTop,
-		int _ScreenPixelX = 0, int _ScreenPixelY = 0
 	);
 
 	static void CreatePokemonMiniMoveAnimations(UImageRenderer* _Renderer);

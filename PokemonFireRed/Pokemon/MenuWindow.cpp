@@ -40,51 +40,24 @@ void AMenuWindow::BeginPlay()
 {
 	ACanvas::BeginPlay();
 
-	// 우상단 메뉴창
-	MenuWindowRenderer = CreateImageRenderer(ERenderingOrder::UI0);
-	MenuWindowRenderer->CameraEffectOff();
-	RefreshMenuWindow();
+	// 메뉴창
+	MenuBox = CreateImageElement(this, ERenderingOrder::UI0, EPivotType::RightTop, 0, 0);
+	RefreshMenuBoxImage();
 
 	for (int i = 0; i < 5; i++)
 	{
-		AText* MenuText = CreateText(
-			MenuWindowRenderer,
-			L"",
-			EPivotType::LeftTop,
-			EAlignType::Left,
-			15, 18 + 15 * i,
-			EFontColor::Gray
-		);
+		AText* MenuText = CreateText(MenuBox, ERenderingOrder::UI1, EPivotType::LeftTop, 15, 18 + 15 * i, EAlignType::Left, EFontColor::Gray);
 		MenuTexts.push_back(MenuText);
 	}
 	RefreshMenuTexts();
-	
-	// 하단 메뉴 설명창
-	MenuWindowExplainRenderer = CreateImageRenderer(ERenderingOrder::UI0);
-	MenuWindowExplainRenderer->CameraEffectOff();
-	MenuWindowExplainRenderer->SetImage("MenuWindowExplain.png");
-
-	FVector ExplainRenderScale = UPokemonUtil::GetRenderScale(MenuWindowExplainRenderer);
-	FVector ExplainPos = ExplainRenderScale.Half2D() + FVector(0.0f, Global::FloatScreenY - ExplainRenderScale.Y);
-	MenuWindowExplainRenderer->SetTransform({ ExplainPos, ExplainRenderScale });
-
-	MenuExplainText = CreateText(
-		MenuWindowExplainRenderer,
-		L"",
-		EPivotType::LeftTop,
-		EAlignType::Left,
-		2, 16,
-		EFontColor::White
-	);
 
 	// 메뉴창 커서
-	Cursor = CreateCursor(
-		MenuWindowRenderer,
-		RN::BlackCursor,
-		0, MenuCount,
-		EPivotType::LeftTop,
-		8, 9, 15
-	);
+	Cursor = CreateCursor(MenuBox, ERenderingOrder::UI1, EPivotType::LeftTop, 8, 9, RN::BlackCursor, 15);
+
+	// 하단 메뉴 설명창
+	MenuExplainBox = CreateImageElement(this, ERenderingOrder::UI0, EPivotType::LeftBot, 0, 0);
+	MenuExplainBox->SetImage(RN::MenuWindowExplain);
+	MenuExplainText = CreateText(MenuExplainBox, ERenderingOrder::UI1, EPivotType::LeftTop, 2, 16, EAlignType::Left, EFontColor::White);
 }
 
 void AMenuWindow::Tick(float _DeltaTime)
@@ -104,7 +77,7 @@ void AMenuWindow::Tick(float _DeltaTime)
 	{
 		MenuCount = 5;
 		Cursor->SetOptionCount(MenuCount);
-		RefreshMenuWindow();
+		RefreshMenuBoxImage();
 		RefreshMenuTexts();
 		RefreshExplainText();
 	}
@@ -112,7 +85,7 @@ void AMenuWindow::Tick(float _DeltaTime)
 	{
 		MenuCount = 4;
 		Cursor->SetOptionCount(MenuCount);
-		RefreshMenuWindow();
+		RefreshMenuBoxImage();
 		RefreshMenuTexts();
 		RefreshExplainText();
 	}
@@ -147,9 +120,11 @@ void AMenuWindow::Tick(float _DeltaTime)
 
 void AMenuWindow::Refresh()
 {
-	RefreshMenuWindow();
+	RefreshMenuBoxImage();
 	RefreshMenuTexts();
 	RefreshExplainText();
+
+	Cursor->SetOptionCount(MenuCount);
 }
 
 void AMenuWindow::MenuAction()
@@ -176,15 +151,11 @@ void AMenuWindow::MenuAction()
 	}
 }
 
-void AMenuWindow::RefreshMenuWindow()
+void AMenuWindow::RefreshMenuBoxImage()
 {
 	// 메뉴창
 	std::string ImageName = "MenuWindow" + std::to_string(MenuCount) + ".png";
-	MenuWindowRenderer->SetImage(ImageName);
-	FVector MenuWindowRenderScale = UPokemonUtil::GetRenderScale(MenuWindowRenderer);
-	FVector MenuWindowPos = MenuWindowRenderScale.Half2D() + FVector(Global::FloatScreenX - MenuWindowRenderScale.X, 0.0f);
-	MenuWindowPos += FVector(-Global::FloatPixelSize, Global::FloatPixelSize);
-	MenuWindowRenderer->SetTransform({ MenuWindowPos, MenuWindowRenderScale });
+	MenuBox->SetImage(ImageName);
 }
 
 void AMenuWindow::RefreshMenuTexts()
@@ -192,12 +163,11 @@ void AMenuWindow::RefreshMenuTexts()
 	// 메뉴 텍스트
 	for (int i = 0; i < MenuCount; i++)
 	{
-		MenuTexts[i]->SetActive(true);
 		MenuTexts[i]->SetText(MenuNames[(MenuNames.size() - MenuCount) + i]);
 	}
 	for (int i = MenuCount; i < 5; i++)
 	{
-		MenuTexts[i]->SetActive(false);
+		MenuTexts[i]->SetText(L"");
 	}
 }
 

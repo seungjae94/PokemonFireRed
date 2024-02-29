@@ -10,7 +10,6 @@ enum class EScrollType
 
 class AScrollBar : public AUIElement
 {
-	friend class ACanvas;
 public:
 	// constructor destructor
 	AScrollBar();

@@ -21,17 +21,17 @@ void ABattleCanvas::Init(const UPokemon& _PlayerPokemon, const UPokemon& _EnemyP
 	ThrowedBall->SetActive(false);
 
 	// 아군 포켓몬 숨겨두기
-	PlayerPokemonImage->SetRelativePos(PlayerPokemonImageHideRelativePos);
+	PlayerPokemonImage->SetRelativePosition(PlayerPokemonImageHidePos);
 	PlayerPokemonImage->SetScaleFactor(0.0f);
 
 	// 적 UI는 왼쪽에 숨겨두기
-	EnemyGround->SetPosition(EnemyGroundHidePos);
-	EnemyPokemonBox->SetPosition(EnemyPokemonBoxHidePos);
+	EnemyGround->SetRelativePosition(EnemyGroundHidePos);
+	EnemyPokemonBox->SetRelativePosition(EnemyPokemonBoxHidePos);
 
 	// 아군 UI는 오른쪽에 숨겨두기
-	PlayerPokemonBox->SetPosition(PlayerPokemonBoxHidePos);
-	PlayerGround->SetPosition(PlayerGroundHidePos);
-	PlayerBattler->SetRelativePos(PlayerBattlerInitRelativePos);
+	PlayerPokemonBox->SetRelativePosition(PlayerPokemonBoxHidePos);
+	PlayerGround->SetRelativePosition(PlayerGroundHidePos);
+	PlayerBattler->SetRelativePosition(PlayerBattlerInitPos);
 }
 
 void ABattleCanvas::PrepareElements(const UPokemon& _PlayerPokemon, const UPokemon& _EnemyPokemon)
@@ -44,7 +44,7 @@ void ABattleCanvas::PrepareElements(const UPokemon& _PlayerPokemon, const UPokem
 	EnemyPokemonHpBar->SetValue(_EnemyPokemon.GetCurHp());
 
 	int EPNTPixelWidth = EnemyPokemonNameText->GetPixelLineWidth();
-	EnemyPokemonGenderMark->SetRelativePos(UPokemonUtil::PixelVector(7 + EPNTPixelWidth, 5));
+	EnemyPokemonGenderMark->SetRelativePosition(UPokemonUtil::PixelVector(7 + EPNTPixelWidth, 5));
 	EnemyPokemonGenderMark->SetImage(_EnemyPokemon.GetGenderImageName());
 
 	PlayerPokemonNameText->SetText(_PlayerPokemon.GetNameW());
@@ -57,11 +57,11 @@ void ABattleCanvas::PrepareElements(const UPokemon& _PlayerPokemon, const UPokem
 	PlayerPokemonExpBar->SetValue(_PlayerPokemon.GetExp());
 
 	int PPNTPixelWidth = PlayerPokemonNameText->GetPixelLineWidth();
-	PlayerPokemonGenderMark->SetRelativePos(UPokemonUtil::PixelVector(19 + PPNTPixelWidth, 5));
+	PlayerPokemonGenderMark->SetRelativePosition(UPokemonUtil::PixelVector(19 + PPNTPixelWidth, 5));
 	PlayerPokemonGenderMark->SetImage(_PlayerPokemon.GetGenderImageName());
 
 	EnemyPokemonImage->SetPokemon(_EnemyPokemon);
-	PlayerBattler->SetAnimation(Global::PlayerBattlerIdle);
+	PlayerBattler->ChangeAnimation(Global::PlayerBattlerIdle);
 	PlayerPokemonImage->SetPokemon(_PlayerPokemon);
 }
 
@@ -70,25 +70,25 @@ void ABattleCanvas::LerpShowGrounds(float _t)
 {
 	FVector EnemyGroundPos = UPokemonMath::Lerp(EnemyGroundInitPos, EnemyGroundHidePos, _t);
 	FVector PlayerGroundPos = UPokemonMath::Lerp(PlayerGroundInitPos, PlayerGroundHidePos, _t);
-	EnemyGround->SetPosition(EnemyGroundPos);
-	PlayerGround->SetPosition(PlayerGroundPos);
+	EnemyGround->SetRelativePosition(EnemyGroundPos);
+	PlayerGround->SetRelativePosition(PlayerGroundPos);
 }
 
 void ABattleCanvas::LerpShowEnemyPokemonBox(float _t)
 {
 	FVector EnemyPokemonBoxPos = UPokemonMath::Lerp(EnemyPokemonBoxInitPos, EnemyPokemonBoxHidePos, _t);
-	EnemyPokemonBox->SetPosition(EnemyPokemonBoxPos);
+	EnemyPokemonBox->SetRelativePosition(EnemyPokemonBoxPos);
 }
 
 void ABattleCanvas::PlayBattlerThrowingAnimation()
 {
-	PlayerBattler->SetAnimation(Global::PlayerBattlerThrow);
+	PlayerBattler->ChangeAnimation(Global::PlayerBattlerThrow);
 }
 
 void ABattleCanvas::LerpHidePlayerBattler(float _t)
 {
-	FVector PlayerBattlerRelativePos = UPokemonMath::Lerp(PlayerBattlerHideRelativePos, PlayerBattlerInitRelativePos, _t);
-	PlayerBattler->SetRelativePos(PlayerBattlerRelativePos);
+	FVector PlayerBattlerRelativePos = UPokemonMath::Lerp(PlayerBattlerHidePos, PlayerBattlerInitPos, _t);
+	PlayerBattler->SetRelativePosition(PlayerBattlerRelativePos);
 }
 
 void ABattleCanvas::PlayThrowedBallAnimation()
@@ -107,100 +107,85 @@ void ABattleCanvas::TakeOutPokemonFromBall(float _t)
 
 	PlayerPokemonImage->SetScaleFactor(1.0f - t);
 
-	FVector PlayerPokemonImagePos = UPokemonMath::Lerp(PlayerPokemonImageInitRelativePos, PlayerPokemonImageHideRelativePos, _t);
-	PlayerPokemonImage->SetRelativePos(PlayerPokemonImagePos);
+	FVector PlayerPokemonImagePos = UPokemonMath::Lerp(PlayerPokemonImageInitPos, PlayerPokemonImageHidePos, _t);
+	PlayerPokemonImage->SetRelativePosition(PlayerPokemonImagePos);
 }
 
 void ABattleCanvas::LerpShowPlayerPokemonBox(float _t)
 {
 	FVector PlayerPokemonBoxPos = UPokemonMath::Lerp(PlayerPokemonBoxInitPos, PlayerPokemonBoxHidePos, _t);
-	PlayerPokemonBox->SetPosition(PlayerPokemonBoxPos);
+	PlayerPokemonBox->SetRelativePosition(PlayerPokemonBoxPos);
 }
 
 void ABattleCanvas::BeginPlay()
 {
 	ACanvas::BeginPlay();
 
-	Background = CreateImageRenderer(ERenderingOrder::UI0);
-	Background->CameraEffectOff();
+	// 배경
+	Background = CreateImageElement(this, ERenderingOrder::UI0, EPivotType::LeftTop, 0, 0);
 	Background->SetImage(RN::BattleBackground);
-	UPokemonUtil::PlaceImageOnScreen(Background, EPivotType::LeftTop, 0, 0);
 
 	// 최상위 요소
-	MsgBox = CreateImageRenderer(ERenderingOrder::UI2);
-	MsgBox->CameraEffectOff();
+	MsgBox = CreateImageElement(Background, ERenderingOrder::UI4, EPivotType::LeftBot, 0, 0);
 	MsgBox->SetImage(RN::BattleMsgBox);
-	UPokemonUtil::PlaceImageOnScreen(MsgBox, EPivotType::LeftBot, 0, 0);
 
-	ActionBox = CreateImageRenderer(ERenderingOrder::UI4);
-	ActionBox->CameraEffectOff();
+	ActionBox = CreateImageElement(Background, ERenderingOrder::UI6, EPivotType::RightBot, 0, 0);
 	ActionBox->SetImage(RN::BattleActionBox);
-	UPokemonUtil::PlaceImageOnScreen(ActionBox, EPivotType::RightBot, 0, 0);
 
-	EnemyPokemonBox = CreateImageRenderer(ERenderingOrder::UI2);
-	EnemyPokemonBox->CameraEffectOff();
+	EnemyPokemonBox = CreateImageElement(Background, ERenderingOrder::UI1, EPivotType::LeftTop, 13, 16);
 	EnemyPokemonBox->SetImage(RN::BattleEnemyPokemonBox);
-	UPokemonUtil::PlaceImageOnScreen(EnemyPokemonBox, EPivotType::LeftTop, 13, 16);
-	EnemyPokemonBoxInitPos = EnemyPokemonBox->GetPosition();
+	EnemyPokemonBoxInitPos = EnemyPokemonBox->GetRelativePosition();
 	EnemyPokemonBoxHidePos = EnemyPokemonBoxInitPos + FVector::Left * Global::FloatScreenX;
 
-	PlayerPokemonBox = CreateImageRenderer(ERenderingOrder::UI2);
-	PlayerPokemonBox->CameraEffectOff();
+	PlayerPokemonBox = CreateImageElement(Background, ERenderingOrder::UI4, EPivotType::RightBot, -10, -48);
 	PlayerPokemonBox->SetImage(RN::BattlePlayerPokemonBox);
-	UPokemonUtil::PlaceImageOnScreen(PlayerPokemonBox, EPivotType::RightBot, -10, -48);
-	PlayerPokemonBoxInitPos = PlayerPokemonBox->GetPosition();
+	PlayerPokemonBoxInitPos = PlayerPokemonBox->GetRelativePosition();
 	PlayerPokemonBoxHidePos = PlayerPokemonBoxInitPos + FVector::Right * Global::FloatScreenX;
 
-	EnemyGround = CreateImageRenderer(ERenderingOrder::UI1);
-	EnemyGround->CameraEffectOff();
+	EnemyGround = CreateImageElement(Background, ERenderingOrder::UI1, EPivotType::RightTop, 0, 46);
 	EnemyGround->SetImage(RN::BattleEnemyGround);
-	UPokemonUtil::PlaceImageOnScreen(EnemyGround, EPivotType::RightTop, 0, 46);
-	EnemyGroundInitPos = EnemyGround->GetPosition();
+	EnemyGroundInitPos = EnemyGround->GetRelativePosition();
 	EnemyGroundHidePos = EnemyGroundInitPos + FVector::Left * Global::FloatScreenX;
 
-	PlayerGround = CreateImageRenderer(ERenderingOrder::UI1);
-	PlayerGround->CameraEffectOff();
+	PlayerGround = CreateImageElement(Background, ERenderingOrder::UI1, EPivotType::LeftBot, 4, -48);
 	PlayerGround->SetImage(RN::BattlePlayerGround);
-	UPokemonUtil::PlaceImageOnScreen(PlayerGround, EPivotType::LeftBot, 4, -48);
-	PlayerGroundInitPos = PlayerGround->GetPosition();
+	PlayerGroundInitPos = PlayerGround->GetRelativePosition();
 	PlayerGroundHidePos = PlayerGroundInitPos + FVector::Right * Global::FloatScreenX;
 
 	// MsgBox 요소
-	MsgText = CreateText(MsgBox, L"Wild ABCDEF appeared!", EPivotType::LeftTop, EAlignType::Left, 11, 21, EFontColor::White, EFontSize::Normal, ERenderingOrder::UI3);
+	MsgText = CreateText(MsgBox, ERenderingOrder::UI5, EPivotType::LeftTop, 11, 21, EAlignType::Left, EFontColor::White, EFontSize::Normal);
 
 	// EnemyPokemonBox 요소
-	EnemyPokemonNameText = CreateText(EnemyPokemonBox, L"UNDEFINED", EPivotType::LeftTop, EAlignType::Left, 7, 12, EFontColor::Black, EFontSize::Mini, ERenderingOrder::UI3);
-	EnemyPokemonLevelText = CreateText(EnemyPokemonBox, L"Lv100", EPivotType::LeftTop, EAlignType::Right, 85, 12, EFontColor::Black, EFontSize::Mini, ERenderingOrder::UI3);
-	EnemyPokemonHpBar = CreateScrollBar(EnemyPokemonBox, EScrollType::Hp, 50, 100, EPivotType::LeftTop, 39, 17, ERenderingOrder::UI3);
-	EnemyPokemonGenderMark = CreateImageElement(EnemyPokemonBox, EPivotType::LeftTop, 10, 5, ERenderingOrder::UI3);
+	EnemyPokemonNameText = CreateText(EnemyPokemonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 7, 12, EAlignType::Left, EFontColor::Black, EFontSize::Mini);
+	EnemyPokemonLevelText = CreateText(EnemyPokemonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 85, 12, EAlignType::Right, EFontColor::Black, EFontSize::Mini);
+	EnemyPokemonHpBar = CreateScrollBar(EnemyPokemonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 39, 17, EScrollType::Hp);
+	EnemyPokemonGenderMark = CreateImageElement(EnemyPokemonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 10, 5);
 
 	// PlayerPokemonBox 요소
-	PlayerPokemonNameText = CreateText(PlayerPokemonBox, L"UNDEFINED", EPivotType::RightTop, EAlignType::Left, -84, 12, EFontColor::Black, EFontSize::Mini, ERenderingOrder::UI3);
-	PlayerPokemonLevelText = CreateText(PlayerPokemonBox, L"Lv100", EPivotType::RightTop, EAlignType::Right, -9, 12, EFontColor::Black, EFontSize::Mini, ERenderingOrder::UI3);
-	PlayerPokemonCurHpText = CreateText(PlayerPokemonBox, L"999", EPivotType::RightBot, EAlignType::Right, -29, -6, EFontColor::Black, EFontSize::Mini, ERenderingOrder::UI3);
-	PlayerPokemonHpText = CreateText(PlayerPokemonBox, L"999", EPivotType::RightBot, EAlignType::Right, -9, -6, EFontColor::Black, EFontSize::Mini, ERenderingOrder::UI3);
-	PlayerPokemonHpBar = CreateScrollBar(PlayerPokemonBox, EScrollType::Hp, 50, 100, EPivotType::RightTop, -55, 17, ERenderingOrder::UI3);
-	PlayerPokemonExpBar = CreateScrollBar(PlayerPokemonBox, EScrollType::Exp, 50, 100, EPivotType::RightTop, -71, 33, ERenderingOrder::UI3);
-	PlayerPokemonGenderMark = CreateImageElement(PlayerPokemonBox, EPivotType::LeftTop, 10, 5, ERenderingOrder::UI3);
+	PlayerPokemonNameText = CreateText(PlayerPokemonBox, ERenderingOrder::UI5, EPivotType::RightTop, -84, 12, EAlignType::Left, EFontColor::Black, EFontSize::Mini);
+	PlayerPokemonLevelText = CreateText(PlayerPokemonBox, ERenderingOrder::UI5, EPivotType::RightTop, -9, 12, EAlignType::Right, EFontColor::Black, EFontSize::Mini);
+	PlayerPokemonCurHpText = CreateText(PlayerPokemonBox, ERenderingOrder::UI5, EPivotType::RightBot, -29, -6, EAlignType::Right, EFontColor::Black, EFontSize::Mini);
+	PlayerPokemonHpText = CreateText(PlayerPokemonBox, ERenderingOrder::UI5, EPivotType::RightBot, -9, -6, EAlignType::Right, EFontColor::Black, EFontSize::Mini);
+	PlayerPokemonHpBar = CreateScrollBar(PlayerPokemonBox, ERenderingOrder::UI5, EPivotType::RightTop, -55, 17, EScrollType::Hp);
+	PlayerPokemonExpBar = CreateScrollBar(PlayerPokemonBox, ERenderingOrder::UI5, EPivotType::RightTop, -71, 33, EScrollType::Exp);
+	PlayerPokemonGenderMark = CreateImageElement(PlayerPokemonBox, ERenderingOrder::UI5, EPivotType::LeftTop, 10, 5);
 
 	// EnemyGround 요소
-	EnemyPokemonImage = CreatePokemonElement(EnemyGround, EPokemonElementType::Front, EPivotType::LeftTop, 36, -25, ERenderingOrder::UI3);
+	EnemyPokemonImage = CreatePokemonElement(EnemyGround, ERenderingOrder::UI2, EPivotType::LeftTop, 36, -25, EPokemonElementType::Front);
 
 	// PlayerGround 요소
-	PlayerBattler = CreateAnimationElement(PlayerGround, RN::PlayerBattler, EPivotType::RightBot, -12, 0, ERenderingOrder::UI4);
+	PlayerBattler = CreateAnimationElement(PlayerGround, ERenderingOrder::UI3, EPivotType::RightBot, -12, 0, RN::PlayerBattler);
 	PlayerBattler->CreateAnimation(Global::PlayerBattlerIdle, 0, 0, 0.0f, false);
 	PlayerBattler->CreateAnimation(Global::PlayerBattlerThrow, { 1, 2, 3, 4 }, { 0.28f, 0.14f, 0.07f, 0.07f }, false);
-	PlayerBattlerInitRelativePos = PlayerBattler->GetRelativePos();
-	PlayerBattlerHideRelativePos = PlayerBattlerInitRelativePos + UPokemonUtil::PixelVector(-120, 0);
+	PlayerBattlerInitPos = PlayerBattler->GetRelativePosition();
+	PlayerBattlerHidePos = PlayerBattlerInitPos + UPokemonUtil::PixelVector(-120, 0);
 
-	ThrowedBall = CreateImageRenderer(ERenderingOrder::UI1);
-	ThrowedBall->SetImage(Global::ThrowedBall);
-	UPokemonUtil::PlaceImageOnScreen(ThrowedBall, EPivotType::LeftBot, 30, -35);
-	ThrowedBall->CreateAnimation(Global::ThrowedBall, Global::ThrowedBall, 0, 11, 0.06f, false);
+	ThrowedBall = CreateAnimationElement(PlayerGround, ERenderingOrder::UI2, EPivotType::LeftBot, 30, -35, Global::ThrowedBall);
+	ThrowedBall->CreateAnimation(Global::ThrowedBall, 0, 11, 0.06f, false);
 
-	PlayerPokemonImage = CreatePokemonElement(PlayerGround, EPokemonElementType::Back, EPivotType::LeftTop, 35, -49, ERenderingOrder::UI3);
-	PlayerPokemonImageInitRelativePos = PlayerPokemonImage->GetRelativePos();
-	PlayerPokemonImageHideRelativePos = PlayerPokemonImageInitRelativePos + UPokemonUtil::PixelVector(0, 32);
+	PlayerPokemonImage = CreatePokemonElement(PlayerGround, ERenderingOrder::UI2, EPivotType::LeftTop, 35, -49, EPokemonElementType::Back);
+	PlayerPokemonImageInitPos = PlayerPokemonImage->GetRelativePosition();
+	PlayerPokemonImageHidePos = PlayerPokemonImageInitPos + UPokemonUtil::PixelVector(0, 32);
 }
 
 void ABattleCanvas::Tick(float _DeltaTime)

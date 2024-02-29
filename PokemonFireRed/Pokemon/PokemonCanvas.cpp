@@ -17,194 +17,56 @@ APokemonCanvas::~APokemonCanvas()
 void APokemonCanvas::BeginPlay()
 {
 	// 백그라운드
-	BackgroundRenderer = CreateImageRenderer(ERenderingOrder::UI0);
-	BackgroundRenderer->SetImage(RN::PokemonUIBackground);
-	FVector BackgroundRenderScale = UPokemonUtil::GetRenderScale(BackgroundRenderer);
-	FVector BackgroundPos = BackgroundRenderScale.Half2D();
-	BackgroundRenderer->SetTransform({ BackgroundPos, BackgroundRenderScale });
+	Background = CreateImageElement(this, ERenderingOrder::UI0, EPivotType::LeftTop, 0, 0);
+	Background->SetImage(RN::PokemonUIBackground);
 
-	// 타겟 선택 메시지 박스
+	// 최상위 요소
+	TargetSelectionMsgBox = CreateImageElement(Background, ERenderingOrder::UI1, EPivotType::LeftBot, 2, -2);
+	TargetSelectionMsgBox->SetImage(RN::PokemonUITargetSelectionMsgBox);
+
+	ActionSelectionMsgBox = CreateImageElement(Background, ERenderingOrder::UI1, EPivotType::LeftBot, 2, -2);
+	ActionSelectionMsgBox->SetImage(RN::PokemonUIActionSelectionMsgBox);
+
+	SwitchSelectionMsgBox = CreateImageElement(Background, ERenderingOrder::UI1, EPivotType::LeftBot, 2, -2);
+	SwitchSelectionMsgBox->SetImage(RN::PokemonUISwitchSelectionMsgBox);
+
+	ActionBox = CreateImageElement(Background, ERenderingOrder::UI4, EPivotType::RightBot, -1, -1);
+	ActionBox->SetImage(RN::PokemonUIActionBox);
+
+	FirstBox = CreateImageElement(Background, ERenderingOrder::UI1, EPivotType::LeftTop, 0, 0);
+	EntryBoxes.reserve(6);
+	for (int i = 1; i < 6; ++i)
 	{
-		TargetSelectionMsgBoxRenderer = CreateImageRenderer(ERenderingOrder::UI1);
-		TargetSelectionMsgBoxRenderer->SetImage(RN::PokemonUITargetSelectionMsgBox);
-		UPokemonUtil::PlaceImageOnScreen(
-			TargetSelectionMsgBoxRenderer,
-			EPivotType::LeftBot,
-			2, -2
-		);
+		AImageElement* EntryBox = CreateImageElement(Background, ERenderingOrder::UI1, EPivotType::RightBot, 0, 0);
+		EntryBoxes.push_back(EntryBox);
 	}
+	CancelButton = CreateImageElement(Background, ERenderingOrder::UI1, EPivotType::RightBot, 0, 0);
 
-	// 액션 선택 메시지 박스
-	{
-		ActionSelectionMsgBoxRenderer = CreateImageRenderer(ERenderingOrder::UI1);
-		ActionSelectionMsgBoxRenderer->SetImage(RN::PokemonUIActionSelectionMsgBox);
-		ActionSelectionMsgBoxRenderer->SetActive(false);
-		UPokemonUtil::PlaceImageOnScreen(
-			ActionSelectionMsgBoxRenderer,
-			EPivotType::LeftBot,
-			2, -2
-		);
-	}
+	// 액션 선택창
+	ActionCursor = CreateCursor(ActionBox, ERenderingOrder::UI5, EPivotType::LeftTop, 8, 11, RN::BlackCursor, 16);
+	ActionCursor->SetOptionCount(3);
 
-	// 액션 선택 창
-	{
-		ActionBoxRenderer = CreateImageRenderer(ERenderingOrder::UI4);
-		ActionBoxRenderer->SetImage(RN::PokemonUIActionBox);
-		UPokemonUtil::PlaceImageOnScreen(
-			ActionBoxRenderer,
-			EPivotType::RightBot,
-			-1, -1
-		);
-
-		// 액션 선택 커서
-		ActionCursor = CreateCursor(
-			ActionBoxRenderer,
-			RN::BlackCursor,
-			0, 3,
-			EPivotType::LeftTop,
-			8, 11, 16,
-			ERenderingOrder::UI5
-		);
-
-		ActionBoxRenderer->SetActive(false);
-	}
-
-	// 스위치 선택 메시지 박스
-	{
-		SwitchSelectionMsgBoxRenderer = CreateImageRenderer(ERenderingOrder::UI1);
-		SwitchSelectionMsgBoxRenderer->SetImage(RN::PokemonUISwitchSelectionMsgBox);
-		UPokemonUtil::PlaceImageOnScreen(
-			SwitchSelectionMsgBoxRenderer,
-			EPivotType::LeftBot,
-			2, -2
-		);
-		SwitchSelectionMsgBoxRenderer->SetActive(false);
-	}
-
-	// 엔트리 박스
-	FirstRenderer = CreateImageRenderer(ERenderingOrder::UI1);
-
-	EntryRenderers.reserve(6);
-	for (int i = 1; i < UPlayerData::GetPokemonEntrySize(); ++i)
-	{
-		UImageRenderer* Renderer = CreateImageRenderer(ERenderingOrder::UI1);
-		EntryRenderers.push_back(Renderer);
-	}
-	for (int i = UPlayerData::GetPokemonEntrySize(); i < 6; ++i)
-	{
-		UImageRenderer* Renderer = CreateImageRenderer(ERenderingOrder::UI1);
-		EntryRenderers.push_back(Renderer);
-	}
-
-	CancelRenderer = CreateImageRenderer(ERenderingOrder::UI1);
-
-	// 텍스트, 아이콘, 스크롤바
+	// 엔트리
 	UPokemon& First = UPlayerData::GetPokemonInEntry(0);
-	FirstNameText = CreateText(
-		FirstRenderer,
-		First.GetNameW(),
-		EPivotType::RightBot,
-		EAlignType::Left,
-		-53, -28,
-		EFontColor::WhiteGray, EFontSize::Mini
-	);
-	FirstLevelText = CreateText(
-		FirstRenderer,
-		std::to_wstring(First.GetLevel()),
-		EPivotType::RightBot,
-		EAlignType::Left,
-		-37, -19,
-		EFontColor::WhiteGray, EFontSize::Mini
-	);
-	FirstHpText = CreateText(
-		FirstRenderer,
-		std::to_wstring(First.GetHp()),
-		EPivotType::RightBot,
-		EAlignType::Right,
-		-5, -3,
-		EFontColor::WhiteGray, EFontSize::Mini
-	);
-	FirstCurHpText = CreateText(
-		FirstRenderer,
-		std::to_wstring(First.GetCurHp()),
-		EPivotType::RightBot,
-		EAlignType::Right,
-		-25, -3,
-		EFontColor::WhiteGray, EFontSize::Mini
-	);
-	FirstHpBar = CreateScrollBar(
-		FirstRenderer,
-		EScrollType::Hp,
-		First.GetCurHp(), First.GetHp(),
-		EPivotType::RightBot,
-		-53, -15
-	);
-	FirstPokemonIcon = CreatePokemonElement(
-		FirstRenderer,
-		EPokemonElementType::MiniMove,
-		EPivotType::LeftBot,
-		-2, -23
-	);
-	FirstGender = CreateImageElement(
-		FirstRenderer,
-		EPivotType::RightBot,
-		-9, -19
-	);
+	FirstNameText = CreateText(FirstBox, ERenderingOrder::UI2, EPivotType::RightBot, -53, -28, EAlignType::Left, EFontColor::WhiteGray, EFontSize::Mini);
+	FirstLevelText = CreateText(FirstBox, ERenderingOrder::UI2, EPivotType::RightBot, -37, -19, EAlignType::Left, EFontColor::WhiteGray, EFontSize::Mini);
+	FirstHpText = CreateText(FirstBox, ERenderingOrder::UI2, EPivotType::RightBot, -5, -3, EAlignType::Right, EFontColor::WhiteGray, EFontSize::Mini);
+	FirstCurHpText = CreateText(FirstBox, ERenderingOrder::UI2, EPivotType::RightBot, -25, -3, EAlignType::Right, EFontColor::WhiteGray, EFontSize::Mini);
+	FirstHpBar = CreateScrollBar(FirstBox, ERenderingOrder::UI2, EPivotType::RightBot, -53, -15, EScrollType::Hp);
+	FirstPokemonIcon = CreatePokemonElement(FirstBox, ERenderingOrder::UI2, EPivotType::LeftBot, -2, -23, EPokemonElementType::MiniMove);
+	FirstGender = CreateImageElement(FirstBox, ERenderingOrder::UI2, EPivotType::RightBot, -9, -19);
 
 	for (int i = 1; i < UPlayerData::GetPokemonEntrySize(); ++i)
 	{
 		UPokemon& Pokemon = UPlayerData::GetPokemonInEntry(i);
 
-		AText* NameText = CreateText(
-			EntryRenderers[i - 1],
-			Pokemon.GetNameW(),
-			EPivotType::RightBot,
-			EAlignType::Left,
-			-119, -9,
-			EFontColor::WhiteGray, EFontSize::Mini
-		);
-		AText* LevelText = CreateText(
-			EntryRenderers[i - 1],
-			std::to_wstring(Pokemon.GetLevel()),
-			EPivotType::LeftBot,
-			EAlignType::Left,
-			48, 0,
-			EFontColor::WhiteGray, EFontSize::Mini
-		);
-		AText* HpText = CreateText(
-			EntryRenderers[i - 1],
-			std::to_wstring(Pokemon.GetHp()),
-			EPivotType::RightBot,
-			EAlignType::Right,
-			-5, 0,
-			EFontColor::WhiteGray, EFontSize::Mini
-		);
-		AText* CurHpText = CreateText(
-			EntryRenderers[i - 1],
-			std::to_wstring(Pokemon.GetCurHp()),
-			EPivotType::RightBot,
-			EAlignType::Right,
-			-25, 0,
-			EFontColor::WhiteGray, EFontSize::Mini
-		);
-		AScrollBar* HpBar = CreateScrollBar(
-			EntryRenderers[i - 1],
-			EScrollType::Hp,
-			Pokemon.GetCurHp(), Pokemon.GetHp(),
-			EPivotType::RightBot,
-			-53, -13
-		);
-		APokemonElement* Icon = CreatePokemonElement(
-			EntryRenderers[i - 1],
-			EPokemonElementType::MiniMove,
-			EPivotType::LeftBot,
-			-3, 3
-		);
-		AImageElement* Gender = CreateImageElement(
-			EntryRenderers[i - 1],
-			EPivotType::RightBot,
-			-72, 0
-		);
+		AText* NameText = CreateText(EntryBoxes[i - 1], ERenderingOrder::UI2, EPivotType::RightBot, -119, -9, EAlignType::Left, EFontColor::WhiteGray, EFontSize::Mini);
+		AText* LevelText = CreateText(EntryBoxes[i - 1], ERenderingOrder::UI2, EPivotType::LeftBot, 48, 0, EAlignType::Left, EFontColor::WhiteGray, EFontSize::Mini);
+		AText* HpText = CreateText(EntryBoxes[i - 1], ERenderingOrder::UI2, EPivotType::RightBot, -5, 0, EAlignType::Right, EFontColor::WhiteGray, EFontSize::Mini);
+		AText* CurHpText = CreateText(EntryBoxes[i - 1], ERenderingOrder::UI2, EPivotType::RightBot, -25, 0, EAlignType::Right, EFontColor::WhiteGray, EFontSize::Mini);
+		AScrollBar* HpBar = CreateScrollBar(EntryBoxes[i - 1], ERenderingOrder::UI2, EPivotType::RightBot, -53, -13, EScrollType::Hp);
+		APokemonElement* Icon = CreatePokemonElement(EntryBoxes[i - 1], ERenderingOrder::UI2, EPivotType::LeftBot, -3, 3, EPokemonElementType::MiniMove);
+		AImageElement* Gender = CreateImageElement(EntryBoxes[i - 1], ERenderingOrder::UI2, EPivotType::RightBot, -72, 0);
 
 		EntryNameTexts.push_back(NameText);
 		EntryLevelTexts.push_back(LevelText);
@@ -214,6 +76,10 @@ void APokemonCanvas::BeginPlay()
 		EntryPokemonIcons.push_back(Icon);
 		EntryGenders.push_back(Gender);
 	}
+
+	ActionSelectionMsgBox->SetActive(false);
+	SwitchSelectionMsgBox->SetActive(false);
+	ActionBox->SetActive(false);
 
 	RefreshAllTargets();
 }
@@ -306,9 +172,9 @@ void APokemonCanvas::TargetSelect()
 	else
 	{
 		State = EPokemonUIState::ActionSelectionWait;
-		TargetSelectionMsgBoxRenderer->SetActive(false);
-		ActionSelectionMsgBoxRenderer->SetActive(true);
-		ActionBoxRenderer->SetActive(true);
+		TargetSelectionMsgBox->SetActive(false);
+		ActionSelectionMsgBox->SetActive(true);
+		ActionBox->SetActive(true);
 		ActionCursor->SetCursor(0);
 	}
 }
@@ -326,9 +192,9 @@ void APokemonCanvas::ActionSelectionWaitTick(float _DeltaTime)
 	else if (UEngineInput::IsDown('X'))
 	{
 		State = EPokemonUIState::TargetSelectionWait;
-		TargetSelectionMsgBoxRenderer->SetActive(true);
-		ActionSelectionMsgBoxRenderer->SetActive(false);
-		ActionBoxRenderer->SetActive(false);
+		TargetSelectionMsgBox->SetActive(true);
+		ActionSelectionMsgBox->SetActive(false);
+		ActionBox->SetActive(false);
 	}
 	else if (UEngineInput::IsDown('Z'))
 	{
@@ -343,7 +209,7 @@ void APokemonCanvas::ActionSelect()
 	case 0:
 		// PokemonSummaryUI 레벨로 전환
 		UEventManager::FadeChangeLevel(Global::PokemonSummaryUILevel);
-	break;
+		break;
 	case 1:
 		// Switch 상태로 전환
 		State = EPokemonUIState::SwitchSelectionWait;
@@ -351,9 +217,9 @@ void APokemonCanvas::ActionSelect()
 		break;
 	case 2:
 		State = EPokemonUIState::TargetSelectionWait;
-		TargetSelectionMsgBoxRenderer->SetActive(true);
-		ActionSelectionMsgBoxRenderer->SetActive(false);
-		ActionBoxRenderer->SetActive(false);
+		TargetSelectionMsgBox->SetActive(true);
+		ActionSelectionMsgBox->SetActive(false);
+		ActionBox->SetActive(false);
 		break;
 	default:
 		break;
@@ -362,9 +228,9 @@ void APokemonCanvas::ActionSelect()
 
 void APokemonCanvas::SwitchSelectionWaitStart()
 {
-	ActionBoxRenderer->SetActive(false);
-	ActionSelectionMsgBoxRenderer->SetActive(false);
-	SwitchSelectionMsgBoxRenderer->SetActive(true);
+	ActionBox->SetActive(false);
+	ActionSelectionMsgBox->SetActive(false);
+	SwitchSelectionMsgBox->SetActive(true);
 	SwitchFromCursor = TargetCursor;
 	RefreshAllTargets();
 }
@@ -374,8 +240,8 @@ void APokemonCanvas::SwitchSelectionWaitTick(float _DeltaTime)
 	if (true == UEngineInput::IsDown('X'))
 	{
 		State = EPokemonUIState::TargetSelectionWait;
-		SwitchSelectionMsgBoxRenderer->SetActive(false);
-		TargetSelectionMsgBoxRenderer->SetActive(true);
+		SwitchSelectionMsgBox->SetActive(false);
+		TargetSelectionMsgBox->SetActive(true);
 		RefreshAllTargets();
 		return;
 	}
@@ -425,8 +291,8 @@ void APokemonCanvas::SwitchSelect()
 	{
 		// 스위치 취소
 		State = EPokemonUIState::TargetSelectionWait;
-		SwitchSelectionMsgBoxRenderer->SetActive(false);
-		TargetSelectionMsgBoxRenderer->SetActive(true);
+		SwitchSelectionMsgBox->SetActive(false);
+		TargetSelectionMsgBox->SetActive(true);
 		RefreshAllTargets();
 		return;
 	}
@@ -442,27 +308,27 @@ void APokemonCanvas::SwitchStart()
 
 	if (true == IsFirst(SwitchFromCursor))
 	{
-		SwitchMoveSwitchFromRenderer = FirstRenderer;
-		SwitchFromPrevPos = SwitchMoveSwitchFromRenderer->GetPosition();
+		SwitchMoveSwitchFrom = FirstBox;
+		SwitchFromPrevPos = SwitchMoveSwitchFrom->GetRelativePosition();
 		SwitchFromOutPos = SwitchFromPrevPos - FVector(0.5f * Global::FloatScreenX, 0.0f);
 	}
 	else
 	{
-		SwitchMoveSwitchFromRenderer = EntryRenderers[SwitchFromCursor - 1];
-		SwitchFromPrevPos = SwitchMoveSwitchFromRenderer->GetPosition();
+		SwitchMoveSwitchFrom = EntryBoxes[SwitchFromCursor - 1];
+		SwitchFromPrevPos = SwitchMoveSwitchFrom->GetRelativePosition();
 		SwitchFromOutPos = SwitchFromPrevPos + FVector(0.75f * Global::FloatScreenX, 0.0f);
 	}
 
 	if (true == IsFirst(TargetCursor))
 	{
-		SwitchMoveTargetRenderer = FirstRenderer;
-		TargetPrevPos = SwitchMoveTargetRenderer->GetPosition();
+		SwitchMoveTarget = FirstBox;
+		TargetPrevPos = SwitchMoveTarget->GetRelativePosition();
 		TargetOutPos = TargetPrevPos - FVector(0.5f * Global::FloatScreenX, 0.0f);
 	}
 	else
 	{
-		SwitchMoveTargetRenderer = EntryRenderers[TargetCursor - 1];
-		TargetPrevPos = SwitchMoveTargetRenderer->GetPosition();
+		SwitchMoveTarget = EntryBoxes[TargetCursor - 1];
+		TargetPrevPos = SwitchMoveTarget->GetRelativePosition();
 		TargetOutPos = TargetPrevPos + FVector(0.75f * Global::FloatScreenX, 0.0f);
 	}
 
@@ -492,8 +358,8 @@ void APokemonCanvas::SwitchMoveOutTick(float _DeltaTime)
 	SwitchMoveTimer -= _DeltaTime;
 
 	float t = 1.0f - SwitchMoveTimer / SwitchMoveOutTime;
-	SwitchMoveSwitchFromRenderer->SetPosition(UPokemonMath::Lerp(SwitchFromPrevPos, SwitchFromOutPos, t));
-	SwitchMoveTargetRenderer->SetPosition(UPokemonMath::Lerp(TargetPrevPos, TargetOutPos, t));
+	SwitchMoveSwitchFrom->SetRelativePosition(UPokemonMath::Lerp(SwitchFromPrevPos, SwitchFromOutPos, t));
+	SwitchMoveTarget->SetRelativePosition(UPokemonMath::Lerp(TargetPrevPos, TargetOutPos, t));
 
 	if (SwitchMoveTimer <= 0.0f)
 	{
@@ -520,14 +386,14 @@ void APokemonCanvas::SwitchMoveInTick(float _DeltaTime)
 	SwitchMoveTimer -= _DeltaTime;
 
 	float t = SwitchMoveTimer / SwitchMoveInTime;
-	SwitchMoveSwitchFromRenderer->SetPosition(UPokemonMath::Lerp(SwitchFromPrevPos, SwitchFromOutPos, t));
-	SwitchMoveTargetRenderer->SetPosition(UPokemonMath::Lerp(TargetPrevPos, TargetOutPos, t));
+	SwitchMoveSwitchFrom->SetRelativePosition(UPokemonMath::Lerp(SwitchFromPrevPos, SwitchFromOutPos, t));
+	SwitchMoveTarget->SetRelativePosition(UPokemonMath::Lerp(TargetPrevPos, TargetOutPos, t));
 
 	if (SwitchMoveTimer <= 0.0f)
 	{
 		State = EPokemonUIState::TargetSelectionWait;
-		SwitchSelectionMsgBoxRenderer->SetActive(false);
-		TargetSelectionMsgBoxRenderer->SetActive(true);
+		SwitchSelectionMsgBox->SetActive(false);
+		TargetSelectionMsgBox->SetActive(true);
 		RefreshAllTargets();
 	}
 }
@@ -603,12 +469,8 @@ void APokemonCanvas::RefreshFirst()
 
 	if (State != EPokemonUIState::Switch)
 	{
-		FirstRenderer->SetImage(ImageName);
-		UPokemonUtil::PlaceImageOnScreen(
-			FirstRenderer,
-			EPivotType::LeftTop,
-			PixelX, PixelY
-		);
+		FirstBox->SetImage(ImageName);
+		FirstBox->SetRelativePosition(PixelX, PixelY);
 	}
 
 	const UPokemon& Pokemon = UPlayerData::GetPokemonInEntry(0);
@@ -705,12 +567,8 @@ void APokemonCanvas::RefreshEntry(int _Index)
 
 	if (State != EPokemonUIState::Switch)
 	{
-		EntryRenderers[_Index - 1]->SetImage(ImageName);
-		UPokemonUtil::PlaceImageOnScreen(
-			EntryRenderers[_Index - 1],
-			EPivotType::RightTop,
-			PixelX, PixelY
-		);
+		EntryBoxes[_Index - 1]->SetImage(ImageName);
+		EntryBoxes[_Index - 1]->SetRelativePosition(PixelX, PixelY);
 	}
 
 	if (_Index < 0 || _Index >= UPlayerData::GetPokemonEntrySize())
@@ -759,12 +617,8 @@ void APokemonCanvas::RefreshCancel()
 		break;
 	}
 
-	CancelRenderer->SetImage(ImageName);
-	UPokemonUtil::PlaceImageOnScreen(
-		CancelRenderer,
-		EPivotType::RightBot,
-		PixelX, PixelY
-	);
+	CancelButton->SetImage(ImageName);
+	CancelButton->SetRelativePosition(PixelX, PixelY);
 }
 
 void APokemonCanvas::RefreshAllTargets()

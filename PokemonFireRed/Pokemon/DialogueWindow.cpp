@@ -31,29 +31,13 @@ void ADialogueWindow::SetDialogue(const std::vector<std::wstring>& _Dialogue, EF
 void ADialogueWindow::BeginPlay()
 {
 	ACanvas::BeginPlay();
-	
-	// 컨테이너(메시지 박스)가 열려 있을 때 자동으로 모든 텍스트가 켜지는 걸 막는다.
-	ContainerElementSyncOff();
 
-	DialogueWindowRenderer = CreateImageRenderer(ERenderingOrder::UI0);
-	DialogueWindowRenderer->CameraEffectOff();
-	DialogueWindowRenderer->SetImage("DialogueWindow.png");
-	
-	UWindowImage* DWImage = UEngineResourcesManager::GetInst().FindImg("DialogueWindow.png");
-	FVector DWScale = DWImage->GetScale();
-	FVector DWRenderScale = DWScale * Global::FloatPixelSize;
-	FVector DWPos = DWRenderScale.Half2D() + FVector(0.0f, Global::FloatScreenY - DWRenderScale.Y);
-	DWPos += UPokemonUtil::PixelVector(5, -3);
-	DialogueWindowRenderer->SetTransform({ DWPos, DWRenderScale});
+	// 대화창
+	MsgBox = CreateImageElement(this, ERenderingOrder::UI0, EPivotType::LeftBot, 0, 0);
+	MsgBox->SetImage("DialogueWindow.png");
 
 	// 대화 내용
-	Text = CreateText(
-		DialogueWindowRenderer,
-		LR"(Not Initialized...)",
-		EPivotType::LeftTop,
-		EAlignType::Left,
-		11, 17
-	);
+	Text = CreateText(MsgBox, ERenderingOrder::UI1, EPivotType::LeftTop, 11, 17);
 }
 
 void ADialogueWindow::Tick(float _DeltaTime)

@@ -28,9 +28,9 @@ bool ACursor::IsLast() const
 	return Cursor == OptionCount - 1;
 }
 
-void ACursor::FollowContainer()
+void ACursor::FollowParentPosition()
 {
-	AUIElement::FollowContainer();
+	AUIElement::FollowParentPosition();
 
 	FVector AbsolutePos = Pivot + RelativePos;
 	AbsolutePos += UPokemonUtil::PixelVector(0, PixelGap * Cursor);

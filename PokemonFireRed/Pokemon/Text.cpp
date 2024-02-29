@@ -1,6 +1,7 @@
 ﻿#include "Text.h"
 #include "Global.h"
 #include "PokemonUtil.h"
+#include "PokemonString.h"
 
 std::map<EFontSize, std::map<wchar_t, AText::GlyphAlignRule>> AText::AlignRuleMap;
 
@@ -12,9 +13,9 @@ AText::~AText()
 {
 }
 
-void AText::FollowContainer()
+void AText::FollowParentPosition()
 {
-	AUIElement::FollowContainer();
+	AUIElement::FollowParentPosition();
 
 	FVector AbsolutePos = Pivot + RelativePos;
 	switch (AlignType)
@@ -69,7 +70,7 @@ void AText::SetText(std::wstring_view _Text)
 	else
 	{
 		RenderEnd = true;
-		FollowContainer();
+		FollowParentPosition();
 	}
 }
 
@@ -159,7 +160,7 @@ void AText::BeginPlay()
 
 void AText::Tick(float _DeltaTime)
 {
-	if (nullptr == Container)
+	if (nullptr == Parent)
 	{
 		MsgBoxAssert(GetWorld()->GetName() + ":" + GetName() + " 텍스트에 컨테이너를 설정하지 않았습니다.");
 		return;

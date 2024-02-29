@@ -11,170 +11,71 @@ ACanvas::~ACanvas()
 {
 }
 
-void ACanvas::SetActive(bool _Active, float _ActiveTime)
-{
-	AActor::SetActive(_Active, _ActiveTime);
-	
-	for (std::pair<UImageRenderer* const, std::list<AUIElement*>>& Pair : Elements)
-	{
-		UImageRenderer* const Container = Pair.first;
-		std::list<AUIElement*>& List = Pair.second;
-
-		if (nullptr == Container)
-		{
-			MsgBoxAssert("UI 엘리먼트의 컨테이너가 nullptr입니다.");
-			return;
-		}
-
-		for (AUIElement* Element : List)
-		{
-			Element->SetActive(_Active, _ActiveTime);
-		}
-	}
-}
-
-AText* ACanvas::CreateText(
-	UImageRenderer* _Container, 
-	std::wstring _Text, 
-	EPivotType _PivotType, 
-	EAlignType _AlignType, 
-	int _RelativePixelX, int _RelativePixelY, 
-	EFontColor _Color, EFontSize _Size,
-	ERenderingOrder _Order
-)
+AText* ACanvas::CreateText(AUIParent* _Parent, ERenderingOrder _Order, EPivotType _PivotType, int _RelativePixelX, int _RelativePixelY, EAlignType _AlignType, EFontColor _Color, EFontSize _Size)
 {
 	AText* Text = GetWorld()->SpawnActor<AText>();
-	Text->Container = _Container;
-	Text->PivotType = _PivotType;
-	Text->AlignType = _AlignType;
-	Text->Color = _Color;
-	Text->Size = _Size;
-	Text->SetText(_Text);
-	Text->SetRelativePos(UPokemonUtil::PixelVector(_RelativePixelX, _RelativePixelY));
+	Text->SetParent(_Parent);
 	Text->SetRenderingOrder(_Order);
-	Elements[_Container].push_back(Text);
+	Text->SetPivotType(_PivotType);
+	Text->SetAlignType(_AlignType);
+	Text->SetColor(_Color);
+	Text->SetSize(_Size);
+	Text->SetRelativePosition(UPokemonUtil::PixelVector(_RelativePixelX, _RelativePixelY));
 	return Text;
 }
 
-AScrollBar* ACanvas::CreateScrollBar(
-	UImageRenderer* _Container, 
-	EScrollType _ScrollType, 
-	int _CurValue, int _MaxValue, 
-	EPivotType _PivotType, 
-	int _RelativePixelX, int _RelativePixelY,
-	ERenderingOrder _Order
-)
+AScrollBar* ACanvas::CreateScrollBar(AUIParent* _Parent, ERenderingOrder _Order, EPivotType _PivotType, int _RelativePixelX, int _RelativePixelY, EScrollType _ScrollType)
 {
 	AScrollBar* Bar = GetWorld()->SpawnActor<AScrollBar>();
-	Bar->Container = _Container;
-	Bar->ScrollType = _ScrollType;
-	Bar->PivotType = _PivotType;
-	Bar->SetRelativePos(UPokemonUtil::PixelVector(_RelativePixelX, _RelativePixelY));
-	Bar->SetMaxValue(_MaxValue);
-	Bar->SetValue(_CurValue);
+	Bar->SetParent(_Parent);
 	Bar->SetRenderingOrder(_Order);
-	Elements[_Container].push_back(Bar);
+	Bar->SetPivotType(_PivotType);
+	Bar->SetScrollType(_ScrollType);
+	Bar->SetRelativePosition(UPokemonUtil::PixelVector(_RelativePixelX, _RelativePixelY));
 	return Bar;
 }
 
-ACursor* ACanvas::CreateCursor(
-	UImageRenderer* _Container, std::string _ImageName,
-	int _Cursor, int _OptionCount, 
-	EPivotType _PivotType, 
-	int _RelativePixelX, int _RelativePixelY, int _PixelGap,
-	ERenderingOrder _Order
-)
+ACursor* ACanvas::CreateCursor(AUIParent* _Parent, ERenderingOrder _Order, EPivotType _PivotType, int _RelativePixelX, int _RelativePixelY, std::string _ImageName, int _PixelGap)
 {
 	ACursor* Cursor = GetWorld()->SpawnActor<ACursor>();
-	Cursor->Container = _Container;
-	Cursor->ImageName = _ImageName;
-	Cursor->PivotType = _PivotType;
-	Cursor->PixelGap = _PixelGap;
-	Cursor->OptionCount = _OptionCount;
-	Cursor->SetRelativePos(UPokemonUtil::PixelVector(_RelativePixelX, _RelativePixelY));
+	Cursor->SetParent(_Parent);
 	Cursor->SetRenderingOrder(_Order);
-	Cursor->SetCursor(_Cursor);
-	Elements[_Container].push_back(Cursor);
+	Cursor->SetPivotType(_PivotType);
+	Cursor->SetImage(_ImageName);
+	Cursor->SetPixelGap(_PixelGap);
+	Cursor->SetRelativePosition(UPokemonUtil::PixelVector(_RelativePixelX, _RelativePixelY));
 	return Cursor;
 }
 
-APokemonElement* ACanvas::CreatePokemonElement(
-	UImageRenderer* _Container, 
-	EPokemonElementType _ElementType,
-	EPivotType _PivotType, 
-	int _RelativePixelX, int _RelativePixelY,
-	ERenderingOrder _Order
-)
+APokemonElement* ACanvas::CreatePokemonElement(AUIParent* _Parent, ERenderingOrder _Order, EPivotType _PivotType, int _RelativePixelX, int _RelativePixelY, EPokemonElementType _ElementType)
 {
 	APokemonElement* Icon = GetWorld()->SpawnActor<APokemonElement>();
-	Icon->Container = _Container;
-	Icon->Type = _ElementType;
-	Icon->PivotType = _PivotType;
-	Icon->SetRelativePos(UPokemonUtil::PixelVector(_RelativePixelX, _RelativePixelY));
+	Icon->SetParent(_Parent);
 	Icon->SetRenderingOrder(_Order);
-	Elements[_Container].push_back(Icon);
+	Icon->SetPivotType(_PivotType);
+	Icon->SetElementType(_ElementType);
+	Icon->SetRelativePosition(UPokemonUtil::PixelVector(_RelativePixelX, _RelativePixelY));
 	return Icon;
 }
 
-AImageElement* ACanvas::CreateImageElement(
-	UImageRenderer* _Container, 
-	EPivotType _PivotType, 
-	int _RelativePixelX, int _RelativePixelY,
-	ERenderingOrder _Order
-)
+AImageElement* ACanvas::CreateImageElement(AUIParent* _Parent, ERenderingOrder _Order, EPivotType _PivotType, int _RelativePixelX, int _RelativePixelY)
 {
 	AImageElement* Image = GetWorld()->SpawnActor<AImageElement>();
-	Image->Container = _Container;
-	Image->PivotType = _PivotType;
-	Image->SetRelativePos(UPokemonUtil::PixelVector(_RelativePixelX, _RelativePixelY));
+	Image->SetParent(_Parent);
 	Image->SetRenderingOrder(_Order);
-	Elements[_Container].push_back(Image);
+	Image->SetPivotType(_PivotType);
+	Image->SetRelativePosition(UPokemonUtil::PixelVector(_RelativePixelX, _RelativePixelY));
 	return Image;
 }
 
-AAnimationElement* ACanvas::CreateAnimationElement(
-	UImageRenderer* _Container, 
-	std::string_view _ImageName,
-	EPivotType _PivotType, 
-	int _RelativePixelX, int _RelativePixelY, 
-	ERenderingOrder _Order
-)
+
+AAnimationElement* ACanvas::CreateAnimationElement(AUIParent* _Parent, ERenderingOrder _Order, EPivotType _PivotType, int _RelativePixelX, int _RelativePixelY, std::string_view _ImageName)
 {
 	AAnimationElement* Anim = GetWorld()->SpawnActor<AAnimationElement>();
-	Anim->Container = _Container;
-	Anim->PivotType = _PivotType;
-	Anim->ImageName = _ImageName;
-	Anim->SetRelativePos(UPokemonUtil::PixelVector(_RelativePixelX, _RelativePixelY));
+	Anim->SetParent(_Parent);
 	Anim->SetRenderingOrder(_Order);
-	Elements[_Container].push_back(Anim);
+	Anim->SetPivotType(_PivotType);
+	Anim->SetImage(_ImageName);
+	Anim->SetRelativePosition(UPokemonUtil::PixelVector(_RelativePixelX, _RelativePixelY));
 	return Anim;
 }
-
-void ACanvas::Tick(float _DeltaTime)
-{
-	AActor::Tick(_DeltaTime);
-
-	if (false == ContainerElementSync)
-	{
-		return;
-	}
-
-	for (std::pair<UImageRenderer* const, std::list<AUIElement*>>& Pair : Elements)
-	{
-		UImageRenderer* const Container = Pair.first;
-		std::list<AUIElement*>& List = Pair.second;
-
-		if (nullptr == Container)
-		{
-			MsgBoxAssert("UI 엘리먼트의 컨테이너가 nullptr입니다.");
-			return;
-		}
-
-		for (AUIElement* Element : List)
-		{
-			Element->SetActive(Container->IsActive());
-			Element->FollowContainer();
-		}
-	}
-}
-

@@ -45,7 +45,7 @@ private:
 	int Index = 0;
 	std::vector<std::wstring> Dialogue;
 
-	UImageRenderer* DialogueWindowRenderer = nullptr;
+	AImageElement* MsgBox = nullptr;
 	AText* Text = nullptr;
 };
 

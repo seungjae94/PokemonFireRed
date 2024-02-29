@@ -1,10 +1,11 @@
 #pragma once
 #include <EngineCore/Actor.h>
 #include "AllUIElements.h"
+#include "UIParent.h"
 
 class UEventProcessor;
 
-class ACanvas : public AActor
+class ACanvas : public AUIParent
 {
 	friend UEventProcessor;
 public:
@@ -18,80 +19,66 @@ public:
 	ACanvas& operator=(const ACanvas& _Other) = delete;
 	ACanvas& operator=(ACanvas&& _Other) noexcept = delete;
 
-	void SetActive(bool _Active, float _ActiveTime = 0.0f) override;
-
 	AText* CreateText(
-		UImageRenderer* _Container,
-		std::wstring _Text,
-		EPivotType _PivotType = EPivotType::LeftTop,
+		AUIParent* _Parent,
+		ERenderingOrder _Order,
+		EPivotType _PivotType,
+		int _RelativePixelX,
+		int _RelativePixelY,
 		EAlignType _AlignType = EAlignType::Left,
-		int _RelativePixelX = 0,
-		int _RelativePixelY = 0,
 		EFontColor _Color = EFontColor::White,
-		EFontSize _Size = EFontSize::Normal,
-		ERenderingOrder _Order = ERenderingOrder::UI2
+		EFontSize _Size = EFontSize::Normal
 	);
 
 	AScrollBar* CreateScrollBar(
-		UImageRenderer* _Container,
-		EScrollType _ScrollType,
-		int _CurValue,
-		int _MaxValue,
-		EPivotType _PivotType = EPivotType::LeftTop,
-		int _RelativePixelX = 0,
-		int _RelativePixelY = 0,
-		ERenderingOrder _Order = ERenderingOrder::UI2
+		AUIParent* _Parent,
+		ERenderingOrder _Order,
+		EPivotType _PivotType,
+		int _RelativePixelX,
+		int _RelativePixelY,
+		EScrollType _ScrollType
 	);
 
 	ACursor* CreateCursor(
-		UImageRenderer* _Container,
-		std::string _ImageName,
-		int _Cursor,
-		int _OptionCount,
-		EPivotType _PivotType = EPivotType::LeftTop,
-		int _RelativePixelX = 0,
-		int _RelativePixelY = 0,
-		int _PixelGap = 16,
-		ERenderingOrder _Order = ERenderingOrder::UI2
+		AUIParent* _Parent,
+		ERenderingOrder _Order,
+		EPivotType _PivotType,
+		int _RelativePixelX,
+		int _RelativePixelY,
+		std::string _ImageName = RN::BlackCursor,
+		int _PixelGap = 16
 	);
 
 	APokemonElement* CreatePokemonElement(
-		UImageRenderer* _Container,
-		EPokemonElementType _ElementType,
-		EPivotType _PivotType = EPivotType::LeftTop,
-		int _RelativePixelX = 0,
-		int _RelativePixelY = 0,
-		ERenderingOrder _Order = ERenderingOrder::UI2
+		AUIParent* _Parent,
+		ERenderingOrder _Order,
+		EPivotType _PivotType,
+		int _RelativePixelX,
+		int _RelativePixelY,
+		EPokemonElementType _ElementType 
 	);
 
 	AImageElement* CreateImageElement(
-		UImageRenderer* _Container,
-		EPivotType _PivotType = EPivotType::LeftTop,
-		int _RelativePixelX = 0,
-		int _RelativePixelY = 0,
-		ERenderingOrder _Order = ERenderingOrder::UI2
+		AUIParent* _Parent,
+		ERenderingOrder _Order,
+		EPivotType _PivotType,
+		int _RelativePixelX,
+		int _RelativePixelY
 	);
 
 	AAnimationElement* CreateAnimationElement(
-		UImageRenderer* _Container,
-		std::string_view _ImageName,
-		EPivotType _PivotType = EPivotType::LeftTop,
-		int _RelativePixelX = 0,
-		int _RelativePixelY = 0,
-		ERenderingOrder _Order = ERenderingOrder::UI2
+		AUIParent* _Parent,
+		ERenderingOrder _Order,
+		EPivotType _PivotType,
+		int _RelativePixelX,
+		int _RelativePixelY,
+		std::string_view _ImageName
 	);
 
-protected:
-	virtual void Sync(ACanvas* _Other) {}
-	
-	void ContainerElementSyncOff()
-	{
-		ContainerElementSync = false;
-	}
+	// 에러 해결용 임시 함수
+	virtual void Sync(ACanvas* _Canvas) {};
 
-	void Tick(float _DeltaTime) override;
+protected:
 private:
-	bool ContainerElementSync = true;
-	std::map<UImageRenderer*, std::list<AUIElement*>> Elements;
 };
 

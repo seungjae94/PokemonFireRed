@@ -18,105 +18,97 @@ void APokemonSummaryCanvas::BeginPlay()
 	ACanvas::BeginPlay();
 
 	// 최상위 요소
-	Background = CreateImageRenderer(ERenderingOrder::UI0);
+	Background = CreateImageElement(this, ERenderingOrder::UI0, EPivotType::LeftTop, 0, 0);
 	Background->SetImage(RN::PokemonSummaryUIBackground);
-	UPokemonUtil::PlaceImageOnScreen(Background);
 
-	Nav = CreateImageRenderer(ERenderingOrder::UI1);
+	Nav = CreateImageElement(Background, ERenderingOrder::UI1, EPivotType::LeftTop, 0, 0);
 	Nav->SetImage(RN::PokemonSummaryUINavInfo);
-	UPokemonUtil::PlaceImageOnScreen(Nav);
 
-	CommonBox = CreateImageRenderer(ERenderingOrder::UI1);
+	CommonBox = CreateImageElement(Background, ERenderingOrder::UI1, EPivotType::LeftTop, 0, 16);
 	CommonBox->SetImage(RN::PokemonSummaryUICommonBox);
-	UPokemonUtil::PlaceImageOnScreen(CommonBox, EPivotType::LeftTop, 0, 16);
 
-	InfoBox = CreateImageRenderer(ERenderingOrder::UI1);
+	InfoBox = CreateImageElement(Background, ERenderingOrder::UI1, EPivotType::LeftTop, 0, 16);
 	InfoBox->SetImage(RN::PokemonSummaryUIInfoBox);
-	UPokemonUtil::PlaceImageOnScreen(InfoBox, EPivotType::LeftTop, 0, 16);
 
-	SkillsBox = CreateImageRenderer(ERenderingOrder::UI1);
+	SkillsBox = CreateImageElement(Background, ERenderingOrder::UI1, EPivotType::LeftTop, 0, 16);
 	SkillsBox->SetImage(RN::PokemonSummaryUISkillsBox);
-	UPokemonUtil::PlaceImageOnScreen(SkillsBox, EPivotType::LeftTop, 0, 16);
 
-	MovesBox = CreateImageRenderer(ERenderingOrder::UI1);
+	MovesBox = CreateImageElement(Background, ERenderingOrder::UI1, EPivotType::LeftTop, 119, 16);
 	MovesBox->SetImage(RN::PokemonSummaryUIMovesBox);
-	UPokemonUtil::PlaceImageOnScreen(MovesBox, EPivotType::LeftTop, 119, 16);
 
-	MovesDetailBox = CreateImageRenderer(ERenderingOrder::UI1);
+	MovesDetailBox = CreateImageElement(Background, ERenderingOrder::UI1, EPivotType::LeftTop, 0, 49);
 	MovesDetailBox->SetImage(RN::PokemonSummaryUIMovesDetailBox);
-	UPokemonUtil::PlaceImageOnScreen(MovesDetailBox, EPivotType::LeftTop, 0, 49);
 
-	SmallCommonBox = CreateImageRenderer(ERenderingOrder::UI1);
+	SmallCommonBox = CreateImageElement(Background, ERenderingOrder::UI1, EPivotType::LeftTop, 0, 16);
 	SmallCommonBox->SetImage(RN::PokemonSummaryUISmallCommonBox);
-	UPokemonUtil::PlaceImageOnScreen(SmallCommonBox, EPivotType::LeftTop, 0, 16);
 
 	// CommonBox 요소
-	NameText = CreateText(CommonBox, L"NAME", EPivotType::LeftTop, EAlignType::Left, 40, 13);
-	LevelText = CreateText(CommonBox, L"99", EPivotType::LeftTop, EAlignType::Left, 14, 13);
-	GenderIcon = CreateImageElement(CommonBox, EPivotType::LeftTop, 105, 3);
-	FrontImage = CreatePokemonElement(CommonBox, EPokemonElementType::Front, EPivotType::RightTop, -28, 17);
+	NameText = CreateText(CommonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 40, 13, EAlignType::Left);
+	LevelText = CreateText(CommonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 14, 13, EAlignType::Left);
+	GenderIcon = CreateImageElement(CommonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 105, 3);
+	FrontImage = CreatePokemonElement(CommonBox, ERenderingOrder::UI2, EPivotType::RightTop, -28, 17, EPokemonElementType::Front);
 
 	// InfoBox 요소
-	PokedexNoText = CreateText(InfoBox, L"000", EPivotType::RightTop, EAlignType::Left, -72, 15, EFontColor::Black2);
-	SpeciesNameText = CreateText(InfoBox, L"UNDEFINED", EPivotType::RightTop, EAlignType::Left, -72, 30, EFontColor::Black2);
-	TrainerText = CreateText(InfoBox, L"RED", EPivotType::RightTop, EAlignType::Left, -72, 60, EFontColor::Black2);
-	IdNoText = CreateText(InfoBox, L"00000", EPivotType::RightTop, EAlignType::Left, -72, 75, EFontColor::Black2);
-	ItemText = CreateText(InfoBox, L"NONE", EPivotType::RightTop, EAlignType::Left, -72, 90, EFontColor::Black2);
-	TrainerMemo = CreateText(InfoBox, L"XXXX Nature.", EPivotType::LeftBot, EAlignType::Left, 8, -33, EFontColor::Black2);
+	PokedexNoText = CreateText(InfoBox, ERenderingOrder::UI2, EPivotType::RightTop, -72, 15, EAlignType::Left, EFontColor::Black2);
+	SpeciesNameText = CreateText(InfoBox, ERenderingOrder::UI2, EPivotType::RightTop, -72, 30, EAlignType::Left, EFontColor::Black2);
+	TrainerText = CreateText(InfoBox, ERenderingOrder::UI2, EPivotType::RightTop, -72, 60, EAlignType::Left, EFontColor::Black2);
+	IdNoText = CreateText(InfoBox, ERenderingOrder::UI2, EPivotType::RightTop, -72, 75, EAlignType::Left, EFontColor::Black2);
+	ItemText = CreateText(InfoBox, ERenderingOrder::UI2, EPivotType::RightTop, -72, 90, EAlignType::Left, EFontColor::Black2);
+	TrainerMemo = CreateText(InfoBox, ERenderingOrder::UI2, EPivotType::LeftBot, 8, -33, EAlignType::Left, EFontColor::Black2);
 
 	for (int i = 0; i < 2; ++i)
 	{
-		AImageElement* TypeImage = CreateImageElement(InfoBox, EPivotType::RightTop, -41 + 34 * i, 35);
+		AImageElement* TypeImage = CreateImageElement(InfoBox, ERenderingOrder::UI2, EPivotType::RightTop, -41 + 34 * i, 35);
 		TypeImage->SetImage(RN::TypePlaceHolder);
 		TypeImages.push_back(TypeImage);
 	}
 
 	// SkillsBox 요소
-	HpText = CreateText(SkillsBox, L"27/30", EPivotType::RightTop, EAlignType::Right, -3, 15, EFontColor::Black2);
-	AtkText = CreateText(SkillsBox, L"16", EPivotType::RightTop, EAlignType::Right, -3, 33, EFontColor::Black2);
-	DefText = CreateText(SkillsBox, L"14", EPivotType::RightTop, EAlignType::Right, -3, 46, EFontColor::Black2);
-	SpAtkText = CreateText(SkillsBox, L"13", EPivotType::RightTop, EAlignType::Right, -3, 59, EFontColor::Black2);
-	SpDefText = CreateText(SkillsBox, L"12", EPivotType::RightTop, EAlignType::Right, -3, 72, EFontColor::Black2);
-	SpeedText = CreateText(SkillsBox, L"17", EPivotType::RightTop, EAlignType::Right, -3, 85, EFontColor::Black2);
-	AccExpText = CreateText(SkillsBox, L"570", EPivotType::RightTop, EAlignType::Right, -3, 98, EFontColor::Black2);
-	NextLevelExpText = CreateText(SkillsBox, L"172", EPivotType::RightTop, EAlignType::Right, -3, 111, EFontColor::Black2);
-	AbilityText = CreateText(SkillsBox, L"KEEN EYE", EPivotType::LeftTop, EAlignType::Left, 74, 124, EFontColor::Black2);
-	AbilityExplainText = CreateText(SkillsBox, L"Prevents loss of accuracy.", EPivotType::LeftBot, EAlignType::Left, 10, -5, EFontColor::Black2);
-	HpBar = CreateScrollBar(SkillsBox, EScrollType::Hp, 100, 100, EPivotType::RightTop, -55, 18);
-	ExpBar = CreateScrollBar(SkillsBox, EScrollType::Exp, 100, 100, EPivotType::RightBot, -71, -29);
+	HpText = CreateText(SkillsBox, ERenderingOrder::UI2, EPivotType::RightTop, -3, 15, EAlignType::Right, EFontColor::Black2);
+	AtkText = CreateText(SkillsBox, ERenderingOrder::UI2, EPivotType::RightTop, -3, 33, EAlignType::Right, EFontColor::Black2);
+	DefText = CreateText(SkillsBox, ERenderingOrder::UI2, EPivotType::RightTop, -3, 46, EAlignType::Right, EFontColor::Black2);
+	SpAtkText = CreateText(SkillsBox, ERenderingOrder::UI2, EPivotType::RightTop, -3, 59, EAlignType::Right, EFontColor::Black2);
+	SpDefText = CreateText(SkillsBox, ERenderingOrder::UI2, EPivotType::RightTop, -3, 72, EAlignType::Right, EFontColor::Black2);
+	SpeedText = CreateText(SkillsBox, ERenderingOrder::UI2, EPivotType::RightTop, -3, 85, EAlignType::Right, EFontColor::Black2);
+	AccExpText = CreateText(SkillsBox, ERenderingOrder::UI2, EPivotType::RightTop, -3, 98, EAlignType::Right, EFontColor::Black2);
+	NextLevelExpText = CreateText(SkillsBox, ERenderingOrder::UI2, EPivotType::RightTop, -3, 111, EAlignType::Right, EFontColor::Black2);
+	AbilityText = CreateText(SkillsBox, ERenderingOrder::UI2, EPivotType::LeftTop, 74, 124, EAlignType::Right, EFontColor::Black2);
+	AbilityExplainText = CreateText(SkillsBox, ERenderingOrder::UI2, EPivotType::LeftBot, 10, -5, EAlignType::Left, EFontColor::Black2);
+	HpBar = CreateScrollBar(SkillsBox, ERenderingOrder::UI2, EPivotType::RightTop, -55, 18, EScrollType::Hp);
+	ExpBar = CreateScrollBar(SkillsBox, ERenderingOrder::UI2, EPivotType::RightBot, -71, -29, EScrollType::Exp);
 
 	// MovesBox 요소
 	for (int i = 0; i < 4; ++i)
 	{
-		AText* MoveNameText = CreateText(MovesBox, L"-", EPivotType::LeftTop, EAlignType::Left, 43, 16 + 28 * i, EFontColor::Black2);
+		AText* MoveNameText = CreateText(MovesBox, ERenderingOrder::UI2, EPivotType::LeftTop, 43, 16 + 28 * i, EAlignType::Left, EFontColor::Black2);
 		MoveNameTexts.push_back(MoveNameText);
 
-		AText* MovePPText = CreateText(MovesBox, L"99/99", EPivotType::RightTop, EAlignType::Left, -33, 27 + 28 * i, EFontColor::Black2);
+		AText* MovePPText = CreateText(MovesBox, ERenderingOrder::UI2, EPivotType::RightTop, -33, 27 + 28 * i, EAlignType::Left, EFontColor::Black2);
 		MovePPTexts.push_back(MovePPText);
 
-		AImageElement* MoveTypeImage = CreateImageElement(MovesBox, EPivotType::LeftTop, 4, 5 + 28 * i);
+		AImageElement* MoveTypeImage = CreateImageElement(MovesBox, ERenderingOrder::UI2, EPivotType::LeftTop, 4, 5 + 28 * i);
 		MoveTypeImage->SetImage(RN::TypeBug);
 		MoveTypeImages.push_back(MoveTypeImage);
 	}
 
 	// SmallCommonBox 요소
-	SCBMiniStopImage = CreatePokemonElement(SmallCommonBox, EPokemonElementType::MiniStop, EPivotType::LeftTop, 6, 8);
-	SCBGenderIcon = CreateImageElement(SmallCommonBox, EPivotType::LeftTop, 105, 3);
+	SCBMiniStopImage = CreatePokemonElement(SmallCommonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 6, 8, EPokemonElementType::MiniStop);
+	SCBGenderIcon = CreateImageElement(SmallCommonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 105, 3);
 	SCBGenderIcon->SetImage(RN::BigGenderMarkMale);
-	SCBNameText = CreateText(SmallCommonBox, L"POKEMON", EPivotType::LeftTop, EAlignType::Left, 40, 13, EFontColor::White);
+	SCBNameText = CreateText(SmallCommonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 40, 13, EAlignType::Left, EFontColor::White);
 
 	for (int i = 0; i < 2; ++i)
 	{
-		AImageElement* TypeImage = CreateImageElement(SmallCommonBox, EPivotType::LeftTop, 48 + 36 * i, 19);
+		AImageElement* TypeImage = CreateImageElement(SmallCommonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 48 + 36 * i, 19);
 		TypeImage->SetImage(RN::TypeNormal);
 		SCBTypeImages.push_back(TypeImage);
 	}
 
 	// MovesDetailBox 요소
-	MovePowerText = CreateText(MovesDetailBox, L"120", EPivotType::RightTop, EAlignType::Right, -46, 19, EFontColor::Black);
-	MoveAccuracyText = CreateText(MovesDetailBox, L"100", EPivotType::RightTop, EAlignType::Right, -46, 33, EFontColor::Black);
-	MoveExplainText = CreateText(MovesDetailBox, L"Hello\nWorld", EPivotType::LeftBot, EAlignType::Left, 7, -50, EFontColor::Black);
-	MoveFocusCursor = CreateCursor(MovesDetailBox, RN::PokemonSummaryUIMoveFocus, 0, 5, EPivotType::RightTop, 119, -31, 28);
+	MovePowerText = CreateText(MovesDetailBox, ERenderingOrder::UI2, EPivotType::RightTop, -46, 19, EAlignType::Right, EFontColor::Black);
+	MoveAccuracyText = CreateText(MovesDetailBox, ERenderingOrder::UI2, EPivotType::RightTop, -46, 33, EAlignType::Right, EFontColor::Black);
+	MoveExplainText = CreateText(MovesDetailBox, ERenderingOrder::UI2, EPivotType::LeftBot, 7, -50, EAlignType::Left, EFontColor::Black);
+	MoveFocusCursor = CreateCursor(MovesDetailBox, ERenderingOrder::UI2, EPivotType::RightTop, 119, -31, RN::PokemonSummaryUIMoveFocus, 28);
 }
 
 void APokemonSummaryCanvas::RefreshAll()
@@ -214,7 +206,7 @@ void APokemonSummaryCanvas::RefreshMoveDetailBox()
 		{
 			MovePowerText->SetText(Pokemon->GetMovePowerW(Cursor));
 		}
-		
+
 		MoveAccuracyText->SetText(Pokemon->GetMoveAccuracyW(Cursor));
 		MoveExplainText->SetText(Pokemon->GetMoveExplainW(Cursor));
 	}
@@ -369,7 +361,7 @@ void APokemonSummaryCanvas::MovesDetailTick(float _DeltaTime)
 		RefreshMoveDetailBox();
 		return;
 	}
-	
+
 	if (true == UEngineInput::IsUp(VK_UP))
 	{
 		MoveFocusCursor->DecCursor();

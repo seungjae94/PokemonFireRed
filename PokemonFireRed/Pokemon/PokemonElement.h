@@ -12,7 +12,6 @@ enum class EPokemonElementType
 
 class APokemonElement : public AUIElement
 {
-	friend class ACanvas;
 public:
 	// constructor destructor
 	APokemonElement();
@@ -27,6 +26,11 @@ public:
 	void SetPokemon(const UPokemon* _Pokemon);
 	void SetPokemon(const UPokemon& _Pokemon);
 
+	void SetElementType(EPokemonElementType _ElementType)
+	{
+		ElementType = _ElementType;
+	}
+
 	void SetScaleFactor(float _Factor)
 	{
 		Renderer->SetScale(OriginalRenderScale * _Factor);
@@ -37,6 +41,6 @@ protected:
 private:
 	FVector OriginalRenderScale;
 	UImageRenderer* Renderer = nullptr;
-	EPokemonElementType Type = EPokemonElementType::MiniMove;
+	EPokemonElementType ElementType = EPokemonElementType::MiniMove;
 };
 
