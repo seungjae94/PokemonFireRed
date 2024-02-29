@@ -33,12 +33,12 @@ private:
 	AImageElement* MapNameBox = nullptr;
 	AText* MapNameText = nullptr;
 
-	FVector HidePos;
-	FVector ShowPos;
+	FVector HidePos = UPokemonUtil::PixelVector(0, -22);
+	FVector ShowPos = UPokemonUtil::PixelVector(0, 0);
 
 	EMapNameCanvasState State = EMapNameCanvasState::Hide;
 
-	float ChangeSpeed = 5.0f;
+	float ChangeSpeed = 3.0f;
 	float ChangeTime = 1 / ChangeSpeed;
 	float ShowTime = 3.0f;
 	float CurChangeTime = 0.0f;

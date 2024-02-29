@@ -500,7 +500,7 @@ bool UEventProcessor::ProcessChat()
 
 bool UEventProcessor::ProcessShowMapName()
 {
-	AMapNameCanvas* MapNameCanvas = UEventManager::FindCurLevelMapLevelCanvas<AMapNameCanvas>("MapNameCanvas");
+	AMapNameCanvas* MapNameCanvas = UEventManager::FindCurLevelMapLevelCanvas<AMapNameCanvas>(Global::MapNameWindow);
 
 	int CurIndexOfType = GetCurIndexOfType(EEventType::ShowMapName);
 	ES::ShowMapName& Data = CurStream->ShowMapNameDataSet[CurIndexOfType];
