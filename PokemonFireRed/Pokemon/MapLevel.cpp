@@ -106,8 +106,8 @@ void UMapLevel::Tick(float _DeltaTime)
 	// µð¹ö±ë ±â´É
 	if (UEngineInput::IsDown(VK_F1))
 	{
-		bool ActiveValue = Map->IsCollisionRendererActive();
-		Map->SetCollisionRendererActive(!ActiveValue);
+		//bool ActiveValue = Map->IsCollisionRendererActive();
+		//Map->SetCollisionRendererActive(!ActiveValue);
 	}
 
 	if (UEngineInput::IsDown(VK_F2))
@@ -117,8 +117,8 @@ void UMapLevel::Tick(float _DeltaTime)
 
 	if (UEngineInput::IsDown('O'))
 	{
-		bool ActiveValue = Map->IsCollisionRendererActive();
-		Map->SetCollisionRendererActive(!ActiveValue);
+		//bool ActiveValue = Map->IsCollisionRendererActive();
+		//Map->SetCollisionRendererActive(!ActiveValue);
 	}
 
 	if (UEngineInput::IsDown('F'))

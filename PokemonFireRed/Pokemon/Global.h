@@ -90,6 +90,8 @@ namespace Global
 namespace RN
 {
 	const std::string MenuWindowExplain = "MenuWindowExplain.png";
+	const std::string DialogueWindow = "DialogueWindow.png";
+	const std::string MapNameWindow = "MapNameWindow.png";
 
 	const std::string PokemonFront = "PokemonFront.png"; 
 	const std::string PokemonBack = "PokemonBack.png"; 

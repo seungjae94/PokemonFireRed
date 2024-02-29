@@ -18,6 +18,7 @@ public:
 
 	void AppendChild(AUIElement* _Element);
 	void SetActive(bool _Active, float _ActiveTime = 0.0f) override;
+	virtual FTransform GetUITransform() { return GetTransform(); };
 
 protected:
 	std::list<AUIElement*> Children;

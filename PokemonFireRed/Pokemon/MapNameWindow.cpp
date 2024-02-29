@@ -36,11 +36,13 @@ void AMapNameWindow::BeginPlay()
 	ACanvas::BeginPlay();
 
 	// 배경 이미지 생성
-	MapNameBox = CreateImageElement(this, ERenderingOrder::UI0, EPivotType::LeftTop, 0, 0);
-	MapNameBox->SetImage("MapNameWindow.png");
+	MapNameBox = CreateImageElement(this, ERenderingOrder::UI0, EPivotType::LeftTop, 0, 2);
+	MapNameBox->SetImage(RN::MapNameWindow);
 
 	// 텍스트 설정
 	MapNameText = CreateText(MapNameBox, ERenderingOrder::UI1, EPivotType::CenterBot, 0, -8, EAlignType::Center, EFontColor::Gray);
+
+	MapNameBox->SetActive(false);
 }
 
 void AMapNameWindow::Tick(float _DeltaTime)

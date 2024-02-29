@@ -41,7 +41,7 @@ void AMenuWindow::BeginPlay()
 	ACanvas::BeginPlay();
 
 	// ¸Þ´ºÃ¢
-	MenuBox = CreateImageElement(this, ERenderingOrder::UI0, EPivotType::RightTop, 0, 0);
+	MenuBox = CreateImageElement(this, ERenderingOrder::UI0, EPivotType::RightTop, -1, -2);
 	RefreshMenuBoxImage();
 
 	for (int i = 0; i < 5; i++)
@@ -58,6 +58,9 @@ void AMenuWindow::BeginPlay()
 	MenuExplainBox = CreateImageElement(this, ERenderingOrder::UI0, EPivotType::LeftBot, 0, 0);
 	MenuExplainBox->SetImage(RN::MenuWindowExplain);
 	MenuExplainText = CreateText(MenuExplainBox, ERenderingOrder::UI1, EPivotType::LeftTop, 2, 16, EAlignType::Left, EFontColor::White);
+
+	MenuBox->SetActive(false);
+	MenuExplainBox->SetActive(false);
 }
 
 void AMenuWindow::Tick(float _DeltaTime)

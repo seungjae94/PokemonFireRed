@@ -79,3 +79,8 @@ AAnimationElement* ACanvas::CreateAnimationElement(AUIParent* _Parent, ERenderin
 	Anim->SetRelativePosition(UPokemonUtil::PixelVector(_RelativePixelX, _RelativePixelY));
 	return Anim;
 }
+
+FTransform ACanvas::GetUITransform()
+{
+	return {Global::HalfScreen, Global::Screen};
+}

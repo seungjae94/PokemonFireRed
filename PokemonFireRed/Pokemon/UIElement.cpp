@@ -11,7 +11,7 @@ AUIElement::~AUIElement()
 
 void AUIElement::FollowParentPosition()
 {
-	FTransform ContainerTrans = Parent->GetTransform();
+	FTransform ContainerTrans = Parent->GetUITransform();
 	float ContainerWidth = ContainerTrans.GetScale().X;
 	float ContainerHeight = ContainerTrans.GetScale().Y;
 	switch (PivotType)

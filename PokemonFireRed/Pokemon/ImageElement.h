@@ -16,6 +16,8 @@ public:
 
 	void SetImage(std::string_view _ImageName);
 
+	FTransform GetUITransform() override;
+
 protected:
 
 private:

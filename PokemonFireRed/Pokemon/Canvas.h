@@ -75,6 +75,8 @@ public:
 		std::string_view _ImageName
 	);
 
+	FTransform GetUITransform() override;
+
 	// 에러 해결용 임시 함수
 	virtual void Sync(ACanvas* _Canvas) {};
 

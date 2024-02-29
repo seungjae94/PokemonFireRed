@@ -33,11 +33,13 @@ void ADialogueWindow::BeginPlay()
 	ACanvas::BeginPlay();
 
 	// 대화창
-	MsgBox = CreateImageElement(this, ERenderingOrder::UI0, EPivotType::LeftBot, 0, 0);
-	MsgBox->SetImage("DialogueWindow.png");
+	MsgBox = CreateImageElement(this, ERenderingOrder::UI0, EPivotType::LeftBot, 5, 0);
+	MsgBox->SetImage(RN::DialogueWindow);
 
 	// 대화 내용
 	Text = CreateText(MsgBox, ERenderingOrder::UI1, EPivotType::LeftTop, 11, 17);
+
+	MsgBox->SetActive(false);
 }
 
 void ADialogueWindow::Tick(float _DeltaTime)
