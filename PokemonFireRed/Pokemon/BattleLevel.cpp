@@ -34,6 +34,7 @@ void UBattleLevel::BeginPlay()
 
 	// 액터 생성
 	Canvas = SpawnActor<ABattleCanvas>();
+	BSSM = SpawnActor<ABattleStartStateManchine>();
 }
 
 void UBattleLevel::Tick(float _DeltaTime)
@@ -73,8 +74,7 @@ void UBattleLevel::LevelStart(ULevel* _PrevLevel)
 
 	// 배틀 레벨 상태 초기화
 	State = EBattleState::BattleStart;
-	BattleStartSubstate = EBattleStartSubstate::FadeWait;
-	Timer = FadeWaitTime;
+	BSSM->Start(Canvas);
 }
 
 void UBattleLevel::LevelEnd(ULevel* _NextLevel)
@@ -84,109 +84,7 @@ void UBattleLevel::LevelEnd(ULevel* _NextLevel)
 
 void UBattleLevel::ProcessBattleStart(float _DeltaTime)
 {
-	switch (BattleStartSubstate)
-	{
-	case EBattleStartSubstate::FadeWait:
-		ProcessBattleStartFadeWait(_DeltaTime);
-		break;
-	case EBattleStartSubstate::GroundMove:
-		ProcessBattleStartGroundMove(_DeltaTime);
-		break;
-	case EBattleStartSubstate::EnemyPokemonBoxMove:
-		ProcessBattleStartEnemyPokemonBoxMove(_DeltaTime);
-		break;
-	case EBattleStartSubstate::ZClickWait:
-		ProcessBattleStartZClickWait(_DeltaTime);
-		break;
-	case EBattleStartSubstate::PlayerBattlerThrow:
-		ProcessBattleStartPlayerBattlerThrow(_DeltaTime);
-		break;
-	case EBattleStartSubstate::PlayerPokemonTakeout:
-		ProcessBattleStartPlayerPokemonTakeout(_DeltaTime);
-		break;
-	case EBattleStartSubstate::PlayerPokemonBoxMove:
-		ProcessBattleStartPlayerPokemonBoxMove(_DeltaTime);
-		break;
-	default:
-		break;
-	}
-}
-
-void UBattleLevel::ProcessBattleStartFadeWait(float _DeltaTime)
-{
-	if (Timer <= 0.0f)
-	{
-		Timer = GroundMoveTime;
-		BattleStartSubstate = EBattleStartSubstate::GroundMove;
-	}
-}
-
-void UBattleLevel::ProcessBattleStartGroundMove(float _DeltaTime)
-{
-	Canvas->LerpShowGrounds(Timer/GroundMoveTime);
-
-	if (Timer <= 0.0f)
-	{
-		Timer = EnemyPokemonBoxMoveTime;
-		BattleStartSubstate = EBattleStartSubstate::EnemyPokemonBoxMove;
-	}
-}
-
-void UBattleLevel::ProcessBattleStartEnemyPokemonBoxMove(float _DeltaTime)
-{
-	Canvas->LerpShowEnemyPokemonBox(Timer / EnemyPokemonBoxMoveTime);
-
-	if (Timer <= 0.0f)
-	{
-		BattleStartSubstate = EBattleStartSubstate::ZClickWait;
-	}
-}
-
-void UBattleLevel::ProcessBattleStartZClickWait(float _DeltaTime)
-{
-	if (true == UEngineInput::IsDown('Z') || true == UEngineInput::IsDown('X'))
-	{
-		Timer = PlayerBattleThrowTime;
-		BattleStartSubstate = EBattleStartSubstate::PlayerBattlerThrow;
-		Canvas->PlayBattlerThrowingAnimation();
-		BallThrowAnimationPlayed = false;
-	}
-}
-
-void UBattleLevel::ProcessBattleStartPlayerBattlerThrow(float _DeltaTime)
-{
-	Canvas->HidePlayerBattler(PlayerBattleThrowTime, _DeltaTime);
-
-	if (Timer <= PlayerBattleThrowTime - BallThrowMotionWaitTime && false == BallThrowAnimationPlayed)
-	{
-		// 일정 시간이 지난 뒤 볼이 날아가는 애니메이션을 재생한다.
-		Canvas->PlayThrowedBallAnimation();
-		BallThrowAnimationPlayed = true;
-	}
-
-	if (Timer <= 0.0f)
-	{
-		Timer = PlayerPokemonTakeoutTime;
-		BattleStartSubstate = EBattleStartSubstate::PlayerPokemonTakeout;
-	}
-}
-
-void UBattleLevel::ProcessBattleStartPlayerPokemonTakeout(float _DeltaTime)
-{
-	Canvas->TakeOutPokemonFromBall(Timer / PlayerPokemonTakeoutTime);
-
-	if (Timer <= 0.0f)
-	{
-		Timer = PlayerPokemonBoxMoveTime;
-		BattleStartSubstate = EBattleStartSubstate::PlayerPokemonBoxMove;
-	}
-}
-
-void UBattleLevel::ProcessBattleStartPlayerPokemonBoxMove(float _DeltaTime)
-{
-	Canvas->LerpShowPlayerPokemonBox(Timer / EnemyPokemonBoxMoveTime);
-
-	if (Timer <= 0.0f)
+	if (true == BSSM->IsEnd())
 	{
 		State = EBattleState::PlayerAction;
 	}
