@@ -25,73 +25,62 @@ enum class Id
 };
 
 // 전역으로 사용할 상수를 정의한다.
-class Global
+namespace Global
 {
-public:
-	static const float CharacterWalkSpeed;
-	static const float CharacterJumpSpeed;
-	static const float CharacterWalkAnimFrameLength;
-	static const float CharacterJumpAnimFrameLength;
+	const float CharacterWalkSpeed = 3.6f;
+	const float CharacterJumpSpeed = 1.4f;
+	const float CharacterWalkAnimFrameLength = 1.0f / 8;
+	const float CharacterJumpAnimFrameLength = 1.0f / 48;
 
-	static const int PixelSize;
-	static const int ScreenX;
-	static const int ScreenY;
-	static const int ImageTileSize;
-	static const int TileSize;
-	static const int HalfScreenX;
-	static const int HalfScreenY;
+	const int PixelSize = 3;
+	const int ScreenX = (240 * PixelSize);
+	const int ScreenY = (160 * PixelSize);;
+	const int ImageTileSize = 16;
+	const int TileSize = (ImageTileSize * PixelSize);
+	const int HalfScreenX = (ScreenX / 2);
+	const int HalfScreenY = (ScreenY / 2);
 
-	static const float FloatPixelSize;
-	static const float FloatScreenX;
-	static const float FloatScreenY;
-	static const float FloatImageTileSize;
-	static const float FloatTileSize;
-	static const float FloatHalfScreenX;
-	static const float FloatHalfScreenY;
+	const float FloatPixelSize = static_cast<float>(3);
+	const float FloatScreenX = static_cast<float>(240 * PixelSize);
+	const float FloatScreenY = static_cast<float>(160 * PixelSize);
+	const float FloatImageTileSize = static_cast<float>(16);
+	const float FloatTileSize = static_cast<float>(ImageTileSize * PixelSize);
+	const float FloatHalfScreenX = static_cast<float>(ScreenX / 2);
+	const float FloatHalfScreenY = static_cast<float>(ScreenY / 2);
 
-	static const FVector Screen;
-	static const FVector HalfScreen;
-	static const FVector HpBarAreaRenderScale;
-	static const FVector ExpBarAreaRenderScale;
+	const FVector Screen = FVector(ScreenX, ScreenY);
+	const FVector HalfScreen = FVector(HalfScreenX, HalfScreenY);
+	const FVector HpBarAreaRenderScale = FVector(48.0f, 3.0f) * Global::FloatPixelSize;
+	const FVector ExpBarAreaRenderScale = FVector(64.0f, 3.0f) * Global::FloatPixelSize;
 
-	static const std::string SuffixUpperBody;
-	static const std::string SuffixLowerBody;
-
-	static const std::string TitleLevel;
-	static const std::string TutorialLevel;
-	static const std::string ExteriorPalletTownLevel;
-	static const std::string InteriorOaksLabLevel;
-	static const std::string InteriorRivalsHouseLevel;
-	static const std::string InteriorPlayersHouse1FLevel;
-	static const std::string InteriorPlayersHouse2FLevel;
-	static const std::string PokemonUILevel;
-	static const std::string PokemonSummaryUILevel;
-	static const std::string TrainerCardUILevel;
-	static const std::string WildBattleLevel;
-
-	static const std::string PokemonFrontPrefix;
-	static const std::string PokemonBackPrefix;
-	static const std::string PokemonMiniMovePrefix;
-	static const std::string PokemonMiniStopPrefix;
-
-	static const std::string PlayerBattlerIdle;
-	static const std::string PlayerBattlerThrow;
-	static const std::string ThrowedBall;
-
-	static const std::string Player;
-	static const std::string BlackScreen;
-	static const std::string WhiteScreen;
-	static const std::string CurtainScreen;
-	static const std::string FadeLevelChanger;
-	static const std::string WildBattleTrigger;
-
-	static const Color8Bit PixelColliderBlock;
-	static const Color8Bit PixelColliderBlockUpDown;
-protected:
-
-private:
-	Global() {}
-	~Global() {}
+	const std::string SuffixUpperBody = "UpperBody";
+	const std::string SuffixLowerBody = "LowerBody";
+	const std::string TitleLevel = "TitleLevel";
+	const std::string TutorialLevel = "TutorialLevel";
+	const std::string ExteriorPalletTownLevel = "ExteriorPalletTownLevel";
+	const std::string InteriorOaksLabLevel = "InteriorOaksLabLevel";
+	const std::string InteriorRivalsHouseLevel = "InteriorRivalsHouseLevel";
+	const std::string InteriorPlayersHouse1FLevel = "InteriorPlayersHouse1FLevel";
+	const std::string InteriorPlayersHouse2FLevel = "InteriorPlayersHouse2FLevel";
+	const std::string PokemonUILevel = "PokemonUILevel";
+	const std::string PokemonSummaryUILevel = "PokemonUISummaryLevel";
+	const std::string TrainerCardUILevel = "TrainerCardUILevel";
+	const std::string WildBattleLevel = "WildBattleLevel";
+	const std::string PokemonFrontPrefix = "PokemonFront";
+	const std::string PokemonBackPrefix = "PokemonBack";
+	const std::string PokemonMiniMovePrefix = "PokemonMiniMove";
+	const std::string PokemonMiniStopPrefix = "PokemonMiniStop";
+	const std::string PlayerBattlerIdle = "PlayerBattlerIdle";
+	const std::string PlayerBattlerThrow = "PlayerBattlerThrow";
+	const std::string ThrowedBall = "ThrowedBall";
+	const std::string Player = "Player";
+	const std::string BlackScreen = "BlackScreen";
+	const std::string WhiteScreen = "WhiteScreen";
+	const std::string CurtainScreen = "CurtainScreen";
+	const std::string FadeLevelChanger = "FadeLevelChanger";
+	const std::string WildBattleTrigger = "WildBattleTrigger";
+	const Color8Bit PixelColliderBlock(255, 0, 255, 0);
+	const Color8Bit PixelColliderBlockUpDown(255, 1, 255, 0);
 };
 
 // Resource Name
