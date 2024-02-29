@@ -55,6 +55,7 @@ namespace Global
 
 	const std::string SuffixUpperBody = "UpperBody";
 	const std::string SuffixLowerBody = "LowerBody";
+
 	const std::string TitleLevel = "TitleLevel";
 	const std::string TutorialLevel = "TutorialLevel";
 	const std::string ExteriorPalletTownLevel = "ExteriorPalletTownLevel";
@@ -72,6 +73,7 @@ namespace Global
 	const std::string PokemonMiniStopPrefix = "PokemonMiniStop";
 	const std::string PlayerBattlerIdle = "PlayerBattlerIdle";
 	const std::string PlayerBattlerThrow = "PlayerBattlerThrow";
+
 	const std::string ThrowedBall = "ThrowedBall";
 	const std::string Player = "Player";
 	const std::string BlackScreen = "BlackScreen";
@@ -79,98 +81,97 @@ namespace Global
 	const std::string CurtainScreen = "CurtainScreen";
 	const std::string FadeLevelChanger = "FadeLevelChanger";
 	const std::string WildBattleTrigger = "WildBattleTrigger";
+
 	const Color8Bit PixelColliderBlock(255, 0, 255, 0);
 	const Color8Bit PixelColliderBlockUpDown(255, 1, 255, 0);
 };
 
 // Resource Name
-class RN
+namespace RN
 {
-public:
-	static const std::string PokemonFront;
-	static const std::string PokemonBack;
-	static const std::string PokemonMini;
-	static const std::string PokemonFrontPlaceHolder;
-	static const std::string PokemonBackPlaceHolder;
-	static const std::string PokemonMiniPlaceHolder;
-	static const std::string GenderMarkMale;
-	static const std::string GenderMarkFemale;
-	static const std::string BigGenderMarkMale;
-	static const std::string BigGenderMarkFemale;
-	static const std::string HpBarRed;
-	static const std::string HpBarYellow;
-	static const std::string HpBarGreen;
-	static const std::string HpBarArea;
-	static const std::string ExpBar;
-	static const std::string ExpBarArea;
-	static const std::string BlackCursor;
-	static const std::string PokemonUIBackground;
-	static const std::string PokemonUITargetSelectionMsgBox;
-	static const std::string PokemonUIActionSelectionMsgBox;
-	static const std::string PokemonUISwitchSelectionMsgBox;
-	static const std::string PokemonUIActionBox;
-	static const std::string PokemonUIFirstBox;
-	static const std::string PokemonUIFirstFocusedBox;
-	static const std::string PokemonUIFirstFromBox;
-	static const std::string PokemonUIFirstToBox;
-	static const std::string PokemonUIEntryBox;
-	static const std::string PokemonUIEntryEmptyBox;
-	static const std::string PokemonUIEntryFocusedBox;
-	static const std::string PokemonUIEntryFromBox;
-	static const std::string PokemonUIEntryToBox;
-	static const std::string PokemonUICancel;
-	static const std::string PokemonUICancelFocused;
-	static const std::string PokemonSummaryUIBackground;
-	static const std::string PokemonSummaryUICommonBox;
-	static const std::string PokemonSummaryUISmallCommonBox;
-	static const std::string PokemonSummaryUIInfoBox;
-	static const std::string PokemonSummaryUISkillsBox;
-	static const std::string PokemonSummaryUIMovesBox;
-	static const std::string PokemonSummaryUIMovesDetailBox;
-	static const std::string PokemonSummaryUIMoveFocus;
-	static const std::string PokemonSummaryUINavInfo;
-	static const std::string PokemonSummaryUINavSkills;
-	static const std::string PokemonSummaryUINavMoves;
-	static const std::string PokemonSummaryUINavMovesDetail;
-	static const std::string TypeBug;
-	static const std::string TypeDark;
-	static const std::string TypeDragon;
-	static const std::string TypeElectric;
-	static const std::string TypeFighting;
-	static const std::string TypeFire;
-	static const std::string TypeFlying;
-	static const std::string TypeGhost;
-	static const std::string TypeGrass;
-	static const std::string TypeGround;
-	static const std::string TypeIce;
-	static const std::string TypeNormal;
-	static const std::string TypePoison;
-	static const std::string TypePsychic;
-	static const std::string TypeRock;
-	static const std::string TypeSteel;
-	static const std::string TypeWater;
-	static const std::string TypePlaceHolder;
-	static const std::string MaleTrainerCard;
+	const std::string PokemonFront = "PokemonFront.png"; 
+	const std::string PokemonBack = "PokemonBack.png"; 
+	const std::string PokemonMini = "PokemonMini.png"; 
+	const std::string PokemonFrontPlaceHolder = "PokemonFrontPlaceHolder.png"; 
+	const std::string PokemonBackPlaceHolder = "PokemonBackPlaceHolder.png"; 
+	const std::string PokemonMiniPlaceHolder = "PokemonMiniPlaceHolder.png"; 
+	const std::string GenderMarkMale = "GenderMarkMale.png"; 
+	const std::string GenderMarkFemale = "GenderMarkFemale.png"; 
+	const std::string BigGenderMarkMale = "BigGenderMarkMale.png"; 
+	const std::string BigGenderMarkFemale = "BigGenderMarkFemale.png"; 
+	const std::string HpBarRed = "HpBarRed.png"; 
+	const std::string HpBarYellow = "HpBarYellow.png"; 
+	const std::string HpBarGreen = "HpBarGreen.png"; 
+	const std::string HpBarArea = "HpBarArea.png"; 
+	const std::string ExpBar = "ExpBar.png"; 
+	const std::string ExpBarArea = "ExpBarArea.png"; 
+	const std::string BlackCursor = "BlackCursor.png"; 
 
-	static const std::string BgmTitleBattle;
-	static const std::string BgmTitleScreen;
-	static const std::string BgmTutorial;
-	static const std::string BgmPalletTown;
+	const std::string PokemonUIBackground = "UPBackground.png"; 
+	const std::string PokemonUITargetSelectionMsgBox = "UPTargetSelectionMsgBox.png"; 
+	const std::string PokemonUIActionSelectionMsgBox = "UPActionSelectionMsgBox.png"; 
+	const std::string PokemonUISwitchSelectionMsgBox = "UPSwitchSelectionMsgBox.png"; 
+	const std::string PokemonUIActionBox = "UPActionBox.png"; 
+	const std::string PokemonUIFirstBox = "UPFirst.png"; 
+	const std::string PokemonUIFirstFocusedBox = "UPFirstFocused.png"; 
+	const std::string PokemonUIFirstFromBox = "UPFirstFrom.png"; 
+	const std::string PokemonUIFirstToBox = "UPFirstTo.png"; 
+	const std::string PokemonUIEntryBox = "UPEntry.png"; 
+	const std::string PokemonUIEntryEmptyBox = "UPEntryEmpty.png"; 
+	const std::string PokemonUIEntryFocusedBox = "UPEntryFocused.png"; 
+	const std::string PokemonUIEntryFromBox = "UPEntryFrom.png"; 
+	const std::string PokemonUIEntryToBox = "UPEntryTo.png"; 
+	const std::string PokemonUICancel = "UPCancel.png"; 
 
-	static const std::string BattleLevel;
-	static const std::string BattleBackground;
-	static const std::string BattleMsgBox;
-	static const std::string BattleActionBox;
-	static const std::string BattleEnemyPokemonBox;
-	static const std::string BattlePlayerPokemonBox;
-	static const std::string BattleEnemyGround;
-	static const std::string BattlePlayerGround;
-	static const std::string PlayerBattler;
-protected:
+	const std::string PokemonUICancelFocused = "UPCancelFocused.png"; 
+	const std::string PokemonSummaryUIBackground = "UPSBackground.png"; 
+	const std::string PokemonSummaryUICommonBox = "UPSCommonBox.png"; 
+	const std::string PokemonSummaryUISmallCommonBox = "UPSSmallCommonBox.png"; 
+	const std::string PokemonSummaryUIInfoBox = "UPSInfoBox.png"; 
+	const std::string PokemonSummaryUISkillsBox = "UPSSkillsBox.png"; 
+	const std::string PokemonSummaryUIMovesBox = "UPSMovesBox.png"; 
+	const std::string PokemonSummaryUIMovesDetailBox = "UPSMovesDetailBox.png"; 
+	const std::string PokemonSummaryUIMoveFocus = "UPSMoveFocus.png"; 
+	const std::string PokemonSummaryUINavInfo = "UPSNavInfo.png"; 
+	const std::string PokemonSummaryUINavSkills = "UPSNavSkills.png"; 
+	const std::string PokemonSummaryUINavMoves = "UPSNavMoves.png"; 
+	const std::string PokemonSummaryUINavMovesDetail = "UPSNavMovesDetail.png"; 
 
-private:
-	RN() {}
-	~RN() {}
+	const std::string TypeBug = "TypeBug.png"; 
+	const std::string TypeDark = "TypeDark.png"; 
+	const std::string TypeDragon = "TypeDragon.png"; 
+	const std::string TypeElectric = "TypeElectric.png"; 
+	const std::string TypeFighting = "TypeFighting.png"; 
+	const std::string TypeFire = "TypeFire.png"; 
+	const std::string TypeFlying = "TypeFlying.png"; 
+	const std::string TypeGhost = "TypeGhost.png"; 
+	const std::string TypeGrass = "TypeGrass.png"; 
+	const std::string TypeGround = "TypeGround.png"; 
+	const std::string TypeIce = "TypeIce.png"; 
+	const std::string TypeNormal = "TypeNormal.png"; 
+	const std::string TypePoison = "TypePoison.png"; 
+	const std::string TypePsychic = "TypePsychic.png"; 
+	const std::string TypeRock = "TypeRock.png"; 
+	const std::string TypeSteel = "TypeSteel.png"; 
+	const std::string TypeWater = "TypeWater.png"; 
+	const std::string TypePlaceHolder = "TypePlaceHolder.png"; 
+
+	const std::string MaleTrainerCard = "MaleTrainerCard.png";
+
+	const std::string BgmTitleBattle = "TitleBattle.wav"; 
+	const std::string BgmTitleScreen = "TitleScreen.wav"; 
+	const std::string BgmTutorial = "Tutorial.wav"; 
+	const std::string BgmPalletTown = "PalletTown.wav"; 
+
+	const std::string BattleLevel = "BattleLevel"; 
+	const std::string BattleBackground = "BattleBackground.png"; 
+	const std::string BattleMsgBox = "BattleMsgBox.png"; 
+	const std::string BattleActionBox = "BattleActionBox.png"; 
+	const std::string BattleEnemyPokemonBox = "BattleEnemyPokemonBox.png"; 
+	const std::string BattlePlayerPokemonBox = "BattlePlayerPokemonBox.png"; 
+	const std::string BattleEnemyGround = "BattleEnemyGround.png"; 
+	const std::string BattlePlayerGround = "BattlePlayerGround.png"; 
+	const std::string PlayerBattler = "PlayerBattler.png"; 
 };
 
 enum ERenderingOrder

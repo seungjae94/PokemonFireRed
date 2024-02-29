@@ -308,9 +308,6 @@
     <ClCompile Include="ExteriorPalletTownLevel.cpp">
       <Filter>2. Level\2. MapLevel\0. Exterior Level</Filter>
     </ClCompile>
-    <ClCompile Include="Global.cpp">
-      <Filter>3. Util</Filter>
-    </ClCompile>
     <ClCompile Include="PokemonMath.cpp">
       <Filter>3. Util</Filter>
     </ClCompile>

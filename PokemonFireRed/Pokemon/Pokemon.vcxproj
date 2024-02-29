@@ -510,10 +510,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Global.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="InteriorOaksLabLevel.cpp">
       <SubType>
       </SubType>
