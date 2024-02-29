@@ -23,3 +23,4 @@ ID,NAME,NATK,NDEF,NSPATK,NSPDEF,NSPEED
 22,Relaxed,1,1.1,1,1,0.9
 23,Sassy,1,1,1,1.1,0.9
 24,Serious,0.9,1,1,1,1.1
+25,Timid,0.9,1,1,1,1.1

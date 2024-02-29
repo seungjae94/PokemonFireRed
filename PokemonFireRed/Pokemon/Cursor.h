@@ -35,16 +35,20 @@ public:
 	void SetOptionCount(int _OptionCount)
 	{
 		OptionCount = _OptionCount;
+
+		SetCursor(Cursor);
 	}
 
 	void IncCursor()
 	{
-		Cursor = UPokemonMath::Mod(Cursor + 1, OptionCount);
+		int NewCursor = UPokemonMath::Mod(Cursor + 1, OptionCount);
+		SetCursor(NewCursor);
 	}
 
 	void DecCursor()
 	{
-		Cursor = UPokemonMath::Mod(Cursor - 1, OptionCount);
+		int NewCursor = UPokemonMath::Mod(Cursor - 1, OptionCount);
+		SetCursor(NewCursor);
 	}
 
 	bool IsLast() const;

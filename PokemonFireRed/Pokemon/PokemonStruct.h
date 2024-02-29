@@ -131,7 +131,7 @@ struct FPokemonNature
 {
 public:
 	EPokemonNature Id = EPokemonNature::None;
-	std::string Name;
+	std::string Name = "None";
 	float NAtk = 1.0f;
 	float NDef = 1.0f;
 	float NSpAtk = 1.0f;

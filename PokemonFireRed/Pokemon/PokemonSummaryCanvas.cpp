@@ -108,7 +108,7 @@ void APokemonSummaryCanvas::BeginPlay()
 	MovePowerText = CreateText(MovesDetailBox, ERenderingOrder::UI2, EPivotType::RightTop, -46, 19, EAlignType::Right, EFontColor::Black);
 	MoveAccuracyText = CreateText(MovesDetailBox, ERenderingOrder::UI2, EPivotType::RightTop, -46, 33, EAlignType::Right, EFontColor::Black);
 	MoveExplainText = CreateText(MovesDetailBox, ERenderingOrder::UI2, EPivotType::LeftBot, 7, -50, EAlignType::Left, EFontColor::Black);
-	MoveFocusCursor = CreateCursor(MovesDetailBox, ERenderingOrder::UI3, EPivotType::RightTop, 0, 0, RN::PokemonSummaryUIMoveFocus, 28);
+	MoveFocusCursor = CreateCursor(MovesDetailBox, ERenderingOrder::UI3, EPivotType::LeftTop, 0, 0, RN::PokemonSummaryUIMoveFocus, 28);
 	MoveFocusCursor->SetOptionCount(5);
 }
 
@@ -215,16 +215,20 @@ void APokemonSummaryCanvas::RefreshMoveDetailBox()
 
 void APokemonSummaryCanvas::Reset()
 {
+	// UI를 다시 그린다.
 	State = EPokemonSummaryPageState::Info;
+	Nav->SetImage(RN::PokemonSummaryUINavInfo);
+	RefreshAll();
+
+	// 렌더링 여부 설정
 	Background->SetActive(true);
+	Nav->SetActive(true);
 	CommonBox->SetActive(true);
-	SmallCommonBox->SetActive(false);
 	InfoBox->SetActive(true);
 	SkillsBox->SetActive(false);
 	MovesBox->SetActive(false);
+	SmallCommonBox->SetActive(false);
 	MovesDetailBox->SetActive(false);
-	Nav->SetActive(true);
-	Nav->SetImage(RN::PokemonSummaryUINavInfo);
 }
 
 void APokemonSummaryCanvas::Tick(float _DeltaTime)
