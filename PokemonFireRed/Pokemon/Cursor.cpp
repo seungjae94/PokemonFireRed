@@ -11,16 +11,17 @@ ACursor::~ACursor()
 
 void ACursor::SetCursor(int _Cursor)
 {
+	Cursor = _Cursor;
+
 	if (nullptr == Renderer)
 	{
 		Renderer = CreateImageRenderer(RenderingOrder);
 		Renderer->CameraEffectOff();
+		Renderer->SetActive(IsActive());
 	}
 
 	Renderer->SetImage(ImageName);
 	UPokemonUtil::AlignImage(Renderer, PivotType);
-
-	Cursor = _Cursor;
 }
 
 bool ACursor::IsLast() const
@@ -32,7 +33,6 @@ void ACursor::FollowParentPosition()
 {
 	AUIElement::FollowParentPosition();
 
-	FVector AbsolutePos = Pivot + RelativePos;
-	AbsolutePos += UPokemonUtil::PixelVector(0, PixelGap * Cursor);
-	SetActorLocation(AbsolutePos);
+	FVector ActorPos = GetActorLocation();
+	SetActorLocation(ActorPos + UPokemonUtil::PixelVector(0, PixelGap * Cursor));
 }

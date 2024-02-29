@@ -30,17 +30,20 @@ public:
 		PrevMapLevelName = _Name;
 	}
 
-	// 커서 상태 초기화
+	// 캔버스 상태 초기화
 	void Reset()
 	{
 		TargetCursor = 0;
 		MemoryEntryCursor = 1;
 		ActionCursor->SetCursor(0);
-	}
 
-	void RefreshAll()
-	{
+		// 하위 요소 초기화
 		RefreshAllTargets();
+
+		// 렌더링 설정
+		ActionSelectionMsgBox->SetActive(false);
+		SwitchSelectionMsgBox->SetActive(false);
+		ActionBox->SetActive(false);
 	}
 
 	UPokemon* GetTargetPokemon()

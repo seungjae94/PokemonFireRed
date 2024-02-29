@@ -108,7 +108,8 @@ void APokemonSummaryCanvas::BeginPlay()
 	MovePowerText = CreateText(MovesDetailBox, ERenderingOrder::UI2, EPivotType::RightTop, -46, 19, EAlignType::Right, EFontColor::Black);
 	MoveAccuracyText = CreateText(MovesDetailBox, ERenderingOrder::UI2, EPivotType::RightTop, -46, 33, EAlignType::Right, EFontColor::Black);
 	MoveExplainText = CreateText(MovesDetailBox, ERenderingOrder::UI2, EPivotType::LeftBot, 7, -50, EAlignType::Left, EFontColor::Black);
-	MoveFocusCursor = CreateCursor(MovesDetailBox, ERenderingOrder::UI2, EPivotType::RightTop, 119, -31, RN::PokemonSummaryUIMoveFocus, 28);
+	MoveFocusCursor = CreateCursor(MovesDetailBox, ERenderingOrder::UI3, EPivotType::RightTop, 0, 0, RN::PokemonSummaryUIMoveFocus, 28);
+	MoveFocusCursor->SetOptionCount(5);
 }
 
 void APokemonSummaryCanvas::RefreshAll()

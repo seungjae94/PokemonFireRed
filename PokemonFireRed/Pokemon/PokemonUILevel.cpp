@@ -38,6 +38,5 @@ void UPokemonUILevel::LevelStart(ULevel* _PrevLevel)
 	{
 		Canvas->SetPrevMapLevelName(MapLevel->GetName());
 		Canvas->Reset();
-		Canvas->RefreshAll();
 	}
 }

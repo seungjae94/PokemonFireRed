@@ -76,12 +76,6 @@ void APokemonCanvas::BeginPlay()
 		EntryPokemonIcons.push_back(Icon);
 		EntryGenders.push_back(Gender);
 	}
-
-	ActionSelectionMsgBox->SetActive(false);
-	SwitchSelectionMsgBox->SetActive(false);
-	ActionBox->SetActive(false);
-
-	RefreshAllTargets();
 }
 
 void APokemonCanvas::Tick(float _DeltaTime)
