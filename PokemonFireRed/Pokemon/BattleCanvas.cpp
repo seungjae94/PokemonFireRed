@@ -21,7 +21,7 @@ void ABattleCanvas::Init(const UPokemon& _PlayerPokemon, const UPokemon& _EnemyP
 	ThrowedBall->SetActive(false);
 
 	// 아군 포켓몬 숨겨두기
-	PlayerPokemonImage->SetRelativePos(PlayerPokemonImageInitRelativePos);
+	PlayerPokemonImage->SetRelativePos(PlayerPokemonImageHideRelativePos);
 	PlayerPokemonImage->SetScaleFactor(0.0f);
 
 	// 적 UI는 왼쪽에 숨겨두기
@@ -198,9 +198,9 @@ void ABattleCanvas::BeginPlay()
 	UPokemonUtil::PlaceImageOnScreen(ThrowedBall, EPivotType::LeftBot, 30, -35);
 	ThrowedBall->CreateAnimation(Global::ThrowedBall, Global::ThrowedBall, 0, 11, 0.06f, false);
 
-	PlayerPokemonImage = CreatePokemonElement(PlayerGround, EPokemonElementType::Back, EPivotType::LeftTop, 36, -33, ERenderingOrder::UI3);
+	PlayerPokemonImage = CreatePokemonElement(PlayerGround, EPokemonElementType::Back, EPivotType::LeftTop, 35, -49, ERenderingOrder::UI3);
 	PlayerPokemonImageInitRelativePos = PlayerPokemonImage->GetRelativePos();
-	PlayerPokemonImageHideRelativePos = PlayerPokemonImageInitRelativePos + UPokemonUtil::PixelVector(0, 17);
+	PlayerPokemonImageHideRelativePos = PlayerPokemonImageInitRelativePos + UPokemonUtil::PixelVector(0, 32);
 }
 
 void ABattleCanvas::Tick(float _DeltaTime)
