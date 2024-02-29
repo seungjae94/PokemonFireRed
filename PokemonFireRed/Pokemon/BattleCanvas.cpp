@@ -21,6 +21,7 @@ void ABattleCanvas::Init(const UPokemon& _PlayerPokemon, const UPokemon& _EnemyP
 	ThrowedBall->SetActive(false);
 
 	// 아군 포켓몬 숨겨두기
+	PlayerPokemonImage->SetRelativePos(PlayerPokemonImageInitRelativePos);
 	PlayerPokemonImage->SetScaleFactor(0.0f);
 
 	// 적 UI는 왼쪽에 숨겨두기
@@ -30,6 +31,7 @@ void ABattleCanvas::Init(const UPokemon& _PlayerPokemon, const UPokemon& _EnemyP
 	// 아군 UI는 오른쪽에 숨겨두기
 	PlayerPokemonBox->SetPosition(PlayerPokemonBoxHidePos);
 	PlayerGround->SetPosition(PlayerGroundHidePos);
+	PlayerBattler->SetRelativePos(PlayerBattlerInitRelativePos);
 }
 
 void ABattleCanvas::PrepareElements(const UPokemon& _PlayerPokemon, const UPokemon& _EnemyPokemon)
@@ -83,16 +85,16 @@ void ABattleCanvas::PlayBattlerThrowingAnimation()
 	PlayerBattler->SetAnimation(Global::PlayerBattlerThrow);
 }
 
-void ABattleCanvas::HidePlayerBattler(float _HideTime, float _DeltaTime)
+void ABattleCanvas::LerpHidePlayerBattler(float _t)
 {
-	float Speed = Global::FloatHalfScreenX / _HideTime;
-	PlayerBattler->AddRelativePos(FVector::Left * Speed * _DeltaTime);
+	FVector PlayerBattlerRelativePos = UPokemonMath::Lerp(PlayerBattlerHideRelativePos, PlayerBattlerInitRelativePos, _t);
+	PlayerBattler->SetRelativePos(PlayerBattlerRelativePos);
 }
 
 void ABattleCanvas::PlayThrowedBallAnimation()
 {
 	ThrowedBall->SetActive(true);
-	ThrowedBall->ChangeAnimation(Global::ThrowedBall);
+	ThrowedBall->ChangeAnimation(Global::ThrowedBall, true);
 }
 
 void ABattleCanvas::TakeOutPokemonFromBall(float _t)
@@ -188,6 +190,8 @@ void ABattleCanvas::BeginPlay()
 	PlayerBattler = CreateAnimationElement(PlayerGround, RN::PlayerBattler, EPivotType::RightBot, -12, 0, ERenderingOrder::UI4);
 	PlayerBattler->CreateAnimation(Global::PlayerBattlerIdle, 0, 0, 0.0f, false);
 	PlayerBattler->CreateAnimation(Global::PlayerBattlerThrow, { 1, 2, 3, 4 }, { 0.28f, 0.14f, 0.07f, 0.07f }, false);
+	PlayerBattlerInitRelativePos = PlayerBattler->GetRelativePos();
+	PlayerBattlerHideRelativePos = PlayerBattlerInitRelativePos + UPokemonUtil::PixelVector(-120, 0);
 
 	ThrowedBall = CreateImageRenderer(ERenderingOrder::UI1);
 	ThrowedBall->SetImage(Global::ThrowedBall);

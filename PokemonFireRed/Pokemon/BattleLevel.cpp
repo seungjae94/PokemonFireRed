@@ -49,6 +49,10 @@ void UBattleLevel::Tick(float _DeltaTime)
 		ProcessBattleStart(_DeltaTime);
 		break;
 	case EBattleState::PlayerAction:
+		if (true == UEngineInput::IsDown('Z'))
+		{
+			UEventManager::FadeChangeLevel(PrevMapName);
+		}
 		break;
 	case EBattleState::PlayerMove:
 		break;
@@ -68,6 +72,8 @@ void UBattleLevel::Tick(float _DeltaTime)
 void UBattleLevel::LevelStart(ULevel* _PrevLevel)
 {
 	UPokemonLevel::LevelStart(_PrevLevel);
+
+	PrevMapName = _PrevLevel->GetName();
 
 	EnemyPokemon = UPlayerData::EnemyWildPokemon;
 	Canvas->Init(UPlayerData::GetPokemonInEntry(0), EnemyPokemon);

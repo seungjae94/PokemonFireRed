@@ -19,7 +19,7 @@ public:
 	UEngineWindow& operator=(UEngineWindow&& _Other) noexcept = delete;
 
 	// 실제 윈도우를 화면에 띄운다.
-	void Open(std::string_view _Title = "Title");
+	void Open(std::string_view _Title = "Pokemon FireRed");
 
 	// static 멤버 변수 hInstance를 초기화한다.
 	static void Init(HINSTANCE _hInst);

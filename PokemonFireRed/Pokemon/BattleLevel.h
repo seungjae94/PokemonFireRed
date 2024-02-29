@@ -29,6 +29,7 @@ public:
 
 protected:
 private:
+	std::string PrevMapName;
 	UPokemon EnemyPokemon;
 	ABattleCanvas* Canvas = nullptr;
 	ABattleStartStateManchine* BSSM = nullptr;

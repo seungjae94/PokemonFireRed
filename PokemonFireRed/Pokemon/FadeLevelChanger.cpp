@@ -32,6 +32,6 @@ void AFadeLevelChanger::RegisterPredefinedEvent()
 		>> ES::ChangeLevel(TargetLevelName)
 		>> ES::FadeIn(FadeInTime)
 		>> ES::Wait(FadeInTime)
-		>> ES::End(false)
+		>> ES::End(true)
 	);
 }

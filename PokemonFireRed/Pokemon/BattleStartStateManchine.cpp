@@ -89,7 +89,7 @@ void ABattleStartStateManchine::ProcessZClickWait(float _DeltaTime)
 
 void ABattleStartStateManchine::ProcessPlayerBattlerThrow(float _DeltaTime)
 {
-	Canvas->HidePlayerBattler(PlayerBattleThrowTime, _DeltaTime);
+	Canvas->LerpHidePlayerBattler(Timer / PlayerBattleThrowTime);
 
 	if (Timer <= PlayerBattleThrowTime - BallThrowMotionWaitTime && false == BallThrowAnimationPlayed)
 	{

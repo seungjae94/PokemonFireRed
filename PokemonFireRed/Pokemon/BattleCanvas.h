@@ -21,7 +21,7 @@ public:
 	void LerpShowGrounds(float _t);
 	void LerpShowEnemyPokemonBox(float _t);
 	void PlayBattlerThrowingAnimation();
-	void HidePlayerBattler(float _HideTime, float _DeltaTime);
+	void LerpHidePlayerBattler(float _t);
 	void PlayThrowedBallAnimation();
 	void TakeOutPokemonFromBall(float _t);
 	void LerpShowPlayerPokemonBox(float _t);
@@ -45,6 +45,8 @@ private:
 	FVector PlayerGroundHidePos;
 	FVector PlayerPokemonImageInitRelativePos;
 	FVector PlayerPokemonImageHideRelativePos;
+	FVector PlayerBattlerInitRelativePos;
+	FVector PlayerBattlerHideRelativePos;
 
 	// ¹è°æ
 	UImageRenderer* Background = nullptr;
