@@ -8,14 +8,14 @@
 #include "EventStream.h"
 #include "Player.h"
 #include "MapLevel.h"
-#include "MenuWindow.h"
-#include "DialogueWindow.h"
+#include "MenuCanvas.h"
+#include "DialogueCanvas.h"
 #include "BlackScreen.h"
 #include "WildBattleTrigger.h"
 
 std::string UEventManager::CurLevelName;
 ULevel* UEventManager::BattleLevel = nullptr;
-std::map<std::string, std::map<std::string, ACanvas*>> UEventManager::AllUIElements;
+std::map<std::string, std::map<std::string, ACanvas*>> UEventManager::AllMapLevelCanvas;
 std::map<std::string, std::map<std::string, AEventTarget*>> UEventManager::AllTargets;
 std::map<std::string, std::map<FTileVector, std::list<AEventTrigger*>>> UEventManager::AllTriggers;
 std::map<AEventTrigger*, UEventProcessor*> UEventManager::AllProcessors;
@@ -256,18 +256,18 @@ void UEventManager::AddPlayer(APlayer* _Player, const FTileVector& _Point)
 	}
 }
 
-void UEventManager::AddUIElement(ACanvas* _UIElement, std::string_view _Name)
+void UEventManager::AddMapLevelCanvas(ACanvas* _UIElement, std::string_view _Name)
 {
 	std::string LevelName = UEngineString::ToUpper(_UIElement->GetWorld()->GetName());
 	std::string Name = UEngineString::ToUpper(_Name.data());
 
-	if (true == AllUIElements[LevelName].contains(Name))
+	if (true == AllMapLevelCanvas[LevelName].contains(Name))
 	{
 		MsgBoxAssert("이미 등록된 UI 엘리먼트" + Name + "을 다시 등록하려고 했습니다.");
 		return;
 	}
 
-	AllUIElements[LevelName][Name] = _UIElement;
+	AllMapLevelCanvas[LevelName][Name] = _UIElement;
 }
 
 // 이벤트 구현
@@ -365,6 +365,40 @@ void UEventManager::WildBattle(const UPokemon& _Pokemon)
 
 
 	WildBattleTrigger->Trigger(_Pokemon);
+}
+
+void UEventManager::OpenMenuWindow()
+{
+	AMenuCanvas* Canvas = FindCurLevelMapLevelCanvas<AMenuCanvas>(Global::MenuWindow);
+
+	if (nullptr == Canvas)
+	{
+		MsgBoxAssert(CurLevelName + "에 메뉴창이 존재하지 않습니다.");
+		return;
+	}
+
+	APlayer* CurLevelPlayer = FindCurLevelTarget<APlayer>(Global::Player);
+	CurLevelPlayer->StateChange(EPlayerState::OutOfControl);
+	Canvas->Open();
+}
+
+void UEventManager::OpenDialogueWindow(const std::vector<std::wstring>& _Dialogue, EFontColor _Color, int _LineSpace, bool _IsSequential)
+{
+	ADialogueCanvas* Canvas = FindCurLevelMapLevelCanvas<ADialogueCanvas>(Global::DialogueWindow);
+
+	if (nullptr == Canvas)
+	{
+		MsgBoxAssert(CurLevelName + "에 메뉴창이 존재하지 않습니다.");
+		return;
+	}
+
+	APlayer* CurLevelPlayer = FindCurLevelTarget<APlayer>(Global::Player);
+	CurLevelPlayer->StateChange(EPlayerState::OutOfControl);
+	Canvas->Open(_Dialogue, _Color, _LineSpace, _IsSequential);
+}
+
+void UEventManager::ShowMapNameWindow()
+{
 }
 
 // 메모리 릴리즈

@@ -55,12 +55,6 @@
     <Filter Include="5. UI">
       <UniqueIdentifier>{3dd8a652-4bdb-4aa3-8532-0c7042e63c4c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="5. UI\Fade">
-      <UniqueIdentifier>{ec9a6e0d-ee67-425c-aa2c-d748506a7ac8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="5. UI\Window">
-      <UniqueIdentifier>{d71a5ab4-ae77-40de-bd65-1c7df6b2d98d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="5. UI\Element">
       <UniqueIdentifier>{677805ca-4377-4cce-a9e1-846959bd5647}</UniqueIdentifier>
     </Filter>
@@ -93,6 +87,12 @@
     </Filter>
     <Filter Include="2. Level\8. BattleLevel">
       <UniqueIdentifier>{b0506102-f58f-4ae7-983f-b06abe5ca310}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5. UI\MapLevelCanvas">
+      <UniqueIdentifier>{d71a5ab4-ae77-40de-bd65-1c7df6b2d98d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5. UI\MapLevelCanvas\Fade">
+      <UniqueIdentifier>{ec9a6e0d-ee67-425c-aa2c-d748506a7ac8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -175,10 +175,10 @@
       <Filter>2. Level\2. MapLevel\3. Actor\1. Trigger</Filter>
     </ClInclude>
     <ClInclude Include="BlackScreen.h">
-      <Filter>5. UI\Fade</Filter>
+      <Filter>5. UI\MapLevelCanvas\Fade</Filter>
     </ClInclude>
     <ClInclude Include="FadeScreen.h">
-      <Filter>5. UI\Fade</Filter>
+      <Filter>5. UI\MapLevelCanvas\Fade</Filter>
     </ClInclude>
     <ClInclude Include="Text.h">
       <Filter>5. UI\Element</Filter>
@@ -196,19 +196,19 @@
       <Filter>4. Event</Filter>
     </ClInclude>
     <ClInclude Include="WhiteScreen.h">
-      <Filter>5. UI\Fade</Filter>
+      <Filter>5. UI\MapLevelCanvas\Fade</Filter>
     </ClInclude>
     <ClInclude Include="CurtainScreen.h">
-      <Filter>5. UI\Fade</Filter>
+      <Filter>5. UI\MapLevelCanvas\Fade</Filter>
     </ClInclude>
-    <ClInclude Include="MenuWindow.h">
-      <Filter>5. UI\Window</Filter>
+    <ClInclude Include="MenuCanvas.h">
+      <Filter>5. UI\MapLevelCanvas</Filter>
     </ClInclude>
-    <ClInclude Include="DialogueWindow.h">
-      <Filter>5. UI\Window</Filter>
+    <ClInclude Include="DialogueCanvas.h">
+      <Filter>5. UI\MapLevelCanvas</Filter>
     </ClInclude>
-    <ClInclude Include="MapNameWindow.h">
-      <Filter>5. UI\Window</Filter>
+    <ClInclude Include="MapNameCanvas.h">
+      <Filter>5. UI\MapLevelCanvas</Filter>
     </ClInclude>
     <ClInclude Include="AnimatedFlower.h">
       <Filter>2. Level\2. MapLevel\4. Tile</Filter>
@@ -300,6 +300,9 @@
     <ClInclude Include="UIParent.h">
       <Filter>5. UI\Element</Filter>
     </ClInclude>
+    <ClInclude Include="FadeCanvas.h">
+      <Filter>5. UI\MapLevelCanvas</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PokemonCore.cpp">
@@ -378,10 +381,10 @@
       <Filter>2. Level\2. MapLevel\3. Actor\1. Trigger</Filter>
     </ClCompile>
     <ClCompile Include="BlackScreen.cpp">
-      <Filter>5. UI\Fade</Filter>
+      <Filter>5. UI\MapLevelCanvas\Fade</Filter>
     </ClCompile>
     <ClCompile Include="FadeScreen.cpp">
-      <Filter>5. UI\Fade</Filter>
+      <Filter>5. UI\MapLevelCanvas\Fade</Filter>
     </ClCompile>
     <ClCompile Include="Text.cpp">
       <Filter>5. UI\Element</Filter>
@@ -399,19 +402,19 @@
       <Filter>4. Event</Filter>
     </ClCompile>
     <ClCompile Include="WhiteScreen.cpp">
-      <Filter>5. UI\Fade</Filter>
+      <Filter>5. UI\MapLevelCanvas\Fade</Filter>
     </ClCompile>
     <ClCompile Include="CurtainScreen.cpp">
-      <Filter>5. UI\Fade</Filter>
+      <Filter>5. UI\MapLevelCanvas\Fade</Filter>
     </ClCompile>
-    <ClCompile Include="MenuWindow.cpp">
-      <Filter>5. UI\Window</Filter>
+    <ClCompile Include="MenuCanvas.cpp">
+      <Filter>5. UI\MapLevelCanvas</Filter>
     </ClCompile>
-    <ClCompile Include="DialogueWindow.cpp">
-      <Filter>5. UI\Window</Filter>
+    <ClCompile Include="DialogueCanvas.cpp">
+      <Filter>5. UI\MapLevelCanvas</Filter>
     </ClCompile>
-    <ClCompile Include="MapNameWindow.cpp">
-      <Filter>5. UI\Window</Filter>
+    <ClCompile Include="MapNameCanvas.cpp">
+      <Filter>5. UI\MapLevelCanvas</Filter>
     </ClCompile>
     <ClCompile Include="AnimatedFlower.cpp">
       <Filter>2. Level\2. MapLevel\4. Tile</Filter>
@@ -496,6 +499,9 @@
     </ClCompile>
     <ClCompile Include="UIParent.cpp">
       <Filter>5. UI\Element</Filter>
+    </ClCompile>
+    <ClCompile Include="FadeCanvas.cpp">
+      <Filter>5. UI\MapLevelCanvas</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

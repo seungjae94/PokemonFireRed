@@ -5,7 +5,7 @@
 #include "EventTarget.h"
 #include "EventTrigger.h"
 #include "EventManager.h"
-#include "MenuWindow.h"
+#include "MenuCanvas.h"
 #include "Pokemon.h"
 
 APlayer::APlayer()
@@ -166,8 +166,9 @@ void APlayer::Idle(float _DeltaTime)
 	}
 
 	// 2. 엔터 키를 눌렀다.
-	if (true == IsEnterDown() && true == TryMenuEvent())
+	if (true == IsEnterDown())
 	{
+		UEventManager::OpenMenuWindow();
 		return;
 	}
 
@@ -341,8 +342,9 @@ void APlayer::WalkInPlace(float _DeltaTime)
 	}
 
 	// 2. 엔터 키를 눌렀다.
-	if (true == IsEnterDown() && true == TryMenuEvent())
+	if (true == IsEnterDown())
 	{
+		UEventManager::OpenMenuWindow();
 		return;
 	}
 
@@ -576,20 +578,6 @@ bool APlayer::TryStepOnEvent()
 	bool RunResult = UEventManager::TriggerEvent(Trigger, EEventTriggerAction::StepOn);
 
 	return RunResult;
-}
-
-bool APlayer::TryMenuEvent()
-{
-	// 메뉴창 열기 이벤트 감지
-	AMenuWindow* MenuWindow = UEventManager::FindCurLevelUIElement<AMenuWindow>("MenuWindow");
-
-	if (nullptr == MenuWindow)
-	{
-		return false;
-	}
-
-	MenuWindow->Open();
-	return true;
 }
 
 bool APlayer::TryBattleEvent()

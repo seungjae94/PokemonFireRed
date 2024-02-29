@@ -1,4 +1,4 @@
-#include "MenuWindow.h"
+#include "MenuCanvas.h"
 #include <EnginePlatform/EngineInput.h>
 #include <EngineCore/EngineResourcesManager.h>
 #include "Global.h"
@@ -11,17 +11,17 @@
 #include "EventStream.h"
 #include "PlayerData.h"
 
-int AMenuWindow::MenuCount = 3;
+int AMenuCanvas::MenuCount = 3;
 
-AMenuWindow::AMenuWindow()
+AMenuCanvas::AMenuCanvas()
 {
 }
 
-AMenuWindow::~AMenuWindow()
+AMenuCanvas::~AMenuCanvas()
 {
 }
 
-void AMenuWindow::Open()
+void AMenuCanvas::Open()
 {
 	UEventManager::SetCurLevelPlayerState(EPlayerState::OutOfControl);
 	Refresh();
@@ -30,26 +30,24 @@ void AMenuWindow::Open()
 }
 
 
-void AMenuWindow::Close()
+void AMenuCanvas::Close()
 {
 	UEventManager::SetCurLevelPlayerState(EPlayerState::Idle);
 	SetActive(false);
 }
 
-void AMenuWindow::BeginPlay()
+void AMenuCanvas::BeginPlay()
 {
 	ACanvas::BeginPlay();
 
 	// 메뉴창
-	MenuBox = CreateImageElement(this, ERenderingOrder::UI0, EPivotType::RightTop, -1, -2);
-	RefreshMenuBoxImage();
+	MenuBox = CreateImageElement(this, ERenderingOrder::UI0, EPivotType::RightTop, -1, 2);
 
 	for (int i = 0; i < 5; i++)
 	{
 		AText* MenuText = CreateText(MenuBox, ERenderingOrder::UI1, EPivotType::LeftTop, 15, 18 + 15 * i, EAlignType::Left, EFontColor::Gray);
 		MenuTexts.push_back(MenuText);
 	}
-	RefreshMenuTexts();
 
 	// 메뉴창 커서
 	Cursor = CreateCursor(MenuBox, ERenderingOrder::UI1, EPivotType::LeftTop, 8, 9, RN::BlackCursor, 15);
@@ -59,15 +57,16 @@ void AMenuWindow::BeginPlay()
 	MenuExplainBox->SetImage(RN::MenuWindowExplain);
 	MenuExplainText = CreateText(MenuExplainBox, ERenderingOrder::UI1, EPivotType::LeftTop, 2, 16, EAlignType::Left, EFontColor::White);
 
+	// 초기 상태 설정
 	MenuBox->SetActive(false);
 	MenuExplainBox->SetActive(false);
 }
 
-void AMenuWindow::Tick(float _DeltaTime)
+void AMenuCanvas::Tick(float _DeltaTime)
 {
 	ACanvas::Tick(_DeltaTime);
 
-	// 이벤트 매니저가 MenuWindow를 ActiveOn한 다음 틱부터 로직을 실행한다.
+	// 이벤트 매니저가 MenuCanvas를 ActiveOn한 다음 틱부터 로직을 실행한다.
 	// - ActiveOn한 틱에는 UEngineInput::IsDown(VK_RETURN) 값이 true로 들어가 있기 때문이다.
 	if (IsFirstTick)
 	{
@@ -121,16 +120,15 @@ void AMenuWindow::Tick(float _DeltaTime)
 	}
 }
 
-void AMenuWindow::Refresh()
+void AMenuCanvas::Refresh()
 {
 	RefreshMenuBoxImage();
 	RefreshMenuTexts();
 	RefreshExplainText();
-
 	Cursor->SetOptionCount(MenuCount);
 }
 
-void AMenuWindow::MenuAction()
+void AMenuCanvas::MenuAction()
 {
 	int MenuIndex = GetMenuIndex();
 
@@ -154,14 +152,14 @@ void AMenuWindow::MenuAction()
 	}
 }
 
-void AMenuWindow::RefreshMenuBoxImage()
+void AMenuCanvas::RefreshMenuBoxImage()
 {
 	// 메뉴창
 	std::string ImageName = "MenuWindow" + std::to_string(MenuCount) + ".png";
 	MenuBox->SetImage(ImageName);
 }
 
-void AMenuWindow::RefreshMenuTexts()
+void AMenuCanvas::RefreshMenuTexts()
 {
 	// 메뉴 텍스트
 	for (int i = 0; i < MenuCount; i++)
@@ -174,7 +172,7 @@ void AMenuWindow::RefreshMenuTexts()
 	}
 }
 
-void AMenuWindow::RefreshExplainText()
+void AMenuCanvas::RefreshExplainText()
 {
 	MenuExplainText->SetActive(true);
 	MenuExplainText->SetText(MenuExplains[GetMenuIndex()]);

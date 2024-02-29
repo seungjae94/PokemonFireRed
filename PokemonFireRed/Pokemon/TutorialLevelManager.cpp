@@ -50,7 +50,7 @@ void ATutorialLevelManager::BeginPlay()
 
 void ATutorialLevelManager::Tick(float _DeltaTime)
 {
-	ABlackScreen* BlackScreen = UEventManager::FindCurLevelUIElement<ABlackScreen>("BlackScreen");
+	ABlackScreen* BlackScreen = UEventManager::FindCurLevelMapLevelCanvas<ABlackScreen>("BlackScreen");
 
 	if (FadingState == EFadeState::FadeOut)
 	{

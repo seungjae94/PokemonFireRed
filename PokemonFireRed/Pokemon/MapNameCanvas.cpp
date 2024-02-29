@@ -1,25 +1,25 @@
-#include "MapNameWindow.h"
+#include "MapNameCanvas.h"
 #include <EngineCore/EngineResourcesManager.h>
 #include "PokemonLevel.h"
 #include "PokemonMath.h"
 #include "PokemonUtil.h"
 
-AMapNameWindow::AMapNameWindow()
+AMapNameCanvas::AMapNameCanvas()
 {
 }
 
-AMapNameWindow::~AMapNameWindow()
+AMapNameCanvas::~AMapNameCanvas()
 {
 }
 
-void AMapNameWindow::Open(std::wstring_view _MapName)
+void AMapNameCanvas::Open(std::wstring_view _MapName)
 {
-	if (EMapNameWindowState::Hide != State)
+	if (EMapNameCanvasState::Hide != State)
 	{
 		// 이미 열려 있는 경우 빠르게 닫고 다시 연다.
 		WaitingReopen = true;
 		BackupString = _MapName;
-		State = EMapNameWindowState::Close;
+		State = EMapNameCanvasState::Close;
 
 		float CurProp = GetCurProp();
 		CurChangeTime = ChangeTime * CurProp;
@@ -28,10 +28,10 @@ void AMapNameWindow::Open(std::wstring_view _MapName)
 
 	MapNameText->SetText(_MapName);
 	CurChangeTime = ChangeTime;
-	State = EMapNameWindowState::Open;
+	State = EMapNameCanvasState::Open;
 }
 
-void AMapNameWindow::BeginPlay()
+void AMapNameCanvas::BeginPlay()
 {
 	ACanvas::BeginPlay();
 
@@ -45,21 +45,21 @@ void AMapNameWindow::BeginPlay()
 	MapNameBox->SetActive(false);
 }
 
-void AMapNameWindow::Tick(float _DeltaTime)
+void AMapNameCanvas::Tick(float _DeltaTime)
 {
 	ACanvas::Tick(_DeltaTime);
 
 	switch (State)
 	{
-	case EMapNameWindowState::Hide:
+	case EMapNameCanvasState::Hide:
 		break;
-	case EMapNameWindowState::Open:
+	case EMapNameCanvasState::Open:
 		OpenTick(_DeltaTime);
 		break;
-	case EMapNameWindowState::Close:
+	case EMapNameCanvasState::Close:
 		CloseTick(_DeltaTime);
 		break;
-	case EMapNameWindowState::Show:
+	case EMapNameCanvasState::Show:
 		ShowTick(_DeltaTime);
 		break;
 	default:
@@ -67,7 +67,7 @@ void AMapNameWindow::Tick(float _DeltaTime)
 	}
 }
 
-void AMapNameWindow::OpenTick(float _DeltaTime)
+void AMapNameCanvas::OpenTick(float _DeltaTime)
 {
 	CurChangeTime -= _DeltaTime;
 		
@@ -76,23 +76,23 @@ void AMapNameWindow::OpenTick(float _DeltaTime)
 
 	if (CurChangeTime < 0.0f)
 	{
-		State = EMapNameWindowState::Show;
+		State = EMapNameCanvasState::Show;
 		CurChangeTime = ShowTime;
 	}
 }
 
-void AMapNameWindow::ShowTick(float _DeltaTime)
+void AMapNameCanvas::ShowTick(float _DeltaTime)
 {
 	CurChangeTime -= _DeltaTime;
 
 	if (CurChangeTime < 0.0f)
 	{
-		State = EMapNameWindowState::Close;
+		State = EMapNameCanvasState::Close;
 		CurChangeTime = ChangeTime;
 	}
 }
 
-void AMapNameWindow::CloseTick(float _DeltaTime)
+void AMapNameCanvas::CloseTick(float _DeltaTime)
 {
 	CurChangeTime -= _DeltaTime;
 	
@@ -101,7 +101,7 @@ void AMapNameWindow::CloseTick(float _DeltaTime)
 
 	if (CurChangeTime < 0.0f)
 	{
-		State = EMapNameWindowState::Hide;
+		State = EMapNameCanvasState::Hide;
 
 		// Close 종료시 reopen 대기 중일 경우 열어준다.
 		if (true == WaitingReopen)

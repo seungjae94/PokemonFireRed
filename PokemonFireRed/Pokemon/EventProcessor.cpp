@@ -5,8 +5,8 @@
 #include "EventTrigger.h"
 #include "Player.h"
 #include "BlackScreen.h"
-#include "DialogueWindow.h"
-#include "MapNameWindow.h"
+#include "DialogueCanvas.h"
+#include "MapNameCanvas.h"
 
 UEventProcessor::UEventProcessor()
 {
@@ -299,13 +299,13 @@ bool UEventProcessor::ProcessFadeIn()
 	switch (Data.FadeType)
 	{
 	case EFadeType::Black:
-		FadeScreen = UEventManager::FindCurLevelUIElement<AFadeScreen>("BlackScreen");
+		FadeScreen = UEventManager::FindCurLevelMapLevelCanvas<AFadeScreen>("BlackScreen");
 		break;
 	case EFadeType::White:
-		FadeScreen = UEventManager::FindCurLevelUIElement<AFadeScreen>("WhiteScreen");
+		FadeScreen = UEventManager::FindCurLevelMapLevelCanvas<AFadeScreen>("WhiteScreen");
 		break;
 	case EFadeType::Curtain:
-		FadeScreen = UEventManager::FindCurLevelUIElement<AFadeScreen>("CurtainScreen");
+		FadeScreen = UEventManager::FindCurLevelMapLevelCanvas<AFadeScreen>("CurtainScreen");
 		break;
 	default:
 		MsgBoxAssert("아직 FadeIn 기능을 지원하지 않는 FadeType을 사용했습니다.");
@@ -327,13 +327,13 @@ bool UEventProcessor::ProcessFadeOut()
 	switch (Data.FadeType)
 	{
 	case EFadeType::Black:
-		FadeScreen = UEventManager::FindCurLevelUIElement<AFadeScreen>("BlackScreen");
+		FadeScreen = UEventManager::FindCurLevelMapLevelCanvas<AFadeScreen>("BlackScreen");
 		break;
 	case EFadeType::White:
-		FadeScreen = UEventManager::FindCurLevelUIElement<AFadeScreen>("WhiteScreen");
+		FadeScreen = UEventManager::FindCurLevelMapLevelCanvas<AFadeScreen>("WhiteScreen");
 		break;
 	case EFadeType::Curtain:
-		FadeScreen = UEventManager::FindCurLevelUIElement<AFadeScreen>("CurtainScreen");
+		FadeScreen = UEventManager::FindCurLevelMapLevelCanvas<AFadeScreen>("CurtainScreen");
 		break;
 	default:
 		MsgBoxAssert("아직 FadeOut 기능을 지원하지 않는 FadeType을 사용했습니다.");
@@ -350,7 +350,7 @@ bool UEventProcessor::ProcessHideUI()
 	int CurIndexOfType = GetCurIndexOfType(EEventType::HideUI);
 	ES::HideUI& Data = CurStream->HideUIDataSet[CurIndexOfType];
 
-	ACanvas* Element = UEventManager::FindCurLevelUIElement<ACanvas>(Data.ElementName);
+	ACanvas* Element = UEventManager::FindCurLevelMapLevelCanvas<ACanvas>(Data.ElementName);
 
 	if (nullptr == Element)
 	{
@@ -470,28 +470,28 @@ bool UEventProcessor::ProcessPlayAnimation()
 
 bool UEventProcessor::ProcessChat()
 {
-	ADialogueWindow* CurDialogueWindow = UEventManager::FindCurLevelUIElement<ADialogueWindow>("DialogueWindow");
+	ADialogueCanvas* CurDialogueCanvas = UEventManager::FindCurLevelMapLevelCanvas<ADialogueCanvas>("DialogueCanvas");
 
 	int CurIndexOfType = GetCurIndexOfType(EEventType::Chat);
 	ES::Chat& Data = CurStream->ChatDataSet[CurIndexOfType];
 
-	EDialogueWindowState State = CurDialogueWindow->GetState();
+	EDialogueCanvasState State = CurDialogueCanvas->GetState();
 
-	if (State == EDialogueWindowState::End)
+	if (State == EDialogueCanvasState::End)
 	{
-		CurDialogueWindow->SetState(EDialogueWindowState::Hide);
+		CurDialogueCanvas->SetState(EDialogueCanvasState::Hide);
 		return true;
 	}
 
-	if (State == EDialogueWindowState::Show)
+	if (State == EDialogueCanvasState::Show)
 	{
 		return false;
 	}
 
-	if (false == CurDialogueWindow->IsActive())
+	if (false == CurDialogueCanvas->IsActive())
 	{
-		CurDialogueWindow->SetActive(true);
-		CurDialogueWindow->SetDialogue(Data.Dialogue, Data.Color, Data.LineSpace, Data.IsSequential);
+		CurDialogueCanvas->SetActive(true);
+		CurDialogueCanvas->Open(Data.Dialogue, Data.Color, Data.LineSpace, Data.IsSequential);
 		return false;
 	}
 
@@ -500,13 +500,13 @@ bool UEventProcessor::ProcessChat()
 
 bool UEventProcessor::ProcessShowMapName()
 {
-	AMapNameWindow* MapNameWindow = UEventManager::FindCurLevelUIElement<AMapNameWindow>("MapNameWindow");
+	AMapNameCanvas* MapNameCanvas = UEventManager::FindCurLevelMapLevelCanvas<AMapNameCanvas>("MapNameCanvas");
 
 	int CurIndexOfType = GetCurIndexOfType(EEventType::ShowMapName);
 	ES::ShowMapName& Data = CurStream->ShowMapNameDataSet[CurIndexOfType];
-	MapNameWindow->SetActive(true);
-	MapNameWindow->AllRenderersActiveOn();
-	MapNameWindow->Open(Data.MapName);
+	MapNameCanvas->SetActive(true);
+	MapNameCanvas->AllRenderersActiveOn();
+	MapNameCanvas->Open(Data.MapName);
 	return true;
 }
 
@@ -526,17 +526,17 @@ bool UEventProcessor::ProcessChangeLevel()
 
 	// 여러 레벨의 페이드 스크린을 같은 상태로 만들기
 	for (std::pair<const std::string, ACanvas*>& Pair 
-		: UEventManager::AllUIElements[PrevLevelName])
+		: UEventManager::AllMapLevelCanvas[PrevLevelName])
 	{
 		std::string PrevElementName = Pair.first;
 		ACanvas* PrevElement = Pair.second;
 
-		if (false == UEventManager::AllUIElements[NextLevelName].contains(PrevElementName))
+		if (false == UEventManager::AllMapLevelCanvas[NextLevelName].contains(PrevElementName))
 		{
 			continue;
 		}
 
-		ACanvas* NextElement = UEventManager::AllUIElements[NextLevelName][PrevElementName];
+		ACanvas* NextElement = UEventManager::AllMapLevelCanvas[NextLevelName][PrevElementName];
 		NextElement->Sync(PrevElement);
 	}
 

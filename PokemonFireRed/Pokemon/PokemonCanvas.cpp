@@ -37,7 +37,7 @@ void APokemonCanvas::BeginPlay()
 	EntryBoxes.reserve(6);
 	for (int i = 1; i < 6; ++i)
 	{
-		AImageElement* EntryBox = CreateImageElement(Background, ERenderingOrder::UI1, EPivotType::RightBot, 0, 0);
+		AImageElement* EntryBox = CreateImageElement(Background, ERenderingOrder::UI1, EPivotType::RightTop, 0, 0);
 		EntryBoxes.push_back(EntryBox);
 	}
 	CancelButton = CreateImageElement(Background, ERenderingOrder::UI1, EPivotType::RightBot, 0, 0);

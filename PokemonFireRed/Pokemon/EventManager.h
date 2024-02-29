@@ -59,35 +59,39 @@ public:
 	
 	static void WildBattle(const UPokemon& _Pokemon);
 
+	static void OpenMenuWindow();
+
+	static void OpenDialogueWindow(const std::vector<std::wstring>& _Dialogue, EFontColor _Color, int _LineSpace = 14, bool _IsSequential = false);
+
+	static void ShowMapNameWindow();
+
 	// 찾기 편의 함수
-	template <typename UIType>
-	static UIType* FindUIElement(std::string_view _LevelName, std::string_view _ElementName)
+	template <typename CanvasType>
+	static CanvasType* FindMapLevelCanvas(std::string_view _LevelName, std::string_view _CanvasName)
 	{
 		std::string LevelName = UEngineString::ToUpper(_LevelName);
-		std::string ElementName = UEngineString::ToUpper(_ElementName);
+		std::string CanvasName = UEngineString::ToUpper(_CanvasName);
 
-		if (false == AllUIElements.contains(LevelName) || false == AllUIElements[LevelName].contains(ElementName))
+		if (false == AllMapLevelCanvas.contains(LevelName) || false == AllMapLevelCanvas[LevelName].contains(CanvasName))
 		{
-			//MsgBoxAssert(LevelName + ":" + TargetName + "은 존재하지 않는 UI 엘리먼트입니다. FindUIElement 실행에 실패했습니다.");
 			return nullptr;
 		}
 
-		ACanvas* Element = AllUIElements[LevelName][ElementName];
-		UIType* Result = dynamic_cast<UIType*>(Element);
+		ACanvas* Element = AllMapLevelCanvas[LevelName][CanvasName];
+		CanvasType* Result = dynamic_cast<CanvasType*>(Element);
 		
 		if (nullptr == Result)
 		{
-			//MsgBoxAssert(LevelName + ":" + TargetName + "의 다운 캐스팅에 실패했습니다. FindUIElement 실행에 실패했습니다.");
 			return nullptr;
 		}
 
 		return Result;
 	}
 	
-	template <typename UIType>
-	static UIType* FindCurLevelUIElement(std::string_view _TargetName)
+	template <typename CanvasType>
+	static CanvasType* FindCurLevelMapLevelCanvas(std::string_view _CanvasName)
 	{
-		return FindUIElement<UIType>(CurLevelName, _TargetName);
+		return FindMapLevelCanvas<CanvasType>(CurLevelName, _CanvasName);
 	}
 
 	template <typename TargetType>
@@ -98,7 +102,6 @@ public:
 
 		if (false == AllTargets.contains(LevelName) || false == AllTargets[LevelName].contains(TargetName))
 		{
-			//MsgBoxAssert(LevelName + ":" + TargetName + "은 존재하지 않는 이벤트 타겟입니다. FindTarget 실행에 실패했습니다.");
 			return nullptr;
 		}
 
@@ -107,7 +110,6 @@ public:
 
 		if (nullptr == Result)
 		{
-			//MsgBoxAssert(LevelName + ":" + TargetName + "의 다운 캐스팅에 실패했습니다. FindTarget 실행에 실패했습니다.");
 			return nullptr;
 		}
 
@@ -203,9 +205,9 @@ private:
 	static std::string CurLevelName;
 	static ULevel* BattleLevel;
 
-	// AllMenuWindows[LevelName][ElementName]
+	// AllMapLevelCanvas[LevelName][ElementName]
 	// - 메뉴창, 대화창도 커서 이동 등 플레이어 타입으로 다뤄야 할 일이 있기 때문에 추가로 보관한다.
-	static std::map<std::string, std::map<std::string, ACanvas*>> AllUIElements;
+	static std::map<std::string, std::map<std::string, ACanvas*>> AllMapLevelCanvas;
 
 	// AllTargets[LevelName][TargetName]
 	// - 'A레벨의 B라는 이름의 액터를 이동시켜줘'라는 요청을 처리하려면 A레벨의 B라는 이름의 액터를 찾을 수 있어야 한다.
@@ -227,7 +229,7 @@ private:
 	static void AddTarget(AEventTarget* _Target, const UEventTargetInit& _Setting);
 	static void AddTrigger(AEventTrigger* _Trigger, const UEventTargetInit& _Setting);
 	static void AddPlayer(APlayer* _Player, const FTileVector& _Point);
-	static void AddUIElement(ACanvas* _UIElement, std::string_view _Name);
+	static void AddMapLevelCanvas(ACanvas* _Canvas, std::string_view _Name);
 
 	// DeltaTime 기록
 	static float DeltaTime;

@@ -183,6 +183,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="FadeCanvas.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="UIParent.h">
       <SubType>
       </SubType>
@@ -211,7 +215,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="DialogueWindow.h">
+    <ClInclude Include="DialogueCanvas.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -295,11 +299,11 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="MapNameWindow.h">
+    <ClInclude Include="MapNameCanvas.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="MenuWindow.h">
+    <ClInclude Include="MenuCanvas.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -450,6 +454,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="FadeCanvas.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="UIParent.cpp">
       <SubType>
       </SubType>
@@ -478,7 +486,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="DialogueWindow.cpp">
+    <ClCompile Include="DialogueCanvas.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -558,11 +566,11 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="MapNameWindow.cpp">
+    <ClCompile Include="MapNameCanvas.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="MenuWindow.cpp">
+    <ClCompile Include="MenuCanvas.cpp">
       <SubType>
       </SubType>
     </ClCompile>

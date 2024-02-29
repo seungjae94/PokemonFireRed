@@ -3,8 +3,8 @@
 #include "EventManager.h"
 #include "EventTrigger.h"
 #include "Player.h"
-#include "MenuWindow.h"
-#include "DialogueWindow.h"
+#include "MenuCanvas.h"
+#include "DialogueCanvas.h"
 #include "FadeLevelChanger.h"
 
 // 포켓몬 게임의 모든 레벨이 공통적으로 수행해야 하는 Tick 동작을 정의하는 클래스
@@ -37,11 +37,11 @@ public:
 		return Player;
 	}
 
-	template <typename UIElementType>
-	UIElementType* SpawnUIElement(std::string_view _Name)
+	template <typename CanvasType>
+	CanvasType* SpawnMapLevelCanvas(std::string_view _Name)
 	{
-		UIElementType* UIElement = SpawnActor<UIElementType>();
-		UEventManager::AddUIElement(UIElement, _Name);
+		CanvasType* UIElement = SpawnActor<CanvasType>();
+		UEventManager::AddMapLevelCanvas(UIElement, _Name);
 		return UIElement;
 	}
 

@@ -29,5 +29,5 @@ FTransform AImageElement::GetUITransform()
 		Renderer->CameraEffectOff();
 	}
 
-	return Renderer->GetTransform();
+	return Renderer->GetActorBaseTransform();
 }

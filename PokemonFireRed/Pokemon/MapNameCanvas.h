@@ -3,7 +3,7 @@
 #include "Text.h"
 #include "Global.h"
 
-enum class EMapNameWindowState
+enum class EMapNameCanvasState
 {
 	Hide,
 	Open,
@@ -11,18 +11,18 @@ enum class EMapNameWindowState
 	Show,
 };
 
-class AMapNameWindow : public ACanvas
+class AMapNameCanvas : public ACanvas
 {
 public:
 	// constructor destructor
-	AMapNameWindow();
-	~AMapNameWindow();
+	AMapNameCanvas();
+	~AMapNameCanvas();
 
 	// delete Function
-	AMapNameWindow(const AMapNameWindow& _Other) = delete;
-	AMapNameWindow(AMapNameWindow&& _Other) noexcept = delete;
-	AMapNameWindow& operator=(const AMapNameWindow& _Other) = delete;
-	AMapNameWindow& operator=(AMapNameWindow&& _Other) noexcept = delete;
+	AMapNameCanvas(const AMapNameCanvas& _Other) = delete;
+	AMapNameCanvas(AMapNameCanvas&& _Other) noexcept = delete;
+	AMapNameCanvas& operator=(const AMapNameCanvas& _Other) = delete;
+	AMapNameCanvas& operator=(AMapNameCanvas&& _Other) noexcept = delete;
 
 	void Open(std::wstring_view _MapName);
 
@@ -36,7 +36,7 @@ private:
 	FVector HidePos;
 	FVector ShowPos;
 
-	EMapNameWindowState State = EMapNameWindowState::Hide;
+	EMapNameCanvasState State = EMapNameCanvasState::Hide;
 
 	float ChangeSpeed = 5.0f;
 	float ChangeTime = 1 / ChangeSpeed;

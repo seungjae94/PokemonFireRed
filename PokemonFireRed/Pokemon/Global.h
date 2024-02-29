@@ -16,9 +16,9 @@ enum class Id
 	NES = 1000,
 	StairTo1F,
 	StairTo2F,
-	MenuWindow = 2000,
-	DialogueWindow,
-	MapNameWindow,
+	MenuCanvas = 2000,
+	DialogueCanvas,
+	MapNameCanvas,
 	BlackScreen,
 	WhiteScreen,
 	CurtainScreen
@@ -79,6 +79,9 @@ namespace Global
 	const std::string BlackScreen = "BlackScreen";
 	const std::string WhiteScreen = "WhiteScreen";
 	const std::string CurtainScreen = "CurtainScreen";
+	const std::string MenuWindow = "MenuWindow";
+	const std::string DialogueWindow = "DialogueWindow";
+	const std::string MapNameWindow = "MapNameWindow";
 	const std::string FadeLevelChanger = "FadeLevelChanger";
 	const std::string WildBattleTrigger = "WildBattleTrigger";
 

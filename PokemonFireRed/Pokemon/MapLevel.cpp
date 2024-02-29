@@ -11,9 +11,9 @@
 #include "EventStream.h"
 #include "Player.h"
 #include "Map.h"
-#include "MenuWindow.h"
-#include "DialogueWindow.h"
-#include "MapNameWindow.h"
+#include "MenuCanvas.h"
+#include "DialogueCanvas.h"
+#include "MapNameCanvas.h"
 #include "AnimatedFlower.h"
 #include "AnimatedSea.h"
 #include "WildBattleTrigger.h"
@@ -76,16 +76,16 @@ void UMapLevel::BeginPlay()
 	Map->SetCollisionRendererActive(false);
 
 	// 메뉴창 생성
-	MenuWindow = SpawnUIElement<AMenuWindow>("MenuWindow");
-	MenuWindow->SetActive(false);
+	AMenuCanvas* MenuCanvas = SpawnMapLevelCanvas<AMenuCanvas>(Global::MenuWindow);
+	MenuCanvas->SetActive(false);
 
 	// 대화창 생성
-	DialogueWindow = SpawnUIElement<ADialogueWindow>("DialogueWindow");
-	DialogueWindow->SetActive(false);
+	ADialogueCanvas* DialogueCanvas = SpawnMapLevelCanvas<ADialogueCanvas>(Global::DialogueWindow);
+	DialogueCanvas->SetActive(false);
 
 	// 맵 이름 표시창 생성
-	MapNameWindow = SpawnUIElement<AMapNameWindow>("MapNameWindow");
-	MapNameWindow->SetActive(false);
+	AMapNameCanvas* MapNameCanvas = SpawnMapLevelCanvas<AMapNameCanvas>(Global::MapNameWindow);
+	MapNameCanvas->SetActive(false);
 
 	// 야생 배틀 트리거 생성
 	SpawnEventTrigger<AWildBattleTrigger>(Global::WildBattleTrigger);

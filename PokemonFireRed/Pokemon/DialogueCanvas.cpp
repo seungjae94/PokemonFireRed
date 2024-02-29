@@ -1,4 +1,4 @@
-#include "DialogueWindow.h"
+#include "DialogueCanvas.h"
 #include <vector>
 #include <EnginePlatform/EngineInput.h>
 #include <EngineCore/ImageRenderer.h>
@@ -8,27 +8,27 @@
 #include "PokemonUtil.h"
 #include "Global.h"
 
-ADialogueWindow::ADialogueWindow()
+ADialogueCanvas::ADialogueCanvas()
 {
 }
 
-ADialogueWindow::~ADialogueWindow()
+ADialogueCanvas::~ADialogueCanvas()
 {
 }
 
-void ADialogueWindow::SetDialogue(const std::vector<std::wstring>& _Dialogue, EFontColor _Color, int _LineSpace, bool _IsSequential)
+void ADialogueCanvas::Open(const std::vector<std::wstring>& _Dialogue, EFontColor _Color, int _LineSpace, bool _IsSequential)
 {
 	Dialogue = _Dialogue;
 	Text->SetColor(_Color);
 	Text->SetLineSpace(_LineSpace);
 	Text->SetSequential(_IsSequential);
 	Text->SetText(Dialogue[0]);
-	State = EDialogueWindowState::Show;
+	State = EDialogueCanvasState::Show;
 
 	IsFirstTick = true;
 }
 
-void ADialogueWindow::BeginPlay()
+void ADialogueCanvas::BeginPlay()
 {
 	ACanvas::BeginPlay();
 
@@ -42,7 +42,7 @@ void ADialogueWindow::BeginPlay()
 	MsgBox->SetActive(false);
 }
 
-void ADialogueWindow::Tick(float _DeltaTime)
+void ADialogueCanvas::Tick(float _DeltaTime)
 {
 	ACanvas::Tick(_DeltaTime);
 
@@ -66,7 +66,7 @@ void ADialogueWindow::Tick(float _DeltaTime)
 		if (Index >= Dialogue.size())
 		{
 			Index = 0;
-			State = EDialogueWindowState::End;
+			State = EDialogueCanvasState::End;
 			Dialogue.clear();
 			SetActive(false);
 			return;

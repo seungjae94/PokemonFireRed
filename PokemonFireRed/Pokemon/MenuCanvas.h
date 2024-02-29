@@ -4,18 +4,18 @@
 
 class AEventTrigger;
 
-class AMenuWindow : public ACanvas
+class AMenuCanvas : public ACanvas
 {
 public:
 	// constructor destructor
-	AMenuWindow();
-	~AMenuWindow();
+	AMenuCanvas();
+	~AMenuCanvas();
 
 	// delete Function
-	AMenuWindow(const AMenuWindow& _Other) = delete;
-	AMenuWindow(AMenuWindow&& _Other) noexcept = delete;
-	AMenuWindow& operator=(const AMenuWindow& _Other) = delete;
-	AMenuWindow& operator=(AMenuWindow&& _Other) noexcept = delete;
+	AMenuCanvas(const AMenuCanvas& _Other) = delete;
+	AMenuCanvas(AMenuCanvas&& _Other) noexcept = delete;
+	AMenuCanvas& operator=(const AMenuCanvas& _Other) = delete;
+	AMenuCanvas& operator=(AMenuCanvas&& _Other) noexcept = delete;
 
 	void Open();
 	void Close();

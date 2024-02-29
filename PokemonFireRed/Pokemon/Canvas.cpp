@@ -21,6 +21,7 @@ AText* ACanvas::CreateText(AUIParent* _Parent, ERenderingOrder _Order, EPivotTyp
 	Text->SetColor(_Color);
 	Text->SetSize(_Size);
 	Text->SetRelativePosition(UPokemonUtil::PixelVector(_RelativePixelX, _RelativePixelY));
+	_Parent->AppendChild(Text);
 	return Text;
 }
 
@@ -32,6 +33,7 @@ AScrollBar* ACanvas::CreateScrollBar(AUIParent* _Parent, ERenderingOrder _Order,
 	Bar->SetPivotType(_PivotType);
 	Bar->SetScrollType(_ScrollType);
 	Bar->SetRelativePosition(UPokemonUtil::PixelVector(_RelativePixelX, _RelativePixelY));
+	_Parent->AppendChild(Bar);
 	return Bar;
 }
 
@@ -44,6 +46,7 @@ ACursor* ACanvas::CreateCursor(AUIParent* _Parent, ERenderingOrder _Order, EPivo
 	Cursor->SetImage(_ImageName);
 	Cursor->SetPixelGap(_PixelGap);
 	Cursor->SetRelativePosition(UPokemonUtil::PixelVector(_RelativePixelX, _RelativePixelY));
+	_Parent->AppendChild(Cursor);
 	return Cursor;
 }
 
@@ -55,6 +58,7 @@ APokemonElement* ACanvas::CreatePokemonElement(AUIParent* _Parent, ERenderingOrd
 	Icon->SetPivotType(_PivotType);
 	Icon->SetElementType(_ElementType);
 	Icon->SetRelativePosition(UPokemonUtil::PixelVector(_RelativePixelX, _RelativePixelY));
+	_Parent->AppendChild(Icon);
 	return Icon;
 }
 
@@ -65,6 +69,7 @@ AImageElement* ACanvas::CreateImageElement(AUIParent* _Parent, ERenderingOrder _
 	Image->SetRenderingOrder(_Order);
 	Image->SetPivotType(_PivotType);
 	Image->SetRelativePosition(UPokemonUtil::PixelVector(_RelativePixelX, _RelativePixelY));
+	_Parent->AppendChild(Image);
 	return Image;
 }
 
@@ -77,6 +82,7 @@ AAnimationElement* ACanvas::CreateAnimationElement(AUIParent* _Parent, ERenderin
 	Anim->SetPivotType(_PivotType);
 	Anim->SetImage(_ImageName);
 	Anim->SetRelativePosition(UPokemonUtil::PixelVector(_RelativePixelX, _RelativePixelY));
+	_Parent->AppendChild(Anim);
 	return Anim;
 }
 

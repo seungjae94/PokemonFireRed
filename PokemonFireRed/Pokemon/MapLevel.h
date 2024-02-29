@@ -6,14 +6,16 @@
 
 class APlayer;
 class AMap;
-class AMenuWindow;
-class ADialogueWindow;
-class AMapNameWindow;
+class AMenuCanvas;
+class ADialogueCanvas;
+class AMapNameCanvas;
 class AEventTrigger;
+class UEventManager;
 
 class UMapLevel : public UPokemonLevel
 {
 	friend AEventTrigger;
+	friend UEventManager;
 public:
 	// constructor destructor
 	UMapLevel();
@@ -32,10 +34,6 @@ protected:
 	// 하위 클래스에서 너무 많이 사용할 것 같아서 protected로 설정
 	AMap* Map = nullptr;
 	APlayer* Player = nullptr;
-	AMenuWindow* MenuWindow = nullptr;
-	ADialogueWindow* DialogueWindow = nullptr;
-	AMapNameWindow* MapNameWindow = nullptr;
-
 	AEventTrigger* FadeInTrigger = nullptr;
 
 	UEngineDirectory CurDir;

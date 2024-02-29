@@ -119,7 +119,6 @@ private:
 	bool TryReadEvent();
 	bool TryArrowClickEvent();
 	bool TryStepOnEvent();
-	bool TryMenuEvent();
 	bool TryBattleEvent();
 
 	// 충돌 체크
