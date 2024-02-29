@@ -23,7 +23,6 @@ AMenuCanvas::~AMenuCanvas()
 
 void AMenuCanvas::Open()
 {
-	UEventManager::SetCurLevelPlayerState(EPlayerState::OutOfControl);
 	Refresh();
 	SetActive(true);
 	IsFirstTick = true;
@@ -79,16 +78,14 @@ void AMenuCanvas::Tick(float _DeltaTime)
 	{
 		MenuCount = 5;
 		Cursor->SetOptionCount(MenuCount);
-		RefreshMenuBoxImage();
-		RefreshMenuTexts();
+		RefreshMenuBox();
 		RefreshExplainText();
 	}
 	else if (true == UPlayerData::IsAchieved(EAchievement::GetFirstPokemon) && MenuCount == 3)
 	{
 		MenuCount = 4;
 		Cursor->SetOptionCount(MenuCount);
-		RefreshMenuBoxImage();
-		RefreshMenuTexts();
+		RefreshMenuBox();
 		RefreshExplainText();
 	}
 
@@ -122,10 +119,8 @@ void AMenuCanvas::Tick(float _DeltaTime)
 
 void AMenuCanvas::Refresh()
 {
-	RefreshMenuBoxImage();
-	RefreshMenuTexts();
+	RefreshMenuBox();
 	RefreshExplainText();
-	Cursor->SetOptionCount(MenuCount);
 }
 
 void AMenuCanvas::MenuAction()
@@ -152,16 +147,14 @@ void AMenuCanvas::MenuAction()
 	}
 }
 
-void AMenuCanvas::RefreshMenuBoxImage()
+void AMenuCanvas::RefreshMenuBox()
 {
-	// 메뉴창
 	std::string ImageName = "MenuWindow" + std::to_string(MenuCount) + ".png";
 	MenuBox->SetImage(ImageName);
-}
 
-void AMenuCanvas::RefreshMenuTexts()
-{
-	// 메뉴 텍스트
+	Cursor->SetOptionCount(MenuCount);
+	Cursor->SetCursor(Cursor->GetCursor());
+
 	for (int i = 0; i < MenuCount; i++)
 	{
 		MenuTexts[i]->SetText(MenuNames[(MenuNames.size() - MenuCount) + i]);

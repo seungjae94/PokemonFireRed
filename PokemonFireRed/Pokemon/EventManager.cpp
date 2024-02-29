@@ -340,7 +340,7 @@ void UEventManager::SetCurLevelPlayerState(EPlayerState _State)
 	Player->StateChange(_State);
 }
 
-void UEventManager::FadeChangeLevel(std::string_view _TargetMapName, float _FadeInTime, float _FadeOutTime)
+void UEventManager::FadeChangeLevel(std::string_view _TargetMapName, bool _PlayerControl, float _FadeInTime, float _FadeOutTime)
 {
 	AFadeLevelChanger* LevelChanger = FindTarget<AFadeLevelChanger>(CurLevelName, Global::FadeLevelChanger);
 
@@ -350,7 +350,7 @@ void UEventManager::FadeChangeLevel(std::string_view _TargetMapName, float _Fade
 		return;
 	}
 
-	LevelChanger->Trigger(_TargetMapName, _FadeInTime, _FadeOutTime);
+	LevelChanger->Trigger(_TargetMapName, _PlayerControl, _FadeInTime, _FadeOutTime);
 }
 
 void UEventManager::WildBattle(const UPokemon& _Pokemon)

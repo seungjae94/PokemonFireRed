@@ -8,7 +8,7 @@ AFadeLevelChanger::~AFadeLevelChanger()
 {
 }
 
-void AFadeLevelChanger::Update(std::string_view _TargetLevelName, float _FadeInTime, float _FadeOutTime)
+void AFadeLevelChanger::Update(std::string_view _TargetLevelName, bool _PlayerControl, float _FadeInTime, float _FadeOutTime)
 {
 	FadeInTime = _FadeInTime;
 	FadeOutTime = _FadeOutTime;
@@ -19,6 +19,7 @@ void AFadeLevelChanger::Update(std::string_view _TargetLevelName, float _FadeInT
 	}
 
 	TargetLevelName = _TargetLevelName;
+	PlayerControl = _PlayerControl;
 	RegisterPredefinedEvent();
 }
 
@@ -32,6 +33,6 @@ void AFadeLevelChanger::RegisterPredefinedEvent()
 		>> ES::ChangeLevel(TargetLevelName)
 		>> ES::FadeIn(FadeInTime)
 		>> ES::Wait(FadeInTime)
-		>> ES::End(true)
+		>> ES::End(PlayerControl)
 	);
 }

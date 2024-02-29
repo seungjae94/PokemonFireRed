@@ -68,8 +68,7 @@ you bought, received, or found.)",
 		return static_cast<int>(MenuNames.size() - MenuCount + Cursor->GetCursor());
 	}
 
-	void RefreshMenuBoxImage();
-	void RefreshMenuTexts();
+	void RefreshMenuBox();
 	void RefreshExplainText();
 };
 
