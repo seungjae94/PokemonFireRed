@@ -4,7 +4,7 @@
 class UBattleLevel;
 class ABattleCanvas;
 
-class ABattleStartStateManchine : public AActor
+class ABattleStartStateMachine : public AActor
 {
 private:
 	enum class ESubstate
@@ -21,14 +21,14 @@ private:
 	};
 public:
 	// constructor destructor
-	ABattleStartStateManchine();
-	~ABattleStartStateManchine();
+	ABattleStartStateMachine();
+	~ABattleStartStateMachine();
 
 	// delete Function
-	ABattleStartStateManchine(const ABattleStartStateManchine& _Other) = delete;
-	ABattleStartStateManchine(ABattleStartStateManchine&& _Other) noexcept = delete;
-	ABattleStartStateManchine& operator=(const ABattleStartStateManchine& _Other) = delete;
-	ABattleStartStateManchine& operator=(ABattleStartStateManchine&& _Other) noexcept = delete;
+	ABattleStartStateMachine(const ABattleStartStateMachine& _Other) = delete;
+	ABattleStartStateMachine(ABattleStartStateMachine&& _Other) noexcept = delete;
+	ABattleStartStateMachine& operator=(const ABattleStartStateMachine& _Other) = delete;
+	ABattleStartStateMachine& operator=(ABattleStartStateMachine&& _Other) noexcept = delete;
 
 	bool IsEnd() const
 	{

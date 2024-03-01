@@ -2,7 +2,8 @@
 #include "PokemonLevel.h"
 #include "PlayerData.h"
 #include "BattleCanvas.h"
-#include "BattleStartStateManchine.h"
+#include "BattleStartStateMachine.h"
+#include "BattlePlayerActionStateMachine.h"
 
 enum class EBattleState
 {
@@ -30,11 +31,15 @@ public:
 
 protected:
 private:
-	std::string PrevMapName;
+	// 데이터
 	int PlayerPokemonIndex = 0;
+	EBattlePlayerAction PlayerAction = EBattlePlayerAction::None;
 	UPokemon EnemyPokemon;
+
+	// 렌더링, 로직
 	ABattleCanvas* Canvas = nullptr;
-	ABattleStartStateManchine* BSSM = nullptr;
+	ABattleStartStateMachine* BSSM = nullptr;
+	ABattlePlayerActionStateMachine* PASM = nullptr;
 
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
@@ -52,6 +57,14 @@ private:
 	UPokemon& GetCurPlayerPokemon()
 	{
 		return UPlayerData::GetPokemonInEntry(PlayerPokemonIndex);
+	}
+
+	// 원래 맵 레벨로 복귀
+	std::string PrevMapName;
+
+	void ReturnToMapLevel()
+	{
+		UEventManager::FadeChangeLevel(PrevMapName);
 	}
 };
 

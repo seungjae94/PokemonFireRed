@@ -273,7 +273,7 @@
     <ClInclude Include="BattleCanvas.h">
       <Filter>2. Level\8. BattleLevel</Filter>
     </ClInclude>
-    <ClInclude Include="BattleStartStateManchine.h">
+    <ClInclude Include="BattleStartStateMachine.h">
       <Filter>2. Level\8. BattleLevel</Filter>
     </ClInclude>
     <ClInclude Include="UIParent.h">
@@ -281,6 +281,9 @@
     </ClInclude>
     <ClInclude Include="FadeCanvas.h">
       <Filter>5. UI\MapLevelCanvas</Filter>
+    </ClInclude>
+    <ClInclude Include="BattlePlayerActionStateMachine.h">
+      <Filter>2. Level\8. BattleLevel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -455,7 +458,7 @@
     <ClCompile Include="BattleCanvas.cpp">
       <Filter>2. Level\8. BattleLevel</Filter>
     </ClCompile>
-    <ClCompile Include="BattleStartStateManchine.cpp">
+    <ClCompile Include="BattleStartStateMachine.cpp">
       <Filter>2. Level\8. BattleLevel</Filter>
     </ClCompile>
     <ClCompile Include="UIParent.cpp">
@@ -463,6 +466,9 @@
     </ClCompile>
     <ClCompile Include="FadeCanvas.cpp">
       <Filter>5. UI\MapLevelCanvas</Filter>
+    </ClCompile>
+    <ClCompile Include="BattlePlayerActionStateMachine.cpp">
+      <Filter>2. Level\8. BattleLevel</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

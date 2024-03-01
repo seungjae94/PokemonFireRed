@@ -4,7 +4,7 @@
 
 class ABattleCanvas : public ACanvas
 {
-	friend class ABattleStartStateManchine;
+	friend class ABattleStartStateMachine;
 public:
 	// constructor destructor
 	ABattleCanvas();

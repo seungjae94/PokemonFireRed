@@ -183,11 +183,15 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="BattlePlayerActionStateMachine.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="UIParent.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="BattleStartStateManchine.h">
+    <ClInclude Include="BattleStartStateMachine.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -430,11 +434,15 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="BattlePlayerActionStateMachine.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="UIParent.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="BattleStartStateManchine.cpp">
+    <ClCompile Include="BattleStartStateMachine.cpp">
       <SubType>
       </SubType>
     </ClCompile>

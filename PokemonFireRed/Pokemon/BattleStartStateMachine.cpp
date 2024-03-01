@@ -1,52 +1,52 @@
-#include "BattleStartStateManchine.h"
+#include "BattleStartStateMachine.h"
 #include <EnginePlatform/EngineInput.h>
 #include "BattleCanvas.h"
 
-ABattleStartStateManchine::ABattleStartStateManchine() 
+ABattleStartStateMachine::ABattleStartStateMachine() 
 {
 }
 
-ABattleStartStateManchine::~ABattleStartStateManchine() 
+ABattleStartStateMachine::~ABattleStartStateMachine() 
 {
 }
 
-void ABattleStartStateManchine::Tick(float _DeltaTime)
+void ABattleStartStateMachine::Tick(float _DeltaTime)
 {
 	Timer -= _DeltaTime;
 
 	switch (State)
 	{
-	case ABattleStartStateManchine::ESubstate::None:
+	case ABattleStartStateMachine::ESubstate::None:
 		break;
-	case ABattleStartStateManchine::ESubstate::FadeWait:
+	case ABattleStartStateMachine::ESubstate::FadeWait:
 		ProcessFadeWait(_DeltaTime);
 		break;
-	case ABattleStartStateManchine::ESubstate::GroundMove:
+	case ABattleStartStateMachine::ESubstate::GroundMove:
 		ProcessGroundMove(_DeltaTime);
 		break;
-	case ABattleStartStateManchine::ESubstate::EnemyPokemonBoxMove:
+	case ABattleStartStateMachine::ESubstate::EnemyPokemonBoxMove:
 		ProcessEnemyPokemonBoxMove(_DeltaTime);
 		break;
-	case ABattleStartStateManchine::ESubstate::ZClickWait:
+	case ABattleStartStateMachine::ESubstate::ZClickWait:
 		ProcessZClickWait(_DeltaTime);
 		break;
-	case ABattleStartStateManchine::ESubstate::PlayerBattlerThrow:
+	case ABattleStartStateMachine::ESubstate::PlayerBattlerThrow:
 		ProcessPlayerBattlerThrow(_DeltaTime);
 		break;
-	case ABattleStartStateManchine::ESubstate::PlayerPokemonTakeout:
+	case ABattleStartStateMachine::ESubstate::PlayerPokemonTakeout:
 		ProcessPlayerPokemonTakeout(_DeltaTime);
 		break;
-	case ABattleStartStateManchine::ESubstate::PlayerPokemonBoxMove:
+	case ABattleStartStateMachine::ESubstate::PlayerPokemonBoxMove:
 		ProcessPlayerPokemonBoxMove(_DeltaTime);
 		break;
-	case ABattleStartStateManchine::ESubstate::End:
+	case ABattleStartStateMachine::ESubstate::End:
 		break;
 	default:
 		break;
 	}
 }
 
-void ABattleStartStateManchine::ProcessFadeWait(float _DeltaTime)
+void ABattleStartStateMachine::ProcessFadeWait(float _DeltaTime)
 {
 	if (Timer <= 0.0f)
 	{
@@ -55,7 +55,7 @@ void ABattleStartStateManchine::ProcessFadeWait(float _DeltaTime)
 	}
 }
 
-void ABattleStartStateManchine::ProcessGroundMove(float _DeltaTime)
+void ABattleStartStateMachine::ProcessGroundMove(float _DeltaTime)
 {
 	Canvas->LerpShowGrounds(Timer / GroundMoveTime);
 
@@ -66,7 +66,7 @@ void ABattleStartStateManchine::ProcessGroundMove(float _DeltaTime)
 	}
 }
 
-void ABattleStartStateManchine::ProcessEnemyPokemonBoxMove(float _DeltaTime)
+void ABattleStartStateMachine::ProcessEnemyPokemonBoxMove(float _DeltaTime)
 {
 	Canvas->LerpShowEnemyPokemonBox(Timer / EnemyPokemonBoxMoveTime);
 
@@ -76,7 +76,7 @@ void ABattleStartStateManchine::ProcessEnemyPokemonBoxMove(float _DeltaTime)
 	}
 }
 
-void ABattleStartStateManchine::ProcessZClickWait(float _DeltaTime)
+void ABattleStartStateMachine::ProcessZClickWait(float _DeltaTime)
 {
 	if (true == UEngineInput::IsDown('Z') || true == UEngineInput::IsDown('X'))
 	{
@@ -87,7 +87,7 @@ void ABattleStartStateManchine::ProcessZClickWait(float _DeltaTime)
 	}
 }
 
-void ABattleStartStateManchine::ProcessPlayerBattlerThrow(float _DeltaTime)
+void ABattleStartStateMachine::ProcessPlayerBattlerThrow(float _DeltaTime)
 {
 	Canvas->LerpHidePlayerBattler(Timer / PlayerBattleThrowTime);
 
@@ -105,7 +105,7 @@ void ABattleStartStateManchine::ProcessPlayerBattlerThrow(float _DeltaTime)
 	}
 }
 
-void ABattleStartStateManchine::ProcessPlayerPokemonTakeout(float _DeltaTime)
+void ABattleStartStateMachine::ProcessPlayerPokemonTakeout(float _DeltaTime)
 {
 	Canvas->TakeOutPokemonFromBall(Timer / PlayerPokemonTakeoutTime);
 
@@ -116,7 +116,7 @@ void ABattleStartStateManchine::ProcessPlayerPokemonTakeout(float _DeltaTime)
 	}
 }
 
-void ABattleStartStateManchine::ProcessPlayerPokemonBoxMove(float _DeltaTime)
+void ABattleStartStateMachine::ProcessPlayerPokemonBoxMove(float _DeltaTime)
 {
 	Canvas->LerpShowPlayerPokemonBox(Timer / EnemyPokemonBoxMoveTime);
 
