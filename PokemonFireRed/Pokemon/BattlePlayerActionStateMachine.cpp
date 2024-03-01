@@ -16,18 +16,21 @@ void ABattlePlayerActionStateMachine::Tick(float _DeltaTime)
 
 	switch (State)
 	{
-	case ABattlePlayerActionStateMachine::ESubstate::None:
+	case ESubstate::None:
 		break;
-	case ABattlePlayerActionStateMachine::ESubstate::Select:
+	case ESubstate::Select:
 		ProcessSelect(_DeltaTime);
 		break;
-	case ABattlePlayerActionStateMachine::ESubstate::ShowEscapeSuccessMsg:
+	case ESubstate::MoveSelect:
+		ProcessMoveSelect(_DeltaTime);
+		break;
+	case ESubstate::ShowEscapeSuccessMsg:
 		ProcessShowEscapeSuccessMsg(_DeltaTime);
 		break;
-	case ABattlePlayerActionStateMachine::ESubstate::ShowEscapeFailMsg:
+	case ESubstate::ShowEscapeFailMsg:
 		ProcessShowEscapeFailMsg(_DeltaTime);
 		break;
-	case ABattlePlayerActionStateMachine::ESubstate::End:
+	case ESubstate::End:
 		break;
 	default:
 		break;
@@ -43,6 +46,9 @@ void ABattlePlayerActionStateMachine::ProcessSelect(float _DeltaTime)
 		switch (Cursor)
 		{
 		case Fight:
+			State = ESubstate::MoveSelect;
+			Canvas->SetActionBoxActive(false);
+			Canvas->SetMoveSelectBoxActive(true);
 			break;
 		case Bag:
 			break;
@@ -127,6 +133,11 @@ bool ABattlePlayerActionStateMachine::CalcRunResult()
 	RHS += 30 * RunAttemptCount;
 	RHS = UPokemonMath::Mod(RHS, 256);
 	return RandomNumber < RHS;
+}
+
+void ABattlePlayerActionStateMachine::ProcessMoveSelect(float _DeltaTime)
+{
+	//int Cursor = Canvas->GetMoveCursor();
 }
 
 void ABattlePlayerActionStateMachine::ProcessShowEscapeSuccessMsg(float _DeltaTime)

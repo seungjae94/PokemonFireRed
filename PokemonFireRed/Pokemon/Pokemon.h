@@ -119,6 +119,8 @@ public:
 	std::wstring GetMoveNameW(int _Index) const;
 	std::wstring GetMovePPW(int _Index) const;
 	std::wstring GetMoveCurPPW(int _Index) const;
+	std::wstring GetMoveTypeW(int _Index) const;
+	std::wstring GetMoveTypeUpperW(int _Index) const;
 	std::string GetMoveTypeImageName(int _Index) const;
 	
 	int GetMovePower(int _Index) const

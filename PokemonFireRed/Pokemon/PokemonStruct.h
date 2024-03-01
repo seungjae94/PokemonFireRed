@@ -187,10 +187,16 @@ struct FPokemonType
 {
 public:
 	EPokemonType Id = EPokemonType::Normal;
+	std::string Name;
 	std::string ImageName;
 
 	// EffectTo[EnemyType] = 적을 공격할 때 타입으로 인한 데미지 배율
 	std::map<EPokemonType, float> EffectTo;
+
+	std::wstring GetNameW() const
+	{
+		return UEngineString::AnsiToUniCode(Name);
+	}
 };
 
 enum class EPokemonMove
@@ -218,7 +224,7 @@ struct FPokemonMove
 {
 public:
 	EPokemonMove Id = EPokemonMove::None;
-	EPokemonType Type = EPokemonType::Normal;
+	EPokemonType TypeId = EPokemonType::Normal;
 	std::string Name;
 	std::string Explain;
 	int PP = 0;

@@ -146,7 +146,7 @@ public:
 			Move.Id = static_cast<EPokemonMove>(std::stoi(Line[0]));
 			Move.Name = Line[1];
 			Move.Explain = Line[2];
-			Move.Type = static_cast<EPokemonType>(UPokemonDB::Resolve(Line[3]));
+			Move.TypeId = static_cast<EPokemonType>(UPokemonDB::Resolve(Line[3]));
 			Move.PP = std::stoi(Line[4]);
 			Move.BasePower = std::stoi(Line[5]);
 			Move.Accuracy = std::stoi(Line[6]);
@@ -197,9 +197,10 @@ public:
 		{
 			FPokemonType Type = FPokemonType();
 			Type.Id = static_cast<EPokemonType>(std::stoi(Line[0]));
-			Type.ImageName = Line[1];
+			Type.Name = Line[1];
+			Type.ImageName = Line[2];
 
-			for (int i = 2; i <= 18; ++i)
+			for (int i = 3; i <= 19; ++i)
 			{
 				EPokemonType EnemyType = static_cast<EPokemonType>(i - 1);
 				Type.EffectTo[EnemyType] = std::stof(Line[i]);

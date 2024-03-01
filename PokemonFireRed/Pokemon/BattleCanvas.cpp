@@ -10,15 +10,19 @@ ABattleCanvas::~ABattleCanvas()
 {
 }
 
-void ABattleCanvas::Init(const UPokemon& _PlayerPokemon, const UPokemon& _EnemyPokemon)
+void ABattleCanvas::Init(const UPokemon* _PlayerPokemon, const UPokemon* _EnemyPokemon)
 {
-	PrepareElements(_PlayerPokemon, _EnemyPokemon);
+	PlayerPokemon = _PlayerPokemon;
+	EnemyPokemon = _EnemyPokemon;
 
-	// 액션 박스 꺼두기
+	MsgText->SetText(L"Wild " + EnemyPokemon->GetNameW() + L" appeared!");
+	RefreshPlayerPokemonBox();
+	RefreshEnemyPokemonBox();
+	RefreshMoveSelectBox();
+
 	ActionBox->SetActive(false);
-
-	// 볼 날아가는 애니메이션 숨겨두기
 	ThrowedBall->SetActive(false);
+	MoveSelectBox->SetActive(false);
 
 	// 아군 포켓몬 숨겨두기
 	PlayerPokemonImage->SetRelativePosition(PlayerPokemonImageHidePos);
@@ -34,35 +38,55 @@ void ABattleCanvas::Init(const UPokemon& _PlayerPokemon, const UPokemon& _EnemyP
 	PlayerBattler->SetRelativePosition(PlayerBattlerInitPos);
 }
 
-void ABattleCanvas::PrepareElements(const UPokemon& _PlayerPokemon, const UPokemon& _EnemyPokemon)
+void ABattleCanvas::RefreshEnemyPokemonBox()
 {
-	MsgText->SetText(L"Wild " + _EnemyPokemon.GetNameW() + L" appeared!");
-
-	EnemyPokemonNameText->SetText(_EnemyPokemon.GetNameW());
-	EnemyPokemonLevelText->SetText(L"ℓ" + _EnemyPokemon.GetLevelW());
-	EnemyPokemonHpBar->SetMaxValue(_EnemyPokemon.GetHp());
-	EnemyPokemonHpBar->SetValue(_EnemyPokemon.GetCurHp());
+	EnemyPokemonNameText->SetText(EnemyPokemon->GetNameW());
+	EnemyPokemonLevelText->SetText(L"ℓ" + EnemyPokemon->GetLevelW());
+	EnemyPokemonHpBar->SetMaxValue(EnemyPokemon->GetHp());
+	EnemyPokemonHpBar->SetValue(EnemyPokemon->GetCurHp());
 
 	int EPNTPixelWidth = EnemyPokemonNameText->GetPixelLineWidth();
 	EnemyPokemonGenderMark->SetRelativePosition(UPokemonUtil::PixelVector(7 + EPNTPixelWidth, 5));
-	EnemyPokemonGenderMark->SetImage(_EnemyPokemon.GetGenderImageName());
+	EnemyPokemonGenderMark->SetImage(EnemyPokemon->GetGenderImageName());
 
-	PlayerPokemonNameText->SetText(_PlayerPokemon.GetNameW());
-	PlayerPokemonLevelText->SetText(L"ℓ" + _PlayerPokemon.GetLevelW());
-	PlayerPokemonCurHpText->SetText(_PlayerPokemon.GetCurHpW());
-	PlayerPokemonHpText->SetText(_PlayerPokemon.GetHpW());
-	PlayerPokemonHpBar->SetMaxValue(_PlayerPokemon.GetHp());
-	PlayerPokemonHpBar->SetValue(_PlayerPokemon.GetCurHp());
-	PlayerPokemonExpBar->SetMaxValue(_PlayerPokemon.GetExpSize());
-	PlayerPokemonExpBar->SetValue(_PlayerPokemon.GetExp());
+	EnemyPokemonImage->SetPokemon(EnemyPokemon);
+}
+
+void ABattleCanvas::RefreshPlayerPokemonBox()
+{
+	PlayerPokemonNameText->SetText(PlayerPokemon->GetNameW());
+	PlayerPokemonLevelText->SetText(L"ℓ" + PlayerPokemon->GetLevelW());
+	PlayerPokemonCurHpText->SetText(PlayerPokemon->GetCurHpW());
+	PlayerPokemonHpText->SetText(PlayerPokemon->GetHpW());
+	PlayerPokemonHpBar->SetMaxValue(PlayerPokemon->GetHp());
+	PlayerPokemonHpBar->SetValue(PlayerPokemon->GetCurHp());
+	PlayerPokemonExpBar->SetMaxValue(PlayerPokemon->GetExpSize());
+	PlayerPokemonExpBar->SetValue(PlayerPokemon->GetExp());
 
 	int PPNTPixelWidth = PlayerPokemonNameText->GetPixelLineWidth();
 	PlayerPokemonGenderMark->SetRelativePosition(UPokemonUtil::PixelVector(19 + PPNTPixelWidth, 5));
-	PlayerPokemonGenderMark->SetImage(_PlayerPokemon.GetGenderImageName());
+	PlayerPokemonGenderMark->SetImage(PlayerPokemon->GetGenderImageName());
 
-	EnemyPokemonImage->SetPokemon(_EnemyPokemon);
 	PlayerBattler->ChangeAnimation(Global::PlayerBattlerIdle);
-	PlayerPokemonImage->SetPokemon(_PlayerPokemon);
+	PlayerPokemonImage->SetPokemon(PlayerPokemon);
+}
+
+void ABattleCanvas::RefreshMoveSelectBox()
+{
+	MoveSelectCursor->SetCursor(0);
+
+	for (int i = 0; i < PlayerPokemon->GetMoveCount(); ++i)
+	{
+		MoveTexts[i]->SetText(PlayerPokemon->GetMoveNameW(i));
+	}
+	for (int i = PlayerPokemon->GetMoveCount(); i < 4; ++i)
+	{
+		MoveTexts[i]->SetText(L"-");
+	}
+
+	CurPPText->SetText(PlayerPokemon->GetMoveCurPPW(0));
+	MaxPPText->SetText(PlayerPokemon->GetMovePPW(0));
+	MoveTypeText->SetText(PlayerPokemon->GetMoveTypeUpperW(0));
 }
 
 
@@ -122,6 +146,11 @@ void ABattleCanvas::SetActionBoxActive(bool _Value)
 	ActionBox->SetActive(_Value);
 }
 
+void ABattleCanvas::SetMoveSelectBoxActive(bool _Value)
+{
+	MoveSelectBox->SetActive(_Value);
+}
+
 void ABattleCanvas::SetBattleMessage(std::wstring_view _Msg)
 {
 	MsgText->SetText(_Msg);
@@ -131,16 +160,18 @@ void ABattleCanvas::BeginPlay()
 {
 	ACanvas::BeginPlay();
 
-	// 배경
+	// 최상위 요소
 	Background = CreateImageElement(this, ERenderingOrder::UI0, EPivotType::LeftTop, 0, 0);
 	Background->SetImage(RN::BattleBackground);
 
-	// 최상위 요소
 	MsgBox = CreateImageElement(this, ERenderingOrder::UI4, EPivotType::LeftBot, 0, 0);
 	MsgBox->SetImage(RN::BattleMsgBox);
 
 	ActionBox = CreateImageElement(this, ERenderingOrder::UI6, EPivotType::RightBot, 0, 0);
 	ActionBox->SetImage(RN::BattleActionBox);
+
+	MoveSelectBox = CreateImageElement(this, ERenderingOrder::UI6, EPivotType::LeftBot, 0, 0);
+	MoveSelectBox->SetImage(RN::BattleMoveSelectBox);
 
 	EnemyPokemonBox = CreateImageElement(this, ERenderingOrder::UI1, EPivotType::LeftTop, 13, 16);
 	EnemyPokemonBox->SetImage(RN::BattleEnemyPokemonBox);
@@ -206,6 +237,28 @@ void ABattleCanvas::BeginPlay()
 	int CursorHorGap = 56;
 	int CursorVerGap = 16;
 	ActionCursor->SetCursorPositions({ {0, 0}, {CursorHorGap, 0}, {0, CursorVerGap}, {CursorHorGap, CursorVerGap} });
+
+	// MoveSelectBox 요소
+	MoveSelectCursor = CreateCursor(MoveSelectBox, ERenderingOrder::UI7, EPivotType::LeftTop, 9, 12);
+	MoveSelectCursor->SetOptionCount(4);
+
+	int MoveHorGap = 71;
+	int MoveVerGap = 17;
+	MoveSelectCursor->SetCursorPositions({ {0, 0}, {MoveHorGap, 0}, {0, MoveVerGap}, {MoveHorGap, MoveVerGap} });
+
+	CurPPText = CreateText(MoveSelectBox, ERenderingOrder::UI7, EPivotType::RightTop, -26, 21, EAlignType::Right, EFontColor::Black2);
+	MaxPPText = CreateText(MoveSelectBox, ERenderingOrder::UI7, EPivotType::RightTop, -9, 21, EAlignType::Right, EFontColor::Black2);
+	MoveTypeText = CreateText(MoveSelectBox, ERenderingOrder::UI7, EPivotType::RightTop, -48, 37, EAlignType::Left, EFontColor::Black);
+
+	for (int i = 0; i < 4; ++i)
+	{
+		int RowIndex = i / 2;
+		int ColIndex = i % 2;
+		AText* MoveText = CreateText(MoveSelectBox, ERenderingOrder::UI7, EPivotType::LeftTop, 
+			17 + ColIndex * MoveHorGap, 20 + RowIndex * MoveVerGap, EAlignType::Left, EFontColor::Black, EFontSize::Mini);
+		MoveTexts.push_back(MoveText);
+	}
+
 }
 
 void ABattleCanvas::Tick(float _DeltaTime)

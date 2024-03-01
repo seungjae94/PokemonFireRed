@@ -70,6 +70,30 @@ std::wstring UPokemon::GetMoveCurPPW(int _Index) const
 	return std::to_wstring(MoveCurPPs[_Index]);
 }
 
+std::wstring UPokemon::GetMoveTypeW(int _Index) const
+{
+	if (_Index < 0 || _Index >= GetMoveCount())
+	{
+		MsgBoxAssert("ÀÎµ¦½º " + std::to_string(_Index) + "°¡ º¸À¯ÇÑ Move ¹üÀ§¸¦ ¹þ¾î³³´Ï´Ù.");
+		return L"";
+	}
+
+	const FPokemonType* Type = UPokemonDB::FindType(Moves[_Index]->TypeId);
+	return Type->GetNameW();
+}
+
+std::wstring UPokemon::GetMoveTypeUpperW(int _Index) const
+{
+	if (_Index < 0 || _Index >= GetMoveCount())
+	{
+		MsgBoxAssert("ÀÎµ¦½º " + std::to_string(_Index) + "°¡ º¸À¯ÇÑ Move ¹üÀ§¸¦ ¹þ¾î³³´Ï´Ù.");
+		return L"";
+	}
+
+	const FPokemonType* Type = UPokemonDB::FindType(Moves[_Index]->TypeId);
+	return UPokemonString::ToUpperW(Type->Name);
+}
+
 std::string UPokemon::GetMoveTypeImageName(int _Index) const
 {
 	if (_Index < 0 || _Index >= GetMoveCount())
@@ -78,7 +102,7 @@ std::string UPokemon::GetMoveTypeImageName(int _Index) const
 		return "";
 	}
 
-	const FPokemonType* Type = UPokemonDB::FindType(Moves[_Index]->Type);
+	const FPokemonType* Type = UPokemonDB::FindType(Moves[_Index]->TypeId);
 	return Type->ImageName;
 }
 

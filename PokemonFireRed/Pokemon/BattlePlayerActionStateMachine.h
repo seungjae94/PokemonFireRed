@@ -28,6 +28,7 @@ private:
 	{
 		None,
 		Select,
+		MoveSelect,
 		ShowEscapeSuccessMsg,
 		ShowEscapeFailMsg,
 		End
@@ -92,6 +93,7 @@ private:
 	void ProcessSelect(float _DeltaTime);
 	bool CalcRunResult();
 
+	void ProcessMoveSelect(float _DeltaTime);
 	void ProcessShowEscapeSuccessMsg(float _DeltaTime);
 	void ProcessShowEscapeFailMsg(float _DeltaTime);
 

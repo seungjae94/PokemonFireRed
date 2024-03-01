@@ -74,7 +74,7 @@ void UBattleLevel::LevelStart(ULevel* _PrevLevel)
 
 	PlayerPokemonIndex = 0;
 	EnemyPokemon = UPlayerData::EnemyWildPokemon;
-	Canvas->Init(UPlayerData::GetPokemonInEntry(0), EnemyPokemon);
+	Canvas->Init(&UPlayerData::GetPokemonInEntry(0), &EnemyPokemon);
 
 	// 배틀 레벨 상태 초기화
 	State = EBattleState::BattleStart;

@@ -180,6 +180,7 @@ namespace RN
 	const std::string BattleBackground = "BattleBackground.png"; 
 	const std::string BattleMsgBox = "BattleMsgBox.png"; 
 	const std::string BattleActionBox = "BattleActionBox.png"; 
+	const std::string BattleMoveSelectBox = "BattleMoveSelectBox.png"; 
 	const std::string BattleEnemyPokemonBox = "BattleEnemyPokemonBox.png"; 
 	const std::string BattlePlayerPokemonBox = "BattlePlayerPokemonBox.png"; 
 	const std::string BattleEnemyGround = "BattleEnemyGround.png"; 
