@@ -58,7 +58,6 @@ private:
 	AImageElement* PlayerPokemonBox = nullptr;
 	AImageElement* EnemyGround = nullptr;
 	AImageElement* PlayerGround = nullptr;
-	AAnimationElement* ThrowedBall = nullptr;
 
 	// MsgBox 요소
 	AText* MsgText = nullptr;
@@ -82,7 +81,8 @@ private:
 	APokemonElement* EnemyPokemonImage = nullptr;
 
 	// PlayerPokemonGround 요소
-	AAnimationElement* PlayerBattler = nullptr;
 	APokemonElement* PlayerPokemonImage = nullptr;
+	AImageElement* PlayerBattler = nullptr;
+	AImageElement* ThrowedBall = nullptr;
 };
 

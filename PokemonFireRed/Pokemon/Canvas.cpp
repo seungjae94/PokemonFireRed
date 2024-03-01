@@ -73,19 +73,6 @@ AImageElement* ACanvas::CreateImageElement(AUIParent* _Parent, ERenderingOrder _
 	return Image;
 }
 
-
-AAnimationElement* ACanvas::CreateAnimationElement(AUIParent* _Parent, ERenderingOrder _Order, EPivotType _PivotType, int _RelativePixelX, int _RelativePixelY, std::string_view _ImageName)
-{
-	AAnimationElement* Anim = GetWorld()->SpawnActor<AAnimationElement>();
-	Anim->SetParent(_Parent);
-	Anim->SetRenderingOrder(_Order);
-	Anim->SetPivotType(_PivotType);
-	Anim->SetImage(_ImageName);
-	Anim->SetRelativePosition(UPokemonUtil::PixelVector(_RelativePixelX, _RelativePixelY));
-	_Parent->AppendChild(Anim);
-	return Anim;
-}
-
 FTransform ACanvas::GetUITransform()
 {
 	return {Global::HalfScreen, Global::Screen};

@@ -66,15 +66,6 @@ public:
 		int _RelativePixelY
 	);
 
-	AAnimationElement* CreateAnimationElement(
-		AUIParent* _Parent,
-		ERenderingOrder _Order,
-		EPivotType _PivotType,
-		int _RelativePixelX,
-		int _RelativePixelY,
-		std::string_view _ImageName
-	);
-
 	FTransform GetUITransform() override;
 
 	// 에러 해결용 임시 함수

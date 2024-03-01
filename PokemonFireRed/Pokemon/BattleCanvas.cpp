@@ -174,13 +174,15 @@ void ABattleCanvas::BeginPlay()
 	EnemyPokemonImage = CreatePokemonElement(EnemyGround, ERenderingOrder::UI2, EPivotType::LeftTop, 36, -25, EPokemonElementType::Front);
 
 	// PlayerGround ¿ä¼Ò
-	PlayerBattler = CreateAnimationElement(PlayerGround, ERenderingOrder::UI3, EPivotType::RightBot, -12, 0, RN::PlayerBattler);
+	PlayerBattler = CreateImageElement(PlayerGround, ERenderingOrder::UI3, EPivotType::RightBot, -12, 0);
+	PlayerBattler->SetImage(RN::PlayerBattler);
 	PlayerBattler->CreateAnimation(Global::PlayerBattlerIdle, 0, 0, 0.0f, false);
 	PlayerBattler->CreateAnimation(Global::PlayerBattlerThrow, { 1, 2, 3, 4 }, { 0.28f, 0.14f, 0.07f, 0.07f }, false);
 	PlayerBattlerInitPos = PlayerBattler->GetRelativePosition();
 	PlayerBattlerHidePos = PlayerBattlerInitPos + UPokemonUtil::PixelVector(-120, 0);
 
-	ThrowedBall = CreateAnimationElement(PlayerGround, ERenderingOrder::UI2, EPivotType::LeftBot, 30, 0, Global::ThrowedBall);
+	ThrowedBall = CreateImageElement(PlayerGround, ERenderingOrder::UI2, EPivotType::LeftBot, 30, 0);
+	ThrowedBall->SetImage(Global::ThrowedBall);
 	ThrowedBall->CreateAnimation(Global::ThrowedBall, 0, 11, 0.06f, false);
 
 	PlayerPokemonImage = CreatePokemonElement(PlayerGround, ERenderingOrder::UI2, EPivotType::LeftTop, 35, -49, EPokemonElementType::Back);

@@ -291,9 +291,6 @@
     <ClInclude Include="BattleCanvas.h">
       <Filter>2. Level\8. BattleLevel</Filter>
     </ClInclude>
-    <ClInclude Include="AnimationElement.h">
-      <Filter>5. UI\Element</Filter>
-    </ClInclude>
     <ClInclude Include="BattleStartStateManchine.h">
       <Filter>2. Level\8. BattleLevel</Filter>
     </ClInclude>
@@ -490,9 +487,6 @@
     </ClCompile>
     <ClCompile Include="BattleCanvas.cpp">
       <Filter>2. Level\8. BattleLevel</Filter>
-    </ClCompile>
-    <ClCompile Include="AnimationElement.cpp">
-      <Filter>5. UI\Element</Filter>
     </ClCompile>
     <ClCompile Include="BattleStartStateManchine.cpp">
       <Filter>2. Level\8. BattleLevel</Filter>
