@@ -78,10 +78,10 @@ private:
 	AImageElement* PlayerPokemonGenderMark = nullptr;
 
 	// EnemyPokemonGround 요소
-	APokemonElement* EnemyPokemonImage = nullptr;
+	AImageElement* EnemyPokemonImage = nullptr;
 
 	// PlayerPokemonGround 요소
-	APokemonElement* PlayerPokemonImage = nullptr;
+	AImageElement* PlayerPokemonImage = nullptr;
 	AImageElement* PlayerBattler = nullptr;
 	AImageElement* ThrowedBall = nullptr;
 };

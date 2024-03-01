@@ -21,7 +21,64 @@ void AImageElement::SetImage(std::string_view _ImageName)
 
 	Renderer->SetImage(_ImageName);
 	UPokemonUtil::AlignImage(Renderer, PivotType);
+	OriginalRenderScale = UPokemonUtil::GetRenderScale(Renderer);
 }
+
+void AImageElement::SetPokemon(const UPokemon* _Pokemon)
+{
+	if (nullptr == Renderer)
+	{
+		switch (Type)
+		{
+		case EImageElementType::PokemonMiniMove:
+			SetImage(RN::PokemonMiniPlaceHolder);
+			UPokemonUtil::CreatePokemonMiniMoveAnimations(Renderer);
+			break;
+		case EImageElementType::PokemonMiniStop:
+			SetImage(RN::PokemonMiniPlaceHolder);
+			UPokemonUtil::CreatePokemonMiniStopAnimations(Renderer);
+			break;
+		case EImageElementType::PokemonFront:
+			SetImage(RN::PokemonFrontPlaceHolder);
+			UPokemonUtil::CreatePokemonFrontAnimations(Renderer);
+			break;
+		case EImageElementType::PokemonBack:
+			SetImage(RN::PokemonBackPlaceHolder);
+			UPokemonUtil::CreatePokemonBackAnimations(Renderer);
+			break;
+		default:
+			break;
+		}
+	}
+
+	EPokedexNo PokedexNo = _Pokemon->GetPokedexNo();
+	std::string AnimPrefix;
+	switch (Type)
+	{
+	case EImageElementType::PokemonMiniMove:
+		AnimPrefix = Global::PokemonMiniMovePrefix;
+		break;
+	case  EImageElementType::PokemonMiniStop:
+		AnimPrefix = Global::PokemonMiniStopPrefix;
+		break;
+	case EImageElementType::PokemonFront:
+		AnimPrefix = Global::PokemonFrontPrefix;
+		break;
+	case EImageElementType::PokemonBack:
+		AnimPrefix = Global::PokemonBackPrefix;
+		break;
+	default:
+		break;
+	}
+
+	Renderer->ChangeAnimation(AnimPrefix + _Pokemon->GetSpeciesNameA());
+}
+
+void AImageElement::SetPokemon(const UPokemon& _Pokemon)
+{
+	SetPokemon(&_Pokemon);
+}
+
 
 FTransform AImageElement::GetUITransform()
 {
@@ -38,7 +95,7 @@ void AImageElement::CreateAnimation(std::string_view _AnimName, int _Start, int 
 {
 	if (nullptr == Renderer)
 	{
-		MsgBoxAssert(GetName() + "::CreateAnimation 실패. 렌더러가 존재하지 않아 애니메이션 " + _AnimName.data()  + "을 생성할 수 없습니다.");
+		MsgBoxAssert(GetName() + "::CreateAnimation 실패. 렌더러가 존재하지 않아 애니메이션 " + _AnimName.data() + "을 생성할 수 없습니다.");
 		return;
 	}
 

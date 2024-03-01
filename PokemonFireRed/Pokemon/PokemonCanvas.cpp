@@ -53,7 +53,7 @@ void APokemonCanvas::BeginPlay()
 	FirstHpText = CreateText(FirstBox, ERenderingOrder::UI2, EPivotType::RightBot, -5, -3, EAlignType::Right, EFontColor::WhiteGray, EFontSize::Mini);
 	FirstCurHpText = CreateText(FirstBox, ERenderingOrder::UI2, EPivotType::RightBot, -25, -3, EAlignType::Right, EFontColor::WhiteGray, EFontSize::Mini);
 	FirstHpBar = CreateScrollBar(FirstBox, ERenderingOrder::UI2, EPivotType::RightBot, -53, -15, EScrollType::Hp);
-	FirstPokemonIcon = CreatePokemonElement(FirstBox, ERenderingOrder::UI2, EPivotType::LeftBot, -2, -23, EPokemonElementType::MiniMove);
+	FirstPokemonIcon = CreateImageElement(FirstBox, ERenderingOrder::UI2, EPivotType::LeftBot, -2, -23, EImageElementType::PokemonMiniMove);
 	FirstGender = CreateImageElement(FirstBox, ERenderingOrder::UI2, EPivotType::RightBot, -9, -19);
 
 	for (int i = 1; i < UPlayerData::GetPokemonEntrySize(); ++i)
@@ -65,7 +65,7 @@ void APokemonCanvas::BeginPlay()
 		AText* HpText = CreateText(EntryBoxes[i - 1], ERenderingOrder::UI2, EPivotType::RightBot, -5, 0, EAlignType::Right, EFontColor::WhiteGray, EFontSize::Mini);
 		AText* CurHpText = CreateText(EntryBoxes[i - 1], ERenderingOrder::UI2, EPivotType::RightBot, -25, 0, EAlignType::Right, EFontColor::WhiteGray, EFontSize::Mini);
 		AScrollBar* HpBar = CreateScrollBar(EntryBoxes[i - 1], ERenderingOrder::UI2, EPivotType::RightBot, -53, -13, EScrollType::Hp);
-		APokemonElement* Icon = CreatePokemonElement(EntryBoxes[i - 1], ERenderingOrder::UI2, EPivotType::LeftBot, -3, 3, EPokemonElementType::MiniMove);
+		AImageElement* Icon = CreateImageElement(EntryBoxes[i - 1], ERenderingOrder::UI2, EPivotType::LeftBot, -3, 3, EImageElementType::PokemonMiniMove);
 		AImageElement* Gender = CreateImageElement(EntryBoxes[i - 1], ERenderingOrder::UI2, EPivotType::RightBot, -72, 0);
 
 		EntryNameTexts.push_back(NameText);

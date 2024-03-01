@@ -46,7 +46,7 @@ void APokemonSummaryCanvas::BeginPlay()
 	NameText = CreateText(CommonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 40, 13, EAlignType::Left);
 	LevelText = CreateText(CommonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 14, 13, EAlignType::Left);
 	GenderIcon = CreateImageElement(CommonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 105, 3);
-	FrontImage = CreatePokemonElement(CommonBox, ERenderingOrder::UI2, EPivotType::RightTop, -28, 17, EPokemonElementType::Front);
+	FrontImage = CreateImageElement(CommonBox, ERenderingOrder::UI2, EPivotType::RightTop, -28, 17, EImageElementType::PokemonFront);
 
 	// InfoBox 요소
 	PokedexNoText = CreateText(InfoBox, ERenderingOrder::UI2, EPivotType::RightTop, -72, 15, EAlignType::Left, EFontColor::Black2);
@@ -92,7 +92,7 @@ void APokemonSummaryCanvas::BeginPlay()
 	}
 
 	// SmallCommonBox 요소
-	SCBMiniStopImage = CreatePokemonElement(SmallCommonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 6, 8, EPokemonElementType::MiniStop);
+	SCBMiniStopImage = CreateImageElement(SmallCommonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 6, 8, EImageElementType::PokemonMiniStop);
 	SCBGenderIcon = CreateImageElement(SmallCommonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 105, 3);
 	SCBGenderIcon->SetImage(RN::BigGenderMarkMale);
 	SCBNameText = CreateText(SmallCommonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 40, 13, EAlignType::Left, EFontColor::White);

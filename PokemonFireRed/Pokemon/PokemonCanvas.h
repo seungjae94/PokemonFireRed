@@ -86,7 +86,7 @@ private:
 	ACursor* ActionCursor = nullptr;
 
 	AImageElement* FirstBox = nullptr;
-	APokemonElement* FirstPokemonIcon = nullptr;
+	AImageElement* FirstPokemonIcon = nullptr;
 	AText* FirstNameText = nullptr;
 	AText* FirstLevelText = nullptr;
 	AText* FirstHpText = nullptr;
@@ -95,7 +95,7 @@ private:
 	AImageElement* FirstGender = nullptr;
 
 	std::vector<AImageElement*> EntryBoxes;
-	std::vector<APokemonElement*> EntryPokemonIcons;
+	std::vector<AImageElement*> EntryPokemonIcons;
 	std::vector<AText*> EntryNameTexts;
 	std::vector<AText*> EntryLevelTexts;
 	std::vector<AText*> EntryHpTexts;

@@ -50,25 +50,14 @@ ACursor* ACanvas::CreateCursor(AUIParent* _Parent, ERenderingOrder _Order, EPivo
 	return Cursor;
 }
 
-APokemonElement* ACanvas::CreatePokemonElement(AUIParent* _Parent, ERenderingOrder _Order, EPivotType _PivotType, int _RelativePixelX, int _RelativePixelY, EPokemonElementType _ElementType)
-{
-	APokemonElement* Icon = GetWorld()->SpawnActor<APokemonElement>();
-	Icon->SetParent(_Parent);
-	Icon->SetRenderingOrder(_Order);
-	Icon->SetPivotType(_PivotType);
-	Icon->SetElementType(_ElementType);
-	Icon->SetRelativePosition(UPokemonUtil::PixelVector(_RelativePixelX, _RelativePixelY));
-	_Parent->AppendChild(Icon);
-	return Icon;
-}
-
-AImageElement* ACanvas::CreateImageElement(AUIParent* _Parent, ERenderingOrder _Order, EPivotType _PivotType, int _RelativePixelX, int _RelativePixelY)
+AImageElement* ACanvas::CreateImageElement(AUIParent* _Parent, ERenderingOrder _Order, EPivotType _PivotType, int _RelativePixelX, int _RelativePixelY, EImageElementType _Type)
 {
 	AImageElement* Image = GetWorld()->SpawnActor<AImageElement>();
 	Image->SetParent(_Parent);
 	Image->SetRenderingOrder(_Order);
 	Image->SetPivotType(_PivotType);
 	Image->SetRelativePosition(UPokemonUtil::PixelVector(_RelativePixelX, _RelativePixelY));
+	Image->SetType(_Type);
 	_Parent->AppendChild(Image);
 	return Image;
 }

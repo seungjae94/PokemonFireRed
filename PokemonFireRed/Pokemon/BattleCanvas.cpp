@@ -171,7 +171,7 @@ void ABattleCanvas::BeginPlay()
 	PlayerPokemonGenderMark = CreateImageElement(PlayerPokemonBox, ERenderingOrder::UI5, EPivotType::LeftTop, 10, 5);
 
 	// EnemyGround 요소
-	EnemyPokemonImage = CreatePokemonElement(EnemyGround, ERenderingOrder::UI2, EPivotType::LeftTop, 36, -25, EPokemonElementType::Front);
+	EnemyPokemonImage = CreateImageElement(EnemyGround, ERenderingOrder::UI2, EPivotType::LeftTop, 36, -25, EImageElementType::PokemonFront);
 
 	// PlayerGround 요소
 	PlayerBattler = CreateImageElement(PlayerGround, ERenderingOrder::UI3, EPivotType::RightBot, -12, 0);
@@ -185,7 +185,7 @@ void ABattleCanvas::BeginPlay()
 	ThrowedBall->SetImage(Global::ThrowedBall);
 	ThrowedBall->CreateAnimation(Global::ThrowedBall, 0, 11, 0.06f, false);
 
-	PlayerPokemonImage = CreatePokemonElement(PlayerGround, ERenderingOrder::UI2, EPivotType::LeftTop, 35, -49, EPokemonElementType::Back);
+	PlayerPokemonImage = CreateImageElement(PlayerGround, ERenderingOrder::UI2, EPivotType::LeftTop, 35, -49, EImageElementType::PokemonBack);
 	PlayerPokemonImageInitPos = PlayerPokemonImage->GetRelativePosition();
 	PlayerPokemonImageHidePos = PlayerPokemonImageInitPos + UPokemonUtil::PixelVector(0, 32);
 }

@@ -49,21 +49,13 @@ public:
 		int _PixelGap = 16
 	);
 
-	APokemonElement* CreatePokemonElement(
-		AUIParent* _Parent,
-		ERenderingOrder _Order,
-		EPivotType _PivotType,
-		int _RelativePixelX,
-		int _RelativePixelY,
-		EPokemonElementType _ElementType 
-	);
-
 	AImageElement* CreateImageElement(
 		AUIParent* _Parent,
 		ERenderingOrder _Order,
 		EPivotType _PivotType,
 		int _RelativePixelX,
-		int _RelativePixelY
+		int _RelativePixelY,
+		EImageElementType _Type = EImageElementType::Image
 	);
 
 	FTransform GetUITransform() override;

@@ -1,7 +1,6 @@
 #pragma once
 #include "Canvas.h"
 #include "Text.h"
-#include "PokemonElement.h"
 
 enum class EPokemonSummaryPageState
 {
@@ -60,7 +59,7 @@ private:
 	AText* NameText = nullptr;
 	AText* LevelText = nullptr;
 	AImageElement* GenderIcon = nullptr;
-	APokemonElement* FrontImage = nullptr;
+	AImageElement* FrontImage = nullptr;
 
 	// InfoBox 요소
 	AText* PokedexNoText = nullptr;
@@ -91,7 +90,7 @@ private:
 	std::vector<AImageElement*> MoveTypeImages;
 
 	// SmallCommonBox 요소
-	APokemonElement* SCBMiniStopImage = nullptr;
+	AImageElement* SCBMiniStopImage = nullptr;
 	AImageElement* SCBGenderIcon = nullptr;
 	AText* SCBNameText = nullptr;
 	std::vector<AImageElement*> SCBTypeImages;
