@@ -248,14 +248,14 @@ void ABattleCanvas::BeginPlay()
 
 	CurPPText = CreateText(MoveSelectBox, ERenderingOrder::UI7, EPivotType::RightTop, -26, 21, EAlignType::Right, EFontColor::Black2);
 	MaxPPText = CreateText(MoveSelectBox, ERenderingOrder::UI7, EPivotType::RightTop, -9, 21, EAlignType::Right, EFontColor::Black2);
-	MoveTypeText = CreateText(MoveSelectBox, ERenderingOrder::UI7, EPivotType::RightTop, -48, 37, EAlignType::Left, EFontColor::Black);
+	MoveTypeText = CreateText(MoveSelectBox, ERenderingOrder::UI7, EPivotType::RightTop, -48, 37, EAlignType::Left, EFontColor::Black3);
 
 	for (int i = 0; i < 4; ++i)
 	{
 		int RowIndex = i / 2;
 		int ColIndex = i % 2;
 		AText* MoveText = CreateText(MoveSelectBox, ERenderingOrder::UI7, EPivotType::LeftTop, 
-			17 + ColIndex * MoveHorGap, 20 + RowIndex * MoveVerGap, EAlignType::Left, EFontColor::Black, EFontSize::Mini);
+			17 + ColIndex * MoveHorGap, 20 + RowIndex * MoveVerGap, EAlignType::Left, EFontColor::Black3, EFontSize::Mini);
 		MoveTexts.push_back(MoveText);
 	}
 
