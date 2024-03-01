@@ -15,9 +15,9 @@ public:
 	AWildBattleTrigger& operator=(const AWildBattleTrigger& _Other) = delete;
 	AWildBattleTrigger& operator=(AWildBattleTrigger&& _Other) noexcept = delete;
 
-	void Trigger(const UPokemon& _Pokemon)
+	void Trigger(const FWildPokemonConstructorParam & _ConstructorParam)
 	{
-		Update(_Pokemon);
+		Update(_ConstructorParam);
 		UEventManager::TriggerEvent(this, EEventTriggerAction::Direct);
 	}
 
@@ -28,7 +28,7 @@ private:
 	float FadeOutTime = 0.25f;
 	float FadeInTime = 0.15f;
 
-	void Update(const UPokemon& _Pokemon);
+	void Update(const FWildPokemonConstructorParam & _ConstructorParam);
 	void RegisterPredefinedEvent() override;
 	void UnregisterEvent();
 };

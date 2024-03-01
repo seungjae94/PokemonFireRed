@@ -3,6 +3,13 @@
 
 class UPokemon;
 
+struct FWildPokemonConstructorParam
+{
+public:
+	EPokedexNo Id = EPokedexNo::None;
+	int Level = 0;
+};
+
 struct FWildPokemonEncounter
 {
 public:
@@ -25,12 +32,12 @@ public:
 	UWildPokemonZone& operator=(const UWildPokemonZone& _Other) = delete;
 	UWildPokemonZone& operator=(UWildPokemonZone&& _Other) noexcept = delete;
 
-	void InsertWildPokemonInfo(const FWildPokemonEncounter& _Encounter)
+	void AddWildPokemonEncounter(const FWildPokemonEncounter& _Encounter)
 	{
 		WildPokemonEncounters.push_back(_Encounter);
 	}
 
-	UPokemon NewWildPokemon() const;
+	FWildPokemonConstructorParam GenerateWildPokemonConstructorParam() const;
 
 protected:
 private:

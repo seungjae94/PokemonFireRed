@@ -10,7 +10,7 @@ UWildPokemonZone::~UWildPokemonZone()
 {
 }
 
-UPokemon UWildPokemonZone::NewWildPokemon() const
+FWildPokemonConstructorParam UWildPokemonZone::GenerateWildPokemonConstructorParam() const
 {
 	float RandomNumber = UPokemonMath::Random(0.0f, 1.0f);
 
@@ -30,5 +30,5 @@ UPokemon UWildPokemonZone::NewWildPokemon() const
 		}
 	}
 
-	return UPokemon(Id, Level);
+	return { Id, Level };
 }

@@ -41,6 +41,16 @@ public:
 		ActionCursor->SetCursor(_Cursor);
 	}
 
+	int GetMoveSelectCursor() const
+	{
+		return MoveSelectCursor->GetCursor();
+	}
+
+	void SetMoveSelectCursor(int _Cursor)
+	{
+		MoveSelectCursor->SetCursor(_Cursor);
+	}
+
 protected:
 
 private:

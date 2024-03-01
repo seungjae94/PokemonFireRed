@@ -352,7 +352,7 @@ void UEventManager::FadeChangeLevel(std::string_view _TargetMapName, bool _Playe
 	LevelChanger->Trigger(_TargetMapName, _PlayerControl, _FadeInTime, _FadeOutTime);
 }
 
-void UEventManager::WildBattle(const UPokemon& _Pokemon)
+void UEventManager::WildBattle(const FWildPokemonConstructorParam _ConstructorParam)
 {
 	AWildBattleTrigger* WildBattleTrigger = FindTarget<AWildBattleTrigger>(CurLevelName, Global::WildBattleTrigger);
 
@@ -362,8 +362,7 @@ void UEventManager::WildBattle(const UPokemon& _Pokemon)
 		return;
 	}
 
-
-	WildBattleTrigger->Trigger(_Pokemon);
+	WildBattleTrigger->Trigger(_ConstructorParam);
 }
 
 void UEventManager::OpenMenuWindow()

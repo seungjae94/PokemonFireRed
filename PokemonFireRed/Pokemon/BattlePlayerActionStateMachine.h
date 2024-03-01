@@ -60,10 +60,10 @@ public:
 		return ActionResult;
 	}
 
-	void Start(ABattleCanvas* _Canvas, int _PlayerPokemonIndex, const UPokemon* _EnemyPokemon)
+	void Start(ABattleCanvas* _Canvas, const UPokemon* _PlayerPokemon, const UPokemon* _EnemyPokemon)
 	{
 		Canvas = _Canvas;
-		PlayerPokemonIndex = _PlayerPokemonIndex;
+		PlayerPokemon = _PlayerPokemon;
 		EnemyPokemon = _EnemyPokemon;
 		State = ESubstate::Select;
 	}
@@ -76,7 +76,7 @@ public:
 protected:
 
 private:
-	int PlayerPokemonIndex = 0;
+	const UPokemon* PlayerPokemon = nullptr;
 	const UPokemon* EnemyPokemon = nullptr;
 	EBattlePlayerAction PlayerAction = EBattlePlayerAction::None;
 
@@ -96,11 +96,5 @@ private:
 	void ProcessMoveSelect(float _DeltaTime);
 	void ProcessShowEscapeSuccessMsg(float _DeltaTime);
 	void ProcessShowEscapeFailMsg(float _DeltaTime);
-
-	// À¯Æ¿
-	UPokemon& GetCurPlayerPokemon()
-	{
-		return UPlayerData::GetPokemonInEntry(PlayerPokemonIndex);
-	}
 };
 

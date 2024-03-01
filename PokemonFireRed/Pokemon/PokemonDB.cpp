@@ -237,7 +237,7 @@ public:
 			Encounter.Prop = std::stof(Line[3]);
 			Encounter.MinLevel = std::stoi(Line[4]);
 			Encounter.MaxLevel = std::stoi(Line[5]);
-			Zone.InsertWildPokemonInfo(Encounter);
+			Zone.AddWildPokemonEncounter(Encounter);
 		}
 	}
 

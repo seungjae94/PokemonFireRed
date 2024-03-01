@@ -117,8 +117,6 @@ void ABattlePlayerActionStateMachine::ProcessSelect(float _DeltaTime)
 
 bool ABattlePlayerActionStateMachine::CalcRunResult()
 {
-	const UPokemon* PlayerPokemon = &GetCurPlayerPokemon();
-
 	int PSpeed = PlayerPokemon->GetSpeed();
 	int ESpeed = EnemyPokemon->GetSpeed();
 
@@ -137,7 +135,43 @@ bool ABattlePlayerActionStateMachine::CalcRunResult()
 
 void ABattlePlayerActionStateMachine::ProcessMoveSelect(float _DeltaTime)
 {
-	//int Cursor = Canvas->GetMoveCursor();
+	int Cursor = Canvas->GetMoveSelectCursor();
+
+	if (true == UEngineInput::IsDown(VK_LEFT))
+	{
+		if (Cursor % 2 == 1)
+		{
+			Canvas->SetMoveSelectCursor(Cursor - 1);
+		}
+		return;
+	}
+
+	if (true == UEngineInput::IsDown(VK_RIGHT))
+	{
+		if (Cursor % 2 == 0 && (Cursor + 1) < PlayerPokemon->GetMoveCount())
+		{
+			Canvas->SetMoveSelectCursor(Cursor + 1);
+		}
+		return;
+	}
+
+	if (true == UEngineInput::IsDown(VK_UP))
+	{
+		if (Cursor / 2 == 1)
+		{
+			Canvas->SetMoveSelectCursor(Cursor - 2);
+		}
+		return;
+	}
+
+	if (true == UEngineInput::IsDown(VK_DOWN))
+	{
+		if (Cursor / 2 == 0 && (Cursor + 2) < PlayerPokemon->GetMoveCount())
+		{
+			Canvas->SetMoveSelectCursor(Cursor + 2);
+		}
+		return;
+	}
 }
 
 void ABattlePlayerActionStateMachine::ProcessShowEscapeSuccessMsg(float _DeltaTime)

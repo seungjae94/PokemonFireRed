@@ -73,8 +73,9 @@ void UBattleLevel::LevelStart(ULevel* _PrevLevel)
 	PrevMapName = _PrevLevel->GetName();
 
 	PlayerPokemonIndex = 0;
-	EnemyPokemon = UPlayerData::EnemyWildPokemon;
-	Canvas->Init(&UPlayerData::GetPokemonInEntry(0), &EnemyPokemon);
+	PlayerPokemon = &UPlayerData::GetPokemonInEntry(0);
+	EnemyPokemon = UPlayerData::GetEnemyWildPokemon();
+	Canvas->Init(PlayerPokemon, EnemyPokemon);
 
 	// 배틀 레벨 상태 초기화
 	State = EBattleState::BattleStart;
@@ -96,7 +97,7 @@ void UBattleLevel::ProcessBattleStart(float _DeltaTime)
 		State = EBattleState::PlayerAction;
 		Canvas->SetActionBoxActive(true);
 		Canvas->SetBattleMessage(L"What will\n" + GetCurPlayerPokemon().GetNameW() + L" do?");
-		PASM->Start(Canvas, PlayerPokemonIndex, &EnemyPokemon);
+		PASM->Start(Canvas, PlayerPokemon, EnemyPokemon);
 	}
 }
 
@@ -119,7 +120,7 @@ void UBattleLevel::ProcessPlayerAction(float _DeltaTime)
 			State = EBattleState::PlayerAction;
 			Canvas->SetActionBoxActive(true);
 			Canvas->SetBattleMessage(L"What will\n" + GetCurPlayerPokemon().GetNameW() + L" do?");
-			PASM->Start(Canvas, PlayerPokemonIndex, &EnemyPokemon);
+			PASM->Start(Canvas, PlayerPokemon, EnemyPokemon);
 			break;
 		default:
 			break;

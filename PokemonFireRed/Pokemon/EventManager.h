@@ -57,7 +57,7 @@ public:
 
 	static void FadeChangeLevel(std::string_view _TargetLevelName, bool _PlayerControl = true, float _FadeInTime = 0.3f, float _FadeOutTime = 0.3f);
 	
-	static void WildBattle(const UPokemon& _Pokemon);
+	static void WildBattle(const FWildPokemonConstructorParam _ConstructorParam);
 
 	static void OpenMenuWindow();
 

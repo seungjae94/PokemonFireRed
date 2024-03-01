@@ -1,18 +1,18 @@
 #include "WildBattleTrigger.h"
 #include "PlayerData.h"
 
-AWildBattleTrigger::AWildBattleTrigger() 
+AWildBattleTrigger::AWildBattleTrigger()
 {
 }
 
-AWildBattleTrigger::~AWildBattleTrigger() 
+AWildBattleTrigger::~AWildBattleTrigger()
 {
 }
 
-void AWildBattleTrigger::Update(const UPokemon& _Pokemon)
+void AWildBattleTrigger::Update(const FWildPokemonConstructorParam& _ConstructorParam)
 {
 	UnregisterEvent();
-	UPlayerData::EnemyWildPokemon = _Pokemon;
+	UPlayerData::GenerateEnemyWildPokemon(_ConstructorParam);
 	RegisterPredefinedEvent();
 }
 

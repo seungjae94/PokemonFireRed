@@ -34,7 +34,8 @@ private:
 	// 데이터
 	int PlayerPokemonIndex = 0;
 	EBattlePlayerAction PlayerAction = EBattlePlayerAction::None;
-	UPokemon EnemyPokemon;
+	UPokemon* PlayerPokemon = nullptr;
+	UPokemon* EnemyPokemon = nullptr;
 
 	// 렌더링, 로직
 	ABattleCanvas* Canvas = nullptr;

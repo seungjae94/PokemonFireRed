@@ -600,8 +600,8 @@ bool APlayer::TryBattleEvent()
 	}
 
 	const UWildPokemonZone* Zone = UPokemonDB::FindWildPokemonZone(GetWorld()->GetName(), ZoneIndex);
-	UPokemon Pokemon = Zone->NewWildPokemon();
-	UEventManager::WildBattle(Pokemon);
+	FWildPokemonConstructorParam ConstructorParam = Zone->GenerateWildPokemonConstructorParam();
+	UEventManager::WildBattle(ConstructorParam);
 	return true;
 }
 

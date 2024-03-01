@@ -10,7 +10,21 @@ std::map<EAchievement, bool> UPlayerData::AchievementMap;
 std::map<EPokedexNo, bool> UPlayerData::PokedexSeenMap;
 std::map<EPokedexNo, bool> UPlayerData::PokedexOwnedMap;
 
-UPokemon UPlayerData::EnemyWildPokemon;
+UPokemon* UPlayerData::EnemyWildPokemon;
+
+class PlayerDataReleaser
+{
+public:
+	PlayerDataReleaser(){}
+	~PlayerDataReleaser(){
+		if (nullptr != UPlayerData::EnemyWildPokemon)
+		{
+			delete UPlayerData::EnemyWildPokemon;
+			UPlayerData::EnemyWildPokemon = nullptr;
+		}
+	}
+};
+PlayerDataReleaser Releaser;
 
 UPlayerData::UPlayerData()
 {
