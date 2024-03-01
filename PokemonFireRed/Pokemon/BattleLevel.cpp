@@ -35,7 +35,7 @@ void UBattleLevel::BeginPlay()
 	// 액터 생성
 	Canvas = SpawnActor<ABattleCanvas>();
 	BSSM = SpawnActor<ABattleStartStateMachine>();
-	PASM = SpawnActor<ABattlePlayerActionStateMachine>();
+	PASM = SpawnActor<ABattlePlayerActionSelectStateMachine>();
 }
 
 void UBattleLevel::Tick(float _DeltaTime)
@@ -49,7 +49,7 @@ void UBattleLevel::Tick(float _DeltaTime)
 	case EBattleState::BattleStart:
 		ProcessBattleStart(_DeltaTime);
 		break;
-	case EBattleState::PlayerAction:
+	case EBattleState::PlayerActionSelect:
 		ProcessPlayerAction(_DeltaTime);
 		break;
 	case EBattleState::PlayerMove:
@@ -94,7 +94,7 @@ void UBattleLevel::ProcessBattleStart(float _DeltaTime)
 {
 	if (true == BSSM->IsEnd())
 	{
-		State = EBattleState::PlayerAction;
+		State = EBattleState::PlayerActionSelect;
 		Canvas->SetActionBoxActive(true);
 		Canvas->SetBattleMessage(L"What will\n" + GetCurPlayerPokemon().GetNameW() + L" do?");
 		PASM->Start(Canvas, PlayerPokemon, EnemyPokemon);
@@ -111,16 +111,16 @@ void UBattleLevel::ProcessPlayerAction(float _DeltaTime)
 		{
 		case EBattlePlayerAction::None:
 			break;
+		case EBattlePlayerAction::Fight:
+			State = EBattleState::PlayerMove;
+			Canvas->SetBattleMessage(L"You Selected To Fight.");
+			break;
 		case EBattlePlayerAction::EscapeSuccess:
 			State = EBattleState::BattleEnd;
 			ReturnToMapLevel();
 			break;
 		case EBattlePlayerAction::EscapeFail:
-			// 디버그용: 도주 실패시 PASM 레벨로 복귀
-			State = EBattleState::PlayerAction;
-			Canvas->SetActionBoxActive(true);
-			Canvas->SetBattleMessage(L"What will\n" + GetCurPlayerPokemon().GetNameW() + L" do?");
-			PASM->Start(Canvas, PlayerPokemon, EnemyPokemon);
+			State = EBattleState::PlayerMove;
 			break;
 		default:
 			break;

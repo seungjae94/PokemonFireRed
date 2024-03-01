@@ -51,6 +51,10 @@ public:
 		MoveSelectCursor->SetCursor(_Cursor);
 	}
 
+	/*
+	* 포켓몬 순서 바꿀때 반드시 MoveSelectCursor 초기화 작업 필요!
+	*/
+
 protected:
 
 private:

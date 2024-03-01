@@ -282,7 +282,7 @@
     <ClInclude Include="FadeCanvas.h">
       <Filter>5. UI\MapLevelCanvas</Filter>
     </ClInclude>
-    <ClInclude Include="BattlePlayerActionStateMachine.h">
+    <ClInclude Include="BattlePlayerActionSelectStateMachine.h">
       <Filter>2. Level\8. BattleLevel</Filter>
     </ClInclude>
   </ItemGroup>
@@ -467,7 +467,7 @@
     <ClCompile Include="FadeCanvas.cpp">
       <Filter>5. UI\MapLevelCanvas</Filter>
     </ClCompile>
-    <ClCompile Include="BattlePlayerActionStateMachine.cpp">
+    <ClCompile Include="BattlePlayerActionSelectStateMachine.cpp">
       <Filter>2. Level\8. BattleLevel</Filter>
     </ClCompile>
   </ItemGroup>

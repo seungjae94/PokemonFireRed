@@ -19,6 +19,9 @@ void ABattleCanvas::Init(const UPokemon* _PlayerPokemon, const UPokemon* _EnemyP
 	RefreshPlayerPokemonBox();
 	RefreshEnemyPokemonBox();
 	RefreshMoveSelectBox();
+	// 커서 초기화
+	ActionCursor->SetCursor(0);
+	MoveSelectCursor->SetCursor(0);
 
 	ActionBox->SetActive(false);
 	ThrowedBall->SetActive(false);

@@ -9,11 +9,12 @@ class ABattleCanvas;
 enum class EBattlePlayerAction
 {
 	None,
+	Fight,
 	EscapeSuccess,
 	EscapeFail,
 };
 
-class ABattlePlayerActionStateMachine : public AActor
+class ABattlePlayerActionSelectStateMachine : public AActor
 {
 private:
 	enum ECursorName
@@ -35,14 +36,14 @@ private:
 	};
 public:
 	// constructor destructor
-	ABattlePlayerActionStateMachine();
-	~ABattlePlayerActionStateMachine();
+	ABattlePlayerActionSelectStateMachine();
+	~ABattlePlayerActionSelectStateMachine();
 
 	// delete Function
-	ABattlePlayerActionStateMachine(const ABattlePlayerActionStateMachine& _Other) = delete;
-	ABattlePlayerActionStateMachine(ABattlePlayerActionStateMachine&& _Other) noexcept = delete;
-	ABattlePlayerActionStateMachine& operator=(const ABattlePlayerActionStateMachine& _Other) = delete;
-	ABattlePlayerActionStateMachine& operator=(ABattlePlayerActionStateMachine&& _Other) noexcept = delete;
+	ABattlePlayerActionSelectStateMachine(const ABattlePlayerActionSelectStateMachine& _Other) = delete;
+	ABattlePlayerActionSelectStateMachine(ABattlePlayerActionSelectStateMachine&& _Other) noexcept = delete;
+	ABattlePlayerActionSelectStateMachine& operator=(const ABattlePlayerActionSelectStateMachine& _Other) = delete;
+	ABattlePlayerActionSelectStateMachine& operator=(ABattlePlayerActionSelectStateMachine&& _Other) noexcept = delete;
 
 	bool IsEnd() const
 	{
@@ -60,18 +61,14 @@ public:
 		return ActionResult;
 	}
 
-	void Start(ABattleCanvas* _Canvas, const UPokemon* _PlayerPokemon, const UPokemon* _EnemyPokemon)
+	int GetSelectedMove() const
 	{
-		Canvas = _Canvas;
-		PlayerPokemon = _PlayerPokemon;
-		EnemyPokemon = _EnemyPokemon;
-		State = ESubstate::Select;
+		return SelectedMove;
 	}
 
-	void Reset()
-	{
-		RunAttemptCount = 0;
-	}
+	void Start(ABattleCanvas* _Canvas, const UPokemon* _PlayerPokemon, const UPokemon* _EnemyPokemon);
+
+	void Reset();
 
 protected:
 
@@ -85,6 +82,7 @@ private:
 
 	ESubstate State = ESubstate::None;
 	EBattlePlayerAction ActionResult = EBattlePlayerAction::None;
+	int SelectedMove = 0;
 	int RunAttemptCount = 0;
 
 	// ·ÎÁ÷

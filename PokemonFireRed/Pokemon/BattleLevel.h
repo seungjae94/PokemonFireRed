@@ -3,12 +3,19 @@
 #include "PlayerData.h"
 #include "BattleCanvas.h"
 #include "BattleStartStateMachine.h"
-#include "BattlePlayerActionStateMachine.h"
+#include "BattlePlayerActionSelectStateMachine.h"
+
+enum class EEnemyType
+{
+	Wild,
+	Trainer,
+	GymLeader
+};
 
 enum class EBattleState
 {
 	BattleStart,
-	PlayerAction,
+	PlayerActionSelect,
 	PlayerMove,
 	EnemyMove,
 	PlayerSecondaryEffect,
@@ -40,7 +47,7 @@ private:
 	// ·»´õ¸µ, ·ÎÁ÷
 	ABattleCanvas* Canvas = nullptr;
 	ABattleStartStateMachine* BSSM = nullptr;
-	ABattlePlayerActionStateMachine* PASM = nullptr;
+	ABattlePlayerActionSelectStateMachine* PASM = nullptr;
 
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;

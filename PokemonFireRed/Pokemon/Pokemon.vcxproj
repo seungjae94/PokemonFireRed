@@ -183,7 +183,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="BattlePlayerActionStateMachine.h">
+    <ClInclude Include="BattlePlayerActionSelectStateMachine.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -434,7 +434,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="BattlePlayerActionStateMachine.cpp">
+    <ClCompile Include="BattlePlayerActionSelectStateMachine.cpp">
       <SubType>
       </SubType>
     </ClCompile>

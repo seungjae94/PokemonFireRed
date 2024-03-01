@@ -1,16 +1,29 @@
-#include "BattlePlayerActionStateMachine.h"
+#include "BattlePlayerActionSelectStateMachine.h"
 #include <EnginePlatform/EngineInput.h>
 #include "BattleCanvas.h"
 
-ABattlePlayerActionStateMachine::ABattlePlayerActionStateMachine()
+ABattlePlayerActionSelectStateMachine::ABattlePlayerActionSelectStateMachine()
 {
 }
 
-ABattlePlayerActionStateMachine::~ABattlePlayerActionStateMachine()
+ABattlePlayerActionSelectStateMachine::~ABattlePlayerActionSelectStateMachine()
 {
 }
 
-void ABattlePlayerActionStateMachine::Tick(float _DeltaTime)
+void ABattlePlayerActionSelectStateMachine::Start(ABattleCanvas* _Canvas, const UPokemon* _PlayerPokemon, const UPokemon* _EnemyPokemon)
+{
+	Canvas = _Canvas;
+	PlayerPokemon = _PlayerPokemon;
+	EnemyPokemon = _EnemyPokemon;
+	State = ESubstate::Select;
+}
+
+void ABattlePlayerActionSelectStateMachine::Reset()
+{
+	RunAttemptCount = 0;
+}
+
+void ABattlePlayerActionSelectStateMachine::Tick(float _DeltaTime)
 {
 	Timer -= _DeltaTime;
 
@@ -37,7 +50,7 @@ void ABattlePlayerActionStateMachine::Tick(float _DeltaTime)
 	}
 }
 
-void ABattlePlayerActionStateMachine::ProcessSelect(float _DeltaTime)
+void ABattlePlayerActionSelectStateMachine::ProcessSelect(float _DeltaTime)
 {
 	int Cursor = Canvas->GetActionCursor();
 
@@ -115,7 +128,7 @@ void ABattlePlayerActionStateMachine::ProcessSelect(float _DeltaTime)
 	}
 }
 
-bool ABattlePlayerActionStateMachine::CalcRunResult()
+bool ABattlePlayerActionSelectStateMachine::CalcRunResult()
 {
 	int PSpeed = PlayerPokemon->GetSpeed();
 	int ESpeed = EnemyPokemon->GetSpeed();
@@ -133,9 +146,18 @@ bool ABattlePlayerActionStateMachine::CalcRunResult()
 	return RandomNumber < RHS;
 }
 
-void ABattlePlayerActionStateMachine::ProcessMoveSelect(float _DeltaTime)
+void ABattlePlayerActionSelectStateMachine::ProcessMoveSelect(float _DeltaTime)
 {
 	int Cursor = Canvas->GetMoveSelectCursor();
+
+	if (true == UEngineInput::IsDown('Z'))
+	{
+		State = ESubstate::End;
+		ActionResult = EBattlePlayerAction::Fight;
+		SelectedMove = Cursor;
+		Canvas->SetMoveSelectBoxActive(false);
+		return;
+	}
 
 	if (true == UEngineInput::IsDown('X'))
 	{
@@ -182,7 +204,7 @@ void ABattlePlayerActionStateMachine::ProcessMoveSelect(float _DeltaTime)
 	}
 }
 
-void ABattlePlayerActionStateMachine::ProcessShowEscapeSuccessMsg(float _DeltaTime)
+void ABattlePlayerActionSelectStateMachine::ProcessShowEscapeSuccessMsg(float _DeltaTime)
 {
 	if (true == UEngineInput::IsDown('Z'))
 	{
@@ -191,7 +213,7 @@ void ABattlePlayerActionStateMachine::ProcessShowEscapeSuccessMsg(float _DeltaTi
 	}
 }
 
-void ABattlePlayerActionStateMachine::ProcessShowEscapeFailMsg(float _DeltaTime)
+void ABattlePlayerActionSelectStateMachine::ProcessShowEscapeFailMsg(float _DeltaTime)
 {
 	if (true == UEngineInput::IsDown('Z'))
 	{
