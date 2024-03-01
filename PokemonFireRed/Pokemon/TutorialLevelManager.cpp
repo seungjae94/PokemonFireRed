@@ -61,9 +61,14 @@ void ATutorialLevelManager::ChangeUI()
 
 void ATutorialLevelManager::Tick(float _DeltaTime)
 {
-	if (FadeCheckState == EFadeCheckState::Start && Timer <= 0.0f)
+	if (FadeCheckState == EFadeCheckState::Start)
 	{
-		ChangeUI();
+		Timer -= _DeltaTime;
+
+		if (Timer <= 0.0f)
+		{
+			ChangeUI();
+		}
 	}
 
 	// 피카츄 애니메이션 로직
@@ -73,7 +78,7 @@ void ATutorialLevelManager::Tick(float _DeltaTime)
 	// - 눈 깜빡이는 로직 = 눈을 9/60초 감는다 -> 9/60초 뜬다 -> 9/60초 감는다 -> 뜬다.
 	// - 3페이지 진입 60/60초 후부터 귀 움직이는 로직 시작. 이후 220/60 초, 394/60 초, ... 마다 귀를 2번 접었다 편다.
 	// - 귀 움직이는 로직 = 귀를 12/60초 펼친다 -> 12/60초 접는다 -> 12/60초 펼친다 -> 접는다.
-	if (true == PageIndex >= 3)
+	if (FadeCheckState == EFadeCheckState::End)
 	{
 		CurCalcTime -= _DeltaTime;
 		if (CurCalcTime <= 0.0f)
@@ -174,6 +179,7 @@ void ATutorialLevelManager::Tick(float _DeltaTime)
 
 			UEventManager::TriggerEvent(Fader, EEventTriggerAction::Direct);
 			FadeCheckState = EFadeCheckState::Start;
+			Timer = 0.5f;
 			return;
 		}
 
