@@ -7,6 +7,7 @@
 #include "DialogueCanvas.h"
 #include "MapNameCanvas.h"
 #include "FadeCanvas.h"
+#include "SoundManager.h"
 
 UEventProcessor::UEventProcessor()
 {
@@ -59,6 +60,9 @@ void UEventProcessor::Tick(float _DeltaTime)
 			break;
 		case EEventType::PlayAnimation:
 			ProcessingResult = ProcessPlayAnimation();
+			break;
+		case EEventType::PlayBgm:
+			ProcessingResult = ProcessPlayBgm();
 			break;
 		case EEventType::Chat:
 			ProcessingResult = ProcessChat();
@@ -448,6 +452,14 @@ bool UEventProcessor::ProcessPlayAnimation()
 	}
 
 	return false;
+}
+
+bool UEventProcessor::ProcessPlayBgm()
+{
+	int CurIndexOfType = GetCurIndexOfType(EEventType::PlayBgm);
+	ES::PlayBgm& Data = CurStream->PlayBgmDataSet[CurIndexOfType];
+	USoundManager::PlayBgm(Data.Name);
+	return true;
 }
 
 bool UEventProcessor::ProcessChat()

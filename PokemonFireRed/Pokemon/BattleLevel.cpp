@@ -70,9 +70,6 @@ void UBattleLevel::Tick(float _DeltaTime)
 void UBattleLevel::LevelStart(ULevel* _PrevLevel)
 {
 	UPokemonLevel::LevelStart(_PrevLevel);
-
-	USoundManager::PlayBgm(RN::BgmWildBattle);
-
 	PrevMapName = _PrevLevel->GetName();
 
 	PlayerPokemonIndex = 0;

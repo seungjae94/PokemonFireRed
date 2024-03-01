@@ -87,6 +87,7 @@ private:
 	bool ProcessFadeOut();
 	bool ProcessWait();
 	bool ProcessPlayAnimation();
+	bool ProcessPlayBgm();
 	bool ProcessChat();
 	bool ProcessShowMapName();
 	bool ProcessChangeLevel();

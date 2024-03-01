@@ -21,7 +21,8 @@ void AWildBattleTrigger::RegisterPredefinedEvent()
 	AEventTrigger::RegisterPredefinedEvent();
 	UEventManager::RegisterEvent(this, Cond,
 		ES::Start(true)
-		// 3¹ø ±ôºý°Å¸®±â
+		>> ES::PlayBgm(RN::BgmWildBattle)
+		// 2¹ø ±ôºý°Å¸®±â
 		>> ES::FadeOut(FadeOutTime)
 		>> ES::Wait(FadeOutTime)
 		>> ES::FadeIn(FadeInTime)

@@ -24,6 +24,7 @@ enum class EEventType
 	ChangeDirection,
 	StarePlayer,
 	PlayAnimation,
+	PlayBgm,
 	HideActor,
 	ShowActor,
 	CameraFocus,
@@ -179,6 +180,25 @@ public:
 	{
 		EventTypeList.push_back(EEventType::PlayAnimation);
 		PlayAnimationDataSet.push_back(_Data);
+		return *this;
+	}
+
+	class PlayBgm
+	{
+		friend UEventProcessor;
+	public:
+		PlayBgm(std::string_view _Name)
+			: Name(_Name)
+		{
+		}
+	private:
+		std::string Name = "";
+	};
+
+	UEventStream& operator>>(const PlayBgm& _Data)
+	{
+		EventTypeList.push_back(EEventType::PlayBgm);
+		PlayBgmDataSet.push_back(_Data);
 		return *this;
 	}
 
@@ -449,6 +469,7 @@ private:
 	std::vector<ChangeDirection> ChangeDirectionDataSet;
 	std::vector<StarePlayer> StarePlayerDataSet;
 	std::vector<PlayAnimation> PlayAnimationDataSet;
+	std::vector<PlayBgm> PlayBgmDataSet;
 	std::vector<HideActor> HideActorDataSet;
 	std::vector<ShowActor> ShowActorDataSet;
 	std::vector<CameraFocus> CameraFocusDataSet;
