@@ -92,13 +92,7 @@ void AFadeCanvas::FadeInBlack(float _Time)
 	FadeTime = _Time;
 	Timer = _Time;
 
-	SetActive(true);
-	BlackScreen->SetActive(true);
-	WhiteScreen->SetActive(false);
-	VCurtainTop->SetActive(false);
-	VCurtainBot->SetActive(false);
-	HCurtainLeft->SetActive(false);
-	HCurtainRight->SetActive(false);
+	Clear();
 }
 
 void AFadeCanvas::FadeOutBlack(float _Time)

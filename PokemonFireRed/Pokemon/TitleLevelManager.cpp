@@ -23,11 +23,6 @@ void ATitleLevelManager::Tick(float _DeltaTime)
 {
 	Timer -= _DeltaTime;
 
-	AFadeCanvas* FadeCanvas = UEventManager::FindCurLevelCommonCanvas<AFadeCanvas>(Global::FadeCanvas);
-	FadeCanvas->SetActive(false);
-
-	VideoImage;
-
 	switch (VideoNo)
 	{
 	case 0:
