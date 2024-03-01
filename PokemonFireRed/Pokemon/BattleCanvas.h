@@ -86,5 +86,8 @@ private:
 	AImageElement* PlayerPokemonImage = nullptr;
 	AImageElement* PlayerBattler = nullptr;
 	AImageElement* ThrowedBall = nullptr;
+
+	// ActionBox ¿ä¼Ò
+	ACursor* ActionCursor = nullptr;
 };
 

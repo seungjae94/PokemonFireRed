@@ -75,8 +75,6 @@ void UBattleLevel::LevelStart(ULevel* _PrevLevel)
 {
 	UPokemonLevel::LevelStart(_PrevLevel);
 
-	
-
 	PrevMapName = _PrevLevel->GetName();
 
 	PlayerPokemonIndex = 0;

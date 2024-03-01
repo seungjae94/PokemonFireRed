@@ -198,6 +198,14 @@ void ABattleCanvas::BeginPlay()
 	PlayerPokemonImage = CreateImageElement(PlayerGround, ERenderingOrder::UI2, EPivotType::LeftTop, 35, -49, EImageElementType::PokemonBack);
 	PlayerPokemonImageInitPos = PlayerPokemonImage->GetRelativePosition();
 	PlayerPokemonImageHidePos = PlayerPokemonImageInitPos + UPokemonUtil::PixelVector(0, 32);
+
+	// ActionBox ¿ä¼Ò
+	ActionCursor = CreateCursor(ActionBox, ERenderingOrder::UI7, EPivotType::LeftTop, 9, 12);
+	ActionCursor->SetOptionCount(4);
+
+	int CursorHorGap = 10;
+	int CursorVerGap = 10;
+	ActionCursor->SetCursorPositions({ {0, 0}, {CursorHorGap, 0}, {0, CursorVerGap}, {CursorHorGap, CursorVerGap} });
 }
 
 void ABattleCanvas::Tick(float _DeltaTime)

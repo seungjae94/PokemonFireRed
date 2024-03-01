@@ -35,7 +35,12 @@ public:
 	void SetOptionCount(int _OptionCount)
 	{
 		OptionCount = _OptionCount;
+		SetCursor(Cursor);
+	}
 
+	void SetCursorPositions(const std::vector<FVector>& _CursorPositions)
+	{
+		CursorPositions = _CursorPositions;
 		SetCursor(Cursor);
 	}
 
@@ -60,6 +65,8 @@ protected:
 private:
 	std::string ImageName = RN::BlackCursor;
 	UImageRenderer* Renderer = nullptr;
+
+	std::vector<FVector> CursorPositions;
 
 	int Cursor = 0;
 	int OptionCount = 0;

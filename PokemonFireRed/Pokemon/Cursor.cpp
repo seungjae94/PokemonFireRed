@@ -34,5 +34,13 @@ void ACursor::FollowParentPosition()
 	AUIElement::FollowParentPosition();
 
 	FVector ActorPos = GetActorLocation();
-	SetActorLocation(ActorPos + UPokemonUtil::PixelVector(0, PixelGap * Cursor));
+
+	if (CursorPositions.size() <= Cursor)
+	{
+		SetActorLocation(ActorPos + UPokemonUtil::PixelVector(0, PixelGap * Cursor));
+	}
+	else
+	{
+		SetActorLocation(ActorPos + CursorPositions[Cursor]);
+	}
 }
