@@ -33,6 +33,8 @@ namespace Global
 	const float CharacterJumpAnimFrameLength = 1.0f / 48;
 
 	const int PixelSize = 3;
+	const int PixelScreenX = 240;
+	const int PixelScreenY = 160;
 	const int ScreenX = (240 * PixelSize);
 	const int ScreenY = (160 * PixelSize);;
 	const int ImageTileSize = 16;
@@ -41,6 +43,8 @@ namespace Global
 	const int HalfScreenY = (ScreenY / 2);
 
 	const float FloatPixelSize = static_cast<float>(3);
+	const float FloatPixelScreenX = static_cast<float>(240);
+	const float FloatPixelScreenY = static_cast<float>(160);
 	const float FloatScreenX = static_cast<float>(240 * PixelSize);
 	const float FloatScreenY = static_cast<float>(160 * PixelSize);
 	const float FloatImageTileSize = static_cast<float>(16);
@@ -73,12 +77,11 @@ namespace Global
 	const std::string PokemonMiniStopPrefix = "PokemonMiniStop";
 	const std::string PlayerBattlerIdle = "PlayerBattlerIdle";
 	const std::string PlayerBattlerThrow = "PlayerBattlerThrow";
-
+	
+	const std::string TutorialLevelFader = "TutorialLevelFader";
 	const std::string ThrowedBall = "ThrowedBall";
 	const std::string Player = "Player";
-	const std::string BlackScreen = "BlackScreen";
-	const std::string WhiteScreen = "WhiteScreen";
-	const std::string CurtainScreen = "CurtainScreen";
+	const std::string FadeCanvas = "FadeCanvas";
 	const std::string MenuWindow = "MenuWindow";
 	const std::string DialogueWindow = "DialogueWindow";
 	const std::string MapNameWindow = "MapNameWindow";
@@ -92,6 +95,8 @@ namespace Global
 // Resource Name
 namespace RN
 {
+	const std::string BlackScreen = "BlackScreen.png";
+	const std::string WhiteScreen = "WhiteScreen.png";
 	const std::string MenuWindowExplain = "MenuWindowExplain.png";
 	const std::string DialogueWindow = "DialogueWindow.png";
 	const std::string MapNameWindow = "MapNameWindow.png";
@@ -169,6 +174,7 @@ namespace RN
 	const std::string BgmTitleScreen = "TitleScreen.wav"; 
 	const std::string BgmTutorial = "Tutorial.wav"; 
 	const std::string BgmPalletTown = "PalletTown.wav"; 
+	const std::string BgmWildBattle = "WildBattle.wav";
 
 	const std::string BattleLevel = "BattleLevel"; 
 	const std::string BattleBackground = "BattleBackground.png"; 

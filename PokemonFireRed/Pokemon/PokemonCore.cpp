@@ -32,6 +32,9 @@ void UPokemonCore::BeginPlay()
 	// 포켓몬 리소스 로딩
 	LoadPokemonResources();
 
+	// 사운드 리소스 로딩
+	LoadSounds();
+
 	// 레벨 생성
 	CreateLevel<UTitleLevel>(Global::TitleLevel);
 	CreateLevel<UTutorialLevel>(Global::TutorialLevel);
@@ -46,7 +49,7 @@ void UPokemonCore::BeginPlay()
 	CreateLevel<UBattleLevel>(Global::BattleLevel);
 
 	// 시작 레벨 설정
-	UEventManager::SetLevel(Global::ExteriorPalletTownLevel);
+	UEventManager::SetLevel(Global::TitleLevel);
 }
 
 void UPokemonCore::Tick(float _DeltaTime)
@@ -68,11 +71,12 @@ void UPokemonCore::LoadUIResources()
 		std::string Path = File.GetFullPath();
 		UEngineResourcesManager::GetInst().LoadImg(Path);
 	}
+
+	CurDir.MoveParent();
 }
 
 void UPokemonCore::LoadPokemonResources()
 {
-	CurDir.MoveParent();
 	CurDir.Move("Pokemons");
 
 	std::list<UEngineFile> AllFiles = CurDir.AllFile({ ".png", ".bmp" }, true);
@@ -85,4 +89,20 @@ void UPokemonCore::LoadPokemonResources()
 	UEngineResourcesManager::GetInst().CuttingImage("PokemonBack.png", 2, 154);
 	UEngineResourcesManager::GetInst().CuttingImage("PokemonFront.png", 2, 154);
 	UEngineResourcesManager::GetInst().CuttingImage("PokemonMini.png", 2, 154);
+
+	CurDir.MoveParent();
+}
+
+void UPokemonCore::LoadSounds()
+{
+	CurDir.Move("Bgm");
+
+	// 사운드 로드
+	std::list<UEngineFile> AllSounds = CurDir.AllFile({ ".mp3", ".wav" });
+	for (UEngineFile& Sound : AllSounds)
+	{
+		UEngineSound::Load(Sound.GetFullPath());
+	}
+
+	CurDir.MoveParent();
 }

@@ -16,19 +16,17 @@ ATitleLevelManager::~ATitleLevelManager()
 
 void ATitleLevelManager::BeginPlay()
 {
-	Renderer = CreateImageRenderer(ERenderingOrder::UI0);
-	Renderer->CameraEffectOff();
-	Renderer->SetTransColor(Color8Bit::White);
-
-	//TitleBattleSoundPlayer = UEngineSound::SoundPlay(RN::BgmTitleBattle);
-	//TitleScreenSoundPlayer = UEngineSound::SoundPlay(RN::BgmTitleScreen);
-	//TitleBattleSoundPlayer.Off();
-	//TitleScreenSoundPlayer.Off();
+	VideoImage = CreateImageElement(this, ERenderingOrder::UI0, EPivotType::LeftTop, 0, 0);
 }
 
 void ATitleLevelManager::Tick(float _DeltaTime)
 {
 	Timer -= _DeltaTime;
+
+	AFadeCanvas* FadeCanvas = UEventManager::FindCurLevelCommonCanvas<AFadeCanvas>(Global::FadeCanvas);
+	FadeCanvas->SetActive(false);
+
+	VideoImage;
 
 	switch (VideoNo)
 	{
@@ -161,9 +159,9 @@ void ATitleLevelManager::PlayNextVideo()
 void ATitleLevelManager::Play()
 {
 	std::string ImageName = GetImageName();
-	UWindowImage* CurImage = Renderer->GetImage();
+	UWindowImage* CurImage = VideoImage->GetImage();
 	UEngineResourcesManager::GetInst().UnloadImg(CurImage->GetName());
 	UEngineResourcesManager::GetInst().LoadImg(CurDir->AppendPath(GetPathName()));
-	Renderer->SetImage(ImageName);
+	VideoImage->SetImage(ImageName);
 	Timer = Interval;
 }

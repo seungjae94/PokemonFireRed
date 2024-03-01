@@ -47,6 +47,5 @@ private:
 	void LoadCharacterResources();
 	void LoadObjectResources();
 	void LoadTileResources();
-	void LoadBgms();
 };
 

@@ -1,12 +1,12 @@
 #pragma once
 #include <EngineBase/EngineDirectory.h>
 #include <EnginePlatform/EngineSound.h>
-#include <EngineCore/Actor.h>
 #include <EngineCore/ImageRenderer.h>
 #include <EngineCore/EngineResourcesManager.h>
 #include "Global.h"
+#include "Canvas.h"
 
-class ATitleLevelManager : public AActor
+class ATitleLevelManager : public ACanvas
 {
 public:
 	// constructor destructor
@@ -22,12 +22,14 @@ public:
 	void SetCurDir(UEngineDirectory* _CurDir)
 	{
 		CurDir = _CurDir;
+		CurDir->MoveToSearchChild("Resources");
+		CurDir->Move("TitleLevel");
 
 		// 첫 번째 이미지 로드
 		std::string PathName = GetPathName();
 		UEngineResourcesManager::GetInst().LoadImg(CurDir->AppendPath(PathName));
-		Renderer->SetImage(GetImageName());
-		Renderer->SetTransform({ {0, 0}, Global::Screen });
+		VideoImage->SetImage(GetImageName());
+		VideoImage->SetTransColor(Color8Bit::White);
 	}
 
 protected:
@@ -35,7 +37,7 @@ private:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
-	UImageRenderer* Renderer = nullptr;
+	AImageElement* VideoImage = nullptr;
 	UEngineDirectory* CurDir = nullptr;
 
 	float Interval = 1 / 60.0f;
@@ -43,7 +45,7 @@ private:
 
 	const int ImageCount = 4331;
 	int VideoNo = 0;
-	int ImageIndex = -1;
+	int ImageIndex = 0;
 	int VideoStartIndex[5] = { 0, 187, 1447, 1709, 4151 };
 
 	void Video0Logic(float _DeltaTime);

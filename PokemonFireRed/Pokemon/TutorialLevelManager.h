@@ -19,14 +19,6 @@ public:
 protected:
 
 private:
-	enum class EFadeState
-	{
-		None,
-		FadeOut,
-		FadeIn,
-		End
-	};
-
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 	void SetArrowPos(const FVector& _Pos);
@@ -63,12 +55,15 @@ private:
 	UImageRenderer* PikachuRenderer = nullptr;
 
 	// 페이지 변경 페이드 효과
-	EFadeState FadingState = EFadeState::None;
-	float FadeOutTime = 0.5f;
-	float FadeInTime = 0.5f;
-	float UIChangeWaitTime = 0.2f;
-	float CurFadeOutTime = FadeOutTime;
-	float CurFadeInTime = FadeInTime;
-	bool UiChanged = false;
+	enum class EFadeCheckState
+	{
+		None,
+		Start,
+		End,
+	};
+
+	EFadeCheckState FadeCheckState = EFadeCheckState::None;
+	float Timer = 0.5f;
+	void ChangeUI();
 };
 

@@ -22,6 +22,7 @@ protected:
 private:
 	void LoadUIResources();
 	void LoadPokemonResources();
+	void LoadSounds();
 	UEngineDirectory CurDir;
 };
 

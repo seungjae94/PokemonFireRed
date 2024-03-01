@@ -24,6 +24,11 @@ public:
 	AImageElement& operator=(const AImageElement& _Other) = delete;
 	AImageElement& operator=(AImageElement&& _Other) noexcept = delete;
 
+	UWindowImage* GetImage()
+	{
+		return Renderer->GetImage();
+	}
+
 	void SetImage(std::string_view _ImageName);
 	void SetPokemon(const UPokemon* _Pokemon);
 	void SetPokemon(const UPokemon& _Pokemon);
@@ -36,6 +41,16 @@ public:
 	void SetScaleFactor(float _Factor)
 	{
 		Renderer->SetScale(OriginalRenderScale * _Factor);
+	}
+
+	void SetAlpha(float _Alpha)
+	{
+		Renderer->SetAlpha(_Alpha);
+	}
+
+	void SetTransColor(Color8Bit _TransColor)
+	{
+		Renderer->SetTransColor(_TransColor);
 	}
 
 	FTransform GetUITransform() override;

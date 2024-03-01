@@ -4,9 +4,9 @@
 #include "EventTarget.h"
 #include "EventTrigger.h"
 #include "Player.h"
-#include "BlackScreen.h"
 #include "DialogueCanvas.h"
 #include "MapNameCanvas.h"
+#include "FadeCanvas.h"
 
 UEventProcessor::UEventProcessor()
 {
@@ -18,90 +18,94 @@ UEventProcessor::~UEventProcessor()
 
 void UEventProcessor::Tick(float _DeltaTime)
 {
-	if (false == IsRunningValue)
+	while (true)
 	{
-		return;
-	}
+		if (false == IsRunningValue)
+		{
+			return;
+		}
 
-	if (CurCommandIndex >= CurStream->EventTypeList.size())
-	{
-		MsgBoxAssert(Trigger->GetName() + "의 이벤트를 실행하는 중 에러가 발생했습니다. 이벤트 프로세서의 명령 인덱스가 이벤트 개수보다 크거나 같습니다. 이벤트 스트림은 항상 ES::End로 끝나야 합니다.");
-		return;
-	}
+		if (CurCommandIndex >= CurStream->EventTypeList.size())
+		{
+			MsgBoxAssert(Trigger->GetName() + "의 이벤트를 실행하는 중 에러가 발생했습니다. 이벤트 프로세서의 명령 인덱스가 이벤트 개수보다 크거나 같습니다. 이벤트 스트림은 항상 ES::End로 끝나야 합니다.");
+			return;
+		}
 
-	EEventType CurEventType = CurStream->EventTypeList[CurCommandIndex];
+		EEventType CurEventType = CurStream->EventTypeList[CurCommandIndex];
 
-	if (CurEventType == EEventType::End)
-	{
-		EndRun();
-		return;
-	}
+		if (CurEventType == EEventType::End)
+		{
+			EndRun();
+			return;
+		}
 
-	bool ProcessingResult = false;
-	switch (CurEventType)
-	{
-	case EEventType::Move:
-		ProcessingResult = ProcessMove();
-		break;
-	case EEventType::MoveWithoutRestriction:
-		ProcessingResult = ProcessMoveWithoutRestriction();
-		break;
-	case EEventType::FadeIn:
-		ProcessingResult = ProcessFadeIn();
-		break;
-	case EEventType::FadeOut:
-		ProcessingResult = ProcessFadeOut();
-		break;
-	case EEventType::HideUI:
-		ProcessingResult = ProcessHideUI();
-		break;
-	case EEventType::Wait:
-		ProcessingResult = ProcessWait();
-		break;
-	case EEventType::PlayAnimation:
-		ProcessingResult = ProcessPlayAnimation();
-		break;
-	case EEventType::Chat:
-		ProcessingResult = ProcessChat();
-		break;
-	case EEventType::ShowMapName:
-		ProcessingResult = ProcessShowMapName();
-		break;
-	case EEventType::ChangeLevel:
-		ProcessingResult = ProcessChangeLevel();
-		break;
-	case EEventType::ChangePoint:
-		ProcessingResult = ProcessChangePoint();
-		break;
-	case EEventType::ChangePosition:
-		ProcessingResult = ProcessChangePosition();
-		break;
-	case EEventType::ChangeDirection:
-		ProcessingResult = ProcessChangeDirection();
-		break;
-	case EEventType::StarePlayer:
-		ProcessingResult = ProcessStarePlayer();
-		break;
-	case EEventType::HideActor:
-		ProcessingResult = ProcessHideActor();
-		break;
-	case EEventType::ShowActor:
-		ProcessingResult = ProcessShowActor();
-		break;
-	case EEventType::CameraFocus:
-		ProcessingResult = ProcessCameraFocus();
-		break;
-	case EEventType::DeactivatePlayerControl:
-		ProcessingResult = ProcessDeactivatePlayerControl();
-		break;
-	default:
-		break;
-	}
+		bool ProcessingResult = false;
+		switch (CurEventType)
+		{
+		case EEventType::Move:
+			ProcessingResult = ProcessMove();
+			break;
+		case EEventType::MoveWithoutRestriction:
+			ProcessingResult = ProcessMoveWithoutRestriction();
+			break;
+		case EEventType::FadeIn:
+			ProcessingResult = ProcessFadeIn();
+			break;
+		case EEventType::FadeOut:
+			ProcessingResult = ProcessFadeOut();
+			break;
+		case EEventType::Wait:
+			ProcessingResult = ProcessWait();
+			break;
+		case EEventType::PlayAnimation:
+			ProcessingResult = ProcessPlayAnimation();
+			break;
+		case EEventType::Chat:
+			ProcessingResult = ProcessChat();
+			break;
+		case EEventType::ShowMapName:
+			ProcessingResult = ProcessShowMapName();
+			break;
+		case EEventType::ChangeLevel:
+			ProcessingResult = ProcessChangeLevel();
+			break;
+		case EEventType::ChangePoint:
+			ProcessingResult = ProcessChangePoint();
+			break;
+		case EEventType::ChangePosition:
+			ProcessingResult = ProcessChangePosition();
+			break;
+		case EEventType::ChangeDirection:
+			ProcessingResult = ProcessChangeDirection();
+			break;
+		case EEventType::StarePlayer:
+			ProcessingResult = ProcessStarePlayer();
+			break;
+		case EEventType::HideActor:
+			ProcessingResult = ProcessHideActor();
+			break;
+		case EEventType::ShowActor:
+			ProcessingResult = ProcessShowActor();
+			break;
+		case EEventType::CameraFocus:
+			ProcessingResult = ProcessCameraFocus();
+			break;
+		case EEventType::DeactivatePlayerControl:
+			ProcessingResult = ProcessDeactivatePlayerControl();
+			break;
+		default:
+			break;
+		}
 
-	if (true == ProcessingResult)
-	{
-		IncCurIndexOfType(CurEventType);
-		CurCommandIndex++;
+		if (true == ProcessingResult)
+		{
+			IncCurIndexOfType(CurEventType);
+			CurCommandIndex++;
+		}
+		else
+		{
+			return;
+		}
 	}
 }
 
@@ -291,7 +295,7 @@ void UEventProcessor::PostProcessMoveWR(AEventTarget* _Target)
 bool UEventProcessor::ProcessFadeIn()
 {
 	std::string CurLevelName = UEventManager::GetCurLevelName();
-	AFadeScreen* FadeScreen = nullptr;
+	AFadeCanvas* Canvas = UEventManager::FindCurLevelCommonCanvas<AFadeCanvas>(Global::FadeCanvas);
 
 	int CurIndexOfType = GetCurIndexOfType(EEventType::FadeIn);
 	ES::FadeIn& Data = CurStream->FadeInDataSet[CurIndexOfType];
@@ -299,27 +303,29 @@ bool UEventProcessor::ProcessFadeIn()
 	switch (Data.FadeType)
 	{
 	case EFadeType::Black:
-		FadeScreen = UEventManager::FindCurLevelMapLevelCanvas<AFadeScreen>("BlackScreen");
+		Canvas->FadeInBlack(Data.Time);
 		break;
 	case EFadeType::White:
-		FadeScreen = UEventManager::FindCurLevelMapLevelCanvas<AFadeScreen>("WhiteScreen");
+		Canvas->FadeInWhite(Data.Time);
 		break;
-	case EFadeType::Curtain:
-		FadeScreen = UEventManager::FindCurLevelMapLevelCanvas<AFadeScreen>("CurtainScreen");
+	case EFadeType::HCurtain:
+		Canvas->OpenHCurtain(Data.Time);
+		break;
+	case EFadeType::VCurtain:
+		Canvas->OpenVCurtain(Data.Time);
 		break;
 	default:
 		MsgBoxAssert("아직 FadeIn 기능을 지원하지 않는 FadeType을 사용했습니다.");
 		break;
 	}
 
-	FadeScreen->FadeIn(Data.Time);
 	return true;
 }
 
 bool UEventProcessor::ProcessFadeOut()
 {
 	std::string CurLevelName = UEventManager::GetCurLevelName();
-	AFadeScreen* FadeScreen = nullptr;
+	AFadeCanvas* Canvas = UEventManager::FindCurLevelCommonCanvas<AFadeCanvas>(Global::FadeCanvas);
 
 	int CurIndexOfType = GetCurIndexOfType(EEventType::FadeOut);
 	ES::FadeOut& Data = CurStream->FadeOutDataSet[CurIndexOfType];
@@ -327,39 +333,15 @@ bool UEventProcessor::ProcessFadeOut()
 	switch (Data.FadeType)
 	{
 	case EFadeType::Black:
-		FadeScreen = UEventManager::FindCurLevelMapLevelCanvas<AFadeScreen>("BlackScreen");
+		Canvas->FadeOutBlack(Data.Time);
 		break;
 	case EFadeType::White:
-		FadeScreen = UEventManager::FindCurLevelMapLevelCanvas<AFadeScreen>("WhiteScreen");
-		break;
-	case EFadeType::Curtain:
-		FadeScreen = UEventManager::FindCurLevelMapLevelCanvas<AFadeScreen>("CurtainScreen");
+		Canvas->FadeOutWhite(Data.Time);
 		break;
 	default:
 		MsgBoxAssert("아직 FadeOut 기능을 지원하지 않는 FadeType을 사용했습니다.");
 		break;
 	}
-
-	FadeScreen->FadeOut(Data.Time);
-	return true;
-
-}
-
-bool UEventProcessor::ProcessHideUI()
-{
-	int CurIndexOfType = GetCurIndexOfType(EEventType::HideUI);
-	ES::HideUI& Data = CurStream->HideUIDataSet[CurIndexOfType];
-
-	ACanvas* Element = UEventManager::FindCurLevelMapLevelCanvas<ACanvas>(Data.ElementName);
-
-	if (nullptr == Element)
-	{
-		MsgBoxAssert(Data.ElementName + "은 유효한 UI 엘리먼트 이름이 아닙니다.");
-		return false;
-	}
-
-	Element->ActiveOff();
-	Element->AllRenderersActiveOff();
 
 	return true;
 }
@@ -470,7 +452,7 @@ bool UEventProcessor::ProcessPlayAnimation()
 
 bool UEventProcessor::ProcessChat()
 {
-	ADialogueCanvas* CurDialogueCanvas = UEventManager::FindCurLevelMapLevelCanvas<ADialogueCanvas>(Global::DialogueWindow);
+	ADialogueCanvas* CurDialogueCanvas = UEventManager::FindCurLevelCommonCanvas<ADialogueCanvas>(Global::DialogueWindow);
 
 	int CurIndexOfType = GetCurIndexOfType(EEventType::Chat);
 	ES::Chat& Data = CurStream->ChatDataSet[CurIndexOfType];
@@ -500,7 +482,7 @@ bool UEventProcessor::ProcessChat()
 
 bool UEventProcessor::ProcessShowMapName()
 {
-	AMapNameCanvas* MapNameCanvas = UEventManager::FindCurLevelMapLevelCanvas<AMapNameCanvas>(Global::MapNameWindow);
+	AMapNameCanvas* MapNameCanvas = UEventManager::FindCurLevelCommonCanvas<AMapNameCanvas>(Global::MapNameWindow);
 
 	int CurIndexOfType = GetCurIndexOfType(EEventType::ShowMapName);
 	ES::ShowMapName& Data = CurStream->ShowMapNameDataSet[CurIndexOfType];
@@ -526,17 +508,17 @@ bool UEventProcessor::ProcessChangeLevel()
 
 	// 여러 레벨의 페이드 스크린을 같은 상태로 만들기
 	for (std::pair<const std::string, ACanvas*>& Pair 
-		: UEventManager::AllMapLevelCanvas[PrevLevelName])
+		: UEventManager::AllCommonCanvas[PrevLevelName])
 	{
 		std::string PrevElementName = Pair.first;
 		ACanvas* PrevElement = Pair.second;
 
-		if (false == UEventManager::AllMapLevelCanvas[NextLevelName].contains(PrevElementName))
+		if (false == UEventManager::AllCommonCanvas[NextLevelName].contains(PrevElementName))
 		{
 			continue;
 		}
 
-		ACanvas* NextElement = UEventManager::AllMapLevelCanvas[NextLevelName][PrevElementName];
+		ACanvas* NextElement = UEventManager::AllCommonCanvas[NextLevelName][PrevElementName];
 		NextElement->Sync(PrevElement);
 	}
 

@@ -117,6 +117,16 @@ void ABattleCanvas::LerpShowPlayerPokemonBox(float _t)
 	PlayerPokemonBox->SetRelativePosition(PlayerPokemonBoxPos);
 }
 
+void ABattleCanvas::SetActionBoxActive(bool _Value)
+{
+	ActionBox->SetActive(_Value);
+}
+
+void ABattleCanvas::SetBattleMessage(std::wstring_view _Msg)
+{
+	MsgText->SetText(_Msg);
+}
+
 void ABattleCanvas::BeginPlay()
 {
 	ACanvas::BeginPlay();

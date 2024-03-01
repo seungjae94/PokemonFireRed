@@ -195,10 +195,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="BlackScreen.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="CsvReader.h">
       <SubType>
       </SubType>
@@ -207,19 +203,11 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="CurtainScreen.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="DialogueCanvas.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="ExteriorDoor.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="FadeScreen.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -416,10 +404,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="WhiteScreen.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="BattleCanvas.h">
       <SubType>
       </SubType>
@@ -458,10 +442,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="BlackScreen.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="CsvReader.cpp">
       <SubType>
       </SubType>
@@ -470,19 +450,11 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="CurtainScreen.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="DialogueCanvas.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="ExteriorDoor.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="FadeScreen.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -671,10 +643,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Warp.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="WhiteScreen.cpp">
       <SubType>
       </SubType>
     </ClCompile>

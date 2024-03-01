@@ -35,8 +35,7 @@ void AWildBattleTrigger::RegisterPredefinedEvent()
 		// 레벨 변경
 		>> ES::ChangeLevel(Global::BattleLevel)
 		>> ES::Wait(0.5f)
-		>> ES::HideUI(Global::BlackScreen)
-		>> ES::FadeIn(0.5f, EFadeType::Curtain)
+		>> ES::FadeIn(0.5f, EFadeType::HCurtain)
 		>> ES::Wait(0.5f)
 		>> ES::End(false)
 	);

@@ -36,13 +36,12 @@ void UMapLevel::BeginPlay()
 	CurDir.MoveToSearchChild("Resources");
 	CurDir.Move("MapLevel");
 
-	// 캐릭터, 트리거, 타일, BGM 리소스 로드 (전 게임에 걸쳐 1번만 실행)
+	// 캐릭터, 트리거, 타일 리소스 로드 (전 게임에 걸쳐 1번만 실행)
 	if (false == IsCommonResourceLoaded)
 	{
 		LoadCharacterResources();
 		LoadObjectResources();
 		LoadTileResources();
-		LoadBgms();
 		IsCommonResourceLoaded = true;
 	}
 
@@ -76,15 +75,15 @@ void UMapLevel::BeginPlay()
 	Map->SetCollisionRendererActive(false);
 
 	// 메뉴창 생성
-	AMenuCanvas* MenuCanvas = SpawnMapLevelCanvas<AMenuCanvas>(Global::MenuWindow);
+	AMenuCanvas* MenuCanvas = SpawnCommonCanvas<AMenuCanvas>(Global::MenuWindow);
 	MenuCanvas->SetActive(false);
 
 	// 대화창 생성
-	ADialogueCanvas* DialogueCanvas = SpawnMapLevelCanvas<ADialogueCanvas>(Global::DialogueWindow);
+	ADialogueCanvas* DialogueCanvas = SpawnCommonCanvas<ADialogueCanvas>(Global::DialogueWindow);
 	DialogueCanvas->SetActive(false);
 
 	// 맵 이름 표시창 생성
-	AMapNameCanvas* MapNameCanvas = SpawnMapLevelCanvas<AMapNameCanvas>(Global::MapNameWindow);
+	AMapNameCanvas* MapNameCanvas = SpawnCommonCanvas<AMapNameCanvas>(Global::MapNameWindow);
 	MapNameCanvas->SetActive(false);
 
 	// 야생 배틀 트리거 생성
@@ -237,20 +236,6 @@ void UMapLevel::LoadTileResources()
 	// 이미지 분할
 	UEngineResourcesManager::GetInst().CuttingImage("AnimatedFlower.png", 5, 1);
 	UEngineResourcesManager::GetInst().CuttingImage("AnimatedSea.png", 8, 1);
-
-	CurDir.MoveParent();
-}
-
-void UMapLevel::LoadBgms()
-{
-	CurDir.Move("BGM");
-
-	std::list<UEngineFile> AllFiles = CurDir.AllFile({ ".wav", ".mp3" }, false);
-	for (UEngineFile& File : AllFiles)
-	{
-		std::string Path = File.GetFullPath();
-		UEngineSound::Load(Path);
-	}
 
 	CurDir.MoveParent();
 }

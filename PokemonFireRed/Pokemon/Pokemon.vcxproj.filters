@@ -91,9 +91,6 @@
     <Filter Include="5. UI\MapLevelCanvas">
       <UniqueIdentifier>{d71a5ab4-ae77-40de-bd65-1c7df6b2d98d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="5. UI\MapLevelCanvas\Fade">
-      <UniqueIdentifier>{ec9a6e0d-ee67-425c-aa2c-d748506a7ac8}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PokemonCore.h">
@@ -174,12 +171,6 @@
     <ClInclude Include="ExteriorDoor.h">
       <Filter>2. Level\2. MapLevel\3. Actor\1. Trigger</Filter>
     </ClInclude>
-    <ClInclude Include="BlackScreen.h">
-      <Filter>5. UI\MapLevelCanvas\Fade</Filter>
-    </ClInclude>
-    <ClInclude Include="FadeScreen.h">
-      <Filter>5. UI\MapLevelCanvas\Fade</Filter>
-    </ClInclude>
     <ClInclude Include="Text.h">
       <Filter>5. UI\Element</Filter>
     </ClInclude>
@@ -194,12 +185,6 @@
     </ClInclude>
     <ClInclude Include="EventTarget.h">
       <Filter>4. Event</Filter>
-    </ClInclude>
-    <ClInclude Include="WhiteScreen.h">
-      <Filter>5. UI\MapLevelCanvas\Fade</Filter>
-    </ClInclude>
-    <ClInclude Include="CurtainScreen.h">
-      <Filter>5. UI\MapLevelCanvas\Fade</Filter>
     </ClInclude>
     <ClInclude Include="MenuCanvas.h">
       <Filter>5. UI\MapLevelCanvas</Filter>
@@ -374,12 +359,6 @@
     <ClCompile Include="ExteriorDoor.cpp">
       <Filter>2. Level\2. MapLevel\3. Actor\1. Trigger</Filter>
     </ClCompile>
-    <ClCompile Include="BlackScreen.cpp">
-      <Filter>5. UI\MapLevelCanvas\Fade</Filter>
-    </ClCompile>
-    <ClCompile Include="FadeScreen.cpp">
-      <Filter>5. UI\MapLevelCanvas\Fade</Filter>
-    </ClCompile>
     <ClCompile Include="Text.cpp">
       <Filter>5. UI\Element</Filter>
     </ClCompile>
@@ -394,12 +373,6 @@
     </ClCompile>
     <ClCompile Include="EventTarget.cpp">
       <Filter>4. Event</Filter>
-    </ClCompile>
-    <ClCompile Include="WhiteScreen.cpp">
-      <Filter>5. UI\MapLevelCanvas\Fade</Filter>
-    </ClCompile>
-    <ClCompile Include="CurtainScreen.cpp">
-      <Filter>5. UI\MapLevelCanvas\Fade</Filter>
     </ClCompile>
     <ClCompile Include="MenuCanvas.cpp">
       <Filter>5. UI\MapLevelCanvas</Filter>

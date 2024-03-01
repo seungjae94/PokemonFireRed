@@ -25,6 +25,8 @@ public:
 	void PlayThrowedBallAnimation();
 	void TakeOutPokemonFromBall(float _t);
 	void LerpShowPlayerPokemonBox(float _t);
+	void SetActionBoxActive(bool _Value);
+	void SetBattleMessage(std::wstring_view _Msg);
 
 protected:
 

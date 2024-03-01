@@ -21,18 +21,7 @@ void UTitleLevel::BeginPlay()
 {
 	UPokemonLevel::BeginPlay();
 
-	CurDir.MoveToSearchChild("Resources");
-	CurDir.Move("TitleLevel");
-
-	// 사운드 로드
-	std::list<UEngineFile> AllSounds = CurDir.AllFile({ ".wav" });
-	for (UEngineFile& Sound : AllSounds)
-	{
-		UEngineSound::Load(Sound.GetFullPath());
-	}
-
 	// 액터 생성
 	Manager = SpawnActor<ATitleLevelManager>();
-	Manager->SetActorLocation(Global::HalfScreen);
 	Manager->SetCurDir(&CurDir);
 }

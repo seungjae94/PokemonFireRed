@@ -8,7 +8,6 @@
 #include "EventStream.h"
 #include "PokemonMath.h"
 #include "TutorialLevel.h"
-#include "BlackScreen.h"
 
 ATutorialLevelManager::ATutorialLevelManager()
 {
@@ -48,46 +47,23 @@ void ATutorialLevelManager::BeginPlay()
 	PikachuRenderer->SetActive(false);
 }
 
+void ATutorialLevelManager::ChangeUI()
+{
+	FVector ArrowScale = ArrowRenderer->GetTransform().GetScale();
+	ArrowValue = 0.0f;
+	IsArrowMoveUpward = true;
+	ArrowDownPos = Global::Screen - ArrowScale.Half2D() - FVector(27, 27);
+	ArrowRenderer->SetTransform({ ArrowDownPos, ArrowScale });
+	PikachuRenderer->SetActive(true);
+	Renderer->SetImage(GetPageName());
+	FadeCheckState = EFadeCheckState::End;
+}
+
 void ATutorialLevelManager::Tick(float _DeltaTime)
 {
-	ABlackScreen* BlackScreen = UEventManager::FindCurLevelMapLevelCanvas<ABlackScreen>("BlackScreen");
-
-	if (FadingState == EFadeState::FadeOut)
+	if (FadeCheckState == EFadeCheckState::Start && Timer <= 0.0f)
 	{
-		CurFadeOutTime -= _DeltaTime;
-		
-		if (false == UiChanged && CurFadeOutTime < 0.0f)
-		{
-			// UI 변경
-			FVector ArrowScale = ArrowRenderer->GetTransform().GetScale();
-			ArrowValue = 0.0f;
-			IsArrowMoveUpward = true;
-			ArrowDownPos = Global::Screen - ArrowScale.Half2D() - FVector(27, 27);
-			ArrowRenderer->SetTransform({ ArrowDownPos, ArrowScale });
-			PikachuRenderer->SetActive(true);
-			Renderer->SetImage(GetPageName());
-			UiChanged = true;
-			return;
-		}
-		
-		if (CurFadeOutTime + UIChangeWaitTime < 0.0f)
-		{
-			// 상태 변경
-			FadingState = EFadeState::FadeIn;
-			BlackScreen->FadeIn(FadeInTime);
-		}
-
-		return;
-	}
-
-	if (FadingState == EFadeState::FadeIn)
-	{
-		CurFadeInTime -= _DeltaTime;
-		if (CurFadeInTime < 0.0f)
-		{
-			FadingState = EFadeState::End;
-		}
-		return;
+		ChangeUI();
 	}
 
 	// 피카츄 애니메이션 로직
@@ -188,8 +164,16 @@ void ATutorialLevelManager::Tick(float _DeltaTime)
 		if (PageIndex == 3)
 		{
 			// 페이드 효과 시작
-			FadingState = EFadeState::FadeOut;
-			BlackScreen->FadeOut(FadeOutTime);
+			AEventTrigger* Fader = UEventManager::FindCurLevelTarget<AEventTrigger>(Global::TutorialLevelFader);
+			
+			if (nullptr == Fader)
+			{
+				MsgBoxAssert("튜토리얼 레벨 페이더가 제대로 생성되지 않았습니다.");
+				return;
+			}
+
+			UEventManager::TriggerEvent(Fader, EEventTriggerAction::Direct);
+			FadeCheckState = EFadeCheckState::Start;
 			return;
 		}
 

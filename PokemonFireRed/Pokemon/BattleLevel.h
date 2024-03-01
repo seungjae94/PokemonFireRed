@@ -1,5 +1,6 @@
 #pragma once
 #include "PokemonLevel.h"
+#include "PlayerData.h"
 #include "BattleCanvas.h"
 #include "BattleStartStateManchine.h"
 
@@ -30,6 +31,7 @@ public:
 protected:
 private:
 	std::string PrevMapName;
+	int PlayerPokemonIndex = 0;
 	UPokemon EnemyPokemon;
 	ABattleCanvas* Canvas = nullptr;
 	ABattleStartStateManchine* BSSM = nullptr;
@@ -44,5 +46,11 @@ private:
 	// FSM
 	EBattleState State = EBattleState::BattleStart;
 	float Timer = 0.0f;
+
+	// À¯Æ¿
+	UPokemon& GetCurPlayerPokemon()
+	{
+		return UPlayerData::GetPokemonInEntry(PlayerPokemonIndex);
+	}
 };
 

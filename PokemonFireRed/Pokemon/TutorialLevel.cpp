@@ -3,7 +3,6 @@
 #include <EngineBase/EngineFile.h>
 #include <EngineCore/EngineResourcesManager.h>
 #include "TutorialLevelManager.h"
-#include "BlackScreen.h"
 
 UTutorialLevel::UTutorialLevel()
 {
@@ -28,20 +27,27 @@ void UTutorialLevel::BeginPlay()
 		UEngineResourcesManager::GetInst().LoadImg(File.GetFullPath());
 	}
 
-	std::list<UEngineFile> Sounds = CurDir.AllFile({ ".wav" }, false);
-	for (UEngineFile& Sound : Sounds)
-	{
-		UEngineSound::Load(Sound.GetFullPath());
-	}
-
 	// 액터 생성
 	Manager = SpawnActor<ATutorialLevelManager>();
 
+	// 중간 전환자
+	UEventCondition DefaultCondition;
+
+	AEventTrigger* Fader = SpawnEventTrigger<AEventTrigger>(Global::TutorialLevelFader);
+	UEventManager::RegisterEvent(Fader, DefaultCondition,
+		ES::Start(false)
+		>> ES::FadeOut(0.5f)
+		>> ES::Wait(0.5f)
+		>> ES::FadeIn(0.5f)
+		>> ES::Wait(0.5f)
+		>> ES::End(false)
+	);
+
+	// 튜토리얼 레벨 -> 맵 레벨 전환자
 	UEventTargetInit LevelChangerInit; 
 	LevelChangerInit.SetName("MapLevelChanger");
-	UEventCondition LevelChangerCond;
 	MapLevelChanger = SpawnEventTrigger<AEventTrigger>(LevelChangerInit);
-	UEventManager::RegisterEvent(MapLevelChanger, LevelChangerCond,
+	UEventManager::RegisterEvent(MapLevelChanger, DefaultCondition,
 		ES::Start(false)
 		>> ES::FadeOut(1.0f)
 		>> ES::Wait(1.0f)
