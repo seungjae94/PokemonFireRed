@@ -179,11 +179,19 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="BattleEnemyActionGenerator.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="FadeCanvas.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="BattlePlayerActionSelectStateMachine.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="TurnOrderCalculator.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -430,11 +438,19 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="BattleEnemyActionGenerator.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="FadeCanvas.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="BattlePlayerActionSelectStateMachine.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="TurnOrderCalculator.cpp">
       <SubType>
       </SubType>
     </ClCompile>

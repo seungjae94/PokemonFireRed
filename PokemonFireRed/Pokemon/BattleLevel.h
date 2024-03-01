@@ -40,6 +40,7 @@ protected:
 private:
 	// ตฅภฬลอ
 	int PlayerPokemonIndex = 0;
+	bool PlayerFirst = true;
 	EBattlePlayerAction PlayerAction = EBattlePlayerAction::None;
 	UPokemon* PlayerPokemon = nullptr;
 	UPokemon* EnemyPokemon = nullptr;
@@ -56,6 +57,8 @@ private:
 
 	void ProcessBattleStart(float _DeltaTime);
 	void ProcessPlayerAction(float _DeltaTime);
+	void ProcessPlayerMove(float _DeltaTime);
+	void ProcessEnemyMove(float _DeltaTime);
 
 	// FSM
 	EBattleState State = EBattleState::BattleStart;

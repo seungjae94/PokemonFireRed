@@ -12,6 +12,8 @@ enum class EBattlePlayerAction
 	Fight,
 	EscapeSuccess,
 	EscapeFail,
+	Shift,
+	Item,
 };
 
 class ABattlePlayerActionSelectStateMachine : public AActor
@@ -61,9 +63,9 @@ public:
 		return ActionResult;
 	}
 
-	int GetSelectedMove() const
+	int GetSelectedMoveIndex() const
 	{
-		return SelectedMove;
+		return SelectedMoveIndex;
 	}
 
 	void Start(ABattleCanvas* _Canvas, const UPokemon* _PlayerPokemon, const UPokemon* _EnemyPokemon);
@@ -82,7 +84,7 @@ private:
 
 	ESubstate State = ESubstate::None;
 	EBattlePlayerAction ActionResult = EBattlePlayerAction::None;
-	int SelectedMove = 0;
+	int SelectedMoveIndex = 0;
 	int RunAttemptCount = 0;
 
 	// ·ÎÁ÷

@@ -116,6 +116,11 @@ public:
 		return static_cast<int>(Moves.size());
 	}
 
+	EPokemonMove GetMoveId(int _Index) const
+	{
+		return Moves[_Index]->Id;
+	}
+
 	std::wstring GetMoveNameW(int _Index) const;
 	std::wstring GetMovePPW(int _Index) const;
 	std::wstring GetMoveCurPPW(int _Index) const;

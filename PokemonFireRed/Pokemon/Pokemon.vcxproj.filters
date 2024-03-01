@@ -285,6 +285,12 @@
     <ClInclude Include="BattlePlayerActionSelectStateMachine.h">
       <Filter>2. Level\8. BattleLevel</Filter>
     </ClInclude>
+    <ClInclude Include="TurnOrderCalculator.h">
+      <Filter>2. Level\8. BattleLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="BattleEnemyActionGenerator.h">
+      <Filter>2. Level\8. BattleLevel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PokemonCore.cpp">
@@ -468,6 +474,12 @@
       <Filter>5. UI\MapLevelCanvas</Filter>
     </ClCompile>
     <ClCompile Include="BattlePlayerActionSelectStateMachine.cpp">
+      <Filter>2. Level\8. BattleLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="TurnOrderCalculator.cpp">
+      <Filter>2. Level\8. BattleLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="BattleEnemyActionGenerator.cpp">
       <Filter>2. Level\8. BattleLevel</Filter>
     </ClCompile>
   </ItemGroup>

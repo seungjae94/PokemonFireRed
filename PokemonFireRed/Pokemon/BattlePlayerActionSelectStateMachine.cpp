@@ -154,7 +154,7 @@ void ABattlePlayerActionSelectStateMachine::ProcessMoveSelect(float _DeltaTime)
 	{
 		State = ESubstate::End;
 		ActionResult = EBattlePlayerAction::Fight;
-		SelectedMove = Cursor;
+		SelectedMoveIndex = Cursor;
 		Canvas->SetMoveSelectBoxActive(false);
 		return;
 	}
