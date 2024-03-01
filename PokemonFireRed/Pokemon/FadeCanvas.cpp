@@ -87,64 +87,70 @@ void AFadeCanvas::Clear()
 
 void AFadeCanvas::FadeInBlack(float _Time)
 {
+	Clear();
+	SetActive(true);
+
 	State = EFadeCanvasState::BlackFadeIn;
 	BlackScreen->SetAlpha(0.0f);
 	FadeTime = _Time;
 	Timer = _Time;
-
-	Clear();
 }
 
 void AFadeCanvas::FadeOutBlack(float _Time)
 {
+	Clear();
+	SetActive(true);
+
 	State = EFadeCanvasState::BlackFadeOut;
 	BlackScreen->SetAlpha(1.0f);
 	FadeTime = _Time;
 	Timer = _Time;
-
-	Clear();
 }
 
 void AFadeCanvas::FadeInWhite(float _Time)
 {
+	Clear();
+	SetActive(true);
+
 	State = EFadeCanvasState::WhiteFadeIn;
 	WhiteScreen->SetAlpha(0.0f);
 	FadeTime = _Time;
 	Timer = _Time;
-
-	Clear();
 }
 
 void AFadeCanvas::FadeOutWhite(float _Time)
 {
+	Clear();
+	SetActive(true);
+
 	State = EFadeCanvasState::WhiteFadeOut;
 	WhiteScreen->SetAlpha(1.0f);
 	FadeTime = _Time;
 	Timer = _Time;
-
-	Clear();
 }
 
 void AFadeCanvas::OpenVCurtain(float _Time)
 {
+	Clear();
+	SetActive(true);
+
 	State = EFadeCanvasState::VCurtainOpen;
 	VCurtainTop->SetRelativePosition(VCurtainTopShowPos);
 	VCurtainBot->SetRelativePosition(VCurtainBotShowPos);
 	FadeTime = _Time;
 	Timer = _Time;
-
-	Clear();
 }
 
 void AFadeCanvas::OpenHCurtain(float _Time)
 {
+	Clear();
+	SetActive(true);
+
 	State = EFadeCanvasState::HCurtainOpen;
 	HCurtainLeft->SetRelativePosition(HCurtainLeftShowPos);
 	HCurtainRight->SetRelativePosition(HCurtainRightShowPos);
 	FadeTime = _Time;
 	Timer = _Time;
-
-	Clear();
 }
 
 
@@ -155,6 +161,7 @@ void AFadeCanvas::ProcessBlackFadeIn(float _DeltaTime)
 	if (Timer <= 0.0f)
 	{
 		State = EFadeCanvasState::Wait;
+		SetActive(false);
 	}
 }
 
@@ -175,6 +182,7 @@ void AFadeCanvas::ProcessWhiteFadeIn(float _DeltaTime)
 	if (Timer <= 0.0f)
 	{
 		State = EFadeCanvasState::Wait;
+		SetActive(false);
 	}
 }
 
@@ -198,6 +206,7 @@ void AFadeCanvas::ProcessVCurtainOpen(float _DeltaTime)
 	if (Timer <= 0.0f)
 	{
 		State = EFadeCanvasState::Wait;
+		SetActive(false);
 	}
 }
 
@@ -211,5 +220,6 @@ void AFadeCanvas::ProcessHCurtainOpen(float _DeltaTime)
 	if (Timer <= 0.0f)
 	{
 		State = EFadeCanvasState::Wait;
+		SetActive(false);
 	}
 }

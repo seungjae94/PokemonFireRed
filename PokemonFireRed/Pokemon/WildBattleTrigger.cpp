@@ -34,8 +34,7 @@ void AWildBattleTrigger::RegisterPredefinedEvent()
 		>> ES::Wait(FadeOutTime)
 		// 레벨 변경
 		>> ES::ChangeLevel(Global::BattleLevel)
-		>> ES::Wait(0.5f)
-		>> ES::FadeIn(0.5f, EFadeType::HCurtain)
+		>> ES::FadeIn(0.5f, EFadeType::VCurtain)
 		>> ES::Wait(0.5f)
 		>> ES::End(false)
 	);

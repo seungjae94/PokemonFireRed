@@ -14,7 +14,7 @@ void UPokemonLevel::BeginPlay()
 {
 	// 타이틀 레벨, 튜토리얼 레벨을 포함하는 공용 UI 엘리먼트 생성
 	FadeCanvas = SpawnCommonCanvas<AFadeCanvas>(Global::FadeCanvas);
-	FadeCanvas->Clear();
+	FadeCanvas->SetActive(false);
 
 	// 게임 공용 트리거 생성
 	SpawnEventTrigger<AFadeLevelChanger>(Global::FadeLevelChanger);
@@ -22,7 +22,7 @@ void UPokemonLevel::BeginPlay()
 
 void UPokemonLevel::LevelStart(ULevel* _PrevLevel)
 {
-	FadeCanvas->Clear();
+	
 }
 
 void UPokemonLevel::Tick(float _DeltaTime)
