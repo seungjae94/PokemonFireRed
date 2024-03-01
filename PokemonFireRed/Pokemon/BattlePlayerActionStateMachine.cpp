@@ -137,6 +137,14 @@ void ABattlePlayerActionStateMachine::ProcessMoveSelect(float _DeltaTime)
 {
 	int Cursor = Canvas->GetMoveSelectCursor();
 
+	if (true == UEngineInput::IsDown('X'))
+	{
+		State = ESubstate::Select;
+		Canvas->SetActionBoxActive(true);
+		Canvas->SetMoveSelectBoxActive(false);
+		return;
+	}
+
 	if (true == UEngineInput::IsDown(VK_LEFT))
 	{
 		if (Cursor % 2 == 1)
