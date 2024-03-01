@@ -51,10 +51,7 @@ void UBattleLevel::Tick(float _DeltaTime)
 		ProcessBattleStart(_DeltaTime);
 		break;
 	case EBattleState::PlayerAction:
-		if (true == UEngineInput::IsDown('Z'))
-		{
-			UEventManager::FadeChangeLevel(PrevMapName);
-		}
+		ProcessPlayerAction(_DeltaTime);
 		break;
 	case EBattleState::PlayerMove:
 		break;
@@ -98,5 +95,52 @@ void UBattleLevel::ProcessBattleStart(float _DeltaTime)
 		State = EBattleState::PlayerAction;
 		Canvas->SetActionBoxActive(true);
 		Canvas->SetBattleMessage(L"What will\n" + GetCurPlayerPokemon().GetNameW() + L" do?");
+	}
+}
+
+void UBattleLevel::ProcessPlayerAction(float _DeltaTime)
+{
+	if (true == UEngineInput::IsDown('Z'))
+	{
+		UEventManager::FadeChangeLevel(PrevMapName);
+		return;
+	}
+
+	int Cursor = Canvas->GetActionCursor();
+
+	if (true == UEngineInput::IsDown(VK_LEFT))
+	{
+		if (Cursor % 2 == 1)
+		{
+			Canvas->SetActionCursor(Cursor - 1);
+			return;
+		}
+	}
+
+	if (true == UEngineInput::IsDown(VK_RIGHT))
+	{
+		if (Cursor % 2 == 0)
+		{
+			Canvas->SetActionCursor(Cursor + 1);
+			return;
+		}
+	}
+
+	if (true == UEngineInput::IsDown(VK_UP))
+	{
+		if (Cursor >= 2)
+		{
+			Canvas->SetActionCursor(Cursor - 2);
+			return;
+		}
+	}
+
+	if (true == UEngineInput::IsDown(VK_DOWN))
+	{
+		if (Cursor < 2)
+		{
+			Canvas->SetActionCursor(Cursor + 2);
+			return;
+		}
 	}
 }

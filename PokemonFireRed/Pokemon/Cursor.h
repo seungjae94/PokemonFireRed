@@ -38,9 +38,15 @@ public:
 		SetCursor(Cursor);
 	}
 
-	void SetCursorPositions(const std::vector<FVector>& _CursorPositions)
+	void SetCursorPositions(const std::vector<std::pair<int, int>>& _CursorPositions)
 	{
-		CursorPositions = _CursorPositions;
+		CursorPositions.clear();
+
+		for (const std::pair<int, int>& Pair : _CursorPositions)
+		{
+			CursorPositions.push_back(UPokemonUtil::PixelVector(Pair.first, Pair.second));
+		}
+
 		SetCursor(Cursor);
 	}
 

@@ -42,6 +42,7 @@ private:
 	void LevelEnd(ULevel* _NextLevel) override;
 
 	void ProcessBattleStart(float _DeltaTime);
+	void ProcessPlayerAction(float _DeltaTime);
 
 	// FSM
 	EBattleState State = EBattleState::BattleStart;

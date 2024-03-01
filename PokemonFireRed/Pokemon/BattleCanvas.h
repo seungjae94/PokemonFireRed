@@ -18,6 +18,7 @@ public:
 
 	void Init(const UPokemon& _PlayerPokemon, const UPokemon& _EnemyPokemon);
 
+	// BattleStart
 	void LerpShowGrounds(float _t);
 	void LerpShowEnemyPokemonBox(float _t);
 	void PlayBattlerThrowingAnimation();
@@ -27,6 +28,19 @@ public:
 	void LerpShowPlayerPokemonBox(float _t);
 	void SetActionBoxActive(bool _Value);
 	void SetBattleMessage(std::wstring_view _Msg);
+
+	// PlayerAction
+	int GetActionCursor() const
+	{
+		return ActionCursor->GetCursor();
+	}
+
+	void SetActionCursor(int _Cursor)
+	{
+		ActionCursor->SetCursor(_Cursor);
+	}
+
+
 
 protected:
 

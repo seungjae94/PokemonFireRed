@@ -203,8 +203,8 @@ void ABattleCanvas::BeginPlay()
 	ActionCursor = CreateCursor(ActionBox, ERenderingOrder::UI7, EPivotType::LeftTop, 9, 12);
 	ActionCursor->SetOptionCount(4);
 
-	int CursorHorGap = 10;
-	int CursorVerGap = 10;
+	int CursorHorGap = 56;
+	int CursorVerGap = 16;
 	ActionCursor->SetCursorPositions({ {0, 0}, {CursorHorGap, 0}, {0, CursorVerGap}, {CursorHorGap, CursorVerGap} });
 }
 
