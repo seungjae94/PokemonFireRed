@@ -111,6 +111,7 @@ void UBattleLevel::ProcessPlayerAction(float _DeltaTime)
 		case EBattlePlayerAction::None:
 			break;
 		case EBattlePlayerAction::EscapeSuccess:
+			State = EBattleState::BattleEnd;
 			ReturnToMapLevel();
 			break;
 		case EBattlePlayerAction::EscapeFail:
