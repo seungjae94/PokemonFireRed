@@ -260,6 +260,8 @@ void UImageRenderer::ImageRender(float _DeltaTime)
 
 	EWIndowImageType ImageType = Image->GetImageType();
 
+	const UImageInfo& Info = Image->ImageInfo(InfoIndex);
+
 	switch (SortType)
 	{
 	case EImageSortType::Left:
@@ -270,6 +272,11 @@ void UImageRenderer::ImageRender(float _DeltaTime)
 	}
 	default:
 		break;
+	}
+
+	if (true == AutoImageScaleValue)
+	{
+		RendererTrans.SetScale(Info.CuttingTrans.GetScale());
 	}
 
 	switch (ImageType)
