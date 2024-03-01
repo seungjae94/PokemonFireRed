@@ -42,8 +42,6 @@ void UBattleLevel::Tick(float _DeltaTime)
 {
 	UPokemonLevel::Tick(_DeltaTime);
 
-	USoundManager::PlayBgm(RN::BgmWildBattle);
-
 	Timer -= _DeltaTime;
 
 	switch (State)
@@ -73,6 +71,8 @@ void UBattleLevel::LevelStart(ULevel* _PrevLevel)
 {
 	UPokemonLevel::LevelStart(_PrevLevel);
 
+	USoundManager::PlayBgm(RN::BgmWildBattle);
+
 	PrevMapName = _PrevLevel->GetName();
 
 	PlayerPokemonIndex = 0;
@@ -81,6 +81,9 @@ void UBattleLevel::LevelStart(ULevel* _PrevLevel)
 
 	// 배틀 레벨 상태 초기화
 	State = EBattleState::BattleStart;
+	PASM->Reset();
+
+	// BSSM 로직부터 시작
 	BSSM->Start(Canvas);
 }
 
@@ -96,7 +99,7 @@ void UBattleLevel::ProcessBattleStart(float _DeltaTime)
 		State = EBattleState::PlayerAction;
 		Canvas->SetActionBoxActive(true);
 		Canvas->SetBattleMessage(L"What will\n" + GetCurPlayerPokemon().GetNameW() + L" do?");
-		PASM->Start(Canvas);
+		PASM->Start(Canvas, PlayerPokemonIndex, &EnemyPokemon);
 	}
 }
 
@@ -106,5 +109,22 @@ void UBattleLevel::ProcessPlayerAction(float _DeltaTime)
 	{
 		PlayerAction = PASM->GetPlayerActionResult();
 		// 액션 결과에 따라 행동...
+		switch (PlayerAction)
+		{
+		case EBattlePlayerAction::None:
+			break;
+		case EBattlePlayerAction::EscapeSuccess:
+			ReturnToMapLevel();
+			break;
+		case EBattlePlayerAction::EscapeFail:
+			// 디버그용: 도주 실패시 PASM 레벨로 복귀
+			State = EBattleState::PlayerAction;
+			Canvas->SetActionBoxActive(true);
+			Canvas->SetBattleMessage(L"What will\n" + GetCurPlayerPokemon().GetNameW() + L" do?");
+			PASM->Start(Canvas, PlayerPokemonIndex, &EnemyPokemon);
+			break;
+		default:
+			break;
+		}
 	}
 }
