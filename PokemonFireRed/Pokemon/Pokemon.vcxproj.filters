@@ -309,6 +309,9 @@
     <ClInclude Include="BattleTurnStateMachine.h">
       <Filter>2. Level\8. BattleLevel\StateMachine</Filter>
     </ClInclude>
+    <ClInclude Include="DamageCalculator.h">
+      <Filter>2. Level\8. BattleLevel\Calculator</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PokemonCore.cpp">
@@ -508,6 +511,9 @@
     </ClCompile>
     <ClCompile Include="BattleTurnStateMachine.cpp">
       <Filter>2. Level\8. BattleLevel\StateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="DamageCalculator.cpp">
+      <Filter>2. Level\8. BattleLevel\Calculator</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

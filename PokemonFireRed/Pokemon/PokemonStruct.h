@@ -241,6 +241,19 @@ public:
 	{
 		return UEngineString::AnsiToUniCode(Explain);
 	}
+
+	bool IsPhysical() const
+	{
+		return TypeId == EPokemonType::Normal
+			|| TypeId == EPokemonType::Fighting
+			|| TypeId == EPokemonType::Flying
+			|| TypeId == EPokemonType::Poison
+			|| TypeId == EPokemonType::Ground
+			|| TypeId == EPokemonType::Rock
+			|| TypeId == EPokemonType::Bug
+			|| TypeId == EPokemonType::Ghost
+			|| TypeId == EPokemonType::Steel;
+	}
 };
 
 enum class EExperienceGroup
