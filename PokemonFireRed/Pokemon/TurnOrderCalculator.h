@@ -1,8 +1,6 @@
 #pragma once
 #include "Pokemon.h"
-
-enum class EBattlePlayerAction;
-enum class EBattleEnemyAction;
+#include "BattleEnums.h"
 
 /*
 * 현재까지 우선순위 (높을수록 먼저 수행)
@@ -24,7 +22,7 @@ public:
 	UTurnOrderCalculator& operator=(UTurnOrderCalculator&& _Other) noexcept = delete;
 
 	static bool IsPlayerFirst(
-		EBattlePlayerAction _PlayerAction, EBattleEnemyAction _EnemyAction,
+		EBattleAction _PlayerAction, EBattleAction _EnemyAction,
 		const UPokemon* _PlayerPokemon, const UPokemon* _EnemyPokemon,
 		int _PlayerMoveIndex, int _EnemyMoveIndex
 	);
@@ -32,15 +30,7 @@ public:
 protected:
 
 private:
-	static EBattlePlayerAction PlayerAction;
-	static EBattleEnemyAction EnemyAction;
-	static const UPokemon* PlayerPokemon;
-	static const UPokemon* EnemyPokemon;
-	static int PlayerMoveIndex;
-	static int EnemyMoveIndex;
-
-	static int ActionToPlayerPriority();
-	static int ActionToEnemyPriority();
+	static int ActionToPriority(EBattleAction _Action, const UPokemon* _Pokemon, int _MoveIndex);
 	static int MoveIdToPriority(EPokemonMove _MoveId);
 };
 

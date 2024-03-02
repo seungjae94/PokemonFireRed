@@ -183,6 +183,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="BattleEnums.h" />
     <ClInclude Include="FadeCanvas.h">
       <SubType>
       </SubType>

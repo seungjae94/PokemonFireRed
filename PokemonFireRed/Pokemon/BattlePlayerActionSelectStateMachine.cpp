@@ -153,7 +153,7 @@ void ABattlePlayerActionSelectStateMachine::ProcessMoveSelect(float _DeltaTime)
 	if (true == UEngineInput::IsDown('Z'))
 	{
 		State = ESubstate::End;
-		ActionResult = EBattlePlayerAction::Fight;
+		ActionResult = EBattleAction::Fight;
 		SelectedMoveIndex = Cursor;
 		Canvas->SetMoveSelectBoxActive(false);
 		return;
@@ -208,7 +208,7 @@ void ABattlePlayerActionSelectStateMachine::ProcessShowEscapeSuccessMsg(float _D
 {
 	if (true == UEngineInput::IsDown('Z'))
 	{
-		ActionResult = EBattlePlayerAction::EscapeSuccess;
+		ActionResult = EBattleAction::EscapeSuccess;
 		State = ESubstate::End;
 	}
 }
@@ -217,7 +217,7 @@ void ABattlePlayerActionSelectStateMachine::ProcessShowEscapeFailMsg(float _Delt
 {
 	if (true == UEngineInput::IsDown('Z'))
 	{
-		ActionResult = EBattlePlayerAction::EscapeFail;
+		ActionResult = EBattleAction::EscapeFail;
 		State = ESubstate::End;
 	}
 }

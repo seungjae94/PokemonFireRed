@@ -113,11 +113,11 @@ void UBattleLevel::ProcessPlayerAction(float _DeltaTime)
 
 		switch (PlayerAction)
 		{
-		case EBattlePlayerAction::None:
+		case EBattleAction::None:
 			break;
-		case EBattlePlayerAction::Fight:
+		case EBattleAction::Fight:
 		{
-			EBattleEnemyAction EnemyAction = UBattleEnemyActionGenerator::Generate(EEnemyType::Wild, EnemyPokemon);
+			EBattleAction EnemyAction = UBattleEnemyActionGenerator::Generate(EEnemyType::Wild, EnemyPokemon);
 			int EnemyMoveIndex = UBattleEnemyActionGenerator::GetGeneratedMoveIndex();
 			int PlayerMoveIndex = PASM->GetSelectedMoveIndex();
 			PlayerFirst = UTurnOrderCalculator::IsPlayerFirst(PlayerAction, EnemyAction, PlayerPokemon, EnemyPokemon, PlayerMoveIndex, EnemyMoveIndex);
@@ -134,13 +134,13 @@ void UBattleLevel::ProcessPlayerAction(float _DeltaTime)
 			}
 		}
 			break;
-		case EBattlePlayerAction::EscapeSuccess:
+		case EBattleAction::EscapeSuccess:
 		{
 			State = EBattleState::BattleEnd;
 			ReturnToMapLevel();
 		}
 			break;
-		case EBattlePlayerAction::EscapeFail:
+		case EBattleAction::EscapeFail:
 		{
 		// 지금은 레벨 틱 다음에 바로 PASM 틱 돌면서 입력을 처리하기 때문에 입력이 2번 처리된다.
 		// 그래서 What will ... do? 뜨는 틱에 바로 Run 액션이 선택되면서 화면에 변화가 없어 보이는 것이다.

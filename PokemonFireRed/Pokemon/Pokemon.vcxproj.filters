@@ -291,6 +291,9 @@
     <ClInclude Include="BattleEnemyActionGenerator.h">
       <Filter>2. Level\8. BattleLevel</Filter>
     </ClInclude>
+    <ClInclude Include="BattleEnums.h">
+      <Filter>2. Level\8. BattleLevel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PokemonCore.cpp">

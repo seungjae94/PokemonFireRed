@@ -2,19 +2,10 @@
 #include <EngineCore/Actor.h>
 #include "PlayerData.h"
 #include "Pokemon.h"
+#include "BattleEnums.h"
 
 class UBattleLevel;
 class ABattleCanvas;
-
-enum class EBattlePlayerAction
-{
-	None,
-	Fight,
-	EscapeSuccess,
-	EscapeFail,
-	Shift,
-	Item,
-};
 
 class ABattlePlayerActionSelectStateMachine : public AActor
 {
@@ -52,9 +43,9 @@ public:
 		return State == ESubstate::End;
 	}
 
-	EBattlePlayerAction GetPlayerActionResult() const
+	EBattleAction GetPlayerActionResult() const
 	{
-		if (ActionResult == EBattlePlayerAction::None)
+		if (ActionResult == EBattleAction::None)
 		{
 			MsgBoxAssert("플레이어 액션이 제대로 결정되지 않았습니다.");
 			return ActionResult;
@@ -77,13 +68,13 @@ protected:
 private:
 	const UPokemon* PlayerPokemon = nullptr;
 	const UPokemon* EnemyPokemon = nullptr;
-	EBattlePlayerAction PlayerAction = EBattlePlayerAction::None;
+	EBattleAction PlayerAction = EBattleAction::None;
 
 	ABattleCanvas* Canvas = nullptr;
 	float Timer = 0.0f;
 
 	ESubstate State = ESubstate::None;
-	EBattlePlayerAction ActionResult = EBattlePlayerAction::None;
+	EBattleAction ActionResult = EBattleAction::None;
 	int SelectedMoveIndex = 0;
 	int RunAttemptCount = 0;
 

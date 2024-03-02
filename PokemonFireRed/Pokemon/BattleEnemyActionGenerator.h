@@ -1,15 +1,6 @@
 #pragma once
 #include "Pokemon.h"
-
-enum class EEnemyType;
-
-enum class EBattleEnemyAction
-{
-	None,
-	Move,
-	Shift,
-	Item,
-};
+#include "BattleEnums.h"
 
 class UBattleEnemyActionGenerator
 {
@@ -24,7 +15,7 @@ public:
 	UBattleEnemyActionGenerator& operator=(const UBattleEnemyActionGenerator& _Other) = delete;
 	UBattleEnemyActionGenerator& operator=(UBattleEnemyActionGenerator&& _Other) noexcept = delete;
 
-	static EBattleEnemyAction Generate(EEnemyType _EnemyType, const UPokemon* _EnemyPokemon);
+	static EBattleAction Generate(EEnemyType _EnemyType, const UPokemon* _EnemyPokemon);
 	static int GetGeneratedMoveIndex() 
 	{
 		return MoveIndex;

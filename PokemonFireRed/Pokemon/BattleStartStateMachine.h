@@ -1,6 +1,7 @@
 #pragma once
 #include <EngineCore/Actor.h>
 #include "Pokemon.h"
+#include "BattleEnums.h"
 
 class UBattleLevel;
 class ABattleCanvas;

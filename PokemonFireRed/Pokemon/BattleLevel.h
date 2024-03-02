@@ -4,24 +4,8 @@
 #include "BattleCanvas.h"
 #include "BattleStartStateMachine.h"
 #include "BattlePlayerActionSelectStateMachine.h"
+#include "BattleEnums.h"
 
-enum class EEnemyType
-{
-	Wild,
-	Trainer,
-	GymLeader
-};
-
-enum class EBattleState
-{
-	BattleStart,
-	PlayerActionSelect,
-	PlayerMove,
-	EnemyMove,
-	PlayerSecondaryEffect,
-	EnemySecondaryEffect,
-	BattleEnd
-};
 
 class UBattleLevel : public UPokemonLevel
 {
@@ -41,7 +25,7 @@ private:
 	// µ•¿Ã≈Õ
 	int PlayerPokemonIndex = 0;
 	bool PlayerFirst = true;
-	EBattlePlayerAction PlayerAction = EBattlePlayerAction::None;
+	EBattleAction PlayerAction = EBattleAction::None;
 	UPokemon* PlayerPokemon = nullptr;
 	UPokemon* EnemyPokemon = nullptr;
 

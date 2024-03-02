@@ -2,13 +2,6 @@
 #include "BattleLevel.h"
 #include "BattleEnemyActionGenerator.h"
 
-EBattlePlayerAction UTurnOrderCalculator::PlayerAction = EBattlePlayerAction::None;
-EBattleEnemyAction UTurnOrderCalculator::EnemyAction = EBattleEnemyAction::None;
-const UPokemon* UTurnOrderCalculator::PlayerPokemon = nullptr;
-const UPokemon* UTurnOrderCalculator::EnemyPokemon = nullptr;
-int UTurnOrderCalculator::PlayerMoveIndex = 0;
-int UTurnOrderCalculator::EnemyMoveIndex = 0;
-
 UTurnOrderCalculator::UTurnOrderCalculator()
 {
 }
@@ -18,20 +11,13 @@ UTurnOrderCalculator::~UTurnOrderCalculator()
 }
 
 bool UTurnOrderCalculator::IsPlayerFirst(
-    EBattlePlayerAction _PlayerAction, EBattleEnemyAction _EnemyAction,
+    EBattleAction _PlayerAction, EBattleAction _EnemyAction,
     const UPokemon* _PlayerPokemon, const UPokemon* _EnemyPokemon,
     int _PlayerMoveIndex, int _EnemyMoveIndex
 )
 {
-    PlayerAction = _PlayerAction;
-    EnemyAction = _EnemyAction;
-    PlayerPokemon = _PlayerPokemon;
-    EnemyPokemon = _EnemyPokemon;
-    PlayerMoveIndex = _PlayerMoveIndex;
-    EnemyMoveIndex = _EnemyMoveIndex;
-
-    int PlayerPriority = ActionToPlayerPriority();
-    int EnemyPriority = ActionToEnemyPriority();
+    int PlayerPriority = ActionToPriority(_PlayerAction, _PlayerPokemon, _PlayerMoveIndex);
+    int EnemyPriority = ActionToPriority(_EnemyAction, _EnemyPokemon, _EnemyMoveIndex);
 
     if (PlayerPriority > EnemyPriority)
     {
@@ -50,8 +36,8 @@ bool UTurnOrderCalculator::IsPlayerFirst(
     // TODO: 
     // 1. Stat stage 구현 후 반영
     // 2. PAR 상태 구현 후 반형
-    int PlayerSpeed = PlayerPokemon->GetSpeed();
-    int EnemySpeed = EnemyPokemon->GetSpeed();
+    int PlayerSpeed = _PlayerPokemon->GetSpeed();
+    int EnemySpeed = _EnemyPokemon->GetSpeed();
 
     if (PlayerSpeed > EnemySpeed)
     {
@@ -66,42 +52,23 @@ bool UTurnOrderCalculator::IsPlayerFirst(
     return RandomInt == 0;
 }
 
-int UTurnOrderCalculator::ActionToPlayerPriority()
+int UTurnOrderCalculator::ActionToPriority(EBattleAction _Action, const UPokemon* _Pokemon, int _MoveIndex)
 {
-    switch (PlayerAction)
+    switch (_Action)
     {
-    case EBattlePlayerAction::None:
+    case EBattleAction::None:
         break;
-    case EBattlePlayerAction::Fight:
+    case EBattleAction::Fight:
         break;
-    case EBattlePlayerAction::EscapeFail:
-    case EBattlePlayerAction::Shift:
-    case EBattlePlayerAction::Item:
+    case EBattleAction::EscapeFail:
+    case EBattleAction::Shift:
+    case EBattleAction::Item:
         return 6;
     default:
         break;
     }
 
-    EPokemonMove MoveId = PlayerPokemon->GetMoveId(PlayerMoveIndex);
-    return MoveIdToPriority(MoveId);
-}
-
-int UTurnOrderCalculator::ActionToEnemyPriority()
-{
-    switch (EnemyAction)
-    {
-    case EBattleEnemyAction::None:
-        break;
-    case EBattleEnemyAction::Move:
-        break;
-    case EBattleEnemyAction::Shift:
-    case EBattleEnemyAction::Item:
-        return 6;
-    default:
-        break;
-    }
-
-    EPokemonMove MoveId = EnemyPokemon->GetMoveId(EnemyMoveIndex);
+    EPokemonMove MoveId =_Pokemon->GetMoveId(_MoveIndex);
     return MoveIdToPriority(MoveId);
 }
 
