@@ -86,7 +86,7 @@ void UBattleLevel::LevelStart(ULevel* _PrevLevel)
 	PASM->Reset();
 
 	// BSSM 로직부터 시작
-	BSSM->Start(Canvas);
+	BSSM->Start(Canvas, PlayerPokemon);
 }
 
 void UBattleLevel::LevelEnd(ULevel* _NextLevel)

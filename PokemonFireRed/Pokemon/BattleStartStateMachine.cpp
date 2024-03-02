@@ -83,6 +83,7 @@ void ABattleStartStateMachine::ProcessZClickWait(float _DeltaTime)
 		Timer = PlayerBattleThrowTime;
 		State = ESubstate::PlayerBattlerThrow;
 		Canvas->PlayBattlerThrowingAnimation();
+		Canvas->SetBattleMessage(L"Go! " + PlayerPokemon->GetNameW() + L"!");
 		BallThrowAnimationPlayed = false;
 	}
 }

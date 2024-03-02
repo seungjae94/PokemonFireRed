@@ -143,6 +143,7 @@ void ABattleCanvas::TakeOutPokemonFromBall(float _t)
 	}
 
 	PlayerPokemonImage->SetScaleFactor(1.0f - t);
+	PlayerPokemonImage->SetAlpha(1.0f - t / 2.0f);
 
 	FVector PlayerPokemonImagePos = UPokemonMath::Lerp(PlayerPokemonImageInitPos, PlayerPokemonImageHidePos, _t);
 	PlayerPokemonImage->SetRelativePosition(PlayerPokemonImagePos);

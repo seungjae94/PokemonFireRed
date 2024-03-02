@@ -1,5 +1,6 @@
 #pragma once
 #include <EngineCore/Actor.h>
+#include "Pokemon.h"
 
 class UBattleLevel;
 class ABattleCanvas;
@@ -35,9 +36,10 @@ public:
 		return State == ESubstate::End;
 	}
 
-	void Start(ABattleCanvas* _Canvas)
+	void Start(ABattleCanvas* _Canvas, const UPokemon* _PlayerPokemon)
 	{
 		Canvas = _Canvas;
+		PlayerPokemon = _PlayerPokemon;
 		State = ESubstate::FadeWait;
 		Timer = FadeWaitTime;
 	}
@@ -46,6 +48,7 @@ protected:
 
 private:
 	ABattleCanvas* Canvas = nullptr;
+	const UPokemon* PlayerPokemon = nullptr;
 	float Timer = 0.0f;
 
 	ESubstate State = ESubstate::None;
