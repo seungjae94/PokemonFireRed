@@ -5,7 +5,7 @@
 #include "BattleStartStateMachine.h"
 #include "BattlePlayerActionSelectStateMachine.h"
 #include "BattleEnums.h"
-
+#include "StatStage.h"
 
 class UBattleLevel : public UPokemonLevel
 {
@@ -28,6 +28,8 @@ private:
 	EBattleAction PlayerAction = EBattleAction::None;
 	UPokemon* PlayerPokemon = nullptr;
 	UPokemon* EnemyPokemon = nullptr;
+	UStatStage PlayerStatStage;
+	UStatStage EnemyStatStage;
 
 	// ·»´õ¸µ, ·ÎÁ÷
 	ABattleCanvas* Canvas = nullptr;

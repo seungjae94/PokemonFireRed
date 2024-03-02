@@ -13,7 +13,8 @@ UTurnOrderCalculator::~UTurnOrderCalculator()
 bool UTurnOrderCalculator::IsPlayerFirst(
     EBattleAction _PlayerAction, EBattleAction _EnemyAction,
     const UPokemon* _PlayerPokemon, const UPokemon* _EnemyPokemon,
-    int _PlayerMoveIndex, int _EnemyMoveIndex
+    int _PlayerMoveIndex, int _EnemyMoveIndex,
+    const UStatStage* _PlayerStatStage, const UStatStage* _EnemyStatStage
 )
 {
     int PlayerPriority = ActionToPriority(_PlayerAction, _PlayerPokemon, _PlayerMoveIndex);
@@ -32,18 +33,14 @@ bool UTurnOrderCalculator::IsPlayerFirst(
         return true;
     }
 
-    // 이외의 경우 속도를 비교한다.
-    // TODO: 
-    // 1. Stat stage 구현 후 반영
-    // 2. PAR 상태 구현 후 반형
-    int PlayerSpeed = _PlayerPokemon->GetSpeed();
-    int EnemySpeed = _EnemyPokemon->GetSpeed();
+    int ModifiedPlayerSpeed = CalcModifiedSpeed(_PlayerPokemon, _PlayerStatStage);
+    int ModifiedEnemySpeed = CalcModifiedSpeed(_PlayerPokemon, _PlayerStatStage);
 
-    if (PlayerSpeed > EnemySpeed)
+    if (ModifiedPlayerSpeed > ModifiedEnemySpeed)
     {
         return true;
     }
-    else if (PlayerSpeed < EnemySpeed)
+    else if (ModifiedPlayerSpeed < ModifiedEnemySpeed)
     {
         return false;
     }
@@ -80,4 +77,12 @@ int UTurnOrderCalculator::MoveIdToPriority(EPokemonMove _MoveId)
     }
 
     return 0;
+}
+
+int UTurnOrderCalculator::CalcModifiedSpeed(const UPokemon* _Pokemon, const UStatStage* _StatStage)
+{
+    float ModifiedSpeed = static_cast<float>(_Pokemon->GetSpeed());
+    ModifiedSpeed *= _StatStage->GetSpeedMultiplier();
+    // if _Pokemon is in "Paralysis" Status, then ModifiedSpeed *= 1.0f/4
+    return UPokemonMath::Floor(ModifiedSpeed);
 }

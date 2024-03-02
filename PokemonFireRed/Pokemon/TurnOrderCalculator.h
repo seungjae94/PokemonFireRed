@@ -1,6 +1,7 @@
 #pragma once
 #include "Pokemon.h"
 #include "BattleEnums.h"
+#include "StatStage.h"
 
 /*
 * 현재까지 우선순위 (높을수록 먼저 수행)
@@ -24,7 +25,8 @@ public:
 	static bool IsPlayerFirst(
 		EBattleAction _PlayerAction, EBattleAction _EnemyAction,
 		const UPokemon* _PlayerPokemon, const UPokemon* _EnemyPokemon,
-		int _PlayerMoveIndex, int _EnemyMoveIndex
+		int _PlayerMoveIndex, int _EnemyMoveIndex,
+		const UStatStage* _PlayerStatStage, const UStatStage* _EnemyStatStage
 	);
 
 protected:
@@ -32,5 +34,6 @@ protected:
 private:
 	static int ActionToPriority(EBattleAction _Action, const UPokemon* _Pokemon, int _MoveIndex);
 	static int MoveIdToPriority(EPokemonMove _MoveId);
+	static int CalcModifiedSpeed(const UPokemon* _Pokemon, const UStatStage* _StatStage);
 };
 

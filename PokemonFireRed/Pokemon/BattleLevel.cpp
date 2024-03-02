@@ -76,9 +76,14 @@ void UBattleLevel::LevelStart(ULevel* _PrevLevel)
 	UPokemonLevel::LevelStart(_PrevLevel);
 	PrevMapName = _PrevLevel->GetName();
 
+	// 데이터 초기화
 	PlayerPokemonIndex = 0;
+	bool PlayerFirst = true;
+	EBattleAction PlayerAction = EBattleAction::None;
 	PlayerPokemon = &UPlayerData::GetPokemonInEntry(0);
 	EnemyPokemon = UPlayerData::GetEnemyWildPokemon();
+	PlayerStatStage.Reset();
+	EnemyStatStage.Reset();
 	Canvas->Init(PlayerPokemon, EnemyPokemon);
 
 	// 배틀 레벨 상태 초기화
@@ -120,7 +125,7 @@ void UBattleLevel::ProcessPlayerAction(float _DeltaTime)
 			EBattleAction EnemyAction = UBattleEnemyActionGenerator::Generate(EEnemyType::Wild, EnemyPokemon);
 			int EnemyMoveIndex = UBattleEnemyActionGenerator::GetGeneratedMoveIndex();
 			int PlayerMoveIndex = PASM->GetSelectedMoveIndex();
-			PlayerFirst = UTurnOrderCalculator::IsPlayerFirst(PlayerAction, EnemyAction, PlayerPokemon, EnemyPokemon, PlayerMoveIndex, EnemyMoveIndex);
+			PlayerFirst = UTurnOrderCalculator::IsPlayerFirst(PlayerAction, EnemyAction, PlayerPokemon, EnemyPokemon, PlayerMoveIndex, EnemyMoveIndex, &PlayerStatStage, &EnemyStatStage);
 
 			if (true == PlayerFirst)
 			{
