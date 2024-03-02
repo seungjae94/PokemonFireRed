@@ -111,6 +111,16 @@ public:
 
 	std::string GetTypeImageName(int _Index) const;
 
+	EPokemonStatus GetStatusId() const
+	{
+		return Status->Id;
+	}
+
+	std::string GetStatusImageName() const
+	{
+		return Status->ImageName;
+	}
+
 	int GetMoveCount() const
 	{
 		return static_cast<int>(Moves.size());
@@ -224,6 +234,7 @@ private:
 	// 전투 관련 정보
 	const FPokemonNature* Nature = nullptr;
 	const FPokemonAbility* Ability = nullptr;
+	const FPokemonStatus* Status = nullptr;
 	std::vector<const FPokemonMove*> Moves;
 	std::vector<int> MoveCurPPs;
 

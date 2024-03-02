@@ -83,6 +83,11 @@ int UTurnOrderCalculator::CalcModifiedSpeed(const UPokemon* _Pokemon, const USta
 {
     float ModifiedSpeed = static_cast<float>(_Pokemon->GetSpeed());
     ModifiedSpeed *= _StatStage->GetSpeedMultiplier();
-    // if _Pokemon is in "Paralysis" Status, then ModifiedSpeed *= 1.0f/4
+   
+    if (_Pokemon->GetStatusId() == EPokemonStatus::Paralysis)
+    {
+        ModifiedSpeed *= 1.0f / 4;
+    }
+
     return UPokemonMath::Floor(ModifiedSpeed);
 }

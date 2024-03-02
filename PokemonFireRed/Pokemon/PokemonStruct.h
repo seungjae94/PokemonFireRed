@@ -158,6 +158,7 @@ struct FPokemonStatus
 {
 public:
 	EPokemonStatus Id = EPokemonStatus::Normal;
+	std::string Name;
 	std::string ImageName;
 };
 

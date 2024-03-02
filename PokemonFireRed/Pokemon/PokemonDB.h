@@ -48,6 +48,11 @@ public:
 		return &Types[_Id];
 	}
 
+	static const FPokemonStatus* FindStatus(EPokemonStatus _Id)
+	{
+		return &Statuses[_Id];
+	}
+
 	static const UWildPokemonZone* FindWildPokemonZone(std::string_view _MapName, int _Index)
 	{
 		return &WildPokemonZones[_MapName.data()][_Index];
@@ -87,7 +92,7 @@ private:
 	static std::map<EPokemonNature, FPokemonNature> Natures;
 	static std::map<EPokemonAbility, FPokemonAbility> Abilities;
 	static std::map<EPokemonGender, FPokemonGender> Genders;
-	static std::map<EPokemonStatus, FPokemonStatus> Status;
+	static std::map<EPokemonStatus, FPokemonStatus> Statuses;
 	static std::map<EPokemonType, FPokemonType> Types;
 	static std::list<EPokedexNo> ImplementedSpeciesNo;
 

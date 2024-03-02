@@ -9,7 +9,7 @@ std::map<EPokemonMove, FPokemonMove> UPokemonDB::Moves;
 std::map<EPokemonNature, FPokemonNature> UPokemonDB::Natures;
 std::map<EPokemonAbility, FPokemonAbility> UPokemonDB::Abilities;
 std::map<EPokemonGender, FPokemonGender> UPokemonDB::Genders;
-std::map<EPokemonStatus, FPokemonStatus> UPokemonDB::Status;
+std::map<EPokemonStatus, FPokemonStatus> UPokemonDB::Statuses;
 std::map<EPokemonType, FPokemonType> UPokemonDB::Types;
 std::list<EPokedexNo> UPokemonDB::ImplementedSpeciesNo;
 
@@ -27,6 +27,7 @@ public:
 		GenerateAbilities();
 		GenerateNatures();
 		GenerateTypes();
+		GenerateStatuses();
 		GenerateGenders();
 		GenerateWildPokemonZones();
 	}
@@ -207,6 +208,23 @@ public:
 			}
 
 			UPokemonDB::Types[Type.Id] = Type;
+		}
+	}
+
+	void GenerateStatuses()
+	{
+		std::string FilePath = CurDir.AppendPath("Status.csv");
+		UCsvReader Reader = UCsvReader(FilePath);
+		std::vector<std::vector<std::string>> Lines = Reader.ReadLines();
+
+		for (std::vector<std::string>& Line : Lines)
+		{
+			FPokemonStatus Status = FPokemonStatus();
+			Status.Id = static_cast<EPokemonStatus>(std::stoi(Line[0]));
+			Status.Name = Line[1];
+			Status.ImageName = Line[2];
+
+			UPokemonDB::Statuses[Status.Id] = Status;
 		}
 	}
 
