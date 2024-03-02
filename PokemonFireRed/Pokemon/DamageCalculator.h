@@ -1,4 +1,6 @@
 #pragma once
+#include "Pokemon.h"
+#include "StatStage.h"
 
 enum class ETypeVs
 {
@@ -28,11 +30,12 @@ public:
 	UDamageCalculator& operator=(const UDamageCalculator& _Other) = delete;
 	UDamageCalculator& operator=(UDamageCalculator&& _Other) noexcept = delete;
 
-	static FDamageResult CalcDamage();
+	static FDamageResult CalcDamage(const UPokemon* _Attacker, const UPokemon* _Defender, const UStatStage& _AttackerStatStage, const UStatStage& _DefenderStatStage, EPokemonMove _MoveId);
 
 protected:
 
 private:
-
+	static bool CheckCritical(const UPokemon* _PlayerPokemon, EPokemonMove _MoveId);
+	static float GetEffectiveAtk(const UPokemon* _Pokemon, const UStatStage& _StatStage, bool _IsCritical);
 };
 
