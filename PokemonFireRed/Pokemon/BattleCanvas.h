@@ -24,6 +24,8 @@ public:
 	void PlayBattlerThrowingAnimation();
 	void LerpHidePlayerBattler(float _t);
 	void PlayThrowedBallAnimation();
+	bool IsThrowedBallAnimationEnd();
+	void SetThrowedBallActive(bool _Value);
 	void TakeOutPokemonFromBall(float _t);
 	void LerpShowPlayerPokemonBox(float _t);
 	void SetActionBoxActive(bool _Value);

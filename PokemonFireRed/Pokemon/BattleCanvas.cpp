@@ -124,6 +124,16 @@ void ABattleCanvas::PlayThrowedBallAnimation()
 	ThrowedBall->ChangeAnimation(Global::ThrowedBall, true);
 }
 
+bool ABattleCanvas::IsThrowedBallAnimationEnd()
+{
+	return ThrowedBall->IsCurAnimationEnd();
+}
+
+void ABattleCanvas::SetThrowedBallActive(bool _Value)
+{
+	ThrowedBall->SetActive(_Value);
+}
+
 void ABattleCanvas::TakeOutPokemonFromBall(float _t)
 {
 	float t = _t;
@@ -196,6 +206,10 @@ void ABattleCanvas::BeginPlay()
 	PlayerGroundInitPos = PlayerGround->GetRelativePosition();
 	PlayerGroundHidePos = PlayerGroundInitPos + FVector::Right * Global::FloatScreenX;
 
+	ThrowedBall = CreateImageElement(this, ERenderingOrder::UI2, EPivotType::LeftTop, 42, 56);
+	ThrowedBall->SetImage(Global::ThrowedBall);
+	ThrowedBall->CreateAnimation(Global::ThrowedBall, 0, 41, 1.0f / 60, false);
+
 	// MsgBox ¿ä¼Ò
 	MsgText = CreateText(MsgBox, ERenderingOrder::UI5, EPivotType::LeftTop, 11, 21, EAlignType::Left, EFontColor::White, EFontSize::Normal);
 
@@ -221,13 +235,9 @@ void ABattleCanvas::BeginPlay()
 	PlayerBattler = CreateImageElement(PlayerGround, ERenderingOrder::UI3, EPivotType::RightBot, -12, 0);
 	PlayerBattler->SetImage(RN::PlayerBattler);
 	PlayerBattler->CreateAnimation(Global::PlayerBattlerIdle, 0, 0, 0.0f, false);
-	PlayerBattler->CreateAnimation(Global::PlayerBattlerThrow, { 1, 2, 3, 4 }, { 0.28f, 0.14f, 0.07f, 0.07f }, false);
+	PlayerBattler->CreateAnimation(Global::PlayerBattlerThrow, { 1, 2, 3, 4 }, { 16.0f/60, 8.0f/60, 4.0f/60, 4.0f/60 }, false);
 	PlayerBattlerInitPos = PlayerBattler->GetRelativePosition();
 	PlayerBattlerHidePos = PlayerBattlerInitPos + UPokemonUtil::PixelVector(-120, 0);
-
-	ThrowedBall = CreateImageElement(PlayerGround, ERenderingOrder::UI2, EPivotType::LeftBot, 30, 0);
-	ThrowedBall->SetImage(Global::ThrowedBall);
-	ThrowedBall->CreateAnimation(Global::ThrowedBall, 0, 11, 0.06f, false);
 
 	PlayerPokemonImage = CreateImageElement(PlayerGround, ERenderingOrder::UI2, EPivotType::LeftTop, 35, -49, EImageElementType::PokemonBack);
 	PlayerPokemonImageInitPos = PlayerPokemonImage->GetRelativePosition();

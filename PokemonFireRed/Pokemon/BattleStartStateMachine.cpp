@@ -98,9 +98,10 @@ void ABattleStartStateMachine::ProcessPlayerBattlerThrow(float _DeltaTime)
 		BallThrowAnimationPlayed = true;
 	}
 
-	if (Timer <= 0.0f)
+	if (true == BallThrowAnimationPlayed && Canvas->IsThrowedBallAnimationEnd())
 	{
 		Timer = PlayerPokemonTakeoutTime;
+		Canvas->SetThrowedBallActive(false);
 		State = ESubstate::PlayerPokemonTakeout;
 	}
 }

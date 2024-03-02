@@ -59,6 +59,7 @@ public:
 	void CreateAnimation(std::string_view _AnimName, const std::vector<int>& _Indexs, std::vector<float> _Times, bool _Loop);
 	void ChangeAnimation(std::string_view _AnimName, bool _IsForce = false);
 
+	bool IsCurAnimationEnd();
 
 protected:
 

@@ -141,3 +141,8 @@ void AImageElement::ChangeAnimation(std::string_view _AnimName, bool _IsForce)
 
 	Renderer->ChangeAnimation(_AnimName, _IsForce);
 }
+
+bool AImageElement::IsCurAnimationEnd()
+{
+	return Renderer->IsCurAnimationEnd();
+}
