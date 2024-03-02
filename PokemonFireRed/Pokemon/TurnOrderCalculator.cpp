@@ -62,7 +62,7 @@ bool UTurnOrderCalculator::IsPlayerFirst(
         return false;
     }
 
-    int RandomInt = UPokemonMath::Random(0, 1);
+    int RandomInt = UPokemonMath::RandomInt(0, 1);
     return RandomInt == 0;
 }
 
