@@ -297,6 +297,9 @@
     <ClInclude Include="StatStage.h">
       <Filter>2. Level\8. BattleLevel</Filter>
     </ClInclude>
+    <ClInclude Include="AccuracyChecker.h">
+      <Filter>2. Level\8. BattleLevel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PokemonCore.cpp">
@@ -489,6 +492,9 @@
       <Filter>2. Level\8. BattleLevel</Filter>
     </ClCompile>
     <ClCompile Include="StatStage.cpp">
+      <Filter>2. Level\8. BattleLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="AccuracyChecker.cpp">
       <Filter>2. Level\8. BattleLevel</Filter>
     </ClCompile>
   </ItemGroup>

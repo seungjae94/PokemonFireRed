@@ -11,6 +11,8 @@ enum class EBattleState
 {
 	BattleStart,
 	PlayerActionSelect,
+	PlayerMoveFailed,
+	EnemyMoveFailed,
 	PlayerMove,
 	EnemyMove,
 	PlayerSecondaryEffect,

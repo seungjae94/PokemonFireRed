@@ -238,9 +238,9 @@ public:
 
 	static int Cap(int _Value, int _Min, int _Max)
 	{
-		if (_Max > _Min)
+		if (_Min > _Max)
 		{
-			MsgBoxAssert("Cap 조건이 잘못되었습니다. _Max > _Min입니다.");
+			MsgBoxAssert("Cap 조건이 잘못되었습니다. _Min < _Max입니다.");
 			return _Value;
 		}
 

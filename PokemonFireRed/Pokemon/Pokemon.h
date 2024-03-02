@@ -73,6 +73,11 @@ public:
 		return UEngineString::AnsiToUniCode(Nature->Name);
 	}
 
+	EPokemonAbility GetAbilityId() const
+	{
+		return Ability->Id;
+	}
+
 	std::string GetAbilityNameA() const
 	{
 		return Ability->Name;
@@ -143,6 +148,11 @@ public:
 		return Moves[_Index]->BasePower;
 	}
 	std::wstring GetMovePowerW(int _Index) const;
+	
+	int GetMoveAccuracy(int _Index) const
+	{
+		return Moves[_Index]->Accuracy;
+	}
 	std::wstring GetMoveAccuracyW(int _Index) const;
 	std::wstring GetMoveExplainW(int _Index) const;
 

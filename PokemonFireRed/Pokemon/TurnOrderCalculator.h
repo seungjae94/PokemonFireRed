@@ -26,7 +26,7 @@ public:
 		EBattleAction _PlayerAction, EBattleAction _EnemyAction,
 		const UPokemon* _PlayerPokemon, const UPokemon* _EnemyPokemon,
 		int _PlayerMoveIndex, int _EnemyMoveIndex,
-		const UStatStage* _PlayerStatStage, const UStatStage* _EnemyStatStage
+		const UStatStage& _PlayerStatStage, const UStatStage& _EnemyStatStage
 	);
 
 protected:
@@ -34,6 +34,6 @@ protected:
 private:
 	static int ActionToPriority(EBattleAction _Action, const UPokemon* _Pokemon, int _MoveIndex);
 	static int MoveIdToPriority(EPokemonMove _MoveId);
-	static int CalcModifiedSpeed(const UPokemon* _Pokemon, const UStatStage* _StatStage);
+	static int CalcModifiedSpeed(const UPokemon* _Pokemon, const UStatStage& _StatStage);
 };
 

@@ -23,8 +23,11 @@ public:
 protected:
 private:
 	// ตฅภฬลอ
-	int PlayerPokemonIndex = 0;
 	bool PlayerFirst = true;
+	int PlayerPokemonIndex = 0;
+	int EnemyPokemonIndex = 0;
+	int PlayerMoveIndex = 0;
+	int EnemyMoveIndex = 0;
 	EBattleAction PlayerAction = EBattleAction::None;
 	UPokemon* PlayerPokemon = nullptr;
 	UPokemon* EnemyPokemon = nullptr;
@@ -43,6 +46,9 @@ private:
 
 	void ProcessBattleStart(float _DeltaTime);
 	void ProcessPlayerAction(float _DeltaTime);
+	void PrepareFight();
+	void ProcessPlayerMoveFailed(float _DeltaTime);
+	void ProcessEnemyMoveFailed(float _DeltaTime);
 	void ProcessPlayerMove(float _DeltaTime);
 	void ProcessEnemyMove(float _DeltaTime);
 

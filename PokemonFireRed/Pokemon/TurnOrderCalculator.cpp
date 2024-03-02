@@ -14,7 +14,7 @@ bool UTurnOrderCalculator::IsPlayerFirst(
     EBattleAction _PlayerAction, EBattleAction _EnemyAction,
     const UPokemon* _PlayerPokemon, const UPokemon* _EnemyPokemon,
     int _PlayerMoveIndex, int _EnemyMoveIndex,
-    const UStatStage* _PlayerStatStage, const UStatStage* _EnemyStatStage
+    const UStatStage& _PlayerStatStage, const UStatStage& _EnemyStatStage
 )
 {
     int PlayerPriority = ActionToPriority(_PlayerAction, _PlayerPokemon, _PlayerMoveIndex);
@@ -79,10 +79,10 @@ int UTurnOrderCalculator::MoveIdToPriority(EPokemonMove _MoveId)
     return 0;
 }
 
-int UTurnOrderCalculator::CalcModifiedSpeed(const UPokemon* _Pokemon, const UStatStage* _StatStage)
+int UTurnOrderCalculator::CalcModifiedSpeed(const UPokemon* _Pokemon, const UStatStage& _StatStage)
 {
     float ModifiedSpeed = static_cast<float>(_Pokemon->GetSpeed());
-    ModifiedSpeed *= _StatStage->GetSpeedMultiplier();
+    ModifiedSpeed *= _StatStage.GetSpeedMultiplier();
    
     if (_Pokemon->GetStatusId() == EPokemonStatus::Paralysis)
     {

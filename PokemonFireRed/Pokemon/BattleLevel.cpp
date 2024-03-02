@@ -7,6 +7,7 @@
 #include "SoundManager.h"
 #include "BattleEnemyActionGenerator.h"
 #include "TurnOrderCalculator.h"
+#include "AccuracyChecker.h"
 
 UBattleLevel::UBattleLevel() 
 {
@@ -122,21 +123,7 @@ void UBattleLevel::ProcessPlayerAction(float _DeltaTime)
 			break;
 		case EBattleAction::Fight:
 		{
-			EBattleAction EnemyAction = UBattleEnemyActionGenerator::Generate(EEnemyType::Wild, EnemyPokemon);
-			int EnemyMoveIndex = UBattleEnemyActionGenerator::GetGeneratedMoveIndex();
-			int PlayerMoveIndex = PASM->GetSelectedMoveIndex();
-			PlayerFirst = UTurnOrderCalculator::IsPlayerFirst(PlayerAction, EnemyAction, PlayerPokemon, EnemyPokemon, PlayerMoveIndex, EnemyMoveIndex, &PlayerStatStage, &EnemyStatStage);
-
-			if (true == PlayerFirst)
-			{
-				Canvas->SetBattleMessage(L"You are first.");
-				State = EBattleState::PlayerMove;
-			}
-			else
-			{
-				Canvas->SetBattleMessage(L"Enemy is first.");
-				State = EBattleState::EnemyMove;
-			}
+			PrepareFight();
 		}
 			break;
 		case EBattleAction::EscapeSuccess:
@@ -158,6 +145,46 @@ void UBattleLevel::ProcessPlayerAction(float _DeltaTime)
 		default:
 			break;
 		}
+	}
+}
+
+void UBattleLevel::PrepareFight()
+{
+	// 상대 행동 결정
+	EBattleAction EnemyAction = UBattleEnemyActionGenerator::Generate(EEnemyType::Wild, EnemyPokemon);
+
+	// 순서 계산
+	EnemyMoveIndex = UBattleEnemyActionGenerator::GetGeneratedMoveIndex();
+	PlayerMoveIndex = PASM->GetSelectedMoveIndex();
+	PlayerFirst = UTurnOrderCalculator::IsPlayerFirst(PlayerAction, EnemyAction, PlayerPokemon, EnemyPokemon, PlayerMoveIndex, EnemyMoveIndex, PlayerStatStage, EnemyStatStage);
+
+	if (true == PlayerFirst)
+	{
+		bool AccuracyCheckResult = UAccuracyChecker::Check(PlayerPokemon, EnemyPokemon, PlayerStatStage, EnemyStatStage, PlayerMoveIndex);
+
+		if (false == AccuracyCheckResult)
+		{
+			Canvas->SetBattleMessage(PlayerPokemon->GetNameW() + L"'s\nattack failed!");
+			State = EBattleState::PlayerMoveFailed;
+			return;
+		}
+
+		Canvas->SetBattleMessage(L"You are first.");
+		State = EBattleState::PlayerMove;
+	}
+	else
+	{
+		bool AccuracyCheckResult = UAccuracyChecker::Check(EnemyPokemon, PlayerPokemon, EnemyStatStage, PlayerStatStage, EnemyMoveIndex);
+
+		if (false == AccuracyCheckResult)
+		{
+			Canvas->SetBattleMessage(EnemyPokemon->GetNameW() + L"'s\nattack failed!");
+			State = EBattleState::EnemyMoveFailed;
+			return;
+		}
+
+		Canvas->SetBattleMessage(L"Enemy is first.");
+		State = EBattleState::EnemyMove;
 	}
 }
 

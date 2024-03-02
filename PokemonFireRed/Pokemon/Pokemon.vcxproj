@@ -170,6 +170,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AccuracyChecker.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="AllUIElements.h" />
     <ClInclude Include="AnimatedFlower.h">
       <SubType>
@@ -435,6 +439,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AccuracyChecker.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="AnimatedFlower.cpp">
       <SubType>
       </SubType>
