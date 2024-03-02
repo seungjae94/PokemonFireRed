@@ -8,9 +8,10 @@ UAccuracyChecker::~UAccuracyChecker()
 {
 }
 
-bool UAccuracyChecker::Check(const UPokemon* _Attacker, const UPokemon* _Defender, const UStatStage& _AttackerStatStage, const UStatStage& _DefenderStatStage, int _AttackMoveIndex)
+bool UAccuracyChecker::Check(const UPokemon* _Attacker, const UPokemon* _Defender, const UStatStage& _AttackerStatStage, const UStatStage& _DefenderStatStage, EPokemonMove _AttackMoveId)
 {
-	int MoveAcc = _Attacker->GetMoveAccuracy(_AttackMoveIndex);
+	const FPokemonMove* Move = UPokemonDB::FindMove(_AttackMoveId);
+	int MoveAcc = Move->Accuracy;
 	float AccLHS = static_cast<float>(MoveAcc);
 	AccLHS *= _AttackerStatStage.GetAccuracyMultiplier(_DefenderStatStage.GetEvasion());
 

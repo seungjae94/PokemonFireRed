@@ -188,6 +188,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="BattleEnums.h" />
+    <ClInclude Include="BattleTurnStateMachine.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="FadeCanvas.h">
       <SubType>
       </SubType>
@@ -452,6 +456,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="BattleEnemyActionGenerator.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="BattleTurnStateMachine.cpp">
       <SubType>
       </SubType>
     </ClCompile>

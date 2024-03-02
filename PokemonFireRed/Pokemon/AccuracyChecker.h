@@ -15,7 +15,7 @@ public:
 	UAccuracyChecker& operator=(const UAccuracyChecker& _Other) = delete;
 	UAccuracyChecker& operator=(UAccuracyChecker&& _Other) noexcept = delete;
 
-	static bool Check(const UPokemon* _Attacker, const UPokemon* _Defender, const UStatStage& _AttackerStatStage, const UStatStage& _DefenderStatStage, int _AttackMoveIndex);
+	static bool Check(const UPokemon* _Attacker, const UPokemon* _Defender, const UStatStage& _AttackerStatStage, const UStatStage& _DefenderStatStage, EPokemonMove _AttackMoveId);
 
 protected:
 

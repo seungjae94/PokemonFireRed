@@ -91,6 +91,12 @@
     <Filter Include="5. UI\MapLevelCanvas">
       <UniqueIdentifier>{d71a5ab4-ae77-40de-bd65-1c7df6b2d98d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2. Level\8. BattleLevel\StateMachine">
+      <UniqueIdentifier>{7d5a13c4-242f-4e21-bce9-c95ba6043d57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2. Level\8. BattleLevel\Calculator">
+      <UniqueIdentifier>{d7776502-6556-41a2-b549-5085b19c510e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PokemonCore.h">
@@ -273,20 +279,11 @@
     <ClInclude Include="BattleCanvas.h">
       <Filter>2. Level\8. BattleLevel</Filter>
     </ClInclude>
-    <ClInclude Include="BattleStartStateMachine.h">
-      <Filter>2. Level\8. BattleLevel</Filter>
-    </ClInclude>
     <ClInclude Include="UIParent.h">
       <Filter>5. UI\Element</Filter>
     </ClInclude>
     <ClInclude Include="FadeCanvas.h">
       <Filter>5. UI\MapLevelCanvas</Filter>
-    </ClInclude>
-    <ClInclude Include="BattlePlayerActionSelectStateMachine.h">
-      <Filter>2. Level\8. BattleLevel</Filter>
-    </ClInclude>
-    <ClInclude Include="TurnOrderCalculator.h">
-      <Filter>2. Level\8. BattleLevel</Filter>
     </ClInclude>
     <ClInclude Include="BattleEnemyActionGenerator.h">
       <Filter>2. Level\8. BattleLevel</Filter>
@@ -297,8 +294,20 @@
     <ClInclude Include="StatStage.h">
       <Filter>2. Level\8. BattleLevel</Filter>
     </ClInclude>
+    <ClInclude Include="BattlePlayerActionSelectStateMachine.h">
+      <Filter>2. Level\8. BattleLevel\StateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="BattleStartStateMachine.h">
+      <Filter>2. Level\8. BattleLevel\StateMachine</Filter>
+    </ClInclude>
     <ClInclude Include="AccuracyChecker.h">
-      <Filter>2. Level\8. BattleLevel</Filter>
+      <Filter>2. Level\8. BattleLevel\Calculator</Filter>
+    </ClInclude>
+    <ClInclude Include="TurnOrderCalculator.h">
+      <Filter>2. Level\8. BattleLevel\Calculator</Filter>
+    </ClInclude>
+    <ClInclude Include="BattleTurnStateMachine.h">
+      <Filter>2. Level\8. BattleLevel\StateMachine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -473,20 +482,11 @@
     <ClCompile Include="BattleCanvas.cpp">
       <Filter>2. Level\8. BattleLevel</Filter>
     </ClCompile>
-    <ClCompile Include="BattleStartStateMachine.cpp">
-      <Filter>2. Level\8. BattleLevel</Filter>
-    </ClCompile>
     <ClCompile Include="UIParent.cpp">
       <Filter>5. UI\Element</Filter>
     </ClCompile>
     <ClCompile Include="FadeCanvas.cpp">
       <Filter>5. UI\MapLevelCanvas</Filter>
-    </ClCompile>
-    <ClCompile Include="BattlePlayerActionSelectStateMachine.cpp">
-      <Filter>2. Level\8. BattleLevel</Filter>
-    </ClCompile>
-    <ClCompile Include="TurnOrderCalculator.cpp">
-      <Filter>2. Level\8. BattleLevel</Filter>
     </ClCompile>
     <ClCompile Include="BattleEnemyActionGenerator.cpp">
       <Filter>2. Level\8. BattleLevel</Filter>
@@ -494,8 +494,20 @@
     <ClCompile Include="StatStage.cpp">
       <Filter>2. Level\8. BattleLevel</Filter>
     </ClCompile>
+    <ClCompile Include="BattlePlayerActionSelectStateMachine.cpp">
+      <Filter>2. Level\8. BattleLevel\StateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="BattleStartStateMachine.cpp">
+      <Filter>2. Level\8. BattleLevel\StateMachine</Filter>
+    </ClCompile>
     <ClCompile Include="AccuracyChecker.cpp">
-      <Filter>2. Level\8. BattleLevel</Filter>
+      <Filter>2. Level\8. BattleLevel\Calculator</Filter>
+    </ClCompile>
+    <ClCompile Include="TurnOrderCalculator.cpp">
+      <Filter>2. Level\8. BattleLevel\Calculator</Filter>
+    </ClCompile>
+    <ClCompile Include="BattleTurnStateMachine.cpp">
+      <Filter>2. Level\8. BattleLevel\StateMachine</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

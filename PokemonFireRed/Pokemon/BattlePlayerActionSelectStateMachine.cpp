@@ -37,12 +37,6 @@ void ABattlePlayerActionSelectStateMachine::Tick(float _DeltaTime)
 	case ESubstate::MoveSelect:
 		ProcessMoveSelect(_DeltaTime);
 		break;
-	case ESubstate::ShowEscapeSuccessMsg:
-		ProcessShowEscapeSuccessMsg(_DeltaTime);
-		break;
-	case ESubstate::ShowEscapeFailMsg:
-		ProcessShowEscapeFailMsg(_DeltaTime);
-		break;
 	case ESubstate::End:
 		break;
 	default:
@@ -64,25 +58,17 @@ void ABattlePlayerActionSelectStateMachine::ProcessSelect(float _DeltaTime)
 			Canvas->SetMoveSelectBoxActive(true);
 			break;
 		case Bag:
+			// 가방 화면을 띄우고 어떤 아이템을 사용하기로 결정했는지 결과까지 받아서 BattleLevel에 보고
 			break;
 		case Pokemon:
+			// 포켓몬 화면을 띄우고 어떤 포켓몬으로 교체하기로 결정했는지 결과까지 받아서 BattleLevel에 보고
 			break;
 		case Run:
 		{
-			bool RunResult = CalcRunResult();
-
-			if (true == RunResult)
-			{
-				State = ESubstate::ShowEscapeSuccessMsg;
-				Canvas->SetActionBoxActive(false);
-				Canvas->SetBattleMessage(L"Got away safely!");
-			}
-			else
-			{
-				State = ESubstate::ShowEscapeFailMsg;
-				Canvas->SetActionBoxActive(false);
-				Canvas->SetBattleMessage(L"Can't escape!");
-			}
+			ActionResult = EBattleAction::Escape;
+			State = ESubstate::End;
+			Canvas->SetActionBoxActive(false);
+			RunResult = CalcRunResult();
 		}
 		break;
 		default:
@@ -201,23 +187,5 @@ void ABattlePlayerActionSelectStateMachine::ProcessMoveSelect(float _DeltaTime)
 			Canvas->SetMoveSelectCursor(Cursor + 2);
 		}
 		return;
-	}
-}
-
-void ABattlePlayerActionSelectStateMachine::ProcessShowEscapeSuccessMsg(float _DeltaTime)
-{
-	if (true == UEngineInput::IsDown('Z'))
-	{
-		ActionResult = EBattleAction::EscapeSuccess;
-		State = ESubstate::End;
-	}
-}
-
-void ABattlePlayerActionSelectStateMachine::ProcessShowEscapeFailMsg(float _DeltaTime)
-{
-	if (true == UEngineInput::IsDown('Z'))
-	{
-		ActionResult = EBattleAction::EscapeFail;
-		State = ESubstate::End;
 	}
 }

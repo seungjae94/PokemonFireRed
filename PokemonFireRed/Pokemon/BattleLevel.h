@@ -4,6 +4,7 @@
 #include "BattleCanvas.h"
 #include "BattleStartStateMachine.h"
 #include "BattlePlayerActionSelectStateMachine.h"
+#include "BattleTurnStateMachine.h"
 #include "BattleEnums.h"
 #include "StatStage.h"
 
@@ -38,6 +39,7 @@ private:
 	ABattleCanvas* Canvas = nullptr;
 	ABattleStartStateMachine* BSSM = nullptr;
 	ABattlePlayerActionSelectStateMachine* PASM = nullptr;
+	ABattleTurnStateMachine* BTSM = nullptr;
 
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
@@ -46,14 +48,14 @@ private:
 
 	void ProcessBattleStart(float _DeltaTime);
 	void ProcessPlayerAction(float _DeltaTime);
-	void PrepareFight();
-	void ProcessPlayerMoveFailed(float _DeltaTime);
-	void ProcessEnemyMoveFailed(float _DeltaTime);
-	void ProcessPlayerMove(float _DeltaTime);
-	void ProcessEnemyMove(float _DeltaTime);
+	void ProcessTurn(float _DeltaTime);
+	void ProcessBattleWin(float _DeltaTime);
+	void ProcessBattleLose(float _DeltaTime);
+	void ProcessRun(float _DeltaTime);
 
 	// FSM
 	EBattleState State = EBattleState::BattleStart;
+	const float MoveFailMessageShowTime = 1.5f;
 	float Timer = 0.0f;
 
 	// À¯Æ¿

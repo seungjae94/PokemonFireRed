@@ -13,12 +13,12 @@ UTurnOrderCalculator::~UTurnOrderCalculator()
 bool UTurnOrderCalculator::IsPlayerFirst(
     EBattleAction _PlayerAction, EBattleAction _EnemyAction,
     const UPokemon* _PlayerPokemon, const UPokemon* _EnemyPokemon,
-    int _PlayerMoveIndex, int _EnemyMoveIndex,
+    EPokemonMove _PlayerMoveId, EPokemonMove _EnemyMoveId,
     const UStatStage& _PlayerStatStage, const UStatStage& _EnemyStatStage
 )
 {
-    int PlayerPriority = ActionToPriority(_PlayerAction, _PlayerPokemon, _PlayerMoveIndex);
-    int EnemyPriority = ActionToPriority(_EnemyAction, _EnemyPokemon, _EnemyMoveIndex);
+    int PlayerPriority = ActionToPriority(_PlayerAction, _PlayerPokemon, _PlayerMoveId);
+    int EnemyPriority = ActionToPriority(_EnemyAction, _EnemyPokemon, _EnemyMoveId);
 
     if (PlayerPriority > EnemyPriority)
     {
@@ -49,7 +49,7 @@ bool UTurnOrderCalculator::IsPlayerFirst(
     return RandomInt == 0;
 }
 
-int UTurnOrderCalculator::ActionToPriority(EBattleAction _Action, const UPokemon* _Pokemon, int _MoveIndex)
+int UTurnOrderCalculator::ActionToPriority(EBattleAction _Action, const UPokemon* _Pokemon, EPokemonMove _MoveId)
 {
     switch (_Action)
     {
@@ -57,7 +57,7 @@ int UTurnOrderCalculator::ActionToPriority(EBattleAction _Action, const UPokemon
         break;
     case EBattleAction::Fight:
         break;
-    case EBattleAction::EscapeFail:
+    case EBattleAction::Escape:
     case EBattleAction::Shift:
     case EBattleAction::Item:
         return 6;
@@ -65,8 +65,7 @@ int UTurnOrderCalculator::ActionToPriority(EBattleAction _Action, const UPokemon
         break;
     }
 
-    EPokemonMove MoveId =_Pokemon->GetMoveId(_MoveIndex);
-    return MoveIdToPriority(MoveId);
+    return MoveIdToPriority(_MoveId);
 }
 
 int UTurnOrderCalculator::MoveIdToPriority(EPokemonMove _MoveId)

@@ -25,14 +25,14 @@ public:
 	static bool IsPlayerFirst(
 		EBattleAction _PlayerAction, EBattleAction _EnemyAction,
 		const UPokemon* _PlayerPokemon, const UPokemon* _EnemyPokemon,
-		int _PlayerMoveIndex, int _EnemyMoveIndex,
+		EPokemonMove _PlayerMoveId, EPokemonMove _EnemyMoveId,
 		const UStatStage& _PlayerStatStage, const UStatStage& _EnemyStatStage
 	);
 
 protected:
 
 private:
-	static int ActionToPriority(EBattleAction _Action, const UPokemon* _Pokemon, int _MoveIndex);
+	static int ActionToPriority(EBattleAction _Action, const UPokemon* _Pokemon, EPokemonMove _MoveId);
 	static int MoveIdToPriority(EPokemonMove _MoveId);
 	static int CalcModifiedSpeed(const UPokemon* _Pokemon, const UStatStage& _StatStage);
 };

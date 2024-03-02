@@ -23,8 +23,6 @@ private:
 		None,
 		Select,
 		MoveSelect,
-		ShowEscapeSuccessMsg,
-		ShowEscapeFailMsg,
 		End
 	};
 public:
@@ -59,6 +57,11 @@ public:
 		return SelectedMoveIndex;
 	}
 
+	int GetRunResult() const
+	{
+		return RunResult;
+	}
+
 	void Start(ABattleCanvas* _Canvas, const UPokemon* _PlayerPokemon, const UPokemon* _EnemyPokemon);
 
 	void Reset();
@@ -66,17 +69,25 @@ public:
 protected:
 
 private:
+	// 배틀 레벨 데이터
+	ABattleCanvas* Canvas = nullptr;
 	const UPokemon* PlayerPokemon = nullptr;
 	const UPokemon* EnemyPokemon = nullptr;
 	EBattleAction PlayerAction = EBattleAction::None;
 
-	ABattleCanvas* Canvas = nullptr;
+	// 고유 데이터
 	float Timer = 0.0f;
+	int RunAttemptCount = 0;
 
+	// 상태
 	ESubstate State = ESubstate::None;
+
+	// 출력 데이터 (배틀 레벨에서 참조할 데이터)
 	EBattleAction ActionResult = EBattleAction::None;
 	int SelectedMoveIndex = 0;
-	int RunAttemptCount = 0;
+	bool RunResult = false;
+	int SelectedPokemonIndex = 0;
+	// TODO: SelectedItem
 
 	// 로직
 	void Tick(float _DeltaTime) override;
@@ -85,7 +96,5 @@ private:
 	bool CalcRunResult();
 
 	void ProcessMoveSelect(float _DeltaTime);
-	void ProcessShowEscapeSuccessMsg(float _DeltaTime);
-	void ProcessShowEscapeFailMsg(float _DeltaTime);
 };
 
