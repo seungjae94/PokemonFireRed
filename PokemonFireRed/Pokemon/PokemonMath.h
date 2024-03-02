@@ -174,6 +174,24 @@ public:
 	static FTileVector ProjectToTileVector(const FVector& _Vec);
 	static float Distance(const FVector& _Vec1, const FVector& _Vec2);
 	
+	static int Max(int _Left, int _Right)
+	{
+		if (_Left >= _Right)
+		{
+			return _Left;
+		}
+		return _Right;
+	}
+
+	static int Min(int _Left, int _Right)
+	{
+		if (_Left >= _Right)
+		{
+			return _Right;
+		}
+		return _Left;
+	}
+
 	static int Mod(int _Value, int _Divisor)
 	{
 		if (_Divisor <= 0)
@@ -217,6 +235,26 @@ public:
 	/// <param name="_End">Inclusive</param>
 	static int RandomInt(int _Start, int _End);
 	static float Random(float _Start, float _End);
+
+	static int Cap(int _Value, int _Min, int _Max)
+	{
+		if (_Max > _Min)
+		{
+			MsgBoxAssert("Cap 조건이 잘못되었습니다. _Max > _Min입니다.");
+			return _Value;
+		}
+
+		if (_Value < _Min)
+		{
+			return _Min;
+		}
+		else if (_Value > _Max)
+		{
+			return _Max;
+		}
+		
+		return _Value;
+	}
 
 protected:
 
