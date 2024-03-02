@@ -1,21 +1,8 @@
 #pragma once
 #include "Pokemon.h"
+#include "PokemonStruct.h"
 #include "StatStage.h"
-
-enum class ETypeVs
-{
-	Win,
-	Draw,
-	Lose,
-};
-
-struct FDamageResult
-{
-public:
-	int Damage = 0;
-	bool IsCritical = false;
-	ETypeVs TypeVs = ETypeVs::Draw;
-};
+#include "BattleEnums.h"
 
 class UDamageCalculator
 {
@@ -36,6 +23,10 @@ protected:
 
 private:
 	static bool CheckCritical(const UPokemon* _PlayerPokemon, EPokemonMove _MoveId);
+	static float GetEffectivePower(const UPokemon* _Attacker, EPokemonMove _MoveId);
 	static float GetEffectiveAtk(const UPokemon* _Pokemon, const UStatStage& _StatStage, bool _IsCritical);
+	static float GetEffectiveSpAtk(const UPokemon* _Pokemon, const UStatStage& _StatStage, bool _IsCritical);
+	static float GetEffectiveDef(const UPokemon* _Pokemon, const UStatStage& _StatStage, bool _IsCritical);
+	static float GetEffectiveSpDef(const UPokemon* _Pokemon, const UStatStage& _StatStage, bool _IsCritical);
 };
 

@@ -230,6 +230,20 @@ public:
 
 		return Result;
 	}
+	
+	// Reference: https://stackoverflow.com/questions/4915462/how-should-i-do-floating-point-comparison
+	static bool Equal(float _Left, float _Right)
+	{
+		if (_Left == _Right)
+		{
+			return true;
+		}
+
+		float Diff = std::abs(_Left - _Right);
+		float Norm = std::abs(_Left) + std::abs(_Right);
+
+		return Diff < std::max<float>(FLT_MIN, 128 * FLT_EPSILON * Norm);
+	}
  
 	/// <param name="_Start">Inclusive</param>
 	/// <param name="_End">Inclusive</param>

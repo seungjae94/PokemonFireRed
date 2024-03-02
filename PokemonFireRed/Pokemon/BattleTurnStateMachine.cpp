@@ -4,6 +4,7 @@
 #include "BattleEnemyActionGenerator.h"
 #include "TurnOrderCalculator.h"
 #include "AccuracyChecker.h"
+#include "DamageCalculator.h"
 
 ABattleTurnStateMachine::ABattleTurnStateMachine()
 {
@@ -130,7 +131,7 @@ void ABattleTurnStateMachine::DispatchPlayerFight()
 	const FPokemonMove* Move = UPokemonDB::FindMove(PlayerMoveId);
 	Canvas->SetBattleMessage(PlayerPokemon->GetNameW() + L" used\n" + Move->GetNameW() + L"!");
 	
-	// Result = UDamageCalculator::CalcDamage(PlayerPokemon, EnemyPokemon, ...);
+	Result = UDamageCalculator::CalcDamage(PlayerPokemon, EnemyPokemon, *PlayerStatStage, *EnemyStatStage, PlayerMoveId);
 }
 
 void ABattleTurnStateMachine::DispatchEnemyTurn()
@@ -174,6 +175,6 @@ void ABattleTurnStateMachine::DispatchEnemyFight()
 	const FPokemonMove* Move = UPokemonDB::FindMove(EnemyMoveId);
 	Canvas->SetBattleMessage(EnemyPokemon->GetNameW() + L" used\n" + Move->GetNameW() + L"!");
 	
-	// Result = UDamageCalculator::CalcDamage(EnemyPokemon, PlayerPokemon, ...);
+	Result = UDamageCalculator::CalcDamage(EnemyPokemon, PlayerPokemon, *EnemyStatStage, *PlayerStatStage, EnemyMoveId);
 }
 

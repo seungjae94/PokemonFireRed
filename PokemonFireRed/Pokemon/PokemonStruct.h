@@ -191,13 +191,18 @@ public:
 	std::string Name;
 	std::string ImageName;
 
-	// EffectTo[EnemyType] = 적을 공격할 때 타입으로 인한 데미지 배율
-	std::map<EPokemonType, float> EffectTo;
-
 	std::wstring GetNameW() const
 	{
 		return UEngineString::AnsiToUniCode(Name);
 	}
+
+	// <주의사항>
+	// map::operator[]는 key가 없으면 새로운 원소를 insert하는 방식으로 동작한다.
+	// 즉, 변경을 야기하기 때문에 const FPokemonType에서는 사용할 수 없는 연산이다.
+	// 원소를 조회하고 싶다면 map::at 함수로 조회해야 한다.
+
+	// EffectTo[EnemyType] = 적을 공격할 때 타입으로 인한 데미지 배율
+	std::map<EPokemonType, float> EffectTo;
 };
 
 enum class EPokemonMove

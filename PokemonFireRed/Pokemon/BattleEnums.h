@@ -25,3 +25,19 @@ enum class EBattleAction
 	Shift,
 	Item,
 };
+
+enum class ETypeVs
+{
+	HasNoEffect,
+	NotVeryEffective,
+	NormallyEffective,
+	SuperEffective,
+};
+
+struct FDamageResult
+{
+public:
+	int Damage = 0;
+	bool IsCritical = false;
+	ETypeVs TypeVs = ETypeVs::NormallyEffective;
+};

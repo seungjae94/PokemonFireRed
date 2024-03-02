@@ -114,7 +114,30 @@ public:
 		return static_cast<int>(Species->TypeIds.size());
 	}
 
+	EPokemonType GetTypeId(int _Index) const
+	{
+		if (_Index >= GetTypeCount())
+		{
+			MsgBoxAssert("타입 인덱스가 포켓몬" + Species->Name  + "이 보유한 타입 개수보다 큽니다.");
+			return EPokemonType::None;
+		}
+
+		return Species->TypeIds[_Index];
+	}
+
 	std::string GetTypeImageName(int _Index) const;
+
+	bool HasType(EPokemonType _Id) const
+	{
+		for (int i = 0; i < GetTypeCount(); ++i)
+		{
+			if (Species->TypeIds[i] == _Id)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 
 	EPokemonStatus GetStatusId() const
 	{
