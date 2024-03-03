@@ -196,7 +196,7 @@ float UDamageCalculator::GetEffectiveAtk(const UPokemon* _Pokemon, const UStatSt
         Multiplier = 1.0f;
     }
 
-    if (_Pokemon->GetAbilityId() == EPokemonAbility::Guts && _Pokemon->GetStatusId() != EPokemonStatus::Normal)
+    if (_Pokemon->GetAbilityId() == EPokemonAbility::Guts && _Pokemon->GetStatusId() != EPokemonStatus::None)
     {
         Multiplier *= 1.5f;
     }

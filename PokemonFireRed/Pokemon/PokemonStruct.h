@@ -150,7 +150,7 @@ public:
 
 enum class EPokemonStatus
 {
-	Normal,
+	None,
 	Sleep,
 	Poison,
 	Burn,
@@ -161,7 +161,7 @@ enum class EPokemonStatus
 struct FPokemonStatus
 {
 public:
-	EPokemonStatus Id = EPokemonStatus::Normal;
+	EPokemonStatus Id = EPokemonStatus::None;
 	std::string Name;
 	std::string ImageName;
 };
@@ -233,6 +233,25 @@ enum class EPokemonMove
 	RockThrow
 };
 
+enum class ESecondaryEffectTarget
+{
+	None,
+	Self,
+	Enemy,
+};
+
+enum class ESecondaryEffectStatStage
+{
+	None,
+	Atk,
+	Def,
+	SpAtk,
+	SpDef,
+	Speed,
+	Accuracy,
+	Evasion
+};
+
 struct FPokemonMove
 {
 public:
@@ -243,6 +262,14 @@ public:
 	int PP = 0;
 	int BasePower = 0;
 	int Accuracy = 100;
+	bool IsContact = false;
+	
+	// 부가 효과
+	ESecondaryEffectTarget SETarget = ESecondaryEffectTarget::None;
+	int SERate = 0;
+	ESecondaryEffectStatStage SEStatStageId = ESecondaryEffectStatStage::None;
+	int SEStatStageValue = 0;
+	EPokemonStatus SEStatusId = EPokemonStatus::None;
 
 	std::wstring GetNameW() const
 	{

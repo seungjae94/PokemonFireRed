@@ -151,6 +151,26 @@ public:
 			Move.PP = std::stoi(Line[4]);
 			Move.BasePower = std::stoi(Line[5]);
 			Move.Accuracy = std::stoi(Line[6]);
+			//Move.IsContact = UPokemonDB::Resolve(Line[7]);
+			Move.SETarget = static_cast<ESecondaryEffectTarget>(UPokemonDB::Resolve(Line[8]));
+
+			if (Line[9] != "")
+			{
+				Move.SERate = std::stoi(Line[9]);
+			}
+			if (Line[10] != "")
+			{
+				Move.SEStatStageId = static_cast<ESecondaryEffectStatStage>(UPokemonDB::Resolve(Line[10]));
+			}
+			if (Line[11] != "")
+			{
+				Move.SEStatStageValue = std::stoi(Line[11]);
+			}
+			if (Line[12] != "")
+			{
+				Move.SEStatusId = static_cast<EPokemonStatus>(UPokemonDB::Resolve(Line[12]));
+			}
+
 			UPokemonDB::Moves[Move.Id] = Move;
 		}
 	}
