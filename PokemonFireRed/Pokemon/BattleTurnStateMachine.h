@@ -72,10 +72,9 @@ private:
 
 	// 고유 데이터
 	ESubstate State = ESubstate::None;
-	const float BattleMsgShowTime = 3.0f;
+	const float BattleMsgShowTime = 2.0f;
 	float Timer = 0.0f;
-	float DamageTime = 3.0f;
-	
+	float DamageTime = 2.0f;
 	bool IsFirstTurn = true;
 	bool IsPlayerFirst = true;
 	bool IsPlayerFirstEOT = true;
@@ -86,7 +85,10 @@ private:
 	EPokemonMove AttackMoveId = EPokemonMove::None;
 	EMoveResultMsg MoveResultMsg = EMoveResultMsg::None;
 	
+	// Temporal Data
 	FDamageResult Result;
+	int PrevHp = 0;
+	int NextHp = 0;
 
 	// 로직
 	void Tick(float _DeltaTime) override;

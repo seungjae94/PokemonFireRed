@@ -58,8 +58,8 @@ public:
 	*/
 
 	// Turn
-	void LerpPlayerHpBar(int _BeforeHp, int _AfterHp, int _MaxHp, float _t);
-	void LerpEnemyHpBar(int _BeforeHp, int _AfterHp, int _MaxHp, float _t);
+	void LerpPlayerHpInfo(int _BeforeHp, int _AfterHp, int _MaxHp, float _t);
+	void LerpEnemyHpInfo(int _BeforeHp, int _AfterHp, int _MaxHp, float _t);
 	void RefreshPlayerPokemonCurHpText();
 
 protected:

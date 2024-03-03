@@ -170,16 +170,19 @@ void ABattleCanvas::SetBattleMessage(std::wstring_view _Msg)
 	MsgText->SetText(_Msg);
 }
 
-void ABattleCanvas::LerpPlayerHpBar(int _BeforeHp, int _AfterHp, int _MaxHp, float _t)
+void ABattleCanvas::LerpPlayerHpInfo(int _BeforeHp, int _AfterHp, int _MaxHp, float _t)
 {
-	float LerpedValue = UPokemonMath::Lerp(static_cast<float>(HpBarMaxValue) * _AfterHp / _MaxHp, static_cast<float>(HpBarMaxValue) * _BeforeHp / _MaxHp, _t);
-	PlayerPokemonHpBar->SetValue(UPokemonMath::Round(LerpedValue));
+	int LerpedHp = UPokemonMath::Round(UPokemonMath::Lerp(static_cast<float>(_AfterHp), static_cast<float>(_BeforeHp), _t));
+	PlayerPokemonCurHpText->SetText(std::to_wstring(LerpedHp));
+
+	float LerpedBarValue = UPokemonMath::Lerp(static_cast<float>(HpBarMaxValue) * _AfterHp / _MaxHp, static_cast<float>(HpBarMaxValue) * _BeforeHp / _MaxHp, _t);
+	PlayerPokemonHpBar->SetValue(UPokemonMath::Round(LerpedBarValue));
 }
 
-void ABattleCanvas::LerpEnemyHpBar(int _BeforeHp, int _AfterHp, int _MaxHp, float _t)
+void ABattleCanvas::LerpEnemyHpInfo(int _BeforeHp, int _AfterHp, int _MaxHp, float _t)
 {
-	float LerpedValue = UPokemonMath::Lerp(static_cast<float>(HpBarMaxValue) * _AfterHp / _MaxHp, static_cast<float>(HpBarMaxValue) * _BeforeHp / _MaxHp, _t);
-	EnemyPokemonHpBar->SetValue(UPokemonMath::Round(LerpedValue));
+	float LerpedBarValue = UPokemonMath::Lerp(static_cast<float>(HpBarMaxValue) * _AfterHp / _MaxHp, static_cast<float>(HpBarMaxValue) * _BeforeHp / _MaxHp, _t);
+	EnemyPokemonHpBar->SetValue(UPokemonMath::Round(LerpedBarValue));
 }
 
 void ABattleCanvas::RefreshPlayerPokemonCurHpText()

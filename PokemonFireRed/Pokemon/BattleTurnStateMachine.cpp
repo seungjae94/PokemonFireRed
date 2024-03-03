@@ -219,27 +219,27 @@ void ABattleTurnStateMachine::ProcessMoveAnim(float _DeltaTime)
 	State = ESubstate::MoveDamage;
 	Timer = DamageTime;
 	MoveResultMsg = EMoveResultMsg::None;
+	PrevHp = Defender->GetCurHp();
+	NextHp = UPokemonMath::Max(PrevHp - Result.Damage, 0);
 }
 
 void ABattleTurnStateMachine::ProcessMoveDamage(float _DeltaTime)
 {
 	if (MoveResultMsg == EMoveResultMsg::None)
 	{
-		int CurHp = Defender->GetCurHp();
-		int DamagedHp = UPokemonMath::Max(CurHp - Result.Damage, 0);
 		if (Defender == PlayerPokemon)
 		{
-			Canvas->LerpPlayerHpBar(CurHp, DamagedHp, Defender->GetHp(), Timer / DamageTime);
+			Canvas->LerpPlayerHpInfo(PrevHp, NextHp, Defender->GetHp(), Timer / DamageTime);
 		}
 		else
 		{
-			Canvas->LerpEnemyHpBar(CurHp, DamagedHp, Defender->GetHp(), Timer / DamageTime);
+			Canvas->LerpEnemyHpInfo(PrevHp, NextHp, Defender->GetHp(), Timer / DamageTime);
 		}
 
 		if (Timer <= 0.0f)
 		{
 			// 실제 데미지 처리
-			Defender->SetCurHp(DamagedHp);
+			Defender->SetCurHp(NextHp);
 			
 			// 데미지 계산 결과 렌더링
 			if (Defender == PlayerPokemon)
