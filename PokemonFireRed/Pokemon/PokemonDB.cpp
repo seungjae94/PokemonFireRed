@@ -203,7 +203,7 @@ public:
 
 			for (int i = 3; i <= 19; ++i)
 			{
-				EPokemonType EnemyType = static_cast<EPokemonType>(i - 1);
+				EPokemonType EnemyType = static_cast<EPokemonType>(i - 2);
 				Type.EffectTo[EnemyType] = std::stof(Line[i]);
 			}
 

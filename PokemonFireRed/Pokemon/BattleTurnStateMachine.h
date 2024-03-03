@@ -14,19 +14,22 @@ private:
 	{
 		None,
 		PlayerEscapeFail,
-		PlayerSwitch,
-		PlayerUseItem,
-		PlayerMoveFail,
-		PlayerMove,
-		PlayerMoveSecondaryEffect,
-		EnemySwitch,
-		EnemyUseItem,
-		EnemyMoveFail,
-		EnemyMove,
-		EnemyMoveSecondaryEffect,
-		PlayerEndOfTurn,
-		EnemyEndOfTurn,
+		Switch,
+		UseItem,
+		MoveFail,
+		MoveAnim,
+		MoveDamage,
+		MoveSecondaryEffectAnim,
+		MoveSecondaryEffectDamage,
+		EndOfTurn,
 		End,
+	};
+
+	enum class EMoveResultMsg
+	{
+		None,
+		Critical,
+		TypeEffect,
 	};
 public:
 	// constructor destructor
@@ -69,10 +72,19 @@ private:
 
 	// 고유 데이터
 	ESubstate State = ESubstate::None;
-	const float MoveFailMsgShowTime = 1.5f;
+	const float BattleMsgShowTime = 2.0f;
 	float Timer = 0.0f;
+	float DamageTime = 1.0f;
+	
+	bool IsFirstTurn = true;
 	bool IsPlayerFirst = true;
-	bool IsFirstTurnEnd = false;
+	bool IsPlayerFirstEOT = true;
+	UPokemon* Attacker = nullptr;
+	UPokemon* Defender = nullptr;
+	UStatStage* AttackerStatStage = nullptr;
+	UStatStage* DefenderStatStage = nullptr;
+	EPokemonMove AttackMoveId = EPokemonMove::None;
+	EMoveResultMsg MoveResultMsg = EMoveResultMsg::None;
 	
 	FDamageResult Result;
 
@@ -80,9 +92,20 @@ private:
 	void Tick(float _DeltaTime) override;
 
 	void GenerateEnemyAction();
-	void DispatchPlayerTurn();
-	void DispatchPlayerFight();
-	void DispatchEnemyTurn();
-	void DispatchEnemyFight();
+	void DispatchTurn();
+	void DispatchFight();
+	void DispatchEndOfTurn();
+
+	// 처리 함수
+	void ProcessEscapeFail(float _DeltaTime);
+	void ProcessMoveFail(float _DeltaTime);
+	void ProcessMoveAnim(float _DeltaTime);
+	void ProcessMoveDamage(float _DeltaTime);
+	void ProcessMoveSecondaryEffectDamage(float _DeltaTime);
+	void ProcessMoveSecondaryEffectAnim(float _DeltaTime);
+
+	// 유틸 함수
+	void SetPlayerAsAttacker();
+	void SetEnemyAsAttacker();
 };
 

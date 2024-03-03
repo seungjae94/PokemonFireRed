@@ -17,6 +17,21 @@ UPokemonMath::~UPokemonMath()
 {
 }
 
+float UPokemonMath::Lerp(float _Start, float _End, float _t)
+{
+	if (_t <= 0.0f)
+	{
+		return _Start;
+	}
+	
+	if (_t >= 1.0f)
+	{
+		return _End;
+	}
+
+	return _Start * (1 - _t) + _End * _t;
+}
+
 FVector UPokemonMath::Lerp(const FVector& _Start, const FVector& _End, float _t)
 {
 	if (_t <= 0.0f)

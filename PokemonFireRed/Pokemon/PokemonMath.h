@@ -169,6 +169,7 @@ public:
 	UPokemonMath& operator=(const UPokemonMath& _Other) = delete;
 	UPokemonMath& operator=(UPokemonMath&& _Other) noexcept = delete;
 
+	static float Lerp(float _Start, float _End, float _t);
 	static FVector Lerp(const FVector& _Start, const FVector& _End, float _t);
 	static FVector Lerp(const FTileVector& _Start, const FTileVector& _End, float _t);
 	static FTileVector ProjectToTileVector(const FVector& _Vec);
@@ -212,6 +213,11 @@ public:
 	static int Floor(float _Value)
 	{
 		return std::lround(std::floor(_Value));
+	}
+
+	static int Round(float _Value)
+	{
+		return std::lround(_Value);
 	}
 
 	static int Pow(int _Value, int _Exp)

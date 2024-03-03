@@ -57,6 +57,10 @@ public:
 	* 포켓몬 순서 바꿀때 반드시 MoveSelectCursor 초기화 작업 필요!
 	*/
 
+	// Turn
+	void LerpPlayerHpBar(int _Before, int _After, float _t);
+	void LerpEnemyHpBar(int _Before, int _After, float _t);
+
 protected:
 
 private:

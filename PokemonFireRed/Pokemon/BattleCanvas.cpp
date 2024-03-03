@@ -170,6 +170,18 @@ void ABattleCanvas::SetBattleMessage(std::wstring_view _Msg)
 	MsgText->SetText(_Msg);
 }
 
+void ABattleCanvas::LerpPlayerHpBar(int _Before, int _After, float _t)
+{
+	float LerpedValue = UPokemonMath::Lerp(static_cast<float>(_After), static_cast<float>(_Before), _t);
+	PlayerPokemonHpBar->SetValue(UPokemonMath::Round(LerpedValue));
+}
+
+void ABattleCanvas::LerpEnemyHpBar(int _Before, int _After, float _t)
+{
+	float LerpedValue = UPokemonMath::Lerp(static_cast<float>(_After), static_cast<float>(_Before), _t);
+	EnemyPokemonHpBar->SetValue(UPokemonMath::Round(LerpedValue));
+}
+
 void ABattleCanvas::BeginPlay()
 {
 	ACanvas::BeginPlay();

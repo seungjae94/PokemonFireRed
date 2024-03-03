@@ -5,6 +5,7 @@
 #include "TurnOrderCalculator.h"
 #include "AccuracyChecker.h"
 #include "DamageCalculator.h"
+#include "BattleEnums.h"
 
 ABattleTurnStateMachine::ABattleTurnStateMachine()
 {
@@ -35,40 +36,51 @@ void ABattleTurnStateMachine::Start(
 
 	// 턴 순서 결정
 	IsPlayerFirst = UTurnOrderCalculator::IsPlayerFirst(PlayerAction, EnemyAction, PlayerPokemon, EnemyPokemon, PlayerMoveId, EnemyMoveId, *PlayerStatStage, *EnemyStatStage);
-	IsFirstTurnEnd = false;
+	IsFirstTurn = true;
 
 	// 상태 변경
 	if (true == IsPlayerFirst)
 	{
-		DispatchPlayerTurn();
+		SetPlayerAsAttacker();
 	}
 	else
 	{
-		DispatchEnemyTurn();
+		SetEnemyAsAttacker();
 	}
+	DispatchTurn();
 }
 
 void ABattleTurnStateMachine::Tick(float _DeltaTime)
 {
+	Timer -= _DeltaTime;
+
 	switch (State)
 	{
 	case ABattleTurnStateMachine::ESubstate::None:
 		break;
-	case ABattleTurnStateMachine::ESubstate::PlayerMoveFail:
+	case ABattleTurnStateMachine::ESubstate::PlayerEscapeFail:
+		ProcessEscapeFail(_DeltaTime);
 		break;
-	case ABattleTurnStateMachine::ESubstate::EnemyMoveFail:
+	case ABattleTurnStateMachine::ESubstate::Switch:
 		break;
-	case ABattleTurnStateMachine::ESubstate::PlayerMove:
+	case ABattleTurnStateMachine::ESubstate::UseItem:
 		break;
-	case ABattleTurnStateMachine::ESubstate::PlayerMoveSecondaryEffect:
+	case ABattleTurnStateMachine::ESubstate::MoveFail:
+		ProcessMoveFail(_DeltaTime);
 		break;
-	case ABattleTurnStateMachine::ESubstate::EnemyMove:
+	case ABattleTurnStateMachine::ESubstate::MoveAnim:
+		ProcessMoveAnim(_DeltaTime);
 		break;
-	case ABattleTurnStateMachine::ESubstate::EnemyMoveSecondaryEffect:
+	case ABattleTurnStateMachine::ESubstate::MoveDamage:
+		ProcessMoveDamage(_DeltaTime);
 		break;
-	case ABattleTurnStateMachine::ESubstate::PlayerEndOfTurn:
+	case ABattleTurnStateMachine::ESubstate::MoveSecondaryEffectAnim:
+		ProcessMoveSecondaryEffectAnim(_DeltaTime);
 		break;
-	case ABattleTurnStateMachine::ESubstate::EnemyEndOfTurn:
+	case ABattleTurnStateMachine::ESubstate::MoveSecondaryEffectDamage:
+		ProcessMoveSecondaryEffectDamage(_DeltaTime);
+		break;
+	case ABattleTurnStateMachine::ESubstate::EndOfTurn:
 		break;
 	case ABattleTurnStateMachine::ESubstate::End:
 		break;
@@ -85,73 +97,40 @@ void ABattleTurnStateMachine::GenerateEnemyAction()
 	EnemyMoveId = EnemyPokemon->GetMoveId(EnemyMoveIndex);
 }
 
-void ABattleTurnStateMachine::DispatchPlayerTurn()
+void ABattleTurnStateMachine::DispatchTurn()
 {
-	switch (PlayerAction)
+	EBattleAction AttackerAction;
+
+	if (Attacker == PlayerPokemon)
+	{
+		AttackerAction = PlayerAction;
+	}
+	else
+	{
+		AttackerAction = EnemyAction;
+	}
+
+	switch (AttackerAction)
 	{
 	case EBattleAction::Fight:
-		DispatchPlayerFight();
+		DispatchFight();
 		break;
 	case EBattleAction::Escape:
 	{
 		State = ESubstate::PlayerEscapeFail;
 		Canvas->SetBattleMessage(L"Can't Escape!");
 	}
-		break;
-	case EBattleAction::Shift:
-	{
-		State = ESubstate::PlayerSwitch;
-		Canvas->SetBattleMessage(L"Debug - You Changed Pokemon!");
-	}
-		break;
-	case EBattleAction::Item:
-	{
-		State = ESubstate::PlayerUseItem;
-		Canvas->SetBattleMessage(L"Debug - You used Item!");
-	}
-		break;
-	default:
-		break;
-	}
-}
-
-void ABattleTurnStateMachine::DispatchPlayerFight()
-{
-	bool AccuracyCheckResult = UAccuracyChecker::Check(PlayerPokemon, EnemyPokemon, *PlayerStatStage, *EnemyStatStage, PlayerMoveId);
-
-	if (false == AccuracyCheckResult)
-	{
-		Canvas->SetBattleMessage(PlayerPokemon->GetNameW() + L"'s\nattack failed!");
-		State = ESubstate::PlayerMoveFail;
-		Timer = MoveFailMsgShowTime;
-		return;
-	}
-
-	State = ESubstate::PlayerMove;
-	const FPokemonMove* Move = UPokemonDB::FindMove(PlayerMoveId);
-	Canvas->SetBattleMessage(PlayerPokemon->GetNameW() + L" used\n" + Move->GetNameW() + L"!");
-	
-	Result = UDamageCalculator::CalcDamage(PlayerPokemon, EnemyPokemon, *PlayerStatStage, *EnemyStatStage, PlayerMoveId);
-}
-
-void ABattleTurnStateMachine::DispatchEnemyTurn()
-{
-	switch (EnemyAction)
-	{
-	case EBattleAction::Fight:
-		DispatchEnemyFight();
-		break;
 	break;
 	case EBattleAction::Shift:
 	{
-		State = ESubstate::EnemySwitch;
-		Canvas->SetBattleMessage(L"Debug - Enemy Changed Pokemon!");
+		State = ESubstate::Switch;
+		Canvas->SetBattleMessage(L"Debug - Attacker Changed Pokemon!");
 	}
 	break;
 	case EBattleAction::Item:
 	{
-		State = ESubstate::EnemyUseItem;
-		Canvas->SetBattleMessage(L"Debug - Enemy used Item!");
+		State = ESubstate::UseItem;
+		Canvas->SetBattleMessage(L"Debug - Attacker used Item!");
 	}
 	break;
 	default:
@@ -159,22 +138,197 @@ void ABattleTurnStateMachine::DispatchEnemyTurn()
 	}
 }
 
-void ABattleTurnStateMachine::DispatchEnemyFight()
+void ABattleTurnStateMachine::DispatchFight()
 {
-	bool AccuracyCheckResult = UAccuracyChecker::Check(EnemyPokemon, PlayerPokemon, *EnemyStatStage, *PlayerStatStage, EnemyMoveId);
+	bool AccuracyCheckResult = UAccuracyChecker::Check(Attacker, Defender, *AttackerStatStage, *DefenderStatStage, AttackMoveId);
 
 	if (false == AccuracyCheckResult)
 	{
-		Canvas->SetBattleMessage(EnemyPokemon->GetNameW() + L"'s\nattack failed!");
-		State = ESubstate::EnemyMoveFail;
-		Timer = MoveFailMsgShowTime;
+		Canvas->SetBattleMessage(Attacker->GetNameW() + L"'s\nattack failed!");
+		State = ESubstate::MoveFail;
+		Timer = BattleMsgShowTime;
 		return;
 	}
 
-	State = ESubstate::EnemyMove;
-	const FPokemonMove* Move = UPokemonDB::FindMove(EnemyMoveId);
-	Canvas->SetBattleMessage(EnemyPokemon->GetNameW() + L" used\n" + Move->GetNameW() + L"!");
-	
-	Result = UDamageCalculator::CalcDamage(EnemyPokemon, PlayerPokemon, *EnemyStatStage, *PlayerStatStage, EnemyMoveId);
+	State = ESubstate::MoveAnim;
+	const FPokemonMove* Move = UPokemonDB::FindMove(AttackMoveId);
+	Canvas->SetBattleMessage(Attacker->GetNameW() + L" used\n" + Move->GetNameW() + L"!");
+	Result = UDamageCalculator::CalcDamage(Attacker, Defender, *AttackerStatStage, *DefenderStatStage, AttackMoveId);
 }
 
+void ABattleTurnStateMachine::DispatchEndOfTurn()
+{
+	Canvas->SetBattleMessage(L"Debug - End of turn");
+}
+
+void ABattleTurnStateMachine::ProcessEscapeFail(float _DeltaTime)
+{
+	if (true == UEngineInput::IsDown('Z'))
+	{
+		IsFirstTurn = false;
+		SetEnemyAsAttacker();
+		DispatchTurn();
+		return;
+	}
+}
+
+void ABattleTurnStateMachine::ProcessMoveFail(float _DeltaTime)
+{
+	if (Timer < 0.0f)
+	{
+		if (true == IsFirstTurn)
+		{
+			IsFirstTurn = false;
+			if (Attacker == PlayerPokemon)
+			{
+				SetEnemyAsAttacker();
+				DispatchTurn();
+			}
+			else
+			{
+				SetPlayerAsAttacker();
+				DispatchTurn();
+			}
+			return;
+		}
+		else
+		{
+			IsFirstTurn = true;
+
+			// (원칙적으로는) End Of Turn에 대한 순서도 따로 계산을 해줘야 한다.
+			// 하지만 지금까지 구현한 내용만 고려하면 기술 사용 순서와 EOT 순서가 같다.
+			IsPlayerFirstEOT = IsPlayerFirst; // UTurnOrderCalculator::IsPlayerFirstEOT(..., IsPlayerFirst);
+
+			if (true == IsPlayerFirstEOT)
+			{
+				SetPlayerAsAttacker();
+			}
+			else
+			{
+				SetEnemyAsAttacker();
+			}
+
+			DispatchEndOfTurn();
+			return;
+		}
+	}
+}
+
+void ABattleTurnStateMachine::ProcessMoveAnim(float _DeltaTime)
+{
+	// 애니메이션: 차후 구현
+	State = ESubstate::MoveDamage;
+	Timer = DamageTime;
+	MoveResultMsg = EMoveResultMsg::None;
+}
+
+void ABattleTurnStateMachine::ProcessMoveDamage(float _DeltaTime)
+{
+	if (MoveResultMsg == EMoveResultMsg::None)
+	{
+		int CurHp = Defender->GetCurHp();
+		int DamagedHp = UPokemonMath::Max(CurHp - Result.Damage, 0);
+		if (Defender == PlayerPokemon)
+		{
+			Canvas->LerpPlayerHpBar(CurHp, DamagedHp, Timer / DamageTime);
+		}
+		else
+		{
+			Canvas->LerpEnemyHpBar(CurHp, DamagedHp, Timer / DamageTime);
+		}
+
+		if (Timer <= 0.0f)
+		{
+			// 실제 데미지 처리
+			Defender->SetCurHp(DamagedHp);
+
+			if (Result.IsCritical == true)
+			{
+				MoveResultMsg = EMoveResultMsg::Critical;
+				Canvas->SetBattleMessage(L"A critical hit!");
+				Timer = BattleMsgShowTime;
+				return;
+			}
+			else if (Result.TypeVs != ETypeVs::NormallyEffective)
+			{
+				MoveResultMsg = EMoveResultMsg::TypeEffect;
+				Canvas->SetBattleMessage(Result.GetTypeVsW(Defender->GetNameW()));
+				Timer = BattleMsgShowTime;
+				return;
+			}
+			
+			// 데미지 종료
+			State = ESubstate::MoveSecondaryEffectAnim;
+		}
+	}
+	else if (MoveResultMsg == EMoveResultMsg::Critical)
+	{
+		if (Timer <= 0.0f)
+		{
+			if (Result.TypeVs != ETypeVs::NormallyEffective)
+			{
+				MoveResultMsg = EMoveResultMsg::TypeEffect;
+				Canvas->SetBattleMessage(Result.GetTypeVsW(Defender->GetNameW()));
+				Timer = BattleMsgShowTime;
+				return;
+			}
+
+			// 데미지 종료
+			State = ESubstate::MoveSecondaryEffectAnim;
+		}
+	}
+	else /*MoveResultMsg == EMoveResultMsg::TypeEffect*/
+	{
+		if (Timer <= 0.0f)
+		{
+			// 데미지 종료
+			State = ESubstate::MoveSecondaryEffectAnim;
+		}
+	}
+}
+
+void ABattleTurnStateMachine::ProcessMoveSecondaryEffectAnim(float _DeltaTime)
+{
+	// TODO
+	State = ESubstate::MoveSecondaryEffectDamage;
+}
+
+void ABattleTurnStateMachine::ProcessMoveSecondaryEffectDamage(float _DeltaTime)
+{
+	// TODO
+	if (true == IsFirstTurn)
+	{
+		if (Attacker == PlayerPokemon)
+		{
+			SetEnemyAsAttacker();
+		}
+		else
+		{
+			SetPlayerAsAttacker();
+		}
+		IsFirstTurn = false;
+		DispatchTurn();
+		return;
+	}
+
+	// 후공이 끝난 경우
+	State = ESubstate::EndOfTurn;
+}
+
+void ABattleTurnStateMachine::SetPlayerAsAttacker()
+{
+	Attacker = PlayerPokemon;
+	Defender = EnemyPokemon;
+	AttackerStatStage = PlayerStatStage;
+	DefenderStatStage = EnemyStatStage;
+	AttackMoveId = PlayerMoveId;
+}
+
+void ABattleTurnStateMachine::SetEnemyAsAttacker()
+{
+	Attacker = EnemyPokemon;
+	Defender = PlayerPokemon;
+	AttackerStatStage = EnemyStatStage;
+	DefenderStatStage = PlayerStatStage;
+	AttackMoveId = EnemyMoveId;
+}
