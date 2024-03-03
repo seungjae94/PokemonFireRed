@@ -49,6 +49,24 @@ bool UTurnOrderCalculator::IsPlayerFirst(
     return RandomInt == 0;
 }
 
+bool UTurnOrderCalculator::IsPlayerFirstEOT(const UPokemon* _PlayerPokemon, const UPokemon* _EnemyPokemon, const UStatStage& _PlayerStatStage, const UStatStage& _EnemyStatStage)
+{
+    int ModifiedPlayerSpeed = CalcModifiedSpeed(_PlayerPokemon, _PlayerStatStage);
+    int ModifiedEnemySpeed = CalcModifiedSpeed(_PlayerPokemon, _PlayerStatStage);
+
+    if (ModifiedPlayerSpeed > ModifiedEnemySpeed)
+    {
+        return true;
+    }
+    else if (ModifiedPlayerSpeed < ModifiedEnemySpeed)
+    {
+        return false;
+    }
+
+    int RandomInt = UPokemonMath::RandomInt(0, 1);
+    return RandomInt == 0;
+}
+
 int UTurnOrderCalculator::ActionToPriority(EBattleAction _Action, const UPokemon* _Pokemon, EPokemonMove _MoveId)
 {
     switch (_Action)

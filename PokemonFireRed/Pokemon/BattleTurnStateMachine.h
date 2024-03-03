@@ -86,7 +86,6 @@ private:
 	float Timer = 0.0f;
 	bool IsFirstTurn = true;
 	bool IsPlayerFirst = true;
-	bool IsPlayerFirstEOT = true;
 	UPokemon* Attacker = nullptr;
 	UPokemon* Defender = nullptr;
 	UStatStage* AttackerStatStage = nullptr;

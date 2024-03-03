@@ -29,6 +29,11 @@ public:
 		const UStatStage& _PlayerStatStage, const UStatStage& _EnemyStatStage
 	);
 
+	static bool IsPlayerFirstEOT(
+		const UPokemon* _PlayerPokemon, const UPokemon* _EnemyPokemon,
+		const UStatStage& _PlayerStatStage, const UStatStage& _EnemyStatStage
+	);
+
 protected:
 
 private:

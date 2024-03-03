@@ -237,19 +237,6 @@ void ABattleTurnStateMachine::ProcessMoveFail(float _DeltaTime)
 		}
 		else
 		{
-			// (원칙적으로는) End Of Turn에 대한 순서도 따로 계산을 해줘야 한다.
-			// 하지만 지금까지 구현한 내용만 고려하면 기술 사용 순서와 EOT 순서가 같다.
-			IsPlayerFirstEOT = IsPlayerFirst; // UTurnOrderCalculator::IsPlayerFirstEOT(..., IsPlayerFirst);
-
-			if (true == IsPlayerFirstEOT)
-			{
-				SetPlayerAsAttacker();
-			}
-			else
-			{
-				SetEnemyAsAttacker();
-			}
-
 			DispatchEndOfTurn();
 			return;
 		}
@@ -381,7 +368,8 @@ void ABattleTurnStateMachine::ProcessMoveSecondaryEffect(float _DeltaTime)
 
 void ABattleTurnStateMachine::ProcessEndOfTurn(float _DeltaTime)
 {
-	// TODO
+	IsPlayerFirst = UTurnOrderCalculator::IsPlayerFirstEOT(PlayerPokemon, EnemyPokemon, *PlayerStatStage, *EnemyStatStage);
+	// Leech Seed 체크
 	State = ESubstate::End;
 }
 
