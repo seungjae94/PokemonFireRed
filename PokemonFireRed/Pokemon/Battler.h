@@ -97,6 +97,7 @@ protected:
 private:
 	std::vector<UPokemon*> Entry;
 	EBattleAction Action = EBattleAction::None;
+	ETemporalStatus TempStatus = ETemporalStatus::None;
 	int CurPokemonIndex = 0;
 	int CurMoveIndex = 0;
 	bool IsPlayerValue = false;

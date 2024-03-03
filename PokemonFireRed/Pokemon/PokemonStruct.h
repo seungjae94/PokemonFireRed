@@ -158,6 +158,13 @@ enum class EPokemonStatus
 	Paralysis,
 };
 
+enum class ETemporalStatus
+{
+	None,
+	Seeded,
+	Bound,
+};
+
 struct FPokemonStatus
 {
 public:
@@ -270,6 +277,9 @@ public:
 	ESecondaryEffectStatStage SEStatStageId = ESecondaryEffectStatStage::None;
 	int SEStatStageValue = 0;
 	EPokemonStatus SEStatusId = EPokemonStatus::None;
+
+	// 특수 효과 (Leech Seed, Bind)
+	ETemporalStatus TempStatus = ETemporalStatus::None;
 
 	std::wstring GetNameW() const
 	{

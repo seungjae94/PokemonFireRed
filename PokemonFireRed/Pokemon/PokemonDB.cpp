@@ -170,6 +170,10 @@ public:
 			{
 				Move.SEStatusId = static_cast<EPokemonStatus>(UPokemonDB::Resolve(Line[12]));
 			}
+			if (Line[13] != "")
+			{
+				Move.TempStatus = static_cast<ETemporalStatus>(UPokemonDB::Resolve(Line[13]));
+			}
 
 			UPokemonDB::Moves[Move.Id] = Move;
 		}
