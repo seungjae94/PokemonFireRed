@@ -39,6 +39,8 @@ FDamageResult UDamageCalculator::CalcDamage(const UPokemon* _Attacker, const UPo
         DamageValue *= GetEffectiveSpAtk(_Attacker, _AttackerStatStage, IsCritical);
         DamageValue /= GetEffectiveSpDef(_Defender, _DefenderStatStage, IsCritical);
     }
+    DamageValue = std::floor(DamageValue);
+
     DamageValue /= 50.0f;
     DamageValue = std::floor(DamageValue);
 
@@ -51,9 +53,15 @@ FDamageResult UDamageCalculator::CalcDamage(const UPokemon* _Attacker, const UPo
         DamageValue *= 0.5f;
     }
     // Screen(Reflect, LightScreen), Weather, FF 미구현
-    DamageValue += 2;
     DamageValue = std::floor(DamageValue);
 
+    if (true == Move->IsPhysical() && true == UPokemonMath::Equal(DamageValue, 0.0f))
+    {
+        DamageValue = 1.0f;
+    }
+    DamageValue += 2;
+
+    // 크리티컬
     if (true == IsCritical)
     {
         DamageValue *= 2.0f;
@@ -64,6 +72,7 @@ FDamageResult UDamageCalculator::CalcDamage(const UPokemon* _Attacker, const UPo
     {
         DamageValue *= 1.5f;
     }
+    DamageValue = std::floor(DamageValue);
 
     // 타입 효과
     const FPokemonType* MoveType = UPokemonDB::FindType(Move->TypeId);
@@ -76,6 +85,7 @@ FDamageResult UDamageCalculator::CalcDamage(const UPokemon* _Attacker, const UPo
         TypeEffect *= MoveType->EffectTo.at(TypeId);
     }
     DamageValue *= TypeEffect;
+    DamageValue = std::floor(DamageValue);
 
     if (true == UPokemonMath::Equal(TypeEffect, 0.0f))
     {
