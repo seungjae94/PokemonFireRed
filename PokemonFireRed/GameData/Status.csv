@@ -5,3 +5,4 @@ ID,Name,ImageName
 4,Burn,StatusBurn.png
 5,Freeze,StatusFreeze.png
 6,Paralysis,StatusParalysis.png
+7,Faint,StatusFaint.png

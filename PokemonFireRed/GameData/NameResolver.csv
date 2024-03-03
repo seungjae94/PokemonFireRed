@@ -6,7 +6,7 @@ Int,Pokemon,Type,Ability,Move,ExpGroup,StatStage,Status,SETarget,TempStatus
 4,Charmander,Electric,Shield Dust,Growl,MediumSlow,SpDef,Burn,,
 5,Charmeleon,Grass,Shed Skin,Gust,Slow,Speed,Freeze,,
 6,Charizard,Ice,Compound Eyes,Leech Seed,Fluctuating,Accuracy,Paralysis,,
-7,Squirtle,Fighting,Swarm,Quick Attack,,Evasion,,,
+7,Squirtle,Fighting,Swarm,Quick Attack,,Evasion,Faint,,
 8,Wartortle,Poison,Keen Eye,Sand Attack,,,,,
 9,Blastoise,Ground,Run Away,Scratch,,,,,
 10,Caterpie,Flying,Guts,Tackle,,,,,

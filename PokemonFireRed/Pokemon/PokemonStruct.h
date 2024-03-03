@@ -156,6 +156,7 @@ enum class EPokemonStatus
 	Burn,
 	Freeze,
 	Paralysis,
+	Faint,
 };
 
 enum class ETemporalStatus
