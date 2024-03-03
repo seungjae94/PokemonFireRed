@@ -81,6 +81,7 @@ void ABattleTurnStateMachine::Tick(float _DeltaTime)
 		ProcessMoveSecondaryEffectDamage(_DeltaTime);
 		break;
 	case ABattleTurnStateMachine::ESubstate::EndOfTurn:
+		ProcessEndOfTurn(_DeltaTime);
 		break;
 	case ABattleTurnStateMachine::ESubstate::End:
 		break;
@@ -291,6 +292,12 @@ void ABattleTurnStateMachine::ProcessMoveSecondaryEffectAnim(float _DeltaTime)
 {
 	// TODO
 	State = ESubstate::MoveSecondaryEffectDamage;
+}
+
+void ABattleTurnStateMachine::ProcessEndOfTurn(float _DeltaTime)
+{
+	// TODO
+	State = ESubstate::End;
 }
 
 void ABattleTurnStateMachine::ProcessMoveSecondaryEffectDamage(float _DeltaTime)

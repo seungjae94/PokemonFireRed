@@ -103,6 +103,7 @@ private:
 	void ProcessMoveDamage(float _DeltaTime);
 	void ProcessMoveSecondaryEffectDamage(float _DeltaTime);
 	void ProcessMoveSecondaryEffectAnim(float _DeltaTime);
+	void ProcessEndOfTurn(float _DeltaTime);
 
 	// 유틸 함수
 	void SetPlayerAsAttacker();

@@ -153,6 +153,13 @@ void UBattleLevel::ProcessTurn(float _DeltaTime)
 {
 	if (true == BTSM->IsEnd())
 	{
+		// TODO: 턴이 끝난 이유를 보고 받는다. (플레이어 승리, 플레이어 패배 등)
+		
+		// 배틀이 종료되지 않았다면 플레이어 액션 선택 상태로 돌아간다.
+		State = EBattleState::PlayerActionSelect;
+		Canvas->SetActionBoxActive(true);
+		Canvas->SetBattleMessage(L"What will\n" + GetCurPlayerPokemon().GetNameW() + L" do?");
+		PASM->Start(Canvas, PlayerPokemon, EnemyPokemon);
 	}
 }
 
