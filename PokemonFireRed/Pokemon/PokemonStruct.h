@@ -223,7 +223,10 @@ enum class EPokemonMove
 	PoisonString,
 	Peck,
 	Leer,
-	LowKick
+	LowKick,
+	DefenseCurl,
+	Bind,
+	RockThrow
 };
 
 struct FPokemonMove
