@@ -159,7 +159,7 @@ void ABattleTurnStateMachine::DispatchFight()
 
 void ABattleTurnStateMachine::DispatchEndOfTurn()
 {
-	Canvas->SetBattleMessage(L"Debug - End of turn");
+	State = ESubstate::EndOfTurn;
 }
 
 void ABattleTurnStateMachine::ProcessEscapeFail(float _DeltaTime)
@@ -194,8 +194,6 @@ void ABattleTurnStateMachine::ProcessMoveFail(float _DeltaTime)
 		}
 		else
 		{
-			IsFirstTurn = true;
-
 			// (원칙적으로는) End Of Turn에 대한 순서도 따로 계산을 해줘야 한다.
 			// 하지만 지금까지 구현한 내용만 고려하면 기술 사용 순서와 EOT 순서가 같다.
 			IsPlayerFirstEOT = IsPlayerFirst; // UTurnOrderCalculator::IsPlayerFirstEOT(..., IsPlayerFirst);
@@ -301,12 +299,6 @@ void ABattleTurnStateMachine::ProcessMoveSecondaryEffectAnim(float _DeltaTime)
 	State = ESubstate::MoveSecondaryEffectDamage;
 }
 
-void ABattleTurnStateMachine::ProcessEndOfTurn(float _DeltaTime)
-{
-	// TODO
-	State = ESubstate::End;
-}
-
 void ABattleTurnStateMachine::ProcessMoveSecondaryEffectDamage(float _DeltaTime)
 {
 	// TODO
@@ -327,6 +319,13 @@ void ABattleTurnStateMachine::ProcessMoveSecondaryEffectDamage(float _DeltaTime)
 
 	// 후공이 끝난 경우
 	State = ESubstate::EndOfTurn;
+}
+
+
+void ABattleTurnStateMachine::ProcessEndOfTurn(float _DeltaTime)
+{
+	// TODO
+	State = ESubstate::End;
 }
 
 void ABattleTurnStateMachine::SetPlayerAsAttacker()
