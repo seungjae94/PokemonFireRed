@@ -45,8 +45,8 @@ void ABattleCanvas::RefreshEnemyPokemonBox()
 {
 	EnemyPokemonNameText->SetText(EnemyPokemon->GetNameW());
 	EnemyPokemonLevelText->SetText(L"зд" + EnemyPokemon->GetLevelW());
-	EnemyPokemonHpBar->SetMaxValue(EnemyPokemon->GetHp());
-	EnemyPokemonHpBar->SetValue(EnemyPokemon->GetCurHp());
+	EnemyPokemonHpBar->SetMaxValue(HpBarMaxValue);
+	EnemyPokemonHpBar->SetValue(UPokemonMath::Floor(static_cast<float>(HpBarMaxValue) * EnemyPokemon->GetCurHp() / EnemyPokemon->GetHp()));
 
 	int EPNTPixelWidth = EnemyPokemonNameText->GetPixelLineWidth();
 	EnemyPokemonGenderMark->SetRelativePosition(UPokemonUtil::PixelVector(7 + EPNTPixelWidth, 5));
@@ -61,8 +61,8 @@ void ABattleCanvas::RefreshPlayerPokemonBox()
 	PlayerPokemonLevelText->SetText(L"зд" + PlayerPokemon->GetLevelW());
 	PlayerPokemonCurHpText->SetText(PlayerPokemon->GetCurHpW());
 	PlayerPokemonHpText->SetText(PlayerPokemon->GetHpW());
-	PlayerPokemonHpBar->SetMaxValue(PlayerPokemon->GetHp());
-	PlayerPokemonHpBar->SetValue(PlayerPokemon->GetCurHp());
+	PlayerPokemonHpBar->SetMaxValue(HpBarMaxValue);
+	PlayerPokemonHpBar->SetValue(UPokemonMath::Floor(static_cast<float>(HpBarMaxValue) * PlayerPokemon->GetCurHp() / PlayerPokemon->GetHp()));
 	PlayerPokemonExpBar->SetMaxValue(PlayerPokemon->GetExpSize());
 	PlayerPokemonExpBar->SetValue(PlayerPokemon->GetExp());
 
@@ -170,15 +170,15 @@ void ABattleCanvas::SetBattleMessage(std::wstring_view _Msg)
 	MsgText->SetText(_Msg);
 }
 
-void ABattleCanvas::LerpPlayerHpBar(int _Before, int _After, float _t)
+void ABattleCanvas::LerpPlayerHpBar(int _BeforeHp, int _AfterHp, int _MaxHp, float _t)
 {
-	float LerpedValue = UPokemonMath::Lerp(static_cast<float>(_After), static_cast<float>(_Before), _t);
+	float LerpedValue = UPokemonMath::Lerp(static_cast<float>(HpBarMaxValue) * _AfterHp / _MaxHp, static_cast<float>(HpBarMaxValue) * _BeforeHp / _MaxHp, _t);
 	PlayerPokemonHpBar->SetValue(UPokemonMath::Round(LerpedValue));
 }
 
-void ABattleCanvas::LerpEnemyHpBar(int _Before, int _After, float _t)
+void ABattleCanvas::LerpEnemyHpBar(int _BeforeHp, int _AfterHp, int _MaxHp, float _t)
 {
-	float LerpedValue = UPokemonMath::Lerp(static_cast<float>(_After), static_cast<float>(_Before), _t);
+	float LerpedValue = UPokemonMath::Lerp(static_cast<float>(HpBarMaxValue) * _AfterHp / _MaxHp, static_cast<float>(HpBarMaxValue) * _BeforeHp / _MaxHp, _t);
 	EnemyPokemonHpBar->SetValue(UPokemonMath::Round(LerpedValue));
 }
 

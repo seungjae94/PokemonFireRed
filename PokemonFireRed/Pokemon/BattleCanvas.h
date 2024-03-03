@@ -58,8 +58,8 @@ public:
 	*/
 
 	// Turn
-	void LerpPlayerHpBar(int _Before, int _After, float _t);
-	void LerpEnemyHpBar(int _Before, int _After, float _t);
+	void LerpPlayerHpBar(int _BeforeHp, int _AfterHp, int _MaxHp, float _t);
+	void LerpEnemyHpBar(int _BeforeHp, int _AfterHp, int _MaxHp, float _t);
 	void RefreshPlayerPokemonCurHpText();
 
 protected:
@@ -75,7 +75,7 @@ private:
 	void RefreshPlayerPokemonBox();
 	void RefreshMoveSelectBox();
 
-	// 최초 위치 기억
+	// 렌더링 데이터
 	FVector EnemyPokemonBoxInitPos;
 	FVector EnemyPokemonBoxHidePos;
 	FVector PlayerPokemonBoxInitPos;
@@ -88,6 +88,7 @@ private:
 	FVector PlayerPokemonImageHidePos;
 	FVector PlayerBattlerInitPos;
 	FVector PlayerBattlerHidePos;
+	int HpBarMaxValue = 1000;
 
 	// 최상위 요소
 	AImageElement* Background = nullptr;

@@ -231,11 +231,11 @@ void ABattleTurnStateMachine::ProcessMoveDamage(float _DeltaTime)
 		int DamagedHp = UPokemonMath::Max(CurHp - Result.Damage, 0);
 		if (Defender == PlayerPokemon)
 		{
-			Canvas->LerpPlayerHpBar(CurHp, DamagedHp, Timer / DamageTime);
+			Canvas->LerpPlayerHpBar(CurHp, DamagedHp, Defender->GetHp(), Timer / DamageTime);
 		}
 		else
 		{
-			Canvas->LerpEnemyHpBar(CurHp, DamagedHp, Timer / DamageTime);
+			Canvas->LerpEnemyHpBar(CurHp, DamagedHp, Defender->GetHp(), Timer / DamageTime);
 		}
 
 		if (Timer <= 0.0f)
