@@ -72,9 +72,9 @@ private:
 
 	// 고유 데이터
 	ESubstate State = ESubstate::None;
-	const float BattleMsgShowTime = 2.0f;
+	const float BattleMsgShowTime = 3.0f;
 	float Timer = 0.0f;
-	float DamageTime = 1.0f;
+	float DamageTime = 3.0f;
 	
 	bool IsFirstTurn = true;
 	bool IsPlayerFirst = true;

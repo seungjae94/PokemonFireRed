@@ -11,10 +11,19 @@ UDamageCalculator::~UDamageCalculator()
 FDamageResult UDamageCalculator::CalcDamage(const UPokemon* _Attacker, const UPokemon* _Defender, const UStatStage& _AttackerStatStage, const UStatStage& _DefenderStatStage, EPokemonMove _MoveId)
 {
     FDamageResult DamageResult;
+    const FPokemonMove* Move = UPokemonDB::FindMove(_MoveId);
+
+    // 공격기가 아닌 경우 데미지 계산을 하지 않는다.
+    if (Move->BasePower == 0)
+    {
+        DamageResult.Damage = 0;
+        DamageResult.IsCritical = false;
+        DamageResult.TypeVs = ETypeVs::NormallyEffective;
+        return DamageResult;
+    }
+
     bool IsCritical = CheckCritical(_Attacker, _MoveId);
     DamageResult.IsCritical = IsCritical;
-
-    const FPokemonMove* Move = UPokemonDB::FindMove(_MoveId);
 
     float DamageValue = 2.0f * _Attacker->GetLevel() / 5.0f + 2.0f;
     DamageValue = std::floor(DamageValue);

@@ -107,8 +107,8 @@ and POKéMON as data via PC.)"
 	UPokemon Pokemon3 = UPokemon(EPokedexNo::Pidgey, 2);
 	UPokemon Pokemon4 = UPokemon(EPokedexNo::Rattata, 2);
 	UPokemon Pokemon5 = UPokemon(EPokedexNo::Caterpie, 3);
-	Pokemon0.SetCurHp(Pokemon0.GetHp() / 3);
-	Pokemon1.SetCurHp(Pokemon1.GetHp() / 6);
+	Pokemon3.SetCurHp(Pokemon1.GetHp() / 3);
+	Pokemon4.SetCurHp(Pokemon1.GetHp() / 6);
 	Pokemon0.GainExp(30);
 	Pokemon1.GainExp(15);
 	Pokemon2.GainExp(5);
