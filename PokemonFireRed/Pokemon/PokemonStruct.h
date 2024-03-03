@@ -42,6 +42,9 @@ enum class EPokedexNo
 	Nidorino = 33,
 	Nidoking = 34,
 	Mankey = 56,
+	Diglett = 50,
+	Geodude = 74,
+	Onix = 95,
 };
 
 enum class EPokemonAbility
@@ -56,12 +59,13 @@ enum class EPokemonAbility
 	Swarm,
 	KeenEye,
 	RunAway,
-	Guts,
+	Guts = 10,
 	Intimidate,
 	Static,
 	SandVeil,
 	PoisonPoint,
-	VitalSpirit
+	VitalSpirit,
+	RockHead
 };
 
 struct FPokemonAbility

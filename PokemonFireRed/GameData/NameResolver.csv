@@ -1,33 +1,33 @@
 Int,Pokemon,Type,Ability,Move,ExpGroup
 0,NONE,,,,
 1,Bulbasaur,Normal,Overgrow,Absorb,Erratic
-2,,Fire,Blaze,Bubble,Fast
-3,,Water,Torrent,Ember,MediumFast
+2,Ivysaur,Fire,Blaze,Bubble,Fast
+3,Venusaur,Water,Torrent,Ember,MediumFast
 4,Charmander,Electric,Shield Dust,Growl,MediumSlow
-5,,Grass,Shed Skin,Gust,Slow
-6,,Ice,Compound Eyes,Leech Seed,Fluctuating
+5,Charmeleon,Grass,Shed Skin,Gust,Slow
+6,Charizard,Ice,Compound Eyes,Leech Seed,Fluctuating
 7,Squirtle,Fighting,Swarm,Quick Attack,
-8,,Poison,Keen Eye,Sand Attack,
-9,,Ground,Run Away,Scratch,
+8,Wartortle,Poison,Keen Eye,Sand Attack,
+9,Blastoise,Ground,Run Away,Scratch,
 10,Caterpie,Flying,Guts,Tackle,
-11,,Psychic,Intimidate,Tail Whip,
-12,,Bug,Static,String Shot,
+11,Metapod,Psychic,Intimidate,Tail Whip,
+12,Butterfree,Bug,Static,String Shot,
 13,Weedle,Rock,Sand Veil,Poison String,
-14,,Ghost,Poison Point,Peck,
-15,,Dragon,Vital Spirit,Leer,
-16,Pidgey,Dark,,Low Kick,
-17,,Steel,,Defense Curl,
-18,,,,Bind,
+14,Kakuna,Ghost,Poison Point,Peck,
+15,Beedrill,Dragon,Vital Spirit,Leer,
+16,Pidgey,Dark,Rock Head,Low Kick,
+17,Pidgeotto,Steel,,Defense Curl,
+18,Pidgeotto,,,Bind,
 19,Rattata,,,Rock Throw,
-20,,,,,
+20,Taticate,,,,
 21,Spearow,,,,
-22,,,,,
-23,,,,,
-24,,,,,
-25,,,,,
-26,,,,,
-27,,,,,
-28,,,,,
+22,Fearow,,,,
+23,Ekans,,,,
+24,Arbok,,,,
+25,Pikachu,,,,
+26,Raichu,,,,
+27,Sandshrew,,,,
+28,Sandslash,,,,
 29,,,,,
 30,,,,,
 31,,,,,
@@ -49,10 +49,12 @@ Int,Pokemon,Type,Ability,Move,ExpGroup
 47,,,,,
 48,,,,,
 49,,,,,
-50,,,,,
+50,Diglett,,,,
 51,,,,,
 52,,,,,
 53,,,,,
 54,,,,,
 55,,,,,
 56,Mankey,,,,
+74,Geodude,,,,
+95,Onix,,,,
