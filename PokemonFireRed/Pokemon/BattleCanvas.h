@@ -60,6 +60,7 @@ public:
 	// Turn
 	void LerpPlayerHpBar(int _Before, int _After, float _t);
 	void LerpEnemyHpBar(int _Before, int _After, float _t);
+	void RefreshPlayerPokemonCurHpText();
 
 protected:
 

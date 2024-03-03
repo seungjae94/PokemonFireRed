@@ -242,6 +242,13 @@ void ABattleTurnStateMachine::ProcessMoveDamage(float _DeltaTime)
 		{
 			// 실제 데미지 처리
 			Defender->SetCurHp(DamagedHp);
+			
+			// 데미지 계산 결과 렌더링
+			if (Defender == PlayerPokemon)
+			{
+				Canvas->RefreshPlayerPokemonCurHpText();
+			}
+
 
 			if (Result.IsCritical == true)
 			{

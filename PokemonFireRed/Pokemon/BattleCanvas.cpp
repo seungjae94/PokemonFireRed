@@ -182,6 +182,11 @@ void ABattleCanvas::LerpEnemyHpBar(int _Before, int _After, float _t)
 	EnemyPokemonHpBar->SetValue(UPokemonMath::Round(LerpedValue));
 }
 
+void ABattleCanvas::RefreshPlayerPokemonCurHpText()
+{
+	PlayerPokemonCurHpText->SetText(PlayerPokemon->GetCurHpW());
+}
+
 void ABattleCanvas::BeginPlay()
 {
 	ACanvas::BeginPlay();
