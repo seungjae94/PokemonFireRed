@@ -124,5 +124,8 @@ private:
 	// 유틸 함수
 	void SetPlayerAsAttacker();
 	void SetEnemyAsAttacker();
+	void ChangeStatStage();
+	void ChangeStatus();
+	std::wstring GetStatStageMessageSuffix(int _Value);
 };
 

@@ -344,19 +344,15 @@ void ABattleTurnStateMachine::ProcessMoveSecondaryEffect(float _DeltaTime)
 		const FPokemonMove* Move = UPokemonDB::FindMove(AttackMoveId);
 		ESecondaryEffectStatStage SEStatStageId = Move->SEStatStageId;
 		EPokemonStatus SEStatusId = Move->SEStatusId;
+		
 		if (SEStatStageId != ESecondaryEffectStatStage::None)
 		{
-			// 스탯 상승/하강 로직
-
-			// 스탯 상승/하강 메시지
-			SEMessage = L"Debug - Stat Changed.";
+			ChangeStatStage();
 		}
 		else if (SEStatusId != EPokemonStatus::None)
 		{
-			// 상태 변경 로직
-
-			// 상태 변경 메시지
-			SEMessage = L"Debug - Status Changed.";
+			// 일단 스탯과 상태를 동시에 변경하는 경우는 없다고 가정하고 구현한다.
+			ChangeStatus();
 		}
 
 		SEState = ESecondaryEffectState::StatStageEffect;
@@ -405,4 +401,91 @@ void ABattleTurnStateMachine::SetEnemyAsAttacker()
 	AttackerStatStage = EnemyStatStage;
 	DefenderStatStage = PlayerStatStage;
 	AttackMoveId = EnemyMoveId;
+}
+
+void ABattleTurnStateMachine::ChangeStatStage()
+{
+	const FPokemonMove* Move = UPokemonDB::FindMove(AttackMoveId);
+	ESecondaryEffectTarget SETarget = Move->SETarget;
+	ESecondaryEffectStatStage SEStatStageId = Move->SEStatStageId;
+
+	UPokemon* TargetPokemon = nullptr;
+	UStatStage* TargetStatStage = nullptr;
+	if (SETarget == ESecondaryEffectTarget::Self)
+	{
+		TargetPokemon = Attacker;
+		TargetStatStage = AttackerStatStage;
+	}
+	else
+	{
+		TargetPokemon = Defender;
+		TargetStatStage = DefenderStatStage;
+	}
+
+	SEMessage = L"";
+	if (TargetPokemon == EnemyPokemon)
+	{
+		SEMessage += L"Foe ";
+	}
+
+	SEMessage += TargetPokemon->GetNameW();
+	SEMessage += L"'s ";
+
+	int Value = Move->SEStatStageValue;
+	std::wstring Suffix = GetStatStageMessageSuffix(Value);
+	switch (SEStatStageId)
+	{
+	case ESecondaryEffectStatStage::Atk:
+		SEMessage += L"ATTACK\n";
+		TargetStatStage->AddAtk(Value);
+		break;
+	case ESecondaryEffectStatStage::Def:
+		SEMessage += L"DEFENSE\n";
+		TargetStatStage->AddDef(Value);
+		break;
+	case ESecondaryEffectStatStage::SpAtk:
+		SEMessage += L"SP.ATK\n";
+		TargetStatStage->AddSpAtk(Value);
+		break;
+	case ESecondaryEffectStatStage::SpDef:
+		SEMessage += L"SP.DEF\n";
+		TargetStatStage->AddDef(Value);
+		break;
+	case ESecondaryEffectStatStage::Speed:
+		SEMessage += L"SPEED\n";
+		TargetStatStage->AddSpeed(Value);
+		break;
+	case ESecondaryEffectStatStage::Accuracy:
+		SEMessage += L"accuracy\n";
+		TargetStatStage->AddAccuracy(Value);
+		break;
+	case ESecondaryEffectStatStage::Evasion:
+		SEMessage += L"evasiveness\n";
+		TargetStatStage->AddEvasion(Value);
+		break;
+	default:
+		break;
+	}
+	SEMessage += Suffix;
+}
+
+void ABattleTurnStateMachine::ChangeStatus()
+{
+}
+
+std::wstring ABattleTurnStateMachine::GetStatStageMessageSuffix(int _Value)
+{
+	if (_Value == 1)
+	{
+		return L"rose!";
+	}
+	else if (_Value >= 2)
+	{
+		return L"sharply rose!";
+	}
+	else if (_Value == -1)
+	{
+		return L"fell!";
+	}
+	return L"harshly fell!";
 }
