@@ -74,11 +74,8 @@ void ABattleTurnStateMachine::Tick(float _DeltaTime)
 	case ABattleTurnStateMachine::ESubstate::MoveDamage:
 		ProcessMoveDamage(_DeltaTime);
 		break;
-	case ABattleTurnStateMachine::ESubstate::MoveSecondaryEffectAnim:
-		ProcessMoveSecondaryEffectAnim(_DeltaTime);
-		break;
-	case ABattleTurnStateMachine::ESubstate::MoveSecondaryEffectDamage:
-		ProcessMoveSecondaryEffectDamage(_DeltaTime);
+	case ABattleTurnStateMachine::ESubstate::MoveSecondaryEffect:
+		ProcessMoveSecondaryEffect(_DeltaTime);
 		break;
 	case ABattleTurnStateMachine::ESubstate::EndOfTurn:
 		ProcessEndOfTurn(_DeltaTime);
@@ -157,8 +154,54 @@ void ABattleTurnStateMachine::DispatchFight()
 	Result = UDamageCalculator::CalcDamage(Attacker, Defender, *AttackerStatStage, *DefenderStatStage, AttackMoveId);
 }
 
+void ABattleTurnStateMachine::DispatchNextPhase()
+{
+	if (true == IsFirstTurn)
+	{
+		if (Attacker == PlayerPokemon)
+		{
+			SetEnemyAsAttacker();
+		}
+		else
+		{
+			SetPlayerAsAttacker();
+		}
+		IsFirstTurn = false;
+		DispatchTurn();
+		return;
+	}
+
+	// 후공이 끝난 경우
+	State = ESubstate::EndOfTurn;
+}
+
+void ABattleTurnStateMachine::DispatchSecondaryEffect()
+{
+	const FPokemonMove* Move = UPokemonDB::FindMove(AttackMoveId);
+	ESecondaryEffectTarget SETarget = Move->SETarget;
+
+	// 부가 효과가 없는 경우 바로 다음 순서로 넘어간다.
+	if (SETarget == ESecondaryEffectTarget::None)
+	{
+		DispatchNextPhase();
+		return;
+	}
+
+	// 난수 테스트 성공시 부가 효과를 적용한다.
+	int RandomNumber = UPokemonMath::RandomInt(0, 99);
+	if (RandomNumber < Move->SERate)
+	{
+		State = ESubstate::MoveSecondaryEffect;
+		SEState = ESecondaryEffectState::None;
+		return;
+	}
+
+	DispatchNextPhase();
+}
+
 void ABattleTurnStateMachine::DispatchEndOfTurn()
 {
+	// TODO: 누가 EOT를 먼저 실행할지 결정
 	State = ESubstate::EndOfTurn;
 }
 
@@ -264,7 +307,7 @@ void ABattleTurnStateMachine::ProcessMoveDamage(float _DeltaTime)
 			}
 			
 			// 데미지 종료
-			State = ESubstate::MoveSecondaryEffectAnim;
+			DispatchSecondaryEffect();
 		}
 	}
 	else if (MoveResultMsg == EMoveResultMsg::Critical)
@@ -280,7 +323,7 @@ void ABattleTurnStateMachine::ProcessMoveDamage(float _DeltaTime)
 			}
 
 			// 데미지 종료
-			State = ESubstate::MoveSecondaryEffectAnim;
+			DispatchSecondaryEffect();
 		}
 	}
 	else /*MoveResultMsg == EMoveResultMsg::TypeEffect*/
@@ -288,37 +331,55 @@ void ABattleTurnStateMachine::ProcessMoveDamage(float _DeltaTime)
 		if (Timer <= 0.0f)
 		{
 			// 데미지 종료
-			State = ESubstate::MoveSecondaryEffectAnim;
+			DispatchSecondaryEffect();
 		}
 	}
 }
 
-void ABattleTurnStateMachine::ProcessMoveSecondaryEffectAnim(float _DeltaTime)
+void ABattleTurnStateMachine::ProcessMoveSecondaryEffect(float _DeltaTime)
 {
-	// TODO
-	State = ESubstate::MoveSecondaryEffectDamage;
-}
-
-void ABattleTurnStateMachine::ProcessMoveSecondaryEffectDamage(float _DeltaTime)
-{
-	// TODO
-	if (true == IsFirstTurn)
+	if (SEState == ESecondaryEffectState::None)
 	{
-		if (Attacker == PlayerPokemon)
+		// 첫 틱인 경우 스탯, 상태 변경 로직을 처리하고 메시지를 준비한다.
+		const FPokemonMove* Move = UPokemonDB::FindMove(AttackMoveId);
+		ESecondaryEffectStatStage SEStatStageId = Move->SEStatStageId;
+		EPokemonStatus SEStatusId = Move->SEStatusId;
+		if (SEStatStageId != ESecondaryEffectStatStage::None)
 		{
-			SetEnemyAsAttacker();
-		}
-		else
-		{
-			SetPlayerAsAttacker();
-		}
-		IsFirstTurn = false;
-		DispatchTurn();
-		return;
-	}
+			// 스탯 상승/하강 로직
 
-	// 후공이 끝난 경우
-	State = ESubstate::EndOfTurn;
+			// 스탯 상승/하강 메시지
+			SEMessage = L"Debug - Stat Changed.";
+		}
+		else if (SEStatusId != EPokemonStatus::None)
+		{
+			// 상태 변경 로직
+
+			// 상태 변경 메시지
+			SEMessage = L"Debug - Status Changed.";
+		}
+
+		SEState = ESecondaryEffectState::StatStageEffect;
+		Timer = SEEffectShowTime;
+	}
+	else if (SEState == ESecondaryEffectState::StatStageEffect)
+	{
+		// TODO: Secondary Effect 애니메이션 재생
+
+		if (Timer <= 0.0f)
+		{
+			SEState = ESecondaryEffectState::ShowSEMessage;
+			Timer = BattleMsgShowTime;
+			Canvas->SetBattleMessage(SEMessage);
+		}
+	}
+	else /*SEState == ESecondaryEffectState::ShowSEMessage*/
+	{
+		if (Timer <= 0.0f)
+		{
+			DispatchNextPhase();
+		}
+	}
 }
 
 

@@ -19,8 +19,7 @@ private:
 		MoveFail,
 		MoveAnim,
 		MoveDamage,
-		MoveSecondaryEffectAnim,
-		MoveSecondaryEffectDamage,
+		MoveSecondaryEffect,
 		EndOfTurn,
 		End,
 	};
@@ -30,6 +29,13 @@ private:
 		None,
 		Critical,
 		TypeEffect,
+	};
+
+	enum class ESecondaryEffectState
+	{
+		None,
+		StatStageEffect,
+		ShowSEMessage,
 	};
 public:
 	// constructor destructor
@@ -70,11 +76,14 @@ private:
 	EPokemonMove PlayerMoveId = EPokemonMove::None;
 	EPokemonMove EnemyMoveId = EPokemonMove::None;
 
+	// 상수
+	const float BattleMsgShowTime = 2.0f;
+	const float DamageTime = 2.0f;
+	const float SEEffectShowTime = 2.0f;
+
 	// 고유 데이터
 	ESubstate State = ESubstate::None;
-	const float BattleMsgShowTime = 2.0f;
 	float Timer = 0.0f;
-	float DamageTime = 2.0f;
 	bool IsFirstTurn = true;
 	bool IsPlayerFirst = true;
 	bool IsPlayerFirstEOT = true;
@@ -84,11 +93,15 @@ private:
 	UStatStage* DefenderStatStage = nullptr;
 	EPokemonMove AttackMoveId = EPokemonMove::None;
 	EMoveResultMsg MoveResultMsg = EMoveResultMsg::None;
+
+	// SubState
+	ESecondaryEffectState SEState = ESecondaryEffectState::None;
 	
 	// Temporal Data
 	FDamageResult Result;
 	int PrevHp = 0;
 	int NextHp = 0;
+	std::wstring SEMessage;
 
 	// 로직
 	void Tick(float _DeltaTime) override;
@@ -96,6 +109,8 @@ private:
 	void GenerateEnemyAction();
 	void DispatchTurn();
 	void DispatchFight();
+	void DispatchNextPhase();		// 다음 차례가 상대의 턴인지, 턴 종료인지 결정
+	void DispatchSecondaryEffect();
 	void DispatchEndOfTurn();
 
 	// 처리 함수
@@ -103,8 +118,7 @@ private:
 	void ProcessMoveFail(float _DeltaTime);
 	void ProcessMoveAnim(float _DeltaTime);
 	void ProcessMoveDamage(float _DeltaTime);
-	void ProcessMoveSecondaryEffectDamage(float _DeltaTime);
-	void ProcessMoveSecondaryEffectAnim(float _DeltaTime);
+	void ProcessMoveSecondaryEffect(float _DeltaTime);
 	void ProcessEndOfTurn(float _DeltaTime);
 
 	// 유틸 함수
