@@ -10,11 +10,11 @@ ABattlePlayerActionSelectStateMachine::~ABattlePlayerActionSelectStateMachine()
 {
 }
 
-void ABattlePlayerActionSelectStateMachine::Start(ABattleCanvas* _Canvas, const UPokemon* _PlayerPokemon, const UPokemon* _EnemyPokemon)
+void ABattlePlayerActionSelectStateMachine::Start(ABattleCanvas* _Canvas, UBattler* _Player, UBattler* _Enemy)
 {
 	Canvas = _Canvas;
-	PlayerPokemon = _PlayerPokemon;
-	EnemyPokemon = _EnemyPokemon;
+	Player = _Player;
+	Enemy = _Enemy;
 	State = ESubstate::Select;
 }
 
@@ -65,10 +65,12 @@ void ABattlePlayerActionSelectStateMachine::ProcessSelect(float _DeltaTime)
 			break;
 		case Run:
 		{
-			ActionResult = EBattleAction::Escape;
 			State = ESubstate::End;
 			Canvas->SetActionBoxActive(false);
-			RunResult = CalcRunResult();
+			Player->SetAction(EBattleAction::Escape);
+
+			bool RunResult = CalcRunResult();
+			Player->SetRunResult(RunResult);
 		}
 		break;
 		default:
@@ -114,8 +116,11 @@ void ABattlePlayerActionSelectStateMachine::ProcessSelect(float _DeltaTime)
 	}
 }
 
-bool ABattlePlayerActionSelectStateMachine::CalcRunResult()
+bool ABattlePlayerActionSelectStateMachine::CalcRunResult() const
 {
+	const UPokemon* PlayerPokemon = Player->CurPokemonReadonly();
+	const UPokemon* EnemyPokemon = Enemy->CurPokemonReadonly();
+
 	int PSpeed = PlayerPokemon->GetSpeed();
 	int ESpeed = EnemyPokemon->GetSpeed();
 
@@ -134,14 +139,15 @@ bool ABattlePlayerActionSelectStateMachine::CalcRunResult()
 
 void ABattlePlayerActionSelectStateMachine::ProcessMoveSelect(float _DeltaTime)
 {
+	const UPokemon* PlayerPokemon = Player->CurPokemonReadonly();
 	int Cursor = Canvas->GetMoveSelectCursor();
 
 	if (true == UEngineInput::IsDown('Z'))
 	{
 		State = ESubstate::End;
-		ActionResult = EBattleAction::Fight;
-		SelectedMoveIndex = Cursor;
 		Canvas->SetMoveSelectBoxActive(false);
+		Player->SetAction(EBattleAction::Fight);
+		Player->SetMoveIndex(Cursor);
 		return;
 	}
 

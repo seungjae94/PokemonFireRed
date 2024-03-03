@@ -1,6 +1,7 @@
 #pragma once
 #include "Canvas.h"
 #include "Pokemon.h"
+#include "Battler.h"
 
 class ABattleCanvas : public ACanvas
 {
@@ -16,7 +17,7 @@ public:
 	ABattleCanvas& operator=(const ABattleCanvas& _Other) = delete;
 	ABattleCanvas& operator=(ABattleCanvas&& _Other) noexcept = delete;
 
-	void Init(const UPokemon * _PlayerPokemon, const UPokemon * _EnemyPokemon);
+	void Init(const UBattler* _Player, const UBattler* _Enemy);
 
 	// BattleStart
 	void LerpShowGrounds(float _t);
@@ -65,8 +66,8 @@ public:
 protected:
 
 private:
-	const UPokemon* PlayerPokemon = nullptr;
-	const UPokemon* EnemyPokemon = nullptr;
+	const UBattler* Player = nullptr;
+	const UBattler* Enemy = nullptr;
 
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;

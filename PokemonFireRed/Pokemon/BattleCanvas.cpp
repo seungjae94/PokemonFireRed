@@ -10,16 +10,19 @@ ABattleCanvas::~ABattleCanvas()
 {
 }
 
-void ABattleCanvas::Init(const UPokemon* _PlayerPokemon, const UPokemon* _EnemyPokemon)
+void ABattleCanvas::Init(const UBattler* _Player, const UBattler* _Enemy)
 {
-	PlayerPokemon = _PlayerPokemon;
-	EnemyPokemon = _EnemyPokemon;
+	Player = _Player;
+	Enemy = _Enemy;
 
-	MsgText->SetText(L"Wild " + EnemyPokemon->GetNameW() + L" appeared!");
+	if (true == _Enemy->IsWildPokemon())
+	{
+		MsgText->SetText(L"Wild " + Enemy->CurPokemonReadonly()->GetNameW() + L" appeared!");
+	}
+
 	RefreshPlayerPokemonBox();
 	RefreshEnemyPokemonBox();
 	RefreshMoveSelectBox();
-	// 커서 초기화
 	ActionCursor->SetCursor(0);
 	MoveSelectCursor->SetCursor(0);
 
@@ -43,6 +46,8 @@ void ABattleCanvas::Init(const UPokemon* _PlayerPokemon, const UPokemon* _EnemyP
 
 void ABattleCanvas::RefreshEnemyPokemonBox()
 {
+	const UPokemon* EnemyPokemon = Enemy->CurPokemonReadonly();
+
 	EnemyPokemonNameText->SetText(EnemyPokemon->GetNameW());
 	EnemyPokemonLevelText->SetText(L"ℓ" + EnemyPokemon->GetLevelW());
 	EnemyPokemonHpBar->SetMaxValue(HpBarMaxValue);
@@ -57,6 +62,8 @@ void ABattleCanvas::RefreshEnemyPokemonBox()
 
 void ABattleCanvas::RefreshPlayerPokemonBox()
 {
+	const UPokemon* PlayerPokemon = Player->CurPokemonReadonly();
+
 	PlayerPokemonNameText->SetText(PlayerPokemon->GetNameW());
 	PlayerPokemonLevelText->SetText(L"ℓ" + PlayerPokemon->GetLevelW());
 	PlayerPokemonCurHpText->SetText(PlayerPokemon->GetCurHpW());
@@ -76,6 +83,8 @@ void ABattleCanvas::RefreshPlayerPokemonBox()
 
 void ABattleCanvas::RefreshMoveSelectBox()
 {
+	const UPokemon* PlayerPokemon = Player->CurPokemonReadonly();
+
 	MoveSelectCursor->SetCursor(0);
 
 	for (int i = 0; i < PlayerPokemon->GetMoveCount(); ++i)
@@ -187,6 +196,7 @@ void ABattleCanvas::LerpEnemyHpInfo(int _BeforeHp, int _AfterHp, int _MaxHp, flo
 
 void ABattleCanvas::RefreshPlayerPokemonCurHpText()
 {
+	const UPokemon* PlayerPokemon = Player->CurPokemonReadonly();
 	PlayerPokemonCurHpText->SetText(PlayerPokemon->GetCurHpW());
 }
 

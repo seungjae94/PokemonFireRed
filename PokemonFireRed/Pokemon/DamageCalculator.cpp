@@ -8,10 +8,12 @@ UDamageCalculator::~UDamageCalculator()
 {
 }
 
-FDamageResult UDamageCalculator::CalcDamage(const UPokemon* _Attacker, const UPokemon* _Defender, const UStatStage& _AttackerStatStage, const UStatStage& _DefenderStatStage, EPokemonMove _MoveId)
+FDamageResult UDamageCalculator::CalcDamage(const UBattler* _Attacker, const UBattler* _Defender)
 {
     FDamageResult DamageResult;
-    const FPokemonMove* Move = UPokemonDB::FindMove(_MoveId);
+    const FPokemonMove* Move = _Attacker->CurMove();
+    const UPokemon* AttackerPokemon = _Attacker->CurPokemonReadonly();
+    const UPokemon* DefenderPokemon = _Defender->CurPokemonReadonly();
 
     // 공격기가 아닌 경우 데미지 계산을 하지 않는다.
     if (Move->BasePower == 0)
@@ -22,22 +24,22 @@ FDamageResult UDamageCalculator::CalcDamage(const UPokemon* _Attacker, const UPo
         return DamageResult;
     }
 
-    bool IsCritical = CheckCritical(_Attacker, _MoveId);
+    bool IsCritical = CheckCritical(_Attacker);
     DamageResult.IsCritical = IsCritical;
 
-    float DamageValue = 2.0f * _Attacker->GetLevel() / 5.0f + 2.0f;
+    float DamageValue = 2.0f * AttackerPokemon->GetLevel() / 5.0f + 2.0f;
     DamageValue = std::floor(DamageValue);
 
-    DamageValue *= GetEffectivePower(_Attacker, _MoveId);
+    DamageValue *= GetEffectivePower(_Attacker);
     if (true == Move->IsPhysical())
     {
-        DamageValue *= GetEffectiveAtk(_Attacker, _AttackerStatStage, IsCritical);
-        DamageValue /= GetEffectiveDef(_Defender, _DefenderStatStage, IsCritical);
+        DamageValue *= GetEffectiveAtk(_Attacker, IsCritical);
+        DamageValue /= GetEffectiveDef(_Defender, IsCritical);
     }
     else
     {
-        DamageValue *= GetEffectiveSpAtk(_Attacker, _AttackerStatStage, IsCritical);
-        DamageValue /= GetEffectiveSpDef(_Defender, _DefenderStatStage, IsCritical);
+        DamageValue *= GetEffectiveSpAtk(_Attacker, IsCritical);
+        DamageValue /= GetEffectiveSpDef(_Defender, IsCritical);
     }
     DamageValue = std::floor(DamageValue);
 
@@ -45,9 +47,9 @@ FDamageResult UDamageCalculator::CalcDamage(const UPokemon* _Attacker, const UPo
     DamageValue = std::floor(DamageValue);
 
     // 특성이 Guts(끈기)가 아닌 포켓몬이 화상 상태에서 물리 공격을 할 경우 데미지가 0.5배가 된다.
-    if (_Attacker->GetStatusId() == EPokemonStatus::Burn
+    if (AttackerPokemon->GetStatusId() == EPokemonStatus::Burn
         && true == Move->IsPhysical()
-        && _Attacker->GetAbilityId() != EPokemonAbility::Guts
+        && AttackerPokemon->GetAbilityId() != EPokemonAbility::Guts
     )
     {
         DamageValue *= 0.5f;
@@ -68,7 +70,7 @@ FDamageResult UDamageCalculator::CalcDamage(const UPokemon* _Attacker, const UPo
     }
 
     // STAB(자속보정)
-    if (true == _Attacker->HasType(Move->TypeId))
+    if (true == AttackerPokemon->HasType(Move->TypeId))
     {
         DamageValue *= 1.5f;
     }
@@ -79,9 +81,9 @@ FDamageResult UDamageCalculator::CalcDamage(const UPokemon* _Attacker, const UPo
     
     float TypeEffect = 1.0f;
 
-    for (int i = 0; i < _Defender->GetTypeCount(); ++i)
+    for (int i = 0; i < DefenderPokemon->GetTypeCount(); ++i)
     {
-        EPokemonType TypeId = _Defender->GetTypeId(i);
+        EPokemonType TypeId = DefenderPokemon->GetTypeId(i);
         TypeEffect *= MoveType->EffectTo.at(TypeId);
     }
     DamageValue *= TypeEffect;
@@ -113,7 +115,7 @@ FDamageResult UDamageCalculator::CalcDamage(const UPokemon* _Attacker, const UPo
     return DamageResult;
 }
 
-bool UDamageCalculator::CheckCritical(const UPokemon* _PlayerPokemon, EPokemonMove _MoveId)
+bool UDamageCalculator::CheckCritical(const UBattler* _Attacker)
 {
     int C = 0;
     // 현재까지의 구현 내용 상으로는 딱히 C값을 증가시킬 요소가 없다.
@@ -145,39 +147,40 @@ bool UDamageCalculator::CheckCritical(const UPokemon* _PlayerPokemon, EPokemonMo
     return RandomNumber < Prob;
 }
 
-float UDamageCalculator::GetEffectivePower(const UPokemon* _Attacker, EPokemonMove _MoveId)
+float UDamageCalculator::GetEffectivePower(const UBattler* _Attacker)
 {
-    const FPokemonMove* Move = UPokemonDB::FindMove(_MoveId);
+    const FPokemonMove* Move = _Attacker->CurMove();
+    const UPokemon* AttackerPokemon = _Attacker->CurPokemonReadonly();
     float Power = static_cast<float>(Move->BasePower);
 
     // Overgrow 특성은 체력이 1/3 이하일 때 풀 타입 기술의 Power를 1.5배로 늘려준다.
-    if (_Attacker->GetAbilityId() == EPokemonAbility::Overgrow
+    if (AttackerPokemon->GetAbilityId() == EPokemonAbility::Overgrow
         && Move->TypeId == EPokemonType::Grass
-        && _Attacker->GetCurHp() <= UPokemonMath::Floor(_Attacker->GetHp() / 3.0f))
+        && AttackerPokemon->GetCurHp() <= UPokemonMath::Floor(AttackerPokemon->GetHp() / 3.0f))
     {
         Power *= 1.5f;
     }
 
     // Overgrow 특성은 체력이 1/3 이하일 때 풀 타입 기술의 Power를 1.5배로 늘려준다.
-    if (_Attacker->GetAbilityId() == EPokemonAbility::Overgrow
+    if (AttackerPokemon->GetAbilityId() == EPokemonAbility::Overgrow
         && Move->TypeId == EPokemonType::Grass
-        && _Attacker->GetCurHp() <= UPokemonMath::Floor(_Attacker->GetHp() / 3.0f))
+        && AttackerPokemon->GetCurHp() <= UPokemonMath::Floor(AttackerPokemon->GetHp() / 3.0f))
     {
         Power *= 1.5f;
     }
 
     // Overgrow 특성은 체력이 1/3 이하일 때 풀 타입 기술의 Power를 1.5배로 늘려준다.
-    if (_Attacker->GetAbilityId() == EPokemonAbility::Overgrow
+    if (AttackerPokemon->GetAbilityId() == EPokemonAbility::Overgrow
         && Move->TypeId == EPokemonType::Grass
-        && _Attacker->GetCurHp() <= UPokemonMath::Floor(_Attacker->GetHp() / 3.0f))
+        && AttackerPokemon->GetCurHp() <= UPokemonMath::Floor(AttackerPokemon->GetHp() / 3.0f))
     {
         Power *= 1.5f;
     }
 
     // Overgrow 특성은 체력이 1/3 이하일 때 풀 타입 기술의 Power를 1.5배로 늘려준다.
-    if (_Attacker->GetAbilityId() == EPokemonAbility::Overgrow
+    if (AttackerPokemon->GetAbilityId() == EPokemonAbility::Overgrow
         && Move->TypeId == EPokemonType::Grass
-        && _Attacker->GetCurHp() <= UPokemonMath::Floor(_Attacker->GetHp() / 3.0f))
+        && AttackerPokemon->GetCurHp() <= UPokemonMath::Floor(AttackerPokemon->GetHp() / 3.0f))
     {
         Power *= 1.5f;
     }
@@ -185,18 +188,21 @@ float UDamageCalculator::GetEffectivePower(const UPokemon* _Attacker, EPokemonMo
     return Power;
 }
 
-float UDamageCalculator::GetEffectiveAtk(const UPokemon* _Pokemon, const UStatStage& _StatStage, bool _IsCritical)
+float UDamageCalculator::GetEffectiveAtk(const UBattler* _Battler, bool _IsCritical)
 {
-    float SummaryValue = static_cast<float>(_Pokemon->GetAtk());
-    float Multiplier = _StatStage.GetAtkMultiplier();
+    const UPokemon* Pokemon = _Battler->CurPokemonReadonly();
+    const UStatStage& StatStage = _Battler->StatStage;
 
-    if (true == _IsCritical && _StatStage.GetAtk() < 0)
+    float SummaryValue = static_cast<float>(Pokemon->GetAtk());
+    float Multiplier = StatStage.GetAtkMultiplier();
+
+    if (true == _IsCritical && StatStage.GetAtk() < 0)
     {
         // 크리티컬 공격은 공격자의 음수 Stat Stage를 무시한다.
         Multiplier = 1.0f;
     }
 
-    if (_Pokemon->GetAbilityId() == EPokemonAbility::Guts && _Pokemon->GetStatusId() != EPokemonStatus::None)
+    if (Pokemon->GetAbilityId() == EPokemonAbility::Guts && Pokemon->GetStatusId() != EPokemonStatus::None)
     {
         Multiplier *= 1.5f;
     }
@@ -204,12 +210,15 @@ float UDamageCalculator::GetEffectiveAtk(const UPokemon* _Pokemon, const UStatSt
     return SummaryValue * Multiplier;
 }
 
-float UDamageCalculator::GetEffectiveSpAtk(const UPokemon* _Pokemon, const UStatStage& _StatStage, bool _IsCritical)
+float UDamageCalculator::GetEffectiveSpAtk(const UBattler* _Battler, bool _IsCritical)
 {
-    float SummaryValue = static_cast<float>(_Pokemon->GetSpAtk());
-    float Multiplier = _StatStage.GetSpAtkMultiplier();
+    const UPokemon* Pokemon = _Battler->CurPokemonReadonly();
+    const UStatStage& StatStage = _Battler->StatStage;
 
-    if (true == _IsCritical && _StatStage.GetSpAtk() < 0)
+    float SummaryValue = static_cast<float>(Pokemon->GetSpAtk());
+    float Multiplier = StatStage.GetSpAtkMultiplier();
+
+    if (true == _IsCritical && StatStage.GetSpAtk() < 0)
     {
         // 크리티컬 공격은 공격자의 음수 Stat Stage를 무시한다.
         Multiplier = 1.0f;
@@ -218,12 +227,15 @@ float UDamageCalculator::GetEffectiveSpAtk(const UPokemon* _Pokemon, const UStat
     return SummaryValue * Multiplier;
 }
 
-float UDamageCalculator::GetEffectiveDef(const UPokemon* _Pokemon, const UStatStage& _StatStage, bool _IsCritical)
+float UDamageCalculator::GetEffectiveDef(const UBattler* _Battler, bool _IsCritical)
 {
-    float SummaryValue = static_cast<float>(_Pokemon->GetDef());
-    float Multiplier = _StatStage.GetDefMultiplier();
+    const UPokemon* Pokemon = _Battler->CurPokemonReadonly();
+    const UStatStage& StatStage = _Battler->StatStage;
 
-    if (true == _IsCritical && _StatStage.GetDef() > 0)
+    float SummaryValue = static_cast<float>(Pokemon->GetDef());
+    float Multiplier = StatStage.GetDefMultiplier();
+
+    if (true == _IsCritical && StatStage.GetDef() > 0)
     {
         // 크리티컬 공격은 방어자의 양수 Stat Stage를 무시한다.
         Multiplier = 1.0f;
@@ -233,12 +245,15 @@ float UDamageCalculator::GetEffectiveDef(const UPokemon* _Pokemon, const UStatSt
 }
 
 
-float UDamageCalculator::GetEffectiveSpDef(const UPokemon* _Pokemon, const UStatStage& _StatStage, bool _IsCritical)
+float UDamageCalculator::GetEffectiveSpDef(const UBattler* _Battler, bool _IsCritical)
 {
-    float SummaryValue = static_cast<float>(_Pokemon->GetSpDef());
-    float Multiplier = _StatStage.GetSpDefMultiplier();
+    const UPokemon* Pokemon = _Battler->CurPokemonReadonly();
+    const UStatStage& StatStage = _Battler->StatStage;
 
-    if (true == _IsCritical && _StatStage.GetSpDef() > 0)
+    float SummaryValue = static_cast<float>(Pokemon->GetSpDef());
+    float Multiplier = StatStage.GetSpDefMultiplier();
+
+    if (true == _IsCritical && StatStage.GetSpDef() > 0)
     {
         // 크리티컬 공격은 방어자의 양수 Stat Stage를 무시한다.
         Multiplier = 1.0f;

@@ -2,6 +2,7 @@
 #include "Pokemon.h"
 #include "BattleEnums.h"
 #include "StatStage.h"
+#include "Battler.h"
 
 /*
 * 현재까지 우선순위 (높을수록 먼저 수행)
@@ -22,23 +23,15 @@ public:
 	UTurnOrderCalculator& operator=(const UTurnOrderCalculator& _Other) = delete;
 	UTurnOrderCalculator& operator=(UTurnOrderCalculator&& _Other) noexcept = delete;
 
-	static bool IsPlayerFirst(
-		EBattleAction _PlayerAction, EBattleAction _EnemyAction,
-		const UPokemon* _PlayerPokemon, const UPokemon* _EnemyPokemon,
-		EPokemonMove _PlayerMoveId, EPokemonMove _EnemyMoveId,
-		const UStatStage& _PlayerStatStage, const UStatStage& _EnemyStatStage
-	);
+	static bool IsPlayerFirst(const UBattler* _Player, const UBattler* _Enemy);
 
-	static bool IsPlayerFirstEOT(
-		const UPokemon* _PlayerPokemon, const UPokemon* _EnemyPokemon,
-		const UStatStage& _PlayerStatStage, const UStatStage& _EnemyStatStage
-	);
+	static bool IsPlayerFirstEOT(const UBattler* _Player, const UBattler* _Enemy);
 
 protected:
 
 private:
-	static int ActionToPriority(EBattleAction _Action, const UPokemon* _Pokemon, EPokemonMove _MoveId);
+	static int ActionToPriority(const UBattler* _Battler);
 	static int MoveIdToPriority(EPokemonMove _MoveId);
-	static int CalcModifiedSpeed(const UPokemon* _Pokemon, const UStatStage& _StatStage);
+	static int CalcModifiedSpeed(const UBattler* _Battler);
 };
 

@@ -10,15 +10,10 @@ UTurnOrderCalculator::~UTurnOrderCalculator()
 {
 }
 
-bool UTurnOrderCalculator::IsPlayerFirst(
-    EBattleAction _PlayerAction, EBattleAction _EnemyAction,
-    const UPokemon* _PlayerPokemon, const UPokemon* _EnemyPokemon,
-    EPokemonMove _PlayerMoveId, EPokemonMove _EnemyMoveId,
-    const UStatStage& _PlayerStatStage, const UStatStage& _EnemyStatStage
-)
+bool UTurnOrderCalculator::IsPlayerFirst(const UBattler* _Player, const UBattler* _Enemy)
 {
-    int PlayerPriority = ActionToPriority(_PlayerAction, _PlayerPokemon, _PlayerMoveId);
-    int EnemyPriority = ActionToPriority(_EnemyAction, _EnemyPokemon, _EnemyMoveId);
+    int PlayerPriority = ActionToPriority(_Player);
+    int EnemyPriority = ActionToPriority(_Enemy);
 
     if (PlayerPriority > EnemyPriority)
     {
@@ -33,8 +28,8 @@ bool UTurnOrderCalculator::IsPlayerFirst(
         return true;
     }
 
-    int ModifiedPlayerSpeed = CalcModifiedSpeed(_PlayerPokemon, _PlayerStatStage);
-    int ModifiedEnemySpeed = CalcModifiedSpeed(_PlayerPokemon, _PlayerStatStage);
+    int ModifiedPlayerSpeed = CalcModifiedSpeed(_Player);
+    int ModifiedEnemySpeed = CalcModifiedSpeed(_Enemy);
 
     if (ModifiedPlayerSpeed > ModifiedEnemySpeed)
     {
@@ -49,10 +44,10 @@ bool UTurnOrderCalculator::IsPlayerFirst(
     return RandomInt == 0;
 }
 
-bool UTurnOrderCalculator::IsPlayerFirstEOT(const UPokemon* _PlayerPokemon, const UPokemon* _EnemyPokemon, const UStatStage& _PlayerStatStage, const UStatStage& _EnemyStatStage)
+bool UTurnOrderCalculator::IsPlayerFirstEOT(const UBattler* _Player, const UBattler* _Enemy)
 {
-    int ModifiedPlayerSpeed = CalcModifiedSpeed(_PlayerPokemon, _PlayerStatStage);
-    int ModifiedEnemySpeed = CalcModifiedSpeed(_PlayerPokemon, _PlayerStatStage);
+    int ModifiedPlayerSpeed = CalcModifiedSpeed(_Player);
+    int ModifiedEnemySpeed = CalcModifiedSpeed(_Enemy);
 
     if (ModifiedPlayerSpeed > ModifiedEnemySpeed)
     {
@@ -67,9 +62,9 @@ bool UTurnOrderCalculator::IsPlayerFirstEOT(const UPokemon* _PlayerPokemon, cons
     return RandomInt == 0;
 }
 
-int UTurnOrderCalculator::ActionToPriority(EBattleAction _Action, const UPokemon* _Pokemon, EPokemonMove _MoveId)
+int UTurnOrderCalculator::ActionToPriority(const UBattler* _Battler)
 {
-    switch (_Action)
+    switch (_Battler->CurAction())
     {
     case EBattleAction::None:
         break;
@@ -83,7 +78,7 @@ int UTurnOrderCalculator::ActionToPriority(EBattleAction _Action, const UPokemon
         break;
     }
 
-    return MoveIdToPriority(_MoveId);
+    return MoveIdToPriority(_Battler->CurMoveId());
 }
 
 int UTurnOrderCalculator::MoveIdToPriority(EPokemonMove _MoveId)
@@ -96,12 +91,14 @@ int UTurnOrderCalculator::MoveIdToPriority(EPokemonMove _MoveId)
     return 0;
 }
 
-int UTurnOrderCalculator::CalcModifiedSpeed(const UPokemon* _Pokemon, const UStatStage& _StatStage)
+int UTurnOrderCalculator::CalcModifiedSpeed(const UBattler* _Battler)
 {
-    float ModifiedSpeed = static_cast<float>(_Pokemon->GetSpeed());
-    ModifiedSpeed *= _StatStage.GetSpeedMultiplier();
+    const UPokemon* Pokemon = _Battler->CurPokemonReadonly();
+
+    float ModifiedSpeed = static_cast<float>(Pokemon->GetSpeed());
+    ModifiedSpeed *= _Battler->StatStage.GetSpeedMultiplier();
    
-    if (_Pokemon->GetStatusId() == EPokemonStatus::Paralysis)
+    if (Pokemon->GetStatusId() == EPokemonStatus::Paralysis)
     {
         ModifiedSpeed *= 1.0f / 4;
     }

@@ -1,8 +1,6 @@
 #include "BattleEnemyActionGenerator.h"
 #include "BattleLevel.h"
 
-int UBattleEnemyActionGenerator::MoveIndex = 0;
-
 UBattleEnemyActionGenerator::UBattleEnemyActionGenerator()
 {
 }
@@ -11,9 +9,21 @@ UBattleEnemyActionGenerator::~UBattleEnemyActionGenerator()
 {
 }
 
-EBattleAction UBattleEnemyActionGenerator::Generate(EEnemyType _EnemyType, const UPokemon* _EnemyPokemon)
+void UBattleEnemyActionGenerator::Generate(UBattler* _Enemy)
 {
-    // Switch 기능, Item 기능은 나중에 구현할 수도
-    MoveIndex = UPokemonMath::RandomInt(0, _EnemyPokemon->GetMoveCount() - 1);
-    return EBattleAction::Fight;
+	if (true == _Enemy->IsWildPokemon())
+	{
+		const UPokemon* EnemyPokemon = _Enemy->CurPokemonReadonly();
+		int RandomMoveIndex = UPokemonMath::RandomInt(0, EnemyPokemon->GetMoveCount() - 1);
+		_Enemy->SetAction(EBattleAction::Fight);
+		_Enemy->SetMoveIndex(RandomMoveIndex);
+		return;
+	}
+
+	// TODO: 트레이너 스위치, 아이템 기능은 차차 추가
+	const UPokemon* EnemyPokemon = _Enemy->CurPokemonReadonly();
+	int RandomMoveIndex = UPokemonMath::RandomInt(0, EnemyPokemon->GetMoveCount() - 1);
+	_Enemy->SetAction(EBattleAction::Fight);
+	_Enemy->SetMoveIndex(RandomMoveIndex);
+	return;
 }

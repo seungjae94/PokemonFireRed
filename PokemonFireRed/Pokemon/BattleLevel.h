@@ -5,8 +5,7 @@
 #include "BattleStartStateMachine.h"
 #include "BattlePlayerActionSelectStateMachine.h"
 #include "BattleTurnStateMachine.h"
-#include "BattleEnums.h"
-#include "StatStage.h"
+#include "Battler.h"
 
 class UBattleLevel : public UPokemonLevel
 {
@@ -24,18 +23,11 @@ public:
 protected:
 private:
 	// µ¥ÀÌÅÍ
+	UBattler Player;
+	UBattler Enemy;
 	bool PlayerFirst = true;
-	int PlayerPokemonIndex = 0;
-	int EnemyPokemonIndex = 0;
-	int PlayerMoveIndex = 0;
-	int EnemyMoveIndex = 0;
-	EBattleAction PlayerAction = EBattleAction::None;
-	UPokemon* PlayerPokemon = nullptr;
-	UPokemon* EnemyPokemon = nullptr;
-	UStatStage PlayerStatStage;
-	UStatStage EnemyStatStage;
 
-	// ·»´õ¸µ, ·ÎÁ÷
+	// ·»´õ¸µ, ·ÎÁ÷ Ã³¸® °´Ã¼
 	ABattleCanvas* Canvas = nullptr;
 	ABattleStartStateMachine* BSSM = nullptr;
 	ABattlePlayerActionSelectStateMachine* PASM = nullptr;
@@ -57,12 +49,6 @@ private:
 	EBattleState State = EBattleState::BattleStart;
 	const float MoveFailMessageShowTime = 1.5f;
 	float Timer = 0.0f;
-
-	// À¯Æ¿
-	UPokemon& GetCurPlayerPokemon()
-	{
-		return UPlayerData::GetPokemonInEntry(PlayerPokemonIndex);
-	}
 
 	// ¿ø·¡ ¸Ê ·¹º§·Î º¹±Í
 	std::string PrevMapName;

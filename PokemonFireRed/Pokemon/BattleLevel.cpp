@@ -77,21 +77,19 @@ void UBattleLevel::LevelStart(ULevel* _PrevLevel)
 	PrevMapName = _PrevLevel->GetName();
 
 	// 데이터 초기화
-	PlayerPokemonIndex = 0;
 	bool PlayerFirst = true;
-	EBattleAction PlayerAction = EBattleAction::None;
-	PlayerPokemon = &UPlayerData::GetPokemonInEntry(0);
-	EnemyPokemon = UPlayerData::GetEnemyWildPokemon();
-	PlayerStatStage.Reset();
-	EnemyStatStage.Reset();
-	Canvas->Init(PlayerPokemon, EnemyPokemon);
+	Player.Clear();
+	Player.SetPlayer();
+	Enemy.Clear();
+	Enemy.SetWildPokemon();	// 일단 야생 포켓몬과의 전투만 구현
+	Canvas->Init(&Player, &Enemy);
 
 	// 배틀 레벨 상태 초기화
 	State = EBattleState::BattleStart;
 	PASM->Reset();
 
 	// BSSM 로직부터 시작
-	BSSM->Start(Canvas, PlayerPokemon);
+	BSSM->Start(Canvas, &Player);
 }
 
 void UBattleLevel::LevelEnd(ULevel* _NextLevel)
@@ -105,8 +103,8 @@ void UBattleLevel::ProcessBattleStart(float _DeltaTime)
 	{
 		State = EBattleState::PlayerActionSelect;
 		Canvas->SetActionBoxActive(true);
-		Canvas->SetBattleMessage(L"What will\n" + GetCurPlayerPokemon().GetNameW() + L" do?");
-		PASM->Start(Canvas, PlayerPokemon, EnemyPokemon);
+		Canvas->SetBattleMessage(L"What will\n" + Player.CurPokemon()->GetNameW() + L" do?");
+		PASM->Start(Canvas, &Player, &Enemy);
 	}
 }
 
@@ -114,22 +112,19 @@ void UBattleLevel::ProcessPlayerAction(float _DeltaTime)
 {
 	if (true == PASM->IsEnd())
 	{
-		PlayerAction = PASM->GetPlayerActionResult();
-		PlayerMoveIndex = PASM->GetSelectedMoveIndex();
-
-		switch (PlayerAction)
+		switch (Player.CurAction())
 		{
 		case EBattleAction::None:
 			break;
 		case EBattleAction::Fight:
 		{
 			State = EBattleState::Turn;
-			BTSM->Start(Canvas, PlayerPokemon, EnemyPokemon, PlayerStatStage, EnemyStatStage, PlayerAction, PlayerMoveIndex);
+			BTSM->Start(Canvas, &Player, &Enemy);
 		}
 		break;
 		case EBattleAction::Escape:
 		{
-			bool RunResult = PASM->GetRunResult();
+			bool RunResult = Player.IsRunSuccess();
 			if (true == RunResult)
 			{
 				State = EBattleState::Run;
@@ -139,7 +134,7 @@ void UBattleLevel::ProcessPlayerAction(float _DeltaTime)
 			else
 			{
 				State = EBattleState::Turn;
-				BTSM->Start(Canvas, PlayerPokemon, EnemyPokemon, PlayerStatStage, EnemyStatStage, PlayerAction, PlayerMoveIndex);
+				BTSM->Start(Canvas, &Player, &Enemy);
 			}
 		}
 		break;
@@ -158,8 +153,8 @@ void UBattleLevel::ProcessTurn(float _DeltaTime)
 		// 배틀이 종료되지 않았다면 플레이어 액션 선택 상태로 돌아간다.
 		State = EBattleState::PlayerActionSelect;
 		Canvas->SetActionBoxActive(true);
-		Canvas->SetBattleMessage(L"What will\n" + GetCurPlayerPokemon().GetNameW() + L" do?");
-		PASM->Start(Canvas, PlayerPokemon, EnemyPokemon);
+		Canvas->SetBattleMessage(L"What will\n" + Player.CurPokemon()->GetNameW() + L" do?");
+		PASM->Start(Canvas, &Player, &Enemy);
 	}
 }
 

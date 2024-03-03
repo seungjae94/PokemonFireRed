@@ -3,6 +3,7 @@
 #include "BattleEnums.h"
 #include "StatStage.h"
 #include "Pokemon.h"
+#include "Battler.h"
 
 class UBattleLevel;
 class ABattleCanvas;
@@ -20,6 +21,7 @@ private:
 		MoveAnim,
 		MoveDamage,
 		MoveSecondaryEffect,
+		Faint,
 		EndOfTurn,
 		End,
 	};
@@ -53,12 +55,7 @@ public:
 		return State == ESubstate::End;
 	}
 
-	void Start(
-		ABattleCanvas* _Canvas, 
-		UPokemon* _PlayerPokemon, UPokemon* _EnemyPokemon, 
-		UStatStage& _PlayerStatStage, UStatStage& _EnemyStatStage, 
-		EBattleAction _PlayerAction, int _PlayerMoveIndex
-	);
+	void Start(ABattleCanvas* _Canvas, UBattler* _Player, UBattler* _Enemy);
 
 	void Reset() {};
 
@@ -67,14 +64,8 @@ protected:
 private:
 	// 배틀 레벨 데이터
 	ABattleCanvas* Canvas = nullptr;
-	UPokemon* PlayerPokemon = nullptr; 
-	UPokemon* EnemyPokemon = nullptr;
-	UStatStage* PlayerStatStage = nullptr; 
-	UStatStage* EnemyStatStage = nullptr;
-	EBattleAction PlayerAction = EBattleAction::None;
-	EBattleAction EnemyAction = EBattleAction::None;
-	EPokemonMove PlayerMoveId = EPokemonMove::None;
-	EPokemonMove EnemyMoveId = EPokemonMove::None;
+	UBattler* Player = nullptr;
+	UBattler* Enemy = nullptr;
 
 	// 상수
 	const float BattleMsgShowTime = 2.0f;
@@ -86,11 +77,8 @@ private:
 	float Timer = 0.0f;
 	bool IsFirstTurn = true;
 	bool IsPlayerFirst = true;
-	UPokemon* Attacker = nullptr;
-	UPokemon* Defender = nullptr;
-	UStatStage* AttackerStatStage = nullptr;
-	UStatStage* DefenderStatStage = nullptr;
-	EPokemonMove AttackMoveId = EPokemonMove::None;
+	UBattler* Attacker = nullptr;
+	UBattler* Defender = nullptr;
 	EMoveResultMsg MoveResultMsg = EMoveResultMsg::None;
 
 	// SubState
@@ -105,12 +93,12 @@ private:
 	// 로직
 	void Tick(float _DeltaTime) override;
 
-	void GenerateEnemyAction();
 	void DispatchTurn();
 	void DispatchFight();
 	void DispatchNextPhase();		// 다음 차례가 상대의 턴인지, 턴 종료인지 결정
 	void DispatchSecondaryEffect();
 	void DispatchEndOfTurn();
+	void DispatchFaint();				// 전투를 계속할 수 있는지 등을 결정
 
 	// 처리 함수
 	void ProcessEscapeFail(float _DeltaTime);
@@ -118,6 +106,7 @@ private:
 	void ProcessMoveAnim(float _DeltaTime);
 	void ProcessMoveDamage(float _DeltaTime);
 	void ProcessMoveSecondaryEffect(float _DeltaTime);
+	void ProcessFaint(float _DeltaTime);
 	void ProcessEndOfTurn(float _DeltaTime);
 
 	// 유틸 함수

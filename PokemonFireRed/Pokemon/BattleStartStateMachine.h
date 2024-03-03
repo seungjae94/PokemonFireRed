@@ -2,6 +2,7 @@
 #include <EngineCore/Actor.h>
 #include "Pokemon.h"
 #include "BattleEnums.h"
+#include "Battler.h"
 
 class UBattleLevel;
 class ABattleCanvas;
@@ -37,10 +38,10 @@ public:
 		return State == ESubstate::End;
 	}
 
-	void Start(ABattleCanvas* _Canvas, const UPokemon* _PlayerPokemon)
+	void Start(ABattleCanvas* _Canvas, const UBattler* _Player)
 	{
 		Canvas = _Canvas;
-		PlayerPokemon = _PlayerPokemon;
+		Player = _Player;
 		State = ESubstate::FadeWait;
 		Timer = FadeWaitTime;
 	}
@@ -49,7 +50,7 @@ protected:
 
 private:
 	ABattleCanvas* Canvas = nullptr;
-	const UPokemon* PlayerPokemon = nullptr;
+	const UBattler* Player = nullptr;
 	float Timer = 0.0f;
 
 	ESubstate State = ESubstate::None;
