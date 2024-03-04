@@ -24,9 +24,8 @@ void ABattleActionStateMachine::Start(ABattleCanvas* _Canvas, UBattler* _Attacke
 	{
 	case EBattleAction::Fight:
 	{
-		State = ESubstate::MoveMessage;
-		Canvas->SetBattleMessage(UBattleUtil::GetPokemonFullName(Attacker) + L" used\n" + Move->GetNameW() + L"!");
-		Timer = BattleMsgShowTime;
+		State = ESubstate::Move;
+		BattleMoveSM->Start(Canvas, Attacker, Defender);
 	}
 		break;
 	case EBattleAction::Escape:
@@ -70,9 +69,6 @@ void ABattleActionStateMachine::Tick(float _DeltaTime)
 	case ABattleActionStateMachine::ESubstate::UseItem:
 		ProcessItem();
 		break;
-	case ABattleActionStateMachine::ESubstate::MoveMessage:
-		ProcessMoveMessage();
-		break;
 	case ABattleActionStateMachine::ESubstate::Move:
 		ProcessMove();
 		break;
@@ -107,15 +103,6 @@ void ABattleActionStateMachine::ProcessItem()
 	if (Timer <= 0.0f)
 	{
 		State = ESubstate::End;
-	}
-}
-
-void ABattleActionStateMachine::ProcessMoveMessage()
-{
-	if (Timer <= 0.0f)
-	{
-		State = ESubstate::Move;
-		BattleMoveSM->Start(Canvas, Attacker, Defender);
 	}
 }
 

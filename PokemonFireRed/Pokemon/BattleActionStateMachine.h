@@ -17,7 +17,6 @@ private:
 		EscapeFail,
 		Switch,
 		UseItem,
-		MoveMessage,
 		Move,
 		Faint,
 		End
@@ -83,7 +82,6 @@ private:
 	void ProcessEscapeFail();
 	void ProcessSwitch();
 	void ProcessItem();
-	void ProcessMoveMessage();
 	void ProcessMove();
 	void ProcessFaint();
 

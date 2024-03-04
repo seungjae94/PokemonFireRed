@@ -41,6 +41,7 @@ void ABattleMoveStateMachine::Start(ABattleCanvas* _Canvas, UBattler* _Attacker,
 
 	// 기술이 성공할 경우 Move 애니메이션을 재생한다.
 	State = ESubstate::MoveAnim;
+	Canvas->SetBattleMessage(UBattleUtil::GetPokemonFullName(Attacker) + L" used\n" + Move->GetNameW() + L"!");
 	Timer = MoveAnimationShowTime;
 }
 
