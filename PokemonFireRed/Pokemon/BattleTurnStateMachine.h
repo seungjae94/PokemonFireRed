@@ -90,6 +90,7 @@ private:
 	bool IsPlayerFirst = true;
 	UBattler* Attacker = nullptr;
 	UBattler* Defender = nullptr;
+	UBattler* EOTBattler = nullptr;
 	EMoveDamageState MoveResultMsg = EMoveDamageState::None;
 
 	// SubState

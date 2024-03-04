@@ -213,7 +213,18 @@ void ABattleTurnStateMachine::DispatchSecondaryEffect()
 
 void ABattleTurnStateMachine::DispatchEndOfTurn()
 {
-	// TODO: 누가 EOT를 먼저 실행할지 결정
+	IsPlayerFirst = UTurnOrderCalculator::IsPlayerFirstEOT(Player, Enemy);
+	IsFirstTurn = true;
+
+	if (true == IsPlayerFirst)
+	{
+		EOTBattler = Player;
+	}
+	else
+	{
+		EOTBattler = Enemy;
+	}
+
 	State = ESubstate::EndOfTurn;
 }
 
@@ -467,8 +478,7 @@ void ABattleTurnStateMachine::ProcessFaint(float _DeltaTime)
 
 void ABattleTurnStateMachine::ProcessEndOfTurn(float _DeltaTime)
 {
-	IsPlayerFirst = UTurnOrderCalculator::IsPlayerFirstEOT(Player, Enemy);
-	// Leech Seed 체크
+	// TODO: EOTBattler에 대해 Leech Seed, Bound, BRN, PAR, POS 등을 체크하고 데미지 처리
 	State = ESubstate::End;
 }
 
