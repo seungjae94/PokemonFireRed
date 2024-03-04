@@ -200,6 +200,38 @@ void ABattleCanvas::RefreshPlayerPokemonCurHpText()
 	PlayerPokemonCurHpText->SetText(PlayerPokemon->GetCurHpW());
 }
 
+void ABattleCanvas::LerpFaintPlayerPokemon(float _t)
+{
+	FVector PokemonRelativePos = UPokemonMath::Lerp(PlayerPokemonImageFaintPos, PlayerPokemonImageInitPos, _t);
+	PlayerPokemonImage->SetRelativePosition(PokemonRelativePos);
+}
+
+void ABattleCanvas::LerpFaintEnemyPokemon(float _t)
+{
+	FVector PokemonRelativePos = UPokemonMath::Lerp(EnemyPokemonImageFaintPos, EnemyPokemonImageInitPos, _t);
+	EnemyPokemonImage->SetRelativePosition(PokemonRelativePos);
+}
+
+void ABattleCanvas::SetPlayerPokemonBoxActive(bool _Value)
+{
+	PlayerPokemonBox->SetActive(_Value);
+}
+
+void ABattleCanvas::SetEnemyPokemonBoxActive(bool _Value)
+{
+	EnemyPokemonBox->SetActive(_Value);
+}
+
+void ABattleCanvas::SetPlayerPokemonImageActive(bool _Value)
+{
+	PlayerPokemonImage->SetActive(_Value);
+}
+
+void ABattleCanvas::SetEnemyPokemonImageActive(bool _Value)
+{
+	EnemyPokemonImage->SetActive(_Value);
+}
+
 void ABattleCanvas::BeginPlay()
 {
 	ACanvas::BeginPlay();
@@ -261,6 +293,8 @@ void ABattleCanvas::BeginPlay()
 
 	// EnemyGround 요소
 	EnemyPokemonImage = CreateImageElement(EnemyGround, ERenderingOrder::UI2, EPivotType::LeftTop, 36, -25, EImageElementType::PokemonFront);
+	EnemyPokemonImageInitPos = EnemyPokemonImage->GetRelativePosition();
+	EnemyPokemonImageFaintPos = EnemyPokemonImageInitPos + UPokemonUtil::PixelVector(0, 64);
 
 	// PlayerGround 요소
 	PlayerBattler = CreateImageElement(PlayerGround, ERenderingOrder::UI3, EPivotType::RightBot, -12, 0);
@@ -273,6 +307,7 @@ void ABattleCanvas::BeginPlay()
 	PlayerPokemonImage = CreateImageElement(PlayerGround, ERenderingOrder::UI2, EPivotType::LeftTop, 35, -49, EImageElementType::PokemonBack);
 	PlayerPokemonImageInitPos = PlayerPokemonImage->GetRelativePosition();
 	PlayerPokemonImageHidePos = PlayerPokemonImageInitPos + UPokemonUtil::PixelVector(0, 32);
+	PlayerPokemonImageFaintPos = PlayerPokemonImageInitPos + UPokemonUtil::PixelVector(0, 64);
 
 	// ActionBox 요소
 	ActionCursor = CreateCursor(ActionBox, ERenderingOrder::UI7, EPivotType::LeftTop, 9, 12);

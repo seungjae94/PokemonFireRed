@@ -62,6 +62,12 @@ public:
 	void LerpPlayerHpInfo(int _BeforeHp, int _AfterHp, int _MaxHp, float _t);
 	void LerpEnemyHpInfo(int _BeforeHp, int _AfterHp, int _MaxHp, float _t);
 	void RefreshPlayerPokemonCurHpText();
+	void LerpFaintPlayerPokemon(float _t);
+	void LerpFaintEnemyPokemon(float _t);
+	void SetPlayerPokemonBoxActive(bool _Value);
+	void SetEnemyPokemonBoxActive(bool _Value);
+	void SetPlayerPokemonImageActive(bool _Value);
+	void SetEnemyPokemonImageActive(bool _Value);
 
 protected:
 
@@ -87,8 +93,11 @@ private:
 	FVector PlayerGroundHidePos;
 	FVector PlayerPokemonImageInitPos;
 	FVector PlayerPokemonImageHidePos;
+	FVector PlayerPokemonImageFaintPos;
 	FVector PlayerBattlerInitPos;
 	FVector PlayerBattlerHidePos;
+	FVector EnemyPokemonImageInitPos;
+	FVector EnemyPokemonImageFaintPos;
 	int HpBarMaxValue = 1000;
 
 	// 최상위 요소

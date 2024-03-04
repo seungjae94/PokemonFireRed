@@ -168,34 +168,33 @@ void ABattleTurnStateMachine::DispatchNextPhase()
 
 void ABattleTurnStateMachine::DispatchSecondaryEffect()
 {
-	// Defender가 쓰러진 경우 처리
-	const UPokemon* DefenderPokemon = Defender->CurPokemonReadonly();
-	if (DefenderPokemon->GetCurHp() == 0)
-	{
-		DispatchFaint();
-		return;
-	}
-
 	const FPokemonMove* Move = Attacker->CurMove();
 	EMoveEffectTarget SETarget = Move->SETarget;
 
-	// 부가 효과가 없는 경우 바로 다음 순서로 넘어간다.
+	// SE 대상이 자기 자신인 경우 SE를 시도한다.
+	if (SETarget == EMoveEffectTarget::Self)
+	{
+		TrySecondaryEffect();
+		return;
+	}
+
+	// Defender가 쓰러진 경우 SE를 스킵하고 Faint 처리를 한다.
+	const UPokemon* DefenderPokemon = Defender->CurPokemonReadonly();
+	if (DefenderPokemon->GetCurHp() == 0)
+	{
+		State = ESubstate::Faint;
+		return;
+	}
+
+	// SE가 없는 경우 바로 다음 순서로 넘어간다.
 	if (SETarget == EMoveEffectTarget::None)
 	{
 		DispatchNextPhase();
 		return;
 	}
 
-	// 난수 테스트 성공시 부가 효과를 적용한다.
-	int RandomNumber = UPokemonMath::RandomInt(0, 99);
-	if (RandomNumber < Move->SERate)
-	{
-		State = ESubstate::MoveSecondaryEffect;
-		MoveEffectState = EMoveEffectState::None;
-		return;
-	}
-
-	DispatchNextPhase();
+	// SE가 있는 경우 SE를 시도한다.
+	TrySecondaryEffect();
 }
 
 void ABattleTurnStateMachine::DispatchEndOfTurn()
@@ -204,9 +203,22 @@ void ABattleTurnStateMachine::DispatchEndOfTurn()
 	State = ESubstate::EndOfTurn;
 }
 
-void ABattleTurnStateMachine::DispatchFaint()
+void ABattleTurnStateMachine::DispatchFaintResult()
 {
+	if (Defender == Player)
+	{
+		// TODO: 다음 포켓몬을 꺼낼지 배틀에서 패배할지 계산하고 상태 변경
+	}
+	else if (true == Defender->IsWildPokemon())
+	{
+		// TODO: 배틀 승리 처리
+	}
+	else /*Defender is Traniner*/
+	{
+		// TODO: 다음 포켓몬을 꺼낼지 배틀에서 패배할지 계산하고 상태 변경
+	}
 
+	Canvas->SetBattleMessage(L"Debug - Faint Result");
 }
 
 void ABattleTurnStateMachine::ProcessEscapeFail(float _DeltaTime)
@@ -309,7 +321,7 @@ void ABattleTurnStateMachine::ProcessMoveDamage(float _DeltaTime)
 				Timer = BattleMsgShowTime;
 				return;
 			}
-			
+
 			// 데미지 종료
 			DispatchSecondaryEffect();
 		}
@@ -390,7 +402,7 @@ void ABattleTurnStateMachine::ProcessMoveSecondaryEffect(float _DeltaTime)
 		const FPokemonMove* Move = Attacker->CurMove();
 		EStatStageChangeType SEStatStageId = Move->SEStatStageId;
 		EPokemonStatus SEStatusId = Move->SEStatusId;
-		
+
 		if (SEStatStageId != EStatStageChangeType::None)
 		{
 			ChangeStatStage(Move->SETarget, SEStatStageId, Move->SEStatStageValue);
@@ -426,6 +438,45 @@ void ABattleTurnStateMachine::ProcessMoveSecondaryEffect(float _DeltaTime)
 
 void ABattleTurnStateMachine::ProcessFaint(float _DeltaTime)
 {
+	if (FaintState == EFaintState::None)
+	{
+		FaintState = EFaintState::HidePokemon;
+		Timer = FaintTime;
+	}
+	else if (FaintState == EFaintState::HidePokemon && Defender == Player)
+	{
+		Canvas->LerpFaintPlayerPokemon(Timer / FaintTime);
+
+		if (Timer <= 0.0f)
+		{
+			FaintState = EFaintState::ShowFaintMessage;
+			Canvas->SetPlayerPokemonBoxActive(false);
+			Canvas->SetBattleMessage(Defender->CurPokemonReadonly()->GetNameW() + L"\nfainted!");
+		}
+	}
+	else if (FaintState == EFaintState::HidePokemon && Defender == Enemy)
+	{
+		Canvas->LerpFaintEnemyPokemon(Timer / FaintTime);
+
+		if (Timer <= 0.0f)
+		{
+			FaintState = EFaintState::ShowFaintMessage;
+			Canvas->SetEnemyPokemonBoxActive(false);
+
+			if (Defender->IsWildPokemon())
+			{
+				Canvas->SetBattleMessage(L"Wild " + Defender->CurPokemonReadonly()->GetNameW() + L"\nfainted!");
+			}
+			else
+			{
+				Canvas->SetBattleMessage(L"Foe " + Defender->CurPokemonReadonly()->GetNameW() + L"\nfainted!");
+			}
+		}
+	}
+	else if (/*FaintState == EFaintState::ShowFaintMessage && */true == UEngineInput::IsDown('Z'))
+	{
+		DispatchFaintResult();
+	}
 }
 
 
@@ -530,4 +581,21 @@ std::wstring ABattleTurnStateMachine::GetStatStageMessageSuffix(int _Value)
 		return L"fell!";
 	}
 	return L"harshly fell!";
+}
+
+void ABattleTurnStateMachine::TrySecondaryEffect()
+{
+	const FPokemonMove* Move = Attacker->CurMove();
+
+	// 난수 테스트 성공시 부가 효과를 적용한다.
+	int RandomNumber = UPokemonMath::RandomInt(0, 99);
+	if (RandomNumber < Move->SERate)
+	{
+		State = ESubstate::MoveSecondaryEffect;
+		MoveEffectState = EMoveEffectState::None;
+		return;
+	}
+
+	// 난수 테스트 실패시 다음 페이즈로 진행한다.
+	DispatchNextPhase();
 }

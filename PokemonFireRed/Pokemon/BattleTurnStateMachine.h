@@ -40,6 +40,14 @@ private:
 		ShowMoveEffect,
 		ShowEffectResultMessage,
 	};
+
+	enum class EFaintState
+	{
+		None,
+		HidePokemon,
+		ShowFaintMessage,
+	};
+
 public:
 	// constructor destructor
 	ABattleTurnStateMachine();
@@ -69,9 +77,10 @@ private:
 	UBattler* Enemy = nullptr;
 
 	// 상수
-	const float BattleMsgShowTime = 2.0f;
-	const float DamageTime = 2.0f;
-	const float MoveEffectShowTime = 2.0f;
+	const float BattleMsgShowTime = 1.5f;
+	const float DamageTime = 1.5f;
+	const float MoveEffectShowTime = 1.5f;
+	const float FaintTime = 0.5f;
 
 	// 고유 데이터
 	ESubstate State = ESubstate::None;
@@ -84,6 +93,7 @@ private:
 
 	// SubState
 	EMoveEffectState MoveEffectState = EMoveEffectState::None;
+	EFaintState FaintState = EFaintState::None;
 	
 	// Temporal Data
 	FDamageResult Result;
@@ -99,7 +109,7 @@ private:
 	void DispatchNextPhase();		// 다음 차례가 상대의 턴인지, 턴 종료인지 결정
 	void DispatchSecondaryEffect();
 	void DispatchEndOfTurn();
-	void DispatchFaint();				// 전투를 계속할 수 있는지 등을 결정
+	void DispatchFaintResult();				// 전투를 계속할 수 있는지 등을 결정
 
 	// 처리 함수
 	void ProcessEscapeFail(float _DeltaTime);
@@ -117,5 +127,6 @@ private:
 	void ChangeStatStage(EMoveEffectTarget _METarget, EStatStageChangeType _MEStatStageId, int _MEStatStageValue);
 	void ChangeStatus();
 	std::wstring GetStatStageMessageSuffix(int _Value);
+	void TrySecondaryEffect();
 };
 
