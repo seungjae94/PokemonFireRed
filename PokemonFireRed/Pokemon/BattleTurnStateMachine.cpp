@@ -157,17 +157,18 @@ void ABattleTurnStateMachine::DispatchNextPhase()
 void ABattleTurnStateMachine::DispatchSecondaryEffect()
 {
 	// Defender가 쓰러진 경우 처리
-	if (Defender->CurPokemonReadonly()->GetCurHp() == 0)
+	const UPokemon* DefenderPokemon = Defender->CurPokemonReadonly();
+	if (DefenderPokemon->GetCurHp() == 0)
 	{
 		DispatchFaint();
 		return;
 	}
 
 	const FPokemonMove* Move = Attacker->CurMove();
-	ESecondaryEffectTarget SETarget = Move->SETarget;
+	EMoveEffectTarget SETarget = Move->SETarget;
 
 	// 부가 효과가 없는 경우 바로 다음 순서로 넘어간다.
-	if (SETarget == ESecondaryEffectTarget::None)
+	if (SETarget == EMoveEffectTarget::None)
 	{
 		DispatchNextPhase();
 		return;
@@ -264,6 +265,11 @@ void ABattleTurnStateMachine::ProcessMoveDamage(float _DeltaTime)
 			// 실제 데미지 처리
 			DefenderPokemon->SetCurHp(NextHp);
 
+			if (NextHp == 0)
+			{
+				DefenderPokemon->SetStatus(EPokemonStatus::Faint);
+			}
+
 			if (Result.IsCritical == true)
 			{
 				MoveResultMsg = EMoveResultMsg::Critical;
@@ -315,10 +321,10 @@ void ABattleTurnStateMachine::ProcessMoveSecondaryEffect(float _DeltaTime)
 	{
 		// 첫 틱인 경우 스탯, 상태 변경 로직을 처리하고 메시지를 준비한다.
 		const FPokemonMove* Move = Attacker->CurMove();
-		ESecondaryEffectStatStage SEStatStageId = Move->SEStatStageId;
+		EStatStageChangeType SEStatStageId = Move->SEStatStageId;
 		EPokemonStatus SEStatusId = Move->SEStatusId;
 		
-		if (SEStatStageId != ESecondaryEffectStatStage::None)
+		if (SEStatStageId != EStatStageChangeType::None)
 		{
 			ChangeStatStage();
 		}
@@ -378,11 +384,11 @@ void ABattleTurnStateMachine::SetEnemyAsAttacker()
 void ABattleTurnStateMachine::ChangeStatStage()
 {
 	const FPokemonMove* Move = Attacker->CurMove();
-	ESecondaryEffectTarget SETarget = Move->SETarget;
-	ESecondaryEffectStatStage SEStatStageId = Move->SEStatStageId;
+	EMoveEffectTarget SETarget = Move->SETarget;
+	EStatStageChangeType SEStatStageId = Move->SEStatStageId;
 
 	UBattler* Target = nullptr;
-	if (SETarget == ESecondaryEffectTarget::Self)
+	if (SETarget == EMoveEffectTarget::Self)
 	{
 		Target = Attacker;
 	}
@@ -406,31 +412,31 @@ void ABattleTurnStateMachine::ChangeStatStage()
 	std::wstring Suffix = GetStatStageMessageSuffix(Value);
 	switch (SEStatStageId)
 	{
-	case ESecondaryEffectStatStage::Atk:
+	case EStatStageChangeType::Atk:
 		SEMessage += L"ATTACK\n";
 		Target->StatStage.AddAtk(Value);
 		break;
-	case ESecondaryEffectStatStage::Def:
+	case EStatStageChangeType::Def:
 		SEMessage += L"DEFENSE\n";
 		Target->StatStage.AddDef(Value);
 		break;
-	case ESecondaryEffectStatStage::SpAtk:
+	case EStatStageChangeType::SpAtk:
 		SEMessage += L"SP.ATK\n";
 		Target->StatStage.AddSpAtk(Value);
 		break;
-	case ESecondaryEffectStatStage::SpDef:
+	case EStatStageChangeType::SpDef:
 		SEMessage += L"SP.DEF\n";
 		Target->StatStage.AddDef(Value);
 		break;
-	case ESecondaryEffectStatStage::Speed:
+	case EStatStageChangeType::Speed:
 		SEMessage += L"SPEED\n";
 		Target->StatStage.AddSpeed(Value);
 		break;
-	case ESecondaryEffectStatStage::Accuracy:
+	case EStatStageChangeType::Accuracy:
 		SEMessage += L"accuracy\n";
 		Target->StatStage.AddAccuracy(Value);
 		break;
-	case ESecondaryEffectStatStage::Evasion:
+	case EStatStageChangeType::Evasion:
 		SEMessage += L"evasiveness\n";
 		Target->StatStage.AddEvasion(Value);
 		break;

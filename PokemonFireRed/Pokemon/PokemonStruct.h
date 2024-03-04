@@ -157,13 +157,8 @@ enum class EPokemonStatus
 	Freeze,
 	Paralysis,
 	Faint,
-};
-
-enum class ETemporalStatus
-{
-	None,
-	Seeded,
-	Bound,
+	TempSeeded,
+	TempBound,
 };
 
 struct FPokemonStatus
@@ -220,7 +215,6 @@ public:
 enum class EPokemonMove
 {
 	None,
-	Absorb,
 	Bubble,
 	Ember,
 	Growl,
@@ -238,17 +232,18 @@ enum class EPokemonMove
 	LowKick,
 	DefenseCurl,
 	Bind,
-	RockThrow
+	RockThrow,
+	Harden
 };
 
-enum class ESecondaryEffectTarget
+enum class EMoveEffectTarget
 {
 	None,
 	Self,
 	Enemy,
 };
 
-enum class ESecondaryEffectStatStage
+enum class EStatStageChangeType
 {
 	None,
 	Atk,
@@ -271,16 +266,19 @@ public:
 	int BasePower = 0;
 	int Accuracy = 100;
 	bool IsContact = false;
+
+	// 배틀 효과
+	EMoveEffectTarget BETarget = EMoveEffectTarget::None;
+	EStatStageChangeType BEStatStageId = EStatStageChangeType::None;
+	int BEStatStageValue = 0;
+	EPokemonStatus BEStatusId = EPokemonStatus::None;
 	
 	// 부가 효과
-	ESecondaryEffectTarget SETarget = ESecondaryEffectTarget::None;
+	EMoveEffectTarget SETarget = EMoveEffectTarget::None;
 	int SERate = 0;
-	ESecondaryEffectStatStage SEStatStageId = ESecondaryEffectStatStage::None;
+	EStatStageChangeType SEStatStageId = EStatStageChangeType::None;
 	int SEStatStageValue = 0;
 	EPokemonStatus SEStatusId = EPokemonStatus::None;
-
-	// 특수 효과 (Leech Seed, Bind)
-	ETemporalStatus TempStatus = ETemporalStatus::None;
 
 	std::wstring GetNameW() const
 	{

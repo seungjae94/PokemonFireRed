@@ -149,6 +149,11 @@ public:
 		return Status->ImageName;
 	}
 
+	void SetStatus(EPokemonStatus _StatusId)
+	{
+		Status = UPokemonDB::FindStatus(_StatusId);
+	}
+
 	int GetMoveCount() const
 	{
 		return static_cast<int>(Moves.size());

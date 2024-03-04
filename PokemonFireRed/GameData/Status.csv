@@ -6,3 +6,5 @@ ID,Name,ImageName
 5,Freeze,StatusFreeze.png
 6,Paralysis,StatusParalysis.png
 7,Faint,StatusFaint.png
+8,Seeded,StatusNormal.png
+9,Bound,StatusNormal.png

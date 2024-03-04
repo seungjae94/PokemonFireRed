@@ -152,27 +152,36 @@ public:
 			Move.BasePower = std::stoi(Line[5]);
 			Move.Accuracy = std::stoi(Line[6]);
 			//Move.IsContact = UPokemonDB::Resolve(Line[7]);
-			Move.SETarget = static_cast<ESecondaryEffectTarget>(UPokemonDB::Resolve(Line[8]));
+			Move.BETarget = static_cast<EMoveEffectTarget>(UPokemonDB::Resolve(Line[8]));
+			if (false == Line[9].empty())
+			{
+				Move.BEStatStageId = static_cast<EStatStageChangeType>(UPokemonDB::Resolve(Line[9]));
+			}
+			if (false == Line[10].empty())
+			{
+				Move.BEStatStageValue = std::stoi(Line[10]);
+			}
+			if (false == Line[11].empty())
+			{
+				Move.BEStatusId = static_cast<EPokemonStatus>(UPokemonDB::Resolve(Line[11]));
+			}
 
-			if (Line[9] != "")
-			{
-				Move.SERate = std::stoi(Line[9]);
-			}
-			if (Line[10] != "")
-			{
-				Move.SEStatStageId = static_cast<ESecondaryEffectStatStage>(UPokemonDB::Resolve(Line[10]));
-			}
-			if (Line[11] != "")
-			{
-				Move.SEStatStageValue = std::stoi(Line[11]);
-			}
-			if (Line[12] != "")
-			{
-				Move.SEStatusId = static_cast<EPokemonStatus>(UPokemonDB::Resolve(Line[12]));
-			}
+			Move.SETarget = static_cast<EMoveEffectTarget>(UPokemonDB::Resolve(Line[12]));
 			if (Line[13] != "")
 			{
-				Move.TempStatus = static_cast<ETemporalStatus>(UPokemonDB::Resolve(Line[13]));
+				Move.SERate = std::stoi(Line[13]);
+			}
+			if (Line[14] != "")
+			{
+				Move.SEStatStageId = static_cast<EStatStageChangeType>(UPokemonDB::Resolve(Line[14]));
+			}
+			if (Line[15] != "")
+			{
+				Move.SEStatStageValue = std::stoi(Line[15]);
+			}
+			if (Line[16] != "")
+			{
+				Move.SEStatusId = static_cast<EPokemonStatus>(UPokemonDB::Resolve(Line[16]));
 			}
 
 			UPokemonDB::Moves[Move.Id] = Move;
