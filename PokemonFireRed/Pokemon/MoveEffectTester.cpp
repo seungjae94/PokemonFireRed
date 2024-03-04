@@ -102,11 +102,11 @@ FMoveEffectTestResult UMoveEffectTester::Test(const UBattler* _Attacker, const U
 
 			if (_StatStageValue > 0)
 			{
-				Result.Message += L"\nwon't go lower!";
+				Result.Message += L"\nwon't go higher!";
 			}
 			else
 			{
-				Result.Message += L"\nwon't go higher!";
+				Result.Message += L"\nwon't go lower!";
 			}
 
 			return Result;
@@ -122,7 +122,7 @@ FMoveEffectTestResult UMoveEffectTester::Test(const UBattler* _Attacker, const U
 
 		bool IsMoveApplyTempStatus = MoveStatus->IsTempStatus();
 		// TempStatus를 적용하려고 하는데 이미 TempStatus가 있다면 실패
-		if (true == IsMoveApplyTempStatus && TargetTempStatus->Id == EPokemonStatus::None)
+		if (true == IsMoveApplyTempStatus && TargetTempStatus->Id != EPokemonStatus::None)
 		{
 			Result.Success = false;
 			Result.Reason = EMoveEffectTestFailureReason::StatusOverlap;
@@ -130,7 +130,7 @@ FMoveEffectTestResult UMoveEffectTester::Test(const UBattler* _Attacker, const U
 			return Result;
 		}
 		// Status를 적용하려고 하는데 이미 Status가 있다면 실패
-		else if (false == IsMoveApplyTempStatus && TargetStatus->Id == EPokemonStatus::None)
+		else if (false == IsMoveApplyTempStatus && TargetStatus->Id != EPokemonStatus::None)
 		{
 			Result.Success = false;
 			Result.Reason = EMoveEffectTestFailureReason::StatusOverlap;
