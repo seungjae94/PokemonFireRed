@@ -165,7 +165,7 @@ void UBattleLevel::ProcessTurn()
 		else
 		{
 			State = EBattleState::BattleEnd;
-			Canvas->SetBattleMessage(L"Debug - Battle End");
+			Canvas->SetBattleMessage(L"You win!");
 			//BESM->Start(Canvas, EndReason);
 		}
 	}
