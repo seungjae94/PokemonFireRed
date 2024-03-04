@@ -95,25 +95,12 @@ FMoveEffectTestResult UMoveEffectTester::Test(const UBattler* _Attacker, const U
 		{
 			Result.Success = false;
 			Result.Reason = EMoveEffectTestFailureReason::StatStageCap;
-
-			Result.Message = L"";
-			Result.Message = UBattleUtil::GetPokemonFullName(_Target);
-			Result.Message += L" " + UBattleUtil::GetStatStageNameW(_StatStageId);
-
-			if (_StatStageValue > 0)
-			{
-				Result.Message += L"\nwon't go higher!";
-			}
-			else
-			{
-				Result.Message += L"\nwon't go lower!";
-			}
-
+			Result.Message = GenerateStatStageFailMessage(_Target, _StatStageId, _StatStageValue);
 			return Result;
 		}
 	}
 
-	// 상태를 적용 체크
+	// 상태 적용 체크
 	if (_StatusId != EPokemonStatus::None)
 	{
 		const FPokemonStatus* MoveStatus = UPokemonDB::FindStatus(_StatusId);
@@ -121,12 +108,12 @@ FMoveEffectTestResult UMoveEffectTester::Test(const UBattler* _Attacker, const U
 		const FPokemonStatus* TargetTempStatus = _Target->CurTempStatus();
 
 		bool IsMoveApplyTempStatus = MoveStatus->IsTempStatus();
-		// TempStatus를 적용하려고 하는데 이미 TempStatus가 있다면 실패
+		// TempStatus를 적용하려고 하는데 이미 TempStatus가 있다면 실패 (수정 가능성 있음)
 		if (true == IsMoveApplyTempStatus && TargetTempStatus->Id != EPokemonStatus::None)
 		{
 			Result.Success = false;
 			Result.Reason = EMoveEffectTestFailureReason::StatusOverlap;
-			Result.Message = UBattleUtil::GetPokemonFullName(_Attacker) + L"'s\nattack failed!";
+			Result.Message = GenerateStatusFailMessage(_Attacker);
 			return Result;
 		}
 		// Status를 적용하려고 하는데 이미 Status가 있다면 실패
@@ -134,7 +121,7 @@ FMoveEffectTestResult UMoveEffectTester::Test(const UBattler* _Attacker, const U
 		{
 			Result.Success = false;
 			Result.Reason = EMoveEffectTestFailureReason::StatusOverlap;
-			Result.Message = UBattleUtil::GetPokemonFullName(_Attacker) + L"'s\nattack failed!";
+			Result.Message = GenerateStatusFailMessage(_Attacker);
 			return Result;
 		}
 	}
@@ -144,6 +131,15 @@ FMoveEffectTestResult UMoveEffectTester::Test(const UBattler* _Attacker, const U
 	if (RandomNumber < _SuccessRate)
 	{
 		Result.Success = true;
+
+		if (_StatStageId != EStatStageChangeType::None)
+		{
+			Result.Message = GenerateStatStageSuccessMessage(_Target, _StatStageId, _StatStageValue);
+		}
+		else
+		{
+			Result.Message = GenerateStatusSuccessMessage(_Target, _StatusId);
+		}
 		return Result;
 	}
 
@@ -152,4 +148,66 @@ FMoveEffectTestResult UMoveEffectTester::Test(const UBattler* _Attacker, const U
 	Result.Reason = EMoveEffectTestFailureReason::RandomTest;
 	Result.Message = UBattleUtil::GetPokemonFullName(_Attacker) + L"'s\nattack failed!";
 	return Result;
+}
+
+std::wstring UMoveEffectTester::GenerateStatStageFailMessage(const UBattler* _Target, EStatStageChangeType _StatStageId, int _StatStageValue)
+{
+	std::wstring Message = UBattleUtil::GetPokemonFullName(_Target) + L"'s ";
+	Message += UBattleUtil::GetStatStageNameW(_StatStageId);
+
+	if (_StatStageValue > 0)
+	{
+		Message += L"\nwon't go higher!";
+	}
+	else
+	{
+		Message += L"\nwon't go lower!";
+	}
+
+	return Message;
+}
+
+std::wstring UMoveEffectTester::GenerateStatStageSuccessMessage(const UBattler* _Target, EStatStageChangeType _StatStageId, int _StatStageValue)
+{
+	std::wstring Message = UBattleUtil::GetPokemonFullName(_Target) + L"'s ";
+	Message += UBattleUtil::GetStatStageNameW(_StatStageId) + L"\n";
+	Message += UBattleUtil::GetStatStageChangeMessageSuffix(_StatStageValue);
+	return Message;
+}
+
+std::wstring UMoveEffectTester::GenerateStatusSuccessMessage(const UBattler* _Target, EPokemonStatus _StatusId)
+{
+	std::wstring Message = UBattleUtil::GetPokemonFullName(_Target) + L" was ";
+	switch (_StatusId)
+	{
+	case EPokemonStatus::Sleep:
+		Message += L"sleeped!";
+		break;
+	case EPokemonStatus::Poison:
+		Message += L"poisoned!";
+		break;
+	case EPokemonStatus::Burn:
+		Message += L"burned!";
+		break;
+	case EPokemonStatus::Freeze:
+		Message += L"freezed!";
+		break;
+	case EPokemonStatus::Paralysis:
+		Message += L"paralyzed!";
+		break;
+	case EPokemonStatus::TempSeeded:
+		Message += L"seeded!";
+		break;
+	case EPokemonStatus::TempBound:
+		Message += L"bound!";
+		break;
+	default:
+		break;
+	}
+	return Message;
+}
+
+std::wstring UMoveEffectTester::GenerateStatusFailMessage(const UBattler* _Attacker)
+{
+	return UBattleUtil::GetPokemonFullName(_Attacker) + L"'s\nattack failed!";
 }

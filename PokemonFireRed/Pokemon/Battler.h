@@ -115,6 +115,23 @@ public:
 		TempStatus = _TempStatus;
 	}
 
+	int GetEntrySize() const
+	{
+		return static_cast<int>(Entry.size());
+	}
+
+	bool AllFaint() const
+	{
+		for (const UPokemon* Pokemon : Entry)
+		{
+			if (Pokemon->GetStatusId() != EPokemonStatus::Faint)
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+
 protected:
 
 private:

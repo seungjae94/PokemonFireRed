@@ -321,6 +321,21 @@
     <ClInclude Include="BattleUtil.h">
       <Filter>3. Util</Filter>
     </ClInclude>
+    <ClInclude Include="BattleEndStateMachine.h">
+      <Filter>2. Level\8. BattleLevel\StateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="BattleActionStateMachine.h">
+      <Filter>2. Level\8. BattleLevel\StateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="BattleEOTstateMachine.h">
+      <Filter>2. Level\8. BattleLevel\StateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="BattleMoveStateMachine.h">
+      <Filter>2. Level\8. BattleLevel\StateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveEffectApplier.h">
+      <Filter>2. Level\8. BattleLevel\Calculator</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PokemonCore.cpp">
@@ -532,6 +547,21 @@
     </ClCompile>
     <ClCompile Include="BattleUtil.cpp">
       <Filter>3. Util</Filter>
+    </ClCompile>
+    <ClCompile Include="BattleEndStateMachine.cpp">
+      <Filter>2. Level\8. BattleLevel\StateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="BattleActionStateMachine.cpp">
+      <Filter>2. Level\8. BattleLevel\StateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="BattleEOTstateMachine.cpp">
+      <Filter>2. Level\8. BattleLevel\StateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="BattleMoveStateMachine.cpp">
+      <Filter>2. Level\8. BattleLevel\StateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveEffectApplier.cpp">
+      <Filter>2. Level\8. BattleLevel\Calculator</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

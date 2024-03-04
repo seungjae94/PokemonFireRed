@@ -5,6 +5,8 @@
 #include "BattleStartStateMachine.h"
 #include "BattlePlayerActionSelectStateMachine.h"
 #include "BattleTurnStateMachine.h"
+#include "BattleActionStateMachine.h"
+#include "BattleEOTstateMachine.h"
 #include "Battler.h"
 
 class UBattleLevel : public UPokemonLevel
@@ -29,21 +31,23 @@ private:
 
 	// 렌더링, 로직 처리 객체
 	ABattleCanvas* Canvas = nullptr;
-	ABattleStartStateMachine* BSSM = nullptr;
-	ABattlePlayerActionSelectStateMachine* PASM = nullptr;
-	ABattleTurnStateMachine* BTSM = nullptr;
+	ABattleStartStateMachine* BattleStartSM = nullptr;
+	ABattlePlayerActionSelectStateMachine* PlayerActionSelectSM = nullptr;
+	ABattleTurnStateMachine* BattleTurnSM = nullptr;
+	ABattleActionStateMachine* BattleActionSM = nullptr;		// BattleTurnSM이 내부적으로 사용하는 SM
+	ABattleEOTStateMachine* BattleEOTSM = nullptr;				// BattleTurnSM이 내부적으로 사용하는 SM
+	ABattleMoveStateMachine* BattleMoveSM = nullptr;			// BattleActionSM이 내부적으로 사용하는 SM
 
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 	void LevelStart(ULevel* _PrevLevel) override;
 	void LevelEnd(ULevel* _NextLevel) override;
 
-	void ProcessBattleStart(float _DeltaTime);
-	void ProcessPlayerAction(float _DeltaTime);
-	void ProcessTurn(float _DeltaTime);
-	void ProcessBattleWin(float _DeltaTime);
-	void ProcessBattleLose(float _DeltaTime);
-	void ProcessRun(float _DeltaTime);
+	void ProcessBattleStart();
+	void ProcessPlayerAction();
+	void ProcessTurn();
+	void ProcessBattleEnd();
+	void ProcessRun();
 
 	// FSM
 	EBattleState State = EBattleState::BattleStart;

@@ -37,5 +37,9 @@ protected:
 
 private:
 	static FMoveEffectTestResult Test(const UBattler* _Attacker, const UBattler* _Target, EStatStageChangeType _StatStageId,  int _StatStageValue, EPokemonStatus _StatusId, int _SuccessRate, EMoveEffectTarget _TargetType);
+	static std::wstring GenerateStatStageFailMessage(const UBattler* _Target, EStatStageChangeType _StatStageId, int _StatStageValue);
+	static std::wstring GenerateStatStageSuccessMessage(const UBattler* _Target, EStatStageChangeType _StatStageId, int _StatStageValue);
+	static std::wstring GenerateStatusSuccessMessage(const UBattler* _Target, EPokemonStatus _StatusId);
+	static std::wstring GenerateStatusFailMessage(const UBattler* _Attacker);
 };
 
