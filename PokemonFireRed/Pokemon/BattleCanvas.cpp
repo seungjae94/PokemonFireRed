@@ -34,11 +34,17 @@ void ABattleCanvas::Init(const UBattler* _Player, const UBattler* _Enemy)
 	PlayerPokemonImage->SetRelativePosition(PlayerPokemonImageHidePos);
 	PlayerPokemonImage->SetScaleFactor(0.0f);
 
+	// 적군 포켓몬 위치 초기화
+	EnemyPokemonImage->SetActive(true);
+	EnemyPokemonImage->SetRelativePosition(EnemyPokemonImageInitPos);
+
 	// 적 UI는 왼쪽에 숨겨두기
 	EnemyGround->SetRelativePosition(EnemyGroundHidePos);
+	EnemyPokemonBox->SetActive(true);
 	EnemyPokemonBox->SetRelativePosition(EnemyPokemonBoxHidePos);
 
 	// 아군 UI는 오른쪽에 숨겨두기
+	PlayerPokemonBox->SetActive(true);
 	PlayerPokemonBox->SetRelativePosition(PlayerPokemonBoxHidePos);
 	PlayerGround->SetRelativePosition(PlayerGroundHidePos);
 	PlayerBattler->SetRelativePosition(PlayerBattlerInitPos);
