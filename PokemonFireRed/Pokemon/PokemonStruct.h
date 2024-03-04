@@ -167,6 +167,17 @@ public:
 	EPokemonStatus Id = EPokemonStatus::None;
 	std::string Name;
 	std::string ImageName;
+
+	bool IsTempStatus() const
+	{
+		if (Id == EPokemonStatus::TempSeeded
+			|| Id == EPokemonStatus::TempBound)
+		{
+			return true;
+		}
+
+		return false;
+	}
 };
 
 enum class EPokemonType

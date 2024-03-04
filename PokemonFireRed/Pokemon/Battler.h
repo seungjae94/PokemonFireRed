@@ -42,6 +42,12 @@ public:
 		IsWildPokemonValue = false;
 	}
 
+	void PrepareShift()
+	{
+		StatStage.Reset();
+		ExpGainPokemons.clear();
+	}
+
 	void SetPlayer();
 
 	void SetWildPokemon();
@@ -92,6 +98,23 @@ public:
 		return RunResult;
 	}
 
+	const FPokemonStatus* CurStatus() const
+	{
+		const UPokemon* Pokemon = CurPokemonReadonly();
+		EPokemonStatus StatusId = Pokemon->GetStatusId();
+		return UPokemonDB::FindStatus(StatusId);
+	}
+
+	const FPokemonStatus* CurTempStatus() const
+	{
+		return UPokemonDB::FindStatus(TempStatus);
+	}
+
+	void SetTempStatus(EPokemonStatus _TempStatus)
+	{
+		TempStatus = _TempStatus;
+	}
+
 protected:
 
 private:
@@ -102,5 +125,8 @@ private:
 	bool IsPlayerValue = false;
 	bool IsWildPokemonValue = false;
 	bool RunResult = false;
+
+	EPokemonStatus TempStatus = EPokemonStatus::None;
+	std::list<UPokemon*> ExpGainPokemons;
 };
 

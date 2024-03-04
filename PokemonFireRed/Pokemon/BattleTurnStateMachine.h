@@ -7,6 +7,7 @@
 
 class UBattleLevel;
 class ABattleCanvas;
+struct FMoveEffectTestResult;
  
 class ABattleTurnStateMachine : public AActor
 {
@@ -27,7 +28,7 @@ private:
 		End,
 	};
 
-	enum class EMoveResultMsg
+	enum class EMoveDamageState
 	{
 		None,
 		Critical,
@@ -89,7 +90,7 @@ private:
 	bool IsPlayerFirst = true;
 	UBattler* Attacker = nullptr;
 	UBattler* Defender = nullptr;
-	EMoveResultMsg MoveResultMsg = EMoveResultMsg::None;
+	EMoveDamageState MoveResultMsg = EMoveDamageState::None;
 
 	// SubState
 	EMoveEffectState MoveEffectState = EMoveEffectState::None;
@@ -125,8 +126,13 @@ private:
 	void SetPlayerAsAttacker();
 	void SetEnemyAsAttacker();
 	void ChangeStatStage(EMoveEffectTarget _METarget, EStatStageChangeType _MEStatStageId, int _MEStatStageValue);
-	void ChangeStatus();
-	std::wstring GetStatStageMessageSuffix(int _Value);
-	void TrySecondaryEffect();
+	void ChangeStatus(EMoveEffectTarget _METarget, EPokemonStatus _MEStatus);
+
+	// 상태 변화 함수
+	void StateChangeToMoveAnim();
+	void StateChangeToMoveDamage();
+	void StateChangeToMoveBattleEffect();
+	void StateChangeToMoveSecondaryEffect();
+	void StateChangeToMoveFail(std::wstring _FailMessage);
 };
 

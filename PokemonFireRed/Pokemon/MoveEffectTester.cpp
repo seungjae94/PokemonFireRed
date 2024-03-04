@@ -1,0 +1,155 @@
+#include "MoveEffectTester.h"
+#include "BattleUtil.h"
+
+UMoveEffectTester::UMoveEffectTester()
+{
+}
+
+UMoveEffectTester::~UMoveEffectTester()
+{
+}
+
+FMoveEffectTestResult UMoveEffectTester::TestBE(const UBattler* _Attacker, const UBattler* _Defender)
+{
+	const FPokemonMove* Move = _Attacker->CurMove();
+
+	const UBattler* Target = nullptr;
+	if (Move->BETarget == EMoveEffectTarget::Self)
+	{
+		Target = _Attacker;
+	}
+	else
+	{
+		Target = _Defender;
+	}
+
+	EStatStageChangeType StatStageId = Move->BEStatStageId;
+	int StatStageValue = Move->BEStatStageValue;
+	EPokemonStatus StatusId = Move->BEStatusId;
+	int SuccessRate = Move->Accuracy;
+	return Test(_Attacker, Target, StatStageId, StatStageValue, StatusId, SuccessRate, Move->BETarget);
+}
+
+FMoveEffectTestResult UMoveEffectTester::TestSE(const UBattler* _Attacker, const UBattler* _Defender)
+{
+	const FPokemonMove* Move = _Attacker->CurMove();
+
+	const UBattler* Target = nullptr;
+	if (Move->SETarget == EMoveEffectTarget::Self)
+	{
+		Target = _Attacker;
+	}
+	else
+	{
+		Target = _Defender;
+	}
+
+	EStatStageChangeType StatStageId = Move->SEStatStageId;
+	int StatStageValue = Move->SEStatStageValue;
+	EPokemonStatus StatusId = Move->SEStatusId;
+	int SuccessRate = Move->SERate;
+	return Test(_Attacker, Target, StatStageId, StatStageValue, StatusId, SuccessRate, Move->SETarget);
+}
+
+FMoveEffectTestResult UMoveEffectTester::Test(const UBattler* _Attacker, const UBattler* _Target, EStatStageChangeType _StatStageId, int _StatStageValue, EPokemonStatus _StatusId, int _SuccessRate, EMoveEffectTarget _TargetType)
+{
+	FMoveEffectTestResult Result;
+
+	// 스탯 증감 성공 여부 확인
+	if (_StatStageId != EStatStageChangeType::None)
+	{
+		const UStatStage& TargetStatStage = _Target->StatStage;
+
+		int PrevStatStage = 0;
+		switch (_StatStageId)
+		{
+		case EStatStageChangeType::Atk:
+			PrevStatStage = TargetStatStage.GetAtk();
+			break;
+		case EStatStageChangeType::Def:
+			PrevStatStage = TargetStatStage.GetDef();
+			break;
+		case EStatStageChangeType::SpAtk:
+			PrevStatStage = TargetStatStage.GetSpAtk();
+			break;
+		case EStatStageChangeType::SpDef:
+			PrevStatStage = TargetStatStage.GetSpDef();
+			break;
+		case EStatStageChangeType::Speed:
+			PrevStatStage = TargetStatStage.GetSpeed();
+			break;
+		case EStatStageChangeType::Accuracy:
+			PrevStatStage = TargetStatStage.GetAccuracy();
+			break;
+		case EStatStageChangeType::Evasion:
+			PrevStatStage = TargetStatStage.GetEvasion();
+			break;
+		default:
+			break;
+		}
+
+		int NextStatStage = UPokemonMath::Cap(PrevStatStage + _StatStageValue, -6, 6);
+
+		// 이미 스탯이 6이거나 -6일 경우 실패
+		if (NextStatStage == PrevStatStage)
+		{
+			Result.Success = false;
+			Result.Reason = EMoveEffectTestFailureReason::StatStageCap;
+
+			Result.Message = L"";
+			Result.Message = UBattleUtil::GetPokemonFullName(_Target);
+			Result.Message += L" " + UBattleUtil::GetStatStageNameW(_StatStageId);
+
+			if (_StatStageValue > 0)
+			{
+				Result.Message += L"\nwon't go lower!";
+			}
+			else
+			{
+				Result.Message += L"\nwon't go higher!";
+			}
+
+			return Result;
+		}
+	}
+
+	// 상태를 적용 체크
+	if (_StatusId != EPokemonStatus::None)
+	{
+		const FPokemonStatus* MoveStatus = UPokemonDB::FindStatus(_StatusId);
+		const FPokemonStatus* TargetStatus = _Target->CurStatus();
+		const FPokemonStatus* TargetTempStatus = _Target->CurTempStatus();
+
+		bool IsMoveApplyTempStatus = MoveStatus->IsTempStatus();
+		// TempStatus를 적용하려고 하는데 이미 TempStatus가 있다면 실패
+		if (true == IsMoveApplyTempStatus && TargetTempStatus->Id == EPokemonStatus::None)
+		{
+			Result.Success = false;
+			Result.Reason = EMoveEffectTestFailureReason::StatusOverlap;
+			Result.Message = UBattleUtil::GetPokemonFullName(_Attacker) + L"'s\nattack failed!";
+			return Result;
+		}
+		// Status를 적용하려고 하는데 이미 Status가 있다면 실패
+		else if (false == IsMoveApplyTempStatus && TargetStatus->Id == EPokemonStatus::None)
+		{
+			Result.Success = false;
+			Result.Reason = EMoveEffectTestFailureReason::StatusOverlap;
+			Result.Message = UBattleUtil::GetPokemonFullName(_Attacker) + L"'s\nattack failed!";
+			return Result;
+		}
+	}
+
+	// 난수 테스트 성공
+	int RandomNumber = UPokemonMath::RandomInt(0, 99);
+	if (RandomNumber < _SuccessRate)
+	{
+		Result.Success = true;
+		return Result;
+	}
+
+	// 난수 테스트 실패
+	Result.Success = false;
+	Result.Reason = EMoveEffectTestFailureReason::RandomTest;
+	Result.Message = UBattleUtil::GetPokemonFullName(_Attacker) + L"'s\nattack failed!";
+	return Result;
+}

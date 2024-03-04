@@ -315,6 +315,12 @@
     <ClInclude Include="Battler.h">
       <Filter>2. Level\8. BattleLevel</Filter>
     </ClInclude>
+    <ClInclude Include="MoveEffectTester.h">
+      <Filter>2. Level\8. BattleLevel\Calculator</Filter>
+    </ClInclude>
+    <ClInclude Include="BattleUtil.h">
+      <Filter>3. Util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PokemonCore.cpp">
@@ -520,6 +526,12 @@
     </ClCompile>
     <ClCompile Include="Battler.cpp">
       <Filter>2. Level\8. BattleLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveEffectTester.cpp">
+      <Filter>2. Level\8. BattleLevel\Calculator</Filter>
+    </ClCompile>
+    <ClCompile Include="BattleUtil.cpp">
+      <Filter>3. Util</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

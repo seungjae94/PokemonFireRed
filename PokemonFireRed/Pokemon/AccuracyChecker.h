@@ -1,6 +1,4 @@
 #pragma once
-#include "Pokemon.h"
-#include "StatStage.h"
 #include "Battler.h"
 
 class UAccuracyChecker
