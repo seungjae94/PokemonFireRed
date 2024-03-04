@@ -20,6 +20,7 @@ private:
 		MoveFail,
 		MoveAnim,
 		MoveDamage,
+		MoveBattleEffect,
 		MoveSecondaryEffect,
 		Faint,
 		EndOfTurn,
@@ -33,11 +34,11 @@ private:
 		TypeEffect,
 	};
 
-	enum class ESecondaryEffectState
+	enum class EMoveEffectState
 	{
 		None,
-		StatStageEffect,
-		ShowSEMessage,
+		ShowMoveEffect,
+		ShowEffectResultMessage,
 	};
 public:
 	// constructor destructor
@@ -70,7 +71,7 @@ private:
 	// 상수
 	const float BattleMsgShowTime = 2.0f;
 	const float DamageTime = 2.0f;
-	const float SEEffectShowTime = 2.0f;
+	const float MoveEffectShowTime = 2.0f;
 
 	// 고유 데이터
 	ESubstate State = ESubstate::None;
@@ -82,13 +83,13 @@ private:
 	EMoveResultMsg MoveResultMsg = EMoveResultMsg::None;
 
 	// SubState
-	ESecondaryEffectState SEState = ESecondaryEffectState::None;
+	EMoveEffectState MoveEffectState = EMoveEffectState::None;
 	
 	// Temporal Data
 	FDamageResult Result;
 	int PrevHp = 0;
 	int NextHp = 0;
-	std::wstring SEMessage;
+	std::wstring MoveEffectMessage;
 
 	// 로직
 	void Tick(float _DeltaTime) override;
@@ -105,6 +106,7 @@ private:
 	void ProcessMoveFail(float _DeltaTime);
 	void ProcessMoveAnim(float _DeltaTime);
 	void ProcessMoveDamage(float _DeltaTime);
+	void ProcessMoveBattleEffect(float _DeltaTime);
 	void ProcessMoveSecondaryEffect(float _DeltaTime);
 	void ProcessFaint(float _DeltaTime);
 	void ProcessEndOfTurn(float _DeltaTime);
@@ -112,7 +114,7 @@ private:
 	// 유틸 함수
 	void SetPlayerAsAttacker();
 	void SetEnemyAsAttacker();
-	void ChangeStatStage();
+	void ChangeStatStage(EMoveEffectTarget _METarget, EStatStageChangeType _MEStatStageId, int _MEStatStageValue);
 	void ChangeStatus();
 	std::wstring GetStatStageMessageSuffix(int _Value);
 };
