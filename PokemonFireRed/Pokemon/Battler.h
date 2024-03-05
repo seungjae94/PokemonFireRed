@@ -102,17 +102,38 @@ public:
 	{
 		const UPokemon* Pokemon = CurPokemonReadonly();
 		EPokemonStatus StatusId = Pokemon->GetStatusId();
+
+		if (StatusId == EPokemonStatus::None)
+		{
+			return nullptr;
+		}
+
 		return UPokemonDB::FindStatus(StatusId);
+	}
+
+	EPokemonStatus CurStatusId() const
+	{
+		return CurPokemonReadonly()->GetStatusId();
 	}
 
 	const FPokemonStatus* CurTempStatus() const
 	{
-		return UPokemonDB::FindStatus(TempStatus);
+		if (TempStatusId == EPokemonStatus::None)
+		{
+			return nullptr;
+		}
+
+		return UPokemonDB::FindStatus(TempStatusId);
+	}
+
+	EPokemonStatus CurTempStatusId() const
+	{
+		return TempStatusId;
 	}
 
 	void SetTempStatus(EPokemonStatus _TempStatus)
 	{
-		TempStatus = _TempStatus;
+		TempStatusId = _TempStatus;
 	}
 
 	int GetEntrySize() const
@@ -153,7 +174,7 @@ private:
 	bool IsWildPokemonValue = false;
 	bool RunResult = false;
 
-	EPokemonStatus TempStatus = EPokemonStatus::None;
+	EPokemonStatus TempStatusId = EPokemonStatus::None;
 	std::list<UPokemon*> Participants;
 };
 
