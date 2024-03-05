@@ -72,6 +72,9 @@ public:
 	void ShowStatUpBox(const FLevelUpData& _LevelUpData);
 	void ShowStatAfterBox(const UPokemon* _Pokemon);
 	void HideStatUpWindow();
+	void RefreshEnemyPokemonBox();
+	void RefreshPlayerPokemonBox();
+	void RefreshMoveSelectBox();
 protected:
 
 private:
@@ -81,9 +84,6 @@ private:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
-	void RefreshEnemyPokemonBox();
-	void RefreshPlayerPokemonBox();
-	void RefreshMoveSelectBox();
 
 	// 렌더링 데이터
 	FVector EnemyPokemonBoxInitPos;

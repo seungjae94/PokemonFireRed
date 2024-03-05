@@ -149,9 +149,8 @@ void ABattleExpGainStateMachine::ProcessLevelUpEffect()
 		// 실제 레벨업 처리
 		LevelUpData = ExpGainer->LevelUp();
 
-		// 경험치 바 초기화
-		int ExpSize = ExpGainer->GetExpSize();
-		Canvas->LerpExpBar(0, ExpSize, ExpSize, 0.0f);
+		// 변경 사항 플레이어 UI에 반영
+		Canvas->RefreshPlayerPokemonBox();
 	}
 }
 
