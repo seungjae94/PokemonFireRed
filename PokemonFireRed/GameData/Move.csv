@@ -10,7 +10,7 @@ ID,Name,Explain,Type,PP,BasePower,Accuracy,Contact,BETarget,BEStatStageId,BEStat
 9,TACKLE,"A physical attack\nin which the user\ncharges, full body,\ninto the foe.",Normal,35,35,95,Yes,None,,,,None,,,,
 10,TAIL WHIP,"The user wags its\ntail cutely, making\nthe foe lower its\nDEFENSE stat.",Normal,30,0,100,No,Enemy,Def,-1,,None,,,,
 11,STRING SHOT,The foe is bound\nwith strings shot\nfrom the mouth to\nreduce its SPEED.,Bug,40,0,95,No,Enemy,Speed,-1,,None,,,,
-12,POISON STING,"The foe is stabbed\nwith a toxic\nbarb, etc. It\nmay poison the foe.",Poison,35,15,100,No,None,,,,Enemy,70,,,Poisoned
+12,POISON STING,"The foe is stabbed\nwith a toxic\nbarb, etc. It\nmay poison the foe.",Poison,35,15,100,No,None,,,,Enemy,70,,,StatusPoison
 13,PECK,The foe is jabbed\nwith a sharply\npointed beak or horn.,Flying,35,35,100,Yes,None,,,,None,,,,
 14,LEER,The foe is given\nan intimidating look\nthat lowers its\nDEFENSE stat.,Normal,30,0,100,No,Enemy,Def,-1,,None,,,,
 15,LOW KICK,"A low, tripping kick\nthat inflicts more\ndamage on heavier\nfoes.",Fighting,20,0,100,Yes,None,,,,None,,,,
