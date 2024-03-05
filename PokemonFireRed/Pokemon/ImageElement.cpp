@@ -20,6 +20,7 @@ void AImageElement::SetImage(std::string_view _ImageName)
 	}
 
 	Renderer->SetImage(_ImageName);
+	//Renderer->SetOrder(RenderingOrder);
 	UPokemonUtil::AlignImage(Renderer, PivotType);
 	OriginalRenderScale = UPokemonUtil::GetRenderScale(Renderer);
 }

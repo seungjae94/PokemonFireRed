@@ -317,7 +317,7 @@ void ABattleCanvas::BeginPlay()
 	ThrowedBall->SetImage(Global::ThrowedBall);
 	ThrowedBall->CreateAnimation(Global::ThrowedBall, 0, 41, 1.0f / 60, false);
 
-	StatBox = CreateImageElement(this, ERenderingOrder::UI6, EPivotType::RightBot, -1, -1);
+	StatBox = CreateImageElement(this, ERenderingOrder::UI7, EPivotType::RightBot, -1, -1);
 	StatBox->SetImage(RN::BattleStatUpBox);
 
 	// MsgBox ¿ä¼Ò

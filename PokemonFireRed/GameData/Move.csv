@@ -1,5 +1,5 @@
 ID,Name,Explain,Type,PP,BasePower,Accuracy,Contact,BETarget,BEStatStageId,BEStatStageValue,BEStatus,SETarget,SERate,SEStatStageId,SEStatStageValue,SEStatus
-1,BUBBLE,A spray of bubbles\nhits the foe. It\nmay lower the\nfoe¡¯s SPEED stat.,Water,30,200,100,No,None,,,,Enemy,10,Speed,-1,Normal
+1,BUBBLE,A spray of bubbles\nhits the foe. It\nmay lower the\nfoe¡¯s SPEED stat.,Water,30,20,100,No,None,,,,Enemy,10,Speed,-1,Normal
 2,EMBER,The foe is attacked\nwith small flames.\nThe foe may suffer\na burn.,Fire,25,40,100,No,None,,,,Enemy,10,,,Burn
 3,GROWL,"The user growls in\na cute way, making\nthe foe lower its\nATTACK stat.",Normal,40,0,100,No,Enemy,Atk,-1,,None,,,,
 4,GUST,Strikes the foe\nwith a gust of\nwind whipped\nup by wings.,Flying,35,40,100,No,None,,,,None,,,,
