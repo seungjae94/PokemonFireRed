@@ -55,6 +55,15 @@ void ABattleCanvas::RefreshEnemyPokemonBox()
 {
 	const UPokemon* EnemyPokemon = Enemy->CurPokemonReadonly();
 
+	if (EnemyPokemon->GetStatusId() == EPokemonStatus::Normal)
+	{
+		EnemyPokemonBox->SetImage(RN::BattleEnemyPokemonBox);
+	}
+	else
+	{
+		EnemyPokemonBox->SetImage(RN::BattleEnemyPokemonSimpleBox);
+	}
+
 	EnemyPokemonNameText->SetText(EnemyPokemon->GetNameW());
 	EnemyPokemonLevelText->SetText(L"зд" + EnemyPokemon->GetLevelW());
 	EnemyPokemonHpBar->SetMaxValue(HpBarMaxValue);
@@ -63,7 +72,6 @@ void ABattleCanvas::RefreshEnemyPokemonBox()
 	int EPNTPixelWidth = EnemyPokemonNameText->GetPixelLineWidth();
 	EnemyPokemonGenderMark->SetRelativePosition(UPokemonUtil::PixelVector(7 + EPNTPixelWidth, 5));
 	EnemyPokemonGenderMark->SetImage(EnemyPokemon->GetGenderImageName());
-
 	EnemyPokemonStatusMark->SetImage(EnemyPokemon->GetStatusImageName());
 
 	EnemyPokemonImage->SetPokemon(EnemyPokemon);
@@ -86,7 +94,6 @@ void ABattleCanvas::RefreshPlayerPokemonBox()
 	int PPNTPixelWidth = PlayerPokemonNameText->GetPixelLineWidth();
 	PlayerPokemonGenderMark->SetRelativePosition(UPokemonUtil::PixelVector(19 + PPNTPixelWidth, 5));
 	PlayerPokemonGenderMark->SetImage(PlayerPokemon->GetGenderImageName());
-
 	PlayerPokemonStatusMark->SetImage(PlayerPokemon->GetStatusImageName());
 
 	PlayerBattler->ChangeAnimation(Global::PlayerBattlerIdle);
