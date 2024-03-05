@@ -6,7 +6,7 @@
 #include "BattlePlayerActionSelectStateMachine.h"
 #include "BattleTurnStateMachine.h"
 #include "BattleActionStateMachine.h"
-#include "BattleEOTstateMachine.h"
+#include "BattleEOTStateMachine.h"
 #include "BattleExpGainStateMachine.h"
 #include "Battler.h"
 

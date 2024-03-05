@@ -327,7 +327,7 @@
     <ClInclude Include="BattleActionStateMachine.h">
       <Filter>2. Level\8. BattleLevel\StateMachine</Filter>
     </ClInclude>
-    <ClInclude Include="BattleEOTstateMachine.h">
+    <ClInclude Include="BattleEOTStateMachine.h">
       <Filter>2. Level\8. BattleLevel\StateMachine</Filter>
     </ClInclude>
     <ClInclude Include="BattleMoveStateMachine.h">
@@ -560,7 +560,7 @@
     <ClCompile Include="BattleActionStateMachine.cpp">
       <Filter>2. Level\8. BattleLevel\StateMachine</Filter>
     </ClCompile>
-    <ClCompile Include="BattleEOTstateMachine.cpp">
+    <ClCompile Include="BattleEOTStateMachine.cpp">
       <Filter>2. Level\8. BattleLevel\StateMachine</Filter>
     </ClCompile>
     <ClCompile Include="BattleMoveStateMachine.cpp">

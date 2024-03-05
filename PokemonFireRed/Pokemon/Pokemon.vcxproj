@@ -196,7 +196,7 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="BattleEnums.h" />
-    <ClInclude Include="BattleEOTstateMachine.h">
+    <ClInclude Include="BattleEOTStateMachine.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -511,7 +511,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="BattleEOTstateMachine.cpp">
+    <ClCompile Include="BattleEOTStateMachine.cpp">
       <SubType>
       </SubType>
     </ClCompile>

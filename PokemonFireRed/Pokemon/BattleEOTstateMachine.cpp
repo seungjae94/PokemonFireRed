@@ -1,4 +1,4 @@
-#include "BattleEOTstateMachine.h"
+#include "BattleEOTStateMachine.h"
 #include "BattleUtil.h"
 
 ABattleEOTStateMachine::ABattleEOTStateMachine()
@@ -198,18 +198,31 @@ void ABattleEOTStateMachine::ProcessTestStatus()
 		return;
 	}
 
-
-	// 상태가 없는 경우
+	// 상태가 없는 경우 종료
 	if (Target->CurStatusId() == EPokemonStatus::None)
 	{
 		State = ESubstate::End;
 	}
-	// 상태가 있는 경우
+	// 상태가 있는 경우 진행
 	else
 	{
 		State = ESubstate::StatusMessage;
 		Timer = BattleMsgShowTime;
-		Canvas->SetBattleMessage(L"Status Effect!");
+
+		std::wstring BattleMsg = UBattleUtil::GetPokemonFullName(Target) + L" is hurt\nby ";
+		switch (Target->CurStatusId())
+		{
+		case EPokemonStatus::Burn:
+			BattleMsg += L"its burn!";
+			break;
+		case EPokemonStatus::Poison:
+			BattleMsg += L"poison!";
+			break;
+		default:
+			break;
+		}
+
+		Canvas->SetBattleMessage(BattleMsg);
 	}
 }
 
@@ -233,11 +246,28 @@ void ABattleEOTStateMachine::ProcessStatusAnim()
 
 void ABattleEOTStateMachine::ProcessStatusDamage()
 {
-	// Lerp Hp bar
+	int TargetPrevHp = Target->CurPokemonReadonly()->GetCurHp();
+	int TargetMaxHp = Target->CurPokemonReadonly()->GetHp();
+	int TargetNextHp = UPokemonMath::Max(TargetPrevHp - TargetMaxHp / 8, 0);
+
+	if (true == Target->IsPlayer())
+	{
+		Canvas->LerpPlayerHpInfo(TargetPrevHp, TargetNextHp, TargetMaxHp, Timer / HpBarDecreaseTime);
+	}
+	else
+	{
+		Canvas->LerpEnemyHpInfo(TargetPrevHp, TargetNextHp, TargetMaxHp, Timer / HpBarDecreaseTime);
+	}
 
 	if (Timer <= 0.0f)
 	{
-		// 실제 데미지 처리 (Faint 상태 처리 포함)
+		// 실제 데미지 처리
+		Target->CurPokemon()->SetCurHp(TargetNextHp);
+		Target->DecBindCount();
+		if (TargetNextHp == 0)
+		{
+			Target->CurPokemon()->SetStatus(EPokemonStatus::Faint);
+		}
 
 		// 상태 전환
 		State = ESubstate::End;

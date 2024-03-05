@@ -10,7 +10,7 @@ Squirtle,4,TailWhip
 Squirtle,7,Bubble
 Caterpie,0,Tackle
 Caterpie,0,StringShot
-Weedle,0,PoisonString
+Weedle,0,Poison Sting
 Weedle,0,StringShot
 Pidgey,0,Tackle
 Pidgey,5,SandAttack
@@ -35,3 +35,4 @@ Diglett,5,Growl
 Onix,0,Tackle
 Onix,8,Bind
 Onix,12,RockThrow
+Pidgey,1,PoisonSting
