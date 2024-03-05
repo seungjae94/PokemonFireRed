@@ -168,11 +168,13 @@ void UBattleLevel::ProcessTurn()
 			Canvas->SetBattleMessage(L"What will\n" + Player.CurPokemon()->GetNameW() + L" do?");
 			PlayerActionSelectSM->Start(Canvas, &Player, &Enemy);
 		}
+		else if (BattleTurnSM->WhyEnd() == ABattleTurnStateMachine::EEndReason::WinToWild)
+		{
+			State = EBattleState::BattleEnd;
+		}
 		else
 		{
 			State = EBattleState::BattleEnd;
-			Canvas->SetBattleMessage(L"You win!");
-			//BESM->Start(Canvas, EndReason);
 		}
 	}
 }
