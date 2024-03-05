@@ -33,12 +33,13 @@ FLevelUpData UPokemon::LevelUp()
 
 	int PrevHp = GetHp();
 	int PrevAtk = GetAtk();
-	int PrevDef = GetAtk();
-	int PrevSpAtk = GetAtk();
-	int PrevSpDef = GetAtk();
-	int PrevSpeed = GetAtk();
+	int PrevDef = GetDef();
+	int PrevSpAtk = GetSpAtk();
+	int PrevSpDef = GetSpDef();
+	int PrevSpeed = GetSpeed();
 
 	++Level;
+	AccExp = UExpCalculator::GetNeedAccExp(this, Level);
 	
 	Data.UpHp = GetHp() - PrevHp;
 	Data.UpAtk = GetAtk() - PrevAtk;
@@ -180,6 +181,7 @@ void UPokemon::LearnMove(EPokemonMove _MoveId)
 
 	const FPokemonMove* Move = UPokemonDB::FindMove(_MoveId);
 	Moves.push_back(Move);
+	MoveCurPPs.push_back(Move->PP);
 }
 
 void UPokemon::Heal(int _Value)

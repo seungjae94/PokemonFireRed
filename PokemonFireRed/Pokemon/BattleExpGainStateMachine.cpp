@@ -202,6 +202,7 @@ void ABattleExpGainStateMachine::ProcessTestLearnMove()
 			std::wstring BattleMsg = ExpGainer->GetNameW();
 			BattleMsg += L" learned\n";
 			BattleMsg += Move->GetNameW();
+			BattleMsg += L"!";
 			Canvas->SetBattleMessage(BattleMsg);
 		}
 	}
