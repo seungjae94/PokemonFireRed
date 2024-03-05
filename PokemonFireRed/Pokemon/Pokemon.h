@@ -184,6 +184,11 @@ public:
 	std::wstring GetMoveAccuracyW(int _Index) const;
 	std::wstring GetMoveExplainW(int _Index) const;
 
+	int GetYieldExp() const
+	{
+		return Species->YExp;
+	}
+
 	void Heal(int _Value);
 
 	void HealAll()

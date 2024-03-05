@@ -88,6 +88,10 @@ void UBattleLevel::LevelStart(ULevel* _PrevLevel)
 	Player.SetPlayer();
 	Enemy.Clear();
 	Enemy.SetWildPokemon();	// 일단 야생 포켓몬과의 전투만 구현
+	
+	Player.GetParticipants().push_back(Enemy.CurPokemon());
+	Enemy.GetParticipants().push_back(Player.CurPokemon());
+	
 	Canvas->Init(&Player, &Enemy);
 
 	// 배틀 레벨 상태 초기화

@@ -1,6 +1,7 @@
 #include "BattleActionStateMachine.h"
 #include <EnginePlatform/EngineInput.h>
 #include "BattleUtil.h"
+#include "ExpGainCalculator.h"
 
 ABattleActionStateMachine::ABattleActionStateMachine()
 {
@@ -72,8 +73,17 @@ void ABattleActionStateMachine::Tick(float _DeltaTime)
 	case ABattleActionStateMachine::ESubstate::Move:
 		ProcessMove();
 		break;
+	case ABattleActionStateMachine::ESubstate::TestFaint:
+		ProcessTestFaint();
+		break;
 	case ABattleActionStateMachine::ESubstate::Faint:
 		ProcessFaint();
+		break;
+	case ABattleActionStateMachine::ESubstate::TestExpGain:
+		ProcessTestExpGain();
+		break;
+	case ABattleActionStateMachine::ESubstate::ExpGain:
+		ProcessExpGain();
 		break;
 	case ABattleActionStateMachine::ESubstate::End:
 		break;
@@ -115,6 +125,7 @@ void ABattleActionStateMachine::ProcessMove()
 		const UPokemon* DefenderPokemon = Defender->CurPokemon();
 
 		Fainters.clear();
+		ExpGainResult.clear();
 		bool AttackerFaint = (AttackerPokemon->GetStatusId() == EPokemonStatus::Faint);
 		bool DefenderFaint = (DefenderPokemon->GetStatusId() == EPokemonStatus::Faint);
 
@@ -128,14 +139,19 @@ void ABattleActionStateMachine::ProcessMove()
 			Fainters.push_back(Defender);
 		}
 
-		if (Fainters.size() > 0)
-		{
-			StateChangeToFaint();
-			return;
-		}
-
-		State = ESubstate::End;
+		State = ESubstate::TestFaint;
 	}
+}
+
+void ABattleActionStateMachine::ProcessTestFaint()
+{
+	if (Fainters.size() > 0)
+	{
+		StateChangeToFaint();
+		return;
+	}
+
+	State = ESubstate::End;
 }
 
 void ABattleActionStateMachine::ProcessFaint()
@@ -162,16 +178,45 @@ void ABattleActionStateMachine::ProcessFaint()
 			Canvas->SetBattleMessage(UBattleUtil::GetPokemonFullName(Fainter) + L"\nfainted!");
 		}
 	}
+	else if (FaintState == EFaintState::ShowFaintMessage)
+	{
+		if (true == UEngineInput::IsDown('Z'))
+		{
+			// 플레이어 포켓몬이 쓰러진 경우 경험치 획득 X
+			if (true == Fainter->IsPlayer())
+			{
+				State = ESubstate::TestFaint;
+			}
+			// 적 포켓몬이 쓰러진 경우 경험치 획득 O
+			else
+			{
+				ExpGainResult = UExpGainCalculator::CalcExpGain(Fainter);
+				State = ESubstate::TestExpGain;
+			}
+		}
+	}
 	else if (true == UEngineInput::IsDown('Z'))
 	{
-		if (true == Fainters.empty())
-		{
-			State = ESubstate::End;
-		}
-		else
-		{
-			StateChangeToFaint();
-		}
+		State = ESubstate::TestFaint;
+	}
+}
+
+void ABattleActionStateMachine::ProcessTestExpGain()
+{
+	if (ExpGainResult.size() > 0)
+	{
+		StateChangeToExpGain();
+		return;
+	}
+
+	State = ESubstate::TestFaint;
+}
+
+void ABattleActionStateMachine::ProcessExpGain()
+{
+	if (true == UEngineInput::IsDown('Z'))
+	{
+		State = ESubstate::TestFaint;
 	}
 }
 
@@ -182,4 +227,17 @@ void ABattleActionStateMachine::StateChangeToFaint()
 	Timer = FaintTime;
 	Fainter = Fainters.front();
 	Fainters.pop_front();
+}
+
+void ABattleActionStateMachine::StateChangeToExpGain()
+{
+	State = ESubstate::ExpGain;
+	ExpGainState = EExpGainState::ExpGainMessage;
+
+	const UPokemon* ExpGainer = ExpGainResult.begin()->first;
+	std::wstring BattleMsg = ExpGainer->GetNameW() + L" gained\n";
+	BattleMsg += std::to_wstring(ExpGainResult.at(ExpGainer));
+	BattleMsg += L" Exp. Points!";
+
+	Canvas->SetBattleMessage(BattleMsg);
 }

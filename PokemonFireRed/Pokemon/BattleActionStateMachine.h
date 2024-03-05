@@ -18,7 +18,10 @@ private:
 		Switch,
 		UseItem,
 		Move,
+		TestFaint,
 		Faint,
+		TestExpGain,
+		ExpGain,
 		End
 	};
 
@@ -36,6 +39,13 @@ private:
 		ShowFaintMessage,
 	};
 
+	enum class EExpGainState
+	{
+		None,
+		ExpGainMessage,
+		LevelUpMessage,
+		LearnMove,
+	};
 
 public:
 	// constructor destructor
@@ -78,14 +88,22 @@ private:
 	std::list<UBattler*> Fainters;
 	const float FaintTime = 0.5f;
 
+	// °æÇèÄ¡ È¹µæ ÀÌÆåÆ®
+	EExpGainState ExpGainState = EExpGainState::None;
+	std::map<const UPokemon*, int> ExpGainResult;
+
 	// »óÅÂ Æ½ ÇÔ¼ö
 	void ProcessEscapeFail();
 	void ProcessSwitch();
 	void ProcessItem();
 	void ProcessMove();
+	void ProcessTestFaint();
 	void ProcessFaint();
+	void ProcessTestExpGain();
+	void ProcessExpGain();
 
 	void StateChangeToFaint();
+	void StateChangeToExpGain();
 
 	// SM
 	ABattleMoveStateMachine* BattleMoveSM = nullptr;

@@ -45,7 +45,7 @@ public:
 	void PrepareShift()
 	{
 		StatStage.Reset();
-		ExpGainPokemons.clear();
+		Participants.clear();
 	}
 
 	void SetPlayer();
@@ -132,6 +132,16 @@ public:
 		return true;
 	}
 
+	std::list<UPokemon*>& GetParticipants()
+	{
+		return Participants;
+	}
+
+	const std::list<UPokemon*>& GetParticipantsReadonly() const
+	{
+		return Participants;
+	}
+
 protected:
 
 private:
@@ -144,6 +154,6 @@ private:
 	bool RunResult = false;
 
 	EPokemonStatus TempStatus = EPokemonStatus::None;
-	std::list<UPokemon*> ExpGainPokemons;
+	std::list<UPokemon*> Participants;
 };
 
