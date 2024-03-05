@@ -43,10 +43,12 @@ void UBattleLevel::BeginPlay()
 	BattleActionSM = SpawnActor<ABattleActionStateMachine>();
 	BattleEOTSM = SpawnActor<ABattleEOTStateMachine>();
 	BattleMoveSM = SpawnActor<ABattleMoveStateMachine>();
+	BattleExpGainSM = SpawnActor<ABattleExpGainStateMachine>();
 
 	BattleTurnSM->SetBASM(BattleActionSM);
 	BattleTurnSM->SetEOTSM(BattleEOTSM);
 	BattleActionSM->SetBMSM(BattleMoveSM);
+	BattleActionSM->SetEGSM(BattleExpGainSM);
 }
 
 void UBattleLevel::Tick(float _DeltaTime)

@@ -8,6 +8,18 @@
 #include "Global.h"
 #include "PokemonDB.h"
 
+struct FLevelUpData
+{
+public:
+	int UpHp = 0;
+	int UpAtk = 0;
+	int UpDef = 0;
+	int UpSpAtk = 0;
+	int UpSpDef = 0;
+	int UpSpeed = 0;
+	std::list<EPokemonMove> Moves;
+};
+
 class UPokemon
 {
 public:
@@ -35,6 +47,8 @@ public:
 	{
 		return std::to_wstring(GetLevel());
 	}
+
+	FLevelUpData LevelUp();
 
 	int GetCurHp() const
 	{
@@ -184,6 +198,8 @@ public:
 	std::wstring GetMoveAccuracyW(int _Index) const;
 	std::wstring GetMoveExplainW(int _Index) const;
 
+	void LearnMove(EPokemonMove _MoveId);
+
 	int GetYieldExp() const
 	{
 		return Species->YExp;
@@ -232,7 +248,12 @@ public:
 		return std::to_wstring(GetSpeed());
 	}
 
-	void GainExp(int _Exp);
+	EExperienceGroup GetExpGroup() const
+	{
+		return Species->ExpGroup;
+	}
+
+	void AddAccExp(int _Exp);
 
 	int GetAccExp() const
 	{
@@ -298,9 +319,6 @@ private:
 	int ESpeed = 0;
 
 	// ÇÔ¼ö
-	int GetAccExpForLevel(int _Level) const;
-	int GetErraticAccExpForLevel(int _Level) const;
-	int GetFluctuatingAccExpForLevel(int _Level) const;
 	void InitMoves();
 	void InitRandomIVs();
 	void InitRandomGender();

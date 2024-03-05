@@ -109,11 +109,11 @@ and POKéMON as data via PC.)"
 	UPokemon Pokemon5 = UPokemon(EPokedexNo::Caterpie, 3);
 	Pokemon3.SetCurHp(Pokemon3.GetHp() / 3);
 	Pokemon4.SetCurHp(Pokemon4.GetHp() / 6);
-	Pokemon0.GainExp(30);
-	Pokemon1.GainExp(15);
-	Pokemon2.GainExp(5);
-	Pokemon3.GainExp(3);
-	Pokemon4.GainExp(1);
+	Pokemon0.AddAccExp(30);
+	Pokemon1.AddAccExp(15);
+	Pokemon2.AddAccExp(5);
+	Pokemon3.AddAccExp(3);
+	Pokemon4.AddAccExp(1);
 	UPlayerData::AddPokemonToEntry(Pokemon0);
 	UPlayerData::AddPokemonToEntry(Pokemon1);
 	UPlayerData::AddPokemonToEntry(Pokemon2);

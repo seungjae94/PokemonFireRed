@@ -1,6 +1,7 @@
 #include "Pokemon.h"
-#include "PokemonMath.h"
 #include <random>
+#include "PokemonMath.h"
+#include "ExpCalculator.h"
 
 UPokemon::UPokemon(EPokedexNo _Id, int _Level)
 	: Level(_Level)
@@ -8,7 +9,7 @@ UPokemon::UPokemon(EPokedexNo _Id, int _Level)
 	Species = UPokemonDB::FindSpecies(_Id);
 	Name = UPokemonString::ToUpperW(Species->Name);
 	Level = _Level;
-	AccExp = GetAccExpForLevel(_Level);
+	AccExp = UExpCalculator::GetNeedAccExp(this, _Level);
 	InitMoves();
 	InitRandomIVs();
 	InitRandomGender();
@@ -24,6 +25,36 @@ UPokemon::UPokemon(EPokedexNo _Id, int _Level)
 
 UPokemon::~UPokemon()
 {
+}
+
+FLevelUpData UPokemon::LevelUp()
+{
+	FLevelUpData Data;
+
+	int PrevHp = GetHp();
+	int PrevAtk = GetAtk();
+	int PrevDef = GetAtk();
+	int PrevSpAtk = GetAtk();
+	int PrevSpDef = GetAtk();
+	int PrevSpeed = GetAtk();
+
+	++Level;
+	
+	Data.UpHp = GetHp() - PrevHp;
+	Data.UpAtk = GetAtk() - PrevAtk;
+	Data.UpDef = GetDef() - PrevDef;
+	Data.UpSpAtk = GetSpAtk() - PrevSpAtk;
+	Data.UpSpDef = GetSpDef() - PrevSpDef;
+	Data.UpSpeed = GetSpeed() - PrevSpeed;
+
+	if (true == Species->LevelUpMoves.contains(Level))
+	{
+		Data.Moves = Species->LevelUpMoves.at(Level);
+	}
+
+	CurHp += Data.UpHp;
+
+	return Data;
 }
 
 std::string UPokemon::GetTypeImageName(int _Index) const
@@ -140,6 +171,17 @@ std::wstring UPokemon::GetMoveExplainW(int _Index) const
 	return Moves[_Index]->GetExplainW();
 }
 
+void UPokemon::LearnMove(EPokemonMove _MoveId)
+{
+	if (Moves.size() == 4)
+	{
+		MsgBoxAssert("기술을 4개 배운 상태에서 기술을 추가하려고 했습니다.");
+	}
+
+	const FPokemonMove* Move = UPokemonDB::FindMove(_MoveId);
+	Moves.push_back(Move);
+}
+
 void UPokemon::Heal(int _Value)
 {
 	if (_Value < 0)
@@ -185,7 +227,7 @@ int UPokemon::GetSpeed() const
 	return UPokemonMath::Floor(((2 * Species->BSpeed + ISpeed + ESpeed / 4) * Level / 100 + 5) * Nature->NSpeed);
 }
 
-void UPokemon::GainExp(int _Exp)
+void UPokemon::AddAccExp(int _Exp)
 {
 	if (Level >= 100)
 	{
@@ -193,14 +235,6 @@ void UPokemon::GainExp(int _Exp)
 	}
 
 	AccExp += _Exp;
-
-	if (GetNextLevelExp() <= 0)
-	{
-		int PrevHp = GetHp();
-		++Level;
-		int NextHp = GetHp();
-		CurHp += NextHp - PrevHp;
-	}
 }
 
 int UPokemon::GetExpSize() const
@@ -210,7 +244,7 @@ int UPokemon::GetExpSize() const
 		return 0;
 	}
 
-	return GetAccExpForLevel(Level + 1) - GetAccExpForLevel(Level);
+	return UExpCalculator::GetNeedAccExp(this, Level + 1) - UExpCalculator::GetNeedAccExp(this, Level);
 }
 
 int UPokemon::GetNextLevelExp() const
@@ -220,7 +254,7 @@ int UPokemon::GetNextLevelExp() const
 		return 0;
 	}
 
-	return GetAccExpForLevel(Level + 1) - AccExp;
+	return UExpCalculator::GetNeedAccExp(this, Level + 1) - AccExp;
 }
 
 int UPokemon::GetExp() const
@@ -235,7 +269,7 @@ int UPokemon::GetExp() const
 
 void UPokemon::InitMoves()
 {
-	for (std::pair<const int, std::vector<EPokemonMove>> Pair : Species->LevelUpMoves)
+	for (std::pair<const int, std::list<EPokemonMove>> Pair : Species->LevelUpMoves)
 	{
 		int LearnLevel = Pair.first;
 
@@ -245,7 +279,7 @@ void UPokemon::InitMoves()
 			break;
 		}
 
-		std::vector<EPokemonMove>& MoveIds = Pair.second;
+		std::list<EPokemonMove>& MoveIds = Pair.second;
 
 		for (EPokemonMove MoveId : MoveIds)
 		{
@@ -307,70 +341,4 @@ void UPokemon::InitRandomAbility()
 	int AbilityInt = UPokemonMath::RandomInt(0, AbilitySize - 1);
 	EPokemonAbility AbilityId = Species->AbilityCandidateIds[AbilityInt];
 	Ability = UPokemonDB::FindAbility(AbilityId);
-}
-
-int UPokemon::GetAccExpForLevel(int _Level) const
-{
-	if (_Level == 1)
-	{
-		return 0;
-	}
-
-	double Result = 0;
-
-	switch (Species->ExpGroup)
-	{
-	case EExperienceGroup::Erratic:
-		return GetErraticAccExpForLevel(_Level);
-	case EExperienceGroup::Fast:
-		Result = 0.8 * std::pow(_Level, 3);
-		break;
-	case EExperienceGroup::MediumFast:
-		Result = std::pow(_Level, 3);
-		break;
-	case EExperienceGroup::MediumSlow:
-		Result = 1.2 * std::pow(_Level, 3) - 15.0 * std::pow(_Level, 2) + 100 * _Level - 140;
-		break;
-	case EExperienceGroup::Slow:
-		Result = 1.25 * std::pow(_Level, 3);
-		break;
-	case EExperienceGroup::Fluctuating:
-		return GetFluctuatingAccExpForLevel(_Level);
-	default:
-		break;
-	}
-
-	return std::lround(std::floor(Result));
-}
-
-int UPokemon::GetErraticAccExpForLevel(int _Level) const
-{
-	if (_Level < 50)
-	{
-		return UPokemonMath::Pow(_Level, 3) * (100 - _Level) / 50;
-	}
-	else if (_Level < 68)
-	{
-		return UPokemonMath::Pow(_Level, 3) * (150 - _Level) / 100;
-	}
-	else if (_Level < 98)
-	{
-		return UPokemonMath::Pow(_Level, 3) * ((1911 - 10 * _Level) / 3) / 500;
-	}
-
-	return UPokemonMath::Pow(_Level, 3) * (160 - _Level) / 100;
-}
-
-int UPokemon::GetFluctuatingAccExpForLevel(int _Level) const
-{
-	if (_Level < 15)
-	{
-		return UPokemonMath::Pow(_Level, 3) * ((_Level + 1) / 3 + 24) / 50;
-	}
-	else if (_Level < 36)
-	{
-		return UPokemonMath::Pow(_Level, 3) * (_Level + 14) / 50;
-	}
-
-	return UPokemonMath::Pow(_Level, 3) * ((_Level / 2) + 32) / 50;
 }

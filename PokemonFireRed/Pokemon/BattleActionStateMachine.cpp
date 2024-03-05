@@ -1,7 +1,7 @@
 #include "BattleActionStateMachine.h"
 #include <EnginePlatform/EngineInput.h>
 #include "BattleUtil.h"
-#include "ExpGainCalculator.h"
+#include "ExpCalculator.h"
 
 ABattleActionStateMachine::ABattleActionStateMachine()
 {
@@ -28,7 +28,7 @@ void ABattleActionStateMachine::Start(ABattleCanvas* _Canvas, UBattler* _Attacke
 		State = ESubstate::Move;
 		BattleMoveSM->Start(Canvas, Attacker, Defender);
 	}
-		break;
+	break;
 	case EBattleAction::Escape:
 	{
 		State = ESubstate::EscapeFail;
@@ -125,7 +125,7 @@ void ABattleActionStateMachine::ProcessMove()
 		const UPokemon* DefenderPokemon = Defender->CurPokemon();
 
 		Fainters.clear();
-		ExpGainResult.clear();
+		ExpGainByFaint.clear();
 		bool AttackerFaint = (AttackerPokemon->GetStatusId() == EPokemonStatus::Faint);
 		bool DefenderFaint = (DefenderPokemon->GetStatusId() == EPokemonStatus::Faint);
 
@@ -133,7 +133,7 @@ void ABattleActionStateMachine::ProcessMove()
 		{
 			Fainters.push_back(Attacker);
 		}
-		
+
 		if (true == DefenderFaint)
 		{
 			Fainters.push_back(Defender);
@@ -190,7 +190,7 @@ void ABattleActionStateMachine::ProcessFaint()
 			// 적 포켓몬이 쓰러진 경우 경험치 획득 O
 			else
 			{
-				ExpGainResult = UExpGainCalculator::CalcExpGain(Fainter);
+				ExpGainByFaint = UExpCalculator::SimFaint(Fainter);
 				State = ESubstate::TestExpGain;
 			}
 		}
@@ -203,7 +203,7 @@ void ABattleActionStateMachine::ProcessFaint()
 
 void ABattleActionStateMachine::ProcessTestExpGain()
 {
-	if (ExpGainResult.size() > 0)
+	if (ExpGainByFaint.size() > 0)
 	{
 		StateChangeToExpGain();
 		return;
@@ -214,8 +214,9 @@ void ABattleActionStateMachine::ProcessTestExpGain()
 
 void ABattleActionStateMachine::ProcessExpGain()
 {
-	if (true == UEngineInput::IsDown('Z'))
+	if (true == BattleExpGainSM->IsEnd())
 	{
+		ExpGainByFaint.erase(ExpGainByFaint.begin());
 		State = ESubstate::TestFaint;
 	}
 }
@@ -232,12 +233,7 @@ void ABattleActionStateMachine::StateChangeToFaint()
 void ABattleActionStateMachine::StateChangeToExpGain()
 {
 	State = ESubstate::ExpGain;
-	ExpGainState = EExpGainState::ExpGainMessage;
-
-	const UPokemon* ExpGainer = ExpGainResult.begin()->first;
-	std::wstring BattleMsg = ExpGainer->GetNameW() + L" gained\n";
-	BattleMsg += std::to_wstring(ExpGainResult.at(ExpGainer));
-	BattleMsg += L" Exp. Points!";
-
-	Canvas->SetBattleMessage(BattleMsg);
+	
+	UPokemon* ExpGainer = ExpGainByFaint.begin()->first;
+	BattleExpGainSM->Start(Canvas, ExpGainer, ExpGainByFaint.at(ExpGainer));
 }

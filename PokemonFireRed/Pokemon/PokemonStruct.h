@@ -2,6 +2,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <list>
 #include <EngineBase/EngineString.h>
 
 enum class EPokedexNo
@@ -360,7 +361,7 @@ public:
 	EExperienceGroup ExpGroup = EExperienceGroup::None;
 	std::vector<EPokemonType> TypeIds;
 	std::vector<EPokemonAbility> AbilityCandidateIds;
-	std::map<int, std::vector<EPokemonMove>> LevelUpMoves;
+	std::map<int, std::list<EPokemonMove>> LevelUpMoves;
 	float MaleRatio = 0.0f;
 	int CatchRate = 0;
 	int Friendship = 0;

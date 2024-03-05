@@ -48,6 +48,7 @@ void ABattleCanvas::Init(const UBattler* _Player, const UBattler* _Enemy)
 	PlayerPokemonBox->SetRelativePosition(PlayerPokemonBoxHidePos);
 	PlayerGround->SetRelativePosition(PlayerGroundHidePos);
 	PlayerBattler->SetRelativePosition(PlayerBattlerInitPos);
+	StatBox->SetActive(false);
 }
 
 void ABattleCanvas::RefreshEnemyPokemonBox()
@@ -76,8 +77,8 @@ void ABattleCanvas::RefreshPlayerPokemonBox()
 	PlayerPokemonHpText->SetText(PlayerPokemon->GetHpW());
 	PlayerPokemonHpBar->SetMaxValue(HpBarMaxValue);
 	PlayerPokemonHpBar->SetValue(UPokemonMath::Floor(static_cast<float>(HpBarMaxValue) * PlayerPokemon->GetCurHp() / PlayerPokemon->GetHp()));
-	PlayerPokemonExpBar->SetMaxValue(PlayerPokemon->GetExpSize());
-	PlayerPokemonExpBar->SetValue(PlayerPokemon->GetExp());
+	PlayerPokemonExpBar->SetMaxValue(ExpBarMaxValue);
+	PlayerPokemonExpBar->SetValue(UPokemonMath::Floor(static_cast<float>(ExpBarMaxValue) * PlayerPokemon->GetExp() / PlayerPokemon->GetExpSize()));
 
 	int PPNTPixelWidth = PlayerPokemonNameText->GetPixelLineWidth();
 	PlayerPokemonGenderMark->SetRelativePosition(UPokemonUtil::PixelVector(19 + PPNTPixelWidth, 5));
@@ -238,6 +239,43 @@ void ABattleCanvas::SetEnemyPokemonImageActive(bool _Value)
 	EnemyPokemonImage->SetActive(_Value);
 }
 
+void ABattleCanvas::LerpExpBar(int _BeforeExp, int _AfterExp, int _MaxExp, float _t)
+{
+	float LerpedBarValue = UPokemonMath::Lerp(static_cast<float>(ExpBarMaxValue) * _AfterExp / _MaxExp, static_cast<float>(ExpBarMaxValue) * _BeforeExp / _MaxExp, _t);
+	PlayerPokemonExpBar->SetValue(UPokemonMath::Round(LerpedBarValue));
+}
+
+void ABattleCanvas::ShowStatUpBox(const FLevelUpData& _LevelUpData)
+{
+	StatBox->SetActive(true);
+	StatBox->SetImage(RN::BattleStatUpBox);
+
+	StatHpText->SetText(std::to_wstring(_LevelUpData.UpHp));
+	StatAtkText->SetText(std::to_wstring(_LevelUpData.UpAtk));
+	StatDefText->SetText(std::to_wstring(_LevelUpData.UpDef));
+	StatSpAtkText->SetText(std::to_wstring(_LevelUpData.UpSpAtk));
+	StatSpDefText->SetText(std::to_wstring(_LevelUpData.UpSpDef));
+	StatSpeedText->SetText(std::to_wstring(_LevelUpData.UpSpeed));
+}
+
+void ABattleCanvas::ShowStatAfterBox(const UPokemon* _Pokemon)
+{
+	StatBox->SetActive(true);
+	StatBox->SetImage(RN::BattleStatAfterBox);
+
+	StatHpText->SetText(_Pokemon->GetHpW());
+	StatAtkText->SetText(_Pokemon->GetAtkW());
+	StatDefText->SetText(_Pokemon->GetDefW());
+	StatSpAtkText->SetText(_Pokemon->GetSpAtkW());
+	StatSpDefText->SetText(_Pokemon->GetSpDefW());
+	StatSpeedText->SetText(_Pokemon->GetSpeedW());
+}
+
+void ABattleCanvas::HideStatUpWindow()
+{
+	StatBox->SetActive(false);
+}
+
 void ABattleCanvas::BeginPlay()
 {
 	ACanvas::BeginPlay();
@@ -249,10 +287,10 @@ void ABattleCanvas::BeginPlay()
 	MsgBox = CreateImageElement(this, ERenderingOrder::UI4, EPivotType::LeftBot, 0, 0);
 	MsgBox->SetImage(RN::BattleMsgBox);
 
-	ActionBox = CreateImageElement(this, ERenderingOrder::UI6, EPivotType::RightBot, 0, 0);
+	ActionBox = CreateImageElement(this, ERenderingOrder::UI7, EPivotType::RightBot, 0, 0);
 	ActionBox->SetImage(RN::BattleActionBox);
 
-	MoveSelectBox = CreateImageElement(this, ERenderingOrder::UI6, EPivotType::LeftBot, 0, 0);
+	MoveSelectBox = CreateImageElement(this, ERenderingOrder::UI7, EPivotType::LeftBot, 0, 0);
 	MoveSelectBox->SetImage(RN::BattleMoveSelectBox);
 
 	EnemyPokemonBox = CreateImageElement(this, ERenderingOrder::UI1, EPivotType::LeftTop, 13, 16);
@@ -278,6 +316,9 @@ void ABattleCanvas::BeginPlay()
 	ThrowedBall = CreateImageElement(this, ERenderingOrder::UI2, EPivotType::LeftTop, 42, 56);
 	ThrowedBall->SetImage(Global::ThrowedBall);
 	ThrowedBall->CreateAnimation(Global::ThrowedBall, 0, 41, 1.0f / 60, false);
+
+	StatBox = CreateImageElement(this, ERenderingOrder::UI6, EPivotType::RightBot, -1, -1);
+	StatBox->SetImage(RN::BattleStatUpBox);
 
 	// MsgBox 夸家
 	MsgText = CreateText(MsgBox, ERenderingOrder::UI5, EPivotType::LeftTop, 11, 21, EAlignType::Left, EFontColor::White, EFontSize::Normal);
@@ -316,7 +357,7 @@ void ABattleCanvas::BeginPlay()
 	PlayerPokemonImageFaintPos = PlayerPokemonImageInitPos + UPokemonUtil::PixelVector(0, 64);
 
 	// ActionBox 夸家
-	ActionCursor = CreateCursor(ActionBox, ERenderingOrder::UI7, EPivotType::LeftTop, 9, 12);
+	ActionCursor = CreateCursor(ActionBox, ERenderingOrder::UI8, EPivotType::LeftTop, 9, 12);
 	ActionCursor->SetOptionCount(4);
 
 	int CursorHorGap = 56;
@@ -324,26 +365,33 @@ void ABattleCanvas::BeginPlay()
 	ActionCursor->SetCursorPositions({ {0, 0}, {CursorHorGap, 0}, {0, CursorVerGap}, {CursorHorGap, CursorVerGap} });
 
 	// MoveSelectBox 夸家
-	MoveSelectCursor = CreateCursor(MoveSelectBox, ERenderingOrder::UI7, EPivotType::LeftTop, 9, 12);
+	MoveSelectCursor = CreateCursor(MoveSelectBox, ERenderingOrder::UI8, EPivotType::LeftTop, 9, 12);
 	MoveSelectCursor->SetOptionCount(4);
 
 	int MoveHorGap = 71;
 	int MoveVerGap = 17;
 	MoveSelectCursor->SetCursorPositions({ {0, 0}, {MoveHorGap, 0}, {0, MoveVerGap}, {MoveHorGap, MoveVerGap} });
 
-	CurPPText = CreateText(MoveSelectBox, ERenderingOrder::UI7, EPivotType::RightTop, -26, 21, EAlignType::Right, EFontColor::Black2);
-	MaxPPText = CreateText(MoveSelectBox, ERenderingOrder::UI7, EPivotType::RightTop, -9, 21, EAlignType::Right, EFontColor::Black2);
-	MoveTypeText = CreateText(MoveSelectBox, ERenderingOrder::UI7, EPivotType::RightTop, -48, 37, EAlignType::Left, EFontColor::Black3);
+	CurPPText = CreateText(MoveSelectBox, ERenderingOrder::UI8, EPivotType::RightTop, -26, 21, EAlignType::Right, EFontColor::Black2);
+	MaxPPText = CreateText(MoveSelectBox, ERenderingOrder::UI8, EPivotType::RightTop, -9, 21, EAlignType::Right, EFontColor::Black2);
+	MoveTypeText = CreateText(MoveSelectBox, ERenderingOrder::UI8, EPivotType::RightTop, -48, 37, EAlignType::Left, EFontColor::Black3);
 
 	for (int i = 0; i < 4; ++i)
 	{
 		int RowIndex = i / 2;
 		int ColIndex = i % 2;
-		AText* MoveText = CreateText(MoveSelectBox, ERenderingOrder::UI7, EPivotType::LeftTop, 
+		AText* MoveText = CreateText(MoveSelectBox, ERenderingOrder::UI8, EPivotType::LeftTop, 
 			17 + ColIndex * MoveHorGap, 20 + RowIndex * MoveVerGap, EAlignType::Left, EFontColor::Black3, EFontSize::Mini);
 		MoveTexts.push_back(MoveText);
 	}
 
+	// StatBox 夸家
+	StatHpText = CreateText(StatBox, ERenderingOrder::UI8, EPivotType::RightTop, -7, 18, EAlignType::Right, EFontColor::Black2);
+	StatAtkText = CreateText(StatBox, ERenderingOrder::UI8, EPivotType::RightTop, -7, 32, EAlignType::Right, EFontColor::Black2);
+	StatDefText = CreateText(StatBox, ERenderingOrder::UI8, EPivotType::RightTop, -7, 46, EAlignType::Right, EFontColor::Black2);
+	StatSpAtkText = CreateText(StatBox, ERenderingOrder::UI8, EPivotType::RightTop, -7, 60, EAlignType::Right, EFontColor::Black2);
+	StatSpDefText = CreateText(StatBox, ERenderingOrder::UI8, EPivotType::RightTop, -7, 74, EAlignType::Right, EFontColor::Black2);
+	StatSpeedText = CreateText(StatBox, ERenderingOrder::UI8, EPivotType::RightTop, -7, 88, EAlignType::Right, EFontColor::Black2);
 }
 
 void ABattleCanvas::Tick(float _DeltaTime)

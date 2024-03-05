@@ -2,7 +2,9 @@
 #include <EngineCore/Actor.h>
 #include "Battler.h"
 #include "BattleCanvas.h"
+#include "ExpCalculator.h"
 #include "BattleMoveStateMachine.h"
+#include "BattleExpGainStateMachine.h"
 
 // 액션을 수행하는 역할
 class ABattleActionStateMachine : public AActor
@@ -39,14 +41,6 @@ private:
 		ShowFaintMessage,
 	};
 
-	enum class EExpGainState
-	{
-		None,
-		ExpGainMessage,
-		LevelUpMessage,
-		LearnMove,
-	};
-
 public:
 	// constructor destructor
 	ABattleActionStateMachine();
@@ -63,6 +57,11 @@ public:
 	void SetBMSM(ABattleMoveStateMachine* _BMSM)
 	{
 		BattleMoveSM = _BMSM;
+	}
+
+	void SetEGSM(ABattleExpGainStateMachine* _EGSM)
+	{
+		BattleExpGainSM = _EGSM;
 	}
 
 	bool IsEnd() const 
@@ -89,8 +88,8 @@ private:
 	const float FaintTime = 0.5f;
 
 	// 경험치 획득 이펙트
-	EExpGainState ExpGainState = EExpGainState::None;
-	std::map<const UPokemon*, int> ExpGainResult;
+	FSimExpGainResult SimExpGainResult;
+	std::map<UPokemon*, int> ExpGainByFaint;
 
 	// 상태 틱 함수
 	void ProcessEscapeFail();
@@ -107,5 +106,6 @@ private:
 
 	// SM
 	ABattleMoveStateMachine* BattleMoveSM = nullptr;
+	ABattleExpGainStateMachine* BattleExpGainSM = nullptr;
 };
 

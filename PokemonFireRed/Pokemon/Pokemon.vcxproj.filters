@@ -336,8 +336,11 @@
     <ClInclude Include="MoveEffectApplier.h">
       <Filter>2. Level\8. BattleLevel\Calculator</Filter>
     </ClInclude>
-    <ClInclude Include="ExpGainCalculator.h">
-      <Filter>2. Level\8. BattleLevel\Calculator</Filter>
+    <ClInclude Include="ExpCalculator.h">
+      <Filter>6. Data\Pokemon</Filter>
+    </ClInclude>
+    <ClInclude Include="BattleExpGainStateMachine.h">
+      <Filter>2. Level\8. BattleLevel\StateMachine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -566,8 +569,11 @@
     <ClCompile Include="MoveEffectApplier.cpp">
       <Filter>2. Level\8. BattleLevel\Calculator</Filter>
     </ClCompile>
-    <ClCompile Include="ExpGainCalculator.cpp">
-      <Filter>2. Level\8. BattleLevel\Calculator</Filter>
+    <ClCompile Include="ExpCalculator.cpp">
+      <Filter>6. Data\Pokemon</Filter>
+    </ClCompile>
+    <ClCompile Include="BattleExpGainStateMachine.cpp">
+      <Filter>2. Level\8. BattleLevel\StateMachine</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

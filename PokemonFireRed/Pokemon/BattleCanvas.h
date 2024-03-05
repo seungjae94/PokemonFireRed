@@ -68,7 +68,10 @@ public:
 	void SetEnemyPokemonBoxActive(bool _Value);
 	void SetPlayerPokemonImageActive(bool _Value);
 	void SetEnemyPokemonImageActive(bool _Value);
-
+	void LerpExpBar(int _BeforeExp, int _AfterExp, int _MaxExp, float _t);
+	void ShowStatUpBox(const FLevelUpData& _LevelUpData);
+	void ShowStatAfterBox(const UPokemon* _Pokemon);
+	void HideStatUpWindow();
 protected:
 
 private:
@@ -99,6 +102,7 @@ private:
 	FVector EnemyPokemonImageInitPos;
 	FVector EnemyPokemonImageFaintPos;
 	int HpBarMaxValue = 1000;
+	int ExpBarMaxValue = 1000;
 
 	// 최상위 요소
 	AImageElement* Background = nullptr;
@@ -109,6 +113,8 @@ private:
 	AImageElement* PlayerPokemonBox = nullptr;
 	AImageElement* EnemyGround = nullptr;
 	AImageElement* PlayerGround = nullptr;
+	AImageElement* ThrowedBall = nullptr;		// 볼 날아가는 애니메이션
+	AImageElement* StatBox = nullptr;
 
 	// MsgBox 요소
 	AText* MsgText = nullptr;
@@ -134,7 +140,6 @@ private:
 	// PlayerPokemonGround 요소
 	AImageElement* PlayerPokemonImage = nullptr;
 	AImageElement* PlayerBattler = nullptr;
-	AImageElement* ThrowedBall = nullptr;		// 볼 날아가는 애니메이션
 
 	// ActionBox 요소
 	ACursor* ActionCursor = nullptr;
@@ -145,5 +150,13 @@ private:
 	AText* CurPPText = nullptr;
 	AText* MaxPPText = nullptr;
 	AText* MoveTypeText = nullptr;
+
+	// StatBox 요소
+	AText* StatHpText = nullptr;
+	AText* StatAtkText = nullptr;
+	AText* StatDefText = nullptr;
+	AText* StatSpAtkText = nullptr;
+	AText* StatSpDefText = nullptr;
+	AText* StatSpeedText = nullptr;
 };
 

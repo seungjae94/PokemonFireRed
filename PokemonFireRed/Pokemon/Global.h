@@ -185,6 +185,8 @@ namespace RN
 	const std::string BattlePlayerPokemonBox = "BattlePlayerPokemonBox.png"; 
 	const std::string BattleEnemyGround = "BattleEnemyGround.png"; 
 	const std::string BattlePlayerGround = "BattlePlayerGround.png"; 
+	const std::string BattleStatUpBox = "BattleStatUpBox.png";
+	const std::string BattleStatAfterBox = "BattleStatAfterBox.png";
 	const std::string PlayerBattler = "PlayerBattler.png"; 
 };
 
