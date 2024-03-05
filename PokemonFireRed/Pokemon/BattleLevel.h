@@ -7,6 +7,7 @@
 #include "BattleTurnStateMachine.h"
 #include "BattleActionStateMachine.h"
 #include "BattleEOTStateMachine.h"
+#include "BattleFaintStateMachine.h"
 #include "BattleExpGainStateMachine.h"
 #include "Battler.h"
 
@@ -37,8 +38,9 @@ private:
 	ABattleTurnStateMachine* BattleTurnSM = nullptr;
 	ABattleActionStateMachine* BattleActionSM = nullptr;		// BattleTurnSM이 내부적으로 사용하는 SM
 	ABattleEOTStateMachine* BattleEOTSM = nullptr;				// BattleTurnSM이 내부적으로 사용하는 SM
+	ABattleFaintStateMachine* BattleFaintSM = nullptr;			// BattleTurnSM이 내부적으로 사용하는 SM
 	ABattleMoveStateMachine* BattleMoveSM = nullptr;			// BattleActionSM이 내부적으로 사용하는 SM
-	ABattleExpGainStateMachine* BattleExpGainSM = nullptr;		// BattleActionSM이 내부적으로 사용하는 SM
+	ABattleExpGainStateMachine* BattleExpGainSM = nullptr;		// BattleFaintSM이 내부적으로 사용하는 SM
 
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;

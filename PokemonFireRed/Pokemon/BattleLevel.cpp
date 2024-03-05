@@ -40,15 +40,22 @@ void UBattleLevel::BeginPlay()
 	BattleStartSM = SpawnActor<ABattleStartStateMachine>();
 	PlayerActionSelectSM = SpawnActor<ABattlePlayerActionSelectStateMachine>();
 	BattleTurnSM = SpawnActor<ABattleTurnStateMachine>();
+	
+	// BattleTurnSM 하위 요소
 	BattleActionSM = SpawnActor<ABattleActionStateMachine>();
 	BattleEOTSM = SpawnActor<ABattleEOTStateMachine>();
-	BattleMoveSM = SpawnActor<ABattleMoveStateMachine>();
-	BattleExpGainSM = SpawnActor<ABattleExpGainStateMachine>();
-
+	BattleFaintSM = SpawnActor<ABattleFaintStateMachine>();
 	BattleTurnSM->SetBASM(BattleActionSM);
 	BattleTurnSM->SetEOTSM(BattleEOTSM);
+	BattleTurnSM->SetFSM(BattleFaintSM);
+	
+	// BattleActionSM 하위 요소
+	BattleMoveSM = SpawnActor<ABattleMoveStateMachine>();
 	BattleActionSM->SetBMSM(BattleMoveSM);
-	BattleActionSM->SetEGSM(BattleExpGainSM);
+	
+	// BattleFaintSM 하위 요소
+	BattleExpGainSM = SpawnActor<ABattleExpGainStateMachine>();
+	BattleFaintSM->SetEGSM(BattleExpGainSM);
 }
 
 void UBattleLevel::Tick(float _DeltaTime)

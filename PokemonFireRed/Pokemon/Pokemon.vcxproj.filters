@@ -342,6 +342,9 @@
     <ClInclude Include="BattleExpGainStateMachine.h">
       <Filter>2. Level\8. BattleLevel\StateMachine</Filter>
     </ClInclude>
+    <ClInclude Include="BattleFaintStateMachine.h">
+      <Filter>2. Level\8. BattleLevel\StateMachine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PokemonCore.cpp">
@@ -573,6 +576,9 @@
       <Filter>6. Data\Pokemon</Filter>
     </ClCompile>
     <ClCompile Include="BattleExpGainStateMachine.cpp">
+      <Filter>2. Level\8. BattleLevel\StateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="BattleFaintStateMachine.cpp">
       <Filter>2. Level\8. BattleLevel\StateMachine</Filter>
     </ClCompile>
   </ItemGroup>

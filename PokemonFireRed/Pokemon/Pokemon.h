@@ -168,6 +168,11 @@ public:
 		Status = UPokemonDB::FindStatus(_StatusId);
 	}
 
+	bool IsFaint() const
+	{
+		return Status->Id == EPokemonStatus::Faint;
+	}
+
 	int GetMoveCount() const
 	{
 		return static_cast<int>(Moves.size());

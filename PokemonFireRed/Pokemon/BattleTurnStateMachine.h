@@ -6,6 +6,7 @@
 #include "Battler.h"
 #include "BattleActionStateMachine.h"
 #include "BattleEOTStateMachine.h"
+#include "BattleFaintStateMachine.h"
 
 class UBattleLevel;
 class ABattleCanvas;
@@ -28,10 +29,25 @@ private:
 	{
 		None,
 		Action1,
+		Action1Faint,
+		TestAction2,
 		Action2,
+		Action2Faint,
+		StartEndOfTurn,
+		TestEndOfTurn1,
 		EndOfTurn1,
+		EndOfTurn1Faint,
+		TestEndOfTurn2,
 		EndOfTurn2,
+		EndOfTurn2Faint,
 		End
+	};
+
+	enum class EFaintState
+	{
+		None,
+		HidePokemon,
+		ShowFaintMessage,
 	};
 public:
 	// constructor destructor
@@ -64,6 +80,11 @@ public:
 		BattleEOTSM = _EOTSM;
 	}
 
+	void SetFSM(ABattleFaintStateMachine* _FSM)
+	{
+		BattleFaintSM = _FSM;
+	}
+
 	void Start(ABattleCanvas* _Canvas, UBattler* _Player, UBattler* _Enemy);
 
 protected:
@@ -74,14 +95,23 @@ private:
 	UBattler* Player = nullptr;
 	UBattler* Enemy = nullptr;
 
-	void ProcessAction1(float _DeltaTime);
-	void ProcessAction2(float _DeltaTime);
-	void ProcessEndOfTurn1(float _DeltaTime);
-	void ProcessEndOfTurn2(float _DeltaTime);
+	// 상태 틱 함수
+	void ProcessAction1();
+	void ProcessAction1Faint();  // Faint 처리를 다 하고 나서 배틀 종료, 페이즈 스킵 등의 처리
+	void ProcessTestAction2();
+	void ProcessAction2();
+	void ProcessAction2Faint();
+	void ProcessTestEndOfTurn1();
+	void ProcessStartEndOfTurn();
+	void ProcessEndOfTurn1();
+	void ProcessEndOfTurn1Faint();
+	void ProcessTestEndOfTurn2();
+	void ProcessEndOfTurn2();
+	void ProcessEndOfTurn2Faint();
 
-	void SwapAttackerAndDefender();
-	
-	void EndTurnWithReason();
+	// 상태 전이 함수
+	void StateChangeToFaint();
+	void StateChangeToExpGain();
 
 	// 고유 데이터
 	ESubstate State = ESubstate::None;
@@ -101,9 +131,12 @@ private:
 	void SetEnemyAsAttacker();
 	void SetPlayerAsEOTTarget();
 	void SetEnemyAsEOTTarget();
+	void SwapAttackerAndDefender();
+	void EndTurnWithReason();
 
 	// SM
 	ABattleActionStateMachine* BattleActionSM = nullptr;
 	ABattleEOTStateMachine* BattleEOTSM = nullptr;
+	ABattleFaintStateMachine* BattleFaintSM = nullptr;
 };
 

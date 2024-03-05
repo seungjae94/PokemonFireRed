@@ -20,10 +20,6 @@ private:
 		Switch,
 		UseItem,
 		Move,
-		TestFaint,
-		Faint,
-		TestExpGain,
-		ExpGain,
 		End
 	};
 
@@ -32,13 +28,6 @@ private:
 		None,
 		ShowMoveEffect,
 		ShowEffectResultMessage,
-	};
-
-	enum class EFaintState
-	{
-		None,
-		HidePokemon,
-		ShowFaintMessage,
 	};
 
 public:
@@ -59,11 +48,6 @@ public:
 		BattleMoveSM = _BMSM;
 	}
 
-	void SetEGSM(ABattleExpGainStateMachine* _EGSM)
-	{
-		BattleExpGainSM = _EGSM;
-	}
-
 	bool IsEnd() const 
 	{
 		return State == ESubstate::End;
@@ -81,31 +65,13 @@ private:
 	bool ProcessEnd = false;
 	const float BattleMsgShowTime = 1.5f;
 	
-	// ∆‰¿Œ∆Æ ¿Ã∆Â∆Æ
-	EFaintState FaintState = EFaintState::None;
-	UBattler* Fainter = nullptr;
-	std::list<UBattler*> Fainters;
-	const float FaintTime = 0.5f;
-
-	// ∞Ê«Ëƒ° »πµÊ ¿Ã∆Â∆Æ
-	FSimExpGainResult SimExpGainResult;
-	std::map<UPokemon*, int> ExpGainByFaint;
-
 	// ªÛ≈¬ ∆Ω «‘ºˆ
 	void ProcessEscapeFail();
 	void ProcessSwitch();
 	void ProcessItem();
 	void ProcessMove();
-	void ProcessTestFaint();
-	void ProcessFaint();
-	void ProcessTestExpGain();
-	void ProcessExpGain();
-
-	void StateChangeToFaint();
-	void StateChangeToExpGain();
 
 	// SM
 	ABattleMoveStateMachine* BattleMoveSM = nullptr;
-	ABattleExpGainStateMachine* BattleExpGainSM = nullptr;
 };
 

@@ -44,110 +44,59 @@ void ABattleTurnStateMachine::Start(ABattleCanvas* _Canvas, UBattler* _Player, U
 	BattleActionSM->Start(Canvas, Attacker, Defender);
 }
 
-void ABattleTurnStateMachine::ProcessAction1(float _DeltaTime)
+void ABattleTurnStateMachine::ProcessAction1()
 {
 	if (true == BattleActionSM->IsEnd())
 	{
-		// 어느 한 쪽이 전부 죽을 경우 턴 종료 이유를 기록하고 즉시 종료해야 한다.
+		State = ESubstate::Action1Faint;
+		BattleFaintSM->Start(Canvas, Attacker, Defender);
+	}
+}
+
+void ABattleTurnStateMachine::ProcessAction1Faint()
+{
+	if (true == BattleFaintSM->IsEnd())
+	{
+		// 어느 한 쪽이 전부 죽을 경우 즉시 배틀을 종료해야 한다.
+		// 즉시 배틀을 종료해야 하기 때문에 턴도 즉시 종료한다.
 		if (true == Attacker->AllFaint() || true == Defender->AllFaint())
 		{
 			EndTurnWithReason();
 			return;
 		}
 
-		// Attacker 또는 Defender가 죽어 있으면 EOT로 보낸다.
-		const UPokemon* AttackerPokemon = Attacker->CurPokemon();
-		const UPokemon* DefenderPokemon = Defender->CurPokemon();
-
-		bool AttackerFaint = (AttackerPokemon->GetStatusId() == EPokemonStatus::Faint);
-		bool DefenderFaint = (DefenderPokemon->GetStatusId() == EPokemonStatus::Faint);
-
-		if (AttackerFaint && DefenderFaint)
-		{
-			// 페인트 이펙트는 BattleActionSM이 처리한다.
-			State = ESubstate::End;
-			return;
-		}
-		else if (AttackerFaint)
-		{
-			// 페인트 이펙트는 BattleActionSM이 처리한다.
-			State = ESubstate::EndOfTurn2;
-			BattleEOTSM->Start(Canvas, Defender, Attacker);
-			return;
-		}
-		else if (DefenderFaint)
-		{
-			// 페인트 이펙트는 BattleActionSM이 처리한다.
-			State = ESubstate::EndOfTurn2;
-			BattleEOTSM->Start(Canvas, Attacker, Defender);
-		}
-
-		// 둘 다 살아있다면 Action2로 보낸다.
-		State = ESubstate::Action2;
-
+		// 턴은 계속 진행하지만 Action2를 수행할 수 있는지는 확인을 해줘야 한다.
+		State = ESubstate::TestAction2;
 		SwapAttackerAndDefender();
-		BattleActionSM->Start(Canvas, Attacker, Defender);
 	}
 }
 
-void ABattleTurnStateMachine::ProcessAction2(float _DeltaTime)
+void ABattleTurnStateMachine::ProcessTestAction2()
+{
+	// Attacker나 Defender가 Faint 상태라면 Action2를 수행할 수 없다.
+	if (true == Attacker->CurPokemon()->IsFaint() || true == Defender->CurPokemon()->IsFaint())
+	{
+		State = ESubstate::StartEndOfTurn;
+		return;
+	}
+
+	// 그 외의 경우 Action2를 수행한다.
+	State = ESubstate::Action2;
+	BattleActionSM->Start(Canvas, Attacker, Defender);
+}
+
+void ABattleTurnStateMachine::ProcessAction2()
 {
 	if (true == BattleActionSM->IsEnd())
 	{
-		// 어느 한 쪽이 전부 죽을 경우 턴 종료 이유를 기록하고 즉시 종료해야 한다.
-		if (true == Attacker->AllFaint() || true == Defender->AllFaint())
-		{
-			EndTurnWithReason();
-			return;
-		}
-
-		// Attacker 또는 Defender가 죽어 있으면 EOT로 보낸다.
-		const UPokemon* AttackerPokemon = Attacker->CurPokemon();
-		const UPokemon* DefenderPokemon = Defender->CurPokemon();
-
-		bool AttackerFaint = (AttackerPokemon->GetStatusId() == EPokemonStatus::Faint);
-		bool DefenderFaint = (DefenderPokemon->GetStatusId() == EPokemonStatus::Faint);
-
-		if (AttackerFaint && DefenderFaint)
-		{
-			// 페인트 이펙트는 BattleActionSM이 처리한다.
-			State = ESubstate::End;
-			return;
-		}
-		else if (AttackerFaint)
-		{
-			// 페인트 이펙트는 BattleActionSM이 처리한다.
-			State = ESubstate::EndOfTurn2;
-			BattleEOTSM->Start(Canvas, Defender, Attacker);
-			return;
-		}
-		else if (DefenderFaint)
-		{
-			// 페인트 이펙트는 BattleActionSM이 처리한다.
-			State = ESubstate::EndOfTurn2;
-			BattleEOTSM->Start(Canvas, Attacker, Defender);
-		}
-
-		// 둘 다 살아있다면 EOT1로 보낸다.
-		bool IsPlayerFirst = UTurnOrderCalculator::IsPlayerFirstEOT(Player, Enemy);
-
-		if (true == IsPlayerFirst)
-		{
-			SetPlayerAsEOTTarget();
-		}
-		else
-		{
-			SetEnemyAsEOTTarget();
-		}
-
-		State = ESubstate::EndOfTurn1;
-		BattleEOTSM->Start(Canvas, EOTTarget, EOTNextTarget);
+		State = ESubstate::Action2Faint;
+		BattleFaintSM->Start(Canvas, Attacker, Defender);
 	}
 }
 
-void ABattleTurnStateMachine::ProcessEndOfTurn1(float _DeltaTime)
+void ABattleTurnStateMachine::ProcessAction2Faint()
 {
-	if (true == BattleEOTSM->IsEnd())
+	if (true == BattleFaintSM->IsEnd())
 	{
 		// 어느 한 쪽이 전부 죽을 경우 턴 종료 이유를 기록하고 즉시 종료해야 한다.
 		if (true == Attacker->AllFaint() || true == Defender->AllFaint())
@@ -156,28 +105,98 @@ void ABattleTurnStateMachine::ProcessEndOfTurn1(float _DeltaTime)
 			return;
 		}
 
-		const UPokemon* NextPokemon = EOTNextTarget->CurPokemon();
-
-		bool NextPokemonFaint = (NextPokemon->GetStatusId() == EPokemonStatus::Faint);
-
-		if (true == NextPokemonFaint)
-		{
-			// 다음 포켓몬이 죽어 EOT를 적용받지 못할 경우 바로 턴을 종료한다.
-			State = ESubstate::End;
-			return;
-		}
-
-		State = ESubstate::EndOfTurn2;
-		BattleEOTSM->Start(Canvas, EOTNextTarget, EOTTarget);
+		// EOT 단계로 넘어간다.
+		State = ESubstate::StartEndOfTurn;
 	}
 }
 
-void ABattleTurnStateMachine::ProcessEndOfTurn2(float _DeltaTime)
+void ABattleTurnStateMachine::ProcessStartEndOfTurn()
+{
+	// EOT 순서를 결정한다.
+	bool IsPlayerFirst = UTurnOrderCalculator::IsPlayerFirstEOT(Player, Enemy);
+
+	if (true == IsPlayerFirst)
+	{
+		SetPlayerAsEOTTarget();
+	}
+	else
+	{
+		SetEnemyAsEOTTarget();
+	}
+
+	// EOT1를 수행할 수 있는지 체크한다.
+	State = ESubstate::TestEndOfTurn1;
+	BattleEOTSM->Start(Canvas, EOTTarget, EOTNextTarget);
+}
+
+void ABattleTurnStateMachine::ProcessTestEndOfTurn1()
+{
+	// EOTTarget이 Faint 상태라면 EOT1을 수행할 수 없다.
+	if (true == EOTTarget->CurPokemon()->IsFaint())
+	{
+		State = ESubstate::TestEndOfTurn2;
+		return;
+	}
+
+	// 그 외의 경우 EOT1을 수행한다.
+	State = ESubstate::EndOfTurn1;
+	BattleEOTSM->Start(Canvas, EOTTarget, EOTNextTarget);
+}
+
+void ABattleTurnStateMachine::ProcessEndOfTurn1()
 {
 	if (true == BattleEOTSM->IsEnd())
 	{
+		State = ESubstate::EndOfTurn1Faint;
+		BattleFaintSM->Start(Canvas, EOTNextTarget, EOTTarget);
+	}
+}
+
+void ABattleTurnStateMachine::ProcessEndOfTurn1Faint()
+{
+	if (true == BattleFaintSM->IsEnd())
+	{
 		// 어느 한 쪽이 전부 죽을 경우 턴 종료 이유를 기록하고 즉시 종료해야 한다.
-		if (true == Attacker->AllFaint() || true == Defender->AllFaint())
+		if (true == EOTTarget->AllFaint() || true == EOTNextTarget->AllFaint())
+		{
+			EndTurnWithReason();
+			return;
+		}
+
+		// EOT2를 수행할 수 있는지 체크한다.
+		State = ESubstate::TestEndOfTurn2;
+	}
+}
+
+void ABattleTurnStateMachine::ProcessTestEndOfTurn2()
+{
+	// EOTNextTarget이 Faint 상태라면 EOT2를 수행할 수 없다.
+	if (true == EOTNextTarget->CurPokemon()->IsFaint())
+	{
+		State = ESubstate::End;
+		return;
+	}
+
+	// 그 외의 경우 EOT2를 수행한다.
+	State = ESubstate::EndOfTurn2;
+	BattleEOTSM->Start(Canvas, EOTNextTarget, EOTTarget);
+}
+
+void ABattleTurnStateMachine::ProcessEndOfTurn2()
+{
+	if (true == BattleEOTSM->IsEnd())
+	{
+		State = ESubstate::EndOfTurn2Faint;
+		BattleFaintSM->Start(Canvas, EOTTarget, EOTNextTarget);
+	}
+}
+
+void ABattleTurnStateMachine::ProcessEndOfTurn2Faint()
+{
+	if (true == BattleFaintSM->IsEnd())
+	{
+		// 어느 한 쪽이 전부 죽을 경우 턴 종료 이유를 기록하고 종료해야 한다.
+		if (true == EOTTarget->AllFaint() || true == EOTNextTarget->AllFaint())
 		{
 			EndTurnWithReason();
 			return;
@@ -222,29 +241,6 @@ void ABattleTurnStateMachine::EndTurnWithReason()
 	State = ESubstate::End;
 }
 
-void ABattleTurnStateMachine::Tick(float _DeltaTime)
-{
-	Timer -= _DeltaTime;
-
-	switch (State)
-	{
-	case ESubstate::Action1:
-		ProcessAction1(_DeltaTime);
-		break;
-	case ESubstate::Action2:
-		ProcessAction2(_DeltaTime);
-		break;
-	case ESubstate::EndOfTurn1:
-		ProcessEndOfTurn1(_DeltaTime);
-		break;
-	case ESubstate::EndOfTurn2:
-		ProcessEndOfTurn2(_DeltaTime);
-		break;
-	default:
-		break;
-	}
-}
-
 void ABattleTurnStateMachine::SetPlayerAsAttacker()
 {
 	Attacker = Player;
@@ -267,4 +263,58 @@ void ABattleTurnStateMachine::SetEnemyAsEOTTarget()
 {
 	EOTTarget = Enemy;
 	EOTNextTarget = Player;
+}
+
+
+void ABattleTurnStateMachine::Tick(float _DeltaTime)
+{
+	AActor::Tick(_DeltaTime);
+
+	Timer -= _DeltaTime;
+
+	switch (State)
+	{
+	case ABattleTurnStateMachine::ESubstate::None:
+		break;
+	case ABattleTurnStateMachine::ESubstate::Action1:
+		ProcessAction1();
+		break;
+	case ABattleTurnStateMachine::ESubstate::Action1Faint:
+		ProcessAction1Faint();
+		break;
+	case ABattleTurnStateMachine::ESubstate::TestAction2:
+		ProcessTestAction2();
+		break;
+	case ABattleTurnStateMachine::ESubstate::Action2:
+		ProcessAction2();
+		break;
+	case ABattleTurnStateMachine::ESubstate::Action2Faint:
+		ProcessAction2Faint();
+		break;
+	case ABattleTurnStateMachine::ESubstate::StartEndOfTurn:
+		ProcessStartEndOfTurn();
+		break;
+	case ABattleTurnStateMachine::ESubstate::TestEndOfTurn1:
+		ProcessTestEndOfTurn1();
+		break;
+	case ABattleTurnStateMachine::ESubstate::EndOfTurn1:
+		ProcessEndOfTurn1();
+		break;
+	case ABattleTurnStateMachine::ESubstate::EndOfTurn1Faint:
+		ProcessEndOfTurn1Faint();
+		break;
+	case ABattleTurnStateMachine::ESubstate::TestEndOfTurn2:
+		ProcessTestEndOfTurn2();
+		break;
+	case ABattleTurnStateMachine::ESubstate::EndOfTurn2:
+		ProcessEndOfTurn2();
+		break;
+	case ABattleTurnStateMachine::ESubstate::EndOfTurn2Faint:
+		ProcessEndOfTurn2Faint();
+		break;
+	case ABattleTurnStateMachine::ESubstate::End:
+		break;
+	default:
+		break;
+	}
 }
