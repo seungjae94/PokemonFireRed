@@ -386,12 +386,12 @@ void ABattleCanvas::BeginPlay()
 	}
 
 	// StatBox ¿ä¼Ò
-	StatHpText = CreateText(StatBox, ERenderingOrder::UI8, EPivotType::RightTop, -7, 18, EAlignType::Right, EFontColor::Black2);
-	StatAtkText = CreateText(StatBox, ERenderingOrder::UI8, EPivotType::RightTop, -7, 32, EAlignType::Right, EFontColor::Black2);
-	StatDefText = CreateText(StatBox, ERenderingOrder::UI8, EPivotType::RightTop, -7, 46, EAlignType::Right, EFontColor::Black2);
-	StatSpAtkText = CreateText(StatBox, ERenderingOrder::UI8, EPivotType::RightTop, -7, 60, EAlignType::Right, EFontColor::Black2);
-	StatSpDefText = CreateText(StatBox, ERenderingOrder::UI8, EPivotType::RightTop, -7, 74, EAlignType::Right, EFontColor::Black2);
-	StatSpeedText = CreateText(StatBox, ERenderingOrder::UI8, EPivotType::RightTop, -7, 88, EAlignType::Right, EFontColor::Black2);
+	StatHpText = CreateText(StatBox, ERenderingOrder::UI8, EPivotType::RightTop, -7, 18, EAlignType::Right, EFontColor::Black3);
+	StatAtkText = CreateText(StatBox, ERenderingOrder::UI8, EPivotType::RightTop, -7, 33, EAlignType::Right, EFontColor::Black3);
+	StatDefText = CreateText(StatBox, ERenderingOrder::UI8, EPivotType::RightTop, -7, 48, EAlignType::Right, EFontColor::Black3);
+	StatSpAtkText = CreateText(StatBox, ERenderingOrder::UI8, EPivotType::RightTop, -7, 63, EAlignType::Right, EFontColor::Black3);
+	StatSpDefText = CreateText(StatBox, ERenderingOrder::UI8, EPivotType::RightTop, -7, 78, EAlignType::Right, EFontColor::Black3);
+	StatSpeedText = CreateText(StatBox, ERenderingOrder::UI8, EPivotType::RightTop, -7, 93, EAlignType::Right, EFontColor::Black3);
 }
 
 void ABattleCanvas::Tick(float _DeltaTime)
