@@ -350,6 +350,9 @@ public:
 	int YSpAtk = 0;
 	int YSpDef = 0;
 	int YSpeed = 0;
+	
+	// 상대에게 주는 기본 경험치
+	int YExp = 0;
 
 	// 기타
 	EPokedexNo Id = EPokedexNo::None;
