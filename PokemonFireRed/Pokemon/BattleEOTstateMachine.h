@@ -11,13 +11,21 @@ private:
 		None,
 		TestTempStatus,
 		TempStatusAnim,
-		TempStatusDamage,
+		LeechSeed,
+		Bind,
 		TempStatusMessage,
 		TestStatus,
 		StatusMessage,
 		StatusAnim,
 		StatusDamage,
 		End
+	};
+
+	enum class ELeechSeedState
+	{
+		None,
+		Damage,
+		Heal,
 	};
 public:
 	// constructor destructor
@@ -35,26 +43,29 @@ public:
 		return State == ESubstate::End;
 	}
 
-	void Start(ABattleCanvas* _Canvas, UBattler* _Target);
+	void Start(ABattleCanvas* _Canvas, UBattler* _Target, UBattler* _CounterTarget);
 
 protected:
 	void Tick(float _DeltaTime) override;
 private:
 	ABattleCanvas* Canvas = nullptr;
 	UBattler* Target = nullptr;
+	UBattler* CounterTarget = nullptr;
 	ESubstate State = ESubstate::None;
 
+	// 고유 데이터
 	float Timer = 0.0f;
 	const float TempStatusAnimTime = 1.0f;
 	const float StatusAnimTime = 1.0f;
-	const float HpBarDecreaseTime = 0.5f;
+	const float HpBarDecreaseTime = 1.0f;
 	const float BattleMsgShowTime = 1.0f;
-	int PrevHp = 0;
-	int NextHp = 0;
+	ELeechSeedState LeechSeedState = ELeechSeedState::None;
 
+	// 상태 틱 함수
 	void ProcessTestTempStatus();
 	void ProcessTempStatusAnim();
-	void ProcessTempStatusDamage();
+	void ProcessLeechSeed();
+	void ProcessBind();
 	void ProcessTempStatusMessage();
 	void ProcessTestStatus();
 	void ProcessStatusMessage();

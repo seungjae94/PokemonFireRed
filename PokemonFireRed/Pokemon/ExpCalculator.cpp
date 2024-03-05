@@ -104,7 +104,7 @@ int UExpCalculator::GetNeedAccExp(const UPokemon* _Pokemon, int _Level)
 		break;
 	}
 
-	return UPokemonMath::Floor(Result);
+	return UPokemonMath::Floor(static_cast<float>(Result));
 }
 
 int UExpCalculator::GetNeedErraticAccExp(int _Level)

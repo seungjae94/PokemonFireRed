@@ -1,4 +1,5 @@
 #include "BattleEOTstateMachine.h"
+#include "BattleUtil.h"
 
 ABattleEOTStateMachine::ABattleEOTStateMachine()
 {
@@ -8,10 +9,11 @@ ABattleEOTStateMachine::~ABattleEOTStateMachine()
 {
 }
 
-void ABattleEOTStateMachine::Start(ABattleCanvas* _Canvas, UBattler* _Target)
+void ABattleEOTStateMachine::Start(ABattleCanvas* _Canvas, UBattler* _Target, UBattler* _CounterTarget)
 {
 	Canvas = _Canvas;
 	Target = _Target;
+	CounterTarget = _CounterTarget;
 
 	State = ESubstate::TestTempStatus;
 }
@@ -30,8 +32,11 @@ void ABattleEOTStateMachine::Tick(float _DeltaTime)
 	case ABattleEOTStateMachine::ESubstate::TempStatusAnim:
 		ProcessTempStatusAnim();
 		break;
-	case ABattleEOTStateMachine::ESubstate::TempStatusDamage:
-		ProcessTempStatusDamage();
+	case ABattleEOTStateMachine::ESubstate::LeechSeed:
+		ProcessLeechSeed();
+		break;
+	case ABattleEOTStateMachine::ESubstate::Bind:
+		ProcessBind();
 		break;
 	case ABattleEOTStateMachine::ESubstate::TempStatusMessage:
 		ProcessTempStatusMessage();
@@ -74,28 +79,107 @@ void ABattleEOTStateMachine::ProcessTempStatusAnim()
 {
 	if (Timer <= 0.0f)
 	{
-		State = ESubstate::TempStatusDamage;
-		Timer = HpBarDecreaseTime;
+		if (Target->CurTempStatusId() == EPokemonStatus::TempSeeded)
+		{
+			State = ESubstate::LeechSeed;
+			LeechSeedState = ELeechSeedState::Damage;
+		}
+		else if (Target->CurTempStatusId() == EPokemonStatus::TempBound)
+		{
+			State = ESubstate::Bind;
+		}
 
-		//PrevHp = Target->CurPokemon()->GetCurHp();
-		//NextHp = PrevHp - (Seeded/Bound 데미지)
+		Timer = HpBarDecreaseTime;
 	}
 }
 
-void ABattleEOTStateMachine::ProcessTempStatusDamage()
+void ABattleEOTStateMachine::ProcessLeechSeed()
 {
-	// Lerp 데미지
+	int TargetPrevHp = Target->CurPokemonReadonly()->GetCurHp();
+	int TargetMaxHp = Target->CurPokemonReadonly()->GetHp();
+	int TargetNextHp = UPokemonMath::Max(TargetPrevHp - TargetMaxHp / 8, 0);
+	int Damage = TargetPrevHp - TargetNextHp;
+	int CounterTargetPrevHp = CounterTarget->CurPokemonReadonly()->GetCurHp();
+	int CounterTargetMaxHp = CounterTarget->CurPokemonReadonly()->GetHp();
+	int CounterTargetNextHp = UPokemonMath::Min(CounterTargetPrevHp + Damage, CounterTargetMaxHp);
+
+	if (LeechSeedState == ELeechSeedState::Damage)
+	{
+		if (true == Target->IsPlayer())
+		{
+			Canvas->LerpPlayerHpInfo(TargetPrevHp, TargetNextHp, TargetMaxHp, Timer / HpBarDecreaseTime);
+		}
+		else
+		{
+			Canvas->LerpEnemyHpInfo(TargetPrevHp, TargetNextHp, TargetMaxHp, Timer / HpBarDecreaseTime);
+		}
+
+		if (Timer <= 0.0f)
+		{
+			LeechSeedState = ELeechSeedState::Heal;
+			Timer = HpBarDecreaseTime;
+		}
+	}
+	else
+	{
+		if (true == Target->IsPlayer())
+		{
+			Canvas->LerpEnemyHpInfo(CounterTargetPrevHp, CounterTargetNextHp, CounterTargetMaxHp, Timer / HpBarDecreaseTime);
+		}
+		else
+		{
+			Canvas->LerpPlayerHpInfo(CounterTargetPrevHp, CounterTargetNextHp, CounterTargetMaxHp, Timer / HpBarDecreaseTime);
+		}
+
+		if (Timer <= 0.0f)
+		{
+			// 실제 데미지 처리
+			Target->CurPokemon()->SetCurHp(TargetNextHp);
+			CounterTarget->CurPokemon()->SetCurHp(CounterTargetNextHp);
+			if (TargetNextHp == 0)
+			{
+				Target->CurPokemon()->SetStatus(EPokemonStatus::Faint);
+			}
+
+			State = ESubstate::TempStatusMessage;
+			Canvas->SetBattleMessage(UBattleUtil::GetPokemonFullName(Target) + L"'s health is\nsapped by LEECH SEED!");
+			Timer = BattleMsgShowTime;
+		}
+	}
+}
+
+void ABattleEOTStateMachine::ProcessBind()
+{
+	int TargetPrevHp = Target->CurPokemonReadonly()->GetCurHp();
+	int TargetMaxHp = Target->CurPokemonReadonly()->GetHp();
+	int TargetNextHp = UPokemonMath::Max(TargetPrevHp - TargetMaxHp / 16, 0);
+
+	if (true == Target->IsPlayer())
+	{
+		Canvas->LerpPlayerHpInfo(TargetPrevHp, TargetNextHp, TargetMaxHp, Timer / HpBarDecreaseTime);
+	}
+	else
+	{
+		Canvas->LerpEnemyHpInfo(TargetPrevHp, TargetNextHp, TargetMaxHp, Timer / HpBarDecreaseTime);
+	}
 
 	if (Timer <= 0.0f)
 	{
 		// 실제 데미지 처리 (Faint 상태 처리 포함)
+		Target->CurPokemon()->SetCurHp(TargetNextHp);
+		Target->DecBindCount();
+		if (TargetNextHp == 0)
+		{
+			Target->CurPokemon()->SetStatus(EPokemonStatus::Faint);
+		}
 
-		// 상태 전환
+		// State 전환
 		State = ESubstate::TempStatusMessage;
+		Canvas->SetBattleMessage(UBattleUtil::GetPokemonFullName(Target) + L" is hurt\nby BIND!");
 		Timer = BattleMsgShowTime;
-		Canvas->SetBattleMessage(L"Temp Status Effect!");
 	}
 }
+
 
 void ABattleEOTStateMachine::ProcessTempStatusMessage()
 {
@@ -107,12 +191,20 @@ void ABattleEOTStateMachine::ProcessTempStatusMessage()
 
 void ABattleEOTStateMachine::ProcessTestStatus()
 {
+	// 타겟이 기절 상태인 경우 스킵
+	if (Target->CurStatusId() == EPokemonStatus::Faint)
+	{
+		State = ESubstate::End;
+		return;
+	}
+
+
 	// 상태가 없는 경우
 	if (Target->CurStatusId() == EPokemonStatus::None)
 	{
 		State = ESubstate::End;
 	}
-	// 임시 상태가 있는 경우
+	// 상태가 있는 경우
 	else
 	{
 		State = ESubstate::StatusMessage;

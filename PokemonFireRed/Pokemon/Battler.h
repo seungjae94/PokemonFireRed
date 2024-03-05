@@ -163,6 +163,21 @@ public:
 		return Participants;
 	}
 
+	void DecBindCount()
+	{
+		if (BindCount < 1)
+		{
+			return;
+		}
+
+		--BindCount;
+
+		if (BindCount == 0)
+		{
+			TempStatusId = EPokemonStatus::None;
+		}
+	}
+
 protected:
 
 private:
@@ -174,7 +189,8 @@ private:
 	bool IsWildPokemonValue = false;
 	bool RunResult = false;
 
-	EPokemonStatus TempStatusId = EPokemonStatus::None;
 	std::list<UPokemon*> Participants;
+	EPokemonStatus TempStatusId = EPokemonStatus::None;
+	int BindCount = 0;
 };
 

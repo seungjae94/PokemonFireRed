@@ -72,14 +72,14 @@ void ABattleTurnStateMachine::ProcessAction1(float _DeltaTime)
 		{
 			// 페인트 이펙트는 BattleActionSM이 처리한다.
 			State = ESubstate::EndOfTurn2;
-			BattleEOTSM->Start(Canvas, Defender);
+			BattleEOTSM->Start(Canvas, Defender, Attacker);
 			return;
 		}
 		else if (DefenderFaint)
 		{
 			// 페인트 이펙트는 BattleActionSM이 처리한다.
 			State = ESubstate::EndOfTurn2;
-			BattleEOTSM->Start(Canvas, Attacker);
+			BattleEOTSM->Start(Canvas, Attacker, Defender);
 		}
 
 		// 둘 다 살아있다면 Action2로 보낸다.
@@ -118,14 +118,14 @@ void ABattleTurnStateMachine::ProcessAction2(float _DeltaTime)
 		{
 			// 페인트 이펙트는 BattleActionSM이 처리한다.
 			State = ESubstate::EndOfTurn2;
-			BattleEOTSM->Start(Canvas, Defender);
+			BattleEOTSM->Start(Canvas, Defender, Attacker);
 			return;
 		}
 		else if (DefenderFaint)
 		{
 			// 페인트 이펙트는 BattleActionSM이 처리한다.
 			State = ESubstate::EndOfTurn2;
-			BattleEOTSM->Start(Canvas, Attacker);
+			BattleEOTSM->Start(Canvas, Attacker, Defender);
 		}
 
 		// 둘 다 살아있다면 EOT1로 보낸다.
@@ -141,7 +141,7 @@ void ABattleTurnStateMachine::ProcessAction2(float _DeltaTime)
 		}
 
 		State = ESubstate::EndOfTurn1;
-		BattleEOTSM->Start(Canvas, EOTTarget);
+		BattleEOTSM->Start(Canvas, EOTTarget, EOTNextTarget);
 	}
 }
 
@@ -168,7 +168,7 @@ void ABattleTurnStateMachine::ProcessEndOfTurn1(float _DeltaTime)
 		}
 
 		State = ESubstate::EndOfTurn2;
-		BattleEOTSM->Start(Canvas, EOTNextTarget);
+		BattleEOTSM->Start(Canvas, EOTNextTarget, EOTTarget);
 	}
 }
 
