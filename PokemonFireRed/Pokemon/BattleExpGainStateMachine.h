@@ -66,6 +66,7 @@ private:
 
 	// 상태 틱 함수
 	void ProcessExpGainMessage();
+	void ProcessTestExpBarIncrease();
 	void ProcessExpBarIncrease();
 	void ProcessLevelUpEffect();
 	void ProcessLevelUpMessage();

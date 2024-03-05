@@ -33,6 +33,9 @@ void ABattleExpGainStateMachine::Tick(float _DeltaTime)
 	case ABattleExpGainStateMachine::ESubstate::ExpGainMessage:
 		ProcessExpGainMessage();
 		break;
+	case ABattleExpGainStateMachine::ESubstate::TestExpBarIncrease:
+		ProcessTestExpBarIncrease();
+		break;
 	case ABattleExpGainStateMachine::ESubstate::ExpBarIncrease:
 		ProcessExpBarIncrease();
 		break;
@@ -81,9 +84,21 @@ void ABattleExpGainStateMachine::ProcessExpGainMessage()
 	if (true == UEngineInput::IsDown('Z'))
 	{
 		SimResult = UExpCalculator::SimExpGain(ExpGainer, Exp);
-		State = ESubstate::ExpBarIncrease;
-		Timer = ExpBarIncTime;
+		State = ESubstate::TestExpBarIncrease;
 	}
+}
+
+void ABattleExpGainStateMachine::ProcessTestExpBarIncrease()
+{
+	// 경험치를 모두 올린 경우
+	if (ExpGainer->GetAccExp() == SimResult.NextAccExp)
+	{
+		State = ESubstate::End;
+		return;
+	}
+
+	State = ESubstate::ExpBarIncrease;
+	Timer = ExpBarIncTime;
 }
 
 void ABattleExpGainStateMachine::ProcessExpBarIncrease()
@@ -193,7 +208,7 @@ void ABattleExpGainStateMachine::ProcessTestLearnMove()
 	}
 	else
 	{
-		State = ESubstate::End;
+		State = ESubstate::TestExpBarIncrease;
 	}
 }
 
