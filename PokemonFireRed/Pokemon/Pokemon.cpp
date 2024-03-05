@@ -15,7 +15,7 @@ UPokemon::UPokemon(EPokedexNo _Id, int _Level)
 	InitRandomGender();
 	InitRandomNature();
 	InitRandomAbility();
-	Status = UPokemonDB::FindStatus(EPokemonStatus::None);
+	Status = UPokemonDB::FindStatus(EPokemonStatus::Normal);
 	CurHp = GetHp();
 	for (int i = 0; i < GetMoveCount(); ++i)
 	{

@@ -64,6 +64,8 @@ void ABattleCanvas::RefreshEnemyPokemonBox()
 	EnemyPokemonGenderMark->SetRelativePosition(UPokemonUtil::PixelVector(7 + EPNTPixelWidth, 5));
 	EnemyPokemonGenderMark->SetImage(EnemyPokemon->GetGenderImageName());
 
+	EnemyPokemonStatusMark->SetImage(EnemyPokemon->GetStatusImageName());
+
 	EnemyPokemonImage->SetPokemon(EnemyPokemon);
 }
 
@@ -80,9 +82,12 @@ void ABattleCanvas::RefreshPlayerPokemonBox()
 	PlayerPokemonExpBar->SetMaxValue(ExpBarMaxValue);
 	PlayerPokemonExpBar->SetValue(UPokemonMath::Floor(static_cast<float>(ExpBarMaxValue) * PlayerPokemon->GetExp() / PlayerPokemon->GetExpSize()));
 
+	// 이름 옆에 배치
 	int PPNTPixelWidth = PlayerPokemonNameText->GetPixelLineWidth();
 	PlayerPokemonGenderMark->SetRelativePosition(UPokemonUtil::PixelVector(19 + PPNTPixelWidth, 5));
 	PlayerPokemonGenderMark->SetImage(PlayerPokemon->GetGenderImageName());
+
+	PlayerPokemonStatusMark->SetImage(PlayerPokemon->GetStatusImageName());
 
 	PlayerBattler->ChangeAnimation(Global::PlayerBattlerIdle);
 	PlayerPokemonImage->SetPokemon(PlayerPokemon);
@@ -328,6 +333,8 @@ void ABattleCanvas::BeginPlay()
 	EnemyPokemonLevelText = CreateText(EnemyPokemonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 85, 12, EAlignType::Right, EFontColor::Black, EFontSize::Mini);
 	EnemyPokemonHpBar = CreateScrollBar(EnemyPokemonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 39, 17, EScrollType::Hp);
 	EnemyPokemonGenderMark = CreateImageElement(EnemyPokemonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 10, 5);
+	EnemyPokemonStatusMark = CreateImageElement(EnemyPokemonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 7, 14);
+
 
 	// PlayerPokemonBox 요소
 	PlayerPokemonNameText = CreateText(PlayerPokemonBox, ERenderingOrder::UI5, EPivotType::RightTop, -84, 12, EAlignType::Left, EFontColor::Black, EFontSize::Mini);
@@ -337,6 +344,7 @@ void ABattleCanvas::BeginPlay()
 	PlayerPokemonHpBar = CreateScrollBar(PlayerPokemonBox, ERenderingOrder::UI5, EPivotType::RightTop, -55, 17, EScrollType::Hp);
 	PlayerPokemonExpBar = CreateScrollBar(PlayerPokemonBox, ERenderingOrder::UI5, EPivotType::RightTop, -71, 33, EScrollType::Exp);
 	PlayerPokemonGenderMark = CreateImageElement(PlayerPokemonBox, ERenderingOrder::UI5, EPivotType::LeftTop, 10, 5);
+	PlayerPokemonStatusMark = CreateImageElement(PlayerPokemonBox, ERenderingOrder::UI5, EPivotType::RightTop, -65, 22);
 
 	// EnemyGround 요소
 	EnemyPokemonImage = CreateImageElement(EnemyGround, ERenderingOrder::UI2, EPivotType::LeftTop, 36, -25, EImageElementType::PokemonFront);

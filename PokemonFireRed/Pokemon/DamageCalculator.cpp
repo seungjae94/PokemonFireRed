@@ -202,7 +202,7 @@ float UDamageCalculator::GetEffectiveAtk(const UBattler* _Battler, bool _IsCriti
         Multiplier = 1.0f;
     }
 
-    if (Pokemon->GetAbilityId() == EPokemonAbility::Guts && Pokemon->GetStatusId() != EPokemonStatus::None)
+    if (Pokemon->GetAbilityId() == EPokemonAbility::Guts && Pokemon->GetStatusId() != EPokemonStatus::Normal)
     {
         Multiplier *= 1.5f;
     }

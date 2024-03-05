@@ -197,6 +197,8 @@ void ABattleMoveStateMachine::ProcessMoveBE()
 		// 실제 BE 효과 적용
 		State = ESubstate::MoveBEMessage;
 		UMoveEffectApplier::ApplyBE(Attacker, Defender);
+		Canvas->RefreshPlayerPokemonBox();
+		Canvas->RefreshEnemyPokemonBox();
 		Canvas->SetBattleMessage(BEResult.Message);
 		Timer = BattleMsgShowTime;
 	}
@@ -248,6 +250,8 @@ void ABattleMoveStateMachine::ProcessMoveSE()
 		// 실제 SE 효과 적용
 		State = ESubstate::MoveSEMessage;
 		UMoveEffectApplier::ApplySE(Attacker, Defender);
+		Canvas->RefreshPlayerPokemonBox();
+		Canvas->RefreshEnemyPokemonBox();
 		Canvas->SetBattleMessage(SEResult.Message);
 		Timer = BattleMsgShowTime;
 	}

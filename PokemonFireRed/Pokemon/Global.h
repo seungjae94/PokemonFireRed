@@ -168,6 +168,14 @@ namespace RN
 	const std::string TypeWater = "TypeWater.png"; 
 	const std::string TypePlaceHolder = "TypePlaceHolder.png"; 
 
+	const std::string StatusBurn = "StatusBurn.png";
+	const std::string StatusFaint = "StatusFaint.png";
+	const std::string StatusFreeze = "StatusFreeze.png";
+	const std::string StatusParalysis = "StatusParalysis.png";
+	const std::string StatusPoison = "StatusPoison.png";
+	const std::string StatusSleep = "StatusSleep.png";
+	const std::string StatusPlaceHolder = "StatusPlaceHolder.png";
+
 	const std::string MaleTrainerCard = "MaleTrainerCard.png";
 
 	const std::string BgmTitleBattle = "TitleBattle.wav"; 

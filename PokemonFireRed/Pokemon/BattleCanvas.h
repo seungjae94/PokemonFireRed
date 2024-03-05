@@ -124,6 +124,7 @@ private:
 	AText* EnemyPokemonLevelText = nullptr;
 	AScrollBar* EnemyPokemonHpBar = nullptr;
 	AImageElement* EnemyPokemonGenderMark = nullptr;
+	AImageElement* EnemyPokemonStatusMark = nullptr;
 
 	// PlayerPokemonBox 요소
 	AText* PlayerPokemonNameText = nullptr;
@@ -133,6 +134,7 @@ private:
 	AScrollBar* PlayerPokemonHpBar = nullptr;
 	AScrollBar* PlayerPokemonExpBar = nullptr;
 	AImageElement* PlayerPokemonGenderMark = nullptr;
+	AImageElement* PlayerPokemonStatusMark = nullptr;
 
 	// EnemyPokemonGround 요소
 	AImageElement* EnemyPokemonImage = nullptr;

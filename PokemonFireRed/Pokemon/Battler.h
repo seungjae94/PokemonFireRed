@@ -102,12 +102,6 @@ public:
 	{
 		const UPokemon* Pokemon = CurPokemonReadonly();
 		EPokemonStatus StatusId = Pokemon->GetStatusId();
-
-		if (StatusId == EPokemonStatus::None)
-		{
-			return nullptr;
-		}
-
 		return UPokemonDB::FindStatus(StatusId);
 	}
 
@@ -118,11 +112,6 @@ public:
 
 	const FPokemonStatus* CurTempStatus() const
 	{
-		if (TempStatusId == EPokemonStatus::None)
-		{
-			return nullptr;
-		}
-
 		return UPokemonDB::FindStatus(TempStatusId);
 	}
 
@@ -174,7 +163,7 @@ public:
 
 		if (BindCount == 0)
 		{
-			TempStatusId = EPokemonStatus::None;
+			TempStatusId = EPokemonStatus::Normal;
 		}
 	}
 
@@ -190,7 +179,7 @@ private:
 	bool RunResult = false;
 
 	std::list<UPokemon*> Participants;
-	EPokemonStatus TempStatusId = EPokemonStatus::None;
+	EPokemonStatus TempStatusId = EPokemonStatus::Normal;
 	int BindCount = 0;
 };
 

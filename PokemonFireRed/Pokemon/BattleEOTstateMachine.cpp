@@ -63,7 +63,7 @@ void ABattleEOTStateMachine::Tick(float _DeltaTime)
 void ABattleEOTStateMachine::ProcessTestTempStatus()
 {
 	// 임시 상태가 없는 경우
-	if (Target->CurTempStatusId() == EPokemonStatus::None)
+	if (Target->CurTempStatusId() == EPokemonStatus::Normal)
 	{
 		State = ESubstate::TestStatus;
 	}
@@ -199,7 +199,7 @@ void ABattleEOTStateMachine::ProcessTestStatus()
 	}
 
 	// 상태가 없는 경우 종료
-	if (Target->CurStatusId() == EPokemonStatus::None)
+	if (Target->CurStatusId() == EPokemonStatus::Normal)
 	{
 		State = ESubstate::End;
 	}

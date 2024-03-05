@@ -101,7 +101,7 @@ FMoveEffectTestResult UMoveEffectTester::Test(const UBattler* _Attacker, const U
 	}
 
 	// 상태 적용 체크
-	if (_StatusId != EPokemonStatus::None)
+	if (_StatusId != EPokemonStatus::Normal)
 	{
 		const FPokemonStatus* MoveStatus = UPokemonDB::FindStatus(_StatusId);
 		EPokemonStatus TargetStatusId = _Target->CurStatusId();
@@ -109,7 +109,7 @@ FMoveEffectTestResult UMoveEffectTester::Test(const UBattler* _Attacker, const U
 
 		bool IsMoveApplyTempStatus = MoveStatus->IsTempStatus();
 		// TempStatus를 적용하려고 하는데 이미 TempStatus가 있다면 실패 (수정 가능성 있음)
-		if (true == IsMoveApplyTempStatus && TargetTempStatusId != EPokemonStatus::None)
+		if (true == IsMoveApplyTempStatus && TargetTempStatusId != EPokemonStatus::Normal)
 		{
 			Result.Success = false;
 			Result.Reason = EMoveEffectTestFailureReason::StatusOverlap;
@@ -117,7 +117,7 @@ FMoveEffectTestResult UMoveEffectTester::Test(const UBattler* _Attacker, const U
 			return Result;
 		}
 		// Status를 적용하려고 하는데 이미 Status가 있다면 실패
-		else if (false == IsMoveApplyTempStatus && TargetStatusId != EPokemonStatus::None)
+		else if (false == IsMoveApplyTempStatus && TargetStatusId != EPokemonStatus::Normal)
 		{
 			Result.Success = false;
 			Result.Reason = EMoveEffectTestFailureReason::StatusOverlap;

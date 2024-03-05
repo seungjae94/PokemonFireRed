@@ -151,7 +151,7 @@ public:
 
 enum class EPokemonStatus
 {
-	None,
+	Normal = 1,
 	Sleep,
 	Poison,
 	Burn,
@@ -165,7 +165,7 @@ enum class EPokemonStatus
 struct FPokemonStatus
 {
 public:
-	EPokemonStatus Id = EPokemonStatus::None;
+	EPokemonStatus Id = EPokemonStatus::Normal;
 	std::string Name;
 	std::string ImageName;
 
@@ -283,14 +283,14 @@ public:
 	EMoveEffectTarget BETarget = EMoveEffectTarget::None;
 	EStatStageChangeType BEStatStageId = EStatStageChangeType::None;
 	int BEStatStageValue = 0;
-	EPokemonStatus BEStatusId = EPokemonStatus::None;
+	EPokemonStatus BEStatusId = EPokemonStatus::Normal;
 	
 	// 부가 효과
 	EMoveEffectTarget SETarget = EMoveEffectTarget::None;
 	int SERate = 0;
 	EStatStageChangeType SEStatStageId = EStatStageChangeType::None;
 	int SEStatStageValue = 0;
-	EPokemonStatus SEStatusId = EPokemonStatus::None;
+	EPokemonStatus SEStatusId = EPokemonStatus::Normal;
 
 	std::wstring GetNameW() const
 	{

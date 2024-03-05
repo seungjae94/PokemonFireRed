@@ -84,7 +84,7 @@ void UMoveEffectApplier::Apply(UBattler* _Target, EStatStageChangeType _StatStag
 		}
 	}
 
-	if (_StatusId != EPokemonStatus::None)
+	if (_StatusId != EPokemonStatus::Normal)
 	{
 		switch (_StatusId)
 		{

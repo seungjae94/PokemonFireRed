@@ -1,14 +1,14 @@
 Int,Pokemon,Type,Ability,Move,ExpGroup,StatStage,Status,MoveEffectTarget
 0,NONE,,,,,,,
-1,Bulbasaur,Normal,Overgrow,Bubble,Erratic,Atk,Sleep,Self
-2,Ivysaur,Fire,Blaze,Ember,Fast,Def,StatusPoison,Enemy
-3,Venusaur,Water,Torrent,Growl,MediumFast,SpAtk,Burn,
-4,Charmander,Electric,Shield Dust,Gust,MediumSlow,SpDef,Freeze,
-5,Charmeleon,Grass,Shed Skin,Leech Seed,Slow,Speed,Paralysis,
-6,Charizard,Ice,Compound Eyes,Quick Attack,Fluctuating,Accuracy,Faint,
-7,Squirtle,Fighting,Swarm,Sand Attack,,Evasion,Seeded,
-8,Wartortle,Poison,Keen Eye,Scratch,,,Bound,
-9,Blastoise,Ground,Run Away,Tackle,,,,
+1,Bulbasaur,Normal,Overgrow,Bubble,Erratic,Atk,Normal,Self
+2,Ivysaur,Fire,Blaze,Ember,Fast,Def,Sleep,Enemy
+3,Venusaur,Water,Torrent,Growl,MediumFast,SpAtk,StatusPoison,
+4,Charmander,Electric,Shield Dust,Gust,MediumSlow,SpDef,Burn,
+5,Charmeleon,Grass,Shed Skin,Leech Seed,Slow,Speed,Freeze,
+6,Charizard,Ice,Compound Eyes,Quick Attack,Fluctuating,Accuracy,Paralysis,
+7,Squirtle,Fighting,Swarm,Sand Attack,,Evasion,Faint,
+8,Wartortle,Poison,Keen Eye,Scratch,,,Seeded,
+9,Blastoise,Ground,Run Away,Tackle,,,Bound,
 10,Caterpie,Flying,Guts,Tail Whip,,,,
 11,Metapod,Psychic,Intimidate,String Shot,,,,
 12,Butterfree,Bug,Static,Poison Sting,,,,
