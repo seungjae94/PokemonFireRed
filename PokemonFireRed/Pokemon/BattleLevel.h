@@ -21,7 +21,7 @@ private:
 		PlayerActionSelect,
 		Turn,
 		FinishBattle,
-		Run,			// 도망에 성공한 경우
+		Run,
 		End,
 	};
 public:

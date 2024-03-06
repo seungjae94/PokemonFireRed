@@ -103,27 +103,18 @@ void UMapLevel::Tick(float _DeltaTime)
 	UPokemonLevel::Tick(_DeltaTime);
 
 	// µð¹ö±ë ±â´É
-	if (UEngineInput::IsDown(VK_F1))
-	{
-		//bool ActiveValue = Map->IsCollisionRendererActive();
-		//Map->SetCollisionRendererActive(!ActiveValue);
-	}
-
-	if (UEngineInput::IsDown(VK_F2))
+	if (UEngineInput::IsDown('P'))
 	{
 		PokemonDebug::ReportPosition(Player, Global::Player);
 	}
 
 	if (UEngineInput::IsDown('O'))
 	{
-		//bool ActiveValue = Map->IsCollisionRendererActive();
-		//Map->SetCollisionRendererActive(!ActiveValue);
+		bool ActiveValue = Map->IsCollisionRendererActive();
+		Map->SetCollisionRendererActive(!ActiveValue);
 	}
 
-	if (UEngineInput::IsDown('F'))
-	{
-		PokemonDebug::ReportFrameRate(_DeltaTime);
-	}
+	PokemonDebug::ReportFrameRate(_DeltaTime, 100.0f);
 }
 
 void UMapLevel::LevelStart(ULevel* _PrevLevel)

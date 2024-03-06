@@ -19,7 +19,7 @@ public:
 
 	static void ReportPosition(AActor* _Actor, std::string_view _Name);
 	static void ReportPosition(AEventTarget* _Actor, std::string_view _Name);
-	static void ReportFrameRate(float _DeltaTime);
+	static void ReportFrameRate(float _DeltaTime, float _Inf);
 protected:
 
 private:

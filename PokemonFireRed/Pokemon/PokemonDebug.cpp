@@ -38,8 +38,12 @@ void PokemonDebug::ReportPosition(AEventTarget* _Actor, std::string_view _Name)
 	UEngineDebug::OutPutDebugText("Screen: " + FTileVector(ScreenPos * Global::FloatTileSize).ToString());
 }
 
-void PokemonDebug::ReportFrameRate(float _DeltaTime)
+void PokemonDebug::ReportFrameRate(float _DeltaTime, float _Inf)
 {
 	float FPS = 1.0f / _DeltaTime;
-	UEngineDebug::OutPutDebugText(std::to_string(FPS));
+
+	if (FPS < _Inf)
+	{
+		UEngineDebug::OutPutDebugText("FPS: " + std::to_string(FPS));
+	}
 }
