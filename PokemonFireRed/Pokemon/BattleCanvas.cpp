@@ -118,6 +118,8 @@ void ABattleCanvas::RefreshMoveSelectBox()
 	CurPPText->SetText(PlayerPokemon->GetMoveCurPPW(0));
 	MaxPPText->SetText(PlayerPokemon->GetMovePPW(0));
 	MoveTypeText->SetText(PlayerPokemon->GetMoveTypeUpperW(0));
+
+	MoveSelectBox->SetActive(MoveSelectBox->IsActive());
 }
 
 

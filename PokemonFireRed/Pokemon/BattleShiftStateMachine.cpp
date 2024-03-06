@@ -92,6 +92,7 @@ void ABattleShiftStateMachine::ProcessThrowBall()
 		Canvas->SetThrowedBallActive(false);
 		Canvas->SetPlayerPokemonBoxActive(true);
 		Canvas->RefreshPlayerPokemonBox();
+		Canvas->RefreshMoveSelectBox();
 		Canvas->SetPlayerPokemonImageActive(true);
 	}
 }
