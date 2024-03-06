@@ -34,6 +34,11 @@ public:
 	void IncActionCursor();
 	void DecActionCursor();
 
+	int GetBattleActionCursor() const;
+	void SetBattleActionCursor(int _Cursor);
+	void IncBattleActionCursor();
+	void DecBattleActionCursor();
+
 	// 스위치 기능
 	AImageElement* GetPokemonBox(int _Index);
 	bool IsFirstBox(const AImageElement* _PokemonBox) const;
@@ -44,6 +49,7 @@ public:
 	void SetActionSelectionMsgBoxActive(bool _Value);
 	void SetSwitchSelectionMsgBoxActive(bool _Value);
 	void SetActionBoxActive(bool _Value);
+	void SetBattleActionBoxActive(bool _Value);
 
 	// Refresh 함수
 	void SetBoxState(int _BoxIndex, EBoxState _BoxState);
@@ -62,6 +68,8 @@ private:
 	AImageElement* SwitchSelectionMsgBox = nullptr;
 	AImageElement* ActionBox = nullptr;
 	ACursor* ActionCursor = nullptr;
+	AImageElement* BattleActionBox = nullptr;
+	ACursor* BattleActionCursor = nullptr;
 
 	AImageElement* FirstBox = nullptr;
 	AImageElement* FirstPokemonIcon = nullptr;
@@ -84,19 +92,6 @@ private:
 	std::vector<AImageElement*> EntryStatuses;
 
 	AImageElement* CancelButton = nullptr;
-
-	void TargetSelect();
-	void ActionSelect();
-
-	void SwitchSelectionWaitStart();
-	int SwitchFromCursor = 0; // TargetCursor가 SwitchToCursor 역할을 겸임. 
-	void SwitchSelect();
-
-	void SwitchStart();
-	void SwitchTick(float _DeltaTime);
-	void SwitchMoveOutTick(float _DeltaTime);
-	void SwitchMoveWaitTick(float _DeltaTime);
-	void SwitchMoveInTick(float _DeltaTime);
 
 	// 고유 데이터
 	const int* TargetCursorReadonly = nullptr;

@@ -47,6 +47,9 @@ void UPokemonUILevel::Tick(float _DeltaTime)
 	case EState::ActionSelectionWait:
 		ProcessActionSelectionWait();
 		break;
+	case EState::BattleActionSelectionWait:
+		ProcessBattleActionSelectionWait();
+		break;
 	case EState::SwitchSelectionWait:
 		ProcessSwitchSelectionWait();
 		break;
@@ -176,6 +179,29 @@ void UPokemonUILevel::ProcessActionSelectionWait()
 	}
 }
 
+void UPokemonUILevel::ProcessBattleActionSelectionWait()
+{
+	if (UEngineInput::IsDown(VK_UP))
+	{
+		Canvas->DecBattleActionCursor();
+	}
+	else if (UEngineInput::IsDown(VK_DOWN))
+	{
+		Canvas->IncBattleActionCursor();
+	}
+	else if (UEngineInput::IsDown('X'))
+	{
+		State = EState::TargetSelectionWait;
+		Canvas->SetTargetSelectionMsgBoxActive(true);
+		Canvas->SetActionSelectionMsgBoxActive(false);
+		Canvas->SetBattleActionBoxActive(false);
+	}
+	else if (UEngineInput::IsDown('Z'))
+	{
+		SelectBattleAction();
+	}
+}
+
 void UPokemonUILevel::ProcessSwitchSelectionWait()
 {
 	if (true == UEngineInput::IsDown('X'))
@@ -244,18 +270,21 @@ void UPokemonUILevel::SelectTarget()
 	{
 		// 취소 버튼을 선택한 경우
 		UEventManager::FadeChangeLevel(PrevLevelName, false);
-
-		if (true == BattleMode)
-		{
-
-		}
 	}
-	else
+	else if (false == BattleMode)
 	{
 		State = EState::ActionSelectionWait;
 		Canvas->SetTargetSelectionMsgBoxActive(false);
 		Canvas->SetActionSelectionMsgBoxActive(true);
 		Canvas->SetActionBoxActive(true);
+		Canvas->SetActionCursor(0);
+	}
+	else
+	{
+		State = EState::BattleActionSelectionWait;
+		Canvas->SetTargetSelectionMsgBoxActive(false);
+		Canvas->SetActionSelectionMsgBoxActive(true);
+		Canvas->SetBattleActionBoxActive(true);
 		Canvas->SetActionCursor(0);
 	}
 }
@@ -283,6 +312,31 @@ void UPokemonUILevel::SelectAction()
 		Canvas->SetTargetSelectionMsgBoxActive(true);
 		Canvas->SetActionSelectionMsgBoxActive(false);
 		Canvas->SetActionBoxActive(false);
+		break;
+	default:
+		break;
+	}
+}
+
+void UPokemonUILevel::SelectBattleAction()
+{
+	switch (Canvas->GetBattleActionCursor())
+	{
+	case 0:
+		// Send Out
+		UEventManager::FadeChangeLevel(PrevLevelName, false);
+		PlayerBattler->SetShiftPokemonIndex(TargetCursor);
+		break;
+	case 1:
+		// PokemonSummaryUI 레벨로 전환
+		UEventManager::FadeChangeLevel(Global::PokemonSummaryUILevel, false);
+		break;
+	case 2:
+		// Target 상태로 복귀
+		State = EState::TargetSelectionWait;
+		Canvas->SetTargetSelectionMsgBoxActive(true);
+		Canvas->SetActionSelectionMsgBoxActive(false);
+		Canvas->SetBattleActionBoxActive(false);
 		break;
 	default:
 		break;

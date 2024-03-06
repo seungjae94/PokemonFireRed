@@ -38,8 +38,12 @@ void ABattleActionStateMachine::Start(ABattleCanvas* _Canvas, UBattler* _Attacke
 	break;
 	case EBattleAction::Shift:
 	{
-		State = ESubstate::Switch;
-		Canvas->SetBattleMessage(L"Not Implemented Yet!");
+		State = ESubstate::Shift;
+
+		// Go ¾îÂ¼±¸~
+		Canvas->SetBattleMessage(L"Go! ");
+		Timer = 100.0f;
+		//Canvas->SetBattleMessage(L"Not Implemented Yet!");
 	}
 	break;
 	case EBattleAction::Item:
@@ -66,8 +70,8 @@ void ABattleActionStateMachine::Tick(float _DeltaTime)
 	case ABattleActionStateMachine::ESubstate::EscapeFail:
 		ProcessEscapeFail();
 		break;
-	case ABattleActionStateMachine::ESubstate::Switch:
-		ProcessSwitch();
+	case ABattleActionStateMachine::ESubstate::Shift:
+		ProcessShift();
 		break;
 	case ABattleActionStateMachine::ESubstate::UseItem:
 		ProcessItem();
@@ -90,7 +94,7 @@ void ABattleActionStateMachine::ProcessEscapeFail()
 	}
 }
 
-void ABattleActionStateMachine::ProcessSwitch()
+void ABattleActionStateMachine::ProcessShift()
 {
 	if (Timer <= 0.0f)
 	{

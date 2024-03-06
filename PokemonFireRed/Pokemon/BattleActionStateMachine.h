@@ -17,7 +17,7 @@ private:
 	{
 		None,
 		EscapeFail,
-		Switch,
+		Shift,
 		UseItem,
 		Move,
 		End
@@ -67,7 +67,7 @@ private:
 	
 	// 상태 틱 함수
 	void ProcessEscapeFail();
-	void ProcessSwitch();
+	void ProcessShift();
 	void ProcessItem();
 	void ProcessMove();
 

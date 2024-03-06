@@ -154,6 +154,7 @@ void UBattleLevel::ProcessPlayerAction()
 		case EBattleAction::None:
 			break;
 		case EBattleAction::Fight:
+		case EBattleAction::Shift:
 		{
 			State = EBattleState::Turn;
 			BattleTurnSM->Start(Canvas, &Player, &Enemy);

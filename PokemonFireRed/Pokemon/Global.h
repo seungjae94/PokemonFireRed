@@ -124,6 +124,7 @@ namespace RN
 	const std::string PokemonUIActionSelectionMsgBox = "UPActionSelectionMsgBox.png"; 
 	const std::string PokemonUISwitchSelectionMsgBox = "UPSwitchSelectionMsgBox.png"; 
 	const std::string PokemonUIActionBox = "UPActionBox.png"; 
+	const std::string PokemonUIBattleActionBox = "UPBActionBox.png"; 
 	const std::string PokemonUIFirstBox = "UPFirst.png"; 
 	const std::string PokemonUIFirstFocusedBox = "UPFirstFocused.png"; 
 	const std::string PokemonUIFirstFromBox = "UPFirstFrom.png"; 
