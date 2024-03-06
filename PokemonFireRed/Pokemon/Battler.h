@@ -52,6 +52,18 @@ public:
 	}
 
 	// 포켓몬 정보
+	void InitCurPokemon()
+	{
+		for (int i = 0; i < Entry.size(); ++i)
+		{
+			if (false == Entry[i]->IsFaint())
+			{
+				FightingPokemonIndex = i;
+				return;
+			}
+		}
+	}
+
 	UPokemon* CurPokemon()
 	{
 		return Entry[FightingPokemonIndex];
