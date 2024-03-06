@@ -79,7 +79,7 @@ void UBattleLevel::Tick(float _DeltaTime)
 	case EBattleState::Turn:
 		ProcessTurn();
 		break;
-	case EBattleState::BattleEnd:
+	case EBattleState::FinishBattle:
 		ProcessBattleEnd();
 		break;
 	case EBattleState::Run:
@@ -198,11 +198,11 @@ void UBattleLevel::ProcessTurn()
 		}
 		else if (BattleTurnSM->WhyEnd() == ABattleTurnStateMachine::EEndReason::WinToWild)
 		{
-			State = EBattleState::BattleEnd;
+			State = EBattleState::FinishBattle;
 		}
 		else
 		{
-			State = EBattleState::BattleEnd;
+			State = EBattleState::FinishBattle;
 		}
 	}
 }

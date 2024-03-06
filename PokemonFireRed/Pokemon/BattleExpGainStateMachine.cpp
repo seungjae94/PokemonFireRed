@@ -9,11 +9,12 @@ ABattleExpGainStateMachine::~ABattleExpGainStateMachine()
 {
 }
 
-void ABattleExpGainStateMachine::Start(ABattleCanvas* _Canvas, UPokemon* _ExpGainer, int _Exp)
+void ABattleExpGainStateMachine::Start(ABattleCanvas* _Canvas, UPokemon* _ExpGainer, int _Exp, bool _IsCurPokemon)
 {
 	Canvas = _Canvas;
 	ExpGainer = _ExpGainer;
 	Exp = _Exp;
+	IsCurPokemon = _IsCurPokemon;
 
 	State = ESubstate::ExpGainMessage;
 	std::wstring BattleMsg = ExpGainer->GetNameW() + L" gained\n";
@@ -110,7 +111,15 @@ void ABattleExpGainStateMachine::ProcessExpBarIncrease()
 	if (ExpGainer->GetLevel() == SimResult.NextLevel)
 	{
 		int DestExp = SimResult.NextExp;
-		Canvas->LerpExpBar(CurExp, DestExp, ExpSize, Timer / ExpBarIncTime);
+
+		if (true == IsCurPokemon)
+		{
+			Canvas->LerpExpBar(CurExp, DestExp, ExpSize, Timer / ExpBarIncTime);
+		}
+		else
+		{
+			Timer = -1.0f;
+		}
 
 		if (Timer <= 0.0f)
 		{
@@ -123,7 +132,15 @@ void ABattleExpGainStateMachine::ProcessExpBarIncrease()
 	else
 	{
 		int DestExp = ExpSize;
-		Canvas->LerpExpBar(CurExp, DestExp, ExpSize, Timer / ExpBarIncTime);
+
+		if (true == IsCurPokemon)
+		{
+			Canvas->LerpExpBar(CurExp, DestExp, ExpSize, Timer / ExpBarIncTime);
+		}
+		else
+		{
+			Timer = -1.0f;
+		}
 
 		if (Timer <= 0.0f)
 		{

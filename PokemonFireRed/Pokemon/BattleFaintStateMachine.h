@@ -51,6 +51,7 @@ private:
 	// 고유 데이터
 	ESubstate State = ESubstate::None;
 	UBattler* Fainter = nullptr;
+	const UPokemon* PlayerCurPokemon = nullptr;
 	std::list<UBattler*> Fainters;
 	const float FaintTime = 0.5f;
 	float Timer = 0.0f;

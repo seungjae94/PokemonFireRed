@@ -166,7 +166,7 @@ void ABattleCanvas::SetThrowedBallActive(bool _Value)
 
 void ABattleCanvas::TakeInPokemonToBall(float _t)
 {
-	TakeOutPokemonFromBall(1.0 - _t);
+	TakeOutPokemonFromBall(1.0f - _t);
 }
 
 void ABattleCanvas::TakeOutPokemonFromBall(float _t)

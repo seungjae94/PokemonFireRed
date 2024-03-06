@@ -42,7 +42,7 @@ public:
 		return State == ESubstate::End;
 	}
 
-	void Start(ABattleCanvas* _Canvas, UPokemon* _ExpGainer, int _Exp);
+	void Start(ABattleCanvas* _Canvas, UPokemon* _ExpGainer, int _Exp, bool _IsCurPokemon);
 
 protected:
 
@@ -53,6 +53,7 @@ private:
 	ABattleCanvas* Canvas = nullptr;
 	UPokemon* ExpGainer = nullptr;
 	int Exp = 0;
+	bool IsCurPokemon = false;
 
 	// 고유 데이터
 	float Timer = 0.0f;

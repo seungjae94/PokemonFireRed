@@ -15,9 +15,18 @@ void ABattleFaintStateMachine::Start(ABattleCanvas* _Canvas, UBattler* _Attacker
 	Canvas = _Canvas;
 	Attacker = _Attacker;
 	Defender = _Defender;
-	
+
 	const UPokemon* AttackerPokemon = Attacker->CurPokemon();
 	const UPokemon* DefenderPokemon = Defender->CurPokemon();
+
+	if (Attacker->IsPlayer())
+	{
+		PlayerCurPokemon = AttackerPokemon;
+	}
+	else
+	{
+		PlayerCurPokemon = DefenderPokemon;
+	}
 
 	Fainters.clear();
 	ExpGainByFaint.clear();
@@ -133,7 +142,7 @@ void ABattleFaintStateMachine::ProcessTestExpGain()
 	{
 		State = ESubstate::ExpGain;
 		UPokemon* ExpGainer = ExpGainByFaint.begin()->first;
-		BattleExpGainSM->Start(Canvas, ExpGainer, ExpGainByFaint.at(ExpGainer));
+		BattleExpGainSM->Start(Canvas, ExpGainer, ExpGainByFaint.at(ExpGainer), PlayerCurPokemon == ExpGainer);
 		return;
 	}
 
@@ -145,6 +154,6 @@ void ABattleFaintStateMachine::ProcessExpGain()
 	if (true == BattleExpGainSM->IsEnd())
 	{
 		ExpGainByFaint.erase(ExpGainByFaint.begin());
-		State = ESubstate::TestFaint;
+		State = ESubstate::TestExpGain;
 	}
 }

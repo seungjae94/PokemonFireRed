@@ -71,6 +71,7 @@ private:
 	void ReturnToMapLevel()
 	{
 		UEventManager::FadeChangeLevel(PrevMapName);
+		State = EBattleState::End;
 	}
 };
 

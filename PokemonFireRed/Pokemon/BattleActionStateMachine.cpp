@@ -41,10 +41,13 @@ void ABattleActionStateMachine::Start(ABattleCanvas* _Canvas, UBattler* _Attacke
 		State = ESubstate::Shift;
 
 		UBattler* Player = _Attacker;
+		UBattler* Enemy = _Defender;
 		std::wstring TakeInPokemonName = Player->CurPokemon()->GetNameW();
 
 		// 실제 포켓몬 교체
 		Player->ShiftPokemon();
+		Player->GetParticipants().push_back(Enemy->CurPokemon());
+		Enemy->GetParticipants().push_back(Player->CurPokemon());
 
 		Canvas->SetActionBoxActive(false);
 		BattleShiftSM->Start(TakeInPokemonName, Canvas, Player);

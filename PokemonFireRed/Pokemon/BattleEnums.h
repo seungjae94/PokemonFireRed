@@ -12,8 +12,9 @@ enum class EBattleState
 	BattleStart,
 	PlayerActionSelect,
 	Turn,
-	BattleEnd,
-	Run				// 도망에 성공한 경우
+	FinishBattle,
+	Run,			// 도망에 성공한 경우
+	End,
 };
 
 enum class EBattleAction
