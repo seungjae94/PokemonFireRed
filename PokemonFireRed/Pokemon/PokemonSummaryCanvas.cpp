@@ -47,6 +47,7 @@ void APokemonSummaryCanvas::BeginPlay()
 	LevelText = CreateText(CommonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 14, 13, EAlignType::Left);
 	GenderIcon = CreateImageElement(CommonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 105, 3);
 	FrontImage = CreateImageElement(CommonBox, ERenderingOrder::UI2, EPivotType::RightTop, -28, 17, EImageElementType::PokemonFront);
+	StatusImage = CreateImageElement(CommonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 6, 18);
 
 	// InfoBox ¿ä¼Ò
 	PokedexNoText = CreateText(InfoBox, ERenderingOrder::UI2, EPivotType::RightTop, -72, 15, EAlignType::Left, EFontColor::Black2);
@@ -122,6 +123,7 @@ void APokemonSummaryCanvas::RefreshAll()
 	IdNoText->SetText(UPlayerData::GetIdNoW());
 	FrontImage->SetPokemon(Pokemon);
 	GenderIcon->SetImage(Pokemon->GetBigGenderImageName());
+	StatusImage->SetImage(Pokemon->GetStatusImageName());
 
 	// InfoBox
 	PokedexNoText->SetText(Pokemon->GetPokedexNoW());

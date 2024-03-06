@@ -60,6 +60,7 @@ private:
 	AText* LevelText = nullptr;
 	AImageElement* GenderIcon = nullptr;
 	AImageElement* FrontImage = nullptr;
+	AImageElement* StatusImage = nullptr;
 
 	// InfoBox ¿ä¼Ò
 	AText* PokedexNoText = nullptr;
