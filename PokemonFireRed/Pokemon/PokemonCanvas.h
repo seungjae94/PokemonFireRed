@@ -93,6 +93,7 @@ private:
 	AText* FirstCurHpText = nullptr;
 	AScrollBar* FirstHpBar = nullptr;
 	AImageElement* FirstGender = nullptr;
+	AImageElement* FirstStatus = nullptr;
 
 	std::vector<AImageElement*> EntryBoxes;
 	std::vector<AImageElement*> EntryPokemonIcons;
@@ -102,6 +103,7 @@ private:
 	std::vector<AText*> EntryCurHpTexts;
 	std::vector<AScrollBar*> EntryHpBars;
 	std::vector<AImageElement*> EntryGenders;
+	std::vector<AImageElement*> EntryStatuses;
 
 	AImageElement* CancelButton = nullptr;
 

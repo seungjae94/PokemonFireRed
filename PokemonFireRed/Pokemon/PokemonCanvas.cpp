@@ -55,6 +55,7 @@ void APokemonCanvas::BeginPlay()
 	FirstHpBar = CreateScrollBar(FirstBox, ERenderingOrder::UI2, EPivotType::RightBot, -53, -15, EScrollType::Hp);
 	FirstPokemonIcon = CreateImageElement(FirstBox, ERenderingOrder::UI2, EPivotType::LeftBot, -2, -23, EImageElementType::PokemonMiniMove);
 	FirstGender = CreateImageElement(FirstBox, ERenderingOrder::UI2, EPivotType::RightBot, -9, -19);
+	FirstStatus = CreateImageElement(FirstBox, ERenderingOrder::UI3, EPivotType::RightBot, -28, -19);
 
 	for (int i = 1; i < UPlayerData::GetPokemonEntrySize(); ++i)
 	{
@@ -67,6 +68,7 @@ void APokemonCanvas::BeginPlay()
 		AScrollBar* HpBar = CreateScrollBar(EntryBoxes[i - 1], ERenderingOrder::UI2, EPivotType::RightBot, -53, -13, EScrollType::Hp);
 		AImageElement* Icon = CreateImageElement(EntryBoxes[i - 1], ERenderingOrder::UI2, EPivotType::LeftBot, -3, 3, EImageElementType::PokemonMiniMove);
 		AImageElement* Gender = CreateImageElement(EntryBoxes[i - 1], ERenderingOrder::UI2, EPivotType::RightBot, -72, 0);
+		AImageElement* Status = CreateImageElement(EntryBoxes[i - 1], ERenderingOrder::UI3, EPivotType::RightBot, -91, 0);
 
 		EntryNameTexts.push_back(NameText);
 		EntryLevelTexts.push_back(LevelText);
@@ -75,6 +77,7 @@ void APokemonCanvas::BeginPlay()
 		EntryHpBars.push_back(HpBar);
 		EntryPokemonIcons.push_back(Icon);
 		EntryGenders.push_back(Gender);
+		EntryStatuses.push_back(Status);
 	}
 }
 
@@ -470,13 +473,21 @@ void APokemonCanvas::RefreshFirst()
 	const UPokemon& Pokemon = UPlayerData::GetPokemonInEntry(0);
 
 	FirstNameText->SetText(Pokemon.GetNameW());
-	FirstLevelText->SetText(std::to_wstring(Pokemon.GetLevel()));
+	
+	std::wstring LevelText = L"";
+	if (Pokemon.GetStatusId() == EPokemonStatus::Normal)
+	{
+		LevelText = Pokemon.GetLevelW();
+	}
+	FirstLevelText->SetText(LevelText);
+	
 	FirstHpText->SetText(std::to_wstring(Pokemon.GetHp()));
 	FirstCurHpText->SetText(std::to_wstring(Pokemon.GetCurHp()));
 	FirstHpBar->SetMaxValue(Pokemon.GetHp());
 	FirstHpBar->SetValue(Pokemon.GetCurHp());
 	FirstPokemonIcon->SetPokemon(Pokemon);
 	FirstGender->SetImage(Pokemon.GetGenderImageName());
+	FirstStatus->SetImage(Pokemon.GetStatusImageName());
 }
 
 void APokemonCanvas::RefreshEntry(int _Index)
@@ -572,13 +583,21 @@ void APokemonCanvas::RefreshEntry(int _Index)
 
 	const UPokemon& Pokemon = UPlayerData::GetPokemonInEntry(_Index);
 	EntryNameTexts[_Index - 1]->SetText(Pokemon.GetNameW());
-	EntryLevelTexts[_Index - 1]->SetText(Pokemon.GetLevelW());
+
+	std::wstring LevelText = L"";
+	if (Pokemon.GetStatusId() == EPokemonStatus::Normal)
+	{
+		LevelText = Pokemon.GetLevelW();
+	}
+	EntryLevelTexts[_Index - 1]->SetText(LevelText);
+
 	EntryHpTexts[_Index - 1]->SetText(Pokemon.GetHpW());
 	EntryCurHpTexts[_Index - 1]->SetText(Pokemon.GetCurHpW());
 	EntryHpBars[_Index - 1]->SetMaxValue(Pokemon.GetHp());
 	EntryHpBars[_Index - 1]->SetValue(Pokemon.GetCurHp());
 	EntryPokemonIcons[_Index - 1]->SetPokemon(Pokemon);
 	EntryGenders[_Index - 1]->SetImage(Pokemon.GetGenderImageName());
+	EntryStatuses[_Index - 1]->SetImage(Pokemon.GetStatusImageName());
 }
 
 void APokemonCanvas::RefreshCancel()
