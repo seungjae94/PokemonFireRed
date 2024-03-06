@@ -27,6 +27,11 @@ public:
 	ABattleShiftStateMachine& operator=(const ABattleShiftStateMachine& _Other) = delete;
 	ABattleShiftStateMachine& operator=(ABattleShiftStateMachine&& _Other) noexcept = delete;
 
+	bool IsEnd() const
+	{
+		return State == ESubstate::End;
+	}
+
 	void Start(std::wstring_view _TakeInPokemonName, ABattleCanvas* _Canvas, const UBattler* _Player);
 
 protected:

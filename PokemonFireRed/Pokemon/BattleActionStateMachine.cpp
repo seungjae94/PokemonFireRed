@@ -100,7 +100,7 @@ void ABattleActionStateMachine::ProcessEscapeFail()
 
 void ABattleActionStateMachine::ProcessShift()
 {
-	if (Timer <= 0.0f)
+	if (true == BattleShiftSM->IsEnd())
 	{
 		State = ESubstate::End;
 	}
