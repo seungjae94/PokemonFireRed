@@ -1,6 +1,6 @@
 ID,Name,Explain,Type,PP,BasePower,Accuracy,Contact,BETarget,BEStatStageId,BEStatStageValue,BEStatus,SETarget,SERate,SEStatStageId,SEStatStageValue,SEStatus
 1,BUBBLE,A spray of bubbles\nhits the foe. It\nmay lower the\nfoe¡¯s SPEED stat.,Water,30,20,100,No,None,,,,Enemy,10,Speed,-1,
-2,EMBER,The foe is attacked\nwith small flames.\nThe foe may suffer\na burn.,Fire,25,40,100,No,None,,,,Enemy,70,,,Burn
+2,EMBER,The foe is attacked\nwith small flames.\nThe foe may suffer\na burn.,Fire,25,40,100,No,None,,,,Enemy,10,,,Burn
 3,GROWL,"The user growls in\na cute way, making\nthe foe lower its\nATTACK stat.",Normal,40,0,100,No,Enemy,Atk,-1,,None,,,,
 4,GUST,Strikes the foe\nwith a gust of\nwind whipped\nup by wings.,Flying,35,40,100,No,None,,,,None,,,,
 5,LEECH SEED,A seed is planted\non the foe to steal\nsome HP for the\nuser on every turn.,Grass,10,0,90,No,Enemy,,,Seeded,None,,,,
@@ -10,7 +10,7 @@ ID,Name,Explain,Type,PP,BasePower,Accuracy,Contact,BETarget,BEStatStageId,BEStat
 9,TACKLE,"A physical attack\nin which the user\ncharges, full body,\ninto the foe.",Normal,35,35,95,Yes,None,,,,None,,,,
 10,TAIL WHIP,"The user wags its\ntail cutely, making\nthe foe lower its\nDEFENSE stat.",Normal,30,0,100,No,Enemy,Def,-1,,None,,,,
 11,STRING SHOT,The foe is bound\nwith strings shot\nfrom the mouth to\nreduce its SPEED.,Bug,40,0,95,No,Enemy,Speed,-1,,None,,,,
-12,POISON STING,"The foe is stabbed\nwith a toxic\nbarb, etc. It\nmay poison the foe.",Poison,35,15,100,No,None,,,,Enemy,70,,,StatusPoison
+12,POISON STING,"The foe is stabbed\nwith a toxic\nbarb, etc. It\nmay poison the foe.",Poison,35,15,100,No,None,,,,Enemy,30,,,StatusPoison
 13,PECK,The foe is jabbed\nwith a sharply\npointed beak or horn.,Flying,35,35,100,Yes,None,,,,None,,,,
 14,LEER,The foe is given\nan intimidating look\nthat lowers its\nDEFENSE stat.,Normal,30,0,100,No,Enemy,Def,-1,,None,,,,
 15,LOW KICK,"A low, tripping kick\nthat inflicts more\ndamage on heavier\nfoes.",Fighting,20,0,100,Yes,None,,,,None,,,,
