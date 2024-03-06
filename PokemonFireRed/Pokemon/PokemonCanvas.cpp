@@ -36,6 +36,7 @@ void APokemonCanvas::Init()
 	RefreshAllTargets();
 
 	// ·»´õ¸µ ¼³Á¤
+	TargetSelectionMsgBox->SetActive(true);
 	ActionSelectionMsgBox->SetActive(false);
 	SwitchSelectionMsgBox->SetActive(false);
 	ActionBox->SetActive(false);
