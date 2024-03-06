@@ -7,6 +7,7 @@
 #include "MapLevel.h"
 #include "BattleLevel.h"
 #include "PokemonSummaryUILevel.h"
+#include "BattleUtil.h"
 
 UPokemonUILevel::UPokemonUILevel()
 {
@@ -49,6 +50,9 @@ void UPokemonUILevel::Tick(float _DeltaTime)
 		break;
 	case EState::BattleActionSelectionWait:
 		ProcessBattleActionSelectionWait();
+		break;
+	case EState::BattleShiftFailMessageShow:
+		ProcessBattleShiftFailMessageShow();
 		break;
 	case EState::SwitchSelectionWait:
 		ProcessSwitchSelectionWait();
@@ -202,6 +206,18 @@ void UPokemonUILevel::ProcessBattleActionSelectionWait()
 	}
 }
 
+void UPokemonUILevel::ProcessBattleShiftFailMessageShow()
+{
+	if (true == UEngineInput::IsDown('Z'))
+	{
+		State = EState::TargetSelectionWait;
+		Canvas->SetBattleMsgBoxActive(false);
+		Canvas->SetTargetSelectionMsgBoxActive(true);
+		Canvas->SetActionSelectionMsgBoxActive(false);
+		Canvas->SetBattleActionBoxActive(false);
+	}
+}
+
 void UPokemonUILevel::ProcessSwitchSelectionWait()
 {
 	if (true == UEngineInput::IsDown('X'))
@@ -323,10 +339,32 @@ void UPokemonUILevel::SelectBattleAction()
 	switch (Canvas->GetBattleActionCursor())
 	{
 	case 0:
+	{
 		// Send Out
+		const UPokemon* SelectedPokemon = &UPlayerData::GetPokemonInEntry(TargetCursor);
+		if (SelectedPokemon == PlayerBattler->CurPokemon())
+		{
+			// 배틀에 나와 있는 포켓몬을 고르는 경우
+			State = EState::BattleShiftFailMessageShow;
+			Canvas->SetBattleMsgBoxActive(true);
+			Canvas->SetActionBoxActive(false);
+			Canvas->SetBattleMessage(SelectedPokemon->GetNameW() + +L" is already\nin battle!");
+			return;
+		}
+		else if (true == SelectedPokemon->IsFaint())
+		{
+			// 기절한 포켓몬을 고르는 경우
+			State = EState::BattleShiftFailMessageShow;
+			Canvas->SetBattleMsgBoxActive(true);
+			Canvas->SetActionBoxActive(false);
+			Canvas->SetBattleMessage(SelectedPokemon->GetNameW() + L" has no energy\nleft to battle!");
+			return;
+		}
+
 		UEventManager::FadeChangeLevel(PrevLevelName, false);
 		PlayerBattler->SetShiftPokemonIndex(TargetCursor);
-		break;
+	}
+	break;
 	case 1:
 		// PokemonSummaryUI 레벨로 전환
 		UEventManager::FadeChangeLevel(Global::PokemonSummaryUILevel, false);

@@ -14,6 +14,7 @@ private:
 		TargetSelectionWait,		// 포켓몬 또는 취소 버튼 선택을 기다리는 상태
 		ActionSelectionWait,		// 포켓몬을 선택하고 액션 선택을 기다리는 상태
 		BattleActionSelectionWait,	// (배틀 모드) 포켓몬을 선택하고 액션 선택을 기다리는 상태
+		BattleShiftFailMessageShow,
 		SwitchSelectionWait,		// 순서를 교체할 포켓몬을 결정하기를 기다리는 상태
 		SwitchMoveOut,			
 		SwitchMoveWait,
@@ -78,6 +79,7 @@ private:
 	void ProcessTargetSelectionWait();
 	void ProcessActionSelectionWait();
 	void ProcessBattleActionSelectionWait();
+	void ProcessBattleShiftFailMessageShow();
 	void ProcessSwitchSelectionWait();
 	void ProcessSwitchMoveOut();
 	void ProcessSwitchMoveWait();

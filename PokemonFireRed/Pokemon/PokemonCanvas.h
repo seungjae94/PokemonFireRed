@@ -50,6 +50,8 @@ public:
 	void SetSwitchSelectionMsgBoxActive(bool _Value);
 	void SetActionBoxActive(bool _Value);
 	void SetBattleActionBoxActive(bool _Value);
+	void SetBattleMsgBoxActive(bool _Value);
+	void SetBattleMessage(std::wstring _Msg);
 
 	// Refresh ÇÔ¼ö
 	void SetBoxState(int _BoxIndex, EBoxState _BoxState);
@@ -70,6 +72,8 @@ private:
 	ACursor* ActionCursor = nullptr;
 	AImageElement* BattleActionBox = nullptr;
 	ACursor* BattleActionCursor = nullptr;
+	AImageElement* BattleMsgBox = nullptr;
+	AText* BattleMsg = nullptr;
 
 	AImageElement* FirstBox = nullptr;
 	AImageElement* FirstPokemonIcon = nullptr;

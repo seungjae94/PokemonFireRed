@@ -40,6 +40,7 @@ void APokemonCanvas::Init()
 	SwitchSelectionMsgBox->SetActive(false);
 	ActionBox->SetActive(false);
 	BattleActionBox->SetActive(false);
+	BattleMsgBox->SetActive(false);
 }
 
 void APokemonCanvas::BeginPlay()
@@ -64,6 +65,10 @@ void APokemonCanvas::BeginPlay()
 	BattleActionBox = CreateImageElement(Background, ERenderingOrder::UI4, EPivotType::RightBot, -1, -1);
 	BattleActionBox->SetImage(RN::PokemonUIBattleActionBox);
 
+	BattleMsgBox = CreateImageElement(Background,
+		ERenderingOrder::UI6, EPivotType::RightBot, -1, -1);
+	BattleMsgBox->SetImage(RN::PokemonUIBattleMsgBox);
+
 	FirstBox = CreateImageElement(Background, ERenderingOrder::UI1, EPivotType::LeftTop, 0, 0);
 	EntryBoxes.reserve(6);
 	for (int i = 1; i < 6; ++i)
@@ -79,6 +84,12 @@ void APokemonCanvas::BeginPlay()
 
 	BattleActionCursor = CreateCursor(BattleActionBox, ERenderingOrder::UI5, EPivotType::LeftTop, 8, 11, RN::BlackCursor, 16);
 	BattleActionCursor->SetOptionCount(3);
+
+	// 배틀 메시지
+	BattleMsg = CreateText(BattleMsgBox,
+		ERenderingOrder::UI7, EPivotType::LeftTop, 7, 19,
+		EAlignType::Left, EFontColor::Black3);
+	BattleMsg->SetLineSpace(15);
 
 	// 엔트리
 	UPokemon& First = UPlayerData::GetPokemonInEntry(0);
@@ -216,6 +227,16 @@ void APokemonCanvas::SetActionBoxActive(bool _Value)
 void APokemonCanvas::SetBattleActionBoxActive(bool _Value)
 {
 	BattleActionBox->SetActive(_Value);
+}
+
+void APokemonCanvas::SetBattleMsgBoxActive(bool _Value)
+{
+	BattleMsgBox->SetActive(_Value);
+}
+
+void APokemonCanvas::SetBattleMessage(std::wstring _Msg)
+{
+	BattleMsg->SetText(_Msg);
 }
 
 void APokemonCanvas::SetBoxState(int _BoxIndex, EBoxState _BoxState)
