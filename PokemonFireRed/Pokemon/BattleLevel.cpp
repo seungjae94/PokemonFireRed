@@ -8,6 +8,8 @@
 #include "BattleEnemyActionGenerator.h"
 #include "TurnOrderCalculator.h"
 #include "AccuracyChecker.h"
+#include "MapLevel.h"
+#include "PokemonUILevel.h"
 
 UBattleLevel::UBattleLevel()
 {
@@ -89,7 +91,21 @@ void UBattleLevel::Tick(float _DeltaTime)
 void UBattleLevel::LevelStart(ULevel* _PrevLevel)
 {
 	UPokemonLevel::LevelStart(_PrevLevel);
-	PrevMapName = _PrevLevel->GetName();
+
+	UMapLevel* MapLevel = dynamic_cast<UMapLevel*>(_PrevLevel);
+	UPokemonUILevel* PokemonUILevel = dynamic_cast<UPokemonUILevel*>(_PrevLevel);
+
+	if (nullptr != PokemonUILevel)
+	{
+		// 포켓몬 메뉴 진입 후 복귀하는 경우 레벨 초기화를 하지 않는다.
+		return;
+	}
+
+	if (nullptr != MapLevel)
+	{
+		// 이전 레벨이 맵 레벨인 경우 맵 레벨 이름을 기억한다.
+		PrevMapName = _PrevLevel->GetName();
+	}
 
 	// 데이터 초기화
 	bool PlayerFirst = true;

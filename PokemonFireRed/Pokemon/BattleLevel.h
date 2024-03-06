@@ -24,6 +24,11 @@ public:
 	UBattleLevel& operator=(const UBattleLevel& _Other) = delete;
 	UBattleLevel& operator=(UBattleLevel&& _Other) noexcept = delete;
 
+	UBattler* GetPlayerBattler()
+	{
+		return &Player;
+	}
+
 protected:
 private:
 	// ตฅภฬลอ

@@ -53,12 +53,6 @@ public:
 
 	void Reset();
 
-	// Pokemon UI에서 호출하는 함수
-	UBattler* GetPlayer() const
-	{
-		return Player;
-	}
-
 protected:
 
 private:

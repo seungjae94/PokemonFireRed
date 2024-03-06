@@ -2,6 +2,9 @@
 #include "PokemonLevel.h"
 #include "FadeLevelChanger.h"
 #include "PokemonCanvas.h"
+#include "Battler.h"
+
+class UBattleLevel;
 
 class UPokemonUILevel : public UPokemonLevel
 {
@@ -62,6 +65,10 @@ private:
 	FVector SwitchFromOutPos;
 	FVector SwitchToInPos;
 	FVector SwitchToOutPos;
+
+	// 고유 데이터 - 배틀 모드
+	UBattler* PlayerBattler = nullptr;
+	bool BattleMode = false;
 
 	// 상태
 	EState State = EState::TargetSelectionWait;

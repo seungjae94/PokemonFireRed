@@ -71,32 +71,32 @@ void UPokemonUILevel::LevelStart(ULevel* _PrevLevel)
 	UBattleLevel* BattleLevel = dynamic_cast<UBattleLevel*>(_PrevLevel);
 	UPokemonSummaryUILevel* SummaryUILevel = dynamic_cast<UPokemonSummaryUILevel*>(_PrevLevel);
 
+	if (nullptr != SummaryUILevel)
+	{
+		// 이전 레벨이 SummaryUI 레벨인 경우 레벨 초기화를 하지 않는다.
+		return;
+	}
+
+	// 이전 맵 기억
+	PrevLevelName = _PrevLevel->GetName();
+
+	// 레벨 초기화
+	Canvas->Init();
+	TargetCursor = 0;
+	State = EState::TargetSelectionWait;
+
 	// 맵 레벨 처리
 	if (nullptr != MapLevel)
 	{
-		// 이전 맵 기억
-		PrevLevelName = _PrevLevel->GetName();
-
-		// 데이터 초기화
-		Canvas->Init();
-		TargetCursor = 0;
-
+		BattleMode = false;
 	}
 	// 배틀 레벨 처리
 	else if (nullptr != BattleLevel)
 	{
-		// 이전 맵 기억
-		PrevLevelName = _PrevLevel->GetName();
-
-		// 데이터 초기화
-		Canvas->Init();
-		TargetCursor = 0;
+		BattleMode = true;
+		PlayerBattler = BattleLevel->GetPlayerBattler();
+		PlayerBattler->SetShiftPokemonIndex(PlayerBattler->CurPokemonIndex());
 	}
-	else if (nullptr != SummaryUILevel)
-	{
-
-	}
-
 }
 
 void UPokemonUILevel::ProcessTargetSelectionWait()
@@ -244,6 +244,11 @@ void UPokemonUILevel::SelectTarget()
 	{
 		// 취소 버튼을 선택한 경우
 		UEventManager::FadeChangeLevel(PrevLevelName, false);
+
+		if (true == BattleMode)
+		{
+
+		}
 	}
 	else
 	{
