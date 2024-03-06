@@ -209,10 +209,7 @@ void UBattleLevel::ProcessTurn()
 
 void UBattleLevel::ProcessBattleEnd()
 {
-	if (true == UEngineInput::IsDown('Z'))
-	{
-		ReturnToMapLevel();
-	}
+	ReturnToMapLevel();
 }
 
 void UBattleLevel::ProcessRun()
