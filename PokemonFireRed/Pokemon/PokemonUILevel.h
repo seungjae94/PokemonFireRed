@@ -106,5 +106,7 @@ private:
 	{
 		return TargetCursor == UPlayerData::GetPokemonEntrySize();
 	}
+
+	void CancelTargetSelection();
 };
 

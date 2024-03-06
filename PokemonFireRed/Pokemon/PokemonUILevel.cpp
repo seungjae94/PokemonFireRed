@@ -112,8 +112,7 @@ void UPokemonUILevel::ProcessTargetSelectionWait()
 
 	if (true == UEngineInput::IsDown('X'))
 	{
-		UEventManager::FadeChangeLevel(PrevLevelName, false);
-		Canvas->SetActionCursor(0);
+		CancelTargetSelection();
 		return;
 	}
 
@@ -282,10 +281,10 @@ void UPokemonUILevel::ProcessSwitchSelectionWait()
 
 void UPokemonUILevel::SelectTarget()
 {
+	// 취소 버튼을 선택한 경우
 	if (TargetCursor == UPlayerData::GetPokemonEntrySize())
 	{
-		// 취소 버튼을 선택한 경우
-		UEventManager::FadeChangeLevel(PrevLevelName, false);
+		CancelTargetSelection();
 	}
 	else if (false == BattleMode)
 	{
@@ -347,7 +346,7 @@ void UPokemonUILevel::SelectBattleAction()
 			// 배틀에 나와 있는 포켓몬을 고르는 경우
 			State = EState::BattleShiftFailMessageShow;
 			Canvas->SetBattleMsgBoxActive(true);
-			Canvas->SetActionBoxActive(false);
+			Canvas->SetBattleActionBoxActive(false);
 			Canvas->SetBattleMessage(SelectedPokemon->GetNameW() + +L" is already\nin battle!");
 			return;
 		}
@@ -356,7 +355,7 @@ void UPokemonUILevel::SelectBattleAction()
 			// 기절한 포켓몬을 고르는 경우
 			State = EState::BattleShiftFailMessageShow;
 			Canvas->SetBattleMsgBoxActive(true);
-			Canvas->SetActionBoxActive(false);
+			Canvas->SetBattleActionBoxActive(false);
 			Canvas->SetBattleMessage(SelectedPokemon->GetNameW() + L" has no energy\nleft to battle!");
 			return;
 		}
@@ -420,6 +419,7 @@ void UPokemonUILevel::SelectSwitch()
 	}
 }
 
+
 void UPokemonUILevel::ProcessSwitchMoveOut()
 {
 	float t = Timer / SwitchMoveOutTime;
@@ -465,4 +465,18 @@ void UPokemonUILevel::ProcessSwitchMoveIn()
 
 		Canvas->RefreshAllTargets();
 	}
+}
+
+
+void UPokemonUILevel::CancelTargetSelection()
+{
+	if (true == BattleMode && PlayerBattler->CurPokemon()->IsFaint())
+	{
+		// 예외적으로 배틀중 플레이어 포켓몬이 기절해서 강제로 포켓몬을 골라야 하는 경우 취소 버튼을 누를 수 없다.
+		State = EState::TargetSelectionWait;
+		return;
+	}
+
+	UEventManager::FadeChangeLevel(PrevLevelName, false);
+	Canvas->SetActionCursor(0);
 }
