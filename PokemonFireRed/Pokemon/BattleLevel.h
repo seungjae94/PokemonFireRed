@@ -9,6 +9,7 @@
 #include "BattleEOTStateMachine.h"
 #include "BattleFaintStateMachine.h"
 #include "BattleExpGainStateMachine.h"
+#include "BattleShiftStateMachine.h"
 #include "Battler.h"
 
 class UBattleLevel : public UPokemonLevel
@@ -45,6 +46,7 @@ private:
 	ABattleEOTStateMachine* BattleEOTSM = nullptr;				// BattleTurnSM이 내부적으로 사용하는 SM
 	ABattleFaintStateMachine* BattleFaintSM = nullptr;			// BattleTurnSM이 내부적으로 사용하는 SM
 	ABattleMoveStateMachine* BattleMoveSM = nullptr;			// BattleActionSM이 내부적으로 사용하는 SM
+	ABattleShiftStateMachine* BattleShiftSM = nullptr;			// BattleActionSM이 내부적으로 사용하는 SM
 	ABattleExpGainStateMachine* BattleExpGainSM = nullptr;		// BattleFaintSM이 내부적으로 사용하는 SM
 
 	void BeginPlay() override;

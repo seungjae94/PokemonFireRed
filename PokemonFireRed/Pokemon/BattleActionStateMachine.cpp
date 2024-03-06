@@ -40,10 +40,14 @@ void ABattleActionStateMachine::Start(ABattleCanvas* _Canvas, UBattler* _Attacke
 	{
 		State = ESubstate::Shift;
 
-		// Go 어쩌구~
-		Canvas->SetBattleMessage(L"Go! ");
-		Timer = 100.0f;
-		//Canvas->SetBattleMessage(L"Not Implemented Yet!");
+		UBattler* Player = _Attacker;
+		std::wstring TakeInPokemonName = Player->CurPokemon()->GetNameW();
+
+		// 실제 포켓몬 교체
+		Player->ShiftPokemon();
+
+		Canvas->SetActionBoxActive(false);
+		BattleShiftSM->Start(TakeInPokemonName, Canvas, Player);
 	}
 	break;
 	case EBattleAction::Item:

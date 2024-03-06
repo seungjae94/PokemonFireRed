@@ -67,6 +67,12 @@ public:
 		return FightingPokemonIndex;
 	}
 
+	void ShiftPokemon()
+	{
+		FightingPokemonIndex = ShiftPokemonIndex;
+		ShiftPokemonIndex = -1;
+	}
+
 	// ¾×¼Ç
 	EBattleAction CurAction() const
 	{

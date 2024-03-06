@@ -54,6 +54,8 @@ void UBattleLevel::BeginPlay()
 	// BattleActionSM 하위 요소
 	BattleMoveSM = SpawnActor<ABattleMoveStateMachine>();
 	BattleActionSM->SetBMSM(BattleMoveSM);
+	BattleShiftSM = SpawnActor<ABattleShiftStateMachine>();
+	BattleActionSM->SetBSSM(BattleShiftSM);
 	
 	// BattleFaintSM 하위 요소
 	BattleExpGainSM = SpawnActor<ABattleExpGainStateMachine>();

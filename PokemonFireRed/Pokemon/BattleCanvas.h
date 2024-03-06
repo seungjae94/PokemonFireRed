@@ -27,6 +27,7 @@ public:
 	void PlayThrowedBallAnimation();
 	bool IsThrowedBallAnimationEnd();
 	void SetThrowedBallActive(bool _Value);
+	void TakeInPokemonToBall(float _t);
 	void TakeOutPokemonFromBall(float _t);
 	void LerpShowPlayerPokemonBox(float _t);
 	void SetActionBoxActive(bool _Value);
