@@ -14,6 +14,32 @@ APokemonCanvas::~APokemonCanvas()
 {
 }
 
+void APokemonCanvas::Init()
+{
+	// 데이터 초기화
+	int EntrySize = UPlayerData::GetPokemonEntrySize();
+	FirstBoxState = EBoxState::Focused;
+	EntryBoxStates.clear();
+	for (int i = 1; i < EntrySize; ++i)
+	{
+		EntryBoxStates.push_back(EBoxState::Unfocused);
+	}
+	for (int i = EntrySize; i < 6; ++i)
+	{
+		EntryBoxStates.push_back(EBoxState::Empty);
+	}
+	CancelBoxState = EBoxState::Unfocused;
+
+	// 하위 요소 초기화
+	ActionCursor->SetCursor(0);
+	RefreshAllTargets();
+
+	// 렌더링 설정
+	ActionSelectionMsgBox->SetActive(false);
+	SwitchSelectionMsgBox->SetActive(false);
+	ActionBox->SetActive(false);
+}
+
 void APokemonCanvas::BeginPlay()
 {
 	// 백그라운드
@@ -81,380 +107,133 @@ void APokemonCanvas::BeginPlay()
 	}
 }
 
-void APokemonCanvas::Tick(float _DeltaTime)
+int APokemonCanvas::GetActionCursor() const
 {
-	ACanvas::Tick(_DeltaTime);
-
-	switch (State)
-	{
-	case EPokemonUIState::TargetSelectionWait:
-		TargetSelectionWaitTick(_DeltaTime);
-		break;
-	case EPokemonUIState::ActionSelectionWait:
-		ActionSelectionWaitTick(_DeltaTime);
-		break;
-	case EPokemonUIState::SwitchSelectionWait:
-		SwitchSelectionWaitTick(_DeltaTime);
-		break;
-	case EPokemonUIState::Switch:
-		SwitchTick(_DeltaTime);
-		break;
-	default:
-		break;
-	}
+	return ActionCursor->GetCursor();
 }
 
-void APokemonCanvas::TargetSelectionWaitTick(float _DeltaTime)
+void APokemonCanvas::SetActionCursor(int _Cursor)
 {
-	if (true == UEngineInput::IsDown('X'))
-	{
-		UEventManager::FadeChangeLevel(PrevMapLevelName, false);
-		ActionCursor->SetCursor(0);
-		return;
-	}
-
-	if (true == UEngineInput::IsDown('Z'))
-	{
-		TargetSelect();
-		return;
-	}
-
-	int EntrySize = UPlayerData::GetPokemonEntrySize();
-	if (true == UEngineInput::IsDown(VK_LEFT) && IsEntry(TargetCursor))
-	{
-		MemoryEntryCursor = TargetCursor;
-		MoveTargetCursor(0);
-	}
-
-	if (true == UEngineInput::IsDown(VK_RIGHT) && IsFirst(TargetCursor))
-	{
-		MoveTargetCursor(MemoryEntryCursor);
-		return;
-	}
-
-	if (true == UEngineInput::IsDown(VK_UP))
-	{
-		if (true == IsEntry(TargetCursor))
-		{
-			MemoryEntryCursor = TargetCursor;
-		}
-
-		MoveTargetCursor(UPokemonMath::Mod(TargetCursor - 1, EntrySize + 1));
-	}
-
-	if (true == UEngineInput::IsDown(VK_DOWN))
-	{
-		if (true == IsEntry(TargetCursor))
-		{
-			MemoryEntryCursor = TargetCursor;
-		}
-
-		MoveTargetCursor(UPokemonMath::Mod(TargetCursor + 1, EntrySize + 1));
-	}
+	ActionCursor->SetCursor(_Cursor);
 }
 
-void APokemonCanvas::MoveTargetCursor(int _Cursor)
+void APokemonCanvas::IncActionCursor()
 {
-	TargetCursor = _Cursor;
-	RefreshAllTargets();
+	ActionCursor->IncCursor();
 }
 
-void APokemonCanvas::TargetSelect()
+void APokemonCanvas::DecActionCursor()
 {
-	if (TargetCursor == UPlayerData::GetPokemonEntrySize())
+	ActionCursor->DecCursor();
+}
+
+AImageElement* APokemonCanvas::GetPokemonBox(int _Index)
+{
+	if (_Index == 0)
 	{
-		// 캔슬 버튼 입력
-		UEventManager::FadeChangeLevel(PrevMapLevelName, false);
+		return FirstBox;
+	}
+	else if (_Index == UPlayerData::GetPokemonEntrySize())
+	{
+		MsgBoxAssert("CancelBox는 PokemonBox가 아닙니다.");
+		return nullptr;
+	}
+
+	return EntryBoxes[_Index - 1];
+}
+
+bool APokemonCanvas::IsFirstBox(const AImageElement* _PokemonBox) const
+{
+	return FirstBox == _PokemonBox;
+}
+
+void APokemonCanvas::LerpPokemonBox(int _Index, const FVector& _Before, const FVector& _After, float _t)
+{
+	AImageElement* Mover = nullptr;
+
+	if (_Index == 0)
+	{
+		Mover = FirstBox;
+	}
+	else if (_Index == UPlayerData::GetPokemonEntrySize())
+	{
+		MsgBoxAssert("CancelBox를 Lerp하려고 했습니다.");
 	}
 	else
 	{
-		State = EPokemonUIState::ActionSelectionWait;
-		TargetSelectionMsgBox->SetActive(false);
-		ActionSelectionMsgBox->SetActive(true);
-		ActionBox->SetActive(true);
-		ActionCursor->SetCursor(0);
+		Mover = EntryBoxes[_Index - 1];
 	}
 }
 
-void APokemonCanvas::ActionSelectionWaitTick(float _DeltaTime)
+void APokemonCanvas::SetTargetSelectionMsgBoxActive(bool _Value)
 {
-	if (UEngineInput::IsDown(VK_UP))
-	{
-		ActionCursor->DecCursor();
-	}
-	else if (UEngineInput::IsDown(VK_DOWN))
-	{
-		ActionCursor->IncCursor();
-	}
-	else if (UEngineInput::IsDown('X'))
-	{
-		State = EPokemonUIState::TargetSelectionWait;
-		TargetSelectionMsgBox->SetActive(true);
-		ActionSelectionMsgBox->SetActive(false);
-		ActionBox->SetActive(false);
-	}
-	else if (UEngineInput::IsDown('Z'))
-	{
-		ActionSelect();
-	}
+	TargetSelectionMsgBox->SetActive(_Value);
 }
 
-void APokemonCanvas::ActionSelect()
+void APokemonCanvas::SetActionSelectionMsgBoxActive(bool _Value)
 {
-	switch (ActionCursor->GetCursor())
-	{
-	case 0:
-		// PokemonSummaryUI 레벨로 전환
-		UEventManager::FadeChangeLevel(Global::PokemonSummaryUILevel, false);
-		break;
-	case 1:
-		// Switch 상태로 전환
-		State = EPokemonUIState::SwitchSelectionWait;
-		SwitchSelectionWaitStart();
-		break;
-	case 2:
-		State = EPokemonUIState::TargetSelectionWait;
-		TargetSelectionMsgBox->SetActive(true);
-		ActionSelectionMsgBox->SetActive(false);
-		ActionBox->SetActive(false);
-		break;
-	default:
-		break;
-	}
+	ActionSelectionMsgBox->SetActive(_Value);
 }
 
-void APokemonCanvas::SwitchSelectionWaitStart()
+void APokemonCanvas::SetSwitchSelectionMsgBoxActive(bool _Value)
 {
-	ActionBox->SetActive(false);
-	ActionSelectionMsgBox->SetActive(false);
-	SwitchSelectionMsgBox->SetActive(true);
-	SwitchFromCursor = TargetCursor;
-	RefreshAllTargets();
+	SwitchSelectionMsgBox->SetActive(_Value);
 }
 
-void APokemonCanvas::SwitchSelectionWaitTick(float _DeltaTime)
+void APokemonCanvas::SetActionBoxActive(bool _Value)
 {
-	if (true == UEngineInput::IsDown('X'))
+	ActionBox->SetActive(_Value);
+}
+
+void APokemonCanvas::SetBoxState(int _BoxIndex, EBoxState _BoxState)
+{
+	if (_BoxIndex == 0)
 	{
-		State = EPokemonUIState::TargetSelectionWait;
-		SwitchSelectionMsgBox->SetActive(false);
-		TargetSelectionMsgBox->SetActive(true);
-		RefreshAllTargets();
+		FirstBoxState = _BoxState;
 		return;
 	}
 
-	if (true == UEngineInput::IsDown('Z'))
+	if (_BoxIndex == UPlayerData::GetPokemonEntrySize())
 	{
-		SwitchSelect();
-		return;
-	}
-
-	int EntrySize = UPlayerData::GetPokemonEntrySize();
-	if (true == UEngineInput::IsDown(VK_LEFT) && IsEntry(TargetCursor))
-	{
-		MemoryEntryCursor = TargetCursor;
-		MoveTargetCursor(0);
-	}
-
-	if (true == UEngineInput::IsDown(VK_RIGHT) && IsFirst(TargetCursor))
-	{
-		MoveTargetCursor(MemoryEntryCursor);
-	}
-
-	if (true == UEngineInput::IsDown(VK_UP))
-	{
-		if (true == IsEntry(TargetCursor))
+		if (_BoxState == EBoxState::To)
 		{
-			MemoryEntryCursor = TargetCursor;
+			// 취소 버튼은 Switch 대상이 될 수 없다.
+			CancelBoxState = EBoxState::Focused;
+			return;
 		}
 
-		MoveTargetCursor(UPokemonMath::Mod(TargetCursor - 1, EntrySize + 1));
-	}
-
-	if (true == UEngineInput::IsDown(VK_DOWN))
-	{
-		if (true == IsEntry(TargetCursor))
-		{
-			MemoryEntryCursor = TargetCursor;
-		}
-
-		MoveTargetCursor(UPokemonMath::Mod(TargetCursor + 1, EntrySize + 1));
-	}
-}
-
-void APokemonCanvas::SwitchSelect()
-{
-	if (TargetCursor == SwitchFromCursor || true == IsCancel(TargetCursor))
-	{
-		// 스위치 취소
-		State = EPokemonUIState::TargetSelectionWait;
-		SwitchSelectionMsgBox->SetActive(false);
-		TargetSelectionMsgBox->SetActive(true);
-		RefreshAllTargets();
+		CancelBoxState = _BoxState;
 		return;
 	}
 
-	State = EPokemonUIState::Switch;
-	SwitchStart();
-}
-
-void APokemonCanvas::SwitchStart()
-{
-	SwitchMoveState = ESwitchMoveState::Out;
-	SwitchMoveTimer = SwitchMoveOutTime;
-
-	if (true == IsFirst(SwitchFromCursor))
-	{
-		SwitchMoveSwitchFrom = FirstBox;
-		SwitchFromPrevPos = SwitchMoveSwitchFrom->GetRelativePosition();
-		SwitchFromOutPos = SwitchFromPrevPos - FVector(0.5f * Global::FloatScreenX, 0.0f);
-	}
-	else
-	{
-		SwitchMoveSwitchFrom = EntryBoxes[SwitchFromCursor - 1];
-		SwitchFromPrevPos = SwitchMoveSwitchFrom->GetRelativePosition();
-		SwitchFromOutPos = SwitchFromPrevPos + FVector(0.75f * Global::FloatScreenX, 0.0f);
-	}
-
-	if (true == IsFirst(TargetCursor))
-	{
-		SwitchMoveTarget = FirstBox;
-		TargetPrevPos = SwitchMoveTarget->GetRelativePosition();
-		TargetOutPos = TargetPrevPos - FVector(0.5f * Global::FloatScreenX, 0.0f);
-	}
-	else
-	{
-		SwitchMoveTarget = EntryBoxes[TargetCursor - 1];
-		TargetPrevPos = SwitchMoveTarget->GetRelativePosition();
-		TargetOutPos = TargetPrevPos + FVector(0.75f * Global::FloatScreenX, 0.0f);
-	}
-
-}
-
-void APokemonCanvas::SwitchTick(float _DeltaTime)
-{
-	// 교체가 전부 끝나면 상태 변경 후 메시지 박스 변경
-	switch (SwitchMoveState)
-	{
-	case APokemonCanvas::ESwitchMoveState::Out:
-		SwitchMoveOutTick(_DeltaTime);
-		break;
-	case APokemonCanvas::ESwitchMoveState::Wait:
-		SwitchMoveWaitTick(_DeltaTime);
-		break;
-	case APokemonCanvas::ESwitchMoveState::In:
-		SwitchMoveInTick(_DeltaTime);
-		break;
-	default:
-		break;
-	}
-}
-
-void APokemonCanvas::SwitchMoveOutTick(float _DeltaTime)
-{
-	SwitchMoveTimer -= _DeltaTime;
-
-	float t = 1.0f - SwitchMoveTimer / SwitchMoveOutTime;
-	SwitchMoveSwitchFrom->SetRelativePosition(UPokemonMath::Lerp(SwitchFromPrevPos, SwitchFromOutPos, t));
-	SwitchMoveTarget->SetRelativePosition(UPokemonMath::Lerp(TargetPrevPos, TargetOutPos, t));
-
-	if (SwitchMoveTimer <= 0.0f)
-	{
-		SwitchMoveState = ESwitchMoveState::Wait;
-		SwitchMoveTimer = SwitchMoveWaitTime;
-		UPlayerData::SwapEntry(SwitchFromCursor, TargetCursor);
-		RefreshAllTargets();
-	}
-}
-
-void APokemonCanvas::SwitchMoveWaitTick(float _DeltaTime)
-{
-	SwitchMoveTimer -= _DeltaTime;
-
-	if (SwitchMoveTimer <= 0.0f)
-	{
-		SwitchMoveState = ESwitchMoveState::In;
-		SwitchMoveTimer = SwitchMoveInTime;
-	}
-}
-
-void APokemonCanvas::SwitchMoveInTick(float _DeltaTime)
-{
-	SwitchMoveTimer -= _DeltaTime;
-
-	float t = SwitchMoveTimer / SwitchMoveInTime;
-	SwitchMoveSwitchFrom->SetRelativePosition(UPokemonMath::Lerp(SwitchFromPrevPos, SwitchFromOutPos, t));
-	SwitchMoveTarget->SetRelativePosition(UPokemonMath::Lerp(TargetPrevPos, TargetOutPos, t));
-
-	if (SwitchMoveTimer <= 0.0f)
-	{
-		State = EPokemonUIState::TargetSelectionWait;
-		SwitchSelectionMsgBox->SetActive(false);
-		TargetSelectionMsgBox->SetActive(true);
-		RefreshAllTargets();
-	}
+	EntryBoxStates[_BoxIndex - 1] = _BoxState;
 }
 
 // Refresh 함수
-
-void APokemonCanvas::RefreshFirst()
+void APokemonCanvas::RefreshFirst(bool _IsSwitchMode)
 {
-	ETargetState TargetState = ETargetState::Empty;
-
-	switch (State)
-	{
-	case EPokemonUIState::TargetSelectionWait:
-	case EPokemonUIState::ActionSelectionWait:
-		if (TargetCursor == 0)
-		{
-			TargetState = ETargetState::Focused;
-		}
-		else
-		{
-			TargetState = ETargetState::Unfocused;
-		}
-		break;
-	case EPokemonUIState::SwitchSelectionWait:
-	case EPokemonUIState::Switch:
-		if (TargetCursor == 0)
-		{
-			TargetState = ETargetState::To;
-		}
-		else if (SwitchFromCursor == 0)
-		{
-			TargetState = ETargetState::From;
-		}
-		else
-		{
-			TargetState = ETargetState::Unfocused;
-		}
-		break;
-	default:
-		break;
-	}
-
 	std::string ImageName;
 	int PixelX = 0;
 	int PixelY = 0;
 
-	switch (TargetState)
+	switch (FirstBoxState)
 	{
-	case APokemonCanvas::ETargetState::Unfocused:
+	case APokemonCanvas::EBoxState::Unfocused:
 		ImageName = RN::PokemonUIFirstBox;
 		PixelX = 2;
 		PixelY = 20;
 		break;
-	case APokemonCanvas::ETargetState::Focused:
+	case APokemonCanvas::EBoxState::Focused:
 		ImageName = RN::PokemonUIFirstFocusedBox;
 		PixelX = 2;
 		PixelY = 18;
 		break;
-	case APokemonCanvas::ETargetState::From:
+	case APokemonCanvas::EBoxState::From:
 		ImageName = RN::PokemonUIFirstFromBox;
 		PixelX = 2;
 		PixelY = 20;
 		break;
-	case APokemonCanvas::ETargetState::To:
+	case APokemonCanvas::EBoxState::To:
 		ImageName = RN::PokemonUIFirstToBox;
 		PixelX = 2;
 		PixelY = 18;
@@ -464,23 +243,20 @@ void APokemonCanvas::RefreshFirst()
 		break;
 	}
 
-	if (State != EPokemonUIState::Switch)
+	if (false == _IsSwitchMode)
 	{
 		FirstBox->SetImage(ImageName);
 		FirstBox->SetRelativePosition(PixelX, PixelY);
 	}
 
 	const UPokemon& Pokemon = UPlayerData::GetPokemonInEntry(0);
-
 	FirstNameText->SetText(Pokemon.GetNameW());
-	
 	std::wstring LevelText = L"";
 	if (Pokemon.GetStatusId() == EPokemonStatus::Normal)
 	{
 		LevelText = Pokemon.GetLevelW();
 	}
 	FirstLevelText->SetText(LevelText);
-	
 	FirstHpText->SetText(std::to_wstring(Pokemon.GetHp()));
 	FirstCurHpText->SetText(std::to_wstring(Pokemon.GetCurHp()));
 	FirstHpBar->SetMaxValue(Pokemon.GetHp());
@@ -490,78 +266,35 @@ void APokemonCanvas::RefreshFirst()
 	FirstStatus->SetImage(Pokemon.GetStatusImageName());
 }
 
-void APokemonCanvas::RefreshEntry(int _Index)
+void APokemonCanvas::RefreshEntry(int _Index, bool _IsSwitchMode)
 {
-	ETargetState TargetState = ETargetState::Empty;
-
-	switch (State)
-	{
-	case EPokemonUIState::TargetSelectionWait:
-	case EPokemonUIState::ActionSelectionWait:
-		if (false == IsEntry(_Index))
-		{
-			TargetState = ETargetState::Empty;
-		}
-		else if (TargetCursor == _Index)
-		{
-			TargetState = ETargetState::Focused;
-		}
-		else
-		{
-			TargetState = ETargetState::Unfocused;
-		}
-		break;
-	case EPokemonUIState::SwitchSelectionWait:
-	case EPokemonUIState::Switch:
-		if (false == IsEntry(_Index))
-		{
-			TargetState = ETargetState::Empty;
-		}
-		else if (TargetCursor == _Index)
-		{
-			TargetState = ETargetState::To;
-		}
-		else if (SwitchFromCursor == _Index)
-		{
-			TargetState = ETargetState::From;
-		}
-		else
-		{
-			TargetState = ETargetState::Unfocused;
-		}
-		break;
-	default:
-		break;
-	}
-
 	std::string ImageName;
 	int PixelX = 0;
 	int PixelY = 0;
 
-
-	switch (TargetState)
+	switch (EntryBoxStates[_Index - 1])
 	{
-	case APokemonCanvas::ETargetState::Empty:
+	case APokemonCanvas::EBoxState::Empty:
 		ImageName = RN::PokemonUIEntryEmptyBox;
 		PixelX = -2;
 		PixelY = 10 + 24 * (_Index - 1);
 		break;
-	case APokemonCanvas::ETargetState::Unfocused:
+	case APokemonCanvas::EBoxState::Unfocused:
 		ImageName = RN::PokemonUIEntryBox;
 		PixelX = -2;
 		PixelY = 10 + 24 * (_Index - 1);
 		break;
-	case APokemonCanvas::ETargetState::Focused:
+	case APokemonCanvas::EBoxState::Focused:
 		ImageName = RN::PokemonUIEntryFocusedBox;
 		PixelX = -2;
 		PixelY = 9 + 24 * (_Index - 1);
 		break;
-	case APokemonCanvas::ETargetState::From:
+	case APokemonCanvas::EBoxState::From:
 		ImageName = RN::PokemonUIEntryFromBox;
 		PixelX = -2;
 		PixelY = 10 + 24 * (_Index - 1);
 		break;
-	case APokemonCanvas::ETargetState::To:
+	case APokemonCanvas::EBoxState::To:
 		ImageName = RN::PokemonUIEntryToBox;
 		PixelX = -2;
 		PixelY = 9 + 24 * (_Index - 1);
@@ -570,7 +303,7 @@ void APokemonCanvas::RefreshEntry(int _Index)
 		break;
 	}
 
-	if (State != EPokemonUIState::Switch)
+	if (false == _IsSwitchMode) 
 	{
 		EntryBoxes[_Index - 1]->SetImage(ImageName);
 		EntryBoxes[_Index - 1]->SetRelativePosition(PixelX, PixelY);
@@ -583,14 +316,12 @@ void APokemonCanvas::RefreshEntry(int _Index)
 
 	const UPokemon& Pokemon = UPlayerData::GetPokemonInEntry(_Index);
 	EntryNameTexts[_Index - 1]->SetText(Pokemon.GetNameW());
-
 	std::wstring LevelText = L"";
 	if (Pokemon.GetStatusId() == EPokemonStatus::Normal)
 	{
 		LevelText = Pokemon.GetLevelW();
 	}
 	EntryLevelTexts[_Index - 1]->SetText(LevelText);
-
 	EntryHpTexts[_Index - 1]->SetText(Pokemon.GetHpW());
 	EntryCurHpTexts[_Index - 1]->SetText(Pokemon.GetCurHpW());
 	EntryHpBars[_Index - 1]->SetMaxValue(Pokemon.GetHp());
@@ -602,25 +333,18 @@ void APokemonCanvas::RefreshEntry(int _Index)
 
 void APokemonCanvas::RefreshCancel()
 {
-	ETargetState TargetState = ETargetState::Unfocused;
-
-	if (true == IsCancel(TargetCursor))
-	{
-		TargetState = ETargetState::Focused;
-	}
-
 	std::string ImageName;
 	int PixelX = 0;
 	int PixelY = 0;
 
-	switch (TargetState)
+	switch (CancelBoxState)
 	{
-	case APokemonCanvas::ETargetState::Unfocused:
+	case APokemonCanvas::EBoxState::Unfocused:
 		ImageName = RN::PokemonUICancel;
 		PixelX = -2;
 		PixelY = -6;
 		break;
-	case APokemonCanvas::ETargetState::Focused:
+	case APokemonCanvas::EBoxState::Focused:
 		ImageName = RN::PokemonUICancelFocused;
 		PixelX = -2;
 		PixelY = -4;
@@ -634,12 +358,12 @@ void APokemonCanvas::RefreshCancel()
 	CancelButton->SetRelativePosition(PixelX, PixelY);
 }
 
-void APokemonCanvas::RefreshAllTargets()
+void APokemonCanvas::RefreshAllTargets(bool _IsSwitchMode)
 {
-	RefreshFirst();
+	RefreshFirst(_IsSwitchMode);
 	for (int i = 1; i <= 5; ++i)
 	{
-		RefreshEntry(i);
+		RefreshEntry(i, _IsSwitchMode);
 	}
 	RefreshCancel();
 }

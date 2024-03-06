@@ -21,35 +21,19 @@ public:
 
 	UStatStage StatStage;
 
-	UPokemon* CurPokemon()
-	{
-		return Entry[CurPokemonIndex];
-	}
-
-	const UPokemon* CurPokemonReadonly() const
-	{
-		return Entry[CurPokemonIndex];
-	}
-
 	void Clear()
 	{
 		StatStage.Reset();
 		Entry.clear();
 		Action = EBattleAction::None;
-		CurPokemonIndex = 0;
+		FightingPokemonIndex = 0;
 		CurMoveIndex = 0;
 		IsPlayerValue = false;
 		IsWildPokemonValue = false;
 	}
 
-	void PrepareShift()
-	{
-		StatStage.Reset();
-		Participants.clear();
-	}
-
+	// 배틀러 정보
 	void SetPlayer();
-
 	void SetWildPokemon();
 
 	bool IsPlayer() const
@@ -62,19 +46,47 @@ public:
 		return IsWildPokemonValue;
 	}
 
+	bool IsTrainer() const
+	{
+		return false == IsPlayer() && false == IsWildPokemon();
+	}
+
+	// 포켓몬 정보
+	UPokemon* CurPokemon()
+	{
+		return Entry[FightingPokemonIndex];
+	}
+
+	const UPokemon* CurPokemonReadonly() const
+	{
+		return Entry[FightingPokemonIndex];
+	}
+
+	int CurPokemonIndex() const
+	{
+		return FightingPokemonIndex;
+	}
+
+	// 액션
+	EBattleAction CurAction() const
+	{
+		return Action;
+	}
+
 	void SetAction(EBattleAction _Action)
 	{
 		Action = _Action;
 	}
 
+	// 액션 디테일
+	bool GetRunResult() const
+	{
+		return RunResult;
+	}
+
 	void SetRunResult(bool _RunResult)
 	{
 		RunResult = _RunResult;
-	}
-
-	void SetMoveIndex(int _MoveIndex)
-	{
-		CurMoveIndex = _MoveIndex;
 	}
 
 	EPokemonMove CurMoveId() const
@@ -88,14 +100,26 @@ public:
 		return UPokemonDB::FindMove(MoveId);
 	}
 
-	EBattleAction CurAction() const
+	void SetMoveIndex(int _MoveIndex)
 	{
-		return Action;
+		CurMoveIndex = _MoveIndex;
 	}
 
-	bool IsRunSuccess() const
+	int GetShiftPokemonIndex() const
 	{
-		return RunResult;
+		return ShiftPokemonIndex;
+	}
+
+	void SetShiftPokemonIndex(int _ShiftPokemonIndex)
+	{
+		ShiftPokemonIndex = _ShiftPokemonIndex;
+	}
+
+	// 스탯 변경
+	void ResetTemporalStat()
+	{
+		StatStage.Reset();
+		Participants.clear();
 	}
 
 	const FPokemonStatus* CurStatus() const
@@ -125,6 +149,33 @@ public:
 		TempStatusId = _TempStatus;
 	}
 
+	std::list<UPokemon*>& GetParticipants()
+	{
+		return Participants;
+	}
+
+	const std::list<UPokemon*>& GetParticipantsReadonly() const
+	{
+		return Participants;
+	}
+
+	// 스탯 변경 디테일
+	void DecBindCount()
+	{
+		if (BindCount < 1)
+		{
+			return;
+		}
+
+		--BindCount;
+
+		if (BindCount == 0)
+		{
+			TempStatusId = EPokemonStatus::Normal;
+		}
+	}
+
+	// 엔트리
 	int GetEntrySize() const
 	{
 		return static_cast<int>(Entry.size());
@@ -142,42 +193,22 @@ public:
 		return true;
 	}
 
-	std::list<UPokemon*>& GetParticipants()
-	{
-		return Participants;
-	}
-
-	const std::list<UPokemon*>& GetParticipantsReadonly() const
-	{
-		return Participants;
-	}
-
-	void DecBindCount()
-	{
-		if (BindCount < 1)
-		{
-			return;
-		}
-
-		--BindCount;
-
-		if (BindCount == 0)
-		{
-			TempStatusId = EPokemonStatus::Normal;
-		}
-	}
-
 protected:
 
 private:
+	// 배틀러 정보
 	std::vector<UPokemon*> Entry;
-	EBattleAction Action = EBattleAction::None;
-	int CurPokemonIndex = 0;
+	int FightingPokemonIndex = 0;
 	int CurMoveIndex = 0;
 	bool IsPlayerValue = false;
 	bool IsWildPokemonValue = false;
-	bool RunResult = false;
 
+	// 액션 선택 관련 변수
+	EBattleAction Action = EBattleAction::None;
+	bool RunResult = false;
+	int ShiftPokemonIndex = -1;
+
+	// 스탯 관련 변수
 	std::list<UPokemon*> Participants;
 	EPokemonStatus TempStatusId = EPokemonStatus::Normal;
 	int BindCount = 0;

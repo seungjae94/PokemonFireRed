@@ -1,6 +1,7 @@
 #include "BattlePlayerActionSelectStateMachine.h"
 #include <EnginePlatform/EngineInput.h>
 #include "BattleCanvas.h"
+#include "EventManager.h"
 
 ABattlePlayerActionSelectStateMachine::ABattlePlayerActionSelectStateMachine()
 {
@@ -32,10 +33,13 @@ void ABattlePlayerActionSelectStateMachine::Tick(float _DeltaTime)
 	case ESubstate::None:
 		break;
 	case ESubstate::Select:
-		ProcessSelect(_DeltaTime);
+		ProcessSelect();
 		break;
 	case ESubstate::MoveSelect:
-		ProcessMoveSelect(_DeltaTime);
+		ProcessMoveSelect();
+		break;
+	case ESubstate::PokemonSelect:
+		ProcessPokemonSelect();
 		break;
 	case ESubstate::End:
 		break;
@@ -44,7 +48,7 @@ void ABattlePlayerActionSelectStateMachine::Tick(float _DeltaTime)
 	}
 }
 
-void ABattlePlayerActionSelectStateMachine::ProcessSelect(float _DeltaTime)
+void ABattlePlayerActionSelectStateMachine::ProcessSelect()
 {
 	int Cursor = Canvas->GetActionCursor();
 
@@ -61,7 +65,9 @@ void ABattlePlayerActionSelectStateMachine::ProcessSelect(float _DeltaTime)
 			// 가방 화면을 띄우고 어떤 아이템을 사용하기로 결정했는지 결과까지 받아서 BattleLevel에 보고
 			break;
 		case Pokemon:
-			// 포켓몬 화면을 띄우고 어떤 포켓몬으로 교체하기로 결정했는지 결과까지 받아서 BattleLevel에 보고
+			State = ESubstate::PokemonSelect;
+			Player->SetShiftPokemonIndex(-1);
+			UEventManager::FadeChangeLevel(Global::PokemonUILevel);
 			break;
 		case Run:
 		{
@@ -116,28 +122,7 @@ void ABattlePlayerActionSelectStateMachine::ProcessSelect(float _DeltaTime)
 	}
 }
 
-bool ABattlePlayerActionSelectStateMachine::CalcRunResult() const
-{
-	const UPokemon* PlayerPokemon = Player->CurPokemonReadonly();
-	const UPokemon* EnemyPokemon = Enemy->CurPokemonReadonly();
-
-	int PSpeed = PlayerPokemon->GetSpeed();
-	int ESpeed = EnemyPokemon->GetSpeed();
-
-	if (PSpeed >= ESpeed)
-	{
-		return true;
-	}
-
-	int RandomNumber = UPokemonMath::RandomInt(0, 255);
-
-	int RHS = UPokemonMath::Floor(PSpeed * 128.0f / ESpeed);
-	RHS += 30 * RunAttemptCount;
-	RHS = UPokemonMath::Mod(RHS, 256);
-	return RandomNumber < RHS;
-}
-
-void ABattlePlayerActionSelectStateMachine::ProcessMoveSelect(float _DeltaTime)
+void ABattlePlayerActionSelectStateMachine::ProcessMoveSelect()
 {
 	const UPokemon* PlayerPokemon = Player->CurPokemonReadonly();
 	int Cursor = Canvas->GetMoveSelectCursor();
@@ -194,4 +179,43 @@ void ABattlePlayerActionSelectStateMachine::ProcessMoveSelect(float _DeltaTime)
 		}
 		return;
 	}
+}
+
+void ABattlePlayerActionSelectStateMachine::ProcessPokemonSelect()
+{
+	if (Player->GetShiftPokemonIndex() >= 0)
+	{
+		if (Player->GetShiftPokemonIndex() == Player->CurPokemonIndex())
+		{
+			// 포켓몬을 바꾸지 않는 경우 행동을 다시 고른다.
+			State = ESubstate::Select;
+		}
+		else
+		{
+			// 포켓몬을 바꾸는 경우 PlayerAction 상태를 종료한다.
+			Player->SetAction(EBattleAction::Shift);
+			State = ESubstate::End;
+		}
+	}
+}
+
+bool ABattlePlayerActionSelectStateMachine::CalcRunResult() const
+{
+	const UPokemon* PlayerPokemon = Player->CurPokemonReadonly();
+	const UPokemon* EnemyPokemon = Enemy->CurPokemonReadonly();
+
+	int PSpeed = PlayerPokemon->GetSpeed();
+	int ESpeed = EnemyPokemon->GetSpeed();
+
+	if (PSpeed >= ESpeed)
+	{
+		return true;
+	}
+
+	int RandomNumber = UPokemonMath::RandomInt(0, 255);
+
+	int RHS = UPokemonMath::Floor(PSpeed * 128.0f / ESpeed);
+	RHS += 30 * RunAttemptCount;
+	RHS = UPokemonMath::Mod(RHS, 256);
+	return RandomNumber < RHS;
 }

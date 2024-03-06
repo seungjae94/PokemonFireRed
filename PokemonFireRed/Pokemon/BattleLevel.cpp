@@ -98,6 +98,8 @@ void UBattleLevel::LevelStart(ULevel* _PrevLevel)
 	Enemy.Clear();
 	Enemy.SetWildPokemon();	// 일단 야생 포켓몬과의 전투만 구현
 	
+	// TODO: Player의 Faint 상태가 아닌 포켓몬을 찾을 때까지 인덱스 증가
+
 	Player.GetParticipants().push_back(Enemy.CurPokemon());
 	Enemy.GetParticipants().push_back(Player.CurPokemon());
 	
@@ -143,7 +145,7 @@ void UBattleLevel::ProcessPlayerAction()
 		break;
 		case EBattleAction::Escape:
 		{
-			bool RunResult = Player.IsRunSuccess();
+			bool RunResult = Player.GetRunResult();
 			if (true == RunResult)
 			{
 				State = EBattleState::Run;

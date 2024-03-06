@@ -10,6 +10,11 @@ class ABattleCanvas;
 
 class ABattlePlayerActionSelectStateMachine : public AActor
 {
+public:
+	enum class EPlayerActionResult
+	{
+
+	};
 private:
 	enum ECursorName
 	{
@@ -24,6 +29,7 @@ private:
 		None,
 		Select,
 		MoveSelect,
+		PokemonSelect,
 		End
 	};
 public:
@@ -47,6 +53,12 @@ public:
 
 	void Reset();
 
+	// Pokemon UI에서 호출하는 함수
+	UBattler* GetPlayer() const
+	{
+		return Player;
+	}
+
 protected:
 
 private:
@@ -58,6 +70,7 @@ private:
 	// 고유 데이터
 	float Timer = 0.0f;
 	int RunAttemptCount = 0;
+	int SelectedPokemonIndex = 0;
 
 	// 상태
 	ESubstate State = ESubstate::None;
@@ -65,9 +78,12 @@ private:
 	// 로직
 	void Tick(float _DeltaTime) override;
 
-	void ProcessSelect(float _DeltaTime);
-	bool CalcRunResult() const;
+	// 상태 틱 함수
+	void ProcessSelect();
+	void ProcessMoveSelect();
+	void ProcessPokemonSelect();
 
-	void ProcessMoveSelect(float _DeltaTime);
+	// 유틸 함수
+	bool CalcRunResult() const;
 };
 

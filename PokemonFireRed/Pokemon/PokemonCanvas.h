@@ -2,18 +2,19 @@
 #include "Canvas.h"
 #include "PlayerData.h"
 
-enum class EPokemonUIState
-{
-	TargetSelectionWait,		// 포켓몬 또는 취소 버튼 선택을 기다리는 상태
-	ActionSelectionWait,		// 포켓몬을 선택하고 액션 선택을 기다리는 상태
-	SwitchSelectionWait,		// 순서를 교체할 포켓몬을 결정하기를 기다리는 상태
-	Switch,						// 포켓몬 순서를 교체하고 있는 상태
-};
-
 class UPokemonUILevel;
 
 class APokemonCanvas : public ACanvas
 {
+public:
+	enum class EBoxState
+	{
+		Empty,
+		Unfocused,
+		Focused,
+		From,
+		To
+	};
 public:
 	// constructor destructor
 	APokemonCanvas();
@@ -25,58 +26,35 @@ public:
 	APokemonCanvas& operator=(const APokemonCanvas& _Other) = delete;
 	APokemonCanvas& operator=(APokemonCanvas&& _Other) noexcept = delete;
 
-	void SetPrevMapLevelName(std::string_view _Name)
-	{
-		PrevMapLevelName = _Name;
-	}
-
 	// 캔버스 상태 초기화
-	void Reset()
-	{
-		TargetCursor = 0;
-		MemoryEntryCursor = 1;
-		ActionCursor->SetCursor(0);
+	void Init();
 
-		// 하위 요소 초기화
-		RefreshAllTargets();
+	int GetActionCursor() const;
+	void SetActionCursor(int _Cursor);
+	void IncActionCursor();
+	void DecActionCursor();
 
-		// 렌더링 설정
-		ActionSelectionMsgBox->SetActive(false);
-		SwitchSelectionMsgBox->SetActive(false);
-		ActionBox->SetActive(false);
-	}
+	// 스위치 기능
+	AImageElement* GetPokemonBox(int _Index);
+	bool IsFirstBox(const AImageElement* _PokemonBox) const;
+	void LerpPokemonBox(int _Index, const FVector& _Before, const FVector& _After, float _t);
 
-	UPokemon* GetTargetPokemon()
-	{
-		if (true == IsCancel(TargetCursor))
-		{
-			return nullptr;
-		}
+	// Active 함수
+	void SetTargetSelectionMsgBoxActive(bool _Value);
+	void SetActionSelectionMsgBoxActive(bool _Value);
+	void SetSwitchSelectionMsgBoxActive(bool _Value);
+	void SetActionBoxActive(bool _Value);
 
-		return &UPlayerData::GetPokemonInEntry(TargetCursor);
-	}
+	// Refresh 함수
+	void SetBoxState(int _BoxIndex, EBoxState _BoxState);
+	void RefreshFirst(bool _IsSwitchMode);
+	void RefreshEntry(int _Index, bool _IsSwitchMode);
+	void RefreshCancel();
+	void RefreshAllTargets(bool _IsSwitchMode = false);
 
 protected:
-	void BeginPlay() override;
-	void Tick(float _DeltaTime) override;
 private:
-	std::string PrevMapLevelName;
-
-	enum class ETargetState
-	{
-		Empty,
-		Unfocused,
-		Focused,
-		From,
-		To
-	};
-
-	enum class ESwitchMoveState
-	{
-		Out,
-		Wait,
-		In
-	};
+	void BeginPlay() override;
 
 	AImageElement* Background = nullptr;
 	AImageElement* TargetSelectionMsgBox = nullptr;
@@ -107,19 +85,10 @@ private:
 
 	AImageElement* CancelButton = nullptr;
 
-	// 상태 처리
-	EPokemonUIState State = EPokemonUIState::TargetSelectionWait;
-
-	void TargetSelectionWaitTick(float _DeltaTime);
-	int TargetCursor = 0;
-	int MemoryEntryCursor = 1;
 	void TargetSelect();
-
-	void ActionSelectionWaitTick(float _DeltaTime);
 	void ActionSelect();
 
 	void SwitchSelectionWaitStart();
-	void SwitchSelectionWaitTick(float _DeltaTime);
 	int SwitchFromCursor = 0; // TargetCursor가 SwitchToCursor 역할을 겸임. 
 	void SwitchSelect();
 
@@ -128,10 +97,13 @@ private:
 	void SwitchMoveOutTick(float _DeltaTime);
 	void SwitchMoveWaitTick(float _DeltaTime);
 	void SwitchMoveInTick(float _DeltaTime);
-	ESwitchMoveState SwitchMoveState = ESwitchMoveState::Out;
-	float SwitchMoveOutTime = 1 / 4.0f;
-	float SwitchMoveWaitTime = 1 / 5.0f;
-	float SwitchMoveInTime = 1 / 4.0f;
+
+	// 고유 데이터
+	const int* TargetCursorReadonly = nullptr;
+	EBoxState FirstBoxState = EBoxState::Focused;
+	std::vector<EBoxState> EntryBoxStates;
+	EBoxState CancelBoxState = EBoxState::Unfocused;
+
 	float SwitchMoveTimer = 0.0f;
 	FVector SwitchFromPrevPos;
 	FVector SwitchFromOutPos;
@@ -139,29 +111,5 @@ private:
 	FVector TargetPrevPos;
 	FVector TargetOutPos;
 	AImageElement* SwitchMoveTarget = nullptr;
-
-	// Refresh 함수
-	void RefreshFirst();
-	void RefreshEntry(int _Index);
-	void RefreshCancel();
-	void RefreshAllTargets();
-
-	// 편의 함수
-	void MoveTargetCursor(int _Cursor);
-
-	bool IsFirst(int _Cursor)
-	{
-		return _Cursor == 0;
-	}
-
-	bool IsEntry(int _Cursor)
-	{
-		return _Cursor > 0 && _Cursor < UPlayerData::GetPokemonEntrySize();
-	}
-
-	bool IsCancel(int _Cursor)
-	{
-		return _Cursor == UPlayerData::GetPokemonEntrySize();
-	}
 };
 
