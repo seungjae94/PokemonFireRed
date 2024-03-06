@@ -25,8 +25,11 @@ void ABattleTurnStateMachine::Start(ABattleCanvas* _Canvas, UBattler* _Player, U
 	Player = _Player;
 	Enemy = _Enemy;
 
-	// 적 액션 생성
+	// 적 액션 생성 및 데이터 초기화
 	UBattleEnemyActionGenerator::Generate(Enemy);
+	Reason = EEndReason::None;
+	PlayerFaintChecked = false;
+	EnemyFaintChecked = false;
 
 	// 턴 순서 결정
 	bool IsPlayerFirst = UTurnOrderCalculator::IsPlayerFirst(Player, Enemy);
@@ -40,7 +43,6 @@ void ABattleTurnStateMachine::Start(ABattleCanvas* _Canvas, UBattler* _Player, U
 	}
 
 	State = ESubstate::Action1;
-	Reason = EEndReason::None;
 	BattleActionSM->Start(Canvas, Attacker, Defender);
 }
 
@@ -49,7 +51,8 @@ void ABattleTurnStateMachine::ProcessAction1()
 	if (true == BattleActionSM->IsEnd())
 	{
 		State = ESubstate::Action1Faint;
-		BattleFaintSM->Start(Canvas, Attacker, Defender);
+
+		BattleFaintSM->Start(Canvas, Attacker, Defender, GetAttackerFaintChecked(), GetDefenderFaintChecked());
 	}
 }
 
@@ -90,7 +93,10 @@ void ABattleTurnStateMachine::ProcessAction2()
 	if (true == BattleActionSM->IsEnd())
 	{
 		State = ESubstate::Action2Faint;
-		BattleFaintSM->Start(Canvas, Attacker, Defender);
+
+		bool AttackerFaintChecked = GetAttackerFaintChecked();
+		bool DefenderFaintChecked = GetDefenderFaintChecked();
+		BattleFaintSM->Start(Canvas, Attacker, Defender, GetAttackerFaintChecked(), GetDefenderFaintChecked());
 	}
 }
 
@@ -126,7 +132,6 @@ void ABattleTurnStateMachine::ProcessStartEndOfTurn()
 
 	// EOT1를 수행할 수 있는지 체크한다.
 	State = ESubstate::TestEndOfTurn1;
-	BattleEOTSM->Start(Canvas, EOTTarget, EOTNextTarget);
 }
 
 void ABattleTurnStateMachine::ProcessTestEndOfTurn1()
@@ -140,6 +145,7 @@ void ABattleTurnStateMachine::ProcessTestEndOfTurn1()
 
 	// 그 외의 경우 EOT1을 수행한다.
 	State = ESubstate::EndOfTurn1;
+
 	BattleEOTSM->Start(Canvas, EOTTarget, EOTNextTarget);
 }
 
@@ -148,7 +154,7 @@ void ABattleTurnStateMachine::ProcessEndOfTurn1()
 	if (true == BattleEOTSM->IsEnd())
 	{
 		State = ESubstate::EndOfTurn1Faint;
-		BattleFaintSM->Start(Canvas, EOTNextTarget, EOTTarget);
+		BattleFaintSM->Start(Canvas, EOTNextTarget, EOTTarget, GetEOTNextTargetFaintChecked(), GetEOTTargetFaintChecked());
 	}
 }
 
@@ -187,7 +193,7 @@ void ABattleTurnStateMachine::ProcessEndOfTurn2()
 	if (true == BattleEOTSM->IsEnd())
 	{
 		State = ESubstate::EndOfTurn2Faint;
-		BattleFaintSM->Start(Canvas, EOTTarget, EOTNextTarget);
+		BattleFaintSM->Start(Canvas, EOTTarget, EOTNextTarget, GetEOTTargetFaintChecked(), GetEOTNextTargetFaintChecked());
 	}
 }
 
@@ -239,6 +245,46 @@ void ABattleTurnStateMachine::EndTurnWithReason()
 	}
 
 	State = ESubstate::End;
+}
+
+bool& ABattleTurnStateMachine::GetAttackerFaintChecked()
+{
+	if (Attacker == Player)
+	{
+		return PlayerFaintChecked;
+	}
+
+	return EnemyFaintChecked;
+}
+
+bool& ABattleTurnStateMachine::GetDefenderFaintChecked()
+{
+	if (Defender == Player)
+	{
+		return PlayerFaintChecked;
+	}
+
+	return EnemyFaintChecked;
+}
+
+bool& ABattleTurnStateMachine::GetEOTTargetFaintChecked()
+{
+	if (EOTTarget == Player)
+	{
+		return PlayerFaintChecked;
+	}
+	
+	return EnemyFaintChecked;
+}
+
+bool& ABattleTurnStateMachine::GetEOTNextTargetFaintChecked()
+{
+	if (EOTNextTarget == Player)
+	{
+		return PlayerFaintChecked;
+	}
+
+	return EnemyFaintChecked;
 }
 
 void ABattleTurnStateMachine::SetPlayerAsAttacker()

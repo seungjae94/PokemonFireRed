@@ -38,7 +38,7 @@ public:
 		BattleExpGainSM = _EGSM;
 	}
 
-	void Start(ABattleCanvas* _Canvas, UBattler* _Attacker, UBattler* _Defender);
+	void Start(ABattleCanvas* _Canvas, UBattler* _Attacker, UBattler* _Defender, bool& _PlayerFaintChecked, bool& _EnemyFaintChecked);
 
 protected:
 private:

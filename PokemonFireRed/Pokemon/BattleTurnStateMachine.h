@@ -109,10 +109,6 @@ private:
 	void ProcessEndOfTurn2();
 	void ProcessEndOfTurn2Faint();
 
-	// 상태 전이 함수
-	void StateChangeToFaint();
-	void StateChangeToExpGain();
-
 	// 고유 데이터
 	ESubstate State = ESubstate::None;
 	EEndReason Reason = EEndReason::None;
@@ -122,6 +118,8 @@ private:
 	UBattler* Defender = nullptr;
 	UBattler* EOTTarget = nullptr;
 	UBattler* EOTNextTarget = nullptr;
+	bool PlayerFaintChecked = false;
+	bool EnemyFaintChecked = false;
 
 	// 로직
 	void Tick(float _DeltaTime) override;
@@ -133,6 +131,10 @@ private:
 	void SetEnemyAsEOTTarget();
 	void SwapAttackerAndDefender();
 	void EndTurnWithReason();
+	bool& GetAttackerFaintChecked();
+	bool& GetDefenderFaintChecked();
+	bool& GetEOTTargetFaintChecked();
+	bool& GetEOTNextTargetFaintChecked();
 
 	// SM
 	ABattleActionStateMachine* BattleActionSM = nullptr;

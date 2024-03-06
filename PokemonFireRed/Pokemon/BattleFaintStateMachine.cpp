@@ -10,7 +10,7 @@ ABattleFaintStateMachine::~ABattleFaintStateMachine()
 {
 }
 
-void ABattleFaintStateMachine::Start(ABattleCanvas* _Canvas, UBattler* _Attacker, UBattler* _Defender)
+void ABattleFaintStateMachine::Start(ABattleCanvas* _Canvas, UBattler* _Attacker, UBattler* _Defender, bool& _AttackerFaintChecked, bool& _DefenderFaintChecked)
 {
 	Canvas = _Canvas;
 	Attacker = _Attacker;
@@ -22,14 +22,16 @@ void ABattleFaintStateMachine::Start(ABattleCanvas* _Canvas, UBattler* _Attacker
 	Fainters.clear();
 	ExpGainByFaint.clear();
 
-	if (AttackerPokemon->GetStatusId() == EPokemonStatus::Faint)
+	if (AttackerPokemon->GetStatusId() == EPokemonStatus::Faint && _AttackerFaintChecked == false)
 	{
 		Fainters.push_back(Attacker);
+		_AttackerFaintChecked = true;
 	}
 
-	if (DefenderPokemon->GetStatusId() == EPokemonStatus::Faint)
+	if (DefenderPokemon->GetStatusId() == EPokemonStatus::Faint && _DefenderFaintChecked == false)
 	{
 		Fainters.push_back(Defender);
+		_DefenderFaintChecked = true;
 	}
 
 	State = ESubstate::TestFaint;
