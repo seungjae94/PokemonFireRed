@@ -7,16 +7,6 @@ enum class EEnemyType
 	GymLeader
 };
 
-enum class EBattleState
-{
-	BattleStart,
-	PlayerActionSelect,
-	Turn,
-	FinishBattle,
-	Run,			// 도망에 성공한 경우
-	End,
-};
-
 enum class EBattleAction
 {
 	None,

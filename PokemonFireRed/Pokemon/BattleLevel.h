@@ -14,6 +14,16 @@
 
 class UBattleLevel : public UPokemonLevel
 {
+private:
+	enum class EState
+	{
+		BattleStart,
+		PlayerActionSelect,
+		Turn,
+		FinishBattle,
+		Run,			// 도망에 성공한 경우
+		End,
+	};
 public:
 	// constructor destructor
 	UBattleLevel();
@@ -61,7 +71,7 @@ private:
 	void ProcessRun();
 
 	// FSM
-	EBattleState State = EBattleState::BattleStart;
+	EState State = EState::BattleStart;
 	const float MoveFailMessageShowTime = 1.5f;
 	float Timer = 0.0f;
 
@@ -71,7 +81,7 @@ private:
 	void ReturnToMapLevel()
 	{
 		UEventManager::FadeChangeLevel(PrevMapName);
-		State = EBattleState::End;
+		State = EState::End;
 	}
 };
 

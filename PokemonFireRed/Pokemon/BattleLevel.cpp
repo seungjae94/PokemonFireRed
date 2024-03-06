@@ -70,19 +70,19 @@ void UBattleLevel::Tick(float _DeltaTime)
 
 	switch (State)
 	{
-	case EBattleState::BattleStart:
+	case EState::BattleStart:
 		ProcessBattleStart();
 		break;
-	case EBattleState::PlayerActionSelect:
+	case EState::PlayerActionSelect:
 		ProcessPlayerAction();
 		break;
-	case EBattleState::Turn:
+	case EState::Turn:
 		ProcessTurn();
 		break;
-	case EBattleState::FinishBattle:
+	case EState::FinishBattle:
 		ProcessBattleEnd();
 		break;
-	case EBattleState::Run:
+	case EState::Run:
 		ProcessRun();
 		break;
 	default:
@@ -124,7 +124,7 @@ void UBattleLevel::LevelStart(ULevel* _PrevLevel)
 	Canvas->Init(&Player, &Enemy);
 
 	// 배틀 레벨 상태 초기화
-	State = EBattleState::BattleStart;
+	State = EState::BattleStart;
 	PlayerActionSelectSM->Reset();
 
 	// BSSM 로직부터 시작
@@ -140,7 +140,7 @@ void UBattleLevel::ProcessBattleStart()
 {
 	if (true == BattleStartSM->IsEnd())
 	{
-		State = EBattleState::PlayerActionSelect;
+		State = EState::PlayerActionSelect;
 		Canvas->SetActionBoxActive(true);
 		Canvas->SetBattleMessage(L"What will\n" + Player.CurPokemon()->GetNameW() + L" do?");
 		PlayerActionSelectSM->Start(Canvas, &Player, &Enemy);
@@ -158,7 +158,7 @@ void UBattleLevel::ProcessPlayerAction()
 		case EBattleAction::Fight:
 		case EBattleAction::Shift:
 		{
-			State = EBattleState::Turn;
+			State = EState::Turn;
 			BattleTurnSM->Start(Canvas, &Player, &Enemy);
 		}
 		break;
@@ -167,13 +167,13 @@ void UBattleLevel::ProcessPlayerAction()
 			bool RunResult = Player.GetRunResult();
 			if (true == RunResult)
 			{
-				State = EBattleState::Run;
+				State = EState::Run;
 				Canvas->SetActionBoxActive(false);
 				Canvas->SetBattleMessage(L"Got away safely!");
 			}
 			else
 			{
-				State = EBattleState::Turn;
+				State = EState::Turn;
 				BattleTurnSM->Start(Canvas, &Player, &Enemy);
 			}
 		}
@@ -191,18 +191,18 @@ void UBattleLevel::ProcessTurn()
 		// 플레이어 액션 선택 상태로 돌아간다.
 		if (BattleTurnSM->WhyEnd() == ABattleTurnStateMachine::EEndReason::None)
 		{
-			State = EBattleState::PlayerActionSelect;
+			State = EState::PlayerActionSelect;
 			Canvas->SetActionBoxActive(true);
 			Canvas->SetBattleMessage(L"What will\n" + Player.CurPokemon()->GetNameW() + L" do?");
 			PlayerActionSelectSM->Start(Canvas, &Player, &Enemy);
 		}
 		else if (BattleTurnSM->WhyEnd() == ABattleTurnStateMachine::EEndReason::WinToWild)
 		{
-			State = EBattleState::FinishBattle;
+			State = EState::FinishBattle;
 		}
 		else
 		{
-			State = EBattleState::FinishBattle;
+			State = EState::FinishBattle;
 		}
 	}
 }
