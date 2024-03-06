@@ -3,7 +3,7 @@
 #include "BattleCanvas.h"
 #include "Battler.h"
 
-class ABattleShiftStateMachine : public AActor
+class ABattlePlayerShiftStateMachine : public AActor
 {
 private:
 	enum class ESubstate
@@ -18,14 +18,14 @@ private:
 	};
 public:
 	// constructor destructor
-	ABattleShiftStateMachine();
-	~ABattleShiftStateMachine();
+	ABattlePlayerShiftStateMachine();
+	~ABattlePlayerShiftStateMachine();
 
 	// delete Function
-	ABattleShiftStateMachine(const ABattleShiftStateMachine& _Other) = delete;
-	ABattleShiftStateMachine(ABattleShiftStateMachine&& _Other) noexcept = delete;
-	ABattleShiftStateMachine& operator=(const ABattleShiftStateMachine& _Other) = delete;
-	ABattleShiftStateMachine& operator=(ABattleShiftStateMachine&& _Other) noexcept = delete;
+	ABattlePlayerShiftStateMachine(const ABattlePlayerShiftStateMachine& _Other) = delete;
+	ABattlePlayerShiftStateMachine(ABattlePlayerShiftStateMachine&& _Other) noexcept = delete;
+	ABattlePlayerShiftStateMachine& operator=(const ABattlePlayerShiftStateMachine& _Other) = delete;
+	ABattlePlayerShiftStateMachine& operator=(ABattlePlayerShiftStateMachine&& _Other) noexcept = delete;
 
 	bool IsEnd() const
 	{

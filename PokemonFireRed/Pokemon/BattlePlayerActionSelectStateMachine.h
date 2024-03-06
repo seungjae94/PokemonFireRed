@@ -10,11 +10,6 @@ class ABattleCanvas;
 
 class ABattlePlayerActionSelectStateMachine : public AActor
 {
-public:
-	enum class EPlayerActionResult
-	{
-
-	};
 private:
 	enum ECursorName
 	{

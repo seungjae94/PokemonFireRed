@@ -46,7 +46,6 @@ void ABattleActionStateMachine::Start(ABattleCanvas* _Canvas, UBattler* _Attacke
 
 		// 실제 포켓몬 교체
 		Player->ShiftPokemon();
-		Player->SetMoveIndex(0);
 		Player->GetParticipants().push_back(Enemy->CurPokemon());
 		Enemy->GetParticipants().push_back(Player->CurPokemon());
 

@@ -40,26 +40,25 @@ void UBattleLevel::BeginPlay()
 	// 액터 생성
 	Canvas = SpawnActor<ABattleCanvas>();
 	BattleStartSM = SpawnActor<ABattleStartStateMachine>();
+	BattlePrepareTurnSM = SpawnActor<ABattlePrepareTurnStateMachine>();
 	PlayerActionSelectSM = SpawnActor<ABattlePlayerActionSelectStateMachine>();
 	BattleTurnSM = SpawnActor<ABattleTurnStateMachine>();
 	
-	// BattleTurnSM 하위 요소
+	// 하위 요소
 	BattleActionSM = SpawnActor<ABattleActionStateMachine>();
 	BattleEOTSM = SpawnActor<ABattleEOTStateMachine>();
 	BattleFaintSM = SpawnActor<ABattleFaintStateMachine>();
+	BattleMoveSM = SpawnActor<ABattleMoveStateMachine>();
+	BattlePlayerShiftSM = SpawnActor<ABattlePlayerShiftStateMachine>();
+	BattleExpGainSM = SpawnActor<ABattleExpGainStateMachine>();
+
 	BattleTurnSM->SetBASM(BattleActionSM);
 	BattleTurnSM->SetEOTSM(BattleEOTSM);
 	BattleTurnSM->SetFSM(BattleFaintSM);
-	
-	// BattleActionSM 하위 요소
-	BattleMoveSM = SpawnActor<ABattleMoveStateMachine>();
 	BattleActionSM->SetBMSM(BattleMoveSM);
-	BattleShiftSM = SpawnActor<ABattleShiftStateMachine>();
-	BattleActionSM->SetBSSM(BattleShiftSM);
-	
-	// BattleFaintSM 하위 요소
-	BattleExpGainSM = SpawnActor<ABattleExpGainStateMachine>();
+	BattleActionSM->SetBPSSM(BattlePlayerShiftSM);
 	BattleFaintSM->SetEGSM(BattleExpGainSM);
+	BattlePrepareTurnSM->SetBPSSM(BattlePlayerShiftSM);
 }
 
 void UBattleLevel::Tick(float _DeltaTime)
@@ -73,6 +72,9 @@ void UBattleLevel::Tick(float _DeltaTime)
 	case EState::BattleStart:
 		ProcessBattleStart();
 		break;
+	case EState::PrepareTurn:
+		ProcessPrepareTurn();
+		break;
 	case EState::PlayerActionSelect:
 		ProcessPlayerAction();
 		break;
@@ -80,7 +82,7 @@ void UBattleLevel::Tick(float _DeltaTime)
 		ProcessTurn();
 		break;
 	case EState::FinishBattle:
-		ProcessBattleEnd();
+		ProcessFinishBattle();
 		break;
 	case EState::Run:
 		ProcessRun();
@@ -136,9 +138,19 @@ void UBattleLevel::LevelEnd(ULevel* _NextLevel)
 	UPokemonLevel::LevelEnd(_NextLevel);
 }
 
+
 void UBattleLevel::ProcessBattleStart()
 {
 	if (true == BattleStartSM->IsEnd())
+	{
+		State = EState::PrepareTurn;
+		BattlePrepareTurnSM->Start(Canvas, &Player, &Enemy);
+	}
+}
+
+void UBattleLevel::ProcessPrepareTurn()
+{
+	if (true == BattlePrepareTurnSM->IsEnd())
 	{
 		State = EState::PlayerActionSelect;
 		Canvas->SetActionBoxActive(true);
@@ -188,13 +200,11 @@ void UBattleLevel::ProcessTurn()
 {
 	if (true == BattleTurnSM->IsEnd())
 	{
-		// 플레이어 액션 선택 상태로 돌아간다.
+		// 턴 준비 단계로 다시 돌아간다.
 		if (BattleTurnSM->WhyEnd() == ABattleTurnStateMachine::EEndReason::None)
 		{
-			State = EState::PlayerActionSelect;
-			Canvas->SetActionBoxActive(true);
-			Canvas->SetBattleMessage(L"What will\n" + Player.CurPokemon()->GetNameW() + L" do?");
-			PlayerActionSelectSM->Start(Canvas, &Player, &Enemy);
+			State = EState::PrepareTurn;
+			BattlePrepareTurnSM->Start(Canvas, &Player, &Enemy);
 		}
 		else if (BattleTurnSM->WhyEnd() == ABattleTurnStateMachine::EEndReason::WinToWild)
 		{
@@ -207,7 +217,7 @@ void UBattleLevel::ProcessTurn()
 	}
 }
 
-void UBattleLevel::ProcessBattleEnd()
+void UBattleLevel::ProcessFinishBattle()
 {
 	ReturnToMapLevel();
 }

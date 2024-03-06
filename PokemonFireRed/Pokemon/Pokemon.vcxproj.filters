@@ -97,6 +97,33 @@
     <Filter Include="2. Level\8. BattleLevel\Calculator">
       <UniqueIdentifier>{d7776502-6556-41a2-b549-5085b19c510e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2. Level\8. BattleLevel\StateMachine\1. PrepareTurn">
+      <UniqueIdentifier>{8b88c7d6-c5f8-4bf4-9988-c61a87947d7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2. Level\8. BattleLevel\StateMachine\0. BattleStart">
+      <UniqueIdentifier>{4f4c4637-cac7-4415-9439-d7103a0c8213}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2. Level\8. BattleLevel\StateMachine\2. PlayerActionSelect">
+      <UniqueIdentifier>{a644fabf-da96-4587-a257-7899ff60d50b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2. Level\8. BattleLevel\StateMachine\3. Turn">
+      <UniqueIdentifier>{875180b0-0b0a-4353-8e3b-495c1dd12741}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2. Level\8. BattleLevel\StateMachine\3. Turn\0. Action">
+      <UniqueIdentifier>{297cdc7b-0363-40d5-bc1a-d6d987ec6d5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2. Level\8. BattleLevel\StateMachine\3. Turn\1. EOT">
+      <UniqueIdentifier>{f26aefbc-2f92-4fa2-8030-5cae541ed756}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2. Level\8. BattleLevel\StateMachine\3. Turn\2. Faint">
+      <UniqueIdentifier>{80e5d9cd-8924-445e-bdcc-78a754d24d38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2. Level\8. BattleLevel\StateMachine\4. FinishBattle">
+      <UniqueIdentifier>{3d5b4468-dc31-46a3-88d1-65c438b419c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2. Level\8. BattleLevel\StateMachine\Common">
+      <UniqueIdentifier>{47fcf1c9-eb51-469f-8bb7-3de795ce40dc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PokemonCore.h">
@@ -294,20 +321,11 @@
     <ClInclude Include="StatStage.h">
       <Filter>2. Level\8. BattleLevel</Filter>
     </ClInclude>
-    <ClInclude Include="BattlePlayerActionSelectStateMachine.h">
-      <Filter>2. Level\8. BattleLevel\StateMachine</Filter>
-    </ClInclude>
-    <ClInclude Include="BattleStartStateMachine.h">
-      <Filter>2. Level\8. BattleLevel\StateMachine</Filter>
-    </ClInclude>
     <ClInclude Include="AccuracyChecker.h">
       <Filter>2. Level\8. BattleLevel\Calculator</Filter>
     </ClInclude>
     <ClInclude Include="TurnOrderCalculator.h">
       <Filter>2. Level\8. BattleLevel\Calculator</Filter>
-    </ClInclude>
-    <ClInclude Include="BattleTurnStateMachine.h">
-      <Filter>2. Level\8. BattleLevel\StateMachine</Filter>
     </ClInclude>
     <ClInclude Include="DamageCalculator.h">
       <Filter>2. Level\8. BattleLevel\Calculator</Filter>
@@ -321,32 +339,47 @@
     <ClInclude Include="BattleUtil.h">
       <Filter>3. Util</Filter>
     </ClInclude>
-    <ClInclude Include="BattleEndStateMachine.h">
-      <Filter>2. Level\8. BattleLevel\StateMachine</Filter>
-    </ClInclude>
-    <ClInclude Include="BattleActionStateMachine.h">
-      <Filter>2. Level\8. BattleLevel\StateMachine</Filter>
-    </ClInclude>
-    <ClInclude Include="BattleEOTStateMachine.h">
-      <Filter>2. Level\8. BattleLevel\StateMachine</Filter>
-    </ClInclude>
-    <ClInclude Include="BattleMoveStateMachine.h">
-      <Filter>2. Level\8. BattleLevel\StateMachine</Filter>
-    </ClInclude>
     <ClInclude Include="MoveEffectApplier.h">
       <Filter>2. Level\8. BattleLevel\Calculator</Filter>
     </ClInclude>
     <ClInclude Include="ExpCalculator.h">
       <Filter>6. Data\Pokemon</Filter>
     </ClInclude>
-    <ClInclude Include="BattleExpGainStateMachine.h">
-      <Filter>2. Level\8. BattleLevel\StateMachine</Filter>
+    <ClInclude Include="BattlePrepareTurnStateMachine.h">
+      <Filter>2. Level\8. BattleLevel\StateMachine\1. PrepareTurn</Filter>
+    </ClInclude>
+    <ClInclude Include="BattleStartStateMachine.h">
+      <Filter>2. Level\8. BattleLevel\StateMachine\0. BattleStart</Filter>
+    </ClInclude>
+    <ClInclude Include="BattlePlayerActionSelectStateMachine.h">
+      <Filter>2. Level\8. BattleLevel\StateMachine\2. PlayerActionSelect</Filter>
     </ClInclude>
     <ClInclude Include="BattleFaintStateMachine.h">
-      <Filter>2. Level\8. BattleLevel\StateMachine</Filter>
+      <Filter>2. Level\8. BattleLevel\StateMachine\3. Turn\2. Faint</Filter>
     </ClInclude>
-    <ClInclude Include="BattleShiftStateMachine.h">
-      <Filter>2. Level\8. BattleLevel\StateMachine</Filter>
+    <ClInclude Include="BattleExpGainStateMachine.h">
+      <Filter>2. Level\8. BattleLevel\StateMachine\3. Turn\2. Faint</Filter>
+    </ClInclude>
+    <ClInclude Include="BattleEOTStateMachine.h">
+      <Filter>2. Level\8. BattleLevel\StateMachine\3. Turn\1. EOT</Filter>
+    </ClInclude>
+    <ClInclude Include="BattleActionStateMachine.h">
+      <Filter>2. Level\8. BattleLevel\StateMachine\3. Turn\0. Action</Filter>
+    </ClInclude>
+    <ClInclude Include="BattleTurnStateMachine.h">
+      <Filter>2. Level\8. BattleLevel\StateMachine\3. Turn</Filter>
+    </ClInclude>
+    <ClInclude Include="BattleMoveStateMachine.h">
+      <Filter>2. Level\8. BattleLevel\StateMachine\3. Turn\0. Action</Filter>
+    </ClInclude>
+    <ClInclude Include="BattleEndStateMachine.h">
+      <Filter>2. Level\8. BattleLevel\StateMachine\4. FinishBattle</Filter>
+    </ClInclude>
+    <ClInclude Include="BattlePlayerShiftStateMachine.h">
+      <Filter>2. Level\8. BattleLevel\StateMachine\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="BattleEnemyShiftStateMachine.h">
+      <Filter>2. Level\8. BattleLevel\StateMachine\Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -533,20 +566,11 @@
     <ClCompile Include="StatStage.cpp">
       <Filter>2. Level\8. BattleLevel</Filter>
     </ClCompile>
-    <ClCompile Include="BattlePlayerActionSelectStateMachine.cpp">
-      <Filter>2. Level\8. BattleLevel\StateMachine</Filter>
-    </ClCompile>
-    <ClCompile Include="BattleStartStateMachine.cpp">
-      <Filter>2. Level\8. BattleLevel\StateMachine</Filter>
-    </ClCompile>
     <ClCompile Include="AccuracyChecker.cpp">
       <Filter>2. Level\8. BattleLevel\Calculator</Filter>
     </ClCompile>
     <ClCompile Include="TurnOrderCalculator.cpp">
       <Filter>2. Level\8. BattleLevel\Calculator</Filter>
-    </ClCompile>
-    <ClCompile Include="BattleTurnStateMachine.cpp">
-      <Filter>2. Level\8. BattleLevel\StateMachine</Filter>
     </ClCompile>
     <ClCompile Include="DamageCalculator.cpp">
       <Filter>2. Level\8. BattleLevel\Calculator</Filter>
@@ -560,32 +584,47 @@
     <ClCompile Include="BattleUtil.cpp">
       <Filter>3. Util</Filter>
     </ClCompile>
-    <ClCompile Include="BattleEndStateMachine.cpp">
-      <Filter>2. Level\8. BattleLevel\StateMachine</Filter>
-    </ClCompile>
-    <ClCompile Include="BattleActionStateMachine.cpp">
-      <Filter>2. Level\8. BattleLevel\StateMachine</Filter>
-    </ClCompile>
-    <ClCompile Include="BattleEOTStateMachine.cpp">
-      <Filter>2. Level\8. BattleLevel\StateMachine</Filter>
-    </ClCompile>
-    <ClCompile Include="BattleMoveStateMachine.cpp">
-      <Filter>2. Level\8. BattleLevel\StateMachine</Filter>
-    </ClCompile>
     <ClCompile Include="MoveEffectApplier.cpp">
       <Filter>2. Level\8. BattleLevel\Calculator</Filter>
     </ClCompile>
     <ClCompile Include="ExpCalculator.cpp">
       <Filter>6. Data\Pokemon</Filter>
     </ClCompile>
+    <ClCompile Include="BattlePrepareTurnStateMachine.cpp">
+      <Filter>2. Level\8. BattleLevel\StateMachine\1. PrepareTurn</Filter>
+    </ClCompile>
+    <ClCompile Include="BattleStartStateMachine.cpp">
+      <Filter>2. Level\8. BattleLevel\StateMachine\0. BattleStart</Filter>
+    </ClCompile>
+    <ClCompile Include="BattlePlayerActionSelectStateMachine.cpp">
+      <Filter>2. Level\8. BattleLevel\StateMachine\2. PlayerActionSelect</Filter>
+    </ClCompile>
     <ClCompile Include="BattleExpGainStateMachine.cpp">
-      <Filter>2. Level\8. BattleLevel\StateMachine</Filter>
+      <Filter>2. Level\8. BattleLevel\StateMachine\3. Turn\2. Faint</Filter>
     </ClCompile>
     <ClCompile Include="BattleFaintStateMachine.cpp">
-      <Filter>2. Level\8. BattleLevel\StateMachine</Filter>
+      <Filter>2. Level\8. BattleLevel\StateMachine\3. Turn\2. Faint</Filter>
     </ClCompile>
-    <ClCompile Include="BattleShiftStateMachine.cpp">
-      <Filter>2. Level\8. BattleLevel\StateMachine</Filter>
+    <ClCompile Include="BattleEOTStateMachine.cpp">
+      <Filter>2. Level\8. BattleLevel\StateMachine\3. Turn\1. EOT</Filter>
+    </ClCompile>
+    <ClCompile Include="BattleActionStateMachine.cpp">
+      <Filter>2. Level\8. BattleLevel\StateMachine\3. Turn\0. Action</Filter>
+    </ClCompile>
+    <ClCompile Include="BattleTurnStateMachine.cpp">
+      <Filter>2. Level\8. BattleLevel\StateMachine\3. Turn</Filter>
+    </ClCompile>
+    <ClCompile Include="BattleMoveStateMachine.cpp">
+      <Filter>2. Level\8. BattleLevel\StateMachine\3. Turn\0. Action</Filter>
+    </ClCompile>
+    <ClCompile Include="BattleEndStateMachine.cpp">
+      <Filter>2. Level\8. BattleLevel\StateMachine\4. FinishBattle</Filter>
+    </ClCompile>
+    <ClCompile Include="BattlePlayerShiftStateMachine.cpp">
+      <Filter>2. Level\8. BattleLevel\StateMachine\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="BattleEnemyShiftStateMachine.cpp">
+      <Filter>2. Level\8. BattleLevel\StateMachine\Common</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

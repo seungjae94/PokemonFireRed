@@ -9,7 +9,8 @@
 #include "BattleEOTStateMachine.h"
 #include "BattleFaintStateMachine.h"
 #include "BattleExpGainStateMachine.h"
-#include "BattleShiftStateMachine.h"
+#include "BattlePlayerShiftStateMachine.h"
+#include "BattlePrepareTurnStateMachine.h"
 #include "Battler.h"
 
 class UBattleLevel : public UPokemonLevel
@@ -18,6 +19,7 @@ private:
 	enum class EState
 	{
 		BattleStart,
+		PrepareTurn,
 		PlayerActionSelect,
 		Turn,
 		FinishBattle,
@@ -45,19 +47,25 @@ private:
 	// 데이터
 	UBattler Player;
 	UBattler Enemy;
-	bool PlayerFirst = true;
-
-	// 렌더링, 로직 처리 객체
 	ABattleCanvas* Canvas = nullptr;
+
+	// FSM
+	ABattlePrepareTurnStateMachine* BattlePrepareTurnSM = nullptr;
 	ABattleStartStateMachine* BattleStartSM = nullptr;
 	ABattlePlayerActionSelectStateMachine* PlayerActionSelectSM = nullptr;
 	ABattleTurnStateMachine* BattleTurnSM = nullptr;
-	ABattleActionStateMachine* BattleActionSM = nullptr;		// BattleTurnSM이 내부적으로 사용하는 SM
-	ABattleEOTStateMachine* BattleEOTSM = nullptr;				// BattleTurnSM이 내부적으로 사용하는 SM
-	ABattleFaintStateMachine* BattleFaintSM = nullptr;			// BattleTurnSM이 내부적으로 사용하는 SM
-	ABattleMoveStateMachine* BattleMoveSM = nullptr;			// BattleActionSM이 내부적으로 사용하는 SM
-	ABattleShiftStateMachine* BattleShiftSM = nullptr;			// BattleActionSM이 내부적으로 사용하는 SM
-	ABattleExpGainStateMachine* BattleExpGainSM = nullptr;		// BattleFaintSM이 내부적으로 사용하는 SM
+
+	// BattleTurnSM이 내부적으로 사용하는 SM
+	ABattleActionStateMachine* BattleActionSM = nullptr;
+	ABattleEOTStateMachine* BattleEOTSM = nullptr;
+	ABattleFaintStateMachine* BattleFaintSM = nullptr;
+
+	// BattleActionSM이 내부적으로 사용하는 SM
+	ABattleMoveStateMachine* BattleMoveSM = nullptr;
+	ABattlePlayerShiftStateMachine* BattlePlayerShiftSM = nullptr;
+
+	// BattleFaintSM이 내부적으로 사용하는 SM
+	ABattleExpGainStateMachine* BattleExpGainSM = nullptr;
 
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
@@ -65,9 +73,10 @@ private:
 	void LevelEnd(ULevel* _NextLevel) override;
 
 	void ProcessBattleStart();
+	void ProcessPrepareTurn();
 	void ProcessPlayerAction();
 	void ProcessTurn();
-	void ProcessBattleEnd();
+	void ProcessFinishBattle();
 	void ProcessRun();
 
 	// FSM

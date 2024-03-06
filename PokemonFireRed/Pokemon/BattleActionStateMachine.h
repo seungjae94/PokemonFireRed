@@ -4,7 +4,7 @@
 #include "BattleCanvas.h"
 #include "ExpCalculator.h"
 #include "BattleMoveStateMachine.h"
-#include "BattleShiftStateMachine.h"
+#include "BattlePlayerShiftStateMachine.h"
 #include "BattleExpGainStateMachine.h"
 
 // 액션을 수행하는 역할
@@ -49,7 +49,7 @@ public:
 		BattleMoveSM = _BMSM;
 	}
 
-	void SetBSSM(ABattleShiftStateMachine* _BSSM)
+	void SetBPSSM(ABattlePlayerShiftStateMachine* _BSSM)
 	{
 		BattleShiftSM = _BSSM;
 	}
@@ -79,6 +79,6 @@ private:
 
 	// SM
 	ABattleMoveStateMachine* BattleMoveSM = nullptr;
-	ABattleShiftStateMachine* BattleShiftSM = nullptr;
+	ABattlePlayerShiftStateMachine* BattleShiftSM = nullptr;
 };
 

@@ -1,14 +1,14 @@
-#include "BattleShiftStateMachine.h"
+#include "BattlePlayerShiftStateMachine.h"
 
-ABattleShiftStateMachine::ABattleShiftStateMachine() 
+ABattlePlayerShiftStateMachine::ABattlePlayerShiftStateMachine() 
 {
 }
 
-ABattleShiftStateMachine::~ABattleShiftStateMachine() 
+ABattlePlayerShiftStateMachine::~ABattlePlayerShiftStateMachine() 
 {
 }
 
-void ABattleShiftStateMachine::Start(std::wstring_view _TakeInPokemonName, ABattleCanvas* _Canvas, const UBattler* _Player)
+void ABattlePlayerShiftStateMachine::Start(std::wstring_view _TakeInPokemonName, ABattleCanvas* _Canvas, const UBattler* _Player)
 {
 	TakeInPokemonName = _TakeInPokemonName;
 	Canvas = _Canvas;
@@ -19,7 +19,7 @@ void ABattleShiftStateMachine::Start(std::wstring_view _TakeInPokemonName, ABatt
 	Canvas->SetBattleMessage(TakeInPokemonName + L", that's enough!\nCome back!");
 }
 
-void ABattleShiftStateMachine::Tick(float _DeltaTime)
+void ABattlePlayerShiftStateMachine::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
 
@@ -27,31 +27,31 @@ void ABattleShiftStateMachine::Tick(float _DeltaTime)
 
 	switch (State)
 	{
-	case ABattleShiftStateMachine::ESubstate::None:
+	case ABattlePlayerShiftStateMachine::ESubstate::None:
 		break;
 	case ESubstate::Wait1:
 		ProcessWait1();
 		break;
-	case ABattleShiftStateMachine::ESubstate::TakeIn:
+	case ABattlePlayerShiftStateMachine::ESubstate::TakeIn:
 		ProcessTakeIn();
 		break;
 	case ESubstate::Wait2:
 		ProcessWait2();
 		break;
-	case ABattleShiftStateMachine::ESubstate::ThrowBall:
+	case ABattlePlayerShiftStateMachine::ESubstate::ThrowBall:
 		ProcessThrowBall();
 		break;
-	case ABattleShiftStateMachine::ESubstate::SendOut:
+	case ABattlePlayerShiftStateMachine::ESubstate::SendOut:
 		ProcessSendOut();
 		break;
-	case ABattleShiftStateMachine::ESubstate::End:
+	case ABattlePlayerShiftStateMachine::ESubstate::End:
 		break;
 	default:
 		break;
 	}
 }
 
-void ABattleShiftStateMachine::ProcessWait1()
+void ABattlePlayerShiftStateMachine::ProcessWait1()
 {
 	if (Timer <= 0.0f)
 	{
@@ -60,7 +60,7 @@ void ABattleShiftStateMachine::ProcessWait1()
 	}
 }
 
-void ABattleShiftStateMachine::ProcessTakeIn()
+void ABattlePlayerShiftStateMachine::ProcessTakeIn()
 {
 	Canvas->TakeInPokemonToBall(Timer / TakeInTime);
 
@@ -74,7 +74,7 @@ void ABattleShiftStateMachine::ProcessTakeIn()
 	}
 }
 
-void ABattleShiftStateMachine::ProcessWait2()
+void ABattlePlayerShiftStateMachine::ProcessWait2()
 {
 	if (Timer <= 0.0f)
 	{
@@ -83,7 +83,7 @@ void ABattleShiftStateMachine::ProcessWait2()
 	}
 }
 
-void ABattleShiftStateMachine::ProcessThrowBall()
+void ABattlePlayerShiftStateMachine::ProcessThrowBall()
 {
 	if (true == Canvas->IsThrowedBallAnimationEnd())
 	{
@@ -97,7 +97,7 @@ void ABattleShiftStateMachine::ProcessThrowBall()
 	}
 }
 
-void ABattleShiftStateMachine::ProcessSendOut()
+void ABattlePlayerShiftStateMachine::ProcessSendOut()
 {
 	Canvas->TakeOutPokemonFromBall(Timer / SendOutTime);
 

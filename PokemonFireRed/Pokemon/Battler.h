@@ -81,7 +81,9 @@ public:
 
 	void ShiftPokemon()
 	{
+		StatStage.Reset();
 		FightingPokemonIndex = ShiftPokemonIndex;
+		CurMoveIndex = 0;
 		ShiftPokemonIndex = -1;
 	}
 
