@@ -81,8 +81,11 @@ void UBattleLevel::Tick(float _DeltaTime)
 	case EState::BattleStart:
 		ProcessBattleStart();
 		break;
-	case EState::PrepareTurn:
-		ProcessPrepareTurn();
+	case EState::PrepareTurn1:
+		ProcessPrepareTurn1();
+		break;
+	case EState::PrepareTurn2:
+		ProcessPrepareTurn2();
 		break;
 	case EState::PlayerActionSelect:
 		ProcessPlayerAction();
@@ -152,18 +155,30 @@ void UBattleLevel::ProcessBattleStart()
 {
 	if (true == BattleStartSM->IsEnd())
 	{
-		State = EState::PrepareTurn;
+		State = EState::PrepareTurn1;
 		BattlePrepareTurnSM->Start(Canvas, MsgBox, &Player, &Enemy);
 	}
 }
 
-void UBattleLevel::ProcessPrepareTurn()
+void UBattleLevel::ProcessPrepareTurn1()
 {
 	if (true == BattlePrepareTurnSM->IsEnd())
 	{
+		State = EState::PrepareTurn2;
+
+		MsgBox->SetWriteSpeed(2.0f);
+		MsgBox->SetMessage(L"What will\n" + Player.CurPokemon()->GetNameW() + L" do?");
+		MsgBox->Write();
+	}
+}
+
+void UBattleLevel::ProcessPrepareTurn2()
+{
+	if (MsgBox->GetWriteState() == EWriteState::WriteEnd)
+	{
 		State = EState::PlayerActionSelect;
 		Canvas->SetActionBoxActive(true);
-		MsgBox->SetMessage(L"What will\n" + Player.CurPokemon()->GetNameW() + L" do?");
+		MsgBox->SetWriteSpeed(1.0f);
 		PlayerActionSelectSM->Start(Canvas, &Player, &Enemy);
 	}
 }
@@ -213,7 +228,7 @@ void UBattleLevel::ProcessTurn()
 		// 턴 준비 단계로 다시 돌아간다.
 		if (BattleTurnSM->WhyEnd() == ABattleTurnStateMachine::EEndReason::None)
 		{
-			State = EState::PrepareTurn;
+			State = EState::PrepareTurn1;
 			BattlePrepareTurnSM->Start(Canvas, MsgBox, &Player, &Enemy);
 		}
 		else if (BattleTurnSM->WhyEnd() == ABattleTurnStateMachine::EEndReason::WinToWild)

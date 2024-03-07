@@ -19,7 +19,8 @@ private:
 	enum class EState
 	{
 		BattleStart,
-		PrepareTurn,
+		PrepareTurn1,
+		PrepareTurn2,
 		PlayerActionSelect,
 		Turn,
 		FinishBattle,
@@ -74,7 +75,8 @@ private:
 	void LevelEnd(ULevel* _NextLevel) override;
 
 	void ProcessBattleStart();
-	void ProcessPrepareTurn();
+	void ProcessPrepareTurn1();
+	void ProcessPrepareTurn2();
 	void ProcessPlayerAction();
 	void ProcessTurn();
 	void ProcessFinishBattle();

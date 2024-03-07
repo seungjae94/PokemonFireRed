@@ -16,6 +16,7 @@ private:
 		Wait2,
 		ThrowBall,
 		SendOut,
+		EndWait,
 		End,
 	};
 public:
@@ -55,7 +56,7 @@ private:
 	// 상수
 	const float TakeInTime = 0.3f;
 	const float SendOutTime = 0.3f;
-	const float WaitTime = 0.5f;
+	const float WaitTime = 0.75f;
 
 	// 상태 틱 함수
 	void ProcessWait1();
@@ -63,5 +64,6 @@ private:
 	void ProcessWait2();
 	void ProcessThrowBall();
 	void ProcessSendOut();
+	void ProcessEndWait();
 };
 

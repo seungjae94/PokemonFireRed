@@ -34,10 +34,9 @@ void ABattleActionStateMachine::Start(ABattleCanvas* _Canvas, APokemonMsgBox* _M
 	break;
 	case EBattleAction::Escape:
 	{
-		State = ESubstate::EscapeFail;
+		State = ESubstate::EscapeFail1;
 		MsgBox->SetMessage(L"Can't escape!");
 		MsgBox->Write();
-		Timer = BattleMsgShowTime;
 	}
 	break;
 	case EBattleAction::Shift:
@@ -79,8 +78,11 @@ void ABattleActionStateMachine::Tick(float _DeltaTime)
 	{
 	case ABattleActionStateMachine::ESubstate::None:
 		break;
-	case ABattleActionStateMachine::ESubstate::EscapeFail:
-		ProcessEscapeFail();
+	case ABattleActionStateMachine::ESubstate::EscapeFail1:
+		ProcessEscapeFail1();
+		break;
+	case ABattleActionStateMachine::ESubstate::EscapeFail2:
+		ProcessEscapeFail2();
 		break;
 	case ABattleActionStateMachine::ESubstate::Shift:
 		ProcessShift();
@@ -98,12 +100,22 @@ void ABattleActionStateMachine::Tick(float _DeltaTime)
 	}
 }
 
-void ABattleActionStateMachine::ProcessEscapeFail()
+void ABattleActionStateMachine::ProcessEscapeFail1()
 {
-	if (Timer <= 0.0f)
+	if (MsgBox->GetWriteState() == EWriteState::WriteEnd)
+	{
+		State = ESubstate::EscapeFail2;
+		MsgBox->ShowSkipArrow();
+	}
+}
+
+void ABattleActionStateMachine::ProcessEscapeFail2()
+{
+	if (true == UEngineInput::IsDown('Z'))
 	{
 		State = ESubstate::End;
 	}
+
 }
 
 void ABattleActionStateMachine::ProcessShift()

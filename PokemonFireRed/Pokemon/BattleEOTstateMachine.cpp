@@ -14,6 +14,7 @@ ABattleEOTStateMachine::~ABattleEOTStateMachine()
 void ABattleEOTStateMachine::Start(ABattleCanvas* _Canvas, APokemonMsgBox* _MsgBox, UBattler* _Target, UBattler* _CounterTarget)
 {
 	Canvas = _Canvas;
+	MsgBox = _MsgBox;
 	Target = _Target;
 	CounterTarget = _CounterTarget;
 
@@ -40,14 +41,20 @@ void ABattleEOTStateMachine::Tick(float _DeltaTime)
 	case ABattleEOTStateMachine::ESubstate::Bind:
 		ProcessBind();
 		break;
-	case ABattleEOTStateMachine::ESubstate::TempStatusMessage:
-		ProcessTempStatusMessage();
+	case ABattleEOTStateMachine::ESubstate::TempStatusMessage1:
+		ProcessTempStatusMessage1();
+		break;
+	case ABattleEOTStateMachine::ESubstate::TempStatusMessage2:
+		ProcessTempStatusMessage2();
 		break;
 	case ABattleEOTStateMachine::ESubstate::TestStatus:
 		ProcessTestStatus();
 		break;
-	case ABattleEOTStateMachine::ESubstate::StatusMessage:
-		ProcessStatusMessage();
+	case ABattleEOTStateMachine::ESubstate::StatusMessage1:
+		ProcessStatusMessage1();
+		break;
+	case ABattleEOTStateMachine::ESubstate::StatusMessage2:
+		ProcessStatusMessage2();
 		break;
 	case ABattleEOTStateMachine::ESubstate::StatusAnim:
 		ProcessStatusAnim();
@@ -143,9 +150,9 @@ void ABattleEOTStateMachine::ProcessLeechSeed()
 				Target->CurPokemon()->SetStatus(EPokemonStatus::Faint);
 			}
 
-			State = ESubstate::TempStatusMessage;
+			State = ESubstate::TempStatusMessage1;
 			MsgBox->SetMessage(UBattleUtil::GetPokemonFullName(Target) + L"'s health is\nsapped by LEECH SEED!");
-			Timer = BattleMsgShowTime;
+			MsgBox->Write();
 		}
 	}
 }
@@ -176,14 +183,23 @@ void ABattleEOTStateMachine::ProcessBind()
 		}
 
 		// State 전환
-		State = ESubstate::TempStatusMessage;
+		State = ESubstate::TempStatusMessage1;
 		MsgBox->SetMessage(UBattleUtil::GetPokemonFullName(Target) + L" is hurt\nby BIND!");
-		Timer = BattleMsgShowTime;
+		MsgBox->Write();
 	}
 }
 
 
-void ABattleEOTStateMachine::ProcessTempStatusMessage()
+void ABattleEOTStateMachine::ProcessTempStatusMessage1()
+{
+	if (MsgBox->GetWriteState() == EWriteState::WriteEnd)
+	{
+		State = ESubstate::TempStatusMessage2;
+		Timer = BattleMsgShowTime;
+	}
+}
+
+void ABattleEOTStateMachine::ProcessTempStatusMessage2()
 {
 	if (Timer <= 0.0f)
 	{
@@ -208,7 +224,7 @@ void ABattleEOTStateMachine::ProcessTestStatus()
 	// 상태가 있는 경우 진행
 	else
 	{
-		State = ESubstate::StatusMessage;
+		State = ESubstate::StatusMessage1;
 		Timer = BattleMsgShowTime;
 
 		std::wstring BattleMsg = UBattleUtil::GetPokemonFullName(Target) + L" is hurt\nby ";
@@ -228,7 +244,16 @@ void ABattleEOTStateMachine::ProcessTestStatus()
 	}
 }
 
-void ABattleEOTStateMachine::ProcessStatusMessage()
+void ABattleEOTStateMachine::ProcessStatusMessage1()
+{
+	if (MsgBox->GetWriteState() == EWriteState::WriteEnd)
+	{
+		State = ESubstate::StatusMessage2;
+		Timer = BattleMsgShowTime;
+	}
+}
+
+void ABattleEOTStateMachine::ProcessStatusMessage2()
 {
 	if (Timer <= 0.0f)
 	{

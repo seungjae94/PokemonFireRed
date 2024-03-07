@@ -20,6 +20,7 @@ void ABattlePlayerShiftStateMachine::Start(std::wstring_view _TakeInPokemonName,
 	State = ESubstate::TakeIn;
 	Timer = WaitTime;
 	MsgBox->SetMessage(TakeInPokemonName + L", that's enough!\nCome back!");
+	MsgBox->Write();
 }
 
 void ABattlePlayerShiftStateMachine::Tick(float _DeltaTime)
@@ -30,24 +31,27 @@ void ABattlePlayerShiftStateMachine::Tick(float _DeltaTime)
 
 	switch (State)
 	{
-	case ABattlePlayerShiftStateMachine::ESubstate::None:
+	case ESubstate::None:
 		break;
 	case ESubstate::Wait1:
 		ProcessWait1();
 		break;
-	case ABattlePlayerShiftStateMachine::ESubstate::TakeIn:
+	case ESubstate::TakeIn:
 		ProcessTakeIn();
 		break;
 	case ESubstate::Wait2:
 		ProcessWait2();
 		break;
-	case ABattlePlayerShiftStateMachine::ESubstate::ThrowBall:
+	case ESubstate::ThrowBall:
 		ProcessThrowBall();
 		break;
-	case ABattlePlayerShiftStateMachine::ESubstate::SendOut:
+	case ESubstate::SendOut:
 		ProcessSendOut();
 		break;
-	case ABattlePlayerShiftStateMachine::ESubstate::End:
+	case ESubstate::EndWait:
+		ProcessEndWait();
+		break;
+	case ESubstate::End:
 		break;
 	default:
 		break;
@@ -67,11 +71,10 @@ void ABattlePlayerShiftStateMachine::ProcessTakeIn()
 {
 	Canvas->TakeInPokemonToBall(Timer / TakeInTime);
 
-	if (Timer <= 0.0f)
+	if (Timer <= 0.0f && MsgBox->GetWriteState() == EWriteState::WriteEnd)
 	{
 		State = ESubstate::Wait2;
 		Timer = WaitTime;
-		MsgBox->SetMessage(L"Go! " + Player->CurPokemonReadonly()->GetNameW() + L"!");
 		Canvas->SetPlayerPokemonBoxActive(false);
 		Canvas->SetPlayerPokemonImageActive(false);
 	}
@@ -83,6 +86,8 @@ void ABattlePlayerShiftStateMachine::ProcessWait2()
 	{
 		State = ESubstate::ThrowBall;
 		Canvas->PlayThrowedBallAnimation();
+		MsgBox->SetMessage(L"Go! " + Player->CurPokemonReadonly()->GetNameW() + L"!");
+		MsgBox->Write();
 	}
 }
 
@@ -104,6 +109,15 @@ void ABattlePlayerShiftStateMachine::ProcessSendOut()
 {
 	Canvas->TakeOutPokemonFromBall(Timer / SendOutTime);
 
+	if (Timer <= 0.0f && MsgBox->GetWriteState() == EWriteState::WriteEnd)
+	{
+		State = ESubstate::EndWait;
+		Timer = WaitTime;
+	}
+}
+
+void ABattlePlayerShiftStateMachine::ProcessEndWait()
+{
 	if (Timer <= 0.0f)
 	{
 		State = ESubstate::End;

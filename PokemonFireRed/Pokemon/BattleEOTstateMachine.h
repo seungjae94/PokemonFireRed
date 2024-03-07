@@ -15,9 +15,11 @@ private:
 		TempStatusAnim,
 		LeechSeed,
 		Bind,
-		TempStatusMessage,
+		TempStatusMessage1,
+		TempStatusMessage2,
 		TestStatus,
-		StatusMessage,
+		StatusMessage1,
+		StatusMessage2,
 		StatusAnim,
 		StatusDamage,
 		End
@@ -61,7 +63,7 @@ private:
 	const float TempStatusAnimTime = 1.0f;
 	const float StatusAnimTime = 1.0f;
 	const float HpBarDecreaseTime = 1.0f;
-	const float BattleMsgShowTime = 1.0f;
+	const float BattleMsgShowTime = 0.75f;
 	ELeechSeedState LeechSeedState = ELeechSeedState::None;
 
 	// »óÅÂ Æ½ ÇÔ¼ö
@@ -69,9 +71,11 @@ private:
 	void ProcessTempStatusAnim();
 	void ProcessLeechSeed();
 	void ProcessBind();
-	void ProcessTempStatusMessage();
+	void ProcessTempStatusMessage1();
+	void ProcessTempStatusMessage2();
 	void ProcessTestStatus();
-	void ProcessStatusMessage();
+	void ProcessStatusMessage1();
+	void ProcessStatusMessage2();
 	void ProcessStatusAnim();
 	void ProcessStatusDamage();
 };

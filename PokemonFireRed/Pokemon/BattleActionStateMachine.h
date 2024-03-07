@@ -19,7 +19,8 @@ private:
 	enum class ESubstate
 	{
 		None,
-		EscapeFail,
+		EscapeFail1,
+		EscapeFail2,
 		Shift,
 		UseItem,
 		Move,
@@ -75,7 +76,8 @@ private:
 	const float BattleMsgShowTime = 1.5f;
 
 	// 상태 틱 함수
-	void ProcessEscapeFail();
+	void ProcessEscapeFail1();
+	void ProcessEscapeFail2();
 	void ProcessShift();
 	void ProcessItem();
 	void ProcessMove();
