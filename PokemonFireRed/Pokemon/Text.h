@@ -168,7 +168,6 @@ private:
 	EFontColor Color = EFontColor::White;
 	EFontSize Size = EFontSize::Normal;
 	int LineSpace = 14;
-	int LineWidth = 0;
 	FVector CutLeftTop;
 	FVector CutScale;
 

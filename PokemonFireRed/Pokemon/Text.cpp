@@ -18,6 +18,11 @@ void AText::FollowParentPosition()
 {
 	AUIElement::FollowParentPosition();
 
+	if (true == Lines.empty())
+	{
+		return;
+	}
+
 	FVector AbsolutePos = Pivot + RelativePos;
 	switch (AlignType)
 	{
@@ -25,12 +30,12 @@ void AText::FollowParentPosition()
 		break;
 	case EAlignType::Center:
 	{
-		int PixelLineWidth = LineWidth / Global::PixelSize;
+		int PixelLineWidth = LineWidths[0] / Global::PixelSize;
 		AbsolutePos -= UPokemonUtil::PixelVector(PixelLineWidth / 2, 0);
 	}
 	break;
 	case EAlignType::Right:
-		AbsolutePos -= FVector(LineWidth - Global::PixelSize, 0);
+		AbsolutePos -= FVector(LineWidths[0] - Global::PixelSize, 0);
 		break;
 	default:
 		break;
