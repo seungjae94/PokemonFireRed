@@ -378,6 +378,9 @@
     <ClInclude Include="BattleEnemyShiftStateMachine.h">
       <Filter>2. Level\7. BattleLevel\StateMachine\Common</Filter>
     </ClInclude>
+    <ClInclude Include="PokemonMsgBox.h">
+      <Filter>5. UI\Element</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PokemonCore.cpp">
@@ -622,6 +625,9 @@
     </ClCompile>
     <ClCompile Include="BattleEnemyShiftStateMachine.cpp">
       <Filter>2. Level\7. BattleLevel\StateMachine\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="PokemonMsgBox.cpp">
+      <Filter>5. UI\Element</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include <EngineBase/EngineMath.h>
 #include "UIElement.h"
 
 enum class EFontColor
@@ -33,6 +34,19 @@ class AText : public AUIElement
 {
 	class GlyphAlignRule;
 	friend class AlignRuleMapInitiator;
+private:
+	// 글리프
+	class GlyphAlignRule
+	{
+	public:
+		std::string ImageName;
+		int MarginLeft = 0;
+		int MarginRight = 0;
+		int Base = 0;
+	};
+	// AlignRuleMap[FontSize][WChar]
+	static std::map<EFontSize, std::map<wchar_t, GlyphAlignRule>> AlignRuleMap;
+	static void InitAlignRuleMap();
 public:
 	// constructor destructor
 	AText();
@@ -44,6 +58,9 @@ public:
 	AText& operator=(const AText& _Other) = delete;
 	AText& operator=(AText&& _Other) noexcept = delete;
 
+	void FollowParentPosition() override;
+
+	// 초기화
 	void SetAlignType(EAlignType _AlignType)
 	{
 		AlignType = _AlignType;
@@ -59,80 +76,51 @@ public:
 		Size = _Size;
 	}
 
-	void SetSequential(bool _IsSequential)
-	{
-		IsSequential = _IsSequential;
-	}
-
-	bool IsRenderEnd() const
-	{
-		return RenderEnd;
-	}
-
-	void Skip()
-	{
-		RenderEnd = true;
-
-		for (UImageRenderer* Renderer : GlyphRenderers)
-		{
-			Renderer->ActiveOn();
-		}
-	}
-
-	void FollowParentPosition() override;
-
 	void SetLineSpace(int _LineSpace)
 	{
 		LineSpace = _LineSpace;
 	}
-
-	void SetText(std::wstring_view _Text);
 
 	int GetPixelLineWidth() const
 	{
 		return LineWidth / Global::PixelSize;
 	}
 
+	// 렌더링
+	void SetText(std::wstring_view _Text);
+
+	// 모든 문자를 켜고 끈다.
+	void SetAllGlyphsActive(bool _Value);
+
+	// 특정 인덱스의 글자 렌더러를 켜고 끈다.
+	void SetGlyphActive(int _Index, bool _Value);
+
+	// 텍스트를 그릴 영역을 지정한다. 스크린 좌표를 기준으로 지정한다.
+	void SetCuttingRect(const FVector& _CutLeftTop, const FVector& _CutScale);
+	void Cut();
+
 protected:
 	void BeginPlay() override;
-	void Tick(float _DeltaTime) override;
+	//void Tick(float _DeltaTime) override;
 private:
-	class GlyphAlignRule
-	{
-	public:
-		std::string ImageName;
-		int MarginLeft = 0;
-		int MarginRight = 0;
-		int Base = 0;
-	};
+	// 데이터
+	std::vector<std::wstring> Lines;
+	std::vector<UImageRenderer*> GlyphRenderers;
 
+	// 설정값
 	EAlignType AlignType = EAlignType::Left;
 	EFontColor Color = EFontColor::White;
 	EFontSize Size = EFontSize::Normal;
 	int LineSpace = 14;
-
-	// 텍스트를 천천히 출력할 때 사용
-	bool IsSequential = false;
-	float CharShowInterval = 0.05f;
-	float CurCharShowInterval = CharShowInterval;
-	int CharShowIndex = 0;
-
-	// 렌더링 완료 여부 (스킵에 사용)
-	bool RenderEnd = false;
-
-	// AlignRuleMap[FontSize][WChar]
-	static std::map<EFontSize, std::map<wchar_t, GlyphAlignRule>> AlignRuleMap;
-
-	std::vector<std::wstring> Lines;
-	std::vector<UImageRenderer*> GlyphRenderers;
-
-	static void InitAlignRuleMap();
-
-	void PrepareLine(const std::wstring& _Line, int _Bot);
-
-	// 텍스트 정렬 기능
 	int LineWidth = 0;
+	FVector CutLeftTop;
+	FVector CutScale;
 
+	// 유틸 함수
+	std::string ResolveImageNamePrefix() const;
+	void PrepareLine(const std::wstring& _Line, int _Bot);
+	
+	// SetActorLocation 대신 SetRelativePosition 함수를 사용해야 한다.
 	void SetActorLocation(FVector _Pos) 
 	{
 		AActor::SetActorLocation(_Pos);

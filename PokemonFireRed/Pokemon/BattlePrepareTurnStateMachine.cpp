@@ -1,6 +1,6 @@
 #include "BattlePrepareTurnStateMachine.h"
 #include "EventManager.h"
-#include "BattlePlayerShiftStateMachine.h";
+#include "BattlePlayerShiftStateMachine.h"
 
 ABattlePrepareTurnStateMachine::ABattlePrepareTurnStateMachine()
 {

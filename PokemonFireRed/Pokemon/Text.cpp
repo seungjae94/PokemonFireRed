@@ -60,21 +60,45 @@ void AText::SetText(std::wstring_view _Text)
 		Bot += LineSpace * Global::PixelSize;
 	}
 
-	if (true == IsSequential)
+	FollowParentPosition();
+}
+
+void AText::SetAllGlyphsActive(bool _Value)
+{
+	for (UImageRenderer* Glyph : GlyphRenderers)
 	{
-		CharShowIndex = 0;
-		CurCharShowInterval = 0.0f;
-		RenderEnd = false;
-		AllRenderersActiveOff();
-	}
-	else
-	{
-		RenderEnd = true;
-		FollowParentPosition();
+		Glyph->SetActive(_Value);
 	}
 }
 
-void AText::PrepareLine(const std::wstring& _Line, int _Bot)
+void AText::SetGlyphActive(int _Index, bool _Value)
+{
+	if (_Index >= GlyphRenderers.size())
+	{
+		MsgBoxAssert("AText에서 글리프 인덱스를 벗어난 글리프를 켜거나 끄려고 했습니다.");
+		return;
+	}
+
+	GlyphRenderers[_Index]->SetActive(_Value);
+}
+
+void AText::SetCuttingRect(const FVector& _CutLeftTop, const FVector& _CutScale)
+{
+	CutLeftTop = _CutLeftTop;
+	CutScale = _CutScale;
+}
+
+void AText::Cut()
+{
+	for (UImageRenderer* Glyph : GlyphRenderers)
+	{
+		FVector ActorBaseLeftTop = Glyph->GetActorBaseTransform().LeftTop();
+		UWindowImage* GlyphImage = Glyph->GetImage();
+		GlyphImage->SetCuttingTransform({ActorBaseLeftTop - CutLeftTop, CutScale});
+	}
+}
+
+std::string AText::ResolveImageNamePrefix() const
 {
 	std::string ImageNamePrefix = "";
 	if (Size == EFontSize::Mini)
@@ -113,6 +137,13 @@ void AText::PrepareLine(const std::wstring& _Line, int _Bot)
 	}
 
 	ImageNamePrefix += "Glyph";
+
+	return ImageNamePrefix;
+}
+
+void AText::PrepareLine(const std::wstring& _Line, int _Bot)
+{
+	std::string ImageNamePrefix = ResolveImageNamePrefix();
 
 	int Left = 0;
 	int Bot = _Bot;
@@ -159,36 +190,6 @@ void AText::BeginPlay()
 {
 	AUIElement::BeginPlay();
 	SetActive(false);
-}
-
-void AText::Tick(float _DeltaTime)
-{
-	if (nullptr == Parent)
-	{
-		MsgBoxAssert(GetWorld()->GetName() + ":" + GetName() + " 텍스트에 컨테이너를 설정하지 않았습니다.");
-		return;
-	}
-
-	if (false == IsSequential || true == RenderEnd)
-	{
-		return;
-	}
-
-	if (CharShowIndex >= GlyphRenderers.size())
-	{
-		RenderEnd = true;
-		return;
-	}
-
-	if (CurCharShowInterval > 0.0f)
-	{
-		CurCharShowInterval -= _DeltaTime;
-		return;
-	}
-
-	CurCharShowInterval = CharShowInterval;
-	GlyphRenderers[CharShowIndex]->ActiveOn();
-	++CharShowIndex;
 }
 
 void AText::InitAlignRuleMap()
