@@ -12,11 +12,13 @@ private:
 	enum class ESubstate
 	{
 		None,
-		ExpGainMessage,
+		ExpGainMessage1,
+		ExpGainMessage2,
 		TestExpBarIncrease,
 		ExpBarIncrease,
 		LevelUpEffect,
-		LevelUpMessage,
+		LevelUpMessage1,
+		LevelUpMessage2,
 		StatUpDiffWindow,
 		StatUpAfterWindow,
 		TestLearnMove,
@@ -69,11 +71,13 @@ private:
 	FLevelUpData LevelUpData;
 
 	// »óÅÂ Æ½ ÇÔ¼ö
-	void ProcessExpGainMessage();
+	void ProcessExpGainMessage1();
+	void ProcessExpGainMessage2();
 	void ProcessTestExpBarIncrease();
 	void ProcessExpBarIncrease();
 	void ProcessLevelUpEffect();
-	void ProcessLevelUpMessage();
+	void ProcessLevelUpMessage1();
+	void ProcessLevelUpMessage2();
 	void ProcessStatUpDiffWindow();
 	void ProcessStatUpAfterWindow();
 	void ProcessTestLearnMove();

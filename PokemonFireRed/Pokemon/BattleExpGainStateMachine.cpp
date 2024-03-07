@@ -3,11 +3,11 @@
 #include "BattleCanvas.h"
 #include "PokemonMsgBox.h"
 
-ABattleExpGainStateMachine::ABattleExpGainStateMachine() 
+ABattleExpGainStateMachine::ABattleExpGainStateMachine()
 {
 }
 
-ABattleExpGainStateMachine::~ABattleExpGainStateMachine() 
+ABattleExpGainStateMachine::~ABattleExpGainStateMachine()
 {
 }
 
@@ -19,11 +19,12 @@ void ABattleExpGainStateMachine::Start(ABattleCanvas* _Canvas, APokemonMsgBox* _
 	Exp = _Exp;
 	IsCurPokemon = _IsCurPokemon;
 
-	State = ESubstate::ExpGainMessage;
+	State = ESubstate::ExpGainMessage1;
 	std::wstring BattleMsg = ExpGainer->GetNameW() + L" gained\n";
 	BattleMsg += std::to_wstring(_Exp);
 	BattleMsg += L" Exp. Points!";
 	MsgBox->SetMessage(BattleMsg);
+	MsgBox->Write();
 }
 
 void ABattleExpGainStateMachine::Tick(float _DeltaTime)
@@ -34,8 +35,11 @@ void ABattleExpGainStateMachine::Tick(float _DeltaTime)
 	{
 	case ABattleExpGainStateMachine::ESubstate::None:
 		break;
-	case ABattleExpGainStateMachine::ESubstate::ExpGainMessage:
-		ProcessExpGainMessage();
+	case ABattleExpGainStateMachine::ESubstate::ExpGainMessage1:
+		ProcessExpGainMessage1();
+		break;
+	case ABattleExpGainStateMachine::ESubstate::ExpGainMessage2:
+		ProcessExpGainMessage2();
 		break;
 	case ABattleExpGainStateMachine::ESubstate::TestExpBarIncrease:
 		ProcessTestExpBarIncrease();
@@ -46,8 +50,11 @@ void ABattleExpGainStateMachine::Tick(float _DeltaTime)
 	case ABattleExpGainStateMachine::ESubstate::LevelUpEffect:
 		ProcessLevelUpEffect();
 		break;
-	case ABattleExpGainStateMachine::ESubstate::LevelUpMessage:
-		ProcessLevelUpMessage();
+	case ABattleExpGainStateMachine::ESubstate::LevelUpMessage1:
+		ProcessLevelUpMessage1();
+		break;
+	case ABattleExpGainStateMachine::ESubstate::LevelUpMessage2:
+		ProcessLevelUpMessage2();
 		break;
 	case ABattleExpGainStateMachine::ESubstate::StatUpDiffWindow:
 		ProcessStatUpDiffWindow();
@@ -83,12 +90,22 @@ void ABattleExpGainStateMachine::Tick(float _DeltaTime)
 	}
 }
 
-void ABattleExpGainStateMachine::ProcessExpGainMessage()
+void ABattleExpGainStateMachine::ProcessExpGainMessage1()
+{
+	if (MsgBox->GetWriteState() == EWriteState::WriteEnd)
+	{
+		State = ESubstate::ExpGainMessage2;
+		MsgBox->ShowSkipArrow();
+	}
+}
+
+void ABattleExpGainStateMachine::ProcessExpGainMessage2()
 {
 	if (true == UEngineInput::IsDown('Z'))
 	{
 		SimResult = UExpCalculator::SimExpGain(ExpGainer, Exp);
 		State = ESubstate::TestExpBarIncrease;
+		MsgBox->HideSkipArrow();
 	}
 }
 
@@ -158,13 +175,14 @@ void ABattleExpGainStateMachine::ProcessLevelUpEffect()
 {
 	if (Timer <= 0.0f)
 	{
-		State = ESubstate::LevelUpMessage;
+		State = ESubstate::LevelUpMessage1;
 
 		std::wstring BattleMsg = ExpGainer->GetNameW();
 		BattleMsg += L" grew to\nLV. ";
 		BattleMsg += std::to_wstring(ExpGainer->GetLevel() + 1);
 		BattleMsg += L"!";
 		MsgBox->SetMessage(BattleMsg);
+		MsgBox->Write();
 
 		// 실제 레벨업 처리
 		LevelUpData = ExpGainer->LevelUp();
@@ -174,12 +192,22 @@ void ABattleExpGainStateMachine::ProcessLevelUpEffect()
 	}
 }
 
-void ABattleExpGainStateMachine::ProcessLevelUpMessage()
+void ABattleExpGainStateMachine::ProcessLevelUpMessage1()
+{
+	if (MsgBox->GetWriteState() == EWriteState::WriteEnd)
+	{
+		State = ESubstate::LevelUpMessage2;
+		MsgBox->ShowSkipArrow();
+	}
+}
+
+void ABattleExpGainStateMachine::ProcessLevelUpMessage2()
 {
 	if (true == UEngineInput::IsDown('Z'))
 	{
 		State = ESubstate::StatUpDiffWindow;
 		Canvas->ShowStatUpBox(LevelUpData);
+		MsgBox->HideSkipArrow();
 	}
 }
 
@@ -238,7 +266,7 @@ void ABattleExpGainStateMachine::ProcessLearnMoveSuccessMessage()
 	{
 		// 배울 기술이 더 있을 수도 있다.
 		State = ESubstate::TestLearnMove;
-		
+
 		// 실제 기술 학습 처리
 		EPokemonMove MoveId = LevelUpData.Moves.front();
 		ExpGainer->LearnMove(MoveId);

@@ -57,8 +57,11 @@ void ABattleMoveStateMachine::Tick(float _DeltaTime)
 	{
 	case ABattleMoveStateMachine::ESubstate::None:
 		break;
-	case ABattleMoveStateMachine::ESubstate::MoveFail:
-		ProcessMoveFail();
+	case ABattleMoveStateMachine::ESubstate::MoveFail1:
+		ProcessMoveFail1();
+		break;
+	case ABattleMoveStateMachine::ESubstate::MoveFail2:
+		ProcessMoveFail2();
 		break;
 	case ABattleMoveStateMachine::ESubstate::MoveAnim:
 		ProcessMoveAnim();
@@ -66,17 +69,26 @@ void ABattleMoveStateMachine::Tick(float _DeltaTime)
 	case ABattleMoveStateMachine::ESubstate::MoveDamage:
 		ProcessMoveDamage();
 		break;
-	case ABattleMoveStateMachine::ESubstate::MoveCriticalMessage:
-		ProcessMoveCriticalMessage();
+	case ABattleMoveStateMachine::ESubstate::MoveCriticalMessage1:
+		ProcessMoveCriticalMessage1();
 		break;
-	case ABattleMoveStateMachine::ESubstate::MoveEffectiveMessage:
-		ProcessMoveEffectiveMessage();
+	case ABattleMoveStateMachine::ESubstate::MoveCriticalMessage2:
+		ProcessMoveCriticalMessage2();
+		break;
+	case ABattleMoveStateMachine::ESubstate::MoveEffectiveMessage1:
+		ProcessMoveEffectiveMessage1();
+		break;
+	case ABattleMoveStateMachine::ESubstate::MoveEffectiveMessage2:
+		ProcessMoveEffectiveMessage2();
 		break;
 	case ABattleMoveStateMachine::ESubstate::MoveBE:
 		ProcessMoveBE();
 		break;
-	case ABattleMoveStateMachine::ESubstate::MoveBEMessage:
-		ProcessMoveBEMessage();
+	case ABattleMoveStateMachine::ESubstate::MoveBEMessage1:
+		ProcessMoveBEMessage1();
+		break;
+	case ABattleMoveStateMachine::ESubstate::MoveBEMessage2:
+		ProcessMoveBEMessage2();
 		break;
 	case ABattleMoveStateMachine::ESubstate::TestSE:
 		ProcessTestSE();
@@ -84,8 +96,11 @@ void ABattleMoveStateMachine::Tick(float _DeltaTime)
 	case ABattleMoveStateMachine::ESubstate::MoveSE:
 		ProcessMoveSE();
 		break;
-	case ABattleMoveStateMachine::ESubstate::MoveSEMessage:
-		ProcessMoveSEMessage();
+	case ABattleMoveStateMachine::ESubstate::MoveSEMessage1:
+		ProcessMoveSEMessage1();
+		break;
+	case ABattleMoveStateMachine::ESubstate::MoveSEMessage2:
+		ProcessMoveSEMessage2();
 		break;
 	case ABattleMoveStateMachine::ESubstate::End:
 		break;
@@ -94,9 +109,18 @@ void ABattleMoveStateMachine::Tick(float _DeltaTime)
 	}
 }
 
-void ABattleMoveStateMachine::ProcessMoveFail()
+void ABattleMoveStateMachine::ProcessMoveFail1()
 {
 	if (MsgBox->GetWriteState() == EWriteState::WriteEnd)
+	{
+		State = ESubstate::MoveFail2;
+		Timer = BattleMsgShowTime;
+	}
+}
+
+void ABattleMoveStateMachine::ProcessMoveFail2()
+{
+	if (Timer <= 0.0f)
 	{
 		State = ESubstate::End;
 	}
@@ -149,13 +173,13 @@ void ABattleMoveStateMachine::ProcessMoveDamage()
 		// 다음 상태로 전이
 		if (true == DamageResult.IsCritical)
 		{
-			State = ESubstate::MoveCriticalMessage;
+			State = ESubstate::MoveCriticalMessage1;
 			MsgBox->SetMessage(L"A critical hit!");
 			MsgBox->Write();
 		}
 		else if (ETypeVs::NormallyEffective != DamageResult.TypeVs)
 		{
-			State = ESubstate::MoveEffectiveMessage;
+			State = ESubstate::MoveEffectiveMessage1;
 			MsgBox->SetMessage(DamageResult.GetTypeVsW(DefenderPokemon->GetNameW()));
 			MsgBox->Write();
 		}
@@ -166,15 +190,24 @@ void ABattleMoveStateMachine::ProcessMoveDamage()
 	}
 }
 
-void ABattleMoveStateMachine::ProcessMoveCriticalMessage()
+void ABattleMoveStateMachine::ProcessMoveCriticalMessage1()
 {
-	const UPokemon* DefenderPokemon = Defender->CurPokemon();
-
 	if (MsgBox->GetWriteState() == EWriteState::WriteEnd)
 	{
+		State = ESubstate::MoveCriticalMessage2;
+		Timer = BattleMsgShowTime;
+	}
+}
+
+void ABattleMoveStateMachine::ProcessMoveCriticalMessage2()
+{
+	if (Timer <= 0.0f)
+	{
+		const UPokemon* DefenderPokemon = Defender->CurPokemon();
+
 		if (ETypeVs::NormallyEffective != DamageResult.TypeVs)
 		{
-			State = ESubstate::MoveEffectiveMessage;
+			State = ESubstate::MoveEffectiveMessage1;
 			MsgBox->SetMessage(DamageResult.GetTypeVsW(DefenderPokemon->GetNameW()));
 			MsgBox->Write();
 		}
@@ -183,12 +216,20 @@ void ABattleMoveStateMachine::ProcessMoveCriticalMessage()
 			State = ESubstate::TestSE;
 		}
 	}
-
 }
 
-void ABattleMoveStateMachine::ProcessMoveEffectiveMessage()
+void ABattleMoveStateMachine::ProcessMoveEffectiveMessage1()
 {
 	if (MsgBox->GetWriteState() == EWriteState::WriteEnd)
+	{
+		State = ESubstate::MoveEffectiveMessage2;
+		Timer = BattleMsgShowTime;
+	}
+}
+
+void ABattleMoveStateMachine::ProcessMoveEffectiveMessage2()
+{
+	if (Timer <= 0.0f)
 	{
 		State = ESubstate::TestSE;
 	}
@@ -199,7 +240,7 @@ void ABattleMoveStateMachine::ProcessMoveBE()
 	if (Timer <= 0.0f)
 	{
 		// 실제 BE 효과 적용
-		State = ESubstate::MoveBEMessage;
+		State = ESubstate::MoveBEMessage1;
 		UMoveEffectApplier::ApplyBE(Attacker, Defender);
 		Canvas->RefreshPlayerPokemonBox();
 		Canvas->RefreshEnemyPokemonBox();
@@ -208,9 +249,18 @@ void ABattleMoveStateMachine::ProcessMoveBE()
 	}
 }
 
-void ABattleMoveStateMachine::ProcessMoveBEMessage()
+void ABattleMoveStateMachine::ProcessMoveBEMessage1()
 {
 	if (MsgBox->GetWriteState() == EWriteState::WriteEnd)
+	{
+		State = ESubstate::MoveBEMessage2;
+		Timer = BattleMsgShowTime;
+	}
+}
+
+void ABattleMoveStateMachine::ProcessMoveBEMessage2()
+{
+	if (Timer <= 0.0f)
 	{
 		State = ESubstate::TestSE;
 	}
@@ -252,7 +302,7 @@ void ABattleMoveStateMachine::ProcessMoveSE()
 	if (Timer <= 0.0f)
 	{
 		// 실제 SE 효과 적용
-		State = ESubstate::MoveSEMessage;
+		State = ESubstate::MoveSEMessage1;
 		UMoveEffectApplier::ApplySE(Attacker, Defender);
 		Canvas->RefreshPlayerPokemonBox();
 		Canvas->RefreshEnemyPokemonBox();
@@ -261,9 +311,18 @@ void ABattleMoveStateMachine::ProcessMoveSE()
 	}
 }
 
-void ABattleMoveStateMachine::ProcessMoveSEMessage()
+void ABattleMoveStateMachine::ProcessMoveSEMessage1()
 {
 	if (MsgBox->GetWriteState() == EWriteState::WriteEnd)
+	{
+		State = ESubstate::MoveSEMessage2;
+		Timer = BattleMsgShowTime;
+	}
+}
+
+void ABattleMoveStateMachine::ProcessMoveSEMessage2()
+{
+	if (Timer <= 0.0f)
 	{
 		State = ESubstate::End;
 	}
@@ -271,7 +330,7 @@ void ABattleMoveStateMachine::ProcessMoveSEMessage()
 
 void ABattleMoveStateMachine::StateChangeToMoveFail(std::wstring _FailMessage)
 {
-	State = ESubstate::MoveFail;
+	State = ESubstate::MoveFail1;
 	MsgBox->SetMessage(_FailMessage);
 	MsgBox->Write();
 }

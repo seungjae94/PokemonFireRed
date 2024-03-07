@@ -65,8 +65,11 @@ void ABattleFaintStateMachine::Tick(float _DeltaTime)
 	case ESubstate::HidePokemon:
 		ProcessHidePokemon();
 		break;
-	case ESubstate::ShowFaintMessage:
-		ProcessShowFaintMessage();
+	case ESubstate::ShowFaintMessage1:
+		ProcessShowFaintMessage1();
+		break;
+	case ESubstate::ShowFaintMessage2:
+		ProcessShowFaintMessage2();
 		break;
 	case ESubstate::TestExpGain:
 		ProcessTestExpGain();
@@ -103,9 +106,10 @@ void ABattleFaintStateMachine::ProcessHidePokemon()
 
 		if (Timer <= 0.0f)
 		{
-			State = ESubstate::ShowFaintMessage;
+			State = ESubstate::ShowFaintMessage1;
 			Canvas->SetPlayerPokemonBoxActive(false);
 			MsgBox->SetMessage(UBattleUtil::GetPokemonFullName(Fainter) + L"\nfainted!");
+			MsgBox->Write();
 		}
 	}
 	else
@@ -114,17 +118,29 @@ void ABattleFaintStateMachine::ProcessHidePokemon()
 
 		if (Timer <= 0.0f)
 		{
-			State = ESubstate::ShowFaintMessage;
+			State = ESubstate::ShowFaintMessage1;
 			Canvas->SetEnemyPokemonBoxActive(false);
 			MsgBox->SetMessage(UBattleUtil::GetPokemonFullName(Fainter) + L"\nfainted!");
+			MsgBox->Write();
 		}
 	}
 }
 
-void ABattleFaintStateMachine::ProcessShowFaintMessage()
+void ABattleFaintStateMachine::ProcessShowFaintMessage1()
+{
+	if (MsgBox->GetWriteState() == EWriteState::WriteEnd)
+	{
+		State = ESubstate::ShowFaintMessage2;
+		MsgBox->ShowSkipArrow();
+	}
+}
+
+void ABattleFaintStateMachine::ProcessShowFaintMessage2()
 {
 	if (true == UEngineInput::IsDown('Z'))
 	{
+		MsgBox->HideSkipArrow();
+
 		// 플레이어 포켓몬이 쓰러진 경우 경험치 획득 X
 		if (true == Fainter->IsPlayer())
 		{

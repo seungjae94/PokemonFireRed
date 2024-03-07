@@ -17,16 +17,21 @@ private:
 	enum class ESubstate
 	{
 		None,
-		MoveFail,
+		MoveFail1,
+		MoveFail2,
 		MoveAnim,
 		MoveDamage,
-		MoveCriticalMessage,
-		MoveEffectiveMessage,
+		MoveCriticalMessage1,
+		MoveCriticalMessage2,
+		MoveEffectiveMessage1,
+		MoveEffectiveMessage2,
 		MoveBE,
-		MoveBEMessage,
+		MoveBEMessage1,
+		MoveBEMessage2,
 		TestSE,
 		MoveSE,
-		MoveSEMessage,
+		MoveSEMessage1,
+		MoveSEMessage2,
 		End,
 	};
 
@@ -72,7 +77,7 @@ private:
 
 	ESubstate State = ESubstate::None;
 	float Timer = 0.0f;
-	const float BattleMsgShowTime = 1.5f;
+	const float BattleMsgShowTime = 0.75f;
 
 	// Move 결과
 	FDamageResult DamageResult;
@@ -92,16 +97,21 @@ private:
 	const float MoveEffectShowTime = 1.5f;
 
 	// 상태 틱
-	void ProcessMoveFail();
+	void ProcessMoveFail1();
+	void ProcessMoveFail2();
 	void ProcessMoveAnim();
 	void ProcessMoveDamage();
-	void ProcessMoveCriticalMessage();
-	void ProcessMoveEffectiveMessage();
+	void ProcessMoveCriticalMessage1();
+	void ProcessMoveCriticalMessage2();
+	void ProcessMoveEffectiveMessage1();
+	void ProcessMoveEffectiveMessage2();
 	void ProcessMoveBE();
-	void ProcessMoveBEMessage();
+	void ProcessMoveBEMessage1();
+	void ProcessMoveBEMessage2();
 	void ProcessTestSE();
 	void ProcessMoveSE();
-	void ProcessMoveSEMessage();
+	void ProcessMoveSEMessage1();
+	void ProcessMoveSEMessage2();
 
 	// 유틸
 	void StateChangeToMoveFail(std::wstring _FailMessage);

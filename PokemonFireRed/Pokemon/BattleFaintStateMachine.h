@@ -15,7 +15,8 @@ private:
 		None,
 		TestFaint,
 		HidePokemon,
-		ShowFaintMessage,
+		ShowFaintMessage1,
+		ShowFaintMessage2,
 		TestExpGain,
 		ExpGain,
 		End
@@ -67,7 +68,8 @@ private:
 	// 상태 틱 함수
 	void ProcessTestFaint();
 	void ProcessHidePokemon();
-	void ProcessShowFaintMessage();
+	void ProcessShowFaintMessage1();
+	void ProcessShowFaintMessage2();
 	void ProcessTestExpGain();
 	void ProcessExpGain();
 
