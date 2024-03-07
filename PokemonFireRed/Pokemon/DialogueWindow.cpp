@@ -43,10 +43,6 @@ void ADialogueWindow::BeginPlay()
 
 	// ´ëÈ­Ã¢
 	MsgBox = GetWorld()->SpawnActor<APokemonMsgBox>();
-	
-	//MsgBox = CreateImageElement(this, ERenderingOrder::UI0, EPivotType::LeftBot, 5, 0);
-	//MsgBox->SetImage(RN::DialogueWindow);
-	//Text = CreateText(MsgBox, ERenderingOrder::UI1, EPivotType::LeftTop, 11, 17);
 }
 
 void ADialogueWindow::Tick(float _DeltaTime)

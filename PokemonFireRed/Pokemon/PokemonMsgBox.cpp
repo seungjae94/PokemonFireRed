@@ -73,7 +73,7 @@ void APokemonMsgBox::Write()
 		Timer = ScrollTime;
 
 		TextPrevPos = Text->GetRelativePosition();
-		TextNextPos = TextPrevPos + FVector::Up * Global::FloatPixelSize * std::lround(Text->GetLineSpace());
+		TextNextPos = TextPrevPos + FVector::Up * Global::FloatPixelSize * static_cast<float>(Text->GetLineSpace());
 	}
 }
 
@@ -82,8 +82,8 @@ void APokemonMsgBox::BeginPlay()
 	ACanvas::BeginPlay();
 
 	Background = CreateImageElement(this, ERenderingOrder::UI1, EPivotType::LeftBot, 5, 0);
-	NextMsgArrow = CreateImageElement(this, ERenderingOrder::UI2, EPivotType::RightBot, -5, -5);
-	Text = CreateText(this, ERenderingOrder::UI2, EPivotType::LeftTop, 11, 17);
+	NextMsgArrow = CreateImageElement(Background, ERenderingOrder::UI2, EPivotType::RightBot, -5, -5);
+	Text = CreateText(Background, ERenderingOrder::UI2, EPivotType::LeftTop, 11, 17);
 	
 	Text->SetCuttingRect(UPokemonUtil::PixelVector(0, 143), UPokemonUtil::PixelVector(240, 150));
 	TextInitPos = Text->GetRelativePosition();
@@ -113,11 +113,6 @@ void APokemonMsgBox::ProcessWriting()
 {
 	if (Timer <= 0.0f)
 	{
-		if (GlyphIndex == 24)
-		{
-			int a = 0;
-		}
-
 		Text->SetGlyphActive(GlyphIndex, true);
 		++GlyphIndex;
 		int LineOfGlyph = Text->FindLineOfGlyph(GlyphIndex);

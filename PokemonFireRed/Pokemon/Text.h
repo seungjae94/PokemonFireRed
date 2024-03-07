@@ -93,7 +93,18 @@ public:
 
 	int GetLineGlyphCount(int _LineIndex) const
 	{
-		return static_cast<int>(Lines[_LineIndex].size());
+		int Count = 0;
+		for (wchar_t Glyph : Lines[_LineIndex])
+		{
+			if (Glyph == L'\t' || Glyph == L'\n')
+			{
+				continue;
+			}
+
+			++Count;
+		}
+
+		return Count;
 	}
 
 	/*
@@ -109,7 +120,7 @@ public:
 		int CurGlyphIndex = _GlyphIndex;
 		for (int i = 0; i < Lines.size(); ++i)
 		{
-			int LineGlyphCount = static_cast<int>(Lines[i].size());
+			int LineGlyphCount = GetLineGlyphCount(i);
 			CurGlyphIndex -= LineGlyphCount;
 
 			if (CurGlyphIndex < 0)
@@ -123,12 +134,7 @@ public:
 
 	int GetAllGlyphsCount() const
 	{
-		int Count = 0;
-		for (std::wstring_view Line : Lines)
-		{
-			Count += static_cast<int>(Line.size());
-		}
-
+		return static_cast<int>(GlyphRenderers.size());
 	}
 
 	int GetPixelLineWidth() const

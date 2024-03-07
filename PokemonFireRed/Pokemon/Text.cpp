@@ -149,13 +149,6 @@ void AText::PrepareLine(const std::wstring& _Line, int _Bot)
 	int Bot = _Bot;
 	for (const wchar_t& Ch : _Line)
 	{
-		//if (Ch == L' ')
-		//{
-		//	int Width = 6;
-		//	Left += Width * Global::PixelSize;
-		//	continue;
-		//}
-
 		if (Ch == L'\t' || Ch == L'\n')
 		{
 			continue;
