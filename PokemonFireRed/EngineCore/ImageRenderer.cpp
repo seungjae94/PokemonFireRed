@@ -296,7 +296,14 @@ void UImageRenderer::ImageRender(float _DeltaTime)
 	case EWIndowImageType::IMG_PNG:
 		if (0.0f == Angle)
 		{
-			GEngine->MainWindow.GetBackBufferImage()->AlphaCopy(Image, RendererTrans, InfoIndex, TransColor);
+			if (true == ImageCuttingTransformSetting)
+			{
+				GEngine->MainWindow.GetBackBufferImage()->AlphaCopy(Image, RendererTrans, ImageCuttingTransform, InfoIndex, TransColor);
+			}
+			else
+			{
+				GEngine->MainWindow.GetBackBufferImage()->AlphaCopy(Image, RendererTrans, InfoIndex, TransColor);
+			}
 		}
 		else
 		{

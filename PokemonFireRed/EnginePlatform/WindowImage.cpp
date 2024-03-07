@@ -347,6 +347,53 @@ void UWindowImage::AlphaCopy(UWindowImage* _CopyImage, const FTransform& _Trans,
 	);
 }
 
+void UWindowImage::AlphaCopy(UWindowImage* _CopyImage, const FTransform& _Trans, const FTransform& _CuttingTrans, int _Index, Color8Bit _Color)
+{
+	if (nullptr == _CopyImage)
+	{
+		MsgBoxAssert("nullptr 인 이미지를 복사할 수 없습니다");
+	}
+
+	if (_Index >= _CopyImage->Infos.size())
+	{
+		MsgBoxAssert(GetName() + "이미지 정보의 인덱스를 오버하여 사용했습니다");
+	}
+
+	int RenderLeft = _Trans.iLeft();
+	int RenderTop = _Trans.iTop();
+	int RenderScaleX = _Trans.GetScale().iX();
+	int RenderScaleY = _Trans.GetScale().iY();
+
+	int ImageLeft = _CuttingTrans.GetPosition().iX();
+	int ImageTop = _CuttingTrans.GetPosition().iY();
+	int ImageScaleX = _CuttingTrans.GetScale().iX();
+	int ImageScaleY = _CuttingTrans.GetScale().iY();
+
+	HDC hdc = ImageDC;
+
+	HDC hdcSrc = _CopyImage->Infos[_Index].ImageDC;
+
+	BLENDFUNCTION Function;
+	Function.BlendOp = AC_SRC_OVER;
+	Function.BlendFlags = 0;
+	Function.SourceConstantAlpha = _Color.A;
+	Function.AlphaFormat = AC_SRC_ALPHA;
+
+	AlphaBlend(
+		hdc,
+		RenderLeft,
+		RenderTop,
+		RenderScaleX,
+		RenderScaleY,
+		hdcSrc,
+		ImageLeft,
+		ImageTop,
+		ImageScaleX,
+		ImageScaleY,
+		Function
+	);
+}
+
 void UWindowImage::PlgCopy(UWindowImage* _CopyImage, const FTransform& _Trans, int _Index, float _RadAngle)
 {
 	if (nullptr == _CopyImage)

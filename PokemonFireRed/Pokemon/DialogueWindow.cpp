@@ -84,7 +84,10 @@ void ADialogueWindow::ProcessShow()
 	case EWriteState::Writing:
 		break;
 	case EWriteState::ScrollWaiting:
-		MsgBox->Write();
+		if (true == UEngineInput::IsDown('Z'))
+		{
+			MsgBox->Write();
+		}
 		break;
 	case EWriteState::Scrolling:
 		break;

@@ -119,7 +119,6 @@ void UEventManager::AddTarget(AEventTarget* _Target, const UEventTargetInit& _Se
 		LowerBodyRenderer = _Target->LowerBodyRenderer;
 		LowerBodyRenderer->SetImage(ImageName);
 		LowerBodyRenderer->SetTransform({ {0, 0}, {Global::TileSize, Global::TileSize} });
-		LowerBodyRenderer->SetImageCuttingTransform({ {0, 0}, {Global::ImageTileSize, Global::ImageTileSize} });
 
 		// 위아래 2칸 이미지인 경우에만 UpperBody를 렌더링한다.
 		if (_Target->Height == 2)
@@ -128,7 +127,6 @@ void UEventManager::AddTarget(AEventTarget* _Target, const UEventTargetInit& _Se
 			UpperBodyRenderer = _Target->UpperBodyRenderer;
 			UpperBodyRenderer->SetImage(ImageName);
 			UpperBodyRenderer->SetTransform({ {0, -Global::TileSize}, {Global::TileSize, Global::TileSize} });
-			UpperBodyRenderer->SetImageCuttingTransform({ {0, 0}, {Global::ImageTileSize, Global::ImageTileSize} });
 		}
 
 		// 애니메이션 생성

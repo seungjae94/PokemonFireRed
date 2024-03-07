@@ -81,11 +81,10 @@ void APokemonMsgBox::BeginPlay()
 {
 	ACanvas::BeginPlay();
 
-	Background = CreateImageElement(this, ERenderingOrder::UI1, EPivotType::LeftBot, 5, 0);
+	Background = CreateImageElement(this, ERenderingOrder::UI1, EPivotType::LeftBot, 5, -3);
 	NextMsgArrow = CreateImageElement(Background, ERenderingOrder::UI2, EPivotType::RightBot, -5, -5);
 	Text = CreateText(Background, ERenderingOrder::UI2, EPivotType::LeftTop, 11, 17);
-	
-	Text->SetCuttingRect(UPokemonUtil::PixelVector(0, 143), UPokemonUtil::PixelVector(240, 150));
+	Text->SetCuttingRect(UPokemonUtil::PixelVector(16, 124), UPokemonUtil::PixelVector(208, 26));
 	TextInitPos = Text->GetRelativePosition();
 }
 
@@ -139,6 +138,7 @@ void APokemonMsgBox::ProcessScrolling()
 {
 	FVector TextPos = UPokemonMath::Lerp(TextNextPos, TextPrevPos, Timer / ScrollTime);
 	Text->SetRelativePosition(TextPos);
+	Text->Cut();
 
 	if (Timer <= 0.0f)
 	{

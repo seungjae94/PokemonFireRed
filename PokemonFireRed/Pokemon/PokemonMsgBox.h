@@ -60,8 +60,8 @@ private:
 	AText* Text = nullptr;
 
 	// 상수
-	const float ScrollTime = 1.0f;
-	const float WriteInterval = 1 / 60.0f;
+	const float ScrollTime = 2.0f;
+	const float WriteInterval = 1 / 30.0f;
 	
 	// 데이터
 	float Timer = 0.0f;

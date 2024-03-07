@@ -21,7 +21,6 @@ void AMap::SetBackgroundImage(std::string_view _Name)
 	FVector RenderScale = Scale;
 
 	BackgroundRenderer->SetTransform({ RenderScale.Half2D(), RenderScale });
-	BackgroundRenderer->SetImageCuttingTransform({ {0, 0}, Scale });
 }
 
 void AMap::SetForegroundImage(std::string_view _Name)
@@ -33,7 +32,6 @@ void AMap::SetForegroundImage(std::string_view _Name)
 	FVector RenderScale = Scale;
 
 	ForegroundRenderer->SetTransform({ RenderScale.Half2D(), RenderScale });
-	ForegroundRenderer->SetImageCuttingTransform({ {0, 0}, Scale });
 }
 
 void AMap::SetCollisionImage(std::string_view _Name)
@@ -45,7 +43,6 @@ void AMap::SetCollisionImage(std::string_view _Name)
 	FVector RenderScale = Scale;
 
 	CollisionRenderer->SetTransform({ RenderScale.Half2D(), RenderScale });
-	CollisionRenderer->SetImageCuttingTransform({ {0, 0}, Scale });
 }
 
 void AMap::BeginPlay()

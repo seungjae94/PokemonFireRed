@@ -2,6 +2,7 @@
 #include "Global.h"
 #include "PokemonUtil.h"
 #include "PokemonString.h"
+#include <EnginePlatform/EngineInput.h>
 
 std::map<EFontSize, std::map<wchar_t, AText::GlyphAlignRule>> AText::AlignRuleMap;
 
@@ -90,11 +91,47 @@ void AText::SetCuttingRect(const FVector& _CutLeftTop, const FVector& _CutScale)
 
 void AText::Cut()
 {
+	int Count = 0;
+
 	for (UImageRenderer* Glyph : GlyphRenderers)
 	{
-		FVector ActorBaseLeftTop = Glyph->GetActorBaseTransform().LeftTop();
-		UWindowImage* GlyphImage = Glyph->GetImage();
-		GlyphImage->SetCuttingTransform({ActorBaseLeftTop - CutLeftTop, CutScale});
+		if (true == UEngineInput::IsDown('D'))
+		{
+			int a = 0;
+		}
+
+		FVector ActorBasePos = Glyph->GetActorBaseTransform().LeftTop();
+		FVector ImageScale = Glyph->GetImage()->GetScale();
+
+		FVector CutImagePos = (CutLeftTop - ActorBasePos) * (1/Global::FloatPixelSize);
+		FVector CutImageScale = CutScale * (1 / Global::FloatPixelSize);
+
+		FVector CapCutImagePos = CutImagePos;
+		if (CapCutImagePos.X < 0.0f)
+		{
+			CapCutImagePos.X = 0;
+		}
+		if (CapCutImagePos.Y < 0.0f)
+		{
+			CapCutImagePos.Y = 0;
+		}
+
+		FVector CapCutImageScale = CutImageScale - CutImagePos;
+		if (CapCutImageScale.X + CapCutImagePos.X > ImageScale.X)
+		{
+			CapCutImageScale.X = ImageScale.X - CapCutImagePos.X;
+		}
+		if (CapCutImageScale.Y + CapCutImagePos.Y > ImageScale.Y)
+		{
+			CapCutImageScale.Y = ImageScale.Y - CapCutImagePos.Y;
+		}
+
+		FTransform PrevCuttingTrans = Glyph->GetImageCuttingTransform();
+		FTransform CuttingTrans = { CapCutImagePos, CapCutImageScale };
+		FVector Diff = CuttingTrans.GetScale() - PrevCuttingTrans.GetScale();
+
+		Glyph->SetImageCuttingTransform(CuttingTrans);
+		Glyph->SetScale(CapCutImageScale * Global::FloatPixelSize);
 	}
 }
 

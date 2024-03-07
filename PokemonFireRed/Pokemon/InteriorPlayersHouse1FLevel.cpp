@@ -19,7 +19,7 @@ void UInteriorPlayersHouse1FLevel::BeginPlay()
 	UMapLevel::BeginPlay();
 
 	// 플레이어 시작 위치 설정
-	UEventManager::SetPoint(GetName(), Global::Player, { 4, 3 });
+	UEventManager::SetPoint(GetName(), Global::Player, { 7, 5 });
 	UEventManager::SetDirection(GetName(), Global::Player, FTileVector::Up);
 
 	// 이벤트 트리거 생성
@@ -60,8 +60,8 @@ void UInteriorPlayersHouse1FLevel::BeginPlay()
 	ADialogueActor* PlayersMom = SpawnEventTrigger<ADialogueActor>(PlayersMomSetting);
 	PlayersMom->SetDialogue({
 		LR"(MOM: …Right.
-			All boys leave home someday.)",
-		LR"(It said so on TV.)",
+			All boys leave home someday.
+			It said so on TV.)",
 		LR"(Oh, yes. PROF. OAK, next door, was
 			looking for you.)"
 		});
@@ -87,8 +87,8 @@ void UInteriorPlayersHouse1FLevel::BeginPlay()
 	std::vector<std::wstring> DialogueTV =
 	{
 		LR"(There's a movie on TV.
-			Four boys are walking on railroad)",
-		LR"(tracks.)",
+			Four boys are walking on railroad
+			tracks.)",
 		LR"(...I better go, too.)"
 	};
 	ADialogueActor* TV = ADialogueActor::GenerateObject(this, "TV", { 5, 1 }, EFontColor::Gray, DialogueTV);
