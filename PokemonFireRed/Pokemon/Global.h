@@ -100,6 +100,7 @@ namespace RN
 	const std::string MenuWindowExplain = "MenuWindowExplain.png";
 	const std::string DialogueWindow = "DialogueWindow.png";
 	const std::string DialogueWindowCover = "DialogueWindowCover.png";
+	const std::string NextMsgArrow = "NextMsgArrow.png";
 	const std::string MapNameWindow = "MapNameWindow.png";
 
 	const std::string PokemonFront = "PokemonFront.png"; 

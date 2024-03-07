@@ -72,6 +72,8 @@ void UPokemonCore::LoadUIResources()
 		UEngineResourcesManager::GetInst().LoadImg(Path);
 	}
 
+	UEngineResourcesManager::GetInst().CuttingImage(RN::NextMsgArrow, 4, 1);
+
 	CurDir.MoveParent();
 }
 

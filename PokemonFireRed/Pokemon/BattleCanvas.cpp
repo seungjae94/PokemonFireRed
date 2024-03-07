@@ -69,7 +69,7 @@ void ABattleCanvas::RefreshEnemyPokemonBox()
 	EnemyPokemonHpBar->SetMaxValue(HpBarMaxValue);
 	EnemyPokemonHpBar->SetValue(UPokemonMath::Floor(static_cast<float>(HpBarMaxValue) * EnemyPokemon->GetCurHp() / EnemyPokemon->GetHp()));
 
-	int EPNTPixelWidth = EnemyPokemonNameText->GetPixelLineWidth();
+	int EPNTPixelWidth = EnemyPokemonNameText->GetPixelLineWidth(0);
 	EnemyPokemonGenderMark->SetRelativePosition(UPokemonUtil::PixelVector(7 + EPNTPixelWidth, 5));
 	EnemyPokemonGenderMark->SetImage(EnemyPokemon->GetGenderImageName());
 	EnemyPokemonStatusMark->SetImage(EnemyPokemon->GetStatusImageName());
@@ -91,7 +91,7 @@ void ABattleCanvas::RefreshPlayerPokemonBox()
 	PlayerPokemonExpBar->SetValue(UPokemonMath::Floor(static_cast<float>(ExpBarMaxValue) * PlayerPokemon->GetExp() / PlayerPokemon->GetExpSize()));
 
 	// 이름 옆에 배치
-	int PPNTPixelWidth = PlayerPokemonNameText->GetPixelLineWidth();
+	int PPNTPixelWidth = PlayerPokemonNameText->GetPixelLineWidth(0);
 	PlayerPokemonGenderMark->SetRelativePosition(UPokemonUtil::PixelVector(19 + PPNTPixelWidth, 5));
 	PlayerPokemonGenderMark->SetImage(PlayerPokemon->GetGenderImageName());
 	PlayerPokemonStatusMark->SetImage(PlayerPokemon->GetStatusImageName());

@@ -55,8 +55,18 @@ void APokemonMsgBox::SetMessage(std::wstring _Message)
 
 void APokemonMsgBox::ShowSkipArrow()
 {
-	// TODO: 애니메이션으로...
 	NextMsgArrow->SetActive(true);
+
+	if (CurLine + 1 < Text->GetLineCount())
+	{
+		int PixelLineWidth = Text->GetPixelLineWidth(CurLine + 1);
+		NextMsgArrow->SetRelativePosition(UPokemonUtil::PixelVector(12 + PixelLineWidth, 9 + Text->GetLineSpace()));
+	}
+	else
+	{
+		int PixelLineWidth = Text->GetPixelLineWidth(CurLine);
+		NextMsgArrow->SetRelativePosition(UPokemonUtil::PixelVector(12 + PixelLineWidth, 9));
+	}
 }
 
 void APokemonMsgBox::HideSkipArrow()
@@ -91,7 +101,11 @@ void APokemonMsgBox::BeginPlay()
 
 	Background = CreateImageElement(this, ERenderingOrder::UI1, EPivotType::LeftBot, 5, -3);
 	Cover = CreateImageElement(Background, ERenderingOrder::UI3, EPivotType::LeftTop, 0, 0);
-	NextMsgArrow = CreateImageElement(Background, ERenderingOrder::UI2, EPivotType::RightBot, -5, -5);
+	NextMsgArrow = CreateImageElement(Background, ERenderingOrder::UI2, EPivotType::LeftTop, 12, 13);
+	NextMsgArrow->SetImage(RN::NextMsgArrow);
+	NextMsgArrow->CreateAnimation("Idle", 0, 3, 0.15f, true);
+	NextMsgArrow->ChangeAnimation("Idle");
+	NextMsgArrow->SetActive(false);
 	Text = CreateText(Background, ERenderingOrder::UI2, EPivotType::LeftTop, 11, 17);
 	TextInitPos = Text->GetRelativePosition();
 }

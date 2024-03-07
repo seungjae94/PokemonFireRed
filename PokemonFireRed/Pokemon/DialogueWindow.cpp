@@ -36,6 +36,7 @@ void ADialogueWindow::Open(const std::vector<std::wstring>& _Dialogue, EFontColo
 	State = EState::Show;
 
 	SetActive(true);
+	MsgBox->HideSkipArrow();
 }
 
 void ADialogueWindow::BeginPlay()
@@ -85,18 +86,24 @@ void ADialogueWindow::ProcessShow()
 	case EWriteState::Writing:
 		break;
 	case EWriteState::ScrollWaiting:
+		MsgBox->ShowSkipArrow();
 		if (true == UEngineInput::IsDown('Z'))
 		{
+			MsgBox->HideSkipArrow();
 			MsgBox->Write();
 		}
 		break;
 	case EWriteState::Scrolling:
 		break;
 	case EWriteState::WriteEnd:
-		// 화살표 표시
-		MsgBox->ShowSkipArrow();
+		// 마지막 대화가 아닐 경우에만 화살표 표시
+		if (Index != Dialogue.size() - 1)
+		{
+			MsgBox->ShowSkipArrow();
+		}
 		if (true == UEngineInput::IsDown('Z'))
 		{
+
 			Index++;
 
 			// 대화 종료
@@ -107,6 +114,7 @@ void ADialogueWindow::ProcessShow()
 			}
 
 			MsgBox->SetMessage(Dialogue[Index]);
+			MsgBox->HideSkipArrow();
 			MsgBox->Write();
 		}
 		break;

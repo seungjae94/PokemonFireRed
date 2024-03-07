@@ -42,6 +42,7 @@ void AText::FollowParentPosition()
 void AText::SetText(std::wstring_view _Text)
 {
 	Lines = UPokemonString::Split(_Text, L'\n');
+	LineWidths.clear();
 
 	if (GlyphRenderers.size() > 0)
 	{
@@ -53,8 +54,6 @@ void AText::SetText(std::wstring_view _Text)
 	}
 
 	int Bot = 0;
-	LineWidth = 0;
-
 	for (std::wstring& Line : Lines)
 	{
 		PrepareLine(Line, Bot);
@@ -181,7 +180,8 @@ void AText::PrepareLine(const std::wstring& _Line, int _Bot)
 
 		GlyphRenderers.push_back(Renderer);
 	}
-	LineWidth = max(Left, LineWidth);
+	
+	LineWidths.push_back(Left);
 }
 
 void AText::BeginPlay()

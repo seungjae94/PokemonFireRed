@@ -137,9 +137,9 @@ public:
 		return static_cast<int>(GlyphRenderers.size());
 	}
 
-	int GetPixelLineWidth() const
+	int GetPixelLineWidth(int _LineIndex) const
 	{
-		return LineWidth / Global::PixelSize;
+		return LineWidths[_LineIndex] / Global::PixelSize;
 	}
 
 	// 렌더링
@@ -160,6 +160,7 @@ protected:
 private:
 	// 데이터
 	std::vector<std::wstring> Lines;
+	std::vector<int> LineWidths;
 	std::vector<UImageRenderer*> GlyphRenderers;
 
 	// 설정값

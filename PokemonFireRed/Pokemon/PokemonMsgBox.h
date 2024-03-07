@@ -58,7 +58,7 @@ private:
 	// 하위 요소
 	AImageElement* Background = nullptr;
 	AImageElement* Cover = nullptr;
-	AImageElement* NextMsgArrow = nullptr;		// TODO: 애니메이션으로 제작
+	AImageElement* NextMsgArrow = nullptr;
 	AText* Text = nullptr;
 
 	// 상수
