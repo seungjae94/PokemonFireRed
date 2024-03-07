@@ -5,7 +5,7 @@
 
 class ABattleCanvas : public ACanvas
 {
-	friend class ABattleStartStateMachine;
+	friend class AWildWildBattleStartStateMachine;
 public:
 	// constructor destructor
 	ABattleCanvas();

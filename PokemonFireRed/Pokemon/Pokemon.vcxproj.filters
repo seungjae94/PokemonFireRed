@@ -345,7 +345,7 @@
     <ClInclude Include="BattlePrepareTurnStateMachine.h">
       <Filter>2. Level\7. BattleLevel\StateMachine\1. PrepareTurn</Filter>
     </ClInclude>
-    <ClInclude Include="BattleStartStateMachine.h">
+    <ClInclude Include="WildBattleStartStateMachine.h">
       <Filter>2. Level\7. BattleLevel\StateMachine\0. BattleStart</Filter>
     </ClInclude>
     <ClInclude Include="BattlePlayerActionSelectStateMachine.h">
@@ -380,6 +380,9 @@
     </ClInclude>
     <ClInclude Include="PokemonMsgBox.h">
       <Filter>5. UI\Element</Filter>
+    </ClInclude>
+    <ClInclude Include="Trainer.h">
+      <Filter>1. GlobalTrigger</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -593,7 +596,7 @@
     <ClCompile Include="BattlePrepareTurnStateMachine.cpp">
       <Filter>2. Level\7. BattleLevel\StateMachine\1. PrepareTurn</Filter>
     </ClCompile>
-    <ClCompile Include="BattleStartStateMachine.cpp">
+    <ClCompile Include="WildBattleStartStateMachine.cpp">
       <Filter>2. Level\7. BattleLevel\StateMachine\0. BattleStart</Filter>
     </ClCompile>
     <ClCompile Include="BattlePlayerActionSelectStateMachine.cpp">
@@ -628,6 +631,9 @@
     </ClCompile>
     <ClCompile Include="PokemonMsgBox.cpp">
       <Filter>5. UI\Element</Filter>
+    </ClCompile>
+    <ClCompile Include="Trainer.cpp">
+      <Filter>1. GlobalTrigger</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

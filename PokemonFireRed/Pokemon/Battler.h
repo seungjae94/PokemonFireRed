@@ -33,8 +33,9 @@ public:
 	}
 
 	// 배틀러 정보
-	void SetPlayer();
-	void SetWildPokemon();
+	void InitPlayer();
+	void InitWildPokemon();
+	void InitTrainer();
 
 	bool IsPlayer() const
 	{
@@ -232,5 +233,7 @@ private:
 	std::list<UPokemon*> Participants;
 	EPokemonStatus TempStatusId = EPokemonStatus::Normal;
 	int BindCount = 0;
+
+	void InitEnemyPokemon();
 };
 

@@ -48,7 +48,7 @@ void UBattleLevel::BeginPlay()
 	MsgBox->SetTextLeftTopRelativePos(UPokemonUtil::PixelVector(11, 21));
 	MsgBox->SetLineSpace(16);
 
-	BattleStartSM = SpawnActor<ABattleStartStateMachine>();
+	BattleStartSM = SpawnActor<AWildWildBattleStartStateMachine>();
 	BattlePrepareTurnSM = SpawnActor<ABattlePrepareTurnStateMachine>();
 	PlayerActionSelectSM = SpawnActor<ABattlePlayerActionSelectStateMachine>();
 	BattleTurnSM = SpawnActor<ABattleTurnStateMachine>();
@@ -126,10 +126,19 @@ void UBattleLevel::LevelStart(ULevel* _PrevLevel)
 	// 데이터 초기화
 	bool PlayerFirst = true;
 	Player.Clear();
-	Player.SetPlayer();
+	Player.InitPlayer();
 	Player.InitCurPokemon(); // 기절하지 않은 첫 번째 포켓몬을 내보낸다.
 	Enemy.Clear();
-	Enemy.SetWildPokemon();	 // 일단 야생 포켓몬과의 전투만 구현
+
+	if (true == UEventManager::IsWildPokemonBattle())
+	{
+		Enemy.InitWildPokemon();
+	}
+	else
+	{
+		Enemy.InitTrainer();
+	}
+
 	Enemy.InitCurPokemon();
 
 	Player.GetParticipants().push_back(Enemy.CurPokemon());

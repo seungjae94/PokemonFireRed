@@ -82,22 +82,6 @@ public:
 		return Money;
 	}
 
-	static UPokemon* GetEnemyWildPokemon()
-	{
-		return EnemyWildPokemon;
-	}
-
-	static void GenerateEnemyWildPokemon(const FWildPokemonConstructorParam& _ConstructorParam)
-	{
-		if (nullptr != EnemyWildPokemon)
-		{
-			delete EnemyWildPokemon;
-			EnemyWildPokemon = nullptr;
-		}
-
-		EnemyWildPokemon = new UPokemon(_ConstructorParam.Id, _ConstructorParam.Level);
-	}
-
 protected:
 
 private:
@@ -116,8 +100,5 @@ private:
 
 	// 업적 정보 (이벤트 발생 조건으로 사용)
 	static std::map<EAchievement, bool> AchievementMap;
-
-	// 싸울 포켓몬 동적할당 저장
-	static UPokemon* EnemyWildPokemon;
 };
 

@@ -95,6 +95,8 @@ namespace Global
 // Resource Name
 namespace RN
 {
+	const std::string RivalGreenCharacter = "RivalGreenCharacter.png";
+
 	const std::string BlackScreen = "BlackScreen.png";
 	const std::string WhiteScreen = "WhiteScreen.png";
 	const std::string MenuWindowExplain = "MenuWindowExplain.png";

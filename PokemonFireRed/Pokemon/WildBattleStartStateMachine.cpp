@@ -1,53 +1,53 @@
-#include "BattleStartStateMachine.h"
+#include "WildBattleStartStateMachine.h"
 #include <EnginePlatform/EngineInput.h>
 #include "BattleCanvas.h"
 #include "PokemonMsgBox.h"
 
-ABattleStartStateMachine::ABattleStartStateMachine() 
+AWildWildBattleStartStateMachine::AWildWildBattleStartStateMachine() 
 {
 }
 
-ABattleStartStateMachine::~ABattleStartStateMachine() 
+AWildWildBattleStartStateMachine::~AWildWildBattleStartStateMachine() 
 {
 }
 
-void ABattleStartStateMachine::Tick(float _DeltaTime)
+void AWildWildBattleStartStateMachine::Tick(float _DeltaTime)
 {
 	Timer -= _DeltaTime;
 
 	switch (State)
 	{
-	case ABattleStartStateMachine::ESubstate::None:
+	case AWildWildBattleStartStateMachine::ESubstate::None:
 		break;
-	case ABattleStartStateMachine::ESubstate::FadeWait:
+	case AWildWildBattleStartStateMachine::ESubstate::FadeWait:
 		ProcessFadeWait(_DeltaTime);
 		break;
-	case ABattleStartStateMachine::ESubstate::GroundMove:
+	case AWildWildBattleStartStateMachine::ESubstate::GroundMove:
 		ProcessGroundMove(_DeltaTime);
 		break;
-	case ABattleStartStateMachine::ESubstate::EnemyPokemonBoxMove:
+	case AWildWildBattleStartStateMachine::ESubstate::EnemyPokemonBoxMove:
 		ProcessEnemyPokemonBoxMove(_DeltaTime);
 		break;
-	case ABattleStartStateMachine::ESubstate::ZClickWait:
+	case AWildWildBattleStartStateMachine::ESubstate::ZClickWait:
 		ProcessZClickWait(_DeltaTime);
 		break;
-	case ABattleStartStateMachine::ESubstate::PlayerBattlerThrow:
+	case AWildWildBattleStartStateMachine::ESubstate::PlayerBattlerThrow:
 		ProcessPlayerBattlerThrow(_DeltaTime);
 		break;
-	case ABattleStartStateMachine::ESubstate::PlayerPokemonTakeout:
+	case AWildWildBattleStartStateMachine::ESubstate::PlayerPokemonTakeout:
 		ProcessPlayerPokemonTakeout(_DeltaTime);
 		break;
-	case ABattleStartStateMachine::ESubstate::PlayerPokemonBoxMove:
+	case AWildWildBattleStartStateMachine::ESubstate::PlayerPokemonBoxMove:
 		ProcessPlayerPokemonBoxMove(_DeltaTime);
 		break;
-	case ABattleStartStateMachine::ESubstate::End:
+	case AWildWildBattleStartStateMachine::ESubstate::End:
 		break;
 	default:
 		break;
 	}
 }
 
-void ABattleStartStateMachine::ProcessFadeWait(float _DeltaTime)
+void AWildWildBattleStartStateMachine::ProcessFadeWait(float _DeltaTime)
 {
 	if (Timer <= 0.0f)
 	{
@@ -56,7 +56,7 @@ void ABattleStartStateMachine::ProcessFadeWait(float _DeltaTime)
 	}
 }
 
-void ABattleStartStateMachine::ProcessGroundMove(float _DeltaTime)
+void AWildWildBattleStartStateMachine::ProcessGroundMove(float _DeltaTime)
 {
 	Canvas->LerpShowGrounds(Timer / GroundMoveTime);
 
@@ -64,17 +64,14 @@ void ABattleStartStateMachine::ProcessGroundMove(float _DeltaTime)
 	{
 		Timer = EnemyPokemonBoxMoveTime;
 
-		if (true == Enemy->IsWildPokemon())
-		{
-			MsgBox->SetMessage(L"Wild " + Enemy->CurPokemonReadonly()->GetNameW() + L" appeared!");
-			MsgBox->Write();
-		}
+		MsgBox->SetMessage(L"Wild " + Enemy->CurPokemonReadonly()->GetNameW() + L" appeared!");
+		MsgBox->Write();
 
 		State = ESubstate::EnemyPokemonBoxMove;
 	}
 }
 
-void ABattleStartStateMachine::ProcessEnemyPokemonBoxMove(float _DeltaTime)
+void AWildWildBattleStartStateMachine::ProcessEnemyPokemonBoxMove(float _DeltaTime)
 {
 	Canvas->LerpShowEnemyPokemonBox(Timer / EnemyPokemonBoxMoveTime);
 
@@ -85,7 +82,7 @@ void ABattleStartStateMachine::ProcessEnemyPokemonBoxMove(float _DeltaTime)
 	}
 }
 
-void ABattleStartStateMachine::ProcessZClickWait(float _DeltaTime)
+void AWildWildBattleStartStateMachine::ProcessZClickWait(float _DeltaTime)
 {
 	if (true == UEngineInput::IsDown('Z') || true == UEngineInput::IsDown('X'))
 	{
@@ -98,7 +95,7 @@ void ABattleStartStateMachine::ProcessZClickWait(float _DeltaTime)
 	}
 }
 
-void ABattleStartStateMachine::ProcessPlayerBattlerThrow(float _DeltaTime)
+void AWildWildBattleStartStateMachine::ProcessPlayerBattlerThrow(float _DeltaTime)
 {
 	Canvas->LerpHidePlayerBattler(Timer / PlayerBattleThrowTime);
 
@@ -117,7 +114,7 @@ void ABattleStartStateMachine::ProcessPlayerBattlerThrow(float _DeltaTime)
 	}
 }
 
-void ABattleStartStateMachine::ProcessPlayerPokemonTakeout(float _DeltaTime)
+void AWildWildBattleStartStateMachine::ProcessPlayerPokemonTakeout(float _DeltaTime)
 {
 	Canvas->TakeOutPokemonFromBall(Timer / PlayerPokemonTakeoutTime);
 
@@ -128,7 +125,7 @@ void ABattleStartStateMachine::ProcessPlayerPokemonTakeout(float _DeltaTime)
 	}
 }
 
-void ABattleStartStateMachine::ProcessPlayerPokemonBoxMove(float _DeltaTime)
+void AWildWildBattleStartStateMachine::ProcessPlayerPokemonBoxMove(float _DeltaTime)
 {
 	Canvas->LerpShowPlayerPokemonBox(Timer / EnemyPokemonBoxMoveTime);
 

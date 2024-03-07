@@ -19,6 +19,8 @@ std::map<std::string, ADialogueWindow*> UEventManager::AllDialogueWindows;
 std::map<std::string, std::map<std::string, AEventTarget*>> UEventManager::AllTargets;
 std::map<std::string, std::map<FTileVector, std::list<AEventTrigger*>>> UEventManager::AllTriggers;
 std::map<AEventTrigger*, UEventProcessor*> UEventManager::AllProcessors;
+bool UEventManager::IsWildPokemon = false;
+std::vector<UPokemon>* UEventManager::EnemyEntry;
 float UEventManager::DeltaTime = 0.0f;
 
 UEventManager::UEventManager()
@@ -62,6 +64,31 @@ bool UEventManager::TriggerEvent(AEventTrigger* _Trigger, EEventTriggerAction _A
 {
 	UEventProcessor* Processor = AllProcessors[_Trigger];
 	return Processor->TryRun(_Action);
+}
+
+void UEventManager::SaveEnemyEntry(std::vector<UPokemon>* _Entry)
+{
+	EnemyEntry = _Entry;
+}
+
+std::vector<UPokemon>* UEventManager::LoadEnemyEntry()
+{
+	return EnemyEntry;
+}
+
+bool UEventManager::IsWildPokemonBattle()
+{
+	return IsWildPokemon;
+}
+
+void UEventManager::SetAsWildPokemonBattle()
+{
+	IsWildPokemon = true;
+}
+
+void UEventManager::SetAsTrainerBattle()
+{
+	IsWildPokemon = false;
 }
 
 void UEventManager::AddTarget(AEventTarget* _Target, const UEventTargetInit& _Setting)

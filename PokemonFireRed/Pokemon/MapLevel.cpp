@@ -152,7 +152,8 @@ void UMapLevel::LoadCharacterResources()
 	std::vector<std::string> IdleCharacterNames = {
 		Global::Player,
 		"FatMan",
-		"PlayersMom"
+		"PlayersMom",
+		"RivalGreen"
 	};
 
 	// Idle 애니메이션 리소스 로드

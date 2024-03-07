@@ -44,6 +44,13 @@ public:
 	// 이벤트 트리거
 	static bool TriggerEvent(AEventTrigger* _Trigger, EEventTriggerAction _Action = EEventTriggerAction::Direct);
 
+	// 배틀 적 엔트리 세이브 로드
+	static void SaveEnemyEntry(std::vector<UPokemon>* _Entry);
+	static std::vector<UPokemon>* LoadEnemyEntry();
+	static bool IsWildPokemonBattle();
+	static void SetAsWildPokemonBattle();
+	static void SetAsTrainerBattle();
+
 	// 즉발 이벤트 함수
 	// - 사이드 이펙트가 없는 이벤트 명령은 
 	//   이벤트 트리거를 만들지 않고 즉시 실행해도 문제가 되지 않는다.
@@ -227,8 +234,14 @@ private:
 	// - 이벤트 프로세서가 바로 이 역할을 맡게 된다.
 	static std::map<AEventTrigger*, UEventProcessor*> AllProcessors;
 	
+	// 배틀 정보 저장
+	static bool IsWildPokemon;
+	static std::vector<UPokemon>* EnemyEntry;
+
+	// 틱
 	static void Tick(float _DeltaTime);
 	
+	// 등록 함수
 	static void AddTarget(AEventTarget* _Target, const UEventTargetInit& _Setting);
 	static void AddTrigger(AEventTrigger* _Trigger, const UEventTargetInit& _Setting);
 	static void AddPlayer(APlayer* _Player, const FTileVector& _Point);

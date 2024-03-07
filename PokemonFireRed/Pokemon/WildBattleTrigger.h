@@ -18,6 +18,9 @@ public:
 	void Trigger(const FWildPokemonConstructorParam & _ConstructorParam)
 	{
 		Update(_ConstructorParam);
+		Entry.clear();
+		Entry.push_back(UPokemon(_ConstructorParam.Id, _ConstructorParam.Level));
+		UEventManager::SaveEnemyEntry(&Entry);
 		UEventManager::TriggerEvent(this, EEventTriggerAction::Direct);
 	}
 
@@ -27,6 +30,8 @@ private:
 	UEventCondition Cond;
 	float FadeOutTime = 0.25f;
 	float FadeInTime = 0.15f;
+
+	std::vector<UPokemon> Entry;
 
 	void Update(const FWildPokemonConstructorParam & _ConstructorParam);
 	void RegisterPredefinedEvent() override;

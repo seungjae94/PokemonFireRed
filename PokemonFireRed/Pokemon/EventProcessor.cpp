@@ -94,6 +94,12 @@ void UEventProcessor::Tick(float _DeltaTime)
 		case EEventType::CameraFocus:
 			ProcessingResult = ProcessCameraFocus();
 			break;
+		case EEventType::WildBattle:
+			ProcessingResult = ProcessWildBattle();
+			break;
+		case EEventType::TrainerBattle:
+			ProcessingResult = ProcessTrainerBattle();
+			break;
 		case EEventType::DeactivatePlayerControl:
 			ProcessingResult = ProcessDeactivatePlayerControl();
 			break;
@@ -513,22 +519,6 @@ bool UEventProcessor::ProcessChangeLevel()
 		DeactivatePlayerControl();
 	}
 
-	// 여러 레벨의 페이드 스크린을 같은 상태로 만들기
-	for (std::pair<const std::string, ACanvas*>& Pair 
-		: UEventManager::AllCommonCanvas[PrevLevelName])
-	{
-		std::string PrevElementName = Pair.first;
-		ACanvas* PrevElement = Pair.second;
-
-		if (false == UEventManager::AllCommonCanvas[NextLevelName].contains(PrevElementName))
-		{
-			continue;
-		}
-
-		ACanvas* NextElement = UEventManager::AllCommonCanvas[NextLevelName][PrevElementName];
-		NextElement->Sync(PrevElement);
-	}
-
 	return true;
 }
 
@@ -597,6 +587,46 @@ bool UEventProcessor::ProcessCameraFocus()
 	AEventTarget* Target = UEventManager::FindCurLevelTarget<AEventTarget>(Data.TargetName);
 	ULevel* CurLevel = Target->GetWorld();
 	CurLevel->SetCameraPos(Target->GetActorLocation() - Global::HalfScreen);
+	return true;
+}
+
+bool UEventProcessor::ProcessWildBattle()
+{
+	int CurIndexOfType = GetCurIndexOfType(EEventType::WildBattle);
+	ES::WildBattle& Data = CurStream->WildBattleDataSet[CurIndexOfType];
+
+	UEventManager::SaveEnemyEntry(Data.Entry);
+	UEventManager::SetAsWildPokemonBattle();
+
+	std::string PrevLevelName = UEventManager::CurLevelName;
+	std::string NextLevelName = ToUpper(Global::BattleLevel);
+
+	UEventManager::SetLevel(NextLevelName);
+	if (false == IsPlayerActivated)
+	{
+		DeactivatePlayerControl();
+	}
+
+	return true;
+}
+
+bool UEventProcessor::ProcessTrainerBattle()
+{
+	int CurIndexOfType = GetCurIndexOfType(EEventType::TrainerBattle);
+	ES::TrainerBattle& Data = CurStream->TrainerBattleDataSet[CurIndexOfType];
+
+	UEventManager::SaveEnemyEntry(Data.Entry);
+	UEventManager::SetAsTrainerBattle();
+
+	std::string PrevLevelName = UEventManager::CurLevelName;
+	std::string NextLevelName = ToUpper(Global::BattleLevel);
+
+	UEventManager::SetLevel(NextLevelName);
+	if (false == IsPlayerActivated)
+	{
+		DeactivatePlayerControl();
+	}
+
 	return true;
 }
 

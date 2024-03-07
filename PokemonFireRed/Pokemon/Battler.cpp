@@ -1,5 +1,6 @@
 #include "Battler.h"
 #include "PlayerData.h"
+#include "EventManager.h"
 
 UBattler::UBattler()
 {
@@ -9,7 +10,7 @@ UBattler::~UBattler()
 {
 }
 
-void UBattler::SetPlayer()
+void UBattler::InitPlayer()
 {
 	IsPlayerValue = true;
 
@@ -20,9 +21,33 @@ void UBattler::SetPlayer()
 	}
 }
 
-void UBattler::SetWildPokemon()
+void UBattler::InitWildPokemon()
 {
+	IsPlayerValue = false;
 	IsWildPokemonValue = true;
+	InitEnemyPokemon();
+}
 
-	Entry.push_back(UPlayerData::GetEnemyWildPokemon());
+void UBattler::InitTrainer()
+{
+	IsPlayerValue = false;
+	IsWildPokemonValue = false;
+	InitEnemyPokemon();
+}
+
+void UBattler::InitEnemyPokemon()
+{
+	std::vector<UPokemon>* RealEntry = UEventManager::LoadEnemyEntry();
+
+	if (nullptr == RealEntry)
+	{
+		MsgBoxAssert("적 포켓몬이 없는 상태로 배틀을 시작하려고 합니다.");
+		return;
+	}
+
+	Entry.clear();
+	for (int i = 0; i < RealEntry->size(); ++i)
+	{
+		Entry.push_back(&(RealEntry->at(i)));
+	}
 }

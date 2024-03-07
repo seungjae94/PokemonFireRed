@@ -8,6 +8,9 @@
 #define ES UEventStream
 
 class UEventProcessor;
+class ATrainer;
+class AWildBattleTrigger;
+class UPokemon;
 
 enum class EEventType
 {
@@ -29,6 +32,8 @@ enum class EEventType
 	ShowActor,
 	CameraFocus,
 	DeactivatePlayerControl,
+	WildBattle,
+	TrainerBattle,
 	End,
 };
 
@@ -425,6 +430,37 @@ public:
 		return *this;
 	}
 
+	class WildBattle
+	{
+		friend UEventProcessor;
+	public:
+		WildBattle(AWildBattleTrigger* _Wild);
+	private:
+		std::vector<UPokemon>* Entry;
+	};
+
+	UEventStream& operator>>(const WildBattle& _Data)
+	{
+		EventTypeList.push_back(EEventType::WildBattle);
+		WildBattleDataSet.push_back(_Data);
+		return *this;
+	}
+
+	class TrainerBattle
+	{
+		friend UEventProcessor;
+	public:
+		TrainerBattle(ATrainer* _Trainer);
+		std::vector<UPokemon>* Entry;
+	};
+
+	UEventStream& operator>>(const TrainerBattle& _Data)
+	{
+		EventTypeList.push_back(EEventType::TrainerBattle);
+		TrainerBattleDataSet.push_back(_Data);
+		return *this;
+	}
+
 	class End
 	{
 		friend UEventStream;
@@ -473,5 +509,7 @@ private:
 	std::vector<HideActor> HideActorDataSet;
 	std::vector<ShowActor> ShowActorDataSet;
 	std::vector<CameraFocus> CameraFocusDataSet;
+	std::vector<WildBattle> WildBattleDataSet;
+	std::vector<TrainerBattle> TrainerBattleDataSet;
 };
 

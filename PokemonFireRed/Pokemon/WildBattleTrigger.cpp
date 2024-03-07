@@ -12,7 +12,12 @@ AWildBattleTrigger::~AWildBattleTrigger()
 void AWildBattleTrigger::Update(const FWildPokemonConstructorParam& _ConstructorParam)
 {
 	UnregisterEvent();
-	UPlayerData::GenerateEnemyWildPokemon(_ConstructorParam);
+
+	Entry.clear();
+	Entry.push_back(UPokemon(_ConstructorParam.Id, _ConstructorParam.Level));
+	UEventManager::SaveEnemyEntry(&Entry);
+	UEventManager::SetAsWildPokemonBattle();
+
 	RegisterPredefinedEvent();
 }
 

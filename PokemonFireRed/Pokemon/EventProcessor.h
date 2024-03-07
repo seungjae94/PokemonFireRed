@@ -98,6 +98,8 @@ private:
 	bool ProcessHideActor();
 	bool ProcessShowActor();
 	bool ProcessCameraFocus();
+	bool ProcessWildBattle();
+	bool ProcessTrainerBattle();
 	bool ProcessDeactivatePlayerControl();
 
 	// 프로세싱 변수 - 공통

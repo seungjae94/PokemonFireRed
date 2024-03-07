@@ -2,7 +2,7 @@
 #include "PokemonLevel.h"
 #include "PlayerData.h"
 #include "BattleCanvas.h"
-#include "BattleStartStateMachine.h"
+#include "WildBattleStartStateMachine.h"
 #include "BattlePlayerActionSelectStateMachine.h"
 #include "BattleTurnStateMachine.h"
 #include "BattleActionStateMachine.h"
@@ -53,7 +53,7 @@ private:
 
 	// FSM
 	ABattlePrepareTurnStateMachine* BattlePrepareTurnSM = nullptr;
-	ABattleStartStateMachine* BattleStartSM = nullptr;
+	AWildWildBattleStartStateMachine* BattleStartSM = nullptr;
 	ABattlePlayerActionSelectStateMachine* PlayerActionSelectSM = nullptr;
 	ABattleTurnStateMachine* BattleTurnSM = nullptr;
 

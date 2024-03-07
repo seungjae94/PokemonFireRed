@@ -4,6 +4,7 @@
 #include <EngineCore/EngineResourcesManager.h>
 #include "InteriorDoor.h"
 #include "DialogueActor.h"
+#include "Trainer.h"
 
 UInteriorOaksLabLevel::UInteriorOaksLabLevel()
 {
@@ -72,6 +73,27 @@ void UInteriorOaksLabLevel::BeginPlay()
 	ADialogueActor* BookShelf11 = ADialogueActor::GenerateObject(this, "BookShelf11", { 2, 8 }, EFontColor::Gray, DialogueBookShelf);
 	ADialogueActor* BookShelf12 = ADialogueActor::GenerateObject(this, "BookShelf12", { 1, 8 }, EFontColor::Gray, DialogueBookShelf);
 	ADialogueActor* BookShelf13 = ADialogueActor::GenerateObject(this, "BookShelf13", { 0, 8 }, EFontColor::Gray, DialogueBookShelf);
+
+	UEventTargetInit GreenInit;
+	GreenInit.SetName("RIVALGREEN");
+	GreenInit.SetPoint({ 10, 6 });
+	GreenInit.SetDirection(FTileVector::Down);
+	GreenInit.SetCollidable(true);
+	GreenInit.SetRotatable(true);
+	GreenInit.SetWalkable(false);						// 임시로 서있기만 가능한 캐릭터로 설정
+	GreenInit.SetImageNameAuto();	// 임시로 서있기만 가능한 캐릭터로 설정
+
+	UEventCondition GreenCond = UEventCondition(EEventTriggerAction::ZClick);
+	ATrainer* Green = SpawnEventTrigger<ATrainer>(GreenInit);
+	Green->AddPokemonToEntry(UPokemon(EPokedexNo::Rattata, 3));
+	Green->AddPokemonToEntry(UPokemon(EPokedexNo::Charmander, 3));
+
+	UEventManager::RegisterEvent(Green, GreenCond,
+		ES::Start(true)
+		>> ES::Chat({ L"Let's fight!" }, EFontColor::Blue)
+		>> ES::TrainerBattle(Green)
+		>> ES::End(true)
+	);
 }
 
 

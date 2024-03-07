@@ -8,7 +8,7 @@ class UBattleLevel;
 class ABattleCanvas;
 class APokemonMsgBox;
 
-class ABattleStartStateMachine : public AActor
+class AWildWildBattleStartStateMachine : public AActor
 {
 private:
 	enum class ESubstate
@@ -25,14 +25,14 @@ private:
 	};
 public:
 	// constructor destructor
-	ABattleStartStateMachine();
-	~ABattleStartStateMachine();
+	AWildWildBattleStartStateMachine();
+	~AWildWildBattleStartStateMachine();
 
 	// delete Function
-	ABattleStartStateMachine(const ABattleStartStateMachine& _Other) = delete;
-	ABattleStartStateMachine(ABattleStartStateMachine&& _Other) noexcept = delete;
-	ABattleStartStateMachine& operator=(const ABattleStartStateMachine& _Other) = delete;
-	ABattleStartStateMachine& operator=(ABattleStartStateMachine&& _Other) noexcept = delete;
+	AWildWildBattleStartStateMachine(const AWildWildBattleStartStateMachine& _Other) = delete;
+	AWildWildBattleStartStateMachine(AWildWildBattleStartStateMachine&& _Other) noexcept = delete;
+	AWildWildBattleStartStateMachine& operator=(const AWildWildBattleStartStateMachine& _Other) = delete;
+	AWildWildBattleStartStateMachine& operator=(AWildWildBattleStartStateMachine&& _Other) noexcept = delete;
 
 	bool IsEnd() const
 	{
