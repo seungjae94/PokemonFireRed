@@ -15,6 +15,7 @@ ABattleFaintStateMachine::~ABattleFaintStateMachine()
 void ABattleFaintStateMachine::Start(ABattleCanvas* _Canvas, APokemonMsgBox* _MsgBox, UBattler* _Attacker, UBattler* _Defender, bool& _AttackerFaintChecked, bool& _DefenderFaintChecked)
 {
 	Canvas = _Canvas;
+	MsgBox = _MsgBox;
 	Attacker = _Attacker;
 	Defender = _Defender;
 
