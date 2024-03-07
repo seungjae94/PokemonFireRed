@@ -40,6 +40,7 @@ void UBattleLevel::BeginPlay()
 	// 액터 생성
 	Canvas = SpawnActor<ABattleCanvas>();
 	MsgBox = SpawnActor<APokemonMsgBox>();
+	MsgBox->SetBaseRenderingOrder(ERenderingOrder::UI4);
 	MsgBox->SetBackgroundImage(RN::BattleMsgBox);
 	MsgBox->SetBackgroundLeftBotRelativePos(UPokemonUtil::PixelVector(0, 0));
 	MsgBox->SetCoverImage(RN::BattleMsgBoxCover);
