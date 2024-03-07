@@ -16,12 +16,11 @@ ADialogueCanvas::~ADialogueCanvas()
 {
 }
 
-void ADialogueCanvas::Open(const std::vector<std::wstring>& _Dialogue, EFontColor _Color, int _LineSpace, bool _IsSequential)
+void ADialogueCanvas::Open(const std::vector<std::wstring>& _Dialogue, EFontColor _Color, int _LineSpace)
 {
 	Dialogue = _Dialogue;
 	Text->SetColor(_Color);
 	Text->SetLineSpace(_LineSpace);
-	Text->SetSequential(_IsSequential);
 	Text->SetText(Dialogue[0]);
 	State = EDialogueCanvasState::Show;
 

@@ -35,7 +35,7 @@ public:
 		return State;
 	}
 
-	void Open(const std::vector<std::wstring>& _Dialogue, EFontColor _Color, int _LineSpace = 14, bool _IsSequential = false);
+	void Open(const std::vector<std::wstring>& _Dialogue, EFontColor _Color, int _LineSpace = 14);
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;

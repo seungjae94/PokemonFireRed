@@ -76,9 +76,59 @@ public:
 		Size = _Size;
 	}
 
+	int GetLineSpace() const
+	{
+		return LineSpace;
+	}
+
 	void SetLineSpace(int _LineSpace)
 	{
 		LineSpace = _LineSpace;
+	}
+
+	int GetLineCount() const
+	{
+		return static_cast<int>(Lines.size());
+	}
+
+	int GetLineGlyphCount(int _LineIndex) const
+	{
+		return static_cast<int>(Lines[_LineIndex].size());
+	}
+
+	/*
+	* ABCDE
+	* FGHI
+	* 
+	* FindLineOfGlyph(4) = 0
+	* FindLineOfGlyph(5) = 1
+	* FindLineOfGlyph(9) = -1
+	*/
+	int FindLineOfGlyph(int _GlyphIndex) const
+	{
+		int CurGlyphIndex = _GlyphIndex;
+		for (int i = 0; i < Lines.size(); ++i)
+		{
+			int LineGlyphCount = static_cast<int>(Lines[i].size());
+			CurGlyphIndex -= LineGlyphCount;
+
+			if (CurGlyphIndex < 0)
+			{
+				return i;
+			}
+		}
+
+		return -1;
+	}
+
+	int GetAllGlyphsCount() const
+	{
+		int Count = 0;
+		for (std::wstring_view Line : Lines)
+		{
+			Count += static_cast<int>(Line.size());
+		}
+
 	}
 
 	int GetPixelLineWidth() const
