@@ -55,13 +55,7 @@ public:
 
 	void SetImageCuttingTransform(const FTransform& _Value)
 	{
-		ImageCuttingTransformSetting = true;
 		ImageCuttingTransform = _Value;
-	}
-
-	FTransform GetImageCuttingTransform() const
-	{
-		return ImageCuttingTransform;
 	}
 
 	void CreateAnimation(
@@ -212,7 +206,6 @@ protected:
 private:
 	int InfoIndex = 0;
 	UWindowImage* Image = nullptr;
-	bool ImageCuttingTransformSetting = false;
 	FTransform ImageCuttingTransform;
 	Color8Bit TransColor;
 
