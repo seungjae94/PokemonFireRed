@@ -123,9 +123,24 @@ public:
 		Order = _Order;
 	}
 
+	void DebugCheckOn()
+	{
+		IsDebugCheck = true;
+	}
+
+	void DebugCheck()
+	{
+		if (true == IsDebugCheck)
+		{
+			int a = 0;
+		}
+	}
+
 protected:
 
 private:
+	bool IsDebugCheck = false;
+
 	// [Active ฐüทร]
 	
 	bool IsActiveValue = true;

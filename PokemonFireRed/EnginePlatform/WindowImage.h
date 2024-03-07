@@ -152,6 +152,11 @@ public:
 
 	const UImageInfo& ImageInfo(int _Index)
 	{
+		if (_Index >= Infos.size())
+		{
+			MsgBoxAssert("커팅된 이미지보다 더 큰 이미지 인덱스를 사용했습니다.");
+		}
+
 		return Infos[_Index];
 	}
 

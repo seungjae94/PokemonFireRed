@@ -50,6 +50,12 @@ public:
 		return NewActor;
 	}
 
+	template<typename ActorType, typename EnumType>
+	ActorType* SpawnActor(EnumType _Order)
+	{
+		return SpawnActor<ActorType>(static_cast<int>(_Order));
+	}
+
 	virtual void LevelStart(ULevel* _PrevLevel) {};
 	virtual void LevelEnd(ULevel* _NextLevel) {};
 
