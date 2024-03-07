@@ -83,55 +83,23 @@ void AText::SetGlyphActive(int _Index, bool _Value)
 	GlyphRenderers[_Index]->SetActive(_Value);
 }
 
-void AText::SetCuttingRect(const FVector& _CutLeftTop, const FVector& _CutScale)
+void AText::SetLineActive(int _Index, bool _Value)
 {
-	CutLeftTop = _CutLeftTop;
-	CutScale = _CutScale;
-}
-
-void AText::Cut()
-{
-	int Count = 0;
-
-	for (UImageRenderer* Glyph : GlyphRenderers)
+	if (_Index >= Lines.size())
 	{
-		if (true == UEngineInput::IsDown('D'))
-		{
-			int a = 0;
-		}
+		MsgBoxAssert("AText에서 라인 인덱스를 벗어난 라인을 켜거나 끄려고 했습니다.");
+		return;
+	}
 
-		FVector ActorBasePos = Glyph->GetActorBaseTransform().LeftTop();
-		FVector ImageScale = Glyph->GetImage()->GetScale();
-
-		FVector CutImagePos = (CutLeftTop - ActorBasePos) * (1/Global::FloatPixelSize);
-		FVector CutImageScale = CutScale * (1 / Global::FloatPixelSize);
-
-		FVector CapCutImagePos = CutImagePos;
-		if (CapCutImagePos.X < 0.0f)
-		{
-			CapCutImagePos.X = 0;
-		}
-		if (CapCutImagePos.Y < 0.0f)
-		{
-			CapCutImagePos.Y = 0;
-		}
-
-		FVector CapCutImageScale = CutImageScale - CutImagePos;
-		if (CapCutImageScale.X + CapCutImagePos.X > ImageScale.X)
-		{
-			CapCutImageScale.X = ImageScale.X - CapCutImagePos.X;
-		}
-		if (CapCutImageScale.Y + CapCutImagePos.Y > ImageScale.Y)
-		{
-			CapCutImageScale.Y = ImageScale.Y - CapCutImagePos.Y;
-		}
-
-		FTransform PrevCuttingTrans = Glyph->GetImageCuttingTransform();
-		FTransform CuttingTrans = { CapCutImagePos, CapCutImageScale };
-		FVector Diff = CuttingTrans.GetScale() - PrevCuttingTrans.GetScale();
-
-		Glyph->SetImageCuttingTransform(CuttingTrans);
-		Glyph->SetScale(CapCutImageScale * Global::FloatPixelSize);
+	int Acc = 0;
+	for (int i = 0; i < _Index; ++i)
+	{
+		Acc += GetLineGlyphCount(i);
+	}
+	
+	for (int i = Acc; i < Acc + GetLineGlyphCount(_Index); ++i)
+	{
+		SetGlyphActive(i, _Value);
 	}
 }
 

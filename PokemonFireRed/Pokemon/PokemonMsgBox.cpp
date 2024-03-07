@@ -10,16 +10,23 @@ APokemonMsgBox::~APokemonMsgBox()
 
 void APokemonMsgBox::SetBaseRenderingOrder(ERenderingOrder _Order)
 {
-	ERenderingOrder _PlusOrder = static_cast<ERenderingOrder>(static_cast<int>(_Order) + 1);
+	ERenderingOrder PlusOrder = static_cast<ERenderingOrder>(static_cast<int>(_Order) + 1);
+	ERenderingOrder Plus2Order = static_cast<ERenderingOrder>(static_cast<int>(_Order) + 2);
 
 	Background->SetRenderingOrder(_Order);
-	NextMsgArrow->SetRenderingOrder(_PlusOrder);
-	Text->SetRenderingOrder(_PlusOrder);
+	NextMsgArrow->SetRenderingOrder(PlusOrder);
+	Text->SetRenderingOrder(PlusOrder);
+	Cover->SetRenderingOrder(Plus2Order);
 }
 
 void APokemonMsgBox::SetBackgroundImage(std::string_view _ImageName)
 {
 	Background->SetImage(_ImageName);
+}
+
+void APokemonMsgBox::SetCoverImage(std::string_view _ImageName)
+{
+	Cover->SetImage(_ImageName);
 }
 
 void APokemonMsgBox::SetTextColor(EFontColor _Color)
@@ -72,6 +79,7 @@ void APokemonMsgBox::Write()
 		State = EWriteState::Scrolling;
 		Timer = ScrollTime;
 
+		IsCurLineErased = false;
 		TextPrevPos = Text->GetRelativePosition();
 		TextNextPos = TextPrevPos + FVector::Up * Global::FloatPixelSize * static_cast<float>(Text->GetLineSpace());
 	}
@@ -82,9 +90,9 @@ void APokemonMsgBox::BeginPlay()
 	ACanvas::BeginPlay();
 
 	Background = CreateImageElement(this, ERenderingOrder::UI1, EPivotType::LeftBot, 5, -3);
+	Cover = CreateImageElement(Background, ERenderingOrder::UI3, EPivotType::LeftTop, 0, 0);
 	NextMsgArrow = CreateImageElement(Background, ERenderingOrder::UI2, EPivotType::RightBot, -5, -5);
 	Text = CreateText(Background, ERenderingOrder::UI2, EPivotType::LeftTop, 11, 17);
-	Text->SetCuttingRect(UPokemonUtil::PixelVector(16, 124), UPokemonUtil::PixelVector(208, 26));
 	TextInitPos = Text->GetRelativePosition();
 }
 
@@ -138,7 +146,12 @@ void APokemonMsgBox::ProcessScrolling()
 {
 	FVector TextPos = UPokemonMath::Lerp(TextNextPos, TextPrevPos, Timer / ScrollTime);
 	Text->SetRelativePosition(TextPos);
-	Text->Cut();
+
+	if (false == IsCurLineErased && Timer <= 9/16.0f * ScrollTime)
+	{
+		Text->SetLineActive(CurLine, false);
+		IsCurLineErased = true;
+	}
 
 	if (Timer <= 0.0f)
 	{

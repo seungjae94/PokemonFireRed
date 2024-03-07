@@ -151,9 +151,8 @@ public:
 	// 특정 인덱스의 글자 렌더러를 켜고 끈다.
 	void SetGlyphActive(int _Index, bool _Value);
 
-	// 텍스트를 그릴 영역을 지정한다. 스크린 좌표를 기준으로 지정한다.
-	void SetCuttingRect(const FVector& _CutLeftTop, const FVector& _CutScale);
-	void Cut();
+	// 특정 라인의 글자 렌더러를 전부 켜고 끈다.
+	void SetLineActive(int _Index, bool _Value);
 
 protected:
 	void BeginPlay() override;

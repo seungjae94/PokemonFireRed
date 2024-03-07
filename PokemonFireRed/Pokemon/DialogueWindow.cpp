@@ -28,6 +28,7 @@ void ADialogueWindow::Open(const std::vector<std::wstring>& _Dialogue, EFontColo
 	Index = 0;
 
 	MsgBox->SetBackgroundImage(RN::DialogueWindow);
+	MsgBox->SetCoverImage(RN::DialogueWindowCover);
 	MsgBox->SetTextColor(_Color);
 	MsgBox->SetLineSpace(_LineSpace);
 	MsgBox->SetMessage(Dialogue[0]);

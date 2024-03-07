@@ -29,6 +29,7 @@ public:
 	// 초기 설정
 	void SetBaseRenderingOrder(ERenderingOrder _Order);
 	void SetBackgroundImage(std::string_view _ImageName);
+	void SetCoverImage(std::string_view _ImageName);
 	void SetTextColor(EFontColor _Color);
 	void SetWriteSpeed(float _WriteSpeed);
 	void SetLineSpace(int _LineSpace);
@@ -56,11 +57,12 @@ private:
 
 	// 하위 요소
 	AImageElement* Background = nullptr;
+	AImageElement* Cover = nullptr;
 	AImageElement* NextMsgArrow = nullptr;		// TODO: 애니메이션으로 제작
 	AText* Text = nullptr;
 
 	// 상수
-	const float ScrollTime = 2.0f;
+	const float ScrollTime = 1.0f;
 	const float WriteInterval = 1 / 30.0f;
 	
 	// 데이터
@@ -72,6 +74,7 @@ private:
 	FVector TextInitPos;
 	FVector TextPrevPos;
 	FVector TextNextPos;
+	bool IsCurLineErased = false;
 
 	// 상태 틱 함수
 	void ProcessWriting();
