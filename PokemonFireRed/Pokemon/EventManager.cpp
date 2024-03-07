@@ -9,12 +9,13 @@
 #include "Player.h"
 #include "MapLevel.h"
 #include "MenuCanvas.h"
-#include "DialogueCanvas.h"
+#include "DialogueWindow.h"
 #include "WildBattleTrigger.h"
 
 std::string UEventManager::CurLevelName;
 ULevel* UEventManager::BattleLevel = nullptr;
 std::map<std::string, std::map<std::string, ACanvas*>> UEventManager::AllCommonCanvas;
+std::map<std::string, ADialogueWindow*> UEventManager::AllDialogueWindows;
 std::map<std::string, std::map<std::string, AEventTarget*>> UEventManager::AllTargets;
 std::map<std::string, std::map<FTileVector, std::list<AEventTrigger*>>> UEventManager::AllTriggers;
 std::map<AEventTrigger*, UEventProcessor*> UEventManager::AllProcessors;
@@ -26,7 +27,7 @@ UEventManager::UEventManager()
 
 UEventManager::~UEventManager()
 {
-	
+
 }
 
 // 이벤트 감지
@@ -34,7 +35,7 @@ void UEventManager::Tick(float _DeltaTime)
 {
 	DeltaTime = _DeltaTime;
 
-	for (std::pair<AEventTrigger* const, UEventProcessor*>& Pair: AllProcessors)
+	for (std::pair<AEventTrigger* const, UEventProcessor*>& Pair : AllProcessors)
 	{
 		UEventProcessor* Processor = Pair.second;
 
@@ -77,7 +78,7 @@ void UEventManager::AddTarget(AEventTarget* _Target, const UEventTargetInit& _Se
 
 	// 멤버 변수 초기화
 	_Target->SetName(TargetName);
-	
+
 	_Target->Point = _Setting.Point;						// 아직 등록하지 않은 타겟이라 SetPoint로 위치 설정이 불가능하다.
 	_Target->SetActorLocation(_Setting.Point.ToFVector());	// 아직 등록하지 않은 타겟이라 SetPoint로 위치 설정이 불가능하다.
 
@@ -164,12 +165,12 @@ void UEventManager::AddTarget(AEventTarget* _Target, const UEventTargetInit& _Se
 				std::string ImageName = TargetName + "Walk" + DirectionName + ".png";
 
 				std::string UpperBodyAnimName = TargetName + "Walk" + DirectionName + Global::SuffixUpperBody;
-				UpperBodyRenderer->CreateAnimation(UpperBodyAnimName + "0", ImageName, {0, 1}, WalkInterval, false); // 오른발
-				UpperBodyRenderer->CreateAnimation(UpperBodyAnimName + "1", ImageName, {2, 3}, WalkInterval, false); // 왼발
+				UpperBodyRenderer->CreateAnimation(UpperBodyAnimName + "0", ImageName, { 0, 1 }, WalkInterval, false); // 오른발
+				UpperBodyRenderer->CreateAnimation(UpperBodyAnimName + "1", ImageName, { 2, 3 }, WalkInterval, false); // 왼발
 
 				std::string LowerBodyAnimName = TargetName + "Walk" + DirectionName + Global::SuffixLowerBody;
-				LowerBodyRenderer->CreateAnimation(LowerBodyAnimName + "0", ImageName, {4, 5}, WalkInterval, false); // 오른발
-				LowerBodyRenderer->CreateAnimation(LowerBodyAnimName + "1", ImageName, {6, 7}, WalkInterval, false); // 왼발
+				LowerBodyRenderer->CreateAnimation(LowerBodyAnimName + "0", ImageName, { 4, 5 }, WalkInterval, false); // 오른발
+				LowerBodyRenderer->CreateAnimation(LowerBodyAnimName + "1", ImageName, { 6, 7 }, WalkInterval, false); // 왼발
 			}
 		}
 	}
@@ -188,7 +189,7 @@ void UEventManager::AddTarget(AEventTarget* _Target, const UEventTargetInit& _Se
 
 		UCollision* Collision = _Target->Collision;
 		Collision->SetColType(ECollisionType::Rect);
-		Collision->SetScale({Global::FloatTileSize, Global::FloatTileSize });
+		Collision->SetScale({ Global::FloatTileSize, Global::FloatTileSize });
 	}
 }
 
@@ -213,7 +214,7 @@ void UEventManager::AddTrigger(AEventTrigger* _Trigger, const UEventTargetInit& 
 
 void UEventManager::AddPlayer(APlayer* _Player, const FTileVector& _Point)
 {
-	UEventTargetInit PlayerSetting; 
+	UEventTargetInit PlayerSetting;
 	PlayerSetting.SetName(Global::Player);
 	PlayerSetting.SetPoint(_Point);
 	PlayerSetting.SetDirection(FTileVector::Down);
@@ -232,9 +233,9 @@ void UEventManager::AddPlayer(APlayer* _Player, const FTileVector& _Point)
 
 	// 애니메이션 - 점프
 	float JumpInterval = Global::CharacterJumpAnimFrameLength;
-	_Player->UpperBodyRenderer->CreateAnimation("PlayerJumpDown" + Global::SuffixUpperBody, 
+	_Player->UpperBodyRenderer->CreateAnimation("PlayerJumpDown" + Global::SuffixUpperBody,
 		"PlayerJumpDown.png", 0, 52, JumpInterval, false);
-	_Player->LowerBodyRenderer->CreateAnimation("PlayerJumpDown" + Global::SuffixLowerBody, 
+	_Player->LowerBodyRenderer->CreateAnimation("PlayerJumpDown" + Global::SuffixLowerBody,
 		"PlayerJumpDown.png", 53 + 0, 53 + 52, JumpInterval, false);
 
 	// 애니메이션 - 느리게 걷기
@@ -269,6 +270,20 @@ void UEventManager::AddCommonCanvas(ACanvas* _UIElement, std::string_view _Name)
 	AllCommonCanvas[LevelName][Name] = _UIElement;
 }
 
+void UEventManager::AddDialogueWindow(ADialogueWindow* _Window)
+{
+	std::string LevelName = UEngineString::ToUpper(_Window->GetWorld()->GetName());
+	std::string Name = UEngineString::ToUpper(Global::DialogueWindow);
+
+	if (true == AllDialogueWindows.contains(LevelName))
+	{
+		MsgBoxAssert("이미 등록된 대화창을 다시 등록하려고 했습니다.");
+		return;
+	}
+
+	AllDialogueWindows[LevelName] = _Window;
+}
+
 // 이벤트 구현
 
 void UEventManager::SetLevel(std::string_view _LevelName)
@@ -277,7 +292,7 @@ void UEventManager::SetLevel(std::string_view _LevelName)
 	GEngine->UEngineCore::ChangeLevel(_LevelName);
 }
 
-void UEventManager::SetPoint(std::string_view _MapName, std::string_view _TargetName , const FTileVector& _Point)
+void UEventManager::SetPoint(std::string_view _MapName, std::string_view _TargetName, const FTileVector& _Point)
 {
 	std::string MapName = UEngineString::ToUpper(_MapName);
 	std::string TargetName = UEngineString::ToUpper(_TargetName);
@@ -380,11 +395,11 @@ void UEventManager::OpenMenuWindow()
 	Canvas->Open();
 }
 
-void UEventManager::OpenDialogueWindow(const std::vector<std::wstring>& _Dialogue, EFontColor _Color, int _LineSpace, bool _IsSequential)
+void UEventManager::OpenDialogueWindow(const std::vector<std::wstring>& _Dialogue, EFontColor _Color, int _LineSpace)
 {
-	ADialogueCanvas* Canvas = FindCurLevelCommonCanvas<ADialogueCanvas>(Global::DialogueWindow);
+	ADialogueWindow* Window = FindCurLevelDialogueWindow();
 
-	if (nullptr == Canvas)
+	if (nullptr == Window)
 	{
 		MsgBoxAssert(CurLevelName + "에 메뉴창이 존재하지 않습니다.");
 		return;
@@ -392,7 +407,20 @@ void UEventManager::OpenDialogueWindow(const std::vector<std::wstring>& _Dialogu
 
 	APlayer* CurLevelPlayer = FindCurLevelTarget<APlayer>(Global::Player);
 	CurLevelPlayer->StateChange(EPlayerState::OutOfControl);
-	Canvas->Open(_Dialogue, _Color, _LineSpace, _IsSequential);
+	Window->Open(_Dialogue, _Color, _LineSpace);
+}
+
+ADialogueWindow* UEventManager::FindCurLevelDialogueWindow()
+{
+	std::string LevelName = UEngineString::ToUpper(CurLevelName);
+
+	if (false == AllDialogueWindows.contains(LevelName))
+	{
+		return nullptr;
+	}
+
+	ADialogueWindow* Window = AllDialogueWindows[LevelName];
+	return Window;
 }
 
 // 메모리 릴리즈

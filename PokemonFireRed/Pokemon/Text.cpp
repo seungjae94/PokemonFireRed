@@ -40,7 +40,7 @@ void AText::FollowParentPosition()
 
 void AText::SetText(std::wstring_view _Text)
 {
-	std::vector<std::wstring> Lines = UPokemonString::Split(_Text, L'\n');
+	Lines = UPokemonString::Split(_Text, L'\n');
 
 	if (GlyphRenderers.size() > 0)
 	{
@@ -149,12 +149,12 @@ void AText::PrepareLine(const std::wstring& _Line, int _Bot)
 	int Bot = _Bot;
 	for (const wchar_t& Ch : _Line)
 	{
-		if (Ch == L' ')
-		{
-			int Width = 6;
-			Left += Width * Global::PixelSize;
-			continue;
-		}
+		//if (Ch == L' ')
+		//{
+		//	int Width = 6;
+		//	Left += Width * Global::PixelSize;
+		//	continue;
+		//}
 
 		if (Ch == L'\t' || Ch == L'\n')
 		{
@@ -283,6 +283,7 @@ void AText::InitAlignRuleMap()
 	AlignRuleMap[EFontSize::Normal][L'’'] = { "SpecialRightDoubleQuotation", 0, 0, -7 };
 	AlignRuleMap[EFontSize::Normal][L'/'] = { "SpecialSlash", 0, 0, 0 };
 	AlignRuleMap[EFontSize::Normal][L'-'] = { "SpecialMinus", 0, 0, -4 };
+	AlignRuleMap[EFontSize::Normal][L' '] = { "SpecialSpace", 0, 0, 0 };
 
 	AlignRuleMap[EFontSize::Mini][L'.'] = { "SpecialPeriod", 1, 1, 0 };
 	AlignRuleMap[EFontSize::Mini][L','] = { "SpecialComma", 1, 1, 2 };
@@ -290,6 +291,7 @@ void AText::InitAlignRuleMap()
 	AlignRuleMap[EFontSize::Mini][L'?'] = { "SpecialQuestion", 0, 0, 0 };
 	AlignRuleMap[EFontSize::Mini][L'ℓ'] = { "SpecialLv", 0, 0, 0 };
 	AlignRuleMap[EFontSize::Mini][L'-'] = { "SpecialMinus", 0, 0, -4 };
+	AlignRuleMap[EFontSize::Mini][L' '] = { "SpecialSpace", 0, 0, 0 };
 
 	// 라틴 소문자
 	AlignRuleMap[EFontSize::Normal][L'é'] = { "LatinLowerE", 0, 0, 0 };

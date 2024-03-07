@@ -12,19 +12,19 @@ enum class EWriteState
 	WriteEnd
 };
 
-class PokemonMsgBox : public ACanvas
+class APokemonMsgBox : public ACanvas
 {
 private:
 public:
 	// constructor destructor
-	PokemonMsgBox();
-	~PokemonMsgBox();
+	APokemonMsgBox();
+	~APokemonMsgBox();
 
 	// delete Function
-	PokemonMsgBox(const PokemonMsgBox& _Other) = delete;
-	PokemonMsgBox(PokemonMsgBox&& _Other) noexcept = delete;
-	PokemonMsgBox& operator=(const PokemonMsgBox& _Other) = delete;
-	PokemonMsgBox& operator=(PokemonMsgBox&& _Other) noexcept = delete;
+	APokemonMsgBox(const APokemonMsgBox& _Other) = delete;
+	APokemonMsgBox(APokemonMsgBox&& _Other) noexcept = delete;
+	APokemonMsgBox& operator=(const APokemonMsgBox& _Other) = delete;
+	APokemonMsgBox& operator=(APokemonMsgBox&& _Other) noexcept = delete;
 
 	// 초기 설정
 	void SetBaseRenderingOrder(ERenderingOrder _Order);

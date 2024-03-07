@@ -19,6 +19,7 @@ class APlayer;
 class UEventManagerReleaser;
 class UEventCondition;
 class ACanvas;
+class ADialogueWindow;
 enum class EFontColor;
 enum class EPlayerState;
 
@@ -61,9 +62,11 @@ public:
 
 	static void OpenMenuWindow();
 
-	static void OpenDialogueWindow(const std::vector<std::wstring>& _Dialogue, EFontColor _Color, int _LineSpace = 14, bool _IsSequential = false);
+	static void OpenDialogueWindow(const std::vector<std::wstring>& _Dialogue, EFontColor _Color, int _LineSpace = 14);
 
 	// 찾기 편의 함수
+	static ADialogueWindow* FindCurLevelDialogueWindow();
+
 	template <typename CanvasType>
 	static CanvasType* FindCommonCanvas(std::string_view _LevelName, std::string_view _CanvasName)
 	{
@@ -204,8 +207,10 @@ private:
 	static ULevel* BattleLevel;
 
 	// AllMapLevelCanvas[LevelName][ElementName]
-	// - 메뉴창, 대화창도 커서 이동 등 플레이어 타입으로 다뤄야 할 일이 있기 때문에 추가로 보관한다.
+	// - 메뉴창도 커서 이동 등 플레이어 타입으로 다뤄야 할 일이 있기 때문에 추가로 보관한다.
 	static std::map<std::string, std::map<std::string, ACanvas*>> AllCommonCanvas;
+
+	static std::map<std::string, ADialogueWindow*> AllDialogueWindows;
 
 	// AllTargets[LevelName][TargetName]
 	// - 'A레벨의 B라는 이름의 액터를 이동시켜줘'라는 요청을 처리하려면 A레벨의 B라는 이름의 액터를 찾을 수 있어야 한다.
@@ -228,6 +233,7 @@ private:
 	static void AddTrigger(AEventTrigger* _Trigger, const UEventTargetInit& _Setting);
 	static void AddPlayer(APlayer* _Player, const FTileVector& _Point);
 	static void AddCommonCanvas(ACanvas* _Canvas, std::string_view _Name);
+	static void AddDialogueWindow(ADialogueWindow* _Window);
 
 	// DeltaTime 기록
 	static float DeltaTime;

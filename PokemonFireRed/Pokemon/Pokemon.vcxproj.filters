@@ -219,7 +219,7 @@
     <ClInclude Include="MenuCanvas.h">
       <Filter>5. UI\MapLevelCanvas</Filter>
     </ClInclude>
-    <ClInclude Include="DialogueCanvas.h">
+    <ClInclude Include="DialogueWindow.h">
       <Filter>5. UI\MapLevelCanvas</Filter>
     </ClInclude>
     <ClInclude Include="MapNameCanvas.h">
@@ -476,7 +476,7 @@
     <ClCompile Include="MenuCanvas.cpp">
       <Filter>5. UI\MapLevelCanvas</Filter>
     </ClCompile>
-    <ClCompile Include="DialogueCanvas.cpp">
+    <ClCompile Include="DialogueWindow.cpp">
       <Filter>5. UI\MapLevelCanvas</Filter>
     </ClCompile>
     <ClCompile Include="MapNameCanvas.cpp">

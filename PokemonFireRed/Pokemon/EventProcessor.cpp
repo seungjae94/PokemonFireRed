@@ -4,7 +4,7 @@
 #include "EventTarget.h"
 #include "EventTrigger.h"
 #include "Player.h"
-#include "DialogueCanvas.h"
+#include "DialogueWindow.h"
 #include "MapNameCanvas.h"
 #include "FadeCanvas.h"
 #include "SoundManager.h"
@@ -464,31 +464,26 @@ bool UEventProcessor::ProcessPlayBgm()
 
 bool UEventProcessor::ProcessChat()
 {
-	ADialogueCanvas* CurDialogueCanvas = UEventManager::FindCurLevelCommonCanvas<ADialogueCanvas>(Global::DialogueWindow);
+	ADialogueWindow* CurDialogueWindow = UEventManager::FindCurLevelDialogueWindow();
 
 	int CurIndexOfType = GetCurIndexOfType(EEventType::Chat);
 	ES::Chat& Data = CurStream->ChatDataSet[CurIndexOfType];
 
-	EDialogueCanvasState State = CurDialogueCanvas->GetState();
-
-	if (State == EDialogueCanvasState::End)
+	// 아직 대화창을 켜지 않은 경우
+	if (true == CurDialogueWindow->IsHide())
 	{
-		CurDialogueCanvas->SetState(EDialogueCanvasState::Hide);
+		CurDialogueWindow->SetActive(true);
+		CurDialogueWindow->Open(Data.Dialogue, Data.Color, Data.LineSpace);
+		return false;
+	}
+	// 대화가 끝난 경우
+	else if (true == CurDialogueWindow->IsEnd())
+	{
+		CurDialogueWindow->Hide();
 		return true;
 	}
 
-	if (State == EDialogueCanvasState::Show)
-	{
-		return false;
-	}
-
-	if (false == CurDialogueCanvas->IsActive())
-	{
-		CurDialogueCanvas->SetActive(true);
-		CurDialogueCanvas->Open(Data.Dialogue, Data.Color, Data.LineSpace, Data.IsSequential);
-		return false;
-	}
-
+	// 대화중인 경우
 	return false;
 }
 

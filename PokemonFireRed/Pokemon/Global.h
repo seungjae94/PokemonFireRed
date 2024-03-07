@@ -17,7 +17,7 @@ enum class Id
 	StairTo1F,
 	StairTo2F,
 	MenuCanvas = 2000,
-	DialogueCanvas,
+	DialogueWindow,
 	MapNameCanvas,
 	BlackScreen,
 	WhiteScreen,

@@ -16,6 +16,10 @@ void UPokemonLevel::BeginPlay()
 	FadeCanvas = SpawnCommonCanvas<AFadeCanvas>(Global::FadeCanvas);
 	FadeCanvas->SetActive(false);
 
+	ADialogueWindow* DialogueWindow = SpawnActor<ADialogueWindow>();
+	UEventManager::AddDialogueWindow(DialogueWindow);
+	DialogueWindow->SetActive(false);
+
 	// 게임 공용 트리거 생성
 	SpawnEventTrigger<AFadeLevelChanger>(Global::FadeLevelChanger);
 }

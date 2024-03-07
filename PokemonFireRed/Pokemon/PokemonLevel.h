@@ -4,7 +4,7 @@
 #include "EventTrigger.h"
 #include "Player.h"
 #include "MenuCanvas.h"
-#include "DialogueCanvas.h"
+#include "DialogueWindow.h"
 #include "FadeLevelChanger.h"
 #include "FadeCanvas.h"
 

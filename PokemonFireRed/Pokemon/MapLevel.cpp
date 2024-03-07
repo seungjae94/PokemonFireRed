@@ -12,7 +12,7 @@
 #include "Player.h"
 #include "Map.h"
 #include "MenuCanvas.h"
-#include "DialogueCanvas.h"
+#include "DialogueWindow.h"
 #include "MapNameCanvas.h"
 #include "AnimatedFlower.h"
 #include "AnimatedSea.h"
@@ -77,10 +77,6 @@ void UMapLevel::BeginPlay()
 	// 메뉴창 생성
 	AMenuCanvas* MenuCanvas = SpawnCommonCanvas<AMenuCanvas>(Global::MenuWindow);
 	MenuCanvas->SetActive(false);
-
-	// 대화창 생성
-	ADialogueCanvas* DialogueCanvas = SpawnCommonCanvas<ADialogueCanvas>(Global::DialogueWindow);
-	DialogueCanvas->SetActive(false);
 
 	// 맵 이름 표시창 생성
 	AMapNameCanvas* MapNameCanvas = SpawnCommonCanvas<AMapNameCanvas>(Global::MapNameWindow);

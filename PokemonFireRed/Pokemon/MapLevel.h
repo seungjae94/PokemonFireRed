@@ -7,7 +7,7 @@
 class APlayer;
 class AMap;
 class AMenuCanvas;
-class ADialogueCanvas;
+class ADialogueWindow;
 class AMapNameCanvas;
 class AEventTrigger;
 class UEventManager;
