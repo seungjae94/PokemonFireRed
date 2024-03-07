@@ -191,6 +191,7 @@ void UBattleLevel::ProcessPlayerAction()
 				State = EState::Run;
 				Canvas->SetActionBoxActive(false);
 				MsgBox->SetMessage(L"Got away safely!");
+				MsgBox->Write();
 			}
 			else
 			{

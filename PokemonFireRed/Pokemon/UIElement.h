@@ -37,7 +37,7 @@ public:
 		PivotType = _PivotType;
 	}
 
-	void SetRenderingOrder(ERenderingOrder _Order)
+	virtual void SetRenderingOrder(ERenderingOrder _Order)
 	{
 		RenderingOrder = _Order;
 	}

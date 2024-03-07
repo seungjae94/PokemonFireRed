@@ -9,6 +9,19 @@ AImageElement::~AImageElement()
 {
 }
 
+void AImageElement::SetRenderingOrder(ERenderingOrder _Order)
+{
+	AUIElement::SetRenderingOrder(_Order);
+
+	if (nullptr == Renderer)
+	{
+		Renderer = CreateImageRenderer(RenderingOrder);
+		Renderer->CameraEffectOff();
+	}
+
+	Renderer->SetOrder(_Order);
+}
+
 void AImageElement::SetImage(std::string_view _ImageName)
 {
 	ImageName = _ImageName;
@@ -20,14 +33,13 @@ void AImageElement::SetImage(std::string_view _ImageName)
 	}
 
 	Renderer->SetImage(_ImageName);
-	//Renderer->SetOrder(RenderingOrder);
 	UPokemonUtil::AlignImage(Renderer, PivotType);
 	OriginalRenderScale = UPokemonUtil::GetRenderScale(Renderer);
 }
 
 void AImageElement::SetPokemon(const UPokemon* _Pokemon)
 {
-	if (nullptr == Renderer)
+	if (nullptr == Renderer || false == MadePokemonAnimation)
 	{
 		switch (Type)
 		{
@@ -50,6 +62,8 @@ void AImageElement::SetPokemon(const UPokemon* _Pokemon)
 		default:
 			break;
 		}
+
+		MadePokemonAnimation = true;
 	}
 
 	EPokedexNo PokedexNo = _Pokemon->GetPokedexNo();

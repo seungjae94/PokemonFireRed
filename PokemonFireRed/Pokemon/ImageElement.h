@@ -29,6 +29,8 @@ public:
 		return Renderer->GetImage();
 	}
 
+	void SetRenderingOrder(ERenderingOrder _Order) override;
+
 	void SetImage(std::string_view _ImageName);
 	void SetPokemon(const UPokemon* _Pokemon);
 	void SetPokemon(const UPokemon& _Pokemon);
@@ -66,6 +68,7 @@ protected:
 private:
 	UImageRenderer* Renderer = nullptr;
 	std::string ImageName;
+	bool MadePokemonAnimation = false;
 
 	// 포켓몬 렌더링 기능
 	EImageElementType Type = EImageElementType::Image;

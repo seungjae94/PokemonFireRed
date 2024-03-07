@@ -45,6 +45,7 @@ void ABattleMoveStateMachine::Start(ABattleCanvas* _Canvas, APokemonMsgBox* _Msg
 	// 기술이 성공할 경우 Move 애니메이션을 재생한다.
 	State = ESubstate::MoveAnim;
 	MsgBox->SetMessage(UBattleUtil::GetPokemonFullName(Attacker) + L" used\n" + Move->GetNameW() + L"!");
+	MsgBox->Write();
 	Timer = MoveAnimationShowTime;
 }
 
@@ -95,7 +96,7 @@ void ABattleMoveStateMachine::Tick(float _DeltaTime)
 
 void ABattleMoveStateMachine::ProcessMoveFail()
 {
-	if (Timer <= 0.0f)
+	if (MsgBox->GetWriteState() == EWriteState::WriteEnd)
 	{
 		State = ESubstate::End;
 	}
@@ -150,13 +151,13 @@ void ABattleMoveStateMachine::ProcessMoveDamage()
 		{
 			State = ESubstate::MoveCriticalMessage;
 			MsgBox->SetMessage(L"A critical hit!");
-			Timer = BattleMsgShowTime;
+			MsgBox->Write();
 		}
 		else if (ETypeVs::NormallyEffective != DamageResult.TypeVs)
 		{
 			State = ESubstate::MoveEffectiveMessage;
 			MsgBox->SetMessage(DamageResult.GetTypeVsW(DefenderPokemon->GetNameW()));
-			Timer = BattleMsgShowTime;
+			MsgBox->Write();
 		}
 		else
 		{
@@ -169,13 +170,13 @@ void ABattleMoveStateMachine::ProcessMoveCriticalMessage()
 {
 	const UPokemon* DefenderPokemon = Defender->CurPokemon();
 
-	if (Timer <= 0.0f)
+	if (MsgBox->GetWriteState() == EWriteState::WriteEnd)
 	{
 		if (ETypeVs::NormallyEffective != DamageResult.TypeVs)
 		{
 			State = ESubstate::MoveEffectiveMessage;
 			MsgBox->SetMessage(DamageResult.GetTypeVsW(DefenderPokemon->GetNameW()));
-			Timer = BattleMsgShowTime;
+			MsgBox->Write();
 		}
 		else
 		{
@@ -187,7 +188,7 @@ void ABattleMoveStateMachine::ProcessMoveCriticalMessage()
 
 void ABattleMoveStateMachine::ProcessMoveEffectiveMessage()
 {
-	if (Timer <= 0.0f)
+	if (MsgBox->GetWriteState() == EWriteState::WriteEnd)
 	{
 		State = ESubstate::TestSE;
 	}
@@ -203,13 +204,13 @@ void ABattleMoveStateMachine::ProcessMoveBE()
 		Canvas->RefreshPlayerPokemonBox();
 		Canvas->RefreshEnemyPokemonBox();
 		MsgBox->SetMessage(BEResult.Message);
-		Timer = BattleMsgShowTime;
+		MsgBox->Write();
 	}
 }
 
 void ABattleMoveStateMachine::ProcessMoveBEMessage()
 {
-	if (Timer <= 0.0f)
+	if (MsgBox->GetWriteState() == EWriteState::WriteEnd)
 	{
 		State = ESubstate::TestSE;
 	}
@@ -256,13 +257,13 @@ void ABattleMoveStateMachine::ProcessMoveSE()
 		Canvas->RefreshPlayerPokemonBox();
 		Canvas->RefreshEnemyPokemonBox();
 		MsgBox->SetMessage(SEResult.Message);
-		Timer = BattleMsgShowTime;
+		MsgBox->Write();
 	}
 }
 
 void ABattleMoveStateMachine::ProcessMoveSEMessage()
 {
-	if (Timer <= 0.0f)
+	if (MsgBox->GetWriteState() == EWriteState::WriteEnd)
 	{
 		State = ESubstate::End;
 	}
@@ -270,9 +271,9 @@ void ABattleMoveStateMachine::ProcessMoveSEMessage()
 
 void ABattleMoveStateMachine::StateChangeToMoveFail(std::wstring _FailMessage)
 {
-	MsgBox->SetMessage(_FailMessage);
 	State = ESubstate::MoveFail;
-	Timer = BattleMsgShowTime;
+	MsgBox->SetMessage(_FailMessage);
+	MsgBox->Write();
 }
 
 void ABattleMoveStateMachine::StateChangeToMoveBE()
