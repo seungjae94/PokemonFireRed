@@ -71,12 +71,12 @@ void APokemonMsgBox::ShowSkipArrow()
 	if (CurLine + 1 < Text->GetLineCount())
 	{
 		int PixelLineWidth = Text->GetPixelLineWidth(CurLine + 1);
-		NextMsgArrow->SetRelativePosition(UPokemonUtil::PixelVector(12 + PixelLineWidth, 9 + Text->GetLineSpace()));
+		NextMsgArrow->SetRelativePosition(TextInitPos +  UPokemonUtil::PixelVector(1 + PixelLineWidth, -8 + Text->GetLineSpace()));
 	}
 	else
 	{
 		int PixelLineWidth = Text->GetPixelLineWidth(CurLine);
-		NextMsgArrow->SetRelativePosition(UPokemonUtil::PixelVector(12 + PixelLineWidth, 9));
+		NextMsgArrow->SetRelativePosition(TextInitPos + UPokemonUtil::PixelVector(1 + PixelLineWidth, -8));
 	}
 }
 
@@ -104,6 +104,8 @@ void APokemonMsgBox::Write()
 		TextPrevPos = Text->GetRelativePosition();
 		TextNextPos = TextPrevPos + FVector::Up * Global::FloatPixelSize * static_cast<float>(Text->GetLineSpace());
 	}
+
+	HideSkipArrow();
 }
 
 void APokemonMsgBox::BeginPlay()

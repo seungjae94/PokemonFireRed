@@ -67,6 +67,7 @@ void ABattleStartStateMachine::ProcessGroundMove(float _DeltaTime)
 		if (true == Enemy->IsWildPokemon())
 		{
 			MsgBox->SetMessage(L"Wild " + Enemy->CurPokemonReadonly()->GetNameW() + L" appeared!");
+			MsgBox->Write();
 		}
 
 		State = ESubstate::EnemyPokemonBoxMove;
@@ -77,9 +78,10 @@ void ABattleStartStateMachine::ProcessEnemyPokemonBoxMove(float _DeltaTime)
 {
 	Canvas->LerpShowEnemyPokemonBox(Timer / EnemyPokemonBoxMoveTime);
 
-	if (Timer <= 0.0f)
+	if (Timer <= 0.0f && MsgBox->GetWriteState() == EWriteState::WriteEnd)
 	{
 		State = ESubstate::ZClickWait;
+		MsgBox->ShowSkipArrow();
 	}
 }
 
@@ -91,6 +93,7 @@ void ABattleStartStateMachine::ProcessZClickWait(float _DeltaTime)
 		State = ESubstate::PlayerBattlerThrow;
 		Canvas->PlayBattlerThrowingAnimation();
 		MsgBox->SetMessage(L"Go! " + Player->CurPokemonReadonly()->GetNameW() + L"!");
+		MsgBox->Write();
 		BallThrowAnimationPlayed = false;
 	}
 }

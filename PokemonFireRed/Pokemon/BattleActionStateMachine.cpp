@@ -36,6 +36,7 @@ void ABattleActionStateMachine::Start(ABattleCanvas* _Canvas, APokemonMsgBox* _M
 	{
 		State = ESubstate::EscapeFail;
 		MsgBox->SetMessage(L"Can't escape!");
+		MsgBox->Write();
 		Timer = BattleMsgShowTime;
 	}
 	break;
@@ -60,6 +61,7 @@ void ABattleActionStateMachine::Start(ABattleCanvas* _Canvas, APokemonMsgBox* _M
 	{
 		State = ESubstate::UseItem;
 		MsgBox->SetMessage(L"Not Implemented Yet!");
+		MsgBox->Write();
 	}
 	break;
 	default:
