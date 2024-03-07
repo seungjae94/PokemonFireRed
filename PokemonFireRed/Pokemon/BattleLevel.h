@@ -48,6 +48,7 @@ private:
 	UBattler Player;
 	UBattler Enemy;
 	ABattleCanvas* Canvas = nullptr;
+	APokemonMsgBox* MsgBox = nullptr;
 
 	// FSM
 	ABattlePrepareTurnStateMachine* BattlePrepareTurnSM = nullptr;

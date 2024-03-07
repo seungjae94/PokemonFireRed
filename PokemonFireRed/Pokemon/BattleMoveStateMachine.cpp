@@ -1,5 +1,7 @@
 #include "BattleMoveStateMachine.h"
 #include "BattleUtil.h"
+#include "BattleCanvas.h"
+#include "PokemonMsgBox.h"
 
 ABattleMoveStateMachine::ABattleMoveStateMachine()
 {
@@ -9,9 +11,10 @@ ABattleMoveStateMachine::~ABattleMoveStateMachine()
 {
 }
 
-void ABattleMoveStateMachine::Start(ABattleCanvas* _Canvas, UBattler* _Attacker, UBattler* _Defender)
+void ABattleMoveStateMachine::Start(ABattleCanvas* _Canvas, APokemonMsgBox* _MsgBox, UBattler* _Attacker, UBattler* _Defender)
 {
 	Canvas = _Canvas;
+	MsgBox = _MsgBox;
 	Attacker = _Attacker;
 	Defender = _Defender;
 
@@ -41,7 +44,7 @@ void ABattleMoveStateMachine::Start(ABattleCanvas* _Canvas, UBattler* _Attacker,
 
 	// 기술이 성공할 경우 Move 애니메이션을 재생한다.
 	State = ESubstate::MoveAnim;
-	Canvas->SetBattleMessage(UBattleUtil::GetPokemonFullName(Attacker) + L" used\n" + Move->GetNameW() + L"!");
+	MsgBox->SetMessage(UBattleUtil::GetPokemonFullName(Attacker) + L" used\n" + Move->GetNameW() + L"!");
 	Timer = MoveAnimationShowTime;
 }
 
@@ -146,13 +149,13 @@ void ABattleMoveStateMachine::ProcessMoveDamage()
 		if (true == DamageResult.IsCritical)
 		{
 			State = ESubstate::MoveCriticalMessage;
-			Canvas->SetBattleMessage(L"A critical hit!");
+			MsgBox->SetMessage(L"A critical hit!");
 			Timer = BattleMsgShowTime;
 		}
 		else if (ETypeVs::NormallyEffective != DamageResult.TypeVs)
 		{
 			State = ESubstate::MoveEffectiveMessage;
-			Canvas->SetBattleMessage(DamageResult.GetTypeVsW(DefenderPokemon->GetNameW()));
+			MsgBox->SetMessage(DamageResult.GetTypeVsW(DefenderPokemon->GetNameW()));
 			Timer = BattleMsgShowTime;
 		}
 		else
@@ -171,7 +174,7 @@ void ABattleMoveStateMachine::ProcessMoveCriticalMessage()
 		if (ETypeVs::NormallyEffective != DamageResult.TypeVs)
 		{
 			State = ESubstate::MoveEffectiveMessage;
-			Canvas->SetBattleMessage(DamageResult.GetTypeVsW(DefenderPokemon->GetNameW()));
+			MsgBox->SetMessage(DamageResult.GetTypeVsW(DefenderPokemon->GetNameW()));
 			Timer = BattleMsgShowTime;
 		}
 		else
@@ -199,7 +202,7 @@ void ABattleMoveStateMachine::ProcessMoveBE()
 		UMoveEffectApplier::ApplyBE(Attacker, Defender);
 		Canvas->RefreshPlayerPokemonBox();
 		Canvas->RefreshEnemyPokemonBox();
-		Canvas->SetBattleMessage(BEResult.Message);
+		MsgBox->SetMessage(BEResult.Message);
 		Timer = BattleMsgShowTime;
 	}
 }
@@ -252,7 +255,7 @@ void ABattleMoveStateMachine::ProcessMoveSE()
 		UMoveEffectApplier::ApplySE(Attacker, Defender);
 		Canvas->RefreshPlayerPokemonBox();
 		Canvas->RefreshEnemyPokemonBox();
-		Canvas->SetBattleMessage(SEResult.Message);
+		MsgBox->SetMessage(SEResult.Message);
 		Timer = BattleMsgShowTime;
 	}
 }
@@ -267,7 +270,7 @@ void ABattleMoveStateMachine::ProcessMoveSEMessage()
 
 void ABattleMoveStateMachine::StateChangeToMoveFail(std::wstring _FailMessage)
 {
-	Canvas->SetBattleMessage(_FailMessage);
+	MsgBox->SetMessage(_FailMessage);
 	State = ESubstate::MoveFail;
 	Timer = BattleMsgShowTime;
 }

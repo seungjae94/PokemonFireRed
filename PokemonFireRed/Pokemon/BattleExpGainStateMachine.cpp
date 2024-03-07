@@ -1,5 +1,7 @@
 #include "BattleExpGainStateMachine.h"
 #include <EnginePlatform/EngineInput.h>
+#include "BattleCanvas.h"
+#include "PokemonMsgBox.h"
 
 ABattleExpGainStateMachine::ABattleExpGainStateMachine() 
 {
@@ -9,9 +11,10 @@ ABattleExpGainStateMachine::~ABattleExpGainStateMachine()
 {
 }
 
-void ABattleExpGainStateMachine::Start(ABattleCanvas* _Canvas, UPokemon* _ExpGainer, int _Exp, bool _IsCurPokemon)
+void ABattleExpGainStateMachine::Start(ABattleCanvas* _Canvas, APokemonMsgBox* _MsgBox, UPokemon* _ExpGainer, int _Exp, bool _IsCurPokemon)
 {
 	Canvas = _Canvas;
+	MsgBox = _MsgBox;
 	ExpGainer = _ExpGainer;
 	Exp = _Exp;
 	IsCurPokemon = _IsCurPokemon;
@@ -20,7 +23,7 @@ void ABattleExpGainStateMachine::Start(ABattleCanvas* _Canvas, UPokemon* _ExpGai
 	std::wstring BattleMsg = ExpGainer->GetNameW() + L" gained\n";
 	BattleMsg += std::to_wstring(_Exp);
 	BattleMsg += L" Exp. Points!";
-	Canvas->SetBattleMessage(BattleMsg);
+	MsgBox->SetMessage(BattleMsg);
 }
 
 void ABattleExpGainStateMachine::Tick(float _DeltaTime)
@@ -161,7 +164,7 @@ void ABattleExpGainStateMachine::ProcessLevelUpEffect()
 		BattleMsg += L" grew to\nLV. ";
 		BattleMsg += std::to_wstring(ExpGainer->GetLevel() + 1);
 		BattleMsg += L"!";
-		Canvas->SetBattleMessage(BattleMsg);
+		MsgBox->SetMessage(BattleMsg);
 
 		// 실제 레벨업 처리
 		LevelUpData = ExpGainer->LevelUp();
@@ -220,7 +223,7 @@ void ABattleExpGainStateMachine::ProcessTestLearnMove()
 			BattleMsg += L" learned\n";
 			BattleMsg += Move->GetNameW();
 			BattleMsg += L"!";
-			Canvas->SetBattleMessage(BattleMsg);
+			MsgBox->SetMessage(BattleMsg);
 		}
 	}
 	else

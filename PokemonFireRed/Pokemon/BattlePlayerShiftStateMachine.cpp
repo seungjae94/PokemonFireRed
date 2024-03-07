@@ -1,4 +1,6 @@
 #include "BattlePlayerShiftStateMachine.h"
+#include "BattleCanvas.h"
+#include "PokemonMsgBox.h"
 
 ABattlePlayerShiftStateMachine::ABattlePlayerShiftStateMachine() 
 {
@@ -8,15 +10,16 @@ ABattlePlayerShiftStateMachine::~ABattlePlayerShiftStateMachine()
 {
 }
 
-void ABattlePlayerShiftStateMachine::Start(std::wstring_view _TakeInPokemonName, ABattleCanvas* _Canvas, const UBattler* _Player)
+void ABattlePlayerShiftStateMachine::Start(std::wstring_view _TakeInPokemonName, ABattleCanvas* _Canvas, APokemonMsgBox* _MsgBox, const UBattler* _Player)
 {
 	TakeInPokemonName = _TakeInPokemonName;
 	Canvas = _Canvas;
+	MsgBox = _MsgBox;
 	Player = _Player;
 
 	State = ESubstate::TakeIn;
 	Timer = WaitTime;
-	Canvas->SetBattleMessage(TakeInPokemonName + L", that's enough!\nCome back!");
+	MsgBox->SetMessage(TakeInPokemonName + L", that's enough!\nCome back!");
 }
 
 void ABattlePlayerShiftStateMachine::Tick(float _DeltaTime)
@@ -68,7 +71,7 @@ void ABattlePlayerShiftStateMachine::ProcessTakeIn()
 	{
 		State = ESubstate::Wait2;
 		Timer = WaitTime;
-		Canvas->SetBattleMessage(L"Go! " + Player->CurPokemonReadonly()->GetNameW() + L"!");
+		MsgBox->SetMessage(L"Go! " + Player->CurPokemonReadonly()->GetNameW() + L"!");
 		Canvas->SetPlayerPokemonBoxActive(false);
 		Canvas->SetPlayerPokemonImageActive(false);
 	}

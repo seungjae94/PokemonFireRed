@@ -1,9 +1,10 @@
 #pragma once
 #include <EngineCore/Actor.h>
-#include "BattleCanvas.h"
 #include "Battler.h"
 
 class ABattlePlayerShiftStateMachine;
+class ABattleCanvas;
+class APokemonMsgBox;
 
 class ABattlePrepareTurnStateMachine : public AActor
 {
@@ -35,7 +36,7 @@ public:
 		return State == ESubstate::End;
 	}
 
-	void Start(ABattleCanvas* _Canvas, UBattler* _Player, UBattler* _Enemy);
+	void Start(ABattleCanvas* _Canvas, APokemonMsgBox* _MsgBox, UBattler* _Player, UBattler* _Enemy);
 
 	void SetBPSSM(ABattlePlayerShiftStateMachine* _BPSSM)
 	{
@@ -52,6 +53,7 @@ private:
 
 	// 입력 데이터
 	ABattleCanvas* Canvas = nullptr;
+	APokemonMsgBox* MsgBox = nullptr;
 	UBattler* Player = nullptr;
 	UBattler* Enemy = nullptr;
 

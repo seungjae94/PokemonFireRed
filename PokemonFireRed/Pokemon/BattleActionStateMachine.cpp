@@ -1,6 +1,8 @@
 #include "BattleActionStateMachine.h"
 #include <EnginePlatform/EngineInput.h>
 #include "BattleUtil.h"
+#include "BattleCanvas.h"
+#include "PokemonMsgBox.h"
 #include "ExpCalculator.h"
 
 ABattleActionStateMachine::ABattleActionStateMachine()
@@ -11,9 +13,10 @@ ABattleActionStateMachine::~ABattleActionStateMachine()
 {
 }
 
-void ABattleActionStateMachine::Start(ABattleCanvas* _Canvas, UBattler* _Attacker, UBattler* _Defender)
+void ABattleActionStateMachine::Start(ABattleCanvas* _Canvas, APokemonMsgBox* _MsgBox, UBattler* _Attacker, UBattler* _Defender)
 {
 	Canvas = _Canvas;
+	MsgBox = _MsgBox;
 	Attacker = _Attacker;
 	Defender = _Defender;
 
@@ -26,13 +29,13 @@ void ABattleActionStateMachine::Start(ABattleCanvas* _Canvas, UBattler* _Attacke
 	case EBattleAction::Fight:
 	{
 		State = ESubstate::Move;
-		BattleMoveSM->Start(Canvas, Attacker, Defender);
+		BattleMoveSM->Start(Canvas, MsgBox, Attacker, Defender);
 	}
 	break;
 	case EBattleAction::Escape:
 	{
 		State = ESubstate::EscapeFail;
-		Canvas->SetBattleMessage(L"Can't escape!");
+		MsgBox->SetMessage(L"Can't escape!");
 		Timer = BattleMsgShowTime;
 	}
 	break;
@@ -50,13 +53,13 @@ void ABattleActionStateMachine::Start(ABattleCanvas* _Canvas, UBattler* _Attacke
 		Enemy->GetParticipants().push_back(Player->CurPokemon());
 
 		Canvas->SetActionBoxActive(false);
-		BattleShiftSM->Start(TakeInPokemonName, Canvas, Player);
+		BattleShiftSM->Start(TakeInPokemonName, Canvas, MsgBox, Player);
 	}
 	break;
 	case EBattleAction::Item:
 	{
 		State = ESubstate::UseItem;
-		Canvas->SetBattleMessage(L"Not Implemented Yet!");
+		MsgBox->SetMessage(L"Not Implemented Yet!");
 	}
 	break;
 	default:

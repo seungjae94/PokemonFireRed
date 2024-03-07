@@ -1,7 +1,9 @@
 #pragma once
 #include <EngineCore/Actor.h>
-#include "BattleCanvas.h"
 #include "Battler.h"
+
+class ABattleCanvas;
+class APokemonMsgBox;
 
 class ABattlePlayerShiftStateMachine : public AActor
 {
@@ -32,7 +34,7 @@ public:
 		return State == ESubstate::End;
 	}
 
-	void Start(std::wstring_view _TakeInPokemonName, ABattleCanvas* _Canvas, const UBattler* _Player);
+	void Start(std::wstring_view _TakeInPokemonName, ABattleCanvas* _Canvas, APokemonMsgBox* _MsgBox, const UBattler* _Player);
 
 protected:
 
@@ -41,6 +43,7 @@ private:
 
 	std::wstring TakeInPokemonName;
 	ABattleCanvas* Canvas = nullptr;
+	APokemonMsgBox* MsgBox = nullptr;
 	const UBattler* Player = nullptr;
 
 	// ป๓ลย

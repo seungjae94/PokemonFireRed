@@ -4,6 +4,9 @@
 #include "ExpCalculator.h"
 #include "BattleExpGainStateMachine.h"
 
+class ABattleCanvas;
+class APokemonMsgBox;
+
 class ABattleFaintStateMachine : public AActor
 {
 private:
@@ -38,13 +41,14 @@ public:
 		BattleExpGainSM = _EGSM;
 	}
 
-	void Start(ABattleCanvas* _Canvas, UBattler* _Attacker, UBattler* _Defender, bool& _PlayerFaintChecked, bool& _EnemyFaintChecked);
+	void Start(ABattleCanvas* _Canvas, APokemonMsgBox* _MsgBox, UBattler* _Attacker, UBattler* _Defender, bool& _PlayerFaintChecked, bool& _EnemyFaintChecked);
 
 protected:
 private:
 	void Tick(float _DeltaTime) override;
 
 	ABattleCanvas* Canvas = nullptr;
+	APokemonMsgBox* MsgBox = nullptr;
 	UBattler* Attacker = nullptr;
 	UBattler* Defender = nullptr;
 

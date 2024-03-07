@@ -1,5 +1,7 @@
 #include "BattleEOTStateMachine.h"
 #include "BattleUtil.h"
+#include "PokemonMsgBox.h"
+#include "BattleCanvas.h"
 
 ABattleEOTStateMachine::ABattleEOTStateMachine()
 {
@@ -9,7 +11,7 @@ ABattleEOTStateMachine::~ABattleEOTStateMachine()
 {
 }
 
-void ABattleEOTStateMachine::Start(ABattleCanvas* _Canvas, UBattler* _Target, UBattler* _CounterTarget)
+void ABattleEOTStateMachine::Start(ABattleCanvas* _Canvas, APokemonMsgBox* _MsgBox, UBattler* _Target, UBattler* _CounterTarget)
 {
 	Canvas = _Canvas;
 	Target = _Target;
@@ -142,7 +144,7 @@ void ABattleEOTStateMachine::ProcessLeechSeed()
 			}
 
 			State = ESubstate::TempStatusMessage;
-			Canvas->SetBattleMessage(UBattleUtil::GetPokemonFullName(Target) + L"'s health is\nsapped by LEECH SEED!");
+			MsgBox->SetMessage(UBattleUtil::GetPokemonFullName(Target) + L"'s health is\nsapped by LEECH SEED!");
 			Timer = BattleMsgShowTime;
 		}
 	}
@@ -175,7 +177,7 @@ void ABattleEOTStateMachine::ProcessBind()
 
 		// State ÀüÈ¯
 		State = ESubstate::TempStatusMessage;
-		Canvas->SetBattleMessage(UBattleUtil::GetPokemonFullName(Target) + L" is hurt\nby BIND!");
+		MsgBox->SetMessage(UBattleUtil::GetPokemonFullName(Target) + L" is hurt\nby BIND!");
 		Timer = BattleMsgShowTime;
 	}
 }
@@ -222,7 +224,7 @@ void ABattleEOTStateMachine::ProcessTestStatus()
 			break;
 		}
 
-		Canvas->SetBattleMessage(BattleMsg);
+		MsgBox->SetMessage(BattleMsg);
 	}
 }
 

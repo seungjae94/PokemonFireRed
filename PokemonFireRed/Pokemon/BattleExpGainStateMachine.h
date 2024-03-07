@@ -1,8 +1,10 @@
 #pragma once
 #include <EngineCore/Actor.h>
 #include "Battler.h"
-#include "BattleCanvas.h"
 #include "ExpCalculator.h"
+
+class ABattleCanvas;
+class APokemonMsgBox;
 
 class ABattleExpGainStateMachine : public AActor
 {
@@ -42,7 +44,7 @@ public:
 		return State == ESubstate::End;
 	}
 
-	void Start(ABattleCanvas* _Canvas, UPokemon* _ExpGainer, int _Exp, bool _IsCurPokemon);
+	void Start(ABattleCanvas* _Canvas, APokemonMsgBox* _MsgBox, UPokemon* _ExpGainer, int _Exp, bool _IsCurPokemon);
 
 protected:
 
@@ -51,6 +53,7 @@ private:
 	ESubstate State = ESubstate::None;
 
 	ABattleCanvas* Canvas = nullptr;
+	APokemonMsgBox* MsgBox = nullptr;
 	UPokemon* ExpGainer = nullptr;
 	int Exp = 0;
 	bool IsCurPokemon = false;

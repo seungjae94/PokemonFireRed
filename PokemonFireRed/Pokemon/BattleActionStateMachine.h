@@ -1,11 +1,13 @@
 #pragma once
 #include <EngineCore/Actor.h>
 #include "Battler.h"
-#include "BattleCanvas.h"
 #include "ExpCalculator.h"
 #include "BattleMoveStateMachine.h"
 #include "BattlePlayerShiftStateMachine.h"
 #include "BattleExpGainStateMachine.h"
+
+class ABattleCanvas;
+class APokemonMsgBox;
 
 // 액션을 수행하는 역할
 class ABattleActionStateMachine : public AActor
@@ -42,8 +44,8 @@ public:
 	ABattleActionStateMachine& operator=(const ABattleActionStateMachine& _Other) = delete;
 	ABattleActionStateMachine& operator=(ABattleActionStateMachine&& _Other) noexcept = delete;
 
-	void Start(ABattleCanvas* _Canvas, UBattler* _Attacker, UBattler* _Defender);
-	
+	void Start(ABattleCanvas* _Canvas, APokemonMsgBox* _MsgBox, UBattler* _Attacker, UBattler* _Defender);
+
 	void SetBMSM(ABattleMoveStateMachine* _BMSM)
 	{
 		BattleMoveSM = _BMSM;
@@ -54,7 +56,7 @@ public:
 		BattleShiftSM = _BSSM;
 	}
 
-	bool IsEnd() const 
+	bool IsEnd() const
 	{
 		return State == ESubstate::End;
 	}
@@ -63,14 +65,15 @@ protected:
 	void Tick(float _DeltaTime) override;
 private:
 	ABattleCanvas* Canvas = nullptr;
-	UBattler* Attacker = nullptr; 
+	APokemonMsgBox* MsgBox = nullptr;
+	UBattler* Attacker = nullptr;
 	UBattler* Defender = nullptr;
 
 	ESubstate State = ESubstate::None;
 	float Timer = 0.0f;
 	bool ProcessEnd = false;
 	const float BattleMsgShowTime = 1.5f;
-	
+
 	// 상태 틱 함수
 	void ProcessEscapeFail();
 	void ProcessShift();

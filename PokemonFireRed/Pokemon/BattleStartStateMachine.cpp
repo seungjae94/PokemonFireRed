@@ -1,6 +1,7 @@
 #include "BattleStartStateMachine.h"
 #include <EnginePlatform/EngineInput.h>
 #include "BattleCanvas.h"
+#include "PokemonMsgBox.h"
 
 ABattleStartStateMachine::ABattleStartStateMachine() 
 {
@@ -62,6 +63,12 @@ void ABattleStartStateMachine::ProcessGroundMove(float _DeltaTime)
 	if (Timer <= 0.0f)
 	{
 		Timer = EnemyPokemonBoxMoveTime;
+
+		if (true == Enemy->IsWildPokemon())
+		{
+			MsgBox->SetMessage(L"Wild " + Enemy->CurPokemonReadonly()->GetNameW() + L" appeared!");
+		}
+
 		State = ESubstate::EnemyPokemonBoxMove;
 	}
 }
@@ -83,7 +90,7 @@ void ABattleStartStateMachine::ProcessZClickWait(float _DeltaTime)
 		Timer = PlayerBattleThrowTime;
 		State = ESubstate::PlayerBattlerThrow;
 		Canvas->PlayBattlerThrowingAnimation();
-		Canvas->SetBattleMessage(L"Go! " + Player->CurPokemonReadonly()->GetNameW() + L"!");
+		MsgBox->SetMessage(L"Go! " + Player->CurPokemonReadonly()->GetNameW() + L"!");
 		BallThrowAnimationPlayed = false;
 	}
 }

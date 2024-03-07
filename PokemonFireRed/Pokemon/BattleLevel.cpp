@@ -39,6 +39,12 @@ void UBattleLevel::BeginPlay()
 
 	// 액터 생성
 	Canvas = SpawnActor<ABattleCanvas>();
+	MsgBox = SpawnActor<APokemonMsgBox>();
+	MsgBox->SetBackgroundImage(RN::BattleMsgBox);
+	MsgBox->SetCoverImage(RN::BattleMsgBoxCover);
+	MsgBox->SetTextColor(EFontColor::White);
+	MsgBox->SetLineSpace(16);
+
 	BattleStartSM = SpawnActor<ABattleStartStateMachine>();
 	BattlePrepareTurnSM = SpawnActor<ABattlePrepareTurnStateMachine>();
 	PlayerActionSelectSM = SpawnActor<ABattlePlayerActionSelectStateMachine>();
@@ -130,7 +136,7 @@ void UBattleLevel::LevelStart(ULevel* _PrevLevel)
 	PlayerActionSelectSM->Reset();
 
 	// BSSM 로직부터 시작
-	BattleStartSM->Start(Canvas, &Player);
+	BattleStartSM->Start(Canvas, MsgBox, &Player, &Enemy);
 }
 
 void UBattleLevel::LevelEnd(ULevel* _NextLevel)
@@ -144,7 +150,7 @@ void UBattleLevel::ProcessBattleStart()
 	if (true == BattleStartSM->IsEnd())
 	{
 		State = EState::PrepareTurn;
-		BattlePrepareTurnSM->Start(Canvas, &Player, &Enemy);
+		BattlePrepareTurnSM->Start(Canvas, MsgBox, &Player, &Enemy);
 	}
 }
 
@@ -154,7 +160,7 @@ void UBattleLevel::ProcessPrepareTurn()
 	{
 		State = EState::PlayerActionSelect;
 		Canvas->SetActionBoxActive(true);
-		Canvas->SetBattleMessage(L"What will\n" + Player.CurPokemon()->GetNameW() + L" do?");
+		MsgBox->SetMessage(L"What will\n" + Player.CurPokemon()->GetNameW() + L" do?");
 		PlayerActionSelectSM->Start(Canvas, &Player, &Enemy);
 	}
 }
@@ -171,7 +177,7 @@ void UBattleLevel::ProcessPlayerAction()
 		case EBattleAction::Shift:
 		{
 			State = EState::Turn;
-			BattleTurnSM->Start(Canvas, &Player, &Enemy);
+			BattleTurnSM->Start(Canvas, MsgBox, &Player, &Enemy);
 		}
 		break;
 		case EBattleAction::Escape:
@@ -181,12 +187,12 @@ void UBattleLevel::ProcessPlayerAction()
 			{
 				State = EState::Run;
 				Canvas->SetActionBoxActive(false);
-				Canvas->SetBattleMessage(L"Got away safely!");
+				MsgBox->SetMessage(L"Got away safely!");
 			}
 			else
 			{
 				State = EState::Turn;
-				BattleTurnSM->Start(Canvas, &Player, &Enemy);
+				BattleTurnSM->Start(Canvas, MsgBox, &Player, &Enemy);
 			}
 		}
 		break;
@@ -204,7 +210,7 @@ void UBattleLevel::ProcessTurn()
 		if (BattleTurnSM->WhyEnd() == ABattleTurnStateMachine::EEndReason::None)
 		{
 			State = EState::PrepareTurn;
-			BattlePrepareTurnSM->Start(Canvas, &Player, &Enemy);
+			BattlePrepareTurnSM->Start(Canvas, MsgBox, &Player, &Enemy);
 		}
 		else if (BattleTurnSM->WhyEnd() == ABattleTurnStateMachine::EEndReason::WinToWild)
 		{

@@ -1,6 +1,8 @@
 #include "BattleFaintStateMachine.h"
 #include <EnginePlatform/EngineInput.h>
 #include "BattleUtil.h"
+#include "BattleCanvas.h"
+#include "PokemonMsgBox.h"
 
 ABattleFaintStateMachine::ABattleFaintStateMachine()
 {
@@ -10,7 +12,7 @@ ABattleFaintStateMachine::~ABattleFaintStateMachine()
 {
 }
 
-void ABattleFaintStateMachine::Start(ABattleCanvas* _Canvas, UBattler* _Attacker, UBattler* _Defender, bool& _AttackerFaintChecked, bool& _DefenderFaintChecked)
+void ABattleFaintStateMachine::Start(ABattleCanvas* _Canvas, APokemonMsgBox* _MsgBox, UBattler* _Attacker, UBattler* _Defender, bool& _AttackerFaintChecked, bool& _DefenderFaintChecked)
 {
 	Canvas = _Canvas;
 	Attacker = _Attacker;
@@ -102,7 +104,7 @@ void ABattleFaintStateMachine::ProcessHidePokemon()
 		{
 			State = ESubstate::ShowFaintMessage;
 			Canvas->SetPlayerPokemonBoxActive(false);
-			Canvas->SetBattleMessage(UBattleUtil::GetPokemonFullName(Fainter) + L"\nfainted!");
+			MsgBox->SetMessage(UBattleUtil::GetPokemonFullName(Fainter) + L"\nfainted!");
 		}
 	}
 	else
@@ -113,7 +115,7 @@ void ABattleFaintStateMachine::ProcessHidePokemon()
 		{
 			State = ESubstate::ShowFaintMessage;
 			Canvas->SetEnemyPokemonBoxActive(false);
-			Canvas->SetBattleMessage(UBattleUtil::GetPokemonFullName(Fainter) + L"\nfainted!");
+			MsgBox->SetMessage(UBattleUtil::GetPokemonFullName(Fainter) + L"\nfainted!");
 		}
 	}
 }
@@ -142,7 +144,7 @@ void ABattleFaintStateMachine::ProcessTestExpGain()
 	{
 		State = ESubstate::ExpGain;
 		UPokemon* ExpGainer = ExpGainByFaint.begin()->first;
-		BattleExpGainSM->Start(Canvas, ExpGainer, ExpGainByFaint.at(ExpGainer), PlayerCurPokemon == ExpGainer);
+		BattleExpGainSM->Start(Canvas, MsgBox, ExpGainer, ExpGainByFaint.at(ExpGainer), PlayerCurPokemon == ExpGainer);
 		return;
 	}
 

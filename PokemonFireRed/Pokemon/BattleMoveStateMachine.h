@@ -1,11 +1,13 @@
 #pragma once
 #include <EngineCore/Actor.h>
 #include "Battler.h"
-#include "BattleCanvas.h"
 #include "AccuracyChecker.h"
 #include "MoveEffectTester.h"
 #include "MoveEffectApplier.h"
 #include "DamageCalculator.h"
+
+class ABattleCanvas;
+class APokemonMsgBox;
 
 // 직접 데미지, 상태 변화 로직을 처리하는 SM
 // 포켓몬이 기절한다면 기절 상태로 만들어야 한다.
@@ -58,12 +60,13 @@ public:
 		return State == ESubstate::End;
 	}
 
-	void Start(ABattleCanvas* _Canvas, UBattler* _Attacker, UBattler* _Defender);
+	void Start(ABattleCanvas* _Canvas, APokemonMsgBox* _MsgBox, UBattler* _Attacker, UBattler* _Defender);
 
 protected:
 	void Tick(float _DeltaTime) override;
 private:
 	ABattleCanvas* Canvas = nullptr;
+	APokemonMsgBox* MsgBox = nullptr;
 	UBattler* Attacker = nullptr;
 	UBattler* Defender = nullptr;
 

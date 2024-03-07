@@ -32,7 +32,6 @@ public:
 	void LerpShowPlayerPokemonBox(float _t);
 	void SetActionBoxActive(bool _Value);
 	void SetMoveSelectBoxActive(bool _Value);
-	void SetBattleMessage(std::wstring_view _Msg);
 
 	// PlayerAction
 	int GetActionCursor() const
@@ -107,7 +106,6 @@ private:
 
 	// 최상위 요소
 	AImageElement* Background = nullptr;
-	AImageElement* MsgBox = nullptr;
 	AImageElement* ActionBox = nullptr;
 	AImageElement* MoveSelectBox = nullptr;
 	AImageElement* EnemyPokemonBox = nullptr;
@@ -116,9 +114,6 @@ private:
 	AImageElement* PlayerGround = nullptr;
 	AImageElement* ThrowedBall = nullptr;		// 볼 날아가는 애니메이션
 	AImageElement* StatBox = nullptr;
-
-	// MsgBox 요소
-	AText* MsgText = nullptr;
 
 	// EnemyPokemonBox 요소
 	AText* EnemyPokemonNameText = nullptr;

@@ -1,6 +1,8 @@
 #include "BattlePrepareTurnStateMachine.h"
 #include "EventManager.h"
 #include "BattlePlayerShiftStateMachine.h"
+#include "BattleCanvas.h"
+#include "PokemonMsgBox.h"
 
 ABattlePrepareTurnStateMachine::ABattlePrepareTurnStateMachine()
 {
@@ -10,9 +12,10 @@ ABattlePrepareTurnStateMachine::~ABattlePrepareTurnStateMachine()
 {
 }
 
-void ABattlePrepareTurnStateMachine::Start(ABattleCanvas* _Canvas, UBattler* _Player, UBattler* _Enemy)
+void ABattlePrepareTurnStateMachine::Start(ABattleCanvas* _Canvas, APokemonMsgBox* _MsgBox, UBattler* _Player, UBattler* _Enemy)
 {
 	Canvas = _Canvas;
+	MsgBox = _MsgBox;
 	Player = _Player;
 	Enemy = _Enemy;
 
@@ -74,7 +77,7 @@ void ABattlePrepareTurnStateMachine::ProcessSelectPokemonForce()
 		Enemy->GetParticipants().push_back(Player->CurPokemon());
 
 		// Shift 애니메이션 재생
-		BattlePlayerShiftSM->Start(TakeInPokemonName, Canvas, Player);
+		BattlePlayerShiftSM->Start(TakeInPokemonName, Canvas, MsgBox, Player);
 	}
 }
 

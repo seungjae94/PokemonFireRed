@@ -10,6 +10,7 @@
 
 class UBattleLevel;
 class ABattleCanvas;
+class APokemonMsgBox;
 struct FMoveEffectTestResult;
 
 // 턴 순서를 관리하는 역할
@@ -85,13 +86,14 @@ public:
 		BattleFaintSM = _FSM;
 	}
 
-	void Start(ABattleCanvas* _Canvas, UBattler* _Player, UBattler* _Enemy);
+	void Start(ABattleCanvas* _Canvas, APokemonMsgBox* _MsgBox, UBattler* _Player, UBattler* _Enemy);
 
 protected:
 
 private:
 	// 배틀 레벨 데이터
 	ABattleCanvas* Canvas = nullptr;
+	APokemonMsgBox* MsgBox = nullptr;
 	UBattler* Player = nullptr;
 	UBattler* Enemy = nullptr;
 

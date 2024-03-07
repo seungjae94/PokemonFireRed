@@ -15,11 +15,6 @@ void ABattleCanvas::Init(const UBattler* _Player, const UBattler* _Enemy)
 	Player = _Player;
 	Enemy = _Enemy;
 
-	if (true == _Enemy->IsWildPokemon())
-	{
-		MsgText->SetText(L"Wild " + Enemy->CurPokemonReadonly()->GetNameW() + L" appeared!");
-	}
-
 	RefreshPlayerPokemonBox();
 	RefreshEnemyPokemonBox();
 	RefreshMoveSelectBox();
@@ -200,11 +195,6 @@ void ABattleCanvas::SetMoveSelectBoxActive(bool _Value)
 	MoveSelectBox->SetActive(_Value);
 }
 
-void ABattleCanvas::SetBattleMessage(std::wstring_view _Msg)
-{
-	MsgText->SetText(_Msg);
-}
-
 void ABattleCanvas::LerpPlayerHpInfo(int _BeforeHp, int _AfterHp, int _MaxHp, float _t)
 {
 	int LerpedHp = UPokemonMath::Round(UPokemonMath::Lerp(static_cast<float>(_AfterHp), static_cast<float>(_BeforeHp), _t));
@@ -303,9 +293,6 @@ void ABattleCanvas::BeginPlay()
 	Background = CreateImageElement(this, ERenderingOrder::UI0, EPivotType::LeftTop, 0, 0);
 	Background->SetImage(RN::BattleBackground);
 
-	MsgBox = CreateImageElement(this, ERenderingOrder::UI4, EPivotType::LeftBot, 0, 0);
-	MsgBox->SetImage(RN::BattleMsgBox);
-
 	ActionBox = CreateImageElement(this, ERenderingOrder::UI7, EPivotType::RightBot, 0, 0);
 	ActionBox->SetImage(RN::BattleActionBox);
 
@@ -339,16 +326,12 @@ void ABattleCanvas::BeginPlay()
 	StatBox = CreateImageElement(this, ERenderingOrder::UI7, EPivotType::RightBot, -1, -1);
 	StatBox->SetImage(RN::BattleStatUpBox);
 
-	// MsgBox 요소
-	MsgText = CreateText(MsgBox, ERenderingOrder::UI5, EPivotType::LeftTop, 11, 21, EAlignType::Left, EFontColor::White, EFontSize::Normal);
-
 	// EnemyPokemonBox 요소
 	EnemyPokemonNameText = CreateText(EnemyPokemonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 7, 12, EAlignType::Left, EFontColor::Black, EFontSize::Mini);
 	EnemyPokemonLevelText = CreateText(EnemyPokemonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 85, 12, EAlignType::Right, EFontColor::Black, EFontSize::Mini);
 	EnemyPokemonHpBar = CreateScrollBar(EnemyPokemonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 39, 17, EScrollType::Hp);
 	EnemyPokemonGenderMark = CreateImageElement(EnemyPokemonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 10, 5);
 	EnemyPokemonStatusMark = CreateImageElement(EnemyPokemonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 7, 14);
-
 
 	// PlayerPokemonBox 요소
 	PlayerPokemonNameText = CreateText(PlayerPokemonBox, ERenderingOrder::UI5, EPivotType::RightTop, -84, 12, EAlignType::Left, EFontColor::Black, EFontSize::Mini);
