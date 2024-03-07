@@ -41,8 +41,10 @@ void UBattleLevel::BeginPlay()
 	Canvas = SpawnActor<ABattleCanvas>();
 	MsgBox = SpawnActor<APokemonMsgBox>();
 	MsgBox->SetBackgroundImage(RN::BattleMsgBox);
+	MsgBox->SetBackgroundLeftBotRelativePos(UPokemonUtil::PixelVector(0, 0));
 	MsgBox->SetCoverImage(RN::BattleMsgBoxCover);
 	MsgBox->SetTextColor(EFontColor::White);
+	MsgBox->SetTextLeftTopRelativePos(UPokemonUtil::PixelVector(11, 21));
 	MsgBox->SetLineSpace(16);
 
 	BattleStartSM = SpawnActor<ABattleStartStateMachine>();

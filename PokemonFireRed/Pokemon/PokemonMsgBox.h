@@ -29,7 +29,9 @@ public:
 	// 초기 설정
 	void SetBaseRenderingOrder(ERenderingOrder _Order);
 	void SetBackgroundImage(std::string_view _ImageName);
+	void SetBackgroundLeftBotRelativePos(FVector _Pos);
 	void SetCoverImage(std::string_view _ImageName);
+	void SetTextLeftTopRelativePos(FVector _Pos);
 	void SetTextColor(EFontColor _Color);
 	void SetWriteSpeed(float _WriteSpeed);
 	void SetLineSpace(int _LineSpace);

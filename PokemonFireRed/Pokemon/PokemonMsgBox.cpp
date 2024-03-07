@@ -24,9 +24,20 @@ void APokemonMsgBox::SetBackgroundImage(std::string_view _ImageName)
 	Background->SetImage(_ImageName);
 }
 
+void APokemonMsgBox::SetBackgroundLeftBotRelativePos(FVector _Pos)
+{
+	Background->SetRelativePosition(_Pos);
+}
+
 void APokemonMsgBox::SetCoverImage(std::string_view _ImageName)
 {
 	Cover->SetImage(_ImageName);
+}
+
+void APokemonMsgBox::SetTextLeftTopRelativePos(FVector _Pos)
+{
+	Text->SetRelativePosition(_Pos);
+	TextInitPos = Text->GetRelativePosition();
 }
 
 void APokemonMsgBox::SetTextColor(EFontColor _Color)
@@ -99,6 +110,7 @@ void APokemonMsgBox::BeginPlay()
 {
 	ACanvas::BeginPlay();
 
+	// 기본적으로 대화창을 기준으로 배치되어 있음
 	Background = CreateImageElement(this, ERenderingOrder::UI1, EPivotType::LeftBot, 5, -3);
 	Cover = CreateImageElement(Background, ERenderingOrder::UI3, EPivotType::LeftTop, 0, 0);
 	NextMsgArrow = CreateImageElement(Background, ERenderingOrder::UI2, EPivotType::LeftTop, 12, 13);
