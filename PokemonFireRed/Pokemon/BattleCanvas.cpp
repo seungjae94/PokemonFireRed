@@ -214,6 +214,7 @@ void ABattleCanvas::InitEnemyImages()
 
 	if (true == Enemy->IsWildPokemon())
 	{
+		EnemyBattler->SetImage(RN::BattlerPlaceHolder);
 		EnemyPokemonImage->SetRelativePosition(EnemyPokemonImageInitPos);
 	}
 	else
