@@ -118,7 +118,7 @@ void AWildBattleStartStateMachine::ProcessPlayerBattlerThrow()
 
 void AWildBattleStartStateMachine::ProcessPlayerPokemonTakeout()
 {
-	Canvas->TakeOutPokemonFromBall(Timer / PlayerPokemonTakeoutTime);
+	Canvas->TakeOutPlayerPokemonFromBall(Timer / PlayerPokemonTakeoutTime);
 
 	if (Timer <= 0.0f)
 	{

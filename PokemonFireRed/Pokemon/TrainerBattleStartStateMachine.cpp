@@ -1,4 +1,5 @@
 #include "TrainerBattleStartStateMachine.h"
+#include <EnginePlatform/EngineInput.h>
 #include "BattleCanvas.h"
 #include "PokemonMsgBox.h"
 
@@ -18,36 +19,39 @@ void ATrainerBattleStartStateMachine::Tick(float _DeltaTime)
 
 	switch (State)
 	{
-	case ATrainerBattleStartStateMachine::ESubstate::None:
+	case ESubstate::None:
 		break;
-	case ATrainerBattleStartStateMachine::ESubstate::FadeWait:
+	case ESubstate::FadeWait:
 		ProcessFadeWait();
 		break;
-	case ATrainerBattleStartStateMachine::ESubstate::GroundMove:
+	case ESubstate::GroundMove:
 		ProcessGroundMove();
 		break;
-	case ATrainerBattleStartStateMachine::ESubstate::EntryArrowMove:
+	case ESubstate::EntryArrowMove:
 		ProcessEnemyArrowMove();
 		break;
-	case ATrainerBattleStartStateMachine::ESubstate::EntryBallMove:
+	case ESubstate::EntryBallMove:
 		ProcessEnemyBallMove(_DeltaTime);
 		break;
-	case ATrainerBattleStartStateMachine::ESubstate::EnemyPokemonAppear:
-		ProcessEnemyPokemonAppear();
+	case ESubstate::ZClickWait:
+		ProcessZClickWait();
 		break;
-	case ATrainerBattleStartStateMachine::ESubstate::EnemyPokemonBoxMove:
+	case ESubstate::EnemyPokemonAppear:
+		ProcessEnemyPokemonAppear(_DeltaTime);
+		break;
+	case ESubstate::EnemyPokemonBoxMove:
 		ProcessEnemyPokemonBoxMove();
 		break;
-	case ATrainerBattleStartStateMachine::ESubstate::PlayerBattlerThrow:
+	case ESubstate::PlayerBattlerThrow:
 		ProcessPlayerBattlerThrow();
 		break;
-	case ATrainerBattleStartStateMachine::ESubstate::PlayerPokemonTakeout:
+	case ESubstate::PlayerPokemonTakeout:
 		ProcessPlayerPokemonTakeout();
 		break;
-	case ATrainerBattleStartStateMachine::ESubstate::PlayerPokemonBoxMove:
+	case ESubstate::PlayerPokemonBoxMove:
 		ProcessPlayerPokemonBoxMove();
 		break;
-	case ATrainerBattleStartStateMachine::ESubstate::End:
+	case ESubstate::End:
 		break;
 	default:
 		break;
@@ -116,28 +120,67 @@ void ATrainerBattleStartStateMachine::ProcessEnemyBallMove(float _DeltaTime)
 	{
 		MsgBox->ShowSkipArrow();
 		MsgBox->SetWriteSpeed(1.0f);
-		State = ESubstate::EnemyPokemonAppear;
+		State = ESubstate::ZClickWait;
 	}
 }
 
-bool ATrainerBattleStartStateMachine::IsAllBallMoved()
+void ATrainerBattleStartStateMachine::ProcessZClickWait()
 {
-	for (int i = 0; i < 6; ++i)
+	if (true == UEngineInput::IsDown('Z'))
 	{
-		if (BallTimers[i] > 0.0f)
-		{
-			return false;
-		}
+		State = ESubstate::EnemyPokemonAppear;
+		MsgBox->SetMessage(Enemy->GetTrainerNameW() + L" sent\nout " + Enemy->CurPokemonReadonly()->GetNameW());
+		MsgBox->Write();
+		
+		//Canvas->SetEnemyGroundBallImage(RN::BattleEnemyGroundBallClosed);
+		//Canvas->ShowEnemyGroundBall();
+
+		EntryFadeTimer = EntryFadeTime;
+		EnemyGroundBallOpenWaitTimer = EnemyGroundBallOpenWaitTime;
+		IsEnemyGroundBallOpened = false;
+		EnemyGroundBallShowTimer = EnemyGroundBallShowTime;
+		EnemyPokemonAppearTimer = EnemyPokemonAppearTime;
 	}
-	return true;
 }
 
-void ATrainerBattleStartStateMachine::ProcessEnemyPokemonAppear()
+void ATrainerBattleStartStateMachine::ProcessEnemyPokemonAppear(float _DeltaTime)
 {
+	EntryFadeTimer -= _DeltaTime;
+	EnemyGroundBallOpenWaitTimer -= _DeltaTime;
+
+	if (false == IsEnemyGroundBallOpened && EnemyGroundBallOpenWaitTimer <= 0.0f)
+	{
+		// °ø ¿­¸²
+		//Canvas->SetEnemyGroundBallImage(RN::BattleEnemyGroundBallOpen);
+	}
+
+	if (EnemyGroundBallOpenWaitTimer <= 0.0f)
+	{
+		EnemyGroundBallShowTimer -= _DeltaTime;
+		EnemyPokemonAppearTimer -= _DeltaTime;
+		Canvas->TakeOutEnemyPokemonFromBall(EnemyPokemonAppearTimer / EnemyPokemonAppearTime);
+	}
+
+	Canvas->LerpHideEnemyEntry(EntryFadeTimer / EntryFadeTime);
+	Canvas->LerpHideEnemyBattler(EntryFadeTimer / EntryFadeTime);
+
+	if (EntryFadeTimer <= 0.0f 
+		&& EnemyGroundBallShowTimer <= 0.0f 
+		&& EnemyPokemonAppearTimer <= 0.0f 
+		&& MsgBox->GetWriteState() == EWriteState::WriteEnd)
+	{
+		State = ESubstate::EnemyPokemonBoxMove;
+		Timer = EnemyPokemonBoxMoveTime;
+	}
+
 }
 
 void ATrainerBattleStartStateMachine::ProcessEnemyPokemonBoxMove()
 {
+	if (Timer <= 0.0f)
+	{
+		// TODO
+	}
 }
 
 void ATrainerBattleStartStateMachine::ProcessPlayerBattlerThrow()

@@ -69,7 +69,7 @@ void ABattlePlayerShiftStateMachine::ProcessWait1()
 
 void ABattlePlayerShiftStateMachine::ProcessTakeIn()
 {
-	Canvas->TakeInPokemonToBall(Timer / TakeInTime);
+	Canvas->TakeInPlayerPokemonToBall(Timer / TakeInTime);
 
 	if (Timer <= 0.0f && MsgBox->GetWriteState() == EWriteState::WriteEnd)
 	{
@@ -107,7 +107,7 @@ void ABattlePlayerShiftStateMachine::ProcessThrowBall()
 
 void ABattlePlayerShiftStateMachine::ProcessSendOut()
 {
-	Canvas->TakeOutPokemonFromBall(Timer / SendOutTime);
+	Canvas->TakeOutPlayerPokemonFromBall(Timer / SendOutTime);
 
 	if (Timer <= 0.0f && MsgBox->GetWriteState() == EWriteState::WriteEnd)
 	{

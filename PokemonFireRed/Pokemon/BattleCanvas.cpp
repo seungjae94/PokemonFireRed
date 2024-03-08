@@ -80,6 +80,9 @@ void ABattleCanvas::BeginPlay()
 
 	// EnemyGround ¿ä¼Ò
 	EnemyBattler = CreateImageElement(EnemyGround, ERenderingOrder::UI3, EPivotType::RightBot, -40, -10);
+	EnemyBattlerInitPos = EnemyBattler->GetRelativePosition();
+	EnemyBattlerHidePos = EnemyBattlerInitPos + FVector::Right * Global::FloatHalfScreenX;
+
 	EnemyPokemonImage = CreateImageElement(EnemyGround, ERenderingOrder::UI2, EPivotType::LeftTop, 36, -25, EImageElementType::PokemonFront);
 	EnemyPokemonImageInitPos = EnemyPokemonImage->GetRelativePosition();
 	EnemyPokemonImageHidePos = EnemyPokemonImageInitPos + UPokemonUtil::PixelVector(0, 32);
@@ -382,6 +385,24 @@ void ABattleCanvas::LerpPlayerEntryBall(int _Index, float _t)
 	PlayerEntryBalls[_Index]->SetRelativePosition(Pos);
 }
 
+void ABattleCanvas::LerpHideEnemyEntry(float _t)
+{
+	EnemyEntryArrow->SetAlpha(_t);
+	for (int i = 0; i < 6; ++i)
+	{
+		EnemyEntryBalls[i]->SetAlpha(_t);
+	}
+}
+
+void ABattleCanvas::LerpHidePlayerEntry(float _t)
+{
+	PlayerEntryArrow->SetAlpha(_t);
+	for (int i = 0; i < 6; ++i)
+	{
+		PlayerEntryBalls[i]->SetAlpha(_t);
+	}
+}
+
 void ABattleCanvas::PlayBattlerThrowingAnimation()
 {
 	PlayerBattler->ChangeAnimation(Global::PlayerBattlerThrow);
@@ -389,8 +410,14 @@ void ABattleCanvas::PlayBattlerThrowingAnimation()
 
 void ABattleCanvas::LerpHidePlayerBattler(float _t)
 {
-	FVector PlayerBattlerRelativePos = UPokemonMath::Lerp(PlayerBattlerHidePos, PlayerBattlerInitPos, _t);
-	PlayerBattler->SetRelativePosition(PlayerBattlerRelativePos);
+	FVector Pos = UPokemonMath::Lerp(PlayerBattlerHidePos, PlayerBattlerInitPos, _t);
+	PlayerBattler->SetRelativePosition(Pos);
+}
+
+void ABattleCanvas::LerpHideEnemyBattler(float _t)
+{
+	FVector Pos = UPokemonMath::Lerp(EnemyBattlerHidePos, EnemyBattlerInitPos, _t);
+	EnemyBattler->SetRelativePosition(Pos);
 }
 
 void ABattleCanvas::PlayThrowedBallAnimation()
@@ -409,12 +436,12 @@ void ABattleCanvas::SetThrowedBallActive(bool _Value)
 	ThrowedBall->SetActive(_Value);
 }
 
-void ABattleCanvas::TakeInPokemonToBall(float _t)
+void ABattleCanvas::TakeInPlayerPokemonToBall(float _t)
 {
-	TakeOutPokemonFromBall(1.0f - _t);
+	TakeOutPlayerPokemonFromBall(1.0f - _t);
 }
 
-void ABattleCanvas::TakeOutPokemonFromBall(float _t)
+void ABattleCanvas::TakeOutPlayerPokemonFromBall(float _t)
 {
 	float t = _t;
 	if (t < 0.0f)
@@ -423,10 +450,30 @@ void ABattleCanvas::TakeOutPokemonFromBall(float _t)
 	}
 
 	PlayerPokemonImage->SetScaleFactor(1.0f - t);
-	PlayerPokemonImage->SetAlpha(1.0f - t / 2.0f);
+	PlayerPokemonImage->SetAlpha(1.0f - t);
 
 	FVector PlayerPokemonImagePos = UPokemonMath::Lerp(PlayerPokemonImageInitPos, PlayerPokemonImageHidePos, _t);
 	PlayerPokemonImage->SetRelativePosition(PlayerPokemonImagePos);
+}
+
+void ABattleCanvas::TakeInEnemyPokemonFromBall(float _t)
+{
+	TakeOutEnemyPokemonFromBall(1.0f - _t);
+}
+
+void ABattleCanvas::TakeOutEnemyPokemonFromBall(float _t)
+{
+	float t = _t;
+	if (t < 0.0f)
+	{
+		t = 0.0f;
+	}
+
+	EnemyPokemonImage->SetScaleFactor(1.0f - t);
+	EnemyPokemonImage->SetAlpha(1.0f - t);
+
+	FVector EnemyPokemonImagePos = UPokemonMath::Lerp(EnemyPokemonImageInitPos, EnemyPokemonImageHidePos, _t);
+	EnemyPokemonImage->SetRelativePosition(EnemyPokemonImagePos);
 }
 
 void ABattleCanvas::LerpShowPlayerPokemonBox(float _t)

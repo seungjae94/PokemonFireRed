@@ -17,6 +17,7 @@ private:
 		GroundMove,
 		EntryArrowMove,
 		EntryBallMove,
+		ZClickWait,
 		EnemyPokemonAppear,
 		EnemyPokemonBoxMove,
 		PlayerBattlerThrow,
@@ -67,6 +68,17 @@ private:
 	const float EntryBallMoveInterval = 0.1f;
 	int MovingBallIndex = 0;
 	std::vector<float> BallTimers;
+
+	const float EntryFadeTime = 0.5f;
+	const float EnemyGroundBallOpenWaitTime = 0.25f;
+	const float EnemyGroundBallShowTime = 0.25f;
+	const float EnemyPokemonAppearTime = 1.0f;
+	float EntryFadeTimer = 0.0f;
+	float EnemyGroundBallOpenWaitTimer = 0.0f;
+	bool IsEnemyGroundBallOpened = false;
+	float EnemyGroundBallShowTimer = 0.0f;
+	float EnemyPokemonAppearTimer = 0.0f;
+
 	const float EnemyPokemonBoxMoveTime = 0.5f;
 	const float PlayerBattleThrowTime = 1.1f;
 	const float BallThrowMotionWaitTime = 0.5f;
@@ -80,8 +92,8 @@ private:
 	void ProcessGroundMove();
 	void ProcessEnemyArrowMove();
 	void ProcessEnemyBallMove(float _DeltaTime);
-	bool IsAllBallMoved();
-	void ProcessEnemyPokemonAppear();
+	void ProcessZClickWait();
+	void ProcessEnemyPokemonAppear(float _DeltaTime);
 	void ProcessEnemyPokemonBoxMove();
 	void ProcessPlayerBattlerThrow();
 	void ProcessPlayerPokemonTakeout();
