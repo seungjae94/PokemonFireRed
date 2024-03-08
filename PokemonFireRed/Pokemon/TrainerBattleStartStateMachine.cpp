@@ -88,7 +88,6 @@ void ATrainerBattleStartStateMachine::ProcessEnemyArrowMove()
 		State = ESubstate::EntryBallMove;
 		MsgBox->SetMessage(Enemy->GetTrainerNameW() + L"\nwould like to battle!");
 		MsgBox->Write();
-		MsgBox->SetWriteSpeed(0.75f);
 
 		BallTimers.clear();
 		BallTimers.resize(6);
@@ -119,7 +118,6 @@ void ATrainerBattleStartStateMachine::ProcessEnemyBallMove(float _DeltaTime)
 	if (BallTimers[5] < 0.0f && MsgBox->GetWriteState() == EWriteState::WriteEnd)
 	{
 		MsgBox->ShowSkipArrow();
-		MsgBox->SetWriteSpeed(1.0f);
 		State = ESubstate::ZClickWait;
 	}
 }
@@ -129,7 +127,7 @@ void ATrainerBattleStartStateMachine::ProcessZClickWait()
 	if (true == UEngineInput::IsDown('Z'))
 	{
 		State = ESubstate::EnemyPokemonAppear;
-		MsgBox->SetMessage(Enemy->GetTrainerNameW() + L" sent\nout " + Enemy->CurPokemonReadonly()->GetNameW());
+		MsgBox->SetMessage(Enemy->GetTrainerNameW() + L" sent\nout " + Enemy->CurPokemonReadonly()->GetNameW() + L"!");
 		MsgBox->Write();
 		
 		Canvas->PlayEnemyGroundBallAnimation();
