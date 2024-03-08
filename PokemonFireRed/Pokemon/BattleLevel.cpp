@@ -209,7 +209,7 @@ void UBattleLevel::ProcessPrepareTurn2()
 		State = EState::PlayerActionSelect;
 		Canvas->SetActionBoxActive(true);
 		MsgBox->SetWriteSpeed(1.0f);
-		PlayerActionSelectSM->Start(Canvas, &Player, &Enemy);
+		PlayerActionSelectSM->Start(Canvas, MsgBox, &Player, &Enemy);
 	}
 }
 

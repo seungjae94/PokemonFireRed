@@ -7,6 +7,7 @@
 
 class UBattleLevel;
 class ABattleCanvas;
+class APokemonMsgBox;
 
 class ABattlePlayerActionSelectStateMachine : public AActor
 {
@@ -25,6 +26,8 @@ private:
 		Select,
 		MoveSelect,
 		PokemonSelect,
+		CantRunMessage1,
+		CantRunMessage2,
 		End
 	};
 public:
@@ -44,7 +47,7 @@ public:
 	}
 
 
-	void Start(ABattleCanvas* _Canvas, UBattler* _Player, UBattler* _Enemy);
+	void Start(ABattleCanvas* _Canvas, APokemonMsgBox* _MsgBox, UBattler* _Player, UBattler* _Enemy);
 
 	void Reset();
 
@@ -53,6 +56,7 @@ protected:
 private:
 	// 배틀 레벨 데이터
 	ABattleCanvas* Canvas = nullptr;
+	APokemonMsgBox* MsgBox = nullptr;
 	UBattler* Player = nullptr;
 	UBattler* Enemy = nullptr;
 
@@ -71,6 +75,8 @@ private:
 	void ProcessSelect();
 	void ProcessMoveSelect();
 	void ProcessPokemonSelect();
+	void ProcessCantRunMessage1();
+	void ProcessCantRunMessage2();
 
 	// 유틸 함수
 	bool CalcRunResult() const;

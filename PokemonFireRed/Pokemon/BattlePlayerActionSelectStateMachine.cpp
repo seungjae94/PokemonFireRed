@@ -1,6 +1,7 @@
 #include "BattlePlayerActionSelectStateMachine.h"
 #include <EnginePlatform/EngineInput.h>
 #include "BattleCanvas.h"
+#include "PokemonMsgBox.h"
 #include "EventManager.h"
 
 ABattlePlayerActionSelectStateMachine::ABattlePlayerActionSelectStateMachine()
@@ -11,9 +12,10 @@ ABattlePlayerActionSelectStateMachine::~ABattlePlayerActionSelectStateMachine()
 {
 }
 
-void ABattlePlayerActionSelectStateMachine::Start(ABattleCanvas* _Canvas, UBattler* _Player, UBattler* _Enemy)
+void ABattlePlayerActionSelectStateMachine::Start(ABattleCanvas* _Canvas, APokemonMsgBox* _MsgBox, UBattler* _Player, UBattler* _Enemy)
 {
 	Canvas = _Canvas;
+	MsgBox = _MsgBox;
 	Player = _Player;
 	Enemy = _Enemy;
 	State = ESubstate::Select;
@@ -41,6 +43,12 @@ void ABattlePlayerActionSelectStateMachine::Tick(float _DeltaTime)
 	case ESubstate::PokemonSelect:
 		ProcessPokemonSelect();
 		break;
+	case ESubstate::CantRunMessage1:
+		ProcessCantRunMessage1();
+		break;
+	case ESubstate::CantRunMessage2:
+		ProcessCantRunMessage2();
+		break;
 	case ESubstate::End:
 		break;
 	default:
@@ -62,7 +70,7 @@ void ABattlePlayerActionSelectStateMachine::ProcessSelect()
 			Canvas->SetMoveSelectBoxActive(true);
 			break;
 		case Bag:
-			// 가방 화면을 띄우고 어떤 아이템을 사용하기로 결정했는지 결과까지 받아서 BattleLevel에 보고
+			// TODO: 가방 화면을 띄우고 어떤 아이템을 사용하기로 결정했는지 결과까지 받아서 BattleLevel에 보고
 			break;
 		case Pokemon:
 			State = ESubstate::PokemonSelect;
@@ -71,6 +79,15 @@ void ABattlePlayerActionSelectStateMachine::ProcessSelect()
 			break;
 		case Run:
 		{
+			if (true == Enemy->IsTrainer())
+			{
+				State = ESubstate::CantRunMessage1;
+				MsgBox->SetMessage(L"No! There's no running\nfrom a TRAINER battle!");
+				MsgBox->Write();
+				Canvas->SetActionBoxActive(false);
+				return;
+			}
+
 			State = ESubstate::End;
 			Canvas->SetActionBoxActive(false);
 			Player->SetAction(EBattleAction::Escape);
@@ -196,6 +213,27 @@ void ABattlePlayerActionSelectStateMachine::ProcessPokemonSelect()
 			Player->SetAction(EBattleAction::Shift);
 			State = ESubstate::End;
 		}
+	}
+}
+
+void ABattlePlayerActionSelectStateMachine::ProcessCantRunMessage1()
+{
+	if (MsgBox->GetWriteState() == EWriteState::WriteEnd)
+	{
+		State = ESubstate::CantRunMessage2;
+		MsgBox->ShowSkipArrow();
+	}
+}
+
+void ABattlePlayerActionSelectStateMachine::ProcessCantRunMessage2()
+{
+	if (true == UEngineInput::IsDown('Z'))
+	{
+		State = ESubstate::Select;
+		MsgBox->HideSkipArrow();
+		MsgBox->SetMessage(L"What will\n" + Player->CurPokemon()->GetNameW() + L" do?");
+		MsgBox->Write();
+		Canvas->SetActionBoxActive(true);
 	}
 }
 
