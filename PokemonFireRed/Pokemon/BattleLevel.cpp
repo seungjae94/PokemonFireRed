@@ -35,6 +35,7 @@ void UBattleLevel::BeginPlay()
 	}
 
 	UEngineResourcesManager::GetInst().CuttingImage(RN::PlayerBattler, 5, 1);
+	UEngineResourcesManager::GetInst().CuttingImage(RN::BattleEnemyGroundBall, 3, 1);
 	UEngineResourcesManager::GetInst().LoadFolder(CurDir.AppendPath(Global::ThrowedBall));
 
 	// 액터 생성

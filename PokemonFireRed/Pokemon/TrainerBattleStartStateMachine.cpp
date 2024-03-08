@@ -132,13 +132,9 @@ void ATrainerBattleStartStateMachine::ProcessZClickWait()
 		MsgBox->SetMessage(Enemy->GetTrainerNameW() + L" sent\nout " + Enemy->CurPokemonReadonly()->GetNameW());
 		MsgBox->Write();
 		
-		//Canvas->SetEnemyGroundBallImage(RN::BattleEnemyGroundBallClosed);
-		//Canvas->ShowEnemyGroundBall();
+		Canvas->PlayEnemyGroundBallAnimation();
 
 		EntryFadeTimer = EntryFadeTime;
-		EnemyGroundBallOpenWaitTimer = EnemyGroundBallOpenWaitTime;
-		IsEnemyGroundBallOpened = false;
-		EnemyGroundBallShowTimer = EnemyGroundBallShowTime;
 		EnemyPokemonAppearTimer = EnemyPokemonAppearTime;
 	}
 }
@@ -146,26 +142,18 @@ void ATrainerBattleStartStateMachine::ProcessZClickWait()
 void ATrainerBattleStartStateMachine::ProcessEnemyPokemonAppear(float _DeltaTime)
 {
 	EntryFadeTimer -= _DeltaTime;
-	EnemyGroundBallOpenWaitTimer -= _DeltaTime;
+	EnemyPokemonAppearTimer -= _DeltaTime;
 
-	if (false == IsEnemyGroundBallOpened && EnemyGroundBallOpenWaitTimer <= 0.0f)
+	if (true == Canvas->IsEnemyGroundBallAnimationEnd())
 	{
-		// °ø ¿­¸²
-		//Canvas->SetEnemyGroundBallImage(RN::BattleEnemyGroundBallOpen);
-	}
-
-	if (EnemyGroundBallOpenWaitTimer <= 0.0f)
-	{
-		EnemyGroundBallShowTimer -= _DeltaTime;
-		EnemyPokemonAppearTimer -= _DeltaTime;
-		Canvas->TakeOutEnemyPokemonFromBall(EnemyPokemonAppearTimer / EnemyPokemonAppearTime);
+		Canvas->SetEnemyGroundBallActive(false);
 	}
 
 	Canvas->LerpHideEnemyEntry(EntryFadeTimer / EntryFadeTime);
 	Canvas->LerpHideEnemyBattler(EntryFadeTimer / EntryFadeTime);
+	Canvas->TakeOutEnemyPokemonFromBall(EnemyPokemonAppearTimer / EnemyPokemonAppearTime);
 
 	if (EntryFadeTimer <= 0.0f 
-		&& EnemyGroundBallShowTimer <= 0.0f 
 		&& EnemyPokemonAppearTimer <= 0.0f 
 		&& MsgBox->GetWriteState() == EWriteState::WriteEnd)
 	{

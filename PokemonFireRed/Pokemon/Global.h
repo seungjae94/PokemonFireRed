@@ -88,6 +88,8 @@ namespace Global
 	const std::string FadeLevelChanger = "FadeLevelChanger";
 	const std::string WildBattleTrigger = "WildBattleTrigger";
 
+	const std::string BattleEnemyGroundBallShowAnim = "BattleEnemyGroundBallAnim";
+
 	const Color8Bit PixelColliderBlock(255, 0, 255, 0);
 	const Color8Bit PixelColliderBlockUpDown(255, 1, 255, 0);
 };
@@ -213,6 +215,7 @@ namespace RN
 	const std::string BattleEntryBallEmpty = "BattleEntryBallEmpty.png";
 	const std::string BattleEntryBallAlive = "BattleEntryBallAlive.png";
 	const std::string BattleEntryBallFaint = "BattleEntryBallFaint.png";
+	const std::string BattleEnemyGroundBall = "BattleEnemyGroundBall.png";
 };
 
 enum ERenderingOrder

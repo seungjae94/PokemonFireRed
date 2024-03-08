@@ -70,13 +70,8 @@ private:
 	std::vector<float> BallTimers;
 
 	const float EntryFadeTime = 0.5f;
-	const float EnemyGroundBallOpenWaitTime = 0.25f;
-	const float EnemyGroundBallShowTime = 0.25f;
 	const float EnemyPokemonAppearTime = 1.0f;
 	float EntryFadeTimer = 0.0f;
-	float EnemyGroundBallOpenWaitTimer = 0.0f;
-	bool IsEnemyGroundBallOpened = false;
-	float EnemyGroundBallShowTimer = 0.0f;
 	float EnemyPokemonAppearTimer = 0.0f;
 
 	const float EnemyPokemonBoxMoveTime = 0.5f;

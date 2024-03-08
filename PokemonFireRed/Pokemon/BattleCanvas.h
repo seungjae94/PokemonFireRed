@@ -44,6 +44,9 @@ public:
 	void PlayBattlerThrowingAnimation();
 	void LerpHidePlayerBattler(float _t);
 	void LerpHideEnemyBattler(float _t);
+	void PlayEnemyGroundBallAnimation();
+	bool IsEnemyGroundBallAnimationEnd();
+	void SetEnemyGroundBallActive(bool _Value);
 	void PlayThrowedBallAnimation();
 	bool IsThrowedBallAnimationEnd();
 	void SetThrowedBallActive(bool _Value);
@@ -167,6 +170,7 @@ private:
 	// EnemyPokemonGround 요소
 	AImageElement* EnemyPokemonImage = nullptr;
 	AImageElement* EnemyBattler = nullptr;
+	AImageElement* EnemyGroundBall = nullptr;
 
 	// PlayerPokemonGround 요소
 	AImageElement* PlayerPokemonImage = nullptr;
