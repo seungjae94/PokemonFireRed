@@ -85,9 +85,11 @@ public:
 		MoveSelectCursor->SetCursor(_Cursor);
 	}
 
-	/*
-	* 포켓몬 순서 바꿀때 반드시 MoveSelectCursor 초기화 작업 필요!
-	*/
+	// EnemyShift
+	bool IsEnemyPokemonBoxActive() const
+	{
+		return EnemyPokemonBox->IsActive();
+	}
 
 	// Turn
 	void LerpPlayerHpInfo(int _BeforeHp, int _AfterHp, int _MaxHp, float _t);

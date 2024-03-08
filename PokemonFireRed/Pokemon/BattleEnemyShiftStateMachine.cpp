@@ -97,13 +97,16 @@ void ABattleEnemyShiftStateMachine::ProcessPokemonAppear(float _DeltaTime)
 	{
 		State = ESubstate::PokemonBoxMove;
 		Timer = EnemyPokemonBoxMoveTime;
-		Canvas->SetEnemyPokemonBoxActive(true);
 		Canvas->RefreshEnemyPokemonBox();
 	}
 }
 
 void ABattleEnemyShiftStateMachine::ProcessPokemonBoxMove()
 {
+	if (false == Canvas->IsEnemyPokemonBoxActive())
+	{
+		Canvas->SetEnemyPokemonBoxActive(true);
+	}
 	Canvas->LerpShowEnemyPokemonBox(Timer / EnemyPokemonBoxMoveTime);
 
 	if (Timer <= 0.0f)
