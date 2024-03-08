@@ -13,7 +13,7 @@ private:
 	{
 		None,
 		SelectPokemonForce,
-		EnemyAboutToUseMessage1,	// BUG CATCHER RICK is about to use CATERPIE.
+		EnemyAboutToUseMessage1,	
 		EnemyAboutToUseMessage2,	// Will RED change POKeMON? (Yes, No)	
 		SelectPokemonOptional,
 		PlayerShift,				// 플레이어 포켓몬 꺼내기 연출

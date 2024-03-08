@@ -29,6 +29,8 @@ void ABattlePrepareTurnStateMachine::Start(ABattleCanvas* _Canvas, APokemonMsgBo
 	else if (Enemy->CurPokemon()->IsFaint())
 	{
 		State = ESubstate::EnemyAboutToUseMessage1;
+		MsgBox->SetMessage(Enemy->GetTrainerNameW() + L" is\nabout to use " + Enemy->CurPokemon()->GetNameW() + L".");
+		MsgBox->Write();
 		return;
 	}
 	
