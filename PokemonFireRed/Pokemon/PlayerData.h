@@ -82,6 +82,24 @@ public:
 		return Money;
 	}
 
+	static void LostMoney(int _Money)	
+	{
+		if (_Money <= 0)
+		{
+			MsgBoxAssert("[UPlayerData::LostMoney] 0 이하의 돈을 잃을 수 없습니다.");
+			return;
+		}
+	}
+
+	static void GainMoney(int _Money)
+	{
+		if (_Money <= 0)
+		{
+			MsgBoxAssert("[UPlayerData::GainMoney] 0 이하의 돈을 얻을 수 없습니다.");
+			return;
+		}
+	}
+
 protected:
 
 private:

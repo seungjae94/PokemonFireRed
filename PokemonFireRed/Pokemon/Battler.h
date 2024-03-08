@@ -99,6 +99,17 @@ public:
 
 	void ShiftPokemon();
 
+	int GetLevel(int _Index)
+	{
+		if (_Index >= Entry.size())
+		{
+			MsgBoxAssert("UBattler::GetLevel 함수에서 엔트리 인덱스를 초과해 포켓몬의 레벨을 확인하려고 했습니다.");
+			return 0;
+		}
+
+		return Entry[_Index]->GetLevel();
+	}
+
 	// 액션
 	EBattleAction CurAction() const
 	{
