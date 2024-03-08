@@ -11,6 +11,7 @@
 #include "MenuCanvas.h"
 #include "DialogueWindow.h"
 #include "WildBattleTrigger.h"
+#include "Trainer.h"
 
 std::string UEventManager::CurLevelName;
 ULevel* UEventManager::BattleLevel = nullptr;
@@ -21,8 +22,7 @@ std::map<std::string, std::map<FTileVector, std::list<AEventTrigger*>>> UEventMa
 std::map<AEventTrigger*, UEventProcessor*> UEventManager::AllProcessors;
 bool UEventManager::IsWildPokemon = false;
 std::vector<UPokemon>* UEventManager::EnemyEntry;
-std::string UEventManager::TrainerName;
-std::string UEventManager::TrainerImageName;
+ATrainer* UEventManager::Trainer;
 float UEventManager::DeltaTime = 0.0f;
 
 UEventManager::UEventManager()
@@ -88,11 +88,10 @@ void UEventManager::SetAsWildPokemonBattle()
 	IsWildPokemon = true;
 }
 
-void UEventManager::SetAsTrainerBattle(std::string_view _TrainerName, std::string_view _TrainerImageName)
+void UEventManager::SetAsTrainerBattle(ATrainer* _Trainer)
 {
 	IsWildPokemon = false;
-	TrainerName = _TrainerName;
-	TrainerImageName = _TrainerImageName;
+	Trainer = _Trainer;
 }
 
 void UEventManager::AddTarget(AEventTarget* _Target, const UEventTargetInit& _Setting)

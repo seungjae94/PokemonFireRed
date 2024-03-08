@@ -30,12 +30,14 @@ public:
 		CurMoveIndex = 0;
 		IsPlayerValue = false;
 		IsWildPokemonValue = false;
+		TrainerWinMessage.clear();
+		PlayerWinMessage.clear();
 	}
 
 	// 배틀러 정보
 	void InitPlayer();
 	void InitWildPokemon();
-	void InitTrainer(std::string_view _TrainerName, std::string_view _TrainerImageName);
+	void InitTrainer();
 
 	bool IsPlayer() const
 	{
@@ -61,6 +63,36 @@ public:
 	std::string GetTrainerImageName() const
 	{
 		return TrainerImageName;
+	}
+
+	std::wstring FrontTrainerWinMessage()
+	{
+		return TrainerWinMessage.front();
+	}
+
+	std::wstring PopFrontTrainerWinMessage()
+	{
+		TrainerWinMessage.pop_front();
+	}
+
+	int GetTrainerWinMessageSize()
+	{
+		return static_cast<int>(TrainerWinMessage.size());
+	}
+
+	std::wstring FrontPlayerWinMessage()
+	{
+		return PlayerWinMessage.front();
+	}
+
+	std::wstring PopFrontPlayerWinMessage()
+	{
+		PlayerWinMessage.pop_front();
+	}
+
+	int GetPlayerWinMessageSize()
+	{
+		return static_cast<int>(PlayerWinMessage.size());
 	}
 
 	// 포켓몬 정보
@@ -198,6 +230,8 @@ private:
 	std::vector<UPokemon*> Entry;
 	std::string TrainerName;
 	std::string TrainerImageName;
+	std::list<std::wstring> TrainerWinMessage;
+	std::list<std::wstring> PlayerWinMessage;
 
 	int FightingPokemonIndex = 0;
 	int CurMoveIndex = 0;

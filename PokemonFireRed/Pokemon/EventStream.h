@@ -450,10 +450,11 @@ public:
 	{
 		friend UEventProcessor;
 	public:
-		TrainerBattle(ATrainer* _Trainer);
-		std::vector<UPokemon>* Entry;
-		std::string TrainerName;
-		std::string TrainerImageName;
+		TrainerBattle(ATrainer* _Trainer)
+			: Trainer(_Trainer)
+		{}
+
+		ATrainer* Trainer = nullptr;
 	};
 
 	UEventStream& operator>>(const TrainerBattle& _Data)

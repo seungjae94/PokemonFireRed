@@ -1,6 +1,7 @@
 #include "Battler.h"
 #include "PlayerData.h"
 #include "EventManager.h"
+#include "Trainer.h"
 
 UBattler::UBattler()
 {
@@ -28,12 +29,15 @@ void UBattler::InitWildPokemon()
 	InitEnemyPokemon();
 }
 
-void UBattler::InitTrainer(std::string_view _TrainerName, std::string_view _TrainerImageName)
+void UBattler::InitTrainer()
 {
+	ATrainer* Trainer = UEventManager::GetTrainer();
 	IsPlayerValue = false;
 	IsWildPokemonValue = false;
-	TrainerName = _TrainerName;
-	TrainerImageName = _TrainerImageName;
+	TrainerName = Trainer->GetBattlerName();
+	TrainerImageName = Trainer->GetBattlerImageName();
+	TrainerWinMessage = Trainer->GetTrainerWinMessage();
+	PlayerWinMessage = Trainer->GetPlayerWinMessage();
 	InitEnemyPokemon();
 }
 

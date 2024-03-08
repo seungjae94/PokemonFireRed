@@ -87,6 +87,14 @@ void UInteriorOaksLabLevel::BeginPlay()
 	ATrainer* Green = SpawnEventTrigger<ATrainer>(GreenInit);
 	Green->AddPokemonToEntry(UPokemon(EPokedexNo::Rattata, 3));
 	Green->AddPokemonToEntry(UPokemon(EPokedexNo::Charmander, 3));
+	Green->SetTrainerWinMessage({
+		L"Trainer win\nfirst message.",
+		L"Trainer win\nsecond message."
+	});
+	Green->SetPlayerWinMessage({
+		L"Player win\nfirst message.",
+		L"Player win\nsecond message."
+	});
 	Green->SetBattler("RIVAL GREEN", RN::RivalGreenBattler);
 
 	UEventManager::RegisterEvent(Green, GreenCond,

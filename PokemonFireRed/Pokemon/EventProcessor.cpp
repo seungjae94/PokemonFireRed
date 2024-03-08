@@ -8,6 +8,7 @@
 #include "MapNameCanvas.h"
 #include "FadeCanvas.h"
 #include "SoundManager.h"
+#include "Trainer.h"
 
 UEventProcessor::UEventProcessor()
 {
@@ -615,8 +616,8 @@ bool UEventProcessor::ProcessTrainerBattle()
 	int CurIndexOfType = GetCurIndexOfType(EEventType::TrainerBattle);
 	ES::TrainerBattle& Data = CurStream->TrainerBattleDataSet[CurIndexOfType];
 
-	UEventManager::SaveEnemyEntry(Data.Entry);
-	UEventManager::SetAsTrainerBattle(Data.TrainerName, Data.TrainerImageName);
+	UEventManager::SaveEnemyEntry(Data.Trainer->GetEntry());
+	UEventManager::SetAsTrainerBattle(Data.Trainer);
 
 	std::string PrevLevelName = UEventManager::CurLevelName;
 	std::string NextLevelName = ToUpper(Global::BattleLevel);

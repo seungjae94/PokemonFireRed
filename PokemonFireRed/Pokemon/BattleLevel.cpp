@@ -140,7 +140,7 @@ void UBattleLevel::LevelStart(ULevel* _PrevLevel)
 	}
 	else
 	{
-		Enemy.InitTrainer(UEventManager::GetTrainerName(), UEventManager::GetTrainerImageName());
+		Enemy.InitTrainer();
 	}
 	Enemy.InitCurPokemon();
 
@@ -254,17 +254,26 @@ void UBattleLevel::ProcessTurn()
 {
 	if (true == BattleTurnSM->IsEnd())
 	{
-		// 턴 준비 단계로 다시 돌아간다.
+		// 배틀이 종료되지 않은 경우 턴 준비 단계로 다시 돌아간다.
 		if (BattleTurnSM->WhyEnd() == ABattleTurnStateMachine::EEndReason::None)
 		{
 			State = EState::PrepareTurn1;
 			BattlePrepareTurnSM->Start(Canvas, MsgBox, &Player, &Enemy);
+			return;
 		}
 		else if (BattleTurnSM->WhyEnd() == ABattleTurnStateMachine::EEndReason::WinToWild)
 		{
 			State = EState::FinishBattle;
 		}
-		else
+		else if (BattleTurnSM->WhyEnd() == ABattleTurnStateMachine::EEndReason::WinToTrainer)
+		{
+			State = EState::FinishBattle;
+		}
+		else if (BattleTurnSM->WhyEnd() == ABattleTurnStateMachine::EEndReason::LoseToWild)
+		{
+			State = EState::FinishBattle;
+		}
+		else if (BattleTurnSM->WhyEnd() == ABattleTurnStateMachine::EEndReason::LoseToTrainer)
 		{
 			State = EState::FinishBattle;
 		}

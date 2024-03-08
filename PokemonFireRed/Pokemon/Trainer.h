@@ -40,11 +40,34 @@ public:
 		return BattlerImageName;
 	}
 
+	void SetTrainerWinMessage(const std::list<std::wstring>& _MessageSet)
+	{
+		TrainerWinMessage = _MessageSet;
+	}
+
+	void SetPlayerWinMessage(const std::list<std::wstring>& _MessageSet)
+	{
+		PlayerWinMessage = _MessageSet;
+	}
+
+	std::list<std::wstring> GetTrainerWinMessage() const
+	{
+		return TrainerWinMessage;
+	}
+
+	std::list<std::wstring> GetPlayerWinMessage() const
+	{
+		return PlayerWinMessage;
+	}
+
 protected:
 
 private:
 	std::vector<UPokemon> Entry;
 	std::string BattlerName;
 	std::string BattlerImageName;
+
+	std::list<std::wstring> TrainerWinMessage;
+	std::list<std::wstring> PlayerWinMessage;
 };
 

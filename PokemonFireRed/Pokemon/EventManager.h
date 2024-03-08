@@ -20,6 +20,7 @@ class UEventManagerReleaser;
 class UEventCondition;
 class ACanvas;
 class ADialogueWindow;
+class ATrainer;
 enum class EFontColor;
 enum class EPlayerState;
 
@@ -49,14 +50,10 @@ public:
 	static std::vector<UPokemon>* LoadEnemyEntry();
 	static bool IsWildPokemonBattle();
 	static void SetAsWildPokemonBattle();
-	static void SetAsTrainerBattle(std::string_view _TrainerName, std::string_view _TrainerImageName);
-	static std::string GetTrainerName()
+	static void SetAsTrainerBattle(ATrainer* _Trainer);
+	static ATrainer* GetTrainer()
 	{
-		return TrainerName;
-	}
-	static std::string GetTrainerImageName()
-	{
-		return TrainerImageName;
+		return Trainer;
 	}
 
 
@@ -246,8 +243,7 @@ private:
 	// 배틀 정보 저장
 	static bool IsWildPokemon;
 	static std::vector<UPokemon>* EnemyEntry;
-	static std::string TrainerName;
-	static std::string TrainerImageName;
+	static ATrainer* Trainer;
 
 	// 틱
 	static void Tick(float _DeltaTime);
