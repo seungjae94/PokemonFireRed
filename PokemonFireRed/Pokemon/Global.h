@@ -207,6 +207,12 @@ namespace RN
 	const std::string PlayerBattler = "PlayerBattler.png"; 
 	const std::string RivalGreenBattler = "RivalGreenBattler.png";
 	const std::string LeaderBrockBattler = "LeaderBrock.png";
+
+	const std::string BattlePlayerEntryArrow = "BattlePlayerEntryArrow.png";
+	const std::string BattleEnemyEntryArrow = "BattleEnemyEntryArrow.png";
+	const std::string BattleEntryBallEmpty = "BattleEntryBallEmpty.png";
+	const std::string BattleEntryBallAlive = "BattleEntryBallAlive.png";
+	const std::string BattleEntryBallFaint = "BattleEntryBallFaint.png";
 };
 
 enum ERenderingOrder
