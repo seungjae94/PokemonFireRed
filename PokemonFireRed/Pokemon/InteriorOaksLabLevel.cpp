@@ -86,7 +86,7 @@ void UInteriorOaksLabLevel::BeginPlay()
 	UEventCondition GreenCond = UEventCondition(EEventTriggerAction::ZClick);
 	ATrainer* Green = SpawnEventTrigger<ATrainer>(GreenInit);
 	Green->AddPokemonToEntry(UPokemon(EPokedexNo::Rattata, 3));
-	//Green->AddPokemonToEntry(UPokemon(EPokedexNo::Charmander, 3));
+	Green->AddPokemonToEntry(UPokemon(EPokedexNo::Charmander, 3));
 	Green->SetPlayerWinMessage({
 		L"Player win\nfirst message.",
 		L"Player win\nsecond message."

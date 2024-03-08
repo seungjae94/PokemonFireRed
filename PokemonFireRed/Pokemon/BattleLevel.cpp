@@ -225,6 +225,7 @@ void UBattleLevel::ProcessPlayerAction()
 		case EBattleAction::Shift:
 		{
 			State = EState::Turn;
+			MsgBox->SetMessage(L"");
 			BattleTurnSM->Start(Canvas, MsgBox, &Player, &Enemy);
 		}
 		break;
