@@ -92,7 +92,7 @@ void ABattleCanvas::BeginPlay()
 	EnemyGroundBall = CreateImageElement(EnemyGround,
 		ERenderingOrder::UI5, EPivotType::RightBot, -56, -7);
 	EnemyGroundBall->SetImage(RN::BattleEnemyGroundBall);
-	EnemyGroundBall->CreateAnimation(Global::BattleEnemyGroundBallShowAnim, 0, 2, 0.15f, false);
+	EnemyGroundBall->CreateAnimation(Global::BattleEnemyGroundBallShowAnim, 0, 2, 0.0667f, false);
 
 	// PlayerGround ¿ä¼Ò
 	PlayerBattler = CreateImageElement(PlayerGround, ERenderingOrder::UI3, EPivotType::RightBot, -12, 0);

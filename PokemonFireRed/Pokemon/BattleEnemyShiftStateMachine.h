@@ -46,8 +46,8 @@ private:
 	// 고유 데이터 - 상수
 	const float EnemyArrowMoveTime = 0.5f;
 	const float EntryFadeTime = 0.5f;
-	const float EnemyPokemonAppearWaitTime = 1.0f;
-	const float EnemyPokemonAppearTime = 1.0f;
+	const float EnemyPokemonAppearWaitTime = 0.75f;
+	const float EnemyPokemonAppearTime = 0.25f;
 	const float EnemyPokemonBoxMoveTime = 0.5f;
 
 	// 고유 데이터 - 타이머
