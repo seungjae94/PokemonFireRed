@@ -11,6 +11,7 @@
 #include "BattleFaintStateMachine.h"
 #include "BattleExpGainStateMachine.h"
 #include "BattlePlayerShiftStateMachine.h"
+#include "BattleEnemyShiftStateMachine.h"
 #include "BattlePrepareTurnStateMachine.h"
 #include "Battler.h"
 
@@ -59,6 +60,10 @@ private:
 	ABattlePlayerActionSelectStateMachine* PlayerActionSelectSM = nullptr;
 	ABattleTurnStateMachine* BattleTurnSM = nullptr;
 
+	// BattlePrepareTurnSM이 내부적으로 사용하는 SM
+	ABattleEnemyShiftStateMachine* BattleEnemyShiftSM = nullptr;
+	ABattlePlayerShiftStateMachine* BattlePlayerShiftSM = nullptr;
+
 	// BattleTurnSM이 내부적으로 사용하는 SM
 	ABattleActionStateMachine* BattleActionSM = nullptr;
 	ABattleEOTStateMachine* BattleEOTSM = nullptr;
@@ -66,7 +71,6 @@ private:
 
 	// BattleActionSM이 내부적으로 사용하는 SM
 	ABattleMoveStateMachine* BattleMoveSM = nullptr;
-	ABattlePlayerShiftStateMachine* BattlePlayerShiftSM = nullptr;
 
 	// BattleFaintSM이 내부적으로 사용하는 SM
 	ABattleExpGainStateMachine* BattleExpGainSM = nullptr;

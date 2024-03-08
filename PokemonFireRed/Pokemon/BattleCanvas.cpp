@@ -527,6 +527,20 @@ void ABattleCanvas::SetMoveSelectBoxActive(bool _Value)
 	MoveSelectBox->SetActive(_Value);
 }
 
+void ABattleCanvas::SetEnemyEntryArrowAlpha(float _Value)
+{
+	EnemyEntryArrow->SetAlpha(_Value);
+	for (int i = 0; i < 6; ++i)
+	{
+		EnemyEntryBalls[i]->SetAlpha(_Value);
+	}
+}
+
+void ABattleCanvas::SetEnemyPokemonBoxAlpha(float _Value)
+{
+	EnemyPokemonBox->SetAlpha(_Value);
+}
+
 void ABattleCanvas::LerpPlayerHpInfo(int _BeforeHp, int _AfterHp, int _MaxHp, float _t)
 {
 	int LerpedHp = UPokemonMath::Round(UPokemonMath::Lerp(static_cast<float>(_AfterHp), static_cast<float>(_BeforeHp), _t));

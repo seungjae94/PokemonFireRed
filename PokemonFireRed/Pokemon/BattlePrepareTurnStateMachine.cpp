@@ -1,6 +1,8 @@
 #include "BattlePrepareTurnStateMachine.h"
+#include <EnginePlatform/EngineInput.h>
 #include "EventManager.h"
 #include "BattlePlayerShiftStateMachine.h"
+#include "BattleEnemyShiftStateMachine.h"
 #include "BattleCanvas.h"
 #include "PokemonMsgBox.h"
 
@@ -19,18 +21,21 @@ void ABattlePrepareTurnStateMachine::Start(ABattleCanvas* _Canvas, APokemonMsgBo
 	Player = _Player;
 	Enemy = _Enemy;
 
-	if (Player->CurPokemon()->IsFaint())
+	if (true == Player->CurPokemon()->IsFaint())
 	{
 		State = ESubstate::SelectPokemonForce;
 		Player->SetShiftPokemonIndex(-1);
 		UEventManager::FadeChangeLevel(Global::PokemonUILevel);
 		return;
 	}
-	else if (Enemy->CurPokemon()->IsFaint())
+	else if (true == Enemy->CurPokemon()->IsFaint())
 	{
-		State = ESubstate::EnemyAboutToUseMessage1;
-		MsgBox->SetMessage(Enemy->GetTrainerNameW() + L" is\nabout to use " + Enemy->CurPokemon()->GetNameW() + L".");
-		MsgBox->Write();
+		State = ESubstate::EnemyShift;
+		Enemy->EnemyAutoShift();
+		Player->GetParticipants().push_back(Enemy->CurPokemon());
+		Enemy->GetParticipants().push_back(Player->CurPokemon());
+
+		BattleEnemyShiftSM->Start(Canvas, MsgBox, Enemy);
 		return;
 	}
 	
@@ -43,23 +48,18 @@ void ABattlePrepareTurnStateMachine::Tick(float _DeltaTime)
 
 	switch (State)
 	{
-	case ABattlePrepareTurnStateMachine::ESubstate::None:
+	case ESubstate::None:
 		break;
-	case ABattlePrepareTurnStateMachine::ESubstate::SelectPokemonForce:
+	case ESubstate::SelectPokemonForce:
 		ProcessSelectPokemonForce();
 		break;
-	case ABattlePrepareTurnStateMachine::ESubstate::EnemyAboutToUseMessage1:
-		break;
-	case ABattlePrepareTurnStateMachine::ESubstate::EnemyAboutToUseMessage2:
-		break;
-	case ABattlePrepareTurnStateMachine::ESubstate::SelectPokemonOptional:
-		break;
-	case ABattlePrepareTurnStateMachine::ESubstate::PlayerShift:
+	case ESubstate::PlayerShift:
 		ProcessPlayerShift();
 		break;
-	case ABattlePrepareTurnStateMachine::ESubstate::EnemyShift:
+	case ESubstate::EnemyShift:
+		ProcessEnemyShift();
 		break;
-	case ABattlePrepareTurnStateMachine::ESubstate::End:
+	case ESubstate::End:
 		break;
 	default:
 		break;
@@ -89,10 +89,18 @@ void ABattlePrepareTurnStateMachine::ProcessPlayerShift()
 	{
 		if (true == Enemy->CurPokemon()->IsFaint())
 		{
-			State = ESubstate::EnemyAboutToUseMessage1;
+			State = ESubstate::EnemyShift;
 			return;
 		}
 
+		State = ESubstate::End;
+	}
+}
+
+void ABattlePrepareTurnStateMachine::ProcessEnemyShift()
+{
+	if (true == BattleEnemyShiftSM->IsEnd())
+	{
 		State = ESubstate::End;
 	}
 }

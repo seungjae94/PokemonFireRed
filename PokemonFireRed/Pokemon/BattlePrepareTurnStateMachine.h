@@ -3,6 +3,7 @@
 #include "Battler.h"
 
 class ABattlePlayerShiftStateMachine;
+class ABattleEnemyShiftStateMachine;
 class ABattleCanvas;
 class APokemonMsgBox;
 
@@ -13,9 +14,6 @@ private:
 	{
 		None,
 		SelectPokemonForce,
-		EnemyAboutToUseMessage1,	
-		EnemyAboutToUseMessage2,	// Will RED change POKeMON? (Yes, No)	
-		SelectPokemonOptional,
 		PlayerShift,				// 플레이어 포켓몬 꺼내기 연출
 		EnemyShift,					// 적 포켓몬 꺼내기 연출
 		End,
@@ -43,6 +41,11 @@ public:
 		BattlePlayerShiftSM = _BPSSM;
 	}
 
+	void SetBESSM(ABattleEnemyShiftStateMachine* _BESSM)
+	{
+		BattleEnemyShiftSM = _BESSM;
+	}
+
 protected:
 
 private:
@@ -50,6 +53,7 @@ private:
 	void Tick(float _DeltaTime) override;
 	void ProcessSelectPokemonForce();
 	void ProcessPlayerShift();
+	void ProcessEnemyShift();
 
 	// 입력 데이터
 	ABattleCanvas* Canvas = nullptr;
@@ -62,5 +66,6 @@ private:
 
 	// SM
 	ABattlePlayerShiftStateMachine* BattlePlayerShiftSM = nullptr;
+	ABattleEnemyShiftStateMachine* BattleEnemyShiftSM = nullptr;
 };
 

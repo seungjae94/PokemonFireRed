@@ -60,6 +60,10 @@ public:
 	void SetActionBoxActive(bool _Value);
 	void SetMoveSelectBoxActive(bool _Value);
 
+	// PrepareTurn
+	void SetEnemyEntryArrowAlpha(float _Value);
+	void SetEnemyPokemonBoxAlpha(float _Value);
+
 	// PlayerAction
 	int GetActionCursor() const
 	{

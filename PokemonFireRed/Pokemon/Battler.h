@@ -131,6 +131,9 @@ public:
 		ShiftPokemonIndex = _ShiftPokemonIndex;
 	}
 
+	// 적 액션
+	void EnemyAutoShift();
+
 	// 스탯 변경
 	void ResetTemporalStat()
 	{

@@ -61,6 +61,7 @@ void UBattleLevel::BeginPlay()
 	BattleFaintSM = SpawnActor<ABattleFaintStateMachine>();
 	BattleMoveSM = SpawnActor<ABattleMoveStateMachine>();
 	BattlePlayerShiftSM = SpawnActor<ABattlePlayerShiftStateMachine>();
+	BattleEnemyShiftSM = SpawnActor<ABattleEnemyShiftStateMachine>();
 	BattleExpGainSM = SpawnActor<ABattleExpGainStateMachine>();
 
 	BattleTurnSM->SetBASM(BattleActionSM);
@@ -70,6 +71,7 @@ void UBattleLevel::BeginPlay()
 	BattleActionSM->SetBPSSM(BattlePlayerShiftSM);
 	BattleFaintSM->SetEGSM(BattleExpGainSM);
 	BattlePrepareTurnSM->SetBPSSM(BattlePlayerShiftSM);
+	BattlePrepareTurnSM->SetBESSM(BattleEnemyShiftSM);
 }
 
 void UBattleLevel::Tick(float _DeltaTime)

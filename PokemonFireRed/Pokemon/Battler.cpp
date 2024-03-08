@@ -57,6 +57,20 @@ void UBattler::ShiftPokemon()
 	ShiftPokemonIndex = -1;
 }
 
+void UBattler::EnemyAutoShift()
+{
+	for (int i = 0; i < Entry.size(); ++i)
+	{
+		if (false == Entry[i]->IsFaint())
+		{
+			ShiftPokemonIndex = i;
+			break;
+		}
+	}
+
+	ShiftPokemon();
+}
+
 void UBattler::DecBindCount()
 {
 	if (BindCount < 1)
