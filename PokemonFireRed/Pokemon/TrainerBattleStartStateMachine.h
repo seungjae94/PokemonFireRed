@@ -20,7 +20,8 @@ private:
 		ZClickWait,
 		EnemyPokemonAppear,
 		EnemyPokemonBoxMove,
-		PlayerBattlerThrow,
+		PlayerBattlerThrow1,
+		PlayerBattlerThrow2,
 		PlayerPokemonTakeout,
 		PlayerPokemonBoxMove,
 		End
@@ -75,9 +76,7 @@ private:
 	float EnemyPokemonAppearTimer = 0.0f;
 
 	const float EnemyPokemonBoxMoveTime = 0.5f;
-	const float PlayerBattleThrowTime = 1.1f;
-	const float BallThrowMotionWaitTime = 0.5f;
-	bool BallThrowAnimationPlayed = false;
+	const float PlayerBattlerHideTime = 1.1f;
 	const float PlayerPokemonTakeoutTime = 0.3f;
 	const float PlayerPokemonBoxMoveTime = 0.5f;
 
@@ -90,7 +89,8 @@ private:
 	void ProcessZClickWait();
 	void ProcessEnemyPokemonAppear(float _DeltaTime);
 	void ProcessEnemyPokemonBoxMove();
-	void ProcessPlayerBattlerThrow();
+	void ProcessPlayerBattlerThrow1();
+	void ProcessPlayerBattlerThrow2();
 	void ProcessPlayerPokemonTakeout();
 	void ProcessPlayerPokemonBoxMove();
 };

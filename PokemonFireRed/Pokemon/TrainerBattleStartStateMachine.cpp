@@ -42,8 +42,11 @@ void ATrainerBattleStartStateMachine::Tick(float _DeltaTime)
 	case ESubstate::EnemyPokemonBoxMove:
 		ProcessEnemyPokemonBoxMove();
 		break;
-	case ESubstate::PlayerBattlerThrow:
-		ProcessPlayerBattlerThrow();
+	case ESubstate::PlayerBattlerThrow1:
+		ProcessPlayerBattlerThrow1();
+		break;
+	case ESubstate::PlayerBattlerThrow2:
+		ProcessPlayerBattlerThrow2();
 		break;
 	case ESubstate::PlayerPokemonTakeout:
 		ProcessPlayerPokemonTakeout();
@@ -163,20 +166,60 @@ void ATrainerBattleStartStateMachine::ProcessEnemyPokemonAppear(float _DeltaTime
 
 void ATrainerBattleStartStateMachine::ProcessEnemyPokemonBoxMove()
 {
+	Canvas->LerpShowEnemyPokemonBox(Timer / EnemyPokemonBoxMoveTime);
+
 	if (Timer <= 0.0f)
 	{
-		// TODO
+		State = ESubstate::PlayerBattlerThrow1;
+		MsgBox->SetMessage(L"Go! " + Player->CurPokemonReadonly()->GetNameW() + L"!");
+		MsgBox->Write();
+
+		Canvas->PlayBattlerThrowingAnimation();
+		Timer = PlayerBattlerHideTime;
 	}
 }
 
-void ATrainerBattleStartStateMachine::ProcessPlayerBattlerThrow()
+void ATrainerBattleStartStateMachine::ProcessPlayerBattlerThrow1()
 {
+	Canvas->LerpHidePlayerBattler(Timer / PlayerBattlerHideTime);
+
+	if (PlayerBattlerHideTime - Timer >= 0.5f)
+	{
+		Canvas->PlayThrowedBallAnimation();
+		State = ESubstate::PlayerBattlerThrow2;
+	}
+}
+
+void ATrainerBattleStartStateMachine::ProcessPlayerBattlerThrow2()
+{
+	Canvas->LerpHidePlayerBattler(Timer / PlayerBattlerHideTime);
+
+	if (Timer <= 0.0f && true == Canvas->IsThrowedBallAnimationEnd())
+	{
+		State = ESubstate::PlayerPokemonTakeout;
+		Canvas->SetThrowedBallActive(false);
+		Timer = PlayerPokemonTakeoutTime;
+	}
 }
 
 void ATrainerBattleStartStateMachine::ProcessPlayerPokemonTakeout()
 {
+	Canvas->TakeOutPlayerPokemonFromBall(Timer / PlayerPokemonTakeoutTime);
+
+	if (Timer <= 0.0f)
+	{
+		State = ESubstate::PlayerPokemonBoxMove;
+		Timer = PlayerPokemonBoxMoveTime;
+	}
 }
 
 void ATrainerBattleStartStateMachine::ProcessPlayerPokemonBoxMove()
 {
+	Canvas->LerpShowPlayerPokemonBox(Timer / PlayerPokemonBoxMoveTime);
+
+	if (Timer <= 0.0f)
+	{
+		State = ESubstate::End;
+	}
+
 }
