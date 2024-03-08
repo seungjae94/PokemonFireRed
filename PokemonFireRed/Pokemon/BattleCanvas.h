@@ -31,6 +31,8 @@ public:	// Refresh ÇÔ¼ö
 	void RefreshMoveSelectBox();
 	void RefreshPlayerEntry();
 	void RefreshEnemyEntry();
+	void RefreshPlayerPokemonImage();
+	void RefreshEnemyPokemonImage();
 public:
 	// BattleStart
 	void LerpShowGrounds(float _t);

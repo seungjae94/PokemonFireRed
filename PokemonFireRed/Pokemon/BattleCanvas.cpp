@@ -199,12 +199,12 @@ void ABattleCanvas::Init(const UBattler* _Player, const UBattler* _Enemy)
 void ABattleCanvas::InitPlayerImages()
 {
 	const UPokemon* PlayerPokemon = Player->CurPokemonReadonly();
-	PlayerBattler->ChangeAnimation(Global::PlayerBattlerIdle);
-	PlayerBattler->SetRelativePosition(PlayerBattlerInitPos);
 	PlayerPokemonImage->SetPokemon(PlayerPokemon);
-
 	PlayerPokemonImage->SetRelativePosition(PlayerPokemonImageHidePos);
 	PlayerPokemonImage->SetScaleFactor(0.0f);
+	
+	PlayerBattler->ChangeAnimation(Global::PlayerBattlerIdle);
+	PlayerBattler->SetRelativePosition(PlayerBattlerInitPos);
 }
 
 void ABattleCanvas::InitEnemyImages()
@@ -351,6 +351,18 @@ void ABattleCanvas::RefreshEnemyEntry()
 	{
 		EnemyEntryBalls[i]->SetImage(RN::BattleEntryBallEmpty);
 	}
+}
+
+void ABattleCanvas::RefreshPlayerPokemonImage()
+{
+	const UPokemon* PlayerPokemon = Player->CurPokemonReadonly();
+	PlayerPokemonImage->SetPokemon(PlayerPokemon);
+}
+
+void ABattleCanvas::RefreshEnemyPokemonImage()
+{
+	const UPokemon* EnemyPokemon = Enemy->CurPokemonReadonly();
+	EnemyPokemonImage->SetPokemon(EnemyPokemon);
 }
 
 
