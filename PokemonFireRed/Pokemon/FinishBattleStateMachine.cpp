@@ -5,11 +5,11 @@
 #include "Battler.h"
 #include "PlayerData.h"
 
-AFinishBattleStateMachine::AFinishBattleStateMachine() 
+AFinishBattleStateMachine::AFinishBattleStateMachine()
 {
 }
 
-AFinishBattleStateMachine::~AFinishBattleStateMachine() 
+AFinishBattleStateMachine::~AFinishBattleStateMachine()
 {
 }
 
@@ -56,62 +56,69 @@ void AFinishBattleStateMachine::Tick(float _DeltaTime)
 
 	switch (State)
 	{
-	case AFinishBattleStateMachine::ESubstate::None:
+	case ESubstate::None:
 		break;
-	case AFinishBattleStateMachine::ESubstate::OutOfPokemonMessage1:
+	case ESubstate::OutOfPokemonMessage1:
 		ProcessOutOfPokemonMessage1();
 		break;
-	case AFinishBattleStateMachine::ESubstate::OutOfPokemonMessage2:
+	case ESubstate::OutOfPokemonMessage2:
 		ProcessOutOfPokemonMessage2();
 		break;
-	case AFinishBattleStateMachine::ESubstate::PanicAndLost1:
+	case ESubstate::PanicAndLost1:
 		ProcessPanicAndLost1();
 		break;
-	case AFinishBattleStateMachine::ESubstate::PanicAndLost2:
+	case ESubstate::PanicAndLost2:
 		ProcessPanicAndLost2();
 		break;
-	case AFinishBattleStateMachine::ESubstate::ManyDots1:
+	case ESubstate::ManyDots1:
 		ProcessManyDots1();
 		break;
-	case AFinishBattleStateMachine::ESubstate::ManyDots2:
+	case ESubstate::ManyDots2:
 		ProcessManyDots2();
 		break;
-	case AFinishBattleStateMachine::ESubstate::WhitedOut1:
+	case ESubstate::WhitedOut1:
 		ProcessWhitedOut1();
 		break;
-	case AFinishBattleStateMachine::ESubstate::WhitedOut2:
+	case ESubstate::WhitedOut2:
 		ProcessWhitedOut2();
 		break;
-	case AFinishBattleStateMachine::ESubstate::PlayerLostAgainst1:
+	case ESubstate::PlayerLostAgainst1:
 		ProcessPlayerLostAgainst1();
 		break;
-	case AFinishBattleStateMachine::ESubstate::PlayerLostAgainst2:
+	case ESubstate::PlayerLostAgainst2:
 		ProcessPlayerLostAgainst2();
 		break;
-	case AFinishBattleStateMachine::ESubstate::PaidAsThePrizeMoney1:
+	case ESubstate::PaidAsThePrizeMoney1:
 		ProcessPaidAsThePrizeMoney1();
 		break;
-	case AFinishBattleStateMachine::ESubstate::PaidAsThePrizeMoney2:
+	case ESubstate::PaidAsThePrizeMoney2:
 		ProcessPaidAsThePrizeMoney2();
 		break;
-	case AFinishBattleStateMachine::ESubstate::PlayerDefeated1:
+	case ESubstate::PlayerDefeated1:
 		ProcessPlayerDefeated1();
 		break;
-	case AFinishBattleStateMachine::ESubstate::PlayerDefeated2:
+	case ESubstate::PlayerDefeated2:
 		ProcessPlayerDefeated2();
 		break;
-	case AFinishBattleStateMachine::ESubstate::EnemyBattlerMove:
+	case ESubstate::EnemyBattlerMove:
 		ProcessEnemyBattlerMove();
 		break;
-	case AFinishBattleStateMachine::ESubstate::EnemyBattlerMessage:
+	case ESubstate::TestEnemyBattlerMessage:
+		ProcessTestEnemyBattlerMessage();
 		break;
-	case AFinishBattleStateMachine::ESubstate::GotMoneyForWining1:
+	case ESubstate::EnemyBattlerMessage1:
+		ProcessEnemyBattlerMessage1();
+		break;
+	case ESubstate::EnemyBattlerMessage2:
+		ProcessEnemyBattlerMessage2();
+		break;
+	case ESubstate::GotMoneyForWining1:
 		ProcessGotMoneyForWining1();
 		break;
-	case AFinishBattleStateMachine::ESubstate::GotMoneyForWining2:
+	case ESubstate::GotMoneyForWining2:
 		ProcessGotMoneyForWining2();
 		break;
-	case AFinishBattleStateMachine::ESubstate::End:
+	case ESubstate::End:
 		break;
 	default:
 		break;
@@ -277,16 +284,58 @@ void AFinishBattleStateMachine::ProcessEnemyBattlerMove()
 	}
 }
 
-void AFinishBattleStateMachine::ProcessEnemyBattlerMessage()
+void AFinishBattleStateMachine::ProcessTestEnemyBattlerMessage()
 {
+	if (Enemy->GetPlayerWinMessageSize() > 0)
+	{
+		State = ESubstate::EnemyBattlerMessage1;
+		std::wstring Msg = Enemy->FrontPlayerWinMessage();
+		Enemy->PopFrontPlayerWinMessage();
+		MsgBox->SetMessage(Msg);
+		MsgBox->Write();
+		return;
+	}
+
+	State = ESubstate::GotMoneyForWining1;
+	int PrizeMoney = CalcPrizeMoney();
+	UPlayerData::GainMoney(PrizeMoney);
+	MsgBox->SetMessage(L"RED got " + std::to_wstring(PrizeMoney) + L"G\nfor winning!");
+	MsgBox->Write();
+}
+
+void AFinishBattleStateMachine::ProcessEnemyBattlerMessage1()
+{
+	if (MsgBox->GetWriteState() == EWriteState::WriteEnd)
+	{
+		State = ESubstate::EnemyBattlerMessage2;
+		MsgBox->ShowSkipArrow();
+	}
+}
+
+void AFinishBattleStateMachine::ProcessEnemyBattlerMessage2()
+{
+	if (true == UEngineInput::IsDown('Z'))
+	{
+		State = ESubstate::TestEnemyBattlerMessage;
+		MsgBox->HideSkipArrow();
+	}
 }
 
 void AFinishBattleStateMachine::ProcessGotMoneyForWining1()
 {
+	if (MsgBox->GetWriteState() == EWriteState::WriteEnd)
+	{
+		State = ESubstate::GotMoneyForWining2;
+		MsgBox->ShowSkipArrow();
+	}
 }
 
 void AFinishBattleStateMachine::ProcessGotMoneyForWining2()
 {
+	if (true == UEngineInput::IsDown('Z'))
+	{
+		State = ESubstate::End;
+	}
 }
 
 int AFinishBattleStateMachine::CalcMaxLevel()

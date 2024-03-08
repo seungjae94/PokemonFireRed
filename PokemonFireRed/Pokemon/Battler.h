@@ -69,7 +69,7 @@ public:
 		return PlayerWinMessage.front();
 	}
 
-	std::wstring PopFrontPlayerWinMessage()
+	void PopFrontPlayerWinMessage()
 	{
 		PlayerWinMessage.pop_front();
 	}

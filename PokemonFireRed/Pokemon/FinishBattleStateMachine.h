@@ -28,7 +28,8 @@ private:
 		PlayerDefeated2,
 		EnemyBattlerMove,
 		TestEnemyBattlerMessage,
-		EnemyBattlerMessage,
+		EnemyBattlerMessage1,
+		EnemyBattlerMessage2,
 		GotMoneyForWining1,
 		GotMoneyForWining2,
 		End
@@ -82,7 +83,9 @@ private:
 	void ProcessPlayerDefeated1();
 	void ProcessPlayerDefeated2();
 	void ProcessEnemyBattlerMove();
-	void ProcessEnemyBattlerMessage();
+	void ProcessTestEnemyBattlerMessage();
+	void ProcessEnemyBattlerMessage1();
+	void ProcessEnemyBattlerMessage2();
 	void ProcessGotMoneyForWining1();
 	void ProcessGotMoneyForWining2();
 
