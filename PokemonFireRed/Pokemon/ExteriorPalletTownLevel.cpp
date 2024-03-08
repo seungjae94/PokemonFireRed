@@ -99,28 +99,6 @@ and POKéMON as data via PC.)"
 		{71, 157}, {72, 157}, {73, 157}, {74, 157},
 		{71, 158}, {72, 158}, {73, 158}, {74, 158},
 	});
-
-	// 디버그용 포켓몬 추가 이벤트
-	UPokemon Pokemon0 = UPokemon(EPokedexNo::Bulbasaur, 100);
-	//UPokemon Pokemon1 = UPokemon(EPokedexNo::Rattata, 1);
-	//UPokemon Pokemon2 = UPokemon(EPokedexNo::Squirtle, 2);
-	//UPokemon Pokemon3 = UPokemon(EPokedexNo::Charmander, 7);
-	//UPokemon Pokemon4 = UPokemon(EPokedexNo::Pidgey, 2);
-	//UPokemon Pokemon5 = UPokemon(EPokedexNo::Caterpie, 3);
-	Pokemon0.SetCurHp(Pokemon0.GetHp() / 6);
-	//Pokemon3.SetCurHp(Pokemon3.GetHp() / 3);
-	//Pokemon0.AddAccExp(0);
-	//Pokemon1.AddAccExp(15);
-	//Pokemon2.AddAccExp(5);
-	//Pokemon3.AddAccExp(3);
-	//Pokemon4.AddAccExp(1);
-	UPlayerData::AddPokemonToEntry(Pokemon0);
-	//UPlayerData::AddPokemonToEntry(Pokemon1);
-	//UPlayerData::AddPokemonToEntry(Pokemon2);
-	//UPlayerData::AddPokemonToEntry(Pokemon3);
-	//UPlayerData::AddPokemonToEntry(Pokemon4);
-	//UPlayerData::AddPokemonToEntry(Pokemon5);
-	UPlayerData::Achieve(EAchievement::GetFirstPokemon);
 }
 
 void UExteriorPalletTownLevel::LevelStart(ULevel* _PrevLevel)
