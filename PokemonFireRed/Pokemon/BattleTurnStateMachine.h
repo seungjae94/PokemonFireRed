@@ -13,18 +13,18 @@ class ABattleCanvas;
 class APokemonMsgBox;
 struct FMoveEffectTestResult;
 
+enum class EBattleEndReason
+{
+	None,
+	WinToWild,
+	WinToTrainer,
+	LoseToWild,
+	LoseToTrainer,
+};
+
 // 턴 순서를 관리하는 역할
 class ABattleTurnStateMachine : public AActor
 {
-public:
-	enum class EEndReason
-	{
-		None,
-		WinToWild,
-		WinToTrainer,
-		LoseToWild,
-		LoseToTrainer,
-	};
 private:
 	enum class ESubstate
 	{
@@ -66,7 +66,7 @@ public:
 		return State == ESubstate::End;
 	}
 
-	EEndReason WhyEnd() const
+	EBattleEndReason WhyEnd() const
 	{
 		return Reason;
 	}
@@ -113,7 +113,7 @@ private:
 
 	// 고유 데이터
 	ESubstate State = ESubstate::None;
-	EEndReason Reason = EEndReason::None;
+	EBattleEndReason Reason = EBattleEndReason::None;
 
 	float Timer = 0.0f;
 	UBattler* Attacker = nullptr;

@@ -36,7 +36,6 @@ void UBattler::InitTrainer()
 	IsWildPokemonValue = false;
 	TrainerName = Trainer->GetBattlerName();
 	TrainerImageName = Trainer->GetBattlerImageName();
-	TrainerWinMessage = Trainer->GetTrainerWinMessage();
 	PlayerWinMessage = Trainer->GetPlayerWinMessage();
 	InitEnemyPokemon();
 }

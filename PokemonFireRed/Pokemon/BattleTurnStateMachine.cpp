@@ -30,7 +30,7 @@ void ABattleTurnStateMachine::Start(ABattleCanvas* _Canvas, APokemonMsgBox* _Msg
 
 	// 적 액션 생성 및 데이터 초기화
 	UBattleEnemyActionGenerator::Generate(Enemy);
-	Reason = EEndReason::None;
+	Reason = EBattleEndReason::None;
 	PlayerFaintChecked = false;
 	EnemyFaintChecked = false;
 
@@ -228,22 +228,22 @@ void ABattleTurnStateMachine::EndTurnWithReason()
 	{
 		if (true == Enemy->IsWildPokemon())
 		{
-			Reason = EEndReason::WinToWild;
+			Reason = EBattleEndReason::WinToWild;
 		}
 		else
 		{
-			Reason = EEndReason::WinToTrainer;
+			Reason = EBattleEndReason::WinToTrainer;
 		}
 	}
 	else if (true == Player->AllFaint())
 	{
 		if (true == Enemy->IsWildPokemon())
 		{
-			Reason = EEndReason::LoseToWild;
+			Reason = EBattleEndReason::LoseToWild;
 		}
 		else
 		{
-			Reason = EEndReason::LoseToTrainer;
+			Reason = EBattleEndReason::LoseToTrainer;
 		}
 	}
 

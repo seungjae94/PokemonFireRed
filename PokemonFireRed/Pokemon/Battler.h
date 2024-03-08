@@ -30,7 +30,6 @@ public:
 		CurMoveIndex = 0;
 		IsPlayerValue = false;
 		IsWildPokemonValue = false;
-		TrainerWinMessage.clear();
 		PlayerWinMessage.clear();
 	}
 
@@ -63,21 +62,6 @@ public:
 	std::string GetTrainerImageName() const
 	{
 		return TrainerImageName;
-	}
-
-	std::wstring FrontTrainerWinMessage()
-	{
-		return TrainerWinMessage.front();
-	}
-
-	std::wstring PopFrontTrainerWinMessage()
-	{
-		TrainerWinMessage.pop_front();
-	}
-
-	int GetTrainerWinMessageSize()
-	{
-		return static_cast<int>(TrainerWinMessage.size());
 	}
 
 	std::wstring FrontPlayerWinMessage()
@@ -230,7 +214,6 @@ private:
 	std::vector<UPokemon*> Entry;
 	std::string TrainerName;
 	std::string TrainerImageName;
-	std::list<std::wstring> TrainerWinMessage;
 	std::list<std::wstring> PlayerWinMessage;
 
 	int FightingPokemonIndex = 0;

@@ -13,6 +13,7 @@
 #include "BattlePlayerShiftStateMachine.h"
 #include "BattleEnemyShiftStateMachine.h"
 #include "BattlePrepareTurnStateMachine.h"
+#include "FinishBattleStateMachine.h"
 #include "Battler.h"
 
 class UBattleLevel : public UPokemonLevel
@@ -52,6 +53,7 @@ private:
 	UBattler Enemy;
 	ABattleCanvas* Canvas = nullptr;
 	APokemonMsgBox* MsgBox = nullptr;
+	EBattleEndReason BattleEndReason = EBattleEndReason::None;
 
 	// FSM
 	ABattlePrepareTurnStateMachine* BattlePrepareTurnSM = nullptr;
@@ -59,6 +61,7 @@ private:
 	ATrainerBattleStartStateMachine* TrainerBattleStartSM = nullptr;
 	ABattlePlayerActionSelectStateMachine* PlayerActionSelectSM = nullptr;
 	ABattleTurnStateMachine* BattleTurnSM = nullptr;
+	AFinishBattleStateMachine* FinishBattleSM = nullptr;
 
 	// BattlePrepareTurnSM이 내부적으로 사용하는 SM
 	ABattleEnemyShiftStateMachine* BattleEnemyShiftSM = nullptr;

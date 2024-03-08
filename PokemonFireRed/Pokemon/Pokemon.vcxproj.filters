@@ -369,9 +369,6 @@
     <ClInclude Include="BattleMoveStateMachine.h">
       <Filter>2. Level\7. BattleLevel\StateMachine\3. Turn\0. Action</Filter>
     </ClInclude>
-    <ClInclude Include="BattleEndStateMachine.h">
-      <Filter>2. Level\7. BattleLevel\StateMachine\4. FinishBattle</Filter>
-    </ClInclude>
     <ClInclude Include="BattlePlayerShiftStateMachine.h">
       <Filter>2. Level\7. BattleLevel\StateMachine\Common</Filter>
     </ClInclude>
@@ -386,6 +383,9 @@
     </ClInclude>
     <ClInclude Include="TrainerBattleStartStateMachine.h">
       <Filter>2. Level\7. BattleLevel\StateMachine\0. BattleStart</Filter>
+    </ClInclude>
+    <ClInclude Include="FinishBattleStateMachine.h">
+      <Filter>2. Level\7. BattleLevel\StateMachine\4. FinishBattle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -623,9 +623,6 @@
     <ClCompile Include="BattleMoveStateMachine.cpp">
       <Filter>2. Level\7. BattleLevel\StateMachine\3. Turn\0. Action</Filter>
     </ClCompile>
-    <ClCompile Include="BattleEndStateMachine.cpp">
-      <Filter>2. Level\7. BattleLevel\StateMachine\4. FinishBattle</Filter>
-    </ClCompile>
     <ClCompile Include="BattlePlayerShiftStateMachine.cpp">
       <Filter>2. Level\7. BattleLevel\StateMachine\Common</Filter>
     </ClCompile>
@@ -640,6 +637,9 @@
     </ClCompile>
     <ClCompile Include="TrainerBattleStartStateMachine.cpp">
       <Filter>2. Level\7. BattleLevel\StateMachine\0. BattleStart</Filter>
+    </ClCompile>
+    <ClCompile Include="FinishBattleStateMachine.cpp">
+      <Filter>2. Level\7. BattleLevel\StateMachine\4. FinishBattle</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -187,10 +187,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="BattleEndStateMachine.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="BattleEnemyActionGenerator.h">
       <SubType>
       </SubType>
@@ -249,6 +245,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="BattlePlayerActionSelectStateMachine.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="FinishBattleStateMachine.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -531,10 +531,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="BattleEndStateMachine.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="BattleEnemyActionGenerator.cpp">
       <SubType>
       </SubType>
@@ -592,6 +588,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="BattlePlayerActionSelectStateMachine.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="FinishBattleStateMachine.cpp">
       <SubType>
       </SubType>
     </ClCompile>

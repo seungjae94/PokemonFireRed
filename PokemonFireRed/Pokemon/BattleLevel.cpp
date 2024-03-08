@@ -54,6 +54,7 @@ void UBattleLevel::BeginPlay()
 	BattlePrepareTurnSM = SpawnActor<ABattlePrepareTurnStateMachine>();
 	PlayerActionSelectSM = SpawnActor<ABattlePlayerActionSelectStateMachine>();
 	BattleTurnSM = SpawnActor<ABattleTurnStateMachine>();
+	FinishBattleSM = SpawnActor<AFinishBattleStateMachine>();
 	
 	// 하위 요소
 	BattleActionSM = SpawnActor<ABattleActionStateMachine>();
@@ -255,34 +256,35 @@ void UBattleLevel::ProcessTurn()
 	if (true == BattleTurnSM->IsEnd())
 	{
 		// 배틀이 종료되지 않은 경우 턴 준비 단계로 다시 돌아간다.
-		if (BattleTurnSM->WhyEnd() == ABattleTurnStateMachine::EEndReason::None)
+		BattleEndReason = BattleTurnSM->WhyEnd();
+
+		if (BattleTurnSM->WhyEnd() == EBattleEndReason::None)
 		{
 			State = EState::PrepareTurn1;
 			BattlePrepareTurnSM->Start(Canvas, MsgBox, &Player, &Enemy);
 			return;
 		}
-		else if (BattleTurnSM->WhyEnd() == ABattleTurnStateMachine::EEndReason::WinToWild)
-		{
-			State = EState::FinishBattle;
-		}
-		else if (BattleTurnSM->WhyEnd() == ABattleTurnStateMachine::EEndReason::WinToTrainer)
-		{
-			State = EState::FinishBattle;
-		}
-		else if (BattleTurnSM->WhyEnd() == ABattleTurnStateMachine::EEndReason::LoseToWild)
-		{
-			State = EState::FinishBattle;
-		}
-		else if (BattleTurnSM->WhyEnd() == ABattleTurnStateMachine::EEndReason::LoseToTrainer)
-		{
-			State = EState::FinishBattle;
-		}
+
+		State = EState::FinishBattle;
+		FinishBattleSM->Start(Canvas, MsgBox, &Player, &Enemy, BattleEndReason);
 	}
 }
 
 void UBattleLevel::ProcessFinishBattle()
 {
-	ReturnToMapLevel();
+	if (true == FinishBattleSM->IsEnd())
+	{
+		if (BattleEndReason == EBattleEndReason::WinToWild || BattleEndReason == EBattleEndReason::WinToTrainer)
+		{
+			ReturnToMapLevel();
+		}
+		else
+		{
+			// TODO: 가장 마지막에 방문한 포켓몬 센터로 복귀
+			ReturnToMapLevel();
+		}
+
+	}
 }
 
 void UBattleLevel::ProcessRun()
