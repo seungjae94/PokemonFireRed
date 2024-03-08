@@ -101,7 +101,7 @@ and POKéMON as data via PC.)"
 	});
 
 	// 디버그용 포켓몬 추가 이벤트
-	UPokemon Pokemon0 = UPokemon(EPokedexNo::Bulbasaur, 1);
+	UPokemon Pokemon0 = UPokemon(EPokedexNo::Bulbasaur, 100);
 	//UPokemon Pokemon1 = UPokemon(EPokedexNo::Rattata, 1);
 	//UPokemon Pokemon2 = UPokemon(EPokedexNo::Squirtle, 2);
 	//UPokemon Pokemon3 = UPokemon(EPokedexNo::Charmander, 7);

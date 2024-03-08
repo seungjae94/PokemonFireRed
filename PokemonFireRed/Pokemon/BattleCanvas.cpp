@@ -81,6 +81,7 @@ void ABattleCanvas::BeginPlay()
 	// EnemyGround ¿ä¼Ò
 	EnemyBattler = CreateImageElement(EnemyGround, ERenderingOrder::UI3, EPivotType::RightBot, -40, -10);
 	EnemyBattlerInitPos = EnemyBattler->GetRelativePosition();
+	EnemyBattlerMessagePos = EnemyBattlerInitPos + FVector::Right * 30 * Global::FloatPixelSize;
 	EnemyBattlerHidePos = EnemyBattlerInitPos + FVector::Right * Global::FloatHalfScreenX;
 
 	EnemyPokemonImage = CreateImageElement(EnemyGround, ERenderingOrder::UI2, EPivotType::LeftTop, 36, -25, EImageElementType::PokemonFront);
@@ -89,7 +90,7 @@ void ABattleCanvas::BeginPlay()
 	EnemyPokemonImageFaintPos = EnemyPokemonImageInitPos + UPokemonUtil::PixelVector(0, 64);
 
 	EnemyGroundBall = CreateImageElement(EnemyGround,
-		ERenderingOrder::UI5, EPivotType::RightBot, -56, -12);
+		ERenderingOrder::UI5, EPivotType::RightBot, -56, -7);
 	EnemyGroundBall->SetImage(RN::BattleEnemyGroundBall);
 	EnemyGroundBall->CreateAnimation(Global::BattleEnemyGroundBallShowAnim, 0, 2, 0.15f, false);
 
@@ -629,6 +630,12 @@ void ABattleCanvas::ShowStatAfterBox(const UPokemon* _Pokemon)
 void ABattleCanvas::HideStatUpWindow()
 {
 	StatBox->SetActive(false);
+}
+
+void ABattleCanvas::LerpShowEnemyBattler(float _t)
+{
+	FVector Pos = UPokemonMath::Lerp(EnemyBattlerMessagePos, EnemyBattlerHidePos, _t);
+	EnemyBattler->SetRelativePosition(Pos);
 }
 
 void ABattleCanvas::Tick(float _DeltaTime)

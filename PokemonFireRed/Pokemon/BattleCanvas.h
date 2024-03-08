@@ -103,6 +103,9 @@ public:
 	void ShowStatUpBox(const FLevelUpData& _LevelUpData);
 	void ShowStatAfterBox(const UPokemon* _Pokemon);
 	void HideStatUpWindow();
+
+	// FinishBattle
+	void LerpShowEnemyBattler(float _t);
 protected:
 
 private:
@@ -129,6 +132,7 @@ private:
 	FVector PlayerBattlerHidePos;
 	FVector EnemyBattlerInitPos;
 	FVector EnemyBattlerHidePos;
+	FVector EnemyBattlerMessagePos;
 	FVector EnemyPokemonImageInitPos;
 	FVector EnemyPokemonImageHidePos;
 	FVector EnemyPokemonImageFaintPos;

@@ -27,6 +27,7 @@ private:
 		PlayerDefeated1,
 		PlayerDefeated2,
 		EnemyBattlerMove,
+		TestEnemyBattlerMessage,
 		EnemyBattlerMessage,
 		GotMoneyForWining1,
 		GotMoneyForWining2,
@@ -60,6 +61,10 @@ private:
 	UBattler* Enemy = nullptr;
 	EBattleEndReason Reason = EBattleEndReason::None;
 
+	// 데이터
+	const float EnemyBattlerMoveTime = 0.5f;
+	float Timer = 0.0f;
+
 	// 틱 함수
 	void Tick(float _DeltaTime) override;
 	void ProcessOutOfPokemonMessage1();
@@ -82,6 +87,8 @@ private:
 	void ProcessGotMoneyForWining2();
 
 	// 유틸 함수
+	int CalcMaxLevel();
 	int CalcLostMoney();
+	int CalcPrizeMoney();
 };
 

@@ -29,6 +29,9 @@ void AFinishBattleStateMachine::Start(ABattleCanvas* _Canvas, APokemonMsgBox* _M
 		State = ESubstate::End;
 		break;
 	case EBattleEndReason::WinToTrainer:
+		State = ESubstate::PlayerDefeated1;
+		MsgBox->SetMessage(L"Player defeated\n" + Enemy->GetTrainerNameW() + L"!");
+		MsgBox->Write();
 		break;
 	case EBattleEndReason::LoseToWild:
 		State = ESubstate::OutOfPokemonMessage1;
@@ -48,6 +51,8 @@ void AFinishBattleStateMachine::Start(ABattleCanvas* _Canvas, APokemonMsgBox* _M
 void AFinishBattleStateMachine::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
+
+	Timer -= _DeltaTime;
 
 	switch (State)
 	{
@@ -90,16 +95,21 @@ void AFinishBattleStateMachine::Tick(float _DeltaTime)
 		ProcessPaidAsThePrizeMoney2();
 		break;
 	case AFinishBattleStateMachine::ESubstate::PlayerDefeated1:
+		ProcessPlayerDefeated1();
 		break;
 	case AFinishBattleStateMachine::ESubstate::PlayerDefeated2:
+		ProcessPlayerDefeated2();
 		break;
 	case AFinishBattleStateMachine::ESubstate::EnemyBattlerMove:
+		ProcessEnemyBattlerMove();
 		break;
 	case AFinishBattleStateMachine::ESubstate::EnemyBattlerMessage:
 		break;
 	case AFinishBattleStateMachine::ESubstate::GotMoneyForWining1:
+		ProcessGotMoneyForWining1();
 		break;
 	case AFinishBattleStateMachine::ESubstate::GotMoneyForWining2:
+		ProcessGotMoneyForWining2();
 		break;
 	case AFinishBattleStateMachine::ESubstate::End:
 		break;
@@ -237,14 +247,67 @@ void AFinishBattleStateMachine::ProcessPaidAsThePrizeMoney2()
 	}
 }
 
-int AFinishBattleStateMachine::CalcLostMoney()
+void AFinishBattleStateMachine::ProcessPlayerDefeated1()
+{
+	if (MsgBox->GetWriteState() == EWriteState::WriteEnd)
+	{
+		State = ESubstate::PlayerDefeated2;
+		MsgBox->ShowSkipArrow();
+	}
+}
+
+void AFinishBattleStateMachine::ProcessPlayerDefeated2()
+{
+	if (true == UEngineInput::IsDown('Z'))
+	{
+		State = ESubstate::EnemyBattlerMove;
+		MsgBox->HideSkipArrow();
+		MsgBox->SetMessage(L"");
+		Timer = EnemyBattlerMoveTime;
+	}
+}
+
+void AFinishBattleStateMachine::ProcessEnemyBattlerMove()
+{
+	Canvas->LerpShowEnemyBattler(Timer / EnemyBattlerMoveTime);
+
+	if (Timer <= 0.0f)
+	{
+		State = ESubstate::TestEnemyBattlerMessage;
+	}
+}
+
+void AFinishBattleStateMachine::ProcessEnemyBattlerMessage()
+{
+}
+
+void AFinishBattleStateMachine::ProcessGotMoneyForWining1()
+{
+}
+
+void AFinishBattleStateMachine::ProcessGotMoneyForWining2()
+{
+}
+
+int AFinishBattleStateMachine::CalcMaxLevel()
 {
 	int MaxLevel = 0;
 	for (int i = 0; i < Player->GetEntrySize(); ++i)
 	{
 		MaxLevel = UPokemonMath::Max(MaxLevel, Player->GetLevel(i));
 	}
+	return MaxLevel;
+}
 
-	int LostMoney = UPokemonMath::Min(8 * MaxLevel, UPlayerData::GetMoney());
+int AFinishBattleStateMachine::CalcLostMoney()
+{
+	int MaxLevel = CalcMaxLevel();
+	int LostMoney = UPokemonMath::Min(MaxLevel * 8, UPlayerData::GetMoney());
 	return LostMoney;
+}
+
+int AFinishBattleStateMachine::CalcPrizeMoney()
+{
+	int MaxLevel = CalcMaxLevel();
+	return MaxLevel * 100;
 }
