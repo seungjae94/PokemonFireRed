@@ -42,6 +42,9 @@ void ATrainerBattleStartStateMachine::Tick(float _DeltaTime)
 	case ESubstate::EnemyPokemonBoxMove:
 		ProcessEnemyPokemonBoxMove();
 		break;
+	case ESubstate::PlayerStartWait:
+		ProcessPlayerStartWait();
+		break;
 	case ESubstate::PlayerBattlerThrow1:
 		ProcessPlayerBattlerThrow1(_DeltaTime);
 		break;
@@ -170,6 +173,15 @@ void ATrainerBattleStartStateMachine::ProcessEnemyPokemonBoxMove()
 {
 	Canvas->LerpShowEnemyPokemonBox(Timer / EnemyPokemonBoxMoveTime);
 
+	if (Timer <= 0.0f)
+	{
+		State = ESubstate::PlayerStartWait;
+		Timer = PlayerStartWaitTime;
+	}
+}
+
+void ATrainerBattleStartStateMachine::ProcessPlayerStartWait()
+{
 	if (Timer <= 0.0f)
 	{
 		State = ESubstate::PlayerBattlerThrow1;
