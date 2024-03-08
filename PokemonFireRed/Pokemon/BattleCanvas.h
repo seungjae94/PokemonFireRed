@@ -29,13 +29,16 @@ public:	// Refresh ÇÔ¼ö
 	void RefreshEnemyPokemonBox();
 	void RefreshPlayerPokemonBox();
 	void RefreshMoveSelectBox();
-
+	void RefreshPlayerEntry();
+	void RefreshEnemyEntry();
 public:
 	// BattleStart
 	void LerpShowGrounds(float _t);
 	void LerpShowEnemyPokemonBox(float _t);
 	void LerpShowEnemyEntryArrow(float _t);
 	void LerpShowPlayerEntryArrow(float _t);
+	void LerpEnemyEntryBall(int _Index, float _t);
+	void LerpPlayerEntryBall(int _Index, float _t);
 	void PlayBattlerThrowingAnimation();
 	void LerpHidePlayerBattler(float _t);
 	void PlayThrowedBallAnimation();
@@ -117,6 +120,10 @@ private:
 	FVector PlayerEntryArrowHidePos;
 	FVector EnemyEntryArrowInitPos;
 	FVector EnemyEntryArrowHidePos;
+	std::vector<FVector> EnemyEntryBallsInitPos;
+	std::vector<FVector> EnemyEntryBallsHidePos;
+	std::vector<FVector> PlayerEntryBallsInitPos;
+	std::vector<FVector> PlayerEntryBallsHidePos;
 	int HpBarMaxValue = 1000;
 	int ExpBarMaxValue = 1000;
 

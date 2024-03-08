@@ -84,6 +84,17 @@ bool UBattler::AllFaint() const
 	return true;
 }
 
+bool UBattler::IsFaint(int _Index) const
+{
+	if (_Index >= Entry.size())
+	{
+		MsgBoxAssert("UBattler::IsFaint 함수에서 엔트리 사이즈보다 큰 인덱스로 접근하려고 했습니다.");
+		return false;
+	}
+
+	return Entry[_Index]->IsFaint();
+}
+
 void UBattler::InitEnemyPokemon()
 {
 	std::vector<UPokemon>* RealEntry = UEventManager::LoadEnemyEntry();

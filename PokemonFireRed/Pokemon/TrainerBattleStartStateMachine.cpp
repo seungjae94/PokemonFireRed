@@ -30,7 +30,7 @@ void ATrainerBattleStartStateMachine::Tick(float _DeltaTime)
 		ProcessEnemyArrowMove();
 		break;
 	case ATrainerBattleStartStateMachine::ESubstate::EntryBallMove:
-		ProcessEnemyBallMove();
+		ProcessEnemyBallMove(_DeltaTime);
 		break;
 	case ATrainerBattleStartStateMachine::ESubstate::EnemyPokemonAppear:
 		ProcessEnemyPokemonAppear();
@@ -72,8 +72,6 @@ void ATrainerBattleStartStateMachine::ProcessGroundMove()
 	{
 		State = ESubstate::EntryArrowMove;
 		Timer = EnemyArrowMoveTime;
-		MsgBox->SetMessage(Enemy->GetTrainerNameW() + L"\nwould like to battle!");
-		MsgBox->Write();
 	}
 }
 
@@ -83,16 +81,55 @@ void ATrainerBattleStartStateMachine::ProcessEnemyArrowMove()
 
 	if (Timer <= 0)
 	{
-		
+		State = ESubstate::EntryBallMove;
+		MsgBox->SetMessage(Enemy->GetTrainerNameW() + L"\nwould like to battle!");
+		MsgBox->Write();
+		MsgBox->SetWriteSpeed(0.75f);
+
+		BallTimers.clear();
+		BallTimers.resize(6);
+		for (int i = 0; i < 6; ++i)
+		{
+			BallTimers[i] = EntryBallMoveTime;
+		}
+		MovingBallIndex = 0;
+
+		Timer = EntryBallMoveInterval;
 	}
 }
 
-void ATrainerBattleStartStateMachine::ProcessEnemyBallMove()
+void ATrainerBattleStartStateMachine::ProcessEnemyBallMove(float _DeltaTime)
 {
-	if (Timer <= 0 && MsgBox->GetWriteState() == EWriteState::WriteEnd)
+	for (int i = 0; i <= MovingBallIndex; ++i)
+	{
+		BallTimers[i] -= _DeltaTime;
+		Canvas->LerpEnemyEntryBall(i, BallTimers[i] / EntryBallMoveTime);
+	}
+	
+	if (Timer <= 0.0f && MovingBallIndex < 5)
+	{
+		++MovingBallIndex;
+		Timer = EntryBallMoveInterval;
+	}
+		
+	if (BallTimers[5] < 0.0f && MsgBox->GetWriteState() == EWriteState::WriteEnd)
 	{
 		MsgBox->ShowSkipArrow();
+		MsgBox->SetWriteSpeed(1.0f);
+		State = ESubstate::EnemyPokemonAppear;
 	}
+}
+
+bool ATrainerBattleStartStateMachine::IsAllBallMoved()
+{
+	for (int i = 0; i < 6; ++i)
+	{
+		if (BallTimers[i] > 0.0f)
+		{
+			return false;
+		}
+	}
+	return true;
 }
 
 void ATrainerBattleStartStateMachine::ProcessEnemyPokemonAppear()

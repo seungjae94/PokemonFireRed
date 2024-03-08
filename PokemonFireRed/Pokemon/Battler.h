@@ -186,6 +186,8 @@ public:
 
 	bool AllFaint() const;
 
+	bool IsFaint(int _Index) const;
+
 protected:
 
 private:

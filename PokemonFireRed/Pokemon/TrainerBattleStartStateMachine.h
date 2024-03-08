@@ -60,24 +60,27 @@ private:
 	float Timer = 0.0f;
 
 	ESubstate State = ESubstate::None;
-	float FadeWaitTime = 0.5f;
-	float GroundMoveTime = 1.5f;
-	float EnemyArrowMoveTime = 0.5f;
-	float EnemyBallMoveTime = 1.0f;
-	float EnemyBallMoveInterval = 1.0f;
-	float EnemyPokemonBoxMoveTime = 0.5f;
-	float PlayerBattleThrowTime = 1.1f;
-	float BallThrowMotionWaitTime = 0.5f;
+	const float FadeWaitTime = 0.5f;
+	const float GroundMoveTime = 1.5f;
+	const float EnemyArrowMoveTime = 0.5f;
+	const float EntryBallMoveTime = 0.5f;
+	const float EntryBallMoveInterval = 0.1f;
+	int MovingBallIndex = 0;
+	std::vector<float> BallTimers;
+	const float EnemyPokemonBoxMoveTime = 0.5f;
+	const float PlayerBattleThrowTime = 1.1f;
+	const float BallThrowMotionWaitTime = 0.5f;
 	bool BallThrowAnimationPlayed = false;
-	float PlayerPokemonTakeoutTime = 0.3f;
-	float PlayerPokemonBoxMoveTime = 0.5f;
+	const float PlayerPokemonTakeoutTime = 0.3f;
+	const float PlayerPokemonBoxMoveTime = 0.5f;
 
 	void Tick(float _DeltaTime) override;
 
 	void ProcessFadeWait();
 	void ProcessGroundMove();
 	void ProcessEnemyArrowMove();
-	void ProcessEnemyBallMove();
+	void ProcessEnemyBallMove(float _DeltaTime);
+	bool IsAllBallMoved();
 	void ProcessEnemyPokemonAppear();
 	void ProcessEnemyPokemonBoxMove();
 	void ProcessPlayerBattlerThrow();

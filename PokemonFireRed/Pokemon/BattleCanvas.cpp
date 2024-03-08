@@ -134,9 +134,27 @@ void ABattleCanvas::BeginPlay()
 	StatSpAtkText = CreateText(StatBox, ERenderingOrder::UI8, EPivotType::RightTop, -7, 63, EAlignType::Right, EFontColor::Black3);
 	StatSpDefText = CreateText(StatBox, ERenderingOrder::UI8, EPivotType::RightTop, -7, 78, EAlignType::Right, EFontColor::Black3);
 	StatSpeedText = CreateText(StatBox, ERenderingOrder::UI8, EPivotType::RightTop, -7, 93, EAlignType::Right, EFontColor::Black3);
+
+	// EntryArrow ¿ä¼Ò
+	PlayerEntryBalls.resize(6);
+	EnemyEntryBalls.resize(6);
+	PlayerEntryBallsInitPos.resize(6);
+	PlayerEntryBallsHidePos.resize(6);
+	EnemyEntryBallsInitPos.resize(6);
+	EnemyEntryBallsHidePos.resize(6);
+
+	int BallInterval = 10;
+	for (int i = 0; i < 6; ++i)
+	{
+		PlayerEntryBalls[i] = CreateImageElement(PlayerEntryArrow, ERenderingOrder::UI4, EPivotType::LeftTop, 20 + BallInterval * i, -10);
+		PlayerEntryBallsInitPos[i] = PlayerEntryBalls[i]->GetRelativePosition();
+		PlayerEntryBallsHidePos[i] = PlayerEntryBallsInitPos[i] + FVector::Right * Global::FloatScreenX;
+
+		EnemyEntryBalls[i] = CreateImageElement(EnemyEntryArrow, ERenderingOrder::UI4, EPivotType::RightTop, -20 - BallInterval * i, -10);
+		EnemyEntryBallsInitPos[i] = EnemyEntryBalls[i]->GetRelativePosition();
+		EnemyEntryBallsHidePos[i] = EnemyEntryBallsInitPos[i] + FVector::Left * Global::FloatScreenX;
+	}
 }
-
-
 
 void ABattleCanvas::Init(const UBattler* _Player, const UBattler* _Enemy)
 {
@@ -146,6 +164,8 @@ void ABattleCanvas::Init(const UBattler* _Player, const UBattler* _Enemy)
 	RefreshPlayerPokemonBox();
 	RefreshEnemyPokemonBox();
 	RefreshMoveSelectBox();
+	RefreshPlayerEntry();
+	RefreshEnemyEntry();
 	InitPlayerImages();
 	InitEnemyImages();
 	InitPlayerUI();
@@ -200,6 +220,11 @@ void ABattleCanvas::InitPlayerUI()
 	PlayerPokemonBox->SetRelativePosition(PlayerPokemonBoxHidePos);
 	PlayerGround->SetRelativePosition(PlayerGroundHidePos);
 	PlayerEntryArrow->SetRelativePosition(PlayerEntryArrowHidePos);
+
+	for (int i = 0; i < 6; ++i)
+	{
+		PlayerEntryBalls[i]->SetRelativePosition(PlayerEntryBallsHidePos[i]);
+	}
 }
 
 void ABattleCanvas::InitEnemyUI()
@@ -207,6 +232,11 @@ void ABattleCanvas::InitEnemyUI()
 	EnemyGround->SetRelativePosition(EnemyGroundHidePos);
 	EnemyPokemonBox->SetRelativePosition(EnemyPokemonBoxHidePos);
 	EnemyEntryArrow->SetRelativePosition(EnemyEntryArrowHidePos);
+
+	for (int i = 0; i < 6; ++i)
+	{
+		EnemyEntryBalls[i]->SetRelativePosition(EnemyEntryBallsHidePos[i]);
+	}
 }
 
 void ABattleCanvas::RefreshEnemyPokemonBox()
@@ -275,6 +305,44 @@ void ABattleCanvas::RefreshMoveSelectBox()
 	MoveSelectBox->SetActive(MoveSelectBox->IsActive());
 }
 
+void ABattleCanvas::RefreshPlayerEntry()
+{
+	for (int i = 0; i < Player->GetEntrySize(); ++i)
+	{
+		if (true == Player->IsFaint(i))
+		{
+			PlayerEntryBalls[i]->SetImage(RN::BattleEntryBallFaint);
+		}
+		else
+		{
+			PlayerEntryBalls[i]->SetImage(RN::BattleEntryBallAlive);
+		}
+	}
+	for (int i = Player->GetEntrySize(); i < 6; ++i)
+	{
+		PlayerEntryBalls[i]->SetImage(RN::BattleEntryBallEmpty);
+	}
+}
+
+void ABattleCanvas::RefreshEnemyEntry()
+{
+	for (int i = 0; i < Enemy->GetEntrySize(); ++i)
+	{
+		if (true == Enemy->IsFaint(i))
+		{
+			EnemyEntryBalls[i]->SetImage(RN::BattleEntryBallFaint);
+		}
+		else
+		{
+			EnemyEntryBalls[i]->SetImage(RN::BattleEntryBallAlive);
+		}
+	}
+	for (int i = Enemy->GetEntrySize(); i < 6; ++i)
+	{
+		EnemyEntryBalls[i]->SetImage(RN::BattleEntryBallEmpty);
+	}
+}
+
 
 void ABattleCanvas::LerpShowGrounds(float _t)
 {
@@ -300,6 +368,18 @@ void ABattleCanvas::LerpShowPlayerEntryArrow(float _t)
 {
 	FVector Pos = UPokemonMath::Lerp(PlayerEntryArrowInitPos, PlayerEntryArrowHidePos, _t);
 	PlayerEntryArrow->SetRelativePosition(Pos);
+}
+
+void ABattleCanvas::LerpEnemyEntryBall(int _Index, float _t)
+{
+	FVector Pos = UPokemonMath::Lerp(EnemyEntryBallsInitPos[_Index], EnemyEntryBallsHidePos[_Index], _t);
+	EnemyEntryBalls[_Index]->SetRelativePosition(Pos);
+}
+
+void ABattleCanvas::LerpPlayerEntryBall(int _Index, float _t)
+{
+	FVector Pos = UPokemonMath::Lerp(PlayerEntryBallsInitPos[_Index], PlayerEntryBallsHidePos[_Index], _t);
+	PlayerEntryBalls[_Index]->SetRelativePosition(Pos);
 }
 
 void ABattleCanvas::PlayBattlerThrowingAnimation()
