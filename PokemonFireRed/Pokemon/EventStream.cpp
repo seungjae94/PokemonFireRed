@@ -14,6 +14,8 @@ UEventStream::~UEventStream()
 UEventStream::TrainerBattle::TrainerBattle(ATrainer* _Trainer)
 {
 	Entry = _Trainer->GetEntry();
+	TrainerName = _Trainer->GetBattlerName();
+	TrainerImageName = _Trainer->GetBattlerImageName();
 }
 
 UEventStream::WildBattle::WildBattle(AWildBattleTrigger* _Wild)

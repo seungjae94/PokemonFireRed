@@ -3,6 +3,7 @@
 #include "PlayerData.h"
 #include "BattleCanvas.h"
 #include "WildBattleStartStateMachine.h"
+#include "TrainerBattleStartStateMachine.h"
 #include "BattlePlayerActionSelectStateMachine.h"
 #include "BattleTurnStateMachine.h"
 #include "BattleActionStateMachine.h"
@@ -53,7 +54,8 @@ private:
 
 	// FSM
 	ABattlePrepareTurnStateMachine* BattlePrepareTurnSM = nullptr;
-	AWildWildBattleStartStateMachine* BattleStartSM = nullptr;
+	AWildBattleStartStateMachine* WildBattleStartSM = nullptr;
+	ATrainerBattleStartStateMachine* TrainerBattleStartSM = nullptr;
 	ABattlePlayerActionSelectStateMachine* PlayerActionSelectSM = nullptr;
 	ABattleTurnStateMachine* BattleTurnSM = nullptr;
 

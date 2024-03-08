@@ -5,7 +5,7 @@
 
 class ABattleCanvas : public ACanvas
 {
-	friend class AWildWildBattleStartStateMachine;
+	friend class AWildBattleStartStateMachine;
 public:
 	// constructor destructor
 	ABattleCanvas();
@@ -19,6 +19,18 @@ public:
 
 	void Init(const UBattler* _Player, const UBattler* _Enemy);
 
+private: // 초기화 함수
+	void InitPlayerImages();	// 플레이어 배틀러, 플레이어 포켓몬, 볼 위치 초기화
+	void InitEnemyImages();		// 적 배틀러, 적 포켓몬, 적 볼 위치 초기화
+	void InitPlayerUI();
+	void InitEnemyUI();
+
+public:	// Refresh 함수
+	void RefreshEnemyPokemonBox();
+	void RefreshPlayerPokemonBox();
+	void RefreshMoveSelectBox();
+
+public:
 	// BattleStart
 	void LerpShowGrounds(float _t);
 	void LerpShowEnemyPokemonBox(float _t);
@@ -72,9 +84,6 @@ public:
 	void ShowStatUpBox(const FLevelUpData& _LevelUpData);
 	void ShowStatAfterBox(const UPokemon* _Pokemon);
 	void HideStatUpWindow();
-	void RefreshEnemyPokemonBox();
-	void RefreshPlayerPokemonBox();
-	void RefreshMoveSelectBox();
 protected:
 
 private:

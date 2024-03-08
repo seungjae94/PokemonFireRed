@@ -21,6 +21,8 @@ std::map<std::string, std::map<FTileVector, std::list<AEventTrigger*>>> UEventMa
 std::map<AEventTrigger*, UEventProcessor*> UEventManager::AllProcessors;
 bool UEventManager::IsWildPokemon = false;
 std::vector<UPokemon>* UEventManager::EnemyEntry;
+std::string UEventManager::TrainerName;
+std::string UEventManager::TrainerImageName;
 float UEventManager::DeltaTime = 0.0f;
 
 UEventManager::UEventManager()
@@ -86,9 +88,11 @@ void UEventManager::SetAsWildPokemonBattle()
 	IsWildPokemon = true;
 }
 
-void UEventManager::SetAsTrainerBattle()
+void UEventManager::SetAsTrainerBattle(std::string_view _TrainerName, std::string_view _TrainerImageName)
 {
 	IsWildPokemon = false;
+	TrainerName = _TrainerName;
+	TrainerImageName = _TrainerImageName;
 }
 
 void UEventManager::AddTarget(AEventTarget* _Target, const UEventTargetInit& _Setting)

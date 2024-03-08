@@ -616,7 +616,7 @@ bool UEventProcessor::ProcessTrainerBattle()
 	ES::TrainerBattle& Data = CurStream->TrainerBattleDataSet[CurIndexOfType];
 
 	UEventManager::SaveEnemyEntry(Data.Entry);
-	UEventManager::SetAsTrainerBattle();
+	UEventManager::SetAsTrainerBattle(Data.TrainerName, Data.TrainerImageName);
 
 	std::string PrevLevelName = UEventManager::CurLevelName;
 	std::string NextLevelName = ToUpper(Global::BattleLevel);

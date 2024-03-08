@@ -18,32 +18,55 @@ void ABattleCanvas::Init(const UBattler* _Player, const UBattler* _Enemy)
 	RefreshPlayerPokemonBox();
 	RefreshEnemyPokemonBox();
 	RefreshMoveSelectBox();
+	InitPlayerImages();
+	InitEnemyImages();
+	InitPlayerUI();
+	InitEnemyUI();
 	ActionCursor->SetCursor(0);
 	MoveSelectCursor->SetCursor(0);
 
+	// Activeness 설정
 	ActionBox->SetActive(false);
 	ThrowedBall->SetActive(false);
 	MoveSelectBox->SetActive(false);
+	EnemyPokemonImage->SetActive(true);
+	EnemyPokemonBox->SetActive(true);
+	PlayerPokemonBox->SetActive(true);
+	StatBox->SetActive(false);
+}
 
-	// 아군 포켓몬 숨겨두기
+void ABattleCanvas::InitPlayerImages()
+{
+	const UPokemon* PlayerPokemon = Player->CurPokemonReadonly();
+	PlayerBattler->ChangeAnimation(Global::PlayerBattlerIdle);
+	PlayerPokemonImage->SetPokemon(PlayerPokemon);
+
 	PlayerPokemonImage->SetRelativePosition(PlayerPokemonImageHidePos);
 	PlayerPokemonImage->SetScaleFactor(0.0f);
+}
 
-	// 적군 포켓몬 위치 초기화
-	EnemyPokemonImage->SetActive(true);
-	EnemyPokemonImage->SetRelativePosition(EnemyPokemonImageInitPos);
+void ABattleCanvas::InitEnemyImages()
+{
+	const UPokemon* EnemyPokemon = Enemy->CurPokemonReadonly();
+	EnemyPokemonImage->SetPokemon(EnemyPokemon);
 
-	// 적 UI는 왼쪽에 숨겨두기
-	EnemyGround->SetRelativePosition(EnemyGroundHidePos);
-	EnemyPokemonBox->SetActive(true);
-	EnemyPokemonBox->SetRelativePosition(EnemyPokemonBoxHidePos);
+	if (true == Enemy->IsWildPokemon())
+	{
+		EnemyPokemonImage->SetRelativePosition(EnemyPokemonImageInitPos);
+	}
+}
 
-	// 아군 UI는 오른쪽에 숨겨두기
-	PlayerPokemonBox->SetActive(true);
+void ABattleCanvas::InitPlayerUI()
+{
 	PlayerPokemonBox->SetRelativePosition(PlayerPokemonBoxHidePos);
 	PlayerGround->SetRelativePosition(PlayerGroundHidePos);
 	PlayerBattler->SetRelativePosition(PlayerBattlerInitPos);
-	StatBox->SetActive(false);
+}
+
+void ABattleCanvas::InitEnemyUI()
+{
+	EnemyGround->SetRelativePosition(EnemyGroundHidePos);
+	EnemyPokemonBox->SetRelativePosition(EnemyPokemonBoxHidePos);
 }
 
 void ABattleCanvas::RefreshEnemyPokemonBox()
@@ -68,8 +91,6 @@ void ABattleCanvas::RefreshEnemyPokemonBox()
 	EnemyPokemonGenderMark->SetRelativePosition(UPokemonUtil::PixelVector(7 + EPNTPixelWidth, 5));
 	EnemyPokemonGenderMark->SetImage(EnemyPokemon->GetGenderImageName());
 	EnemyPokemonStatusMark->SetImage(EnemyPokemon->GetStatusImageName());
-
-	EnemyPokemonImage->SetPokemon(EnemyPokemon);
 }
 
 void ABattleCanvas::RefreshPlayerPokemonBox()
@@ -90,9 +111,6 @@ void ABattleCanvas::RefreshPlayerPokemonBox()
 	PlayerPokemonGenderMark->SetRelativePosition(UPokemonUtil::PixelVector(19 + PPNTPixelWidth, 5));
 	PlayerPokemonGenderMark->SetImage(PlayerPokemon->GetGenderImageName());
 	PlayerPokemonStatusMark->SetImage(PlayerPokemon->GetStatusImageName());
-
-	PlayerBattler->ChangeAnimation(Global::PlayerBattlerIdle);
-	PlayerPokemonImage->SetPokemon(PlayerPokemon);
 }
 
 void ABattleCanvas::RefreshMoveSelectBox()

@@ -4,11 +4,10 @@
 #include "BattleEnums.h"
 #include "Battler.h"
 
-class UBattleLevel;
 class ABattleCanvas;
 class APokemonMsgBox;
 
-class AWildBattleStartStateMachine : public AActor
+class ATrainerBattleStartStateMachine : public AActor
 {
 private:
 	enum class ESubstate
@@ -16,8 +15,10 @@ private:
 		None,
 		FadeWait,
 		GroundMove,
+		EntryArrowMove,
+		EntryBallMove,
+		EnemyPokemonAppear,
 		EnemyPokemonBoxMove,
-		ZClickWait,
 		PlayerBattlerThrow,
 		PlayerPokemonTakeout,
 		PlayerPokemonBoxMove,
@@ -25,14 +26,14 @@ private:
 	};
 public:
 	// constructor destructor
-	AWildBattleStartStateMachine();
-	~AWildBattleStartStateMachine();
+	ATrainerBattleStartStateMachine();
+	~ATrainerBattleStartStateMachine();
 
 	// delete Function
-	AWildBattleStartStateMachine(const AWildBattleStartStateMachine& _Other) = delete;
-	AWildBattleStartStateMachine(AWildBattleStartStateMachine&& _Other) noexcept = delete;
-	AWildBattleStartStateMachine& operator=(const AWildBattleStartStateMachine& _Other) = delete;
-	AWildBattleStartStateMachine& operator=(AWildBattleStartStateMachine&& _Other) noexcept = delete;
+	ATrainerBattleStartStateMachine(const ATrainerBattleStartStateMachine& _Other) = delete;
+	ATrainerBattleStartStateMachine(ATrainerBattleStartStateMachine&& _Other) noexcept = delete;
+	ATrainerBattleStartStateMachine& operator=(const ATrainerBattleStartStateMachine& _Other) = delete;
+	ATrainerBattleStartStateMachine& operator=(ATrainerBattleStartStateMachine&& _Other) noexcept = delete;
 
 	bool IsEnd() const
 	{
@@ -72,8 +73,10 @@ private:
 
 	void ProcessFadeWait();
 	void ProcessGroundMove();
+	void ProcessEnemyArrowMove();
+	void ProcessEnemyBallMove();
+	void ProcessEnemyPokemonAppear();
 	void ProcessEnemyPokemonBoxMove();
-	void ProcessZClickWait();
 	void ProcessPlayerBattlerThrow();
 	void ProcessPlayerPokemonTakeout();
 	void ProcessPlayerPokemonBoxMove();

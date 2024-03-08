@@ -49,7 +49,7 @@ public:
 	static std::vector<UPokemon>* LoadEnemyEntry();
 	static bool IsWildPokemonBattle();
 	static void SetAsWildPokemonBattle();
-	static void SetAsTrainerBattle();
+	static void SetAsTrainerBattle(std::string_view _TrainerName, std::string_view _TrainerImageName);
 
 	// 즉발 이벤트 함수
 	// - 사이드 이펙트가 없는 이벤트 명령은 
@@ -237,6 +237,8 @@ private:
 	// 배틀 정보 저장
 	static bool IsWildPokemon;
 	static std::vector<UPokemon>* EnemyEntry;
+	static std::string TrainerName;
+	static std::string TrainerImageName;
 
 	// 틱
 	static void Tick(float _DeltaTime);

@@ -24,9 +24,27 @@ public:
 		Entry.push_back(_Pokemon);
 	}
 
+	void SetBattler(std::string_view _BattlerName, std::string_view _BattlerImageName)
+	{
+		BattlerName = _BattlerName;
+		BattlerImageName = _BattlerImageName;
+	}
+
+	std::string GetBattlerName() const
+	{
+		return BattlerName;
+	}
+
+	std::string GetBattlerImageName() const
+	{
+		return BattlerImageName;
+	}
+
 protected:
 
 private:
 	std::vector<UPokemon> Entry;
+	std::string BattlerName;
+	std::string BattlerImageName;
 };
 

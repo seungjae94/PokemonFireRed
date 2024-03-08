@@ -384,6 +384,9 @@
     <ClInclude Include="Trainer.h">
       <Filter>1. GlobalTrigger</Filter>
     </ClInclude>
+    <ClInclude Include="TrainerBattleStartStateMachine.h">
+      <Filter>2. Level\7. BattleLevel\StateMachine\0. BattleStart</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PokemonCore.cpp">
@@ -634,6 +637,9 @@
     </ClCompile>
     <ClCompile Include="Trainer.cpp">
       <Filter>1. GlobalTrigger</Filter>
+    </ClCompile>
+    <ClCompile Include="TrainerBattleStartStateMachine.cpp">
+      <Filter>2. Level\7. BattleLevel\StateMachine\0. BattleStart</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

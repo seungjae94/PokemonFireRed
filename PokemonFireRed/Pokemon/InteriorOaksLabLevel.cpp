@@ -87,6 +87,7 @@ void UInteriorOaksLabLevel::BeginPlay()
 	ATrainer* Green = SpawnEventTrigger<ATrainer>(GreenInit);
 	Green->AddPokemonToEntry(UPokemon(EPokedexNo::Rattata, 3));
 	Green->AddPokemonToEntry(UPokemon(EPokedexNo::Charmander, 3));
+	Green->SetBattler("RIVAL GREEN", RN::RivalGreenBattler);
 
 	UEventManager::RegisterEvent(Green, GreenCond,
 		ES::Start(true)

@@ -452,6 +452,8 @@ public:
 	public:
 		TrainerBattle(ATrainer* _Trainer);
 		std::vector<UPokemon>* Entry;
+		std::string TrainerName;
+		std::string TrainerImageName;
 	};
 
 	UEventStream& operator>>(const TrainerBattle& _Data)

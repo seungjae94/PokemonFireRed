@@ -203,7 +203,10 @@ namespace RN
 	const std::string BattlePlayerGround = "BattlePlayerGround.png"; 
 	const std::string BattleStatUpBox = "BattleStatUpBox.png";
 	const std::string BattleStatAfterBox = "BattleStatAfterBox.png";
+
 	const std::string PlayerBattler = "PlayerBattler.png"; 
+	const std::string RivalGreenBattler = "RivalGreenBattler.png";
+	const std::string LeaderBrockBattler = "LeaderBrock.png";
 };
 
 enum ERenderingOrder

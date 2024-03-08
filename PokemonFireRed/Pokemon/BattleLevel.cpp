@@ -48,7 +48,7 @@ void UBattleLevel::BeginPlay()
 	MsgBox->SetTextLeftTopRelativePos(UPokemonUtil::PixelVector(11, 21));
 	MsgBox->SetLineSpace(16);
 
-	BattleStartSM = SpawnActor<AWildWildBattleStartStateMachine>();
+	WildBattleStartSM = SpawnActor<AWildBattleStartStateMachine>();
 	BattlePrepareTurnSM = SpawnActor<ABattlePrepareTurnStateMachine>();
 	PlayerActionSelectSM = SpawnActor<ABattlePlayerActionSelectStateMachine>();
 	BattleTurnSM = SpawnActor<ABattleTurnStateMachine>();
@@ -138,7 +138,6 @@ void UBattleLevel::LevelStart(ULevel* _PrevLevel)
 	{
 		Enemy.InitTrainer();
 	}
-
 	Enemy.InitCurPokemon();
 
 	Player.GetParticipants().push_back(Enemy.CurPokemon());
@@ -151,7 +150,14 @@ void UBattleLevel::LevelStart(ULevel* _PrevLevel)
 	PlayerActionSelectSM->Reset();
 
 	// BSSM 로직부터 시작
-	BattleStartSM->Start(Canvas, MsgBox, &Player, &Enemy);
+	if (true == Enemy.IsWildPokemon())
+	{
+		WildBattleStartSM->Start(Canvas, MsgBox, &Player, &Enemy);
+	}
+	else
+	{
+		TrainerBattleStartSM->Start(Canvas, MsgBox, &Player, &Enemy);
+	}
 }
 
 void UBattleLevel::LevelEnd(ULevel* _NextLevel)
@@ -162,7 +168,7 @@ void UBattleLevel::LevelEnd(ULevel* _NextLevel)
 
 void UBattleLevel::ProcessBattleStart()
 {
-	if (true == BattleStartSM->IsEnd())
+	if (true == WildBattleStartSM->IsEnd())
 	{
 		State = EState::PrepareTurn1;
 		BattlePrepareTurnSM->Start(Canvas, MsgBox, &Player, &Enemy);
