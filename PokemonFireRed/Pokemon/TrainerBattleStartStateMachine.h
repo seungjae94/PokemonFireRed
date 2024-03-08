@@ -84,13 +84,13 @@ private:
 
 	void ProcessFadeWait();
 	void ProcessGroundMove();
-	void ProcessEnemyArrowMove();
-	void ProcessEnemyBallMove(float _DeltaTime);
+	void ProcessEntryArrowMove();
+	void ProcessEntryBallMove(float _DeltaTime);
 	void ProcessZClickWait();
 	void ProcessEnemyPokemonAppear(float _DeltaTime);
 	void ProcessEnemyPokemonBoxMove();
-	void ProcessPlayerBattlerThrow1();
-	void ProcessPlayerBattlerThrow2();
+	void ProcessPlayerBattlerThrow1(float _DeltaTime);
+	void ProcessPlayerBattlerThrow2(float _DeltaTime);
 	void ProcessPlayerPokemonTakeout();
 	void ProcessPlayerPokemonBoxMove();
 };

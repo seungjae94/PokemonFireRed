@@ -28,10 +28,10 @@ void ATrainerBattleStartStateMachine::Tick(float _DeltaTime)
 		ProcessGroundMove();
 		break;
 	case ESubstate::EntryArrowMove:
-		ProcessEnemyArrowMove();
+		ProcessEntryArrowMove();
 		break;
 	case ESubstate::EntryBallMove:
-		ProcessEnemyBallMove(_DeltaTime);
+		ProcessEntryBallMove(_DeltaTime);
 		break;
 	case ESubstate::ZClickWait:
 		ProcessZClickWait();
@@ -43,10 +43,10 @@ void ATrainerBattleStartStateMachine::Tick(float _DeltaTime)
 		ProcessEnemyPokemonBoxMove();
 		break;
 	case ESubstate::PlayerBattlerThrow1:
-		ProcessPlayerBattlerThrow1();
+		ProcessPlayerBattlerThrow1(_DeltaTime);
 		break;
 	case ESubstate::PlayerBattlerThrow2:
-		ProcessPlayerBattlerThrow2();
+		ProcessPlayerBattlerThrow2(_DeltaTime);
 		break;
 	case ESubstate::PlayerPokemonTakeout:
 		ProcessPlayerPokemonTakeout();
@@ -82,8 +82,9 @@ void ATrainerBattleStartStateMachine::ProcessGroundMove()
 	}
 }
 
-void ATrainerBattleStartStateMachine::ProcessEnemyArrowMove()
+void ATrainerBattleStartStateMachine::ProcessEntryArrowMove()
 {
+	Canvas->LerpShowPlayerEntryArrow(Timer / EnemyArrowMoveTime);
 	Canvas->LerpShowEnemyEntryArrow(Timer / EnemyArrowMoveTime);
 
 	if (Timer <= 0)
@@ -104,11 +105,12 @@ void ATrainerBattleStartStateMachine::ProcessEnemyArrowMove()
 	}
 }
 
-void ATrainerBattleStartStateMachine::ProcessEnemyBallMove(float _DeltaTime)
+void ATrainerBattleStartStateMachine::ProcessEntryBallMove(float _DeltaTime)
 {
 	for (int i = 0; i <= MovingBallIndex; ++i)
 	{
 		BallTimers[i] -= _DeltaTime;
+		Canvas->LerpPlayerEntryBall(i, BallTimers[i] / EntryBallMoveTime);
 		Canvas->LerpEnemyEntryBall(i, BallTimers[i] / EntryBallMoveTime);
 	}
 	
@@ -176,12 +178,16 @@ void ATrainerBattleStartStateMachine::ProcessEnemyPokemonBoxMove()
 
 		Canvas->PlayBattlerThrowingAnimation();
 		Timer = PlayerBattlerHideTime;
+		EntryFadeTimer = EntryFadeTime;
 	}
 }
 
-void ATrainerBattleStartStateMachine::ProcessPlayerBattlerThrow1()
+void ATrainerBattleStartStateMachine::ProcessPlayerBattlerThrow1(float _DeltaTime)
 {
+	EntryFadeTimer -= _DeltaTime;
+
 	Canvas->LerpHidePlayerBattler(Timer / PlayerBattlerHideTime);
+	Canvas->LerpHidePlayerEntry(EntryFadeTimer / EntryFadeTime);
 
 	if (PlayerBattlerHideTime - Timer >= 0.5f)
 	{
@@ -190,9 +196,12 @@ void ATrainerBattleStartStateMachine::ProcessPlayerBattlerThrow1()
 	}
 }
 
-void ATrainerBattleStartStateMachine::ProcessPlayerBattlerThrow2()
+void ATrainerBattleStartStateMachine::ProcessPlayerBattlerThrow2(float _DeltaTime)
 {
+	EntryFadeTimer -= _DeltaTime;
+
 	Canvas->LerpHidePlayerBattler(Timer / PlayerBattlerHideTime);
+	Canvas->LerpHidePlayerEntry(EntryFadeTimer / EntryFadeTime);
 
 	if (Timer <= 0.0f && true == Canvas->IsThrowedBallAnimationEnd())
 	{
