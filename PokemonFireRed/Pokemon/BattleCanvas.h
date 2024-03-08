@@ -124,6 +124,8 @@ private:
 	AImageElement* PlayerPokemonBox = nullptr;
 	AImageElement* EnemyPokemonBox = nullptr;
 	AImageElement* StatBox = nullptr;
+	AImageElement* PlayerEntryArrow = nullptr;
+	AImageElement* EnemyEntryArrow = nullptr;
 
 	// EnemyPokemonBox 요소
 	AText* EnemyPokemonNameText = nullptr;
@@ -167,5 +169,9 @@ private:
 	AText* StatSpAtkText = nullptr;
 	AText* StatSpDefText = nullptr;
 	AText* StatSpeedText = nullptr;
+
+	// EntryArrow 요소
+	std::vector<AImageElement*> PlayerEntryBalls;
+	std::vector<AImageElement*> EnemyEntryBalls;
 };
 

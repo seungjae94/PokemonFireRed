@@ -51,6 +51,12 @@ void ABattleCanvas::BeginPlay()
 	StatBox = CreateImageElement(this, ERenderingOrder::UI7, EPivotType::RightBot, -1, -1);
 	StatBox->SetImage(RN::BattleStatUpBox);
 
+	PlayerEntryArrow = CreateImageElement(this, ERenderingOrder::UI4, EPivotType::RightBot, 0, -60);
+	PlayerEntryArrow->SetImage(RN::BattlePlayerEntryArrow);
+
+	EnemyEntryArrow = CreateImageElement(this, ERenderingOrder::UI1, EPivotType::LeftTop, 0, 40);
+	EnemyEntryArrow->SetImage(RN::BattleEnemyEntryArrow);
+
 	// EnemyPokemonBox ¿ä¼Ò
 	EnemyPokemonNameText = CreateText(EnemyPokemonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 7, 12, EAlignType::Left, EFontColor::Black, EFontSize::Mini);
 	EnemyPokemonLevelText = CreateText(EnemyPokemonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 85, 12, EAlignType::Right, EFontColor::Black, EFontSize::Mini);
