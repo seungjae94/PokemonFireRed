@@ -10,6 +10,124 @@ ABattleCanvas::~ABattleCanvas()
 {
 }
 
+void ABattleCanvas::BeginPlay()
+{
+	ACanvas::BeginPlay();
+
+	// 최상위 요소
+	Background = CreateImageElement(this, ERenderingOrder::UI0, EPivotType::LeftTop, 0, 0);
+	Background->SetImage(RN::BattleBackground);
+
+	ActionBox = CreateImageElement(this, ERenderingOrder::UI7, EPivotType::RightBot, 0, 0);
+	ActionBox->SetImage(RN::BattleActionBox);
+
+	MoveSelectBox = CreateImageElement(this, ERenderingOrder::UI7, EPivotType::LeftBot, 0, 0);
+	MoveSelectBox->SetImage(RN::BattleMoveSelectBox);
+
+	EnemyPokemonBox = CreateImageElement(this, ERenderingOrder::UI1, EPivotType::LeftTop, 13, 16);
+	EnemyPokemonBox->SetImage(RN::BattleEnemyPokemonBox);
+	EnemyPokemonBoxInitPos = EnemyPokemonBox->GetRelativePosition();
+	EnemyPokemonBoxHidePos = EnemyPokemonBoxInitPos + FVector::Left * Global::FloatScreenX;
+
+	PlayerPokemonBox = CreateImageElement(this, ERenderingOrder::UI4, EPivotType::RightBot, -10, -48);
+	PlayerPokemonBox->SetImage(RN::BattlePlayerPokemonBox);
+	PlayerPokemonBoxInitPos = PlayerPokemonBox->GetRelativePosition();
+	PlayerPokemonBoxHidePos = PlayerPokemonBoxInitPos + FVector::Right * Global::FloatScreenX;
+
+	EnemyGround = CreateImageElement(this, ERenderingOrder::UI1, EPivotType::RightTop, 0, 46);
+	EnemyGround->SetImage(RN::BattleEnemyGround);
+	EnemyGroundInitPos = EnemyGround->GetRelativePosition();
+	EnemyGroundHidePos = EnemyGroundInitPos + FVector::Left * Global::FloatScreenX;
+
+	PlayerGround = CreateImageElement(this, ERenderingOrder::UI1, EPivotType::LeftBot, 4, -48);
+	PlayerGround->SetImage(RN::BattlePlayerGround);
+	PlayerGroundInitPos = PlayerGround->GetRelativePosition();
+	PlayerGroundHidePos = PlayerGroundInitPos + FVector::Right * Global::FloatScreenX;
+
+	ThrowedBall = CreateImageElement(this, ERenderingOrder::UI2, EPivotType::LeftTop, 42, 56);
+	ThrowedBall->SetImage(Global::ThrowedBall);
+	ThrowedBall->CreateAnimation(Global::ThrowedBall, 0, 41, 1.0f / 60, false);
+
+	StatBox = CreateImageElement(this, ERenderingOrder::UI7, EPivotType::RightBot, -1, -1);
+	StatBox->SetImage(RN::BattleStatUpBox);
+
+	// EnemyPokemonBox 요소
+	EnemyPokemonNameText = CreateText(EnemyPokemonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 7, 12, EAlignType::Left, EFontColor::Black, EFontSize::Mini);
+	EnemyPokemonLevelText = CreateText(EnemyPokemonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 85, 12, EAlignType::Right, EFontColor::Black, EFontSize::Mini);
+	EnemyPokemonHpBar = CreateScrollBar(EnemyPokemonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 39, 17, EScrollType::Hp);
+	EnemyPokemonGenderMark = CreateImageElement(EnemyPokemonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 10, 5);
+	EnemyPokemonStatusMark = CreateImageElement(EnemyPokemonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 7, 14);
+
+	// PlayerPokemonBox 요소
+	PlayerPokemonNameText = CreateText(PlayerPokemonBox, ERenderingOrder::UI5, EPivotType::RightTop, -84, 12, EAlignType::Left, EFontColor::Black, EFontSize::Mini);
+	PlayerPokemonLevelText = CreateText(PlayerPokemonBox, ERenderingOrder::UI5, EPivotType::RightTop, -9, 12, EAlignType::Right, EFontColor::Black, EFontSize::Mini);
+	PlayerPokemonCurHpText = CreateText(PlayerPokemonBox, ERenderingOrder::UI5, EPivotType::RightBot, -29, -6, EAlignType::Right, EFontColor::Black, EFontSize::Mini);
+	PlayerPokemonHpText = CreateText(PlayerPokemonBox, ERenderingOrder::UI5, EPivotType::RightBot, -9, -6, EAlignType::Right, EFontColor::Black, EFontSize::Mini);
+	PlayerPokemonHpBar = CreateScrollBar(PlayerPokemonBox, ERenderingOrder::UI5, EPivotType::RightTop, -55, 17, EScrollType::Hp);
+	PlayerPokemonExpBar = CreateScrollBar(PlayerPokemonBox, ERenderingOrder::UI5, EPivotType::RightTop, -71, 33, EScrollType::Exp);
+	PlayerPokemonGenderMark = CreateImageElement(PlayerPokemonBox, ERenderingOrder::UI5, EPivotType::LeftTop, 10, 5);
+	PlayerPokemonStatusMark = CreateImageElement(PlayerPokemonBox, ERenderingOrder::UI5, EPivotType::RightTop, -65, 22);
+
+	// EnemyGround 요소
+	EnemyBattler = CreateImageElement(EnemyGround, ERenderingOrder::UI3, EPivotType::RightBot, -40, -10);
+	EnemyPokemonImage = CreateImageElement(EnemyGround, ERenderingOrder::UI2, EPivotType::LeftTop, 36, -25, EImageElementType::PokemonFront);
+	EnemyPokemonImageInitPos = EnemyPokemonImage->GetRelativePosition();
+	EnemyPokemonImageHidePos = EnemyPokemonImageInitPos + UPokemonUtil::PixelVector(0, 32);
+	EnemyPokemonImageFaintPos = EnemyPokemonImageInitPos + UPokemonUtil::PixelVector(0, 64);
+
+	// PlayerGround 요소
+	PlayerBattler = CreateImageElement(PlayerGround, ERenderingOrder::UI3, EPivotType::RightBot, -12, 0);
+	PlayerBattler->SetImage(RN::PlayerBattler);
+	PlayerBattler->CreateAnimation(Global::PlayerBattlerIdle, 0, 0, 0.0f, false);
+	PlayerBattler->CreateAnimation(Global::PlayerBattlerThrow, { 1, 2, 3, 4 }, { 16.0f / 60, 8.0f / 60, 4.0f / 60, 4.0f / 60 }, false);
+	PlayerBattlerInitPos = PlayerBattler->GetRelativePosition();
+	PlayerBattlerHidePos = PlayerBattlerInitPos + UPokemonUtil::PixelVector(-120, 0);
+
+	PlayerPokemonImage = CreateImageElement(PlayerGround, ERenderingOrder::UI2, EPivotType::LeftTop, 35, -49, EImageElementType::PokemonBack);
+	PlayerPokemonImageInitPos = PlayerPokemonImage->GetRelativePosition();
+	PlayerPokemonImageHidePos = PlayerPokemonImageInitPos + UPokemonUtil::PixelVector(0, 32);
+	PlayerPokemonImageFaintPos = PlayerPokemonImageInitPos + UPokemonUtil::PixelVector(0, 64);
+
+	// ActionBox 요소
+	ActionCursor = CreateCursor(ActionBox, ERenderingOrder::UI8, EPivotType::LeftTop, 9, 12);
+	ActionCursor->SetOptionCount(4);
+
+	int CursorHorGap = 56;
+	int CursorVerGap = 16;
+	ActionCursor->SetCursorPositions({ {0, 0}, {CursorHorGap, 0}, {0, CursorVerGap}, {CursorHorGap, CursorVerGap} });
+
+	// MoveSelectBox 요소
+	MoveSelectCursor = CreateCursor(MoveSelectBox, ERenderingOrder::UI8, EPivotType::LeftTop, 9, 12);
+	MoveSelectCursor->SetOptionCount(4);
+
+	int MoveHorGap = 71;
+	int MoveVerGap = 17;
+	MoveSelectCursor->SetCursorPositions({ {0, 0}, {MoveHorGap, 0}, {0, MoveVerGap}, {MoveHorGap, MoveVerGap} });
+
+	CurPPText = CreateText(MoveSelectBox, ERenderingOrder::UI8, EPivotType::RightTop, -26, 21, EAlignType::Right, EFontColor::Black2);
+	MaxPPText = CreateText(MoveSelectBox, ERenderingOrder::UI8, EPivotType::RightTop, -9, 21, EAlignType::Right, EFontColor::Black2);
+	MoveTypeText = CreateText(MoveSelectBox, ERenderingOrder::UI8, EPivotType::RightTop, -48, 37, EAlignType::Left, EFontColor::Black3);
+
+	for (int i = 0; i < 4; ++i)
+	{
+		int RowIndex = i / 2;
+		int ColIndex = i % 2;
+		AText* MoveText = CreateText(MoveSelectBox, ERenderingOrder::UI8, EPivotType::LeftTop,
+			17 + ColIndex * MoveHorGap, 20 + RowIndex * MoveVerGap, EAlignType::Left, EFontColor::Black3, EFontSize::Mini);
+		MoveTexts.push_back(MoveText);
+	}
+
+	// StatBox 요소
+	StatHpText = CreateText(StatBox, ERenderingOrder::UI8, EPivotType::RightTop, -7, 18, EAlignType::Right, EFontColor::Black3);
+	StatAtkText = CreateText(StatBox, ERenderingOrder::UI8, EPivotType::RightTop, -7, 33, EAlignType::Right, EFontColor::Black3);
+	StatDefText = CreateText(StatBox, ERenderingOrder::UI8, EPivotType::RightTop, -7, 48, EAlignType::Right, EFontColor::Black3);
+	StatSpAtkText = CreateText(StatBox, ERenderingOrder::UI8, EPivotType::RightTop, -7, 63, EAlignType::Right, EFontColor::Black3);
+	StatSpDefText = CreateText(StatBox, ERenderingOrder::UI8, EPivotType::RightTop, -7, 78, EAlignType::Right, EFontColor::Black3);
+	StatSpeedText = CreateText(StatBox, ERenderingOrder::UI8, EPivotType::RightTop, -7, 93, EAlignType::Right, EFontColor::Black3);
+}
+
+
+
 void ABattleCanvas::Init(const UBattler* _Player, const UBattler* _Enemy)
 {
 	Player = _Player;
@@ -26,12 +144,14 @@ void ABattleCanvas::Init(const UBattler* _Player, const UBattler* _Enemy)
 	MoveSelectCursor->SetCursor(0);
 
 	// Activeness 설정
+	Background->SetActive(true);
 	ActionBox->SetActive(false);
-	ThrowedBall->SetActive(false);
 	MoveSelectBox->SetActive(false);
-	EnemyPokemonImage->SetActive(true);
-	EnemyPokemonBox->SetActive(true);
+	ThrowedBall->SetActive(false);
+	PlayerGround->SetActive(true);
+	EnemyGround->SetActive(true);
 	PlayerPokemonBox->SetActive(true);
+	EnemyPokemonBox->SetActive(true);
 	StatBox->SetActive(false);
 }
 
@@ -53,6 +173,12 @@ void ABattleCanvas::InitEnemyImages()
 	if (true == Enemy->IsWildPokemon())
 	{
 		EnemyPokemonImage->SetRelativePosition(EnemyPokemonImageInitPos);
+	}
+	else
+	{
+		EnemyBattler->SetImage(Enemy->GetTrainerImageName());
+		EnemyPokemonImage->SetRelativePosition(EnemyPokemonImageHidePos);
+		EnemyPokemonImage->SetScaleFactor(0.0f);
 	}
 }
 
@@ -301,120 +427,6 @@ void ABattleCanvas::ShowStatAfterBox(const UPokemon* _Pokemon)
 void ABattleCanvas::HideStatUpWindow()
 {
 	StatBox->SetActive(false);
-}
-
-void ABattleCanvas::BeginPlay()
-{
-	ACanvas::BeginPlay();
-
-	// 최상위 요소
-	Background = CreateImageElement(this, ERenderingOrder::UI0, EPivotType::LeftTop, 0, 0);
-	Background->SetImage(RN::BattleBackground);
-
-	ActionBox = CreateImageElement(this, ERenderingOrder::UI7, EPivotType::RightBot, 0, 0);
-	ActionBox->SetImage(RN::BattleActionBox);
-
-	MoveSelectBox = CreateImageElement(this, ERenderingOrder::UI7, EPivotType::LeftBot, 0, 0);
-	MoveSelectBox->SetImage(RN::BattleMoveSelectBox);
-
-	EnemyPokemonBox = CreateImageElement(this, ERenderingOrder::UI1, EPivotType::LeftTop, 13, 16);
-	EnemyPokemonBox->SetImage(RN::BattleEnemyPokemonBox);
-	EnemyPokemonBoxInitPos = EnemyPokemonBox->GetRelativePosition();
-	EnemyPokemonBoxHidePos = EnemyPokemonBoxInitPos + FVector::Left * Global::FloatScreenX;
-
-	PlayerPokemonBox = CreateImageElement(this, ERenderingOrder::UI4, EPivotType::RightBot, -10, -48);
-	PlayerPokemonBox->SetImage(RN::BattlePlayerPokemonBox);
-	PlayerPokemonBoxInitPos = PlayerPokemonBox->GetRelativePosition();
-	PlayerPokemonBoxHidePos = PlayerPokemonBoxInitPos + FVector::Right * Global::FloatScreenX;
-
-	EnemyGround = CreateImageElement(this, ERenderingOrder::UI1, EPivotType::RightTop, 0, 46);
-	EnemyGround->SetImage(RN::BattleEnemyGround);
-	EnemyGroundInitPos = EnemyGround->GetRelativePosition();
-	EnemyGroundHidePos = EnemyGroundInitPos + FVector::Left * Global::FloatScreenX;
-
-	PlayerGround = CreateImageElement(this, ERenderingOrder::UI1, EPivotType::LeftBot, 4, -48);
-	PlayerGround->SetImage(RN::BattlePlayerGround);
-	PlayerGroundInitPos = PlayerGround->GetRelativePosition();
-	PlayerGroundHidePos = PlayerGroundInitPos + FVector::Right * Global::FloatScreenX;
-
-	ThrowedBall = CreateImageElement(this, ERenderingOrder::UI2, EPivotType::LeftTop, 42, 56);
-	ThrowedBall->SetImage(Global::ThrowedBall);
-	ThrowedBall->CreateAnimation(Global::ThrowedBall, 0, 41, 1.0f / 60, false);
-
-	StatBox = CreateImageElement(this, ERenderingOrder::UI7, EPivotType::RightBot, -1, -1);
-	StatBox->SetImage(RN::BattleStatUpBox);
-
-	// EnemyPokemonBox 요소
-	EnemyPokemonNameText = CreateText(EnemyPokemonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 7, 12, EAlignType::Left, EFontColor::Black, EFontSize::Mini);
-	EnemyPokemonLevelText = CreateText(EnemyPokemonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 85, 12, EAlignType::Right, EFontColor::Black, EFontSize::Mini);
-	EnemyPokemonHpBar = CreateScrollBar(EnemyPokemonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 39, 17, EScrollType::Hp);
-	EnemyPokemonGenderMark = CreateImageElement(EnemyPokemonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 10, 5);
-	EnemyPokemonStatusMark = CreateImageElement(EnemyPokemonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 7, 14);
-
-	// PlayerPokemonBox 요소
-	PlayerPokemonNameText = CreateText(PlayerPokemonBox, ERenderingOrder::UI5, EPivotType::RightTop, -84, 12, EAlignType::Left, EFontColor::Black, EFontSize::Mini);
-	PlayerPokemonLevelText = CreateText(PlayerPokemonBox, ERenderingOrder::UI5, EPivotType::RightTop, -9, 12, EAlignType::Right, EFontColor::Black, EFontSize::Mini);
-	PlayerPokemonCurHpText = CreateText(PlayerPokemonBox, ERenderingOrder::UI5, EPivotType::RightBot, -29, -6, EAlignType::Right, EFontColor::Black, EFontSize::Mini);
-	PlayerPokemonHpText = CreateText(PlayerPokemonBox, ERenderingOrder::UI5, EPivotType::RightBot, -9, -6, EAlignType::Right, EFontColor::Black, EFontSize::Mini);
-	PlayerPokemonHpBar = CreateScrollBar(PlayerPokemonBox, ERenderingOrder::UI5, EPivotType::RightTop, -55, 17, EScrollType::Hp);
-	PlayerPokemonExpBar = CreateScrollBar(PlayerPokemonBox, ERenderingOrder::UI5, EPivotType::RightTop, -71, 33, EScrollType::Exp);
-	PlayerPokemonGenderMark = CreateImageElement(PlayerPokemonBox, ERenderingOrder::UI5, EPivotType::LeftTop, 10, 5);
-	PlayerPokemonStatusMark = CreateImageElement(PlayerPokemonBox, ERenderingOrder::UI5, EPivotType::RightTop, -65, 22);
-
-	// EnemyGround 요소
-	EnemyPokemonImage = CreateImageElement(EnemyGround, ERenderingOrder::UI2, EPivotType::LeftTop, 36, -25, EImageElementType::PokemonFront);
-	EnemyPokemonImageInitPos = EnemyPokemonImage->GetRelativePosition();
-	EnemyPokemonImageFaintPos = EnemyPokemonImageInitPos + UPokemonUtil::PixelVector(0, 64);
-
-	// PlayerGround 요소
-	PlayerBattler = CreateImageElement(PlayerGround, ERenderingOrder::UI3, EPivotType::RightBot, -12, 0);
-	PlayerBattler->SetImage(RN::PlayerBattler);
-	PlayerBattler->CreateAnimation(Global::PlayerBattlerIdle, 0, 0, 0.0f, false);
-	PlayerBattler->CreateAnimation(Global::PlayerBattlerThrow, { 1, 2, 3, 4 }, { 16.0f/60, 8.0f/60, 4.0f/60, 4.0f/60 }, false);
-	PlayerBattlerInitPos = PlayerBattler->GetRelativePosition();
-	PlayerBattlerHidePos = PlayerBattlerInitPos + UPokemonUtil::PixelVector(-120, 0);
-
-	PlayerPokemonImage = CreateImageElement(PlayerGround, ERenderingOrder::UI2, EPivotType::LeftTop, 35, -49, EImageElementType::PokemonBack);
-	PlayerPokemonImageInitPos = PlayerPokemonImage->GetRelativePosition();
-	PlayerPokemonImageHidePos = PlayerPokemonImageInitPos + UPokemonUtil::PixelVector(0, 32);
-	PlayerPokemonImageFaintPos = PlayerPokemonImageInitPos + UPokemonUtil::PixelVector(0, 64);
-
-	// ActionBox 요소
-	ActionCursor = CreateCursor(ActionBox, ERenderingOrder::UI8, EPivotType::LeftTop, 9, 12);
-	ActionCursor->SetOptionCount(4);
-
-	int CursorHorGap = 56;
-	int CursorVerGap = 16;
-	ActionCursor->SetCursorPositions({ {0, 0}, {CursorHorGap, 0}, {0, CursorVerGap}, {CursorHorGap, CursorVerGap} });
-
-	// MoveSelectBox 요소
-	MoveSelectCursor = CreateCursor(MoveSelectBox, ERenderingOrder::UI8, EPivotType::LeftTop, 9, 12);
-	MoveSelectCursor->SetOptionCount(4);
-
-	int MoveHorGap = 71;
-	int MoveVerGap = 17;
-	MoveSelectCursor->SetCursorPositions({ {0, 0}, {MoveHorGap, 0}, {0, MoveVerGap}, {MoveHorGap, MoveVerGap} });
-
-	CurPPText = CreateText(MoveSelectBox, ERenderingOrder::UI8, EPivotType::RightTop, -26, 21, EAlignType::Right, EFontColor::Black2);
-	MaxPPText = CreateText(MoveSelectBox, ERenderingOrder::UI8, EPivotType::RightTop, -9, 21, EAlignType::Right, EFontColor::Black2);
-	MoveTypeText = CreateText(MoveSelectBox, ERenderingOrder::UI8, EPivotType::RightTop, -48, 37, EAlignType::Left, EFontColor::Black3);
-
-	for (int i = 0; i < 4; ++i)
-	{
-		int RowIndex = i / 2;
-		int ColIndex = i % 2;
-		AText* MoveText = CreateText(MoveSelectBox, ERenderingOrder::UI8, EPivotType::LeftTop, 
-			17 + ColIndex * MoveHorGap, 20 + RowIndex * MoveVerGap, EAlignType::Left, EFontColor::Black3, EFontSize::Mini);
-		MoveTexts.push_back(MoveText);
-	}
-
-	// StatBox 요소
-	StatHpText = CreateText(StatBox, ERenderingOrder::UI8, EPivotType::RightTop, -7, 18, EAlignType::Right, EFontColor::Black3);
-	StatAtkText = CreateText(StatBox, ERenderingOrder::UI8, EPivotType::RightTop, -7, 33, EAlignType::Right, EFontColor::Black3);
-	StatDefText = CreateText(StatBox, ERenderingOrder::UI8, EPivotType::RightTop, -7, 48, EAlignType::Right, EFontColor::Black3);
-	StatSpAtkText = CreateText(StatBox, ERenderingOrder::UI8, EPivotType::RightTop, -7, 63, EAlignType::Right, EFontColor::Black3);
-	StatSpDefText = CreateText(StatBox, ERenderingOrder::UI8, EPivotType::RightTop, -7, 78, EAlignType::Right, EFontColor::Black3);
-	StatSpeedText = CreateText(StatBox, ERenderingOrder::UI8, EPivotType::RightTop, -7, 93, EAlignType::Right, EFontColor::Black3);
 }
 
 void ABattleCanvas::Tick(float _DeltaTime)

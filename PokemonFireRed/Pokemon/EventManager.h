@@ -44,12 +44,21 @@ public:
 	// 이벤트 트리거
 	static bool TriggerEvent(AEventTrigger* _Trigger, EEventTriggerAction _Action = EEventTriggerAction::Direct);
 
-	// 배틀 적 엔트리 세이브 로드
+	// 배틀 Enemy 데이터 세이브 로드
 	static void SaveEnemyEntry(std::vector<UPokemon>* _Entry);
 	static std::vector<UPokemon>* LoadEnemyEntry();
 	static bool IsWildPokemonBattle();
 	static void SetAsWildPokemonBattle();
 	static void SetAsTrainerBattle(std::string_view _TrainerName, std::string_view _TrainerImageName);
+	static std::string GetTrainerName()
+	{
+		return TrainerName;
+	}
+	static std::string GetTrainerImageName()
+	{
+		return TrainerImageName;
+	}
+
 
 	// 즉발 이벤트 함수
 	// - 사이드 이펙트가 없는 이벤트 명령은 

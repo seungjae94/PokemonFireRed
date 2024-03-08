@@ -35,7 +35,7 @@ public:
 	// 배틀러 정보
 	void InitPlayer();
 	void InitWildPokemon();
-	void InitTrainer();
+	void InitTrainer(std::string_view _TrainerName, std::string_view _TrainerImageName);
 
 	bool IsPlayer() const
 	{
@@ -52,18 +52,19 @@ public:
 		return false == IsPlayer() && false == IsWildPokemon();
 	}
 
-	// 포켓몬 정보
-	void InitCurPokemon()
+	// 배틀러 정보
+	std::wstring GetTrainerNameW() const
 	{
-		for (int i = 0; i < Entry.size(); ++i)
-		{
-			if (false == Entry[i]->IsFaint())
-			{
-				FightingPokemonIndex = i;
-				return;
-			}
-		}
+		return UEngineString::AnsiToUniCode(TrainerName);
 	}
+
+	std::string GetTrainerImageName() const
+	{
+		return TrainerImageName;
+	}
+
+	// 포켓몬 정보
+	void InitCurPokemon();
 
 	UPokemon* CurPokemon()
 	{
@@ -80,13 +81,7 @@ public:
 		return FightingPokemonIndex;
 	}
 
-	void ShiftPokemon()
-	{
-		StatStage.Reset();
-		FightingPokemonIndex = ShiftPokemonIndex;
-		CurMoveIndex = 0;
-		ShiftPokemonIndex = -1;
-	}
+	void ShiftPokemon();
 
 	// 액션
 	EBattleAction CurAction() const
@@ -181,20 +176,7 @@ public:
 	}
 
 	// 스탯 변경 디테일
-	void DecBindCount()
-	{
-		if (BindCount < 1)
-		{
-			return;
-		}
-
-		--BindCount;
-
-		if (BindCount == 0)
-		{
-			TempStatusId = EPokemonStatus::Normal;
-		}
-	}
+	void DecBindCount();
 
 	// 엔트리
 	int GetEntrySize() const
@@ -202,23 +184,16 @@ public:
 		return static_cast<int>(Entry.size());
 	}
 
-	bool AllFaint() const
-	{
-		for (const UPokemon* Pokemon : Entry)
-		{
-			if (Pokemon->GetStatusId() != EPokemonStatus::Faint)
-			{
-				return false;
-			}
-		}
-		return true;
-	}
+	bool AllFaint() const;
 
 protected:
 
 private:
 	// 배틀러 정보
 	std::vector<UPokemon*> Entry;
+	std::string TrainerName;
+	std::string TrainerImageName;
+
 	int FightingPokemonIndex = 0;
 	int CurMoveIndex = 0;
 	bool IsPlayerValue = false;

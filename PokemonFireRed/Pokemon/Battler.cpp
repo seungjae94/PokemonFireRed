@@ -28,11 +28,60 @@ void UBattler::InitWildPokemon()
 	InitEnemyPokemon();
 }
 
-void UBattler::InitTrainer()
+void UBattler::InitTrainer(std::string_view _TrainerName, std::string_view _TrainerImageName)
 {
 	IsPlayerValue = false;
 	IsWildPokemonValue = false;
+	TrainerName = _TrainerName;
+	TrainerImageName = _TrainerImageName;
 	InitEnemyPokemon();
+}
+
+void UBattler::InitCurPokemon()
+{
+	for (int i = 0; i < Entry.size(); ++i)
+	{
+		if (false == Entry[i]->IsFaint())
+		{
+			FightingPokemonIndex = i;
+			return;
+		}
+	}
+}
+
+void UBattler::ShiftPokemon()
+{
+	StatStage.Reset();
+	FightingPokemonIndex = ShiftPokemonIndex;
+	CurMoveIndex = 0;
+	ShiftPokemonIndex = -1;
+}
+
+void UBattler::DecBindCount()
+{
+	if (BindCount < 1)
+	{
+		return;
+	}
+
+	--BindCount;
+
+	if (BindCount == 0)
+	{
+		TempStatusId = EPokemonStatus::Normal;
+	}
+}
+
+bool UBattler::AllFaint() const
+{
+	for (const UPokemon* Pokemon : Entry)
+	{
+		if (Pokemon->GetStatusId() != EPokemonStatus::Faint)
+		{
+			return false;
+		}
+	}
+	return true;
 }
 
 void UBattler::InitEnemyPokemon()

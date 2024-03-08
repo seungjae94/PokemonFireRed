@@ -109,6 +109,7 @@ private:
 	FVector PlayerBattlerInitPos;
 	FVector PlayerBattlerHidePos;
 	FVector EnemyPokemonImageInitPos;
+	FVector EnemyPokemonImageHidePos;
 	FVector EnemyPokemonImageFaintPos;
 	int HpBarMaxValue = 1000;
 	int ExpBarMaxValue = 1000;
@@ -117,11 +118,11 @@ private:
 	AImageElement* Background = nullptr;
 	AImageElement* ActionBox = nullptr;
 	AImageElement* MoveSelectBox = nullptr;
-	AImageElement* EnemyPokemonBox = nullptr;
-	AImageElement* PlayerPokemonBox = nullptr;
-	AImageElement* EnemyGround = nullptr;
-	AImageElement* PlayerGround = nullptr;
 	AImageElement* ThrowedBall = nullptr;		// 볼 날아가는 애니메이션
+	AImageElement* PlayerGround = nullptr;
+	AImageElement* EnemyGround = nullptr;
+	AImageElement* PlayerPokemonBox = nullptr;
+	AImageElement* EnemyPokemonBox = nullptr;
 	AImageElement* StatBox = nullptr;
 
 	// EnemyPokemonBox 요소
@@ -143,6 +144,7 @@ private:
 
 	// EnemyPokemonGround 요소
 	AImageElement* EnemyPokemonImage = nullptr;
+	AImageElement* EnemyBattler = nullptr;
 
 	// PlayerPokemonGround 요소
 	AImageElement* PlayerPokemonImage = nullptr;

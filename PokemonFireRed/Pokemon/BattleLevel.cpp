@@ -49,6 +49,7 @@ void UBattleLevel::BeginPlay()
 	MsgBox->SetLineSpace(16);
 
 	WildBattleStartSM = SpawnActor<AWildBattleStartStateMachine>();
+	TrainerBattleStartSM = SpawnActor<ATrainerBattleStartStateMachine>();
 	BattlePrepareTurnSM = SpawnActor<ABattlePrepareTurnStateMachine>();
 	PlayerActionSelectSM = SpawnActor<ABattlePlayerActionSelectStateMachine>();
 	BattleTurnSM = SpawnActor<ABattleTurnStateMachine>();
@@ -136,7 +137,7 @@ void UBattleLevel::LevelStart(ULevel* _PrevLevel)
 	}
 	else
 	{
-		Enemy.InitTrainer();
+		Enemy.InitTrainer(UEventManager::GetTrainerName(), UEventManager::GetTrainerImageName());
 	}
 	Enemy.InitCurPokemon();
 

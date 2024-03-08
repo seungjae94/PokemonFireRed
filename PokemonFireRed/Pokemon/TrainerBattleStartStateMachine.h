@@ -62,6 +62,7 @@ private:
 	ESubstate State = ESubstate::None;
 	float FadeWaitTime = 0.5f;
 	float GroundMoveTime = 1.5f;
+	float EnemyArrowMoveTime = 0.5f;
 	float EnemyPokemonBoxMoveTime = 0.5f;
 	float PlayerBattleThrowTime = 1.1f;
 	float BallThrowMotionWaitTime = 0.5f;

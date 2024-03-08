@@ -1,4 +1,6 @@
 #include "TrainerBattleStartStateMachine.h"
+#include "BattleCanvas.h"
+#include "PokemonMsgBox.h"
 
 ATrainerBattleStartStateMachine::ATrainerBattleStartStateMachine() 
 {
@@ -64,11 +66,23 @@ void ATrainerBattleStartStateMachine::ProcessFadeWait()
 
 void ATrainerBattleStartStateMachine::ProcessGroundMove()
 {
+	Canvas->LerpShowGrounds(Timer / GroundMoveTime);
 
+	if (Timer <= 0.0f)
+	{
+		State = ESubstate::EntryArrowMove;
+		Timer = EnemyArrowMoveTime;
+		MsgBox->SetMessage(Enemy->GetTrainerNameW() + L"\nwould like to battle!");
+		MsgBox->Write();
+	}
 }
 
 void ATrainerBattleStartStateMachine::ProcessEnemyArrowMove()
 {
+	if (Timer <= 0 && MsgBox->GetWriteState() == EWriteState::WriteEnd)
+	{
+		MsgBox->ShowSkipArrow();
+	}
 }
 
 void ATrainerBattleStartStateMachine::ProcessEnemyBallMove()
