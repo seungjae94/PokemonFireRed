@@ -80,5 +80,8 @@ private:
 	void ProcessEnemyBattlerMessage();
 	void ProcessGotMoneyForWining1();
 	void ProcessGotMoneyForWining2();
+
+	// 유틸 함수
+	int CalcLostMoney();
 };
 

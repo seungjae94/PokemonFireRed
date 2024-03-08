@@ -36,6 +36,9 @@ void AFinishBattleStateMachine::Start(ABattleCanvas* _Canvas, APokemonMsgBox* _M
 		MsgBox->Write();
 		break;
 	case EBattleEndReason::LoseToTrainer:
+		State = ESubstate::OutOfPokemonMessage1;
+		MsgBox->SetMessage(L"RED is out of\nusable POKéMON!");
+		MsgBox->Write();
 		break;
 	default:
 		break;
@@ -75,12 +78,16 @@ void AFinishBattleStateMachine::Tick(float _DeltaTime)
 		ProcessWhitedOut2();
 		break;
 	case AFinishBattleStateMachine::ESubstate::PlayerLostAgainst1:
+		ProcessPlayerLostAgainst1();
 		break;
 	case AFinishBattleStateMachine::ESubstate::PlayerLostAgainst2:
+		ProcessPlayerLostAgainst2();
 		break;
 	case AFinishBattleStateMachine::ESubstate::PaidAsThePrizeMoney1:
+		ProcessPaidAsThePrizeMoney1();
 		break;
 	case AFinishBattleStateMachine::ESubstate::PaidAsThePrizeMoney2:
+		ProcessPaidAsThePrizeMoney2();
 		break;
 	case AFinishBattleStateMachine::ESubstate::PlayerDefeated1:
 		break;
@@ -115,19 +122,22 @@ void AFinishBattleStateMachine::ProcessOutOfPokemonMessage2()
 {
 	if (true == UEngineInput::IsDown('Z'))
 	{
-		State = ESubstate::PanicAndLost1;
-
-		int MaxLevel = 0;
-		for (int i = 0; i < Player->GetEntrySize(); ++i)
+		if (Reason == EBattleEndReason::LoseToWild)
 		{
-			MaxLevel = UPokemonMath::Max(MaxLevel, Player->GetLevel(i));
+			State = ESubstate::PanicAndLost1;
+			int LostMoney = CalcLostMoney();
+			UPlayerData::LostMoney(LostMoney);
+			MsgBox->HideSkipArrow();
+			MsgBox->SetMessage(L"RED panicked and lost " + std::to_wstring(LostMoney) + L"G");
+			MsgBox->Write();
 		}
-
-		int LostMoney = UPokemonMath::Min(8 * MaxLevel, UPlayerData::GetMoney());
-		UPlayerData::LostMoney(LostMoney);
-		MsgBox->HideSkipArrow();
-		MsgBox->SetMessage(L"RED panicked and lost " + std::to_wstring(LostMoney) + L"G");
-		MsgBox->Write();
+		else if (Reason == EBattleEndReason::LoseToTrainer)
+		{
+			State = ESubstate::PlayerLostAgainst1;
+			MsgBox->HideSkipArrow();
+			MsgBox->SetMessage(L"Player lost against\n" + Enemy->GetTrainerNameW() + L"!");
+			MsgBox->Write();
+		}
 	}
 }
 
@@ -187,3 +197,54 @@ void AFinishBattleStateMachine::ProcessWhitedOut2()
 	}
 }
 
+void AFinishBattleStateMachine::ProcessPlayerLostAgainst1()
+{
+	if (MsgBox->GetWriteState() == EWriteState::WriteEnd)
+	{
+		State = ESubstate::PlayerLostAgainst2;
+	}
+}
+
+void AFinishBattleStateMachine::ProcessPlayerLostAgainst2()
+{
+	if (true == UEngineInput::IsDown('Z'))
+	{
+		State = ESubstate::PaidAsThePrizeMoney1;
+		int LostMoney = CalcLostMoney();
+		UPlayerData::LostMoney(LostMoney);
+		MsgBox->SetMessage(L"RED paid " + std::to_wstring(LostMoney) + L"G as the prize\nmoney…");
+		MsgBox->Write();
+	}
+}
+
+void AFinishBattleStateMachine::ProcessPaidAsThePrizeMoney1()
+{
+	if (MsgBox->GetWriteState() == EWriteState::WriteEnd)
+	{
+		State = ESubstate::PaidAsThePrizeMoney2;
+		MsgBox->ShowSkipArrow();
+	}
+}
+
+void AFinishBattleStateMachine::ProcessPaidAsThePrizeMoney2()
+{
+	if (true == UEngineInput::IsDown('Z'))
+	{
+		State = ESubstate::ManyDots1;
+		MsgBox->HideSkipArrow();
+		MsgBox->SetMessage(L"… … … …");
+		MsgBox->Write();
+	}
+}
+
+int AFinishBattleStateMachine::CalcLostMoney()
+{
+	int MaxLevel = 0;
+	for (int i = 0; i < Player->GetEntrySize(); ++i)
+	{
+		MaxLevel = UPokemonMath::Max(MaxLevel, Player->GetLevel(i));
+	}
+
+	int LostMoney = UPokemonMath::Min(8 * MaxLevel, UPlayerData::GetMoney());
+	return LostMoney;
+}
