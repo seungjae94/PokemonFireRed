@@ -170,7 +170,17 @@ void UBattleLevel::LevelEnd(ULevel* _NextLevel)
 
 void UBattleLevel::ProcessBattleStart()
 {
-	if (true == WildBattleStartSM->IsEnd())
+	bool ProcessEndCondition = false;
+	if (true == Enemy.IsWildPokemon())
+	{
+		ProcessEndCondition = WildBattleStartSM->IsEnd();
+	}
+	else
+	{
+		ProcessEndCondition = TrainerBattleStartSM->IsEnd();
+	}
+
+	if (true == ProcessEndCondition)
 	{
 		State = EState::PrepareTurn1;
 		BattlePrepareTurnSM->Start(Canvas, MsgBox, &Player, &Enemy);
