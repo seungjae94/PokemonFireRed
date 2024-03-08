@@ -34,6 +34,8 @@ public:
 	// BattleStart
 	void LerpShowGrounds(float _t);
 	void LerpShowEnemyPokemonBox(float _t);
+	void LerpShowEnemyEntryArrow(float _t);
+	void LerpShowPlayerEntryArrow(float _t);
 	void PlayBattlerThrowingAnimation();
 	void LerpHidePlayerBattler(float _t);
 	void PlayThrowedBallAnimation();
@@ -111,6 +113,10 @@ private:
 	FVector EnemyPokemonImageInitPos;
 	FVector EnemyPokemonImageHidePos;
 	FVector EnemyPokemonImageFaintPos;
+	FVector PlayerEntryArrowInitPos;
+	FVector PlayerEntryArrowHidePos;
+	FVector EnemyEntryArrowInitPos;
+	FVector EnemyEntryArrowHidePos;
 	int HpBarMaxValue = 1000;
 	int ExpBarMaxValue = 1000;
 

@@ -63,6 +63,8 @@ private:
 	float FadeWaitTime = 0.5f;
 	float GroundMoveTime = 1.5f;
 	float EnemyArrowMoveTime = 0.5f;
+	float EnemyBallMoveTime = 1.0f;
+	float EnemyBallMoveInterval = 1.0f;
 	float EnemyPokemonBoxMoveTime = 0.5f;
 	float PlayerBattleThrowTime = 1.1f;
 	float BallThrowMotionWaitTime = 0.5f;

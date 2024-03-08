@@ -53,9 +53,13 @@ void ABattleCanvas::BeginPlay()
 
 	PlayerEntryArrow = CreateImageElement(this, ERenderingOrder::UI4, EPivotType::RightBot, 0, -60);
 	PlayerEntryArrow->SetImage(RN::BattlePlayerEntryArrow);
+	PlayerEntryArrowInitPos = PlayerEntryArrow->GetRelativePosition();
+	PlayerEntryArrowHidePos = PlayerEntryArrowInitPos + FVector::Right * Global::FloatScreenX;
 
 	EnemyEntryArrow = CreateImageElement(this, ERenderingOrder::UI1, EPivotType::LeftTop, 0, 40);
 	EnemyEntryArrow->SetImage(RN::BattleEnemyEntryArrow);
+	EnemyEntryArrowInitPos = EnemyEntryArrow->GetRelativePosition();
+	EnemyEntryArrowHidePos = EnemyEntryArrowInitPos + FVector::Left * Global::FloatScreenX;
 
 	// EnemyPokemonBox ¿ä¼Ò
 	EnemyPokemonNameText = CreateText(EnemyPokemonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 7, 12, EAlignType::Left, EFontColor::Black, EFontSize::Mini);
@@ -159,12 +163,15 @@ void ABattleCanvas::Init(const UBattler* _Player, const UBattler* _Enemy)
 	PlayerPokemonBox->SetActive(true);
 	EnemyPokemonBox->SetActive(true);
 	StatBox->SetActive(false);
+	PlayerEntryArrow->SetActive(true);
+	EnemyEntryArrow->SetActive(true);
 }
 
 void ABattleCanvas::InitPlayerImages()
 {
 	const UPokemon* PlayerPokemon = Player->CurPokemonReadonly();
 	PlayerBattler->ChangeAnimation(Global::PlayerBattlerIdle);
+	PlayerBattler->SetRelativePosition(PlayerBattlerInitPos);
 	PlayerPokemonImage->SetPokemon(PlayerPokemon);
 
 	PlayerPokemonImage->SetRelativePosition(PlayerPokemonImageHidePos);
@@ -192,13 +199,14 @@ void ABattleCanvas::InitPlayerUI()
 {
 	PlayerPokemonBox->SetRelativePosition(PlayerPokemonBoxHidePos);
 	PlayerGround->SetRelativePosition(PlayerGroundHidePos);
-	PlayerBattler->SetRelativePosition(PlayerBattlerInitPos);
+	PlayerEntryArrow->SetRelativePosition(PlayerEntryArrowHidePos);
 }
 
 void ABattleCanvas::InitEnemyUI()
 {
 	EnemyGround->SetRelativePosition(EnemyGroundHidePos);
 	EnemyPokemonBox->SetRelativePosition(EnemyPokemonBoxHidePos);
+	EnemyEntryArrow->SetRelativePosition(EnemyEntryArrowHidePos);
 }
 
 void ABattleCanvas::RefreshEnemyPokemonBox()
@@ -280,6 +288,18 @@ void ABattleCanvas::LerpShowEnemyPokemonBox(float _t)
 {
 	FVector EnemyPokemonBoxPos = UPokemonMath::Lerp(EnemyPokemonBoxInitPos, EnemyPokemonBoxHidePos, _t);
 	EnemyPokemonBox->SetRelativePosition(EnemyPokemonBoxPos);
+}
+
+void ABattleCanvas::LerpShowEnemyEntryArrow(float _t)
+{
+	FVector Pos = UPokemonMath::Lerp(EnemyEntryArrowInitPos, EnemyEntryArrowHidePos, _t);
+	EnemyEntryArrow->SetRelativePosition(Pos);
+}
+
+void ABattleCanvas::LerpShowPlayerEntryArrow(float _t)
+{
+	FVector Pos = UPokemonMath::Lerp(PlayerEntryArrowInitPos, PlayerEntryArrowHidePos, _t);
+	PlayerEntryArrow->SetRelativePosition(Pos);
 }
 
 void ABattleCanvas::PlayBattlerThrowingAnimation()

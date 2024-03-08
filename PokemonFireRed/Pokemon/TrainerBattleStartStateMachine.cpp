@@ -79,14 +79,20 @@ void ATrainerBattleStartStateMachine::ProcessGroundMove()
 
 void ATrainerBattleStartStateMachine::ProcessEnemyArrowMove()
 {
-	if (Timer <= 0 && MsgBox->GetWriteState() == EWriteState::WriteEnd)
+	Canvas->LerpShowEnemyEntryArrow(Timer / EnemyArrowMoveTime);
+
+	if (Timer <= 0)
 	{
-		MsgBox->ShowSkipArrow();
+		
 	}
 }
 
 void ATrainerBattleStartStateMachine::ProcessEnemyBallMove()
 {
+	if (Timer <= 0 && MsgBox->GetWriteState() == EWriteState::WriteEnd)
+	{
+		MsgBox->ShowSkipArrow();
+	}
 }
 
 void ATrainerBattleStartStateMachine::ProcessEnemyPokemonAppear()
