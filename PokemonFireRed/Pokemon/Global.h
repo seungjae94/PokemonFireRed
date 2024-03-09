@@ -233,9 +233,11 @@ namespace RN
 	const std::string BattleEntryBallFaint = "BattleEntryBallFaint.png";
 	const std::string BattleEnemyGroundBall = "BattleEnemyGroundBall.png";
 
-
 	// 캐릭터 리소스
 	const std::string BugCatcher = "BugCatcher";
+
+	// 오브젝트 리소스
+	const std::string MapBall = "MapBall.png";
 };
 
 enum ERenderingOrder

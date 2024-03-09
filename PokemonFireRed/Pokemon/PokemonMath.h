@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <list>
 #include <random>
 #include <EngineBase/EngineMath.h>
 #include <EngineBase/EngineDebug.h>
@@ -153,6 +154,22 @@ public:
 	std::string ToString() const
 	{
 		return "[X : " + std::to_string(X) + " Y : " + std::to_string(Y) + "]";
+	}
+
+	static bool IsNear(const FTileVector& _Left, const FTileVector& _Right)
+	{
+		FTileVector LRDiff = _Left - _Right;
+		FTileVector RLDiff = _Right - _Left;
+
+		std::list<FTileVector> Dirs = { Up, Down, Left, Right };
+
+		std::list<FTileVector>::iterator LRFindIter 
+			= std::find(Dirs.begin(), Dirs.end(), LRDiff);
+
+		std::list<FTileVector>::iterator RLFindIter
+			= std::find(Dirs.begin(), Dirs.end(), RLDiff);
+
+		return LRFindIter != Dirs.end() || RLFindIter != Dirs.end();
 	}
 };
 

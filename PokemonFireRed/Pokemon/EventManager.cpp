@@ -438,6 +438,18 @@ void UEventManager::OpenDialogueWindow(const std::vector<std::wstring>& _Dialogu
 	Window->Open(_Dialogue, _Color, _LineSpace);
 }
 
+void UEventManager::ActivatePlayer()
+{
+	APlayer* CurLevelPlayer = FindCurLevelTarget<APlayer>(Global::Player);
+	CurLevelPlayer->StateChange(EPlayerState::Idle);
+}
+
+void UEventManager::DeactivatePlayer()
+{
+	APlayer* CurLevelPlayer = FindCurLevelTarget<APlayer>(Global::Player);
+	CurLevelPlayer->StateChange(EPlayerState::OutOfControl);
+}
+
 ADialogueWindow* UEventManager::FindCurLevelDialogueWindow()
 {
 	std::string LevelName = UEngineString::ToUpper(CurLevelName);

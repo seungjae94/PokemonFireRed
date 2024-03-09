@@ -387,6 +387,12 @@
     <ClInclude Include="FinishBattleStateMachine.h">
       <Filter>2. Level\7. BattleLevel\StateMachine\4. FinishBattle</Filter>
     </ClInclude>
+    <ClInclude Include="StarterBall.h">
+      <Filter>2. Level\2. MapLevel\1. Interior Level</Filter>
+    </ClInclude>
+    <ClInclude Include="StarterCanvas.h">
+      <Filter>2. Level\2. MapLevel\1. Interior Level</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PokemonCore.cpp">
@@ -640,6 +646,12 @@
     </ClCompile>
     <ClCompile Include="FinishBattleStateMachine.cpp">
       <Filter>2. Level\7. BattleLevel\StateMachine\4. FinishBattle</Filter>
+    </ClCompile>
+    <ClCompile Include="StarterBall.cpp">
+      <Filter>2. Level\2. MapLevel\1. Interior Level</Filter>
+    </ClCompile>
+    <ClCompile Include="StarterCanvas.cpp">
+      <Filter>2. Level\2. MapLevel\1. Interior Level</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

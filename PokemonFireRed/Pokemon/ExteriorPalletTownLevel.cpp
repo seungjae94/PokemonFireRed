@@ -158,8 +158,8 @@ void UExteriorPalletTownLevel::SpawnPTGetStarterEventTrigger(UEventTargetSetting
 		//>> ES::Surprise(EN::Player, {})
 		>> ES::Move(EN::Oak, _OakComePath, 3.6f, false)
 		>> ES::Chat({
-	   L"OAK: It's unsafe!\nWild POKeMON live in tall grass!",
-	   L"You need your own POKeMON for\nyour protection.",
+	   L"OAK: It's unsafe!\nWild POKéMON live in tall grass!",
+	   L"You need your own POKéMON for\nyour protection.",
 	   L"I know!\nHere, come with me!" }, EFontColor::Blue, 16)
 	   >> ES::Move({ EN::Oak, EN::Player }, { _OakGoToLabPath, _PlayerGoToLabPath })
 		>> ES::ChangeDirection(Global::ExteriorPalletTownLevel, EN::Oak, Up)
@@ -191,8 +191,8 @@ void UExteriorPalletTownLevel::SpawnPTGetStarterEventTrigger(UEventTargetSetting
 		L"OAK: GREEN?\nLet me think...",
 		L"Oh, that's right, I told you to\ncome! Just wait!",
 		L"Here, RED.",
-		L"There are three POKeMON here.",
-		L"The POKeMON are held inside\nthese POKe BALLS.",
+		L"There are three POKéMON here.",
+		L"The POKéMON are held inside\nthese POKé BALLS.",
 		L"You can have one.\nGo on, choose!"
 			}, EFontColor::Blue, 16)
 		>> ES::Achieve(EAchievement::GetStarterEventStart)

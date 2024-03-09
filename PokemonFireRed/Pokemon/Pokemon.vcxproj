@@ -264,6 +264,14 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="StarterBall.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="StarterCanvas.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="StatStage.h">
       <SubType>
       </SubType>
@@ -604,6 +612,14 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="PokemonMsgBox.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="StarterBall.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="StarterCanvas.cpp">
       <SubType>
       </SubType>
     </ClCompile>

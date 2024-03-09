@@ -77,6 +77,10 @@ public:
 
 	static void OpenDialogueWindow(const std::vector<std::wstring>& _Dialogue, EFontColor _Color, int _LineSpace = 14);
 
+	static void ActivatePlayer();
+
+	static void DeactivatePlayer();
+
 	// 찾기 편의 함수
 	static ADialogueWindow* FindCurLevelDialogueWindow();
 
