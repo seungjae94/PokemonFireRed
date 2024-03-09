@@ -87,11 +87,22 @@ namespace EN
 	const std::string Player = "Player";
 
 	// Players House
-
-
-	// Rivals House
+	const std::string PlayersMom = "PlayersMom";
 
 	// Oaks Lab
+	const std::string RivalGreen = "RivalGreen";
+
+	// Viridian City
+	const std::string Nurse = "Nurse";
+	const std::string ShopOwner = "ShopOwner";
+
+	// Viridian Forest
+	const std::string BugCatcher0 = "BugCatcher0";
+	const std::string BugCatcher1 = "BugCatcher1";
+
+	// Pewter City
+	const std::string Camper = "Camper";
+	const std::string LeaderBrock = "LeaderBrock";
 
 };
 
@@ -218,6 +229,10 @@ namespace RN
 	const std::string BattleEntryBallAlive = "BattleEntryBallAlive.png";
 	const std::string BattleEntryBallFaint = "BattleEntryBallFaint.png";
 	const std::string BattleEnemyGroundBall = "BattleEnemyGroundBall.png";
+
+
+	// 캐릭터 리소스
+	const std::string BugCatcher = "BugCatcher";
 };
 
 enum ERenderingOrder

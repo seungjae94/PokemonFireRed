@@ -63,14 +63,15 @@ public:
 	{
 		friend UEventProcessor;
 	public:
-		Move(std::string_view _MapName, std::string_view _TargetName, const std::vector<FTileVector>& _Path, float _MoveSpeed = 3.6f)
-			: MapName(_MapName), TargetName(_TargetName), Path(_Path), MoveSpeed(_MoveSpeed)
+		Move(std::string_view _MapName, std::string_view _TargetName, const std::vector<FTileVector>& _Path, float _MoveSpeed = 3.6f, bool _CameraFollow = true)
+			: MapName(_MapName), TargetName(_TargetName), Path(_Path), MoveSpeed(_MoveSpeed), CameraFollow(_CameraFollow)
 		{
 		}
 	private:
 		std::string MapName;
 		std::string TargetName;
 		std::vector<FTileVector> Path;
+		bool CameraFollow = true;
 		float MoveSpeed = 3.6f;
 	};
 

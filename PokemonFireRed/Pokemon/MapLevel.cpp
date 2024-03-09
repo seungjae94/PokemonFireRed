@@ -148,12 +148,18 @@ void UMapLevel::LoadCharacterResources()
 		UEngineResourcesManager::GetInst().LoadImg(Path);
 	}
 
-	// Idle 애니메이션을 로드할 캐릭터 이름을 정의
+	// Idle 애니메이션을 로드할 캐릭터 리소스 이름을 정의
 	std::vector<std::string> IdleCharacterNames = {
-		Global::Player,
+		EN::Player,
 		EN::TechMan,
-		"PlayersMom",
-		"RivalGreen"
+		EN::PlayersMom,
+		EN::RivalGreen,
+		EN::Oak,
+		EN::Nurse,
+		EN::ShopOwner,
+		RN::BugCatcher,
+		EN::Camper,
+		EN::LeaderBrock
 	};
 
 	// Idle 애니메이션 리소스 로드
@@ -164,8 +170,12 @@ void UMapLevel::LoadCharacterResources()
 
 	// Walk 애니메이션을 로드할 캐릭터 이름을 정의
 	std::vector<std::string> WalkCharacterNames = {
-		Global::Player,
-		EN::TechMan
+		EN::Player,
+		EN::TechMan,
+		EN::RivalGreen,
+		EN::Oak,
+		RN::BugCatcher,
+		EN::Camper
 	};
 
 	// Walk 애니메이션 리소스 로드

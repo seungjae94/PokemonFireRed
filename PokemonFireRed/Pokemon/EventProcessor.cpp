@@ -186,7 +186,11 @@ bool UEventProcessor::ProcessMove()
 		float t = (MoveTime - MoveTimer) / MoveTime;
 		FVector TargetPos = UPokemonMath::Lerp(MovePrevPoint.ToFVector(), MoveNextPoint.ToFVector(), t);
 		Target->SetActorLocation(TargetPos);
-		Target->GetWorld()->SetCameraPos(Target->GetActorLocation() - Global::HalfScreen);
+
+		if (true == Data.CameraFollow)
+		{
+			Target->GetWorld()->SetCameraPos(Target->GetActorLocation() - Global::HalfScreen);
+		}
 	}
 	else if (MovePathIndex + 1 >= Data.Path.size())
 	{

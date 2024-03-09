@@ -131,20 +131,22 @@ void UExteriorPalletTownLevel::MakePTGetStarterEventTrigger()
 	Cond.RegisterCheckFunc(Func);
 
 	AEventTrigger* Trigger = SpawnEventTrigger<AEventTrigger>(Setting);
-	//UEventManager::RegisterEvent(Trigger, Cond,
-	//	ES::Start(true)
-	//	>> ES::ChangePoint(Global::ExteriorPalletTownLevel, EN::Oak, { 75, 142 })
-	//	>> ES::Chat({ L"OAK: Hey! Wait!\nDon't go out!" }, EFontColor::Blue, 16)
-	//	>> ES::ChangeDirection(Global::ExteriorPalletTownLevel, EN::Player, FTileVector::Down)
-	//	//>> ES::Surprise(EN::Player, {})
-	//	>> ES::Move(GetName(), EN::Oak, { FTileVector::Up, FTileVector::Up, FTileVector::Up, FTileVector::Up, FTileVector::Right, FTileVector::Up })
-	//	>> ES::Wait(0.5f)
-	//	>> ES::Chat({
-	//   L"OAK: It's unsafe!\nWild POKeMON live in tall grass!",
-	//   L"You need your own POKeMON for\nyour protection.",
-	//   L"I know!\nHere, come with me!"}, EFontColor::Blue, 16)
-	//	>> ES::End(true)
-	//);
+	UEventManager::RegisterEvent(Trigger, Cond,
+		ES::Start(true)
+		>> ES::ChangePoint(Global::ExteriorPalletTownLevel, EN::Oak, { 75, 142 })
+		>> ES::Chat({ L"OAK: Hey! Wait!\nDon't go out!" }, EFontColor::Blue, 16)
+		>> ES::ChangeDirection(Global::ExteriorPalletTownLevel, EN::Player, FTileVector::Down)
+		//>> ES::Surprise(EN::Player, {})
+		>> ES::Move(GetName(), EN::Oak, 
+			{ FTileVector::Up, FTileVector::Up, FTileVector::Up, FTileVector::Up, FTileVector::Right, FTileVector::Up, FTileVector::Up },
+			3.6f, false)
+		>> ES::Wait(0.5f)
+		>> ES::Chat({
+	   L"OAK: It's unsafe!\nWild POKeMON live in tall grass!",
+	   L"You need your own POKeMON for\nyour protection.",
+	   L"I know!\nHere, come with me!"}, EFontColor::Blue, 16)
+		>> ES::End(true)
+	);
 
 
 	//  >> ES::MoveTogether({EN::Oak, EN::Player}, {
@@ -193,15 +195,15 @@ void UExteriorPalletTownLevel::MakePTGetStarterEventTrigger()
 void UExteriorPalletTownLevel::MakePTOak()
 {
 	UEventTargetSetting Setting;
-	Setting.SetName(EN::TechMan);
-	Setting.SetPoint({ 80, 151 });
+	Setting.SetName(EN::Oak);
+	Setting.SetPoint({ 300, 300 });
 	Setting.SetDirection(FTileVector::Down);
 	Setting.SetCollidable(true);
 	Setting.SetRotatable(true);
 	Setting.SetWalkable(true);
 	Setting.SetImageNameAuto();
 
-
+	AEventTarget* Oak = SpawnEventTarget<AEventTarget>(Setting);
 }
 
 void UExteriorPalletTownLevel::MakePTAnimatedTiles()
