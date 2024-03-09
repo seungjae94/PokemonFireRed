@@ -78,6 +78,11 @@ void ULevel::LevelRender(float _DeltaTime)
 				continue;
 			}
 
+			if (nullptr == Renderer->GetImage())
+			{
+				continue;
+			}
+
 			Renderer->Render(_DeltaTime);
 		}
 	}

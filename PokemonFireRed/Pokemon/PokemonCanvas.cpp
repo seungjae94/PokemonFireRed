@@ -355,7 +355,7 @@ void APokemonCanvas::RefreshEntry(int _Index, bool _IsSwitchMode)
 		break;
 	}
 
-	if (false == _IsSwitchMode) 
+	if (false == _IsSwitchMode)
 	{
 		EntryBoxes[_Index - 1]->SetImage(ImageName);
 		EntryBoxes[_Index - 1]->SetRelativePosition(PixelX, PixelY);
@@ -363,6 +363,14 @@ void APokemonCanvas::RefreshEntry(int _Index, bool _IsSwitchMode)
 
 	if (_Index < 0 || _Index >= UPlayerData::GetPokemonEntrySize())
 	{
+		EntryLevelTexts[_Index - 1]->SetActive(false);
+		EntryHpTexts[_Index - 1]->SetActive(false);
+		EntryCurHpTexts[_Index - 1]->SetActive(false);
+		EntryHpBars[_Index - 1]->SetActive(false);
+		EntryHpBars[_Index - 1]->SetActive(false);
+		EntryPokemonIcons[_Index - 1]->SetActive(false);
+		EntryGenders[_Index - 1]->SetActive(false);
+		EntryStatuses[_Index - 1]->SetActive(false);
 		return;
 	}
 
@@ -381,6 +389,7 @@ void APokemonCanvas::RefreshEntry(int _Index, bool _IsSwitchMode)
 	EntryPokemonIcons[_Index - 1]->SetPokemon(Pokemon);
 	EntryGenders[_Index - 1]->SetImage(Pokemon.GetGenderImageName());
 	EntryStatuses[_Index - 1]->SetImage(Pokemon.GetStatusImageName());
+	EntryBoxes[_Index - 1]->SetActive(true);
 }
 
 void APokemonCanvas::RefreshCancel()
