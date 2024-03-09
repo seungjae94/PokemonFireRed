@@ -176,6 +176,8 @@ void AStarterBall::StateChangeToEventMessage1()
 	MsgBox->SetMessage(Message);
 	MsgBox->Write();
 
+	Canvas->SetActive(true);
+
 	State = EState::EventMessage1;
 }
 
@@ -185,13 +187,13 @@ void AStarterBall::StateChangeToEventMessage3()
 	switch (PokemonId)
 	{
 	case EPokemonId::Bulbasaur:
-		Message = L"So, RED, you want to go with\nthe GRASS POKeMON BULBASAUR?";
+		Message = L"So, RED, you want to go with\nthe GRASS POKéMON BULBASAUR?";
 		break;
 	case EPokemonId::Squirtle:
-		Message = L"So, RED, you've decided on the\nWATER POKeMON SQUIRTLE?";
+		Message = L"So, RED, you've decided on the\nWATER POKéMON SQUIRTLE?";
 		break;
 	case EPokemonId::Charmander:
-		Message = L"So, RED, you're claiming the\nFIRE POKeMON CHARMANDER?";
+		Message = L"So, RED, you're claiming the\nFIRE POKéMON CHARMANDER?";
 		break;
 	default:
 		break;

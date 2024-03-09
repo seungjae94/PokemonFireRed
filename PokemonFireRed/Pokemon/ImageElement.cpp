@@ -37,7 +37,7 @@ void AImageElement::SetImage(std::string_view _ImageName)
 	OriginalRenderScale = UPokemonUtil::GetRenderScale(Renderer);
 }
 
-void AImageElement::SetPokemon(const UPokemon* _Pokemon)
+void AImageElement::SetPokemon(EPokemonId _Id)
 {
 	if (nullptr == Renderer || false == MadePokemonAnimation)
 	{
@@ -66,7 +66,6 @@ void AImageElement::SetPokemon(const UPokemon* _Pokemon)
 		MadePokemonAnimation = true;
 	}
 
-	EPokemonId PokedexNo = _Pokemon->GetPokedexNo();
 	std::string AnimPrefix;
 	switch (Type)
 	{
@@ -83,10 +82,17 @@ void AImageElement::SetPokemon(const UPokemon* _Pokemon)
 		AnimPrefix = Global::PokemonBackPrefix;
 		break;
 	default:
+		MsgBoxAssert("포켓몬 이미지 타입을 설정하지 않았습니다.");
 		break;
 	}
 
-	Renderer->ChangeAnimation(AnimPrefix + _Pokemon->GetSpeciesNameA());
+	const FPokemonSpecies* Species = UPokemonDB::FindSpecies(_Id);
+	Renderer->ChangeAnimation(AnimPrefix + Species->Name);
+}
+
+void AImageElement::SetPokemon(const UPokemon* _Pokemon)
+{
+	SetPokemon(_Pokemon->GetPokedexNo());
 }
 
 void AImageElement::SetPokemon(const UPokemon& _Pokemon)

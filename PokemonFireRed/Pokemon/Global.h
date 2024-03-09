@@ -238,6 +238,10 @@ namespace RN
 
 	// 오브젝트 리소스
 	const std::string MapBall = "MapBall.png";
+
+	// 맵 레벨 UI 리소스
+	const std::string StarterBackground = "StarterBackground.png";
+	const std::string StarterOptionBox = "StarterOptionBox.png";
 };
 
 enum ERenderingOrder

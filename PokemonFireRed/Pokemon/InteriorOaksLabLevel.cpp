@@ -34,19 +34,6 @@ void UInteriorOaksLabLevel::BeginPlay()
 	// - 스타팅 포켓몬을 고를 때 대화창이 뜨는데 대화의 2번째 문장에 선택지를 넣어야 한다. 
 	// - 기존 이벤트 시스템이 이 기능가지 지원하게 만들려면 너무 많은 작업이 필요하다. 
 	// - 일관성을 잃더라도 직접 액터로 구현하는 것이 더 나아보인다.
-	//UEventTargetSetting Setting0;
-	//UEventTargetSetting Setting1;
-	//UEventTargetSetting Setting2;
-	//Setting0.SetName("BulbasaurBall");
-	//Setting1.SetName("SquirtleBall");
-	//Setting2.SetName("CharmanderBall");
-	//Setting0.SetPoint({});
-	//Setting1.SetPoint({});
-	//Setting2.SetPoint({});
-
-	//AStarterBall* BulbasaurBall = SpawnEventTarget<AStarterBall>();
-	//AStarterBall* SquirtleBall = SpawnEventTarget<AStarterBall>();
-	//AStarterBall* CharmanderBall = SpawnEventTarget<AStarterBall>();
 	AStarterBall* BulbasaurBall = SpawnActor<AStarterBall>();
 	AStarterBall* SquirtleBall = SpawnActor<AStarterBall>();
 	AStarterBall* CharmanderBall = SpawnActor<AStarterBall>();

@@ -32,6 +32,7 @@ public:
 	void SetRenderingOrder(ERenderingOrder _Order) override;
 
 	void SetImage(std::string_view _ImageName);
+	void SetPokemon(EPokemonId _Id);
 	void SetPokemon(const UPokemon* _Pokemon);
 	void SetPokemon(const UPokemon& _Pokemon);
 
