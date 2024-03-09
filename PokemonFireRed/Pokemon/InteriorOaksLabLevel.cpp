@@ -24,6 +24,7 @@ void UInteriorOaksLabLevel::BeginPlay()
 
 	// 이벤트 트리거 생성
 	MakeDoor();
+	MakeOak();
 	MakeRivalGreen();
 	MakeDecorations();
 }
@@ -41,6 +42,21 @@ void UInteriorOaksLabLevel::MakeDoor()
 	PalletTownDoor->SetExteriorDoorName("OaksLabDoor");
 	PalletTownDoor->SetTargetMapNameText(L"PALLET TOWN");
 	PalletTownDoor->RegisterPredefinedEvent();
+}
+
+void UInteriorOaksLabLevel::MakeOak()
+{
+	UEventTargetSetting Setting;
+	Setting.SetName(EN::Oak);
+	Setting.SetPoint({ -100, -100 });
+	Setting.SetDirection(FTileVector::Down);
+	Setting.SetCollidable(true);
+	Setting.SetRotatable(true);
+	Setting.SetWalkable(true);
+	Setting.SetImageNameAuto();
+
+	AEventTarget* Oak = SpawnEventTarget<AEventTarget>(Setting);
+	Oak->SetActive(false);
 }
 
 void UInteriorOaksLabLevel::MakeRivalGreen()

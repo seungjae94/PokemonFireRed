@@ -20,6 +20,7 @@ private:
 	bool FightWithGreen = false;
 
 	void MakeDoor();
+	void MakeOak();
 	void MakeRivalGreen();
 	void MakeDecorations();
 };

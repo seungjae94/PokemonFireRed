@@ -138,13 +138,11 @@ void UExteriorPalletTownLevel::MakePTGetStarterEventTrigger()
 	AEventTrigger* Trigger = SpawnEventTrigger<AEventTrigger>(Setting);
 	UEventManager::RegisterEvent(Trigger, Cond,
 		ES::Start(true)
-		//>> ES::ChangePoint(Global::ExteriorPalletTownLevel, EN::Oak, { 75, 142 })
 		>> ES::SetActive(GetName(), EN::Oak, true)
 		>> ES::Chat({ L"OAK: Hey! Wait!\nDon't go out!" }, EFontColor::Blue, 16)
 		>> ES::ChangeDirection(Global::ExteriorPalletTownLevel, EN::Player, FTileVector::Down)
 		//>> ES::Surprise(EN::Player, {})
 		>> ES::Move(EN::Oak, { Up, Up, Up, Up, Up, Right, Up }, 3.6f, false)
-		>> ES::Wait(0.5f)
 		>> ES::Chat({
 	   L"OAK: It's unsafe!\nWild POKeMON live in tall grass!",
 	   L"You need your own POKeMON for\nyour protection.",
@@ -160,6 +158,7 @@ void UExteriorPalletTownLevel::MakePTGetStarterEventTrigger()
 		>> ES::Move({ EN::Oak, EN::Player }, { {Up}, {Right} })
 		>> ES::SetActive(GetName(), EN::Oak, false)
 		>> ES::Move(EN::Player, { Up })
+		>> ES::HideActor(Global::Player)
 		>> ES::PlayAnimation(EN::OaksLabDoor, "DoorClose")
 		>> ES::FadeOut(0.5f)
 		>> ES::Wait(0.5f)
@@ -171,6 +170,7 @@ void UExteriorPalletTownLevel::MakePTGetStarterEventTrigger()
 		>> ES::FadeIn(0.5f)
 		>> ES::Wait(0.5f)
 		>> ES::Move(EN::Oak, { Up, Up, Up, Up, Up })
+		>> ES::SetActive(Global::InteriorOaksLabLevel, EN::Oak, true)
 		>> ES::ChangePoint(Global::InteriorOaksLabLevel, EN::Oak, { 6, 3 })
 		>> ES::ChangeDirection(Global::InteriorOaksLabLevel, EN::Oak, Down)
 		>> ES::ChangePoint(Global::InteriorOaksLabLevel, EN::RivalGreen, { 5, 4 })
@@ -185,11 +185,6 @@ void UExteriorPalletTownLevel::MakePTGetStarterEventTrigger()
 		L"There are three POKeMON here.",
 		L"The POKeMON are held inside\nthese POKe BALLS.",
 		L"You can have one.\nGo on, choose!"
-			}, EFontColor::Blue, 16)
-		>> ES::Wait(0.5f)
-		>> ES::Chat({
-		L"GREEN: Hey! Gramps! No fair!\nWhat about me?",
-		L"OAK: Be patient, GREEN.\nYou can have one, too!"
 			}, EFontColor::Blue, 16)
 		>> ES::End(true)
 	);
