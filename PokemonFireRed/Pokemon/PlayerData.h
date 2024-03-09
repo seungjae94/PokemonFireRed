@@ -39,6 +39,12 @@ public:
 
 	static bool IsAchieved(EAchievement _Achievement)
 	{
+		if (false == AchievementMap.contains(_Achievement))
+		{
+			AchievementMap[_Achievement] = false;
+			return false;
+		}
+
 		return AchievementMap[_Achievement];
 	}
 

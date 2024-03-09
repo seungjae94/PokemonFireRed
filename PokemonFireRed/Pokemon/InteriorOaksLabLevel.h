@@ -1,6 +1,9 @@
 #pragma once
 #include "MapLevel.h"
 
+class UEventTargetSetting;
+class UEventCondition;
+
 class UInteriorOaksLabLevel : public UMapLevel
 {
 public:
@@ -17,11 +20,18 @@ public:
 protected:
 	void BeginPlay() override;
 private:
+	const FTileVector Up = FTileVector::Up;
+	const FTileVector Down = FTileVector::Down;
+	const FTileVector Left = FTileVector::Left;
+	const FTileVector Right = FTileVector::Right;
+
 	bool FightWithGreen = false;
 
 	void MakeDoor();
 	void MakeOak();
 	void MakeRivalGreen();
+	void MakeSpecialTriggers();
+	void SpawnSpecialTrigger(UEventTargetSetting _Setting, UEventCondition _BlockCond, UEventCondition _RivalBattleCond);
 	void MakeDecorations();
 };
 

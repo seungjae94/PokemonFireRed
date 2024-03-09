@@ -20,6 +20,11 @@ protected:
 	void BeginPlay() override;
 	void LevelStart(ULevel* _PrevLevel) override;
 private:
+	const FTileVector Up = FTileVector::Up;
+	const FTileVector Down = FTileVector::Down;
+	const FTileVector Left = FTileVector::Left;
+	const FTileVector Right = FTileVector::Right;
+
 	// 태초 마을
 	void MakePalletTown();
 	void MakePTOaksLabDoor();

@@ -77,6 +77,9 @@ namespace Global
 // EventTarget Name
 namespace EN
 {
+	// Common
+	const std::string SpecialTrigger = "SpecialTrigger";
+
 	// Pallet Town
 	const std::string OaksLabDoor = "OaksLabDoor";
 	const std::string PlayersHouseDoor = "PlayersHouseDoor";

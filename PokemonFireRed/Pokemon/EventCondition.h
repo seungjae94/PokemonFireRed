@@ -44,9 +44,10 @@ public:
 	/// </summary>
 	bool Check(EEventTriggerAction _TriggerAction) const;
 
+	// 주소 비교
 	bool operator<(const UEventCondition& _Other) const
 	{
-		return TriggerAction < _Other.TriggerAction;
+		return reinterpret_cast<__int64>(this) < reinterpret_cast<__int64>(&_Other);
 	}
 
 protected:

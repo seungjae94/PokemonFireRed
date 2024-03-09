@@ -26,6 +26,7 @@ void UInteriorOaksLabLevel::BeginPlay()
 	MakeDoor();
 	MakeOak();
 	MakeRivalGreen();
+	MakeSpecialTriggers();
 	MakeDecorations();
 }
 
@@ -84,6 +85,61 @@ void UInteriorOaksLabLevel::MakeRivalGreen()
 		ES::Start(true)
 		>> ES::Chat({ L"Let's fight!" }, EFontColor::Blue)
 		>> ES::TrainerBattle(Green)
+		>> ES::End(true)
+	);
+}
+
+/*
+* 1. 스타팅 포켓몬 획득 이벤트는 발동했지만 스타팅 포켓몬을 고르지 않고 나가려고 하는 경우 막아주는 이벤트
+* 2. 스타팅 포켓몬을 얻었지만 라이벌과 배틀을 하지 않았을 경우 라이벌과 배틀을 하는 이벤트
+*/
+void UInteriorOaksLabLevel::MakeSpecialTriggers()
+{
+	UEventCondition BlockCond = UEventCondition(EEventTriggerAction::StepOn);
+	CheckFunc BlockChecker = []() {
+		return (true == UPlayerData::IsAchieved(EAchievement::GetStarterEventStart))
+			&& (false == UPlayerData::IsAchieved(EAchievement::GetFirstPokemon));
+	};
+	BlockCond.RegisterCheckFunc(BlockChecker);
+
+	UEventCondition RivalBattleCond = UEventCondition(EEventTriggerAction::StepOn);
+	CheckFunc RivalBattleChecker = []() {
+		return (true == UPlayerData::IsAchieved(EAchievement::GetFirstPokemon))
+			&& (false == UPlayerData::IsAchieved(EAchievement::FightWithGreen));
+		};
+	RivalBattleCond.RegisterCheckFunc(RivalBattleChecker);
+
+	UEventTargetSetting Setting0;
+	Setting0.SetName(EN::SpecialTrigger + "0");
+	Setting0.SetPoint({ 5, 8 });
+
+	UEventTargetSetting Setting1;
+	Setting1.SetName(EN::SpecialTrigger + "1");
+	Setting1.SetPoint({ 6, 8 });
+
+	UEventTargetSetting Setting2;
+	Setting2.SetName(EN::SpecialTrigger + "2");
+	Setting2.SetPoint({ 7, 8 });
+
+	SpawnSpecialTrigger(Setting0, BlockCond, RivalBattleCond);
+	SpawnSpecialTrigger(Setting1, BlockCond, RivalBattleCond);
+	SpawnSpecialTrigger(Setting2, BlockCond, RivalBattleCond);
+}
+
+void UInteriorOaksLabLevel::SpawnSpecialTrigger(UEventTargetSetting _Setting, UEventCondition _BlockCond, UEventCondition _RivalBattleCond)
+{
+	AEventTrigger* Trigger = SpawnEventTrigger<AEventTrigger>(_Setting);
+
+	UEventManager::RegisterEvent(Trigger, _BlockCond,
+		ES::Start(true)
+		>> ES::Chat({ L"OAK: Hey!\nDon't go away yet!" }, EFontColor::Blue, 16)
+		>> ES::Move(EN::Player, {Up})
+		>> ES::End(true)
+	);
+
+	UEventManager::RegisterEvent(Trigger, _RivalBattleCond,
+		ES::Start(true)
+		>> ES::Chat({L"Rival Battle."}, EFontColor::Blue, 16)
 		>> ES::End(true)
 	);
 }

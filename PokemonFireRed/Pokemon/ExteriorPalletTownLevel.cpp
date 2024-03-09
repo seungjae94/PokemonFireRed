@@ -126,11 +126,6 @@ void UExteriorPalletTownLevel::MakePTGetStarterEventTriggers()
 		};
 	Cond.RegisterCheckFunc(Func);
 
-	const FTileVector Up = FTileVector::Up;
-	const FTileVector Down = FTileVector::Down;
-	const FTileVector Left = FTileVector::Left;
-	const FTileVector Right = FTileVector::Right;
-
 	UEventTargetSetting Setting0;
 	Setting0.SetName(EN::GetStarterEventTrigger + "0");
 	Setting0.SetPoint({ 76, 135 });
@@ -154,11 +149,6 @@ void UExteriorPalletTownLevel::MakePTGetStarterEventTriggers()
 
 void UExteriorPalletTownLevel::SpawnPTGetStarterEventTrigger(UEventTargetSetting _Setting, UEventCondition _Cond, const std::vector<FTileVector>& _OakComePath, const std::vector<FTileVector>& _OakGoToLabPath, const std::vector<FTileVector>& _PlayerGoToLabPath)
 {
-	const FTileVector Up = FTileVector::Up;
-	const FTileVector Down = FTileVector::Down;
-	const FTileVector Left = FTileVector::Left;
-	const FTileVector Right = FTileVector::Right;
-
 	AEventTrigger* Trigger = SpawnEventTrigger<AEventTrigger>(_Setting);
 	UEventManager::RegisterEvent(Trigger, _Cond,
 		ES::Start(true)
@@ -208,7 +198,6 @@ void UExteriorPalletTownLevel::SpawnPTGetStarterEventTrigger(UEventTargetSetting
 		>> ES::Achieve(EAchievement::GetStarterEventStart)
 		>> ES::End(true)
 	);
-
 }
 
 void UExteriorPalletTownLevel::MakePTOak()

@@ -56,6 +56,7 @@ void UPokemonCore::BeginPlay()
 	//UPlayerData::AddPokemonToEntry(Pokemon4);
 	//UPlayerData::AddPokemonToEntry(Pokemon5);
 	//UPlayerData::Achieve(EAchievement::GetFirstPokemon);
+	UPlayerData::Achieve(EAchievement::GetStarterEventStart);
 
 	// 레벨 생성
 	CreateLevel<UTitleLevel>(Global::TitleLevel);
@@ -71,7 +72,7 @@ void UPokemonCore::BeginPlay()
 	CreateLevel<UBattleLevel>(Global::BattleLevel);
 
 	// 시작 레벨 설정
-	UEventManager::SetLevel(Global::ExteriorPalletTownLevel);
+	UEventManager::SetLevel(Global::InteriorOaksLabLevel);
 }
 
 void UPokemonCore::Tick(float _DeltaTime)
