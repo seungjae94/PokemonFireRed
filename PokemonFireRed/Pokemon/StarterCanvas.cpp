@@ -20,4 +20,7 @@ void AStarterCanvas::BeginPlay()
 
 	OptionBox = CreateImageElement(this, ERenderingOrder::UI0, EPivotType::RightBot, -17, -49);
 	OptionBox->SetImage(RN::StarterOptionBox);
+
+	OptionCursor = CreateCursor(OptionBox, ERenderingOrder::UI1, EPivotType::LeftTop, 8, 11, RN::BlackCursor, 14);
+	OptionCursor->SetOptionCount(2);
 }

@@ -15,6 +15,8 @@ private:
 		EventMessage2,
 		EventMessage3,
 		Select,
+		SelectMessage1,
+		SelectMessage2,
 		End,
 	};
 public:
@@ -55,6 +57,8 @@ private:
 	void ProcessEventMessage2();
 	void ProcessEventMessage3();
 	void ProcessSelect();
+	void ProcessSelectMessage1();
+	void ProcessSelectMessage2();
 
 	// 상태 전이
 	void StateChangeToEventMessage1();

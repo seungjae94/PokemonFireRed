@@ -57,6 +57,12 @@ void AStarterBall::Tick(float _DeltaTime)
 	case AStarterBall::EState::Select:
 		ProcessSelect();
 		break;
+	case AStarterBall::EState::SelectMessage1:
+		ProcessSelectMessage1();
+		break;
+	case AStarterBall::EState::SelectMessage2:
+		ProcessSelectMessage2();
+		break;
 	case AStarterBall::EState::End:
 		break;
 	default:
@@ -101,6 +107,7 @@ void AStarterBall::CheckEventOccur()
 		{
 			// 스타팅 포켓몬 선택 대화창을 띄운다.
 			StateChangeToEventMessage1();
+			UEventManager::DeactivatePlayer();
 			return;
 		}
 		// 스타팅 포켓몬 획득 이후
@@ -148,10 +155,84 @@ void AStarterBall::ProcessEventMessage2()
 
 void AStarterBall::ProcessEventMessage3()
 {
+	if (MsgBox->GetWriteState() == EWriteState::WriteEnd)
+	{
+		State = EState::Select;
+		Canvas->SetOptionBoxActive(true);
+	}
 }
 
 void AStarterBall::ProcessSelect()
 {
+	if (true == UEngineInput::IsDown('Z'))
+	{
+		if (Canvas->GetCursor() == 0)
+		{
+			State = EState::SelectMessage1;
+			Canvas->SetActive(false);
+			MsgBox->SetMessage(L"This POKeMON is really quite\nenergetic!");
+			MsgBox->Write();
+		}
+		else
+		{
+			State = EState::None;
+			UEventManager::ActivatePlayer();
+			MsgBox->SetActive(false);
+			Canvas->SetActive(false);
+		}
+		return;
+	}
+
+	if (true == UEngineInput::IsDown('X'))
+	{
+		State = EState::None;
+		UEventManager::ActivatePlayer();
+		MsgBox->SetActive(false);
+		Canvas->SetActive(false);
+		return;
+	}
+
+	if (true == UEngineInput::IsDown(VK_UP))
+	{
+		Canvas->DecCursor();
+		return;
+	}
+
+	if (true == UEngineInput::IsDown(VK_DOWN))
+	{
+		Canvas->IncCursor();
+		return;
+	}
+}
+
+void AStarterBall::ProcessSelectMessage1()
+{
+	if (MsgBox->GetWriteState() == EWriteState::WriteEnd && true == UEngineInput::IsDown('Z'))
+	{
+		State = EState::SelectMessage2;
+		Renderer->SetActive(false);
+
+		const FPokemonSpecies* Species = UPokemonDB::FindSpecies(PokemonId);
+		MsgBox->SetMessage(L"RED received the " + 
+			UPokemonString::ToUpperW(Species->Name) + L"\nfrom PROF. OAK!");
+		MsgBox->Write();
+	}
+}
+
+void AStarterBall::ProcessSelectMessage2()
+{
+	// TODO: 라이벌이 포켓몬 고르는 이벤트 트리거
+	// UEventManager::TriggerEvent();
+
+	if (true == UEngineInput::IsDown('Z'))
+	{
+		UPokemon Starter = UPokemon(PokemonId, 5);
+		UPlayerData::AddPokemonToEntry(Starter);
+		UPlayerData::Achieve(EAchievement::GetFirstPokemon);
+		UEventManager::ActivatePlayer();
+		MsgBox->SetActive(false);
+		Destroy();
+	}
 }
 
 void AStarterBall::StateChangeToEventMessage1()
@@ -177,6 +258,8 @@ void AStarterBall::StateChangeToEventMessage1()
 	MsgBox->Write();
 
 	Canvas->SetActive(true);
+	Canvas->SetOptionBoxActive(false);
+	Canvas->SetPokemon(PokemonId);
 
 	State = EState::EventMessage1;
 }
@@ -202,5 +285,5 @@ void AStarterBall::StateChangeToEventMessage3()
 	MsgBox->SetMessage(Message);
 	MsgBox->Write();
 
-	State = EState::Select;
+	State = EState::EventMessage3;
 }

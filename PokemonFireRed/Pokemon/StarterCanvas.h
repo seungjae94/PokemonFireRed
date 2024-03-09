@@ -14,6 +14,37 @@ public:
 	AStarterCanvas& operator=(const AStarterCanvas& _Other) = delete;
 	AStarterCanvas& operator=(AStarterCanvas&& _Other) noexcept = delete;
 
+	void SetOptionBoxActive(bool _Value)
+	{
+		OptionBox->SetActive(_Value);
+	}
+
+	void SetPokemon(EPokemonId _Id)
+	{
+		PokemonImage->SetPokemon(_Id);
+	}
+
+	void IncCursor()
+	{
+		if (GetCursor() == 0)
+		{
+			OptionCursor->IncCursor();
+		}
+	}
+
+	void DecCursor()
+	{
+		if (GetCursor() == 1)
+		{
+			OptionCursor->DecCursor();
+		}
+	}
+
+	int GetCursor()
+	{
+		return OptionCursor->GetCursor();
+	}
+
 protected:
 
 private:
