@@ -28,11 +28,14 @@ private:
 	const FTileVector Down = FTileVector::Down;
 	const FTileVector Left = FTileVector::Left;
 	const FTileVector Right = FTileVector::Right;
+	const float FadeOutTime = 0.25f;
+	const float FadeInTime = 0.15f;
 
 	AStarterBall* BulbasaurBall = nullptr;
 	AStarterBall* SquirtleBall = nullptr;
 	AStarterBall* CharmanderBall = nullptr;
 	ATrainer* Green = nullptr;
+	std::vector<FTileVector> GreenBattleDynamicPath;
 
 	void MakeDoor();
 	void MakeOak();

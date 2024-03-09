@@ -88,8 +88,9 @@ private:
 	bool ProcessSetActive();
 	bool ProcessDestroy();
 	bool ProcessMove(float _DeltaTime);
-	bool SubprocessMoveStart();
-	bool SubprocessMove(float _DeltaTime);
+	bool ProcessMoveDynamicPath(float _DeltaTime);
+	bool SubprocessMoveStart(const std::vector<std::string>& _TargetNames, const std::vector<std::vector<FTileVector>>& _Paths, float _MoveSpeed);
+	bool SubprocessMove(const std::vector<std::string>& _TargetNames, const std::vector<std::vector<FTileVector>>& _Paths, float _MoveSpeed, bool _CameraFollow, float _DeltaTime);
 	bool ProcessMoveWithoutRestriction();
 	void PostProcessMoveWR(AEventTarget* _Target);
 	bool ProcessFadeIn();
@@ -124,6 +125,9 @@ private:
 	int MovePathIndex = 0;
 	float MoveTime = 0.0f;
 	float MoveTimer = 0.0f;
+
+	// 프로세싱 변수 - 이동 (경로 동적 설정)
+	std::vector<std::vector<FTileVector>> DynamicPaths;
 
 	// 프로세싱 변수 - 이동 (타일 제약 X)
 	FVector MoveWRPrevPos;

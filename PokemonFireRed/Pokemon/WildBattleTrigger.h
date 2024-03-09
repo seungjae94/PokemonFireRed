@@ -28,8 +28,8 @@ protected:
 
 private:
 	UEventCondition Cond;
-	float FadeOutTime = 0.25f;
-	float FadeInTime = 0.15f;
+	const float FadeOutTime = 0.25f;
+	const float FadeInTime = 0.15f;
 
 	std::vector<UPokemon> Entry;
 

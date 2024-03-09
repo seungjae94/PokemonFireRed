@@ -40,11 +40,12 @@ protected:
 private:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
-
+	
 	UImageRenderer* Renderer = nullptr;
 	AStarterCanvas* Canvas = nullptr;
 	APokemonMsgBox* MsgBox = nullptr;
 	
+	// 고유 데이터
 	EState State = EState::None;
 	EPokemonId PokemonId = EPokemonId::None;
 

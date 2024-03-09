@@ -236,9 +236,51 @@ void UInteriorOaksLabLevel::SpawnSpecialTrigger(UEventTargetSetting _Setting, UE
 		>> ES::End(true)
 	);
 
+	auto Test = []() {
+		const APlayer* Player = UEventManager::FindCurLevelTarget<APlayer>(EN::Player);
+		const ATrainer* Green = UEventManager::FindCurLevelTarget<ATrainer>(EN::RivalGreen);
+
+		std::vector<FTileVector> DynamicPath;
+		for (int i = 0; i < (Green->GetPoint().X - Player->GetPoint().X); ++i)
+		{
+			DynamicPath.push_back(FTileVector::Left);
+		}
+		DynamicPath.push_back(FTileVector::Down);
+		DynamicPath.push_back(FTileVector::Down);
+		return DynamicPath;
+		};
+
 	UEventManager::RegisterEvent(Trigger, _RivalBattleCond,
 		ES::Start(true)
-		>> ES::Chat({L"Rival Battle."}, EFontColor::Blue, 16)
+		>> ES::ChangeDirection(Global::InteriorOaksLabLevel, EN::RivalGreen, Down)
+		>> ES::ChangeDirection(Global::InteriorOaksLabLevel, EN::Player, Up)
+		>> ES::Chat({ L"GREEN: Wait, RED!\nLet's check out our POKeMON!", L"Come on, I'll take you on!" }, EFontColor::Blue, 16)
+		>> ES::MoveDynamicPath(EN::RivalGreen, []() {
+			const APlayer* Player = UEventManager::FindCurLevelTarget<APlayer>(EN::Player);
+			const ATrainer* Green = UEventManager::FindCurLevelTarget<ATrainer>(EN::RivalGreen);
+
+			std::vector<FTileVector> DynamicPath;
+			for (int i = 0; i < (Green->GetPoint().X - Player->GetPoint().X); ++i)
+			{
+				DynamicPath.push_back(FTileVector::Left);
+			}
+			DynamicPath.push_back(FTileVector::Down);
+			DynamicPath.push_back(FTileVector::Down);
+			return DynamicPath;
+		}, 3.6f, false)
+		>> ES::FadeOut(FadeOutTime)
+		>> ES::Wait(FadeOutTime)
+		>> ES::FadeIn(FadeInTime)
+		>> ES::Wait(FadeInTime)
+		>> ES::FadeOut(FadeOutTime)
+		>> ES::Wait(FadeOutTime)
+		>> ES::FadeIn(FadeInTime)
+		>> ES::Wait(FadeInTime)
+		>> ES::FadeOut(FadeOutTime)
+		>> ES::Wait(FadeOutTime)
+		>> ES::TrainerBattle(Green)
+		>> ES::FadeIn(0.5f, EFadeType::VCurtain)
+		>> ES::Wait(0.5f)
 		>> ES::End(true)
 	);
 }

@@ -53,6 +53,9 @@ void UEventProcessor::Tick(float _DeltaTime)
 		case EEventType::Move:
 			ProcessingResult = ProcessMove(_DeltaTime);
 			break;
+		case EEventType::MoveDynamicPath:
+			ProcessingResult = ProcessMoveDynamicPath(_DeltaTime);
+			break;
 		case EEventType::MoveWithoutRestriction:
 			ProcessingResult = ProcessMoveWithoutRestriction();
 			break;
@@ -205,21 +208,38 @@ bool UEventProcessor::ProcessMove(float _DeltaTime)
 	if (MoveState == EMoveState::None)
 	{
 		MoveState = EMoveState::Move;
-		return SubprocessMoveStart();
+		return SubprocessMoveStart(Data.TargetNames, Data.Paths, Data.MoveSpeed);
 	}
 
-	return SubprocessMove(_DeltaTime);
+	return SubprocessMove(Data.TargetNames, Data.Paths, Data.MoveSpeed, Data.CameraFollow, _DeltaTime);
 }
 
-bool UEventProcessor::SubprocessMoveStart()
+bool UEventProcessor::ProcessMoveDynamicPath(float _DeltaTime)
 {
-	int CurIndexOfType = GetCurIndexOfType(EEventType::Move);
-	ES::Move& Data = CurStream->MoveDataSet[CurIndexOfType];
+	int CurIndexOfType = GetCurIndexOfType(EEventType::MoveDynamicPath);
+	ES::MoveDynamicPath& Data = CurStream->MoveDynamicPathDataSet[CurIndexOfType];
 
-	int TargetCount = static_cast<int>(Data.TargetNames.size());
+	// 이동 준비
+	if (MoveState == EMoveState::None)
+	{
+		MoveState = EMoveState::Move;
+		DynamicPaths.clear();
+
+		std::vector<FTileVector> Path = Data.Generator();
+		DynamicPaths.push_back(Path);
+
+		return SubprocessMoveStart({ Data.TargetName }, DynamicPaths, Data.MoveSpeed);
+	}
+
+	return SubprocessMove({ Data.TargetName }, DynamicPaths, Data.MoveSpeed, Data.CameraFollow, _DeltaTime);
+}
+
+bool UEventProcessor::SubprocessMoveStart(const std::vector<std::string>& _TargetNames, const std::vector<std::vector<FTileVector>>& _Paths, float _MoveSpeed)
+{
+	int TargetCount = static_cast<int>(_TargetNames.size());
 
 	// 이동 관련 공유 데이터 초기화
-	MoveTime = 1.0f / Data.MoveSpeed;
+	MoveTime = 1.0f / _MoveSpeed;
 	MoveTimer = MoveTime;
 	MovePathIndex = 0;
 	MovePrevPoints.resize(TargetCount);
@@ -230,9 +250,9 @@ bool UEventProcessor::SubprocessMoveStart()
 	std::string MapName = ToUpper(UEventManager::CurLevelName);
 	for (int i = 0; i < TargetCount; ++i)
 	{
-		std::string TargetName = ToUpper(Data.TargetNames[i]);
+		std::string TargetName = ToUpper(_TargetNames[i]);
 
-		if (Data.Paths[i].size() == 0)
+		if (_Paths[i].size() == 0)
 		{
 			MsgBoxAssert(std::string(MapName) + ":" + TargetName + "의 강제 이동 경로 크기가 0입니다.");
 			return false;
@@ -247,7 +267,7 @@ bool UEventProcessor::SubprocessMoveStart()
 
 		// 이동 관련 타겟별 데이터 초기화
 		Target->SetMoveState(ETargetMoveState::Walk);
-		const std::vector<FTileVector>& Path = Data.Paths[i];
+		const std::vector<FTileVector>& Path = _Paths[i];
 		if (Path[0] != FTileVector::Zero && Target->GetDirection() != Path[0])
 		{
 			// 제자리 걸음이 아닐 경우 다음 위치를 바라보도록 방향을 변경한다.
@@ -263,16 +283,14 @@ bool UEventProcessor::SubprocessMoveStart()
 	return false;
 }
 
-bool UEventProcessor::SubprocessMove(float _DeltaTime)
+bool UEventProcessor::SubprocessMove(const std::vector<std::string>& _TargetNames, const std::vector<std::vector<FTileVector>>& _Paths, float _MoveSpeed, bool _CameraFollow, float _DeltaTime)
 {
 	MoveTimer -= _DeltaTime;
 
-	int CurIndexOfType = GetCurIndexOfType(EEventType::Move);
-	ES::Move& Data = CurStream->MoveDataSet[CurIndexOfType];
 	std::string MapName = ToUpper(UEventManager::CurLevelName);
 
 	bool IsAllMoveEnd = true;
-	for (int i = 0; i < Data.Paths.size(); ++i)
+	for (int i = 0; i < _Paths.size(); ++i)
 	{
 		// 이동이 끝난 타겟은 스킵한다.
 		if (true == MoveEnds[i])
@@ -283,7 +301,7 @@ bool UEventProcessor::SubprocessMove(float _DeltaTime)
 		// 아직 이동중인 타겟이 있다.
 		IsAllMoveEnd = false;
 
-		const std::vector<FTileVector>& Path = Data.Paths[i];
+		const std::vector<FTileVector>& Path = _Paths[i];
 
 		AEventTarget* Target = MoveTargets[i];
 		std::string TargetName = ToUpper(Target->GetName());
@@ -292,7 +310,7 @@ bool UEventProcessor::SubprocessMove(float _DeltaTime)
 		FVector TargetPos = UPokemonMath::Lerp(MoveNextPoints[i].ToFVector(), MovePrevPoints[i].ToFVector(), t);
 		Target->SetActorLocation(TargetPos);
 
-		if (true == Data.CameraFollow && TargetName == ToUpper(EN::Player))
+		if (true == _CameraFollow && TargetName == ToUpper(EN::Player))
 		{
 			Target->GetWorld()->SetCameraPos(Target->GetActorLocation() - Global::HalfScreen);
 		}

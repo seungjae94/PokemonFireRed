@@ -19,6 +19,7 @@ enum class EEventType
 	SetActive,
 	Destroy,
 	Move,
+	MoveDynamicPath,
 	MoveWithoutRestriction,
 	Surprise,
 	FadeIn,
@@ -126,6 +127,28 @@ public:
 	{
 		EventTypeList.push_back(EEventType::Move);
 		MoveDataSet.push_back(_Data);
+		return *this;
+	}
+
+	class MoveDynamicPath
+	{
+		friend UEventProcessor;
+	public:
+		MoveDynamicPath(std::string_view _TargetName, std::vector<FTileVector>(*_Generator)(void), float _MoveSpeed = Global::CharacterWalkSpeed, bool _CameraFollow = true)
+			: TargetName(_TargetName), Generator(_Generator), MoveSpeed(_MoveSpeed), CameraFollow(_CameraFollow)
+		{
+		}
+	private:
+		std::string TargetName;
+		std::vector<FTileVector>(*Generator)(void);
+		bool CameraFollow = true;
+		float MoveSpeed = 3.6f;
+	};
+
+	UEventStream& operator>>(const MoveDynamicPath& _Data)
+	{
+		EventTypeList.push_back(EEventType::MoveDynamicPath);
+		MoveDynamicPathDataSet.push_back(_Data);
 		return *this;
 	}
 
@@ -563,6 +586,7 @@ private:
 	std::vector<SetActive> SetActiveDataSet;
 	std::vector<Destroy> DestroyDataSet;
 	std::vector<Move> MoveDataSet;
+	std::vector<MoveDynamicPath> MoveDynamicPathDataSet;
 	std::vector<MoveWithoutRestriction> MoveWithoutRestrictionDataSet;
 	std::vector<FadeIn> FadeInDataSet;
 	std::vector<FadeOut> FadeOutDataSet;
