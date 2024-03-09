@@ -108,6 +108,7 @@ private:
 	bool ProcessCameraFocus();
 	bool ProcessWildBattle();
 	bool ProcessTrainerBattle();
+	bool ProcessAchieve();
 	bool ProcessDeactivatePlayerControl();
 
 	// 프로세싱 변수 - 공통

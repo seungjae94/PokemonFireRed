@@ -11,9 +11,11 @@ enum class EPokedexState
 
 enum class EAchievement
 {
+	None,
+	GetStarterEventStart,
 	GetFirstPokemon,
-	GetPokedex,
-
+	FightWithGreen,
+	GetPokedex
 };
 
 class UPlayerData

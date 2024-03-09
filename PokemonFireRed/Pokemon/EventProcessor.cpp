@@ -104,6 +104,9 @@ void UEventProcessor::Tick(float _DeltaTime)
 		case EEventType::TrainerBattle:
 			ProcessingResult = ProcessTrainerBattle();
 			break;
+		case EEventType::Achieve:
+			ProcessingResult = ProcessAchieve();
+			break;
 		case EEventType::DeactivatePlayerControl:
 			ProcessingResult = ProcessDeactivatePlayerControl();
 			break;
@@ -719,6 +722,14 @@ bool UEventProcessor::ProcessTrainerBattle()
 		DeactivatePlayerControl();
 	}
 
+	return true;
+}
+
+bool UEventProcessor::ProcessAchieve()
+{
+	int CurIndexOfType = GetCurIndexOfType(EEventType::Achieve);
+	ES::Achieve& Data = CurStream->AchieveDataSet[CurIndexOfType];
+	UPlayerData::Achieve(Data.Achievement);
 	return true;
 }
 

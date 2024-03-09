@@ -5,6 +5,7 @@
 #include <list>
 #include "PokemonMath.h"
 #include "Text.h"
+#include "PlayerData.h"
 
 #define ES UEventStream
 
@@ -37,6 +38,7 @@ enum class EEventType
 	DeactivatePlayerControl,
 	WildBattle,
 	TrainerBattle,
+	Achieve,
 	End,
 };
 
@@ -459,7 +461,7 @@ public:
 	{
 		friend UEventProcessor;
 	public:
-		WildBattle(AWildBattleTrigger* _Wild) {}
+		WildBattle(AWildBattleTrigger* _Wild) : Entry() {}
 	private:
 		std::vector<UPokemon>* Entry;
 	};
@@ -478,7 +480,7 @@ public:
 		TrainerBattle(ATrainer* _Trainer)
 			: Trainer(_Trainer)
 		{}
-
+	private:
 		ATrainer* Trainer = nullptr;
 	};
 
@@ -486,6 +488,24 @@ public:
 	{
 		EventTypeList.push_back(EEventType::TrainerBattle);
 		TrainerBattleDataSet.push_back(_Data);
+		return *this;
+	}
+
+	class Achieve
+	{
+		friend UEventProcessor;
+	public:
+		Achieve(EAchievement _Achievement)
+			: Achievement(_Achievement)
+		{}
+	private:
+		EAchievement Achievement = EAchievement::None;
+	};
+
+	UEventStream& operator>>(const Achieve& _Data)
+	{
+		EventTypeList.push_back(EEventType::Achieve);
+		AchieveDataSet.push_back(_Data);
 		return *this;
 	}
 
@@ -540,5 +560,6 @@ private:
 	std::vector<CameraFocus> CameraFocusDataSet;
 	std::vector<WildBattle> WildBattleDataSet;
 	std::vector<TrainerBattle> TrainerBattleDataSet;
+	std::vector<Achieve> AchieveDataSet;
 };
 

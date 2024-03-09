@@ -126,7 +126,7 @@ void UExteriorPalletTownLevel::MakePTGetStarterEventTrigger()
 
 	UEventCondition Cond = UEventCondition(EEventTriggerAction::StepOn);
 	CheckFunc Func = []() {
-		return false == UPlayerData::IsAchieved(EAchievement::GetFirstPokemon);
+		return false == UPlayerData::IsAchieved(EAchievement::GetStarterEventStart);
 		};
 	Cond.RegisterCheckFunc(Func);
 
@@ -186,6 +186,7 @@ void UExteriorPalletTownLevel::MakePTGetStarterEventTrigger()
 		L"The POKeMON are held inside\nthese POKe BALLS.",
 		L"You can have one.\nGo on, choose!"
 			}, EFontColor::Blue, 16)
+		>> ES::Achieve(EAchievement::GetStarterEventStart)
 		>> ES::End(true)
 	);
 }
