@@ -107,8 +107,9 @@ FDamageResult UDamageCalculator::CalcDamage(const UBattler* _Attacker, const UBa
     }
 
     // 랜덤 변수
-    float RandomNumber = UPokemonMath::Random(0.85f, 1.0f);
+    int RandomNumber = UPokemonMath::RandomInt(217, 255);
     DamageValue *= RandomNumber;
+    DamageValue /= 255;
 
     DamageResult.Damage = UPokemonMath::Floor(DamageValue);
 
@@ -169,17 +170,17 @@ float UDamageCalculator::GetEffectivePower(const UBattler* _Attacker)
         Power *= 1.5f;
     }
 
-    // Overgrow 특성은 체력이 1/3 이하일 때 풀 타입 기술의 Power를 1.5배로 늘려준다.
-    if (AttackerPokemon->GetAbilityId() == EPokemonAbility::Overgrow
-        && Move->TypeId == EPokemonType::Grass
+    // Torrent 특성은 체력이 1/3 이하일 때 물 타입 기술의 Power를 1.5배로 늘려준다.
+    if (AttackerPokemon->GetAbilityId() == EPokemonAbility::Torrent
+        && Move->TypeId == EPokemonType::Water
         && AttackerPokemon->GetCurHp() <= UPokemonMath::Floor(AttackerPokemon->GetHp() / 3.0f))
     {
         Power *= 1.5f;
     }
 
-    // Overgrow 특성은 체력이 1/3 이하일 때 풀 타입 기술의 Power를 1.5배로 늘려준다.
-    if (AttackerPokemon->GetAbilityId() == EPokemonAbility::Overgrow
-        && Move->TypeId == EPokemonType::Grass
+    // Blaze 특성은 체력이 1/3 이하일 때 불 타입 기술의 Power를 1.5배로 늘려준다.
+    if (AttackerPokemon->GetAbilityId() == EPokemonAbility::Blaze
+        && Move->TypeId == EPokemonType::Fire
         && AttackerPokemon->GetCurHp() <= UPokemonMath::Floor(AttackerPokemon->GetHp() / 3.0f))
     {
         Power *= 1.5f;

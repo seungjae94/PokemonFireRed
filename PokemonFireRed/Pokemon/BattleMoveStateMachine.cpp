@@ -134,6 +134,11 @@ void ABattleMoveStateMachine::ProcessMoveAnim()
 	{
 		DamageResult = UDamageCalculator::CalcDamage(Attacker, Defender);
 
+		if (true == Attacker->IsPlayer())
+		{
+			DamageResult.Damage = UPokemonMath::Floor(DamageResult.Damage * Global::CheatDamageBonusCoeff);
+		}
+
 		if (DamageResult.Damage > 0)
 		{
 			State = ESubstate::MoveDamage;

@@ -27,6 +27,9 @@ enum class Id
 // 전역으로 사용할 상수를 정의한다.
 namespace Global
 {
+	const float CheatDamageBonusCoeff = 2.0f;
+	const float CheatExpBonusCoeff = 5.0f;
+
 	const float CharacterWalkSpeed = 3.6f;
 	const float CharacterJumpSpeed = 1.4f;
 	const float CharacterWalkAnimFrameLength = 1.0f / 8;

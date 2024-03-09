@@ -16,12 +16,12 @@ void ABattleExpGainStateMachine::Start(ABattleCanvas* _Canvas, APokemonMsgBox* _
 	Canvas = _Canvas;
 	MsgBox = _MsgBox;
 	ExpGainer = _ExpGainer;
-	Exp = _Exp;
+	Exp = UPokemonMath::Floor(_Exp * Global::CheatExpBonusCoeff);
 	IsCurPokemon = _IsCurPokemon;
 
 	State = ESubstate::ExpGainMessage1;
 	std::wstring BattleMsg = ExpGainer->GetNameW() + L" gained\n";
-	BattleMsg += std::to_wstring(_Exp);
+	BattleMsg += std::to_wstring(Exp);
 	BattleMsg += L" Exp. Points!";
 	MsgBox->SetMessage(BattleMsg);
 	MsgBox->Write();
