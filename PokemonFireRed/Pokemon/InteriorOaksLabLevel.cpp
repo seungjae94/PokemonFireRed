@@ -30,7 +30,7 @@ void UInteriorOaksLabLevel::BeginPlay()
 
 void UInteriorOaksLabLevel::MakeDoor()
 {
-	UEventTargetInit PalletTownDoorSetting;
+	UEventTargetSetting PalletTownDoorSetting;
 	PalletTownDoorSetting.SetName("PalletTownDoor");
 	PalletTownDoorSetting.SetPoint({ 6, 13 });
 
@@ -45,7 +45,7 @@ void UInteriorOaksLabLevel::MakeDoor()
 
 void UInteriorOaksLabLevel::MakeRivalGreen()
 {
-	UEventTargetInit GreenInit;
+	UEventTargetSetting GreenInit;
 	GreenInit.SetName("RIVALGREEN");
 	GreenInit.SetPoint({ 10, 6 });
 	GreenInit.SetDirection(FTileVector::Down);

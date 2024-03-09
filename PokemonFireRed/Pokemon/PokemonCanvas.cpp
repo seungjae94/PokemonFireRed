@@ -93,7 +93,6 @@ void APokemonCanvas::BeginPlay()
 	BattleMsg->SetLineSpace(15);
 
 	// ¿£Æ®¸®
-	UPokemon& First = UPlayerData::GetPokemonInEntry(0);
 	FirstNameText = CreateText(FirstBox, ERenderingOrder::UI2, EPivotType::RightBot, -53, -28, EAlignType::Left, EFontColor::WhiteGray, EFontSize::Mini);
 	FirstLevelText = CreateText(FirstBox, ERenderingOrder::UI2, EPivotType::RightBot, -37, -19, EAlignType::Left, EFontColor::WhiteGray, EFontSize::Mini);
 	FirstHpText = CreateText(FirstBox, ERenderingOrder::UI2, EPivotType::RightBot, -5, -3, EAlignType::Right, EFontColor::WhiteGray, EFontSize::Mini);
@@ -103,10 +102,8 @@ void APokemonCanvas::BeginPlay()
 	FirstGender = CreateImageElement(FirstBox, ERenderingOrder::UI2, EPivotType::RightBot, -9, -19);
 	FirstStatus = CreateImageElement(FirstBox, ERenderingOrder::UI3, EPivotType::RightBot, -28, -19);
 
-	for (int i = 1; i < UPlayerData::GetPokemonEntrySize(); ++i)
+	for (int i = 1; i < 6; ++i)
 	{
-		UPokemon& Pokemon = UPlayerData::GetPokemonInEntry(i);
-
 		AText* NameText = CreateText(EntryBoxes[i - 1], ERenderingOrder::UI2, EPivotType::RightBot, -119, -9, EAlignType::Left, EFontColor::WhiteGray, EFontSize::Mini);
 		AText* LevelText = CreateText(EntryBoxes[i - 1], ERenderingOrder::UI2, EPivotType::LeftBot, 48, 0, EAlignType::Left, EFontColor::WhiteGray, EFontSize::Mini);
 		AText* HpText = CreateText(EntryBoxes[i - 1], ERenderingOrder::UI2, EPivotType::RightBot, -5, 0, EAlignType::Right, EFontColor::WhiteGray, EFontSize::Mini);

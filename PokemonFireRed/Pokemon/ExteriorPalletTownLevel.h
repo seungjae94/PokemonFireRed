@@ -25,6 +25,8 @@ private:
 	void MakePTPlayersHouseDoor();
 	void MakePTRivalsHouseDoor();
 	void MakePTTechMan();
+	void MakePTGetStarterEventTrigger();
+	void MakePTOak();
 	void MakePTAnimatedTiles();
 };
 

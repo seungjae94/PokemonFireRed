@@ -24,7 +24,7 @@ public:
 	UPokemonLevel& operator=(UPokemonLevel&& _Other) noexcept = delete;
 
 	template <typename EventTargetType>
-	EventTargetType* SpawnEventTarget(UEventTargetInit _Setting)
+	EventTargetType* SpawnEventTarget(UEventTargetSetting _Setting)
 	{
 		EventTargetType* EventTarget = SpawnActor<EventTargetType>();
 		UEventManager::AddTarget(EventTarget, _Setting);
@@ -47,7 +47,7 @@ public:
 	}
 
 	template <typename EventTriggerType>
-	EventTriggerType* SpawnEventTrigger(UEventTargetInit _Setting)
+	EventTriggerType* SpawnEventTrigger(UEventTargetSetting _Setting)
 	{
 		EventTriggerType* EventTrigger = SpawnActor<EventTriggerType>();
 		UEventManager::AddTarget(EventTrigger, _Setting);
@@ -58,7 +58,7 @@ public:
 	template <typename EventTriggerType>
 	EventTriggerType* SpawnEventTrigger(std::string_view _Name)
 	{
-		UEventTargetInit Init;
+		UEventTargetSetting Init;
 		Init.SetName(_Name);
 		EventTriggerType* EventTrigger = SpawnActor<EventTriggerType>();
 		UEventManager::AddTarget(EventTrigger, Init);

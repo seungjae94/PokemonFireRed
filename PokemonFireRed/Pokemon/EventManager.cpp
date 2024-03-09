@@ -94,7 +94,7 @@ void UEventManager::SetAsTrainerBattle(ATrainer* _Trainer)
 	Trainer = _Trainer;
 }
 
-void UEventManager::AddTarget(AEventTarget* _Target, const UEventTargetInit& _Setting)
+void UEventManager::AddTarget(AEventTarget* _Target, const UEventTargetSetting& _Setting)
 {
 	if (nullptr == _Target)
 	{
@@ -221,7 +221,7 @@ void UEventManager::AddTarget(AEventTarget* _Target, const UEventTargetInit& _Se
 	}
 }
 
-void UEventManager::AddTrigger(AEventTrigger* _Trigger, const UEventTargetInit& _Setting)
+void UEventManager::AddTrigger(AEventTrigger* _Trigger, const UEventTargetSetting& _Setting)
 {
 	std::string TriggerName = _Setting.Name;
 	FTileVector Point = _Setting.Point;
@@ -242,7 +242,7 @@ void UEventManager::AddTrigger(AEventTrigger* _Trigger, const UEventTargetInit& 
 
 void UEventManager::AddPlayer(APlayer* _Player, const FTileVector& _Point)
 {
-	UEventTargetInit PlayerSetting;
+	UEventTargetSetting PlayerSetting;
 	PlayerSetting.SetName(Global::Player);
 	PlayerSetting.SetPoint(_Point);
 	PlayerSetting.SetDirection(FTileVector::Down);

@@ -44,7 +44,7 @@ void UTutorialLevel::BeginPlay()
 	);
 
 	// 튜토리얼 레벨 -> 맵 레벨 전환자
-	UEventTargetInit LevelChangerInit; 
+	UEventTargetSetting LevelChangerInit; 
 	LevelChangerInit.SetName("MapLevelChanger");
 	MapLevelChanger = SpawnEventTrigger<AEventTrigger>(LevelChangerInit);
 	UEventManager::RegisterEvent(MapLevelChanger, DefaultCondition,

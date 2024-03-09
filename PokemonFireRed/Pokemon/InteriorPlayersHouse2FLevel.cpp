@@ -39,7 +39,7 @@ void UInteriorPlayersHouse2FLevel::LevelStart(ULevel* _PrevLevel)
 
 void UInteriorPlayersHouse2FLevel::MakeStair()
 {
-	UEventTargetInit StairTo1FSetting;
+	UEventTargetSetting StairTo1FSetting;
 	StairTo1FSetting.SetName("StairTo1F");
 	StairTo1FSetting.SetPoint({ 8, 2 });
 

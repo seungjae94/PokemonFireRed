@@ -19,7 +19,7 @@ void UInteriorRivalsHouseLevel::BeginPlay()
 	UEventManager::SetDirection(GetName(), Global::Player, FTileVector::Up);
 
 	// 이벤트 트리거 생성
-	UEventTargetInit PalletTownDoorSetting;
+	UEventTargetSetting PalletTownDoorSetting;
 	PalletTownDoorSetting.SetName("PalletTownDoor");
 	PalletTownDoorSetting.SetPoint({ 4, 9 });
 

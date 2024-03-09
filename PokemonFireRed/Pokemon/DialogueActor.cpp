@@ -45,7 +45,7 @@ void ADialogueActor::RegisterPredefinedEvent()
 
 ADialogueActor* ADialogueActor::GenerateObject(UPokemonLevel* _Level, std::string_view _Name, const FTileVector _Point, EFontColor _TextColor, const std::vector<std::wstring>& _Dialogue)
 {
-	UEventTargetInit DAInit;
+	UEventTargetSetting DAInit;
 	DAInit.SetName(_Name);
 	DAInit.SetPoint(_Point);
 

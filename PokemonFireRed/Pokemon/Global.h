@@ -82,6 +82,9 @@ namespace EN
 	const std::string PlayersHouseDoor = "PlayersHouseDoor";
 	const std::string RivalshouseDoor = "RivalsHouseDoor";
 	const std::string TechMan = "TechMan";
+	const std::string GetStarterEventTrigger = "GetStarterEventTrigger";
+	const std::string Oak = "Oak";
+	const std::string Player = "Player";
 
 	// Players House
 

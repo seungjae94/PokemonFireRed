@@ -86,7 +86,7 @@ void UMapLevel::BeginPlay()
 	SpawnEventTrigger<AWildBattleTrigger>(Global::WildBattleTrigger);
 
 	// 페이드 인 이벤트용 트리거 생성
-	UEventTargetInit Setting; 
+	UEventTargetSetting Setting; 
 	Setting.SetName("FadeInTrigger");
 	FadeInTrigger = SpawnEventTrigger<AEventTrigger>(Setting);
 

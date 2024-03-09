@@ -11,7 +11,7 @@
 
 class UPokemonLevel;
 class AEventTarget;
-class UEventTargetInit;
+class UEventTargetSetting;
 class AEventTrigger;
 class UEventProcessor;
 class UEventStream;
@@ -249,8 +249,8 @@ private:
 	static void Tick(float _DeltaTime);
 	
 	// 등록 함수
-	static void AddTarget(AEventTarget* _Target, const UEventTargetInit& _Setting);
-	static void AddTrigger(AEventTrigger* _Trigger, const UEventTargetInit& _Setting);
+	static void AddTarget(AEventTarget* _Target, const UEventTargetSetting& _Setting);
+	static void AddTrigger(AEventTrigger* _Trigger, const UEventTargetSetting& _Setting);
 	static void AddPlayer(APlayer* _Player, const FTileVector& _Point);
 	static void AddCommonCanvas(ACanvas* _Canvas, std::string_view _Name);
 	static void AddDialogueWindow(ADialogueWindow* _Window);

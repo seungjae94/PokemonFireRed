@@ -31,7 +31,7 @@ void UInteriorPlayersHouse1FLevel::BeginPlay()
 
 void UInteriorPlayersHouse1FLevel::MakeStair()
 {
-	UEventTargetInit StairTo2FSetting;
+	UEventTargetSetting StairTo2FSetting;
 	StairTo2FSetting.SetName("StairTo2F");
 	StairTo2FSetting.SetPoint({ 10, 2 });
 
@@ -46,7 +46,7 @@ void UInteriorPlayersHouse1FLevel::MakeStair()
 
 void UInteriorPlayersHouse1FLevel::MakeDoor()
 {
-	UEventTargetInit PalletTownDoorSetting;
+	UEventTargetSetting PalletTownDoorSetting;
 	PalletTownDoorSetting.SetName("PalletTownDoor");
 	PalletTownDoorSetting.SetPoint({ 3, 9 });
 
@@ -61,7 +61,7 @@ void UInteriorPlayersHouse1FLevel::MakeDoor()
 
 void UInteriorPlayersHouse1FLevel::MakePlayersMom()
 {
-	UEventTargetInit PlayersMomSetting;
+	UEventTargetSetting PlayersMomSetting;
 	PlayersMomSetting.SetName("PlayersMom");
 	PlayersMomSetting.SetPoint({ 7, 4 });
 	PlayersMomSetting.SetDirection(FTileVector::Left);

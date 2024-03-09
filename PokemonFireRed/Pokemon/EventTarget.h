@@ -12,11 +12,11 @@ enum class ETargetMoveState
 	Walk
 };
 
-class UEventTargetInit
+class UEventTargetSetting
 {
 	friend UEventManager;
 public:
-	UEventTargetInit()
+	UEventTargetSetting()
 	{
 	}
 	
