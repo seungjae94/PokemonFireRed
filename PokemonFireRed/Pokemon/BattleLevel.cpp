@@ -101,6 +101,9 @@ void UBattleLevel::Tick(float _DeltaTime)
 	case EState::FinishBattle:
 		ProcessFinishBattle();
 		break;
+	case EState::WaitBeforeReturn:
+		ProcessWaitBeforeReturn();
+		break;
 	case EState::Run:
 		ProcessRun();
 		break;
@@ -275,6 +278,15 @@ void UBattleLevel::ProcessFinishBattle()
 {
 	if (true == FinishBattleSM->IsEnd())
 	{
+		State = EState::WaitBeforeReturn;
+		Timer = WaitBeforeReturnTime;
+	}
+}
+
+void UBattleLevel::ProcessWaitBeforeReturn()
+{
+	if (Timer <= 0.0f)
+	{
 		if (BattleEndReason == EBattleEndReason::WinToWild || BattleEndReason == EBattleEndReason::WinToTrainer)
 		{
 			ReturnToMapLevel();
@@ -284,7 +296,6 @@ void UBattleLevel::ProcessFinishBattle()
 			// TODO: 가장 마지막에 방문한 포켓몬 센터로 복귀
 			ReturnToMapLevel();
 		}
-
 	}
 }
 

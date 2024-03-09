@@ -27,6 +27,7 @@ private:
 		PlayerActionSelect,
 		Turn,
 		FinishBattle,
+		WaitBeforeReturn,
 		Run,
 		End,
 	};
@@ -54,6 +55,7 @@ private:
 	ABattleCanvas* Canvas = nullptr;
 	APokemonMsgBox* MsgBox = nullptr;
 	EBattleEndReason BattleEndReason = EBattleEndReason::None;
+	const float WaitBeforeReturnTime = 1.0f;
 
 	// FSM
 	ABattlePrepareTurnStateMachine* BattlePrepareTurnSM = nullptr;
@@ -89,6 +91,7 @@ private:
 	void ProcessPlayerAction();
 	void ProcessTurn();
 	void ProcessFinishBattle();
+	void ProcessWaitBeforeReturn();
 	void ProcessRun();
 
 	// FSM
