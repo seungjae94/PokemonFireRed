@@ -3,6 +3,7 @@
 
 class UEventTargetSetting;
 class UEventCondition;
+class AStarterBall;
 
 class UInteriorOaksLabLevel : public UMapLevel
 {
@@ -25,7 +26,9 @@ private:
 	const FTileVector Left = FTileVector::Left;
 	const FTileVector Right = FTileVector::Right;
 
-	bool FightWithGreen = false;
+	AStarterBall* BulbasaurBall = nullptr;
+	AStarterBall* SquirtleBall = nullptr;
+	AStarterBall* CharmanderBall = nullptr;
 
 	void MakeDoor();
 	void MakeOak();

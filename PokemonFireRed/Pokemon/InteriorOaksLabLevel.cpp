@@ -23,20 +23,13 @@ void UInteriorOaksLabLevel::BeginPlay()
 	UEventManager::SetPoint(GetName(), Global::Player, { 6, 6 });
 	UEventManager::SetDirection(GetName(), Global::Player, FTileVector::Up);
 
-	// 이벤트 트리거 생성
-	MakeDoor();
-	MakeOak();
-	MakeRivalGreen();
-	MakeSpecialTriggers();
-	MakeDecorations();
-
 	// 몬스터 볼 액터 구현
 	// - 스타팅 포켓몬을 고를 때 대화창이 뜨는데 대화의 2번째 문장에 선택지를 넣어야 한다. 
 	// - 기존 이벤트 시스템이 이 기능가지 지원하게 만들려면 너무 많은 작업이 필요하다. 
 	// - 일관성을 잃더라도 직접 액터로 구현하는 것이 더 나아보인다.
-	AStarterBall* BulbasaurBall = SpawnActor<AStarterBall>();
-	AStarterBall* SquirtleBall = SpawnActor<AStarterBall>();
-	AStarterBall* CharmanderBall = SpawnActor<AStarterBall>();
+	BulbasaurBall = SpawnActor<AStarterBall>();
+	SquirtleBall = SpawnActor<AStarterBall>();
+	CharmanderBall = SpawnActor<AStarterBall>();
 
 	BulbasaurBall->SetActorLocation(FTileVector(8, 4).ToFVector());
 	SquirtleBall->SetActorLocation(FTileVector(9, 4).ToFVector());
@@ -45,6 +38,13 @@ void UInteriorOaksLabLevel::BeginPlay()
 	BulbasaurBall->SetPokemon(EPokemonId::Bulbasaur);
 	SquirtleBall->SetPokemon(EPokemonId::Squirtle);
 	CharmanderBall->SetPokemon(EPokemonId::Charmander);
+
+	// 이벤트 트리거 생성
+	MakeDoor();
+	MakeOak();
+	MakeRivalGreen();
+	MakeSpecialTriggers();
+	MakeDecorations();
 }
 
 void UInteriorOaksLabLevel::MakeDoor()
@@ -145,6 +145,7 @@ void UInteriorOaksLabLevel::MakeRivalGreen()
 		ES::Start(true)
 		>> ES::Move(EN::RivalGreen, { Down, Down, Right, Right, Right, Right, Right, Up }, Global::CharacterWalkSpeed, false)
 		>> ES::Chat({ L"GREEN: I'll take this one, then!" }, EFontColor::Blue, 16)
+		>> ES::Destroy(CharmanderBall)
 		>> ES::Chat({ L"GREEN received the CHARMANDER\nfrom PROF.OAK!" }, EFontColor::Gray, 16)
 		>> ES::End(true)
 	);
@@ -153,6 +154,7 @@ void UInteriorOaksLabLevel::MakeRivalGreen()
 		ES::Start(true)
 		>> ES::Move(EN::RivalGreen, { Down, Down, Right, Right, Right, Up }, Global::CharacterWalkSpeed, false)
 		>> ES::Chat({ L"GREEN: I'll take this one, then!" }, EFontColor::Blue, 16)
+		>> ES::Destroy(BulbasaurBall)
 		>> ES::Chat({ L"GREEN received the BULBASAUR\nfrom PROF.OAK!" }, EFontColor::Gray, 16)
 		>> ES::End(true)
 	);
@@ -161,6 +163,7 @@ void UInteriorOaksLabLevel::MakeRivalGreen()
 		ES::Start(true)
 		>> ES::Move(EN::RivalGreen, { Down, Down, Right, Right, Right, Right, Up }, Global::CharacterWalkSpeed, false)
 		>> ES::Chat({ L"GREEN: I'll take this one, then!" }, EFontColor::Blue, 16)
+		>> ES::Destroy(SquirtleBall)
 		>> ES::Chat({ L"GREEN received the SQUIRTLE\nfrom PROF.OAK!" }, EFontColor::Gray, 16)
 		>> ES::End(true)
 	);

@@ -86,6 +86,7 @@ private:
 	void ActivatePlayerControl();
 	void DeactivatePlayerControl();
 	bool ProcessSetActive();
+	bool ProcessDestroy();
 	bool ProcessMove(float _DeltaTime);
 	bool SubprocessMoveStart();
 	bool SubprocessMove(float _DeltaTime);

@@ -17,6 +17,7 @@ class UPokemon;
 enum class EEventType
 {
 	SetActive,
+	Destroy,
 	Move,
 	MoveWithoutRestriction,
 	Surprise,
@@ -82,6 +83,25 @@ public:
 	{
 		EventTypeList.push_back(EEventType::SetActive);
 		SetActiveDataSet.push_back(_Data);
+		return *this;
+	}
+
+	class Destroy
+	{
+		friend UEventProcessor;
+	public:
+		Destroy(AActor* _Actor)
+			: Actor(_Actor)
+		{
+		}
+	private:
+		AActor* Actor = nullptr;
+	};
+
+	UEventStream& operator>>(const Destroy& _Data)
+	{
+		EventTypeList.push_back(EEventType::Destroy);
+		DestroyDataSet.push_back(_Data);
 		return *this;
 	}
 
@@ -541,6 +561,7 @@ private:
 	bool DeactivatePlayer = true;
 	bool ActivatePlayer = true;
 	std::vector<SetActive> SetActiveDataSet;
+	std::vector<Destroy> DestroyDataSet;
 	std::vector<Move> MoveDataSet;
 	std::vector<MoveWithoutRestriction> MoveWithoutRestrictionDataSet;
 	std::vector<FadeIn> FadeInDataSet;

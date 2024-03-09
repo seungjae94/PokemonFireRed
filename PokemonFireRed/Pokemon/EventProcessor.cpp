@@ -47,6 +47,9 @@ void UEventProcessor::Tick(float _DeltaTime)
 		case EEventType::SetActive:
 			ProcessingResult = ProcessSetActive();
 			break;
+		case EEventType::Destroy:
+			ProcessingResult = ProcessDestroy();
+			break;
 		case EEventType::Move:
 			ProcessingResult = ProcessMove(_DeltaTime);
 			break;
@@ -172,6 +175,24 @@ bool UEventProcessor::ProcessSetActive()
 
 	Target->SetActive(Data.Value);
 
+	return true;
+}
+
+bool UEventProcessor::ProcessDestroy()
+{
+	int CurIndexOfType = GetCurIndexOfType(EEventType::Destroy);
+	ES::Destroy& Data = CurStream->DestroyDataSet[CurIndexOfType];
+
+	AActor* Actor = Data.Actor;
+
+	if (nullptr == Actor)
+	{
+		MsgBoxAssert("이벤트 프로세서에서 nullptr인 액터를 삭제하려고 합니다.");
+		return false;
+	}
+
+	Actor->Destroy();
+	
 	return true;
 }
 
