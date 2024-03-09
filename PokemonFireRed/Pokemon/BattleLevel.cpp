@@ -287,6 +287,7 @@ void UBattleLevel::ProcessWaitBeforeReturn()
 {
 	if (Timer <= 0.0f)
 	{
+		MsgBox->SetMessage(L"");
 		if (BattleEndReason == EBattleEndReason::WinToWild || BattleEndReason == EBattleEndReason::WinToTrainer)
 		{
 			ReturnToMapLevel();
