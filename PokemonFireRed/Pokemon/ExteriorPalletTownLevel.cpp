@@ -130,6 +130,11 @@ void UExteriorPalletTownLevel::MakePTGetStarterEventTrigger()
 		};
 	Cond.RegisterCheckFunc(Func);
 
+	const FTileVector Up = FTileVector::Up;
+	const FTileVector Down = FTileVector::Down;
+	const FTileVector Left = FTileVector::Left;
+	const FTileVector Right = FTileVector::Right;
+
 	AEventTrigger* Trigger = SpawnEventTrigger<AEventTrigger>(Setting);
 	UEventManager::RegisterEvent(Trigger, Cond,
 		ES::Start(true)
@@ -137,59 +142,56 @@ void UExteriorPalletTownLevel::MakePTGetStarterEventTrigger()
 		>> ES::Chat({ L"OAK: Hey! Wait!\nDon't go out!" }, EFontColor::Blue, 16)
 		>> ES::ChangeDirection(Global::ExteriorPalletTownLevel, EN::Player, FTileVector::Down)
 		//>> ES::Surprise(EN::Player, {})
-		>> ES::Move(GetName(), EN::Oak, 
-			{ FTileVector::Up, FTileVector::Up, FTileVector::Up, FTileVector::Up, FTileVector::Right, FTileVector::Up, FTileVector::Up },
+		>> ES::Move(EN::Oak,
+			{ Up, Up, Up, Up, Right, Up, Up },
 			3.6f, false)
 		>> ES::Wait(0.5f)
 		>> ES::Chat({
 	   L"OAK: It's unsafe!\nWild POKeMON live in tall grass!",
 	   L"You need your own POKeMON for\nyour protection.",
-	   L"I know!\nHere, come with me!"}, EFontColor::Blue, 16)
+	   L"I know!\nHere, come with me!" }, EFontColor::Blue, 16)
+	   >> ES::Move({ EN::Oak, EN::Player }, {
+		   // Oak Path
+		   {Down, Left, Down, Down, Down, Down, Down, Down, Down, Down, Down, Down, Down, Right, Right, Right, Right, Right},
+		   // Player Path
+		   {Down, Down, Left, Down, Down, Down, Down, Down, Down, Down, Down, Down, Down, Down, Right, Right, Right, Right}
+		   })
+		>> ES::PlayAnimation(EN::OaksLabDoor, "DoorOpen")
+		>> ES::Move({ EN::Oak, EN::Player }, { {Up}, {Right } })
+		>> ES::Move(EN::Player, { Up })
+		>> ES::PlayAnimation(EN::OaksLabDoor, "DoorClose")
+		>> ES::FadeOut(0.5f)
+		>> ES::Wait(0.5f)
+		>> ES::ChangePoint(Global::InteriorOaksLabLevel, EN::Oak, { 6, 11 })
+		>> ES::ChangeDirection(Global::InteriorOaksLabLevel, EN::Oak, Up)
+		>> ES::ChangePoint(Global::InteriorOaksLabLevel, EN::Player, { 6, 12 })
+		>> ES::ChangeDirection(Global::InteriorOaksLabLevel, EN::Player, Up)
+		>> ES::ChangeLevel(Global::InteriorOaksLabLevel)
+		>> ES::FadeIn(0.5f)
+		>> ES::Wait(0.5f)
+		>> ES::Move(EN::Oak, { Up, Up, Up, Up, Up })
+		>> ES::ChangePoint(Global::InteriorOaksLabLevel, EN::Oak, { 6, 3 })
+		>> ES::ChangeDirection(Global::InteriorOaksLabLevel, EN::Oak, Down)
+		>> ES::ChangePoint(Global::InteriorOaksLabLevel, EN::RivalGreen, { 5, 4 })
+		>> ES::ChangeDirection(Global::InteriorOaksLabLevel, EN::RivalGreen, Up)
+		>> ES::Move(EN::Player, { Up, Up, Up, Up, Up, Up, Up, Up })
+		>> ES::Chat({ L"GREEN: Gramps!\nI'm fed up with waiting!" }, EFontColor::Blue, 16)
+		>> ES::Wait(0.5f)
+		>> ES::Chat({
+		L"OAK: GREEN?\nLet me think...",
+		L"Oh, that's right, I told you to\ncome! Just wait!",
+		L"Here, RED.",
+		L"There are three POKeMON here.",
+		L"The POKeMON are held inside\nthese POKe BALLS.",
+		L"You can have one.\nGo on, choose!"
+			}, EFontColor::Blue, 16)
+		>> ES::Wait(0.5f)
+		>> ES::Chat({
+		L"GREEN: Hey! Gramps! No fair!\nWhat about me?",
+		L"OAK: Be patient, GREEN.\nYou can have one, too!"
+			}, EFontColor::Blue, 16)
 		>> ES::End(true)
-	);
-
-
-	//  >> ES::MoveTogether({EN::Oak, EN::Player}, {
-	// // Oak Path
-	// {Down, Left, Down, Down, Down, Down, Down, Down, Down, Down, Down, Down, Down, Right, Right, Right, Right, Right},
-	// // Player Path
-	// {Down, Down, Left, Down, Down, Down, Down, Down, Down, Down, Down, Down, Down, Down, Right, Right, Right, Right},
-	// })
-	// >> ES::ChangeAnimation(문 열기)
-	// >> ES::MoveTogether({EN::Oak, EN::Player}, {Up, Right})
-	// >> ES::Move(EN::Player, Up)
-	// >> ES::ChangeAnimation(문 닫기)
-	// >> ES::FadeOut
-	// >> ES::Wait
-	// >> ES::ChangePoint(Global::InteriorOaksLab, EN::Oak, {카펫칸의 위칸})
-	// >> ES::ChangeDirection(Global::InteriorOaksLab, EN::Oak, Up)
-	// >> ES::ChangePoint(Global::InteriorOaksLab, EN::Player, {카펫칸})
-	// >> ES::ChangeDirection(Global::InteriorOaksLab, EN::Player, Up)
-	// >> ES::ChangeLevel(Global::InteriorOaksLab)
-	// >> ES::Move(EN::Oak, {Up, Up, Up, Up, Up})
-	// >> ES::ChangePoint(Global::InteriorOaksLab, EN::Oak, {대기 위치})
-	// >> ES::ChangeDirection(Global::InteriorOaksLab, EN::Oak, Down)
-	// >> ES::ChangePoint(Global::InteriorOaksLab, EN::Green, {대기 위치})
-	// >> ES::ChangeDirection(Global::InteriorOaksLab, EN::Green, Up)
-	// >> ES::Move(EN::Player, {Up, Up, Up, Up, Up, Up, Up, Up})
-	// >> ES::Dialogue({L"GREEN: Gramps!\nI'm fed up with waiting!"})
-	// >> ES::Wait()
-	// >> ES::Dialogue({
-	// L"OAK: GREEN?\nLet me think...", 
-	// L"Oh, that's right, I told you to\ncome! Just wait!",
-	// L"Here, RED.",
-	// L"There are three POKeMON here.",
-	// L"The POKeMON are held inside\nthese POKe BALLS.",
-	// L"You can have one.\nGo on, choose!"
-	// })
-	// >> ES::Wait()
-	// >> ES::Dialogue({
-	// L"GREEN: Hey! Gramps! No fair!\nWhat about me?",
-	// L"OAK: Be patient, GREEN.\nYou can have one, too!"
-	// })
-	// >> ES::End(true)
-	//);
-
+		);
 }
 
 void UExteriorPalletTownLevel::MakePTOak()

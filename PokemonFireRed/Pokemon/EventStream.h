@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+#include <list>
 #include "PokemonMath.h"
 #include "Text.h"
 
@@ -16,6 +17,7 @@ enum class EEventType
 {
 	Move,
 	MoveWithoutRestriction,
+	Surprise,
 	FadeIn,
 	FadeOut,
 	Wait,
@@ -63,14 +65,15 @@ public:
 	{
 		friend UEventProcessor;
 	public:
-		Move(std::string_view _MapName, std::string_view _TargetName, const std::vector<FTileVector>& _Path, float _MoveSpeed = 3.6f, bool _CameraFollow = true)
-			: MapName(_MapName), TargetName(_TargetName), Path(_Path), MoveSpeed(_MoveSpeed), CameraFollow(_CameraFollow)
+		Move(std::string_view _TargetName, const std::vector<FTileVector>& _Path, float _MoveSpeed = Global::CharacterWalkSpeed, bool _CameraFollow = true);
+
+		Move(const std::vector<std::string>& _TargetNames, const std::vector<std::vector<FTileVector>>& _Paths, float _MoveSpeed = Global::CharacterWalkSpeed, bool _CameraFollow = true)
+			: TargetNames(_TargetNames), Paths(_Paths), MoveSpeed(_MoveSpeed), CameraFollow(_CameraFollow)
 		{
 		}
 	private:
-		std::string MapName;
-		std::string TargetName;
-		std::vector<FTileVector> Path;
+		std::vector<std::string> TargetNames;
+		std::vector<std::vector<FTileVector>> Paths;
 		bool CameraFollow = true;
 		float MoveSpeed = 3.6f;
 	};
@@ -86,12 +89,11 @@ public:
 	{
 		friend UEventProcessor;
 	public:
-		MoveWithoutRestriction(std::string_view _MapName, std::string_view _TargetName, const std::vector<FVector>& _Path, float _MoveSpeed = 3.6f)
-			: MapName(_MapName), TargetName(_TargetName), Path(_Path), MoveSpeed(_MoveSpeed)
+		MoveWithoutRestriction(std::string_view _TargetName, const std::vector<FVector>& _Path, float _MoveSpeed = 3.6f)
+			: TargetName(_TargetName), Path(_Path), MoveSpeed(_MoveSpeed)
 		{
 		}
 	private:
-		std::string MapName;
 		std::string TargetName;
 		std::vector<FVector> Path;
 		float MoveSpeed = 3.6f;
@@ -435,7 +437,7 @@ public:
 	{
 		friend UEventProcessor;
 	public:
-		WildBattle(AWildBattleTrigger* _Wild);
+		WildBattle(AWildBattleTrigger* _Wild) {}
 	private:
 		std::vector<UPokemon>* Entry;
 	};

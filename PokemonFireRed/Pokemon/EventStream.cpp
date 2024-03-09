@@ -11,7 +11,9 @@ UEventStream::~UEventStream()
 {
 }
 
-UEventStream::WildBattle::WildBattle(AWildBattleTrigger* _Wild)
+UEventStream::Move::Move(std::string_view _TargetName, const std::vector<FTileVector>& _Path, float _MoveSpeed, bool _CameraFollow)
+	: MoveSpeed(_MoveSpeed), CameraFollow(_CameraFollow)
 {
-	//Entry = _Wild->GetEntry();
+	TargetNames.push_back(std::string(_TargetName));
+	Paths.push_back(_Path);
 }

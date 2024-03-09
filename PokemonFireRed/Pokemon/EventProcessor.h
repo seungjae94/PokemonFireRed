@@ -16,6 +16,12 @@ enum class EEventTriggerAction;
 class UEventProcessor
 {
 	friend UEventManager;
+private:
+	enum class EMoveState
+	{
+		None,
+		Move,
+	};
 public:
 	// constructor destructor
 	UEventProcessor();
@@ -79,8 +85,9 @@ private:
 	/// <return>이벤트 명령 종료 여부</return>
 	void ActivatePlayerControl();
 	void DeactivatePlayerControl();
-	bool ProcessMove();
-	void PostProcessMove(AEventTarget* _Target);
+	bool ProcessMove(float _DeltaTime);
+	bool SubprocessMoveStart();
+	bool SubprocessMove(float _DeltaTime);
 	bool ProcessMoveWithoutRestriction();
 	void PostProcessMoveWR(AEventTarget* _Target);
 	bool ProcessFadeIn();
@@ -106,9 +113,12 @@ private:
 	bool IsPlayerActivated = true;
 
 	// 프로세싱 변수 - 이동
-	FTileVector MovePrevPoint;
-	FTileVector MoveNextPoint;
-	int MovePathIndex = -1;		// -1은 첫 번째 틱임을 의미한다.
+	EMoveState MoveState = EMoveState::None;
+	std::vector<AEventTarget*> MoveTargets;
+	std::vector<FTileVector> MovePrevPoints;
+	std::vector<FTileVector> MoveNextPoints;
+	std::vector<bool> MoveEnds;
+	int MovePathIndex = 0;
 	float MoveTime = 0.0f;
 	float MoveTimer = 0.0f;
 

@@ -30,7 +30,7 @@ void AInteriorDoor::RegisterPredefinedEvent()
 		>> ES::Wait(0.75f)
 		>> ES::PlayAnimation(ExteriorDoorName, "DoorOpen")
 		>> ES::ShowActor(Global::Player)
-		>> ES::Move(TargetMapName, Global::Player, { TargetDirection }, 1.8f)
+		>> ES::Move(Global::Player, { TargetDirection }, 1.8f)
 		>> ES::PlayAnimation(ExteriorDoorName, "DoorClose")
 		>> ES::End(true)
 	);

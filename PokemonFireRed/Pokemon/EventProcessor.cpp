@@ -45,7 +45,7 @@ void UEventProcessor::Tick(float _DeltaTime)
 		switch (CurEventType)
 		{
 		case EEventType::Move:
-			ProcessingResult = ProcessMove();
+			ProcessingResult = ProcessMove(_DeltaTime);
 			break;
 		case EEventType::MoveWithoutRestriction:
 			ProcessingResult = ProcessMoveWithoutRestriction();
@@ -148,86 +148,149 @@ void UEventProcessor::DeactivatePlayerControl()
 	CurPlayer->StateChange(EPlayerState::OutOfControl);
 }
 
-bool UEventProcessor::ProcessMove()
+bool UEventProcessor::ProcessMove(float _DeltaTime)
 {
-	float DeltaTime = UEventManager::GetDeltaTime();
+	int CurIndexOfType = GetCurIndexOfType(EEventType::Move);
+	ES::Move& Data = CurStream->MoveDataSet[CurIndexOfType];
+	
+	// 이동 준비
+	if (MoveState == EMoveState::None)
+	{
+		MoveState = EMoveState::Move;
+		return SubprocessMoveStart();
+	}
+
+	return SubprocessMove(_DeltaTime);
+}
+
+bool UEventProcessor::SubprocessMoveStart()
+{
 	int CurIndexOfType = GetCurIndexOfType(EEventType::Move);
 	ES::Move& Data = CurStream->MoveDataSet[CurIndexOfType];
 
-	std::string MapName = ToUpper(Data.MapName);
-	std::string TargetName = ToUpper(Data.TargetName);
+	int TargetCount = static_cast<int>(Data.TargetNames.size());
 
-	if (Data.Path.size() <= 0)
-	{
-		MsgBoxAssert("강제 이동 경로의 크기가 0 이하입니다.");
-		return false;
-	}
+	// 이동 관련 공유 데이터 초기화
+	MoveTime = 1.0f / Data.MoveSpeed;
+	MoveTimer = MoveTime;
+	MovePathIndex = 0;
+	MovePrevPoints.resize(TargetCount);
+	MoveNextPoints.resize(TargetCount);
+	MoveTargets.resize(TargetCount);
+	MoveEnds.resize(TargetCount);
 
-	AEventTarget* Target = UEventManager::FindTarget<AEventTarget>(MapName, TargetName);
-	if (nullptr == Target)
+	std::string MapName = ToUpper(UEventManager::CurLevelName);
+	for (int i = 0; i < TargetCount; ++i)
 	{
-		MsgBoxAssert(MapName + ":" + TargetName + "는 존재하지 않는 이벤트 타겟입니다.존재하지 않는 이벤트 타겟을 이동시키려고 했습니다.");
-		return false;
-	}
+		std::string TargetName = ToUpper(Data.TargetNames[i]);
 
-	// 이동 이벤트 시작
-	if (MovePathIndex == -1)
-	{
-		MoveTime = 1.0f / Data.MoveSpeed;
-		MoveTimer = 0.0f;
+		if (Data.Paths[i].size() == 0)
+		{
+			MsgBoxAssert(std::string(MapName) + ":" + TargetName + "의 강제 이동 경로 크기가 0입니다.");
+			return false;
+		}
+
+		AEventTarget* Target = UEventManager::FindTarget<AEventTarget>(MapName, TargetName);
+		if (nullptr == Target)
+		{
+			MsgBoxAssert(std::string(MapName) + ":" + TargetName + "는 존재하지 않는 이벤트 타겟입니다.존재하지 않는 이벤트 타겟을 이동시키려고 했습니다.");
+			return false;
+		}
+
+		// 이동 관련 타겟별 데이터 초기화
 		Target->SetMoveState(ETargetMoveState::Walk);
-		Target->ChangeMoveAnimation(Target->GetMoveState(), Target->GetDirection());
-	}
-
-	if (MoveTimer > 0.0f)
-	{
-		MoveTimer -= DeltaTime;
-
-		float t = (MoveTime - MoveTimer) / MoveTime;
-		FVector TargetPos = UPokemonMath::Lerp(MovePrevPoint.ToFVector(), MoveNextPoint.ToFVector(), t);
-		Target->SetActorLocation(TargetPos);
-
-		if (true == Data.CameraFollow)
+		const std::vector<FTileVector>& Path = Data.Paths[i];
+		if (Path[0] != FTileVector::Zero && Target->GetDirection() != Path[0])
 		{
-			Target->GetWorld()->SetCameraPos(Target->GetActorLocation() - Global::HalfScreen);
-		}
-	}
-	else if (MovePathIndex + 1 >= Data.Path.size())
-	{
-		// 이동 종료
-		PostProcessMove(Target);
-		return true;
-	}
-	else
-	{
-		UEventManager::SetPoint(MapName, TargetName, FTileVector(Target->GetActorLocation()));
-
-		MovePrevPoint = Target->GetPoint();
-		MoveNextPoint = MovePrevPoint + Data.Path[MovePathIndex + 1];
-		MoveTimer = MoveTime;
-
-		// 제자리 걸음이 아닐 경우 Path에 입력된 방향으로 타겟의 방향을 바꾼다.
-		if (Data.Path[MovePathIndex + 1] != FTileVector::Zero && Target->GetDirection() != Data.Path[MovePathIndex + 1])
-		{
-			Target->SetDirection(Data.Path[MovePathIndex + 1]);
+			// 제자리 걸음이 아닐 경우 다음 위치를 바라보도록 방향을 변경한다.
+			Target->SetDirection(Path[0]);
 		}
 		Target->ChangeMoveAnimation(Target->GetMoveState(), Target->GetDirection());
-		MovePathIndex++;
+		MovePrevPoints[i] = Target->GetPoint();
+		MoveNextPoints[i] = MovePrevPoints[i] + Path[0];
+		MoveTargets[i] = Target;
+		MoveEnds[i] = false;
 	}
+
 	return false;
 }
 
-void UEventProcessor::PostProcessMove(AEventTarget* _Target)
+bool UEventProcessor::SubprocessMove(float _DeltaTime)
 {
-	MovePrevPoint = FTileVector::Zero;
-	MoveNextPoint = FTileVector::Zero;
-	MovePathIndex = -1;		// -1은 첫 번째 틱임을 의미한다.
-	MoveTime = 0.0f;
-	MoveTimer = 0.0f;
-	UEventManager::SetPoint(_Target->GetWorld()->GetName(), _Target->GetName(), FTileVector(_Target->GetActorLocation()));
-	_Target->ResetFootOrder();
-	_Target->SetMoveState(ETargetMoveState::Idle);
-	_Target->ChangeMoveAnimation(_Target->GetMoveState(), _Target->GetDirection());
+	MoveTimer -= _DeltaTime;
+
+	int CurIndexOfType = GetCurIndexOfType(EEventType::Move);
+	ES::Move& Data = CurStream->MoveDataSet[CurIndexOfType];
+	std::string MapName = ToUpper(UEventManager::CurLevelName);
+
+	bool IsAllMoveEnd = true;
+	for (int i = 0; i < Data.Paths.size(); ++i)
+	{
+		// 이동이 끝난 타겟은 스킵한다.
+		if (true == MoveEnds[i])
+		{
+			continue;
+		}
+
+		// 아직 이동중인 타겟이 있다.
+		IsAllMoveEnd = false;
+
+		const std::vector<FTileVector>& Path = Data.Paths[i];
+
+		AEventTarget* Target = MoveTargets[i];
+		std::string TargetName = ToUpper(Target->GetName());
+
+		float t = MoveTimer / MoveTime;
+		FVector TargetPos = UPokemonMath::Lerp(MoveNextPoints[i].ToFVector(), MovePrevPoints[i].ToFVector(), t);
+		Target->SetActorLocation(TargetPos);
+
+		if (true == Data.CameraFollow && TargetName == ToUpper(EN::Player))
+		{
+			Target->GetWorld()->SetCameraPos(Target->GetActorLocation() - Global::HalfScreen);
+		}
+
+		if (MoveTimer <= 0.0f)
+		{
+			UEventManager::SetPoint(MapName, Target->GetName(), FTileVector(Target->GetActorLocation()));
+
+			// 이동이 끝난 타겟은 이동 종료 처리 및 이동 종료 마킹을 한다.
+			if (MovePathIndex + 1 >= Path.size())
+			{
+				// 이동 종료 마킹
+				MoveEnds[i] = true;
+
+				// 이동 종료 처리
+				Target->ResetFootOrder();
+				Target->SetMoveState(ETargetMoveState::Idle);
+				Target->ChangeMoveAnimation(Target->GetMoveState(), Target->GetDirection());
+				continue;
+			}
+
+			// 이동이 끝나지 않았기 때문에 다음 이동을 준비한다.
+			MovePrevPoints[i] = Target->GetPoint();
+			MoveNextPoints[i] = MovePrevPoints[i] + Path[MovePathIndex + 1];
+
+			// 제자리 걸음이 아닐 경우 다음 위치를 바라보도록 방향을 변경한다.
+			if (Path[MovePathIndex + 1] != FTileVector::Zero && Target->GetDirection() != Path[MovePathIndex + 1])
+			{
+				Target->SetDirection(Path[MovePathIndex + 1]);
+			}
+			Target->ChangeMoveAnimation(Target->GetMoveState(), Target->GetDirection());
+		}
+	}
+	
+	if (MoveTimer <= 0.0f)
+	{
+		MoveTimer = MoveTime;
+		++MovePathIndex;
+	}
+
+	if (true == IsAllMoveEnd)
+	{
+		MoveState = EMoveState::None;
+	}
+
+	return IsAllMoveEnd;
 }
 
 bool UEventProcessor::ProcessMoveWithoutRestriction()
@@ -236,7 +299,7 @@ bool UEventProcessor::ProcessMoveWithoutRestriction()
 	int CurIndexOfType = GetCurIndexOfType(EEventType::MoveWithoutRestriction);
 	ES::MoveWithoutRestriction& Data = CurStream->MoveWithoutRestrictionDataSet[CurIndexOfType];
 
-	std::string MapName = ToUpper(Data.MapName);
+	std::string MapName = ToUpper(UEventManager::CurLevelName);
 	std::string TargetName = ToUpper(Data.TargetName);
 
 	if (Data.Path.size() <= 0)
