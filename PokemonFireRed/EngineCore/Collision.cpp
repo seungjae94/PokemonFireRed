@@ -57,7 +57,7 @@ bool UCollision::CollisionCheck(int _Order, std::vector<UCollision*>& _Result)
 
 		if (false == _OtherCollision->IsActive())
 		{
-			return false;
+			continue;
 		}
 
 		FTransform OtherTransform = _OtherCollision->GetActorBaseTransform();

@@ -4,6 +4,7 @@
 class UEventTargetSetting;
 class UEventCondition;
 class AStarterBall;
+class ATrainer;
 
 class UInteriorOaksLabLevel : public UMapLevel
 {
@@ -19,8 +20,10 @@ public:
 	UInteriorOaksLabLevel& operator=(UInteriorOaksLabLevel&& _Other) noexcept = delete;
 
 protected:
-	void BeginPlay() override;
 private:
+	void BeginPlay() override;
+	void Tick(float _DeltaTime) override;
+
 	const FTileVector Up = FTileVector::Up;
 	const FTileVector Down = FTileVector::Down;
 	const FTileVector Left = FTileVector::Left;
@@ -29,6 +32,7 @@ private:
 	AStarterBall* BulbasaurBall = nullptr;
 	AStarterBall* SquirtleBall = nullptr;
 	AStarterBall* CharmanderBall = nullptr;
+	ATrainer* Green = nullptr;
 
 	void MakeDoor();
 	void MakeOak();

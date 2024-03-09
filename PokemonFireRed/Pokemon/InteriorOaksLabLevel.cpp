@@ -47,6 +47,11 @@ void UInteriorOaksLabLevel::BeginPlay()
 	MakeDecorations();
 }
 
+void UInteriorOaksLabLevel::Tick(float _DeltaTime)
+{
+	UMapLevel::Tick(_DeltaTime);
+}
+
 void UInteriorOaksLabLevel::MakeDoor()
 {
 	UEventTargetSetting PalletTownDoorSetting;
@@ -88,7 +93,7 @@ void UInteriorOaksLabLevel::MakeRivalGreen()
 	GreenInit.SetWalkable(true);
 	GreenInit.SetImageNameAuto();
 
-	ATrainer* Green = SpawnEventTrigger<ATrainer>(GreenInit);
+	Green = SpawnEventTrigger<ATrainer>(GreenInit);
 	Green->SetPlayerWinMessage({
 		L"Player win\nfirst message.",
 		L"Player win\nsecond message."
