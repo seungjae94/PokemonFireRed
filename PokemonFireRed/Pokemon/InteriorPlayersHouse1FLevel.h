@@ -17,6 +17,9 @@ public:
 protected:
 	void BeginPlay() override;
 private:
-
+	void MakeStair();
+	void MakeDoor();
+	void MakePlayersMom();
+	void MakeDecorations();
 };
 

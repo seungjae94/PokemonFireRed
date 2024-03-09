@@ -151,7 +151,7 @@ void UMapLevel::LoadCharacterResources()
 	// Idle 애니메이션을 로드할 캐릭터 이름을 정의
 	std::vector<std::string> IdleCharacterNames = {
 		Global::Player,
-		"FatMan",
+		EN::TechMan,
 		"PlayersMom",
 		"RivalGreen"
 	};
@@ -165,7 +165,7 @@ void UMapLevel::LoadCharacterResources()
 	// Walk 애니메이션을 로드할 캐릭터 이름을 정의
 	std::vector<std::string> WalkCharacterNames = {
 		Global::Player,
-		"FatMan"
+		EN::TechMan
 	};
 
 	// Walk 애니메이션 리소스 로드

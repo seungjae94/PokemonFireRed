@@ -18,5 +18,9 @@ protected:
 	void BeginPlay() override;
 private:
 	bool FightWithGreen = false;
+
+	void MakeDoor();
+	void MakeRivalGreen();
+	void MakeDecorations();
 };
 

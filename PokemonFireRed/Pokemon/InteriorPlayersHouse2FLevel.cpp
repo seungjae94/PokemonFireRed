@@ -23,7 +23,23 @@ void UInteriorPlayersHouse2FLevel::BeginPlay()
 	UEventManager::SetDirection(GetName(), Global::Player, FTileVector::Up);
 
 	// 이벤트 트리거 생성
-	UEventTargetInit StairTo1FSetting; 
+	MakeStair();
+	MakeDecorations();
+}
+
+void UInteriorPlayersHouse2FLevel::LevelStart(ULevel* _PrevLevel)
+{
+	UMapLevel::LevelStart(_PrevLevel);
+
+	if (nullptr == _PrevLevel || _PrevLevel->GetName() == UEngineString::ToUpper(Global::TutorialLevel))
+	{
+		USoundManager::PlayBgm(RN::BgmPalletTown);
+	}
+}
+
+void UInteriorPlayersHouse2FLevel::MakeStair()
+{
+	UEventTargetInit StairTo1FSetting;
 	StairTo1FSetting.SetName("StairTo1F");
 	StairTo1FSetting.SetPoint({ 8, 2 });
 
@@ -31,10 +47,13 @@ void UInteriorPlayersHouse2FLevel::BeginPlay()
 	StairTo1F->SetTargetMapName(Global::InteriorPlayersHouse1FLevel);
 	StairTo1F->SetTargetPoint({ 9, 2 });
 	StairTo1F->SetMoveDirection(FTileVector::Left);
-	StairTo1F->SetFirstPath({FVector(-0.5f, 0.125f) * Global::FloatTileSize, FVector(-0.5f, 0.125f) * Global::FloatTileSize });
-	StairTo1F->SetSecondPath({FVector(-0.5f, 0.25f) * Global::FloatTileSize, FVector(-0.5f, 0.25f) * Global::FloatTileSize });
+	StairTo1F->SetFirstPath({ FVector(-0.5f, 0.125f) * Global::FloatTileSize, FVector(-0.5f, 0.125f) * Global::FloatTileSize });
+	StairTo1F->SetSecondPath({ FVector(-0.5f, 0.25f) * Global::FloatTileSize, FVector(-0.5f, 0.25f) * Global::FloatTileSize });
 	StairTo1F->RegisterPredefinedEvent();
+}
 
+void UInteriorPlayersHouse2FLevel::MakeDecorations()
+{
 	std::vector<std::wstring> DialogueNES =
 	{
 		L"RED played with the NES.",
@@ -57,14 +76,4 @@ void UInteriorPlayersHouse2FLevel::BeginPlay()
 	};
 	ADialogueActor* BookShelf0 = ADialogueActor::GenerateObject(this, "BookShelf0", { 3, 1 }, EFontColor::Gray, DialogueBookShelf);
 	ADialogueActor* BookShelf1 = ADialogueActor::GenerateObject(this, "BookShelf1", { 4, 1 }, EFontColor::Gray, DialogueBookShelf);
-}
-
-void UInteriorPlayersHouse2FLevel::LevelStart(ULevel* _PrevLevel)
-{
-	UMapLevel::LevelStart(_PrevLevel);
-
-	if (nullptr == _PrevLevel || _PrevLevel->GetName() == UEngineString::ToUpper(Global::TutorialLevel))
-	{
-		USoundManager::PlayBgm(RN::BgmPalletTown);
-	}
 }

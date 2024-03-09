@@ -22,12 +22,18 @@ void UInteriorOaksLabLevel::BeginPlay()
 	UEventManager::SetPoint(GetName(), Global::Player, { 6, 6 });
 	UEventManager::SetDirection(GetName(), Global::Player, FTileVector::Up);
 
-
 	// 이벤트 트리거 생성
+	MakeDoor();
+	MakeRivalGreen();
+	MakeDecorations();
+}
+
+void UInteriorOaksLabLevel::MakeDoor()
+{
 	UEventTargetInit PalletTownDoorSetting;
 	PalletTownDoorSetting.SetName("PalletTownDoor");
 	PalletTownDoorSetting.SetPoint({ 6, 13 });
-	
+
 	AInteriorDoor* PalletTownDoor = SpawnEventTrigger<AInteriorDoor>(PalletTownDoorSetting);
 	PalletTownDoor->SetTargetMapName(Global::ExteriorPalletTownLevel);
 	PalletTownDoor->SetTargetPoint({ 80, 148 });
@@ -35,7 +41,39 @@ void UInteriorOaksLabLevel::BeginPlay()
 	PalletTownDoor->SetExteriorDoorName("OaksLabDoor");
 	PalletTownDoor->SetTargetMapNameText(L"PALLET TOWN");
 	PalletTownDoor->RegisterPredefinedEvent();
+}
 
+void UInteriorOaksLabLevel::MakeRivalGreen()
+{
+	UEventTargetInit GreenInit;
+	GreenInit.SetName("RIVALGREEN");
+	GreenInit.SetPoint({ 10, 6 });
+	GreenInit.SetDirection(FTileVector::Down);
+	GreenInit.SetCollidable(true);
+	GreenInit.SetRotatable(true);
+	GreenInit.SetWalkable(false);						// 임시로 서있기만 가능한 캐릭터로 설정
+	GreenInit.SetImageNameAuto();	// 임시로 서있기만 가능한 캐릭터로 설정
+
+	UEventCondition GreenCond = UEventCondition(EEventTriggerAction::ZClick);
+	ATrainer* Green = SpawnEventTrigger<ATrainer>(GreenInit);
+	Green->AddPokemonToEntry(UPokemon(EPokedexNo::Rattata, 3));
+	Green->AddPokemonToEntry(UPokemon(EPokedexNo::Charmander, 3));
+	Green->SetPlayerWinMessage({
+		L"Player win\nfirst message.",
+		L"Player win\nsecond message."
+		});
+	Green->SetBattler("RIVAL GREEN", RN::RivalGreenBattler);
+
+	UEventManager::RegisterEvent(Green, GreenCond,
+		ES::Start(true)
+		>> ES::Chat({ L"Let's fight!" }, EFontColor::Blue)
+		>> ES::TrainerBattle(Green)
+		>> ES::End(true)
+	);
+}
+
+void UInteriorOaksLabLevel::MakeDecorations()
+{
 	std::vector<std::wstring> DialogueBigMachine =
 	{
 		LR"(What could this machine be?
@@ -73,32 +111,6 @@ void UInteriorOaksLabLevel::BeginPlay()
 	ADialogueActor* BookShelf11 = ADialogueActor::GenerateObject(this, "BookShelf11", { 2, 8 }, EFontColor::Gray, DialogueBookShelf);
 	ADialogueActor* BookShelf12 = ADialogueActor::GenerateObject(this, "BookShelf12", { 1, 8 }, EFontColor::Gray, DialogueBookShelf);
 	ADialogueActor* BookShelf13 = ADialogueActor::GenerateObject(this, "BookShelf13", { 0, 8 }, EFontColor::Gray, DialogueBookShelf);
-
-	UEventTargetInit GreenInit;
-	GreenInit.SetName("RIVALGREEN");
-	GreenInit.SetPoint({ 10, 6 });
-	GreenInit.SetDirection(FTileVector::Down);
-	GreenInit.SetCollidable(true);
-	GreenInit.SetRotatable(true);
-	GreenInit.SetWalkable(false);						// 임시로 서있기만 가능한 캐릭터로 설정
-	GreenInit.SetImageNameAuto();	// 임시로 서있기만 가능한 캐릭터로 설정
-
-	UEventCondition GreenCond = UEventCondition(EEventTriggerAction::ZClick);
-	ATrainer* Green = SpawnEventTrigger<ATrainer>(GreenInit);
-	Green->AddPokemonToEntry(UPokemon(EPokedexNo::Rattata, 3));
-	Green->AddPokemonToEntry(UPokemon(EPokedexNo::Charmander, 3));
-	Green->SetPlayerWinMessage({
-		L"Player win\nfirst message.",
-		L"Player win\nsecond message."
-	});
-	Green->SetBattler("RIVAL GREEN", RN::RivalGreenBattler);
-
-	UEventManager::RegisterEvent(Green, GreenCond,
-		ES::Start(true)
-		>> ES::Chat({ L"Let's fight!" }, EFontColor::Blue)
-		>> ES::TrainerBattle(Green)
-		>> ES::End(true)
-	);
 }
 
 

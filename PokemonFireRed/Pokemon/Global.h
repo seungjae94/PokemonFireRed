@@ -1,34 +1,11 @@
 #pragma once
 #include <EngineBase/EngineMath.h>
 
-enum class Id
-{
-	Player,
-	PlayersMom,
-	Rival,
-	RivalsSister,
-	Oaks,
-	OaksLabM00,
-	OaksLabM01,
-	OaksLabF00,
-	PalletM00,
-	PalletF00,
-	NES = 1000,
-	StairTo1F,
-	StairTo2F,
-	MenuCanvas = 2000,
-	DialogueWindow,
-	MapNameCanvas,
-	BlackScreen,
-	WhiteScreen,
-	CurtainScreen
-};
-
 // 전역으로 사용할 상수를 정의한다.
 namespace Global
 {
-	const float CheatDamageBonusCoeff = 2.0f;
-	const float CheatExpBonusCoeff = 5.0f;
+	const float CheatDamageBonusCoeff = 1.5f;
+	const float CheatExpBonusCoeff = 3.0f;
 
 	const float CharacterWalkSpeed = 3.6f;
 	const float CharacterJumpSpeed = 1.4f;
@@ -95,6 +72,24 @@ namespace Global
 
 	const Color8Bit PixelColliderBlock(255, 0, 255, 0);
 	const Color8Bit PixelColliderBlockUpDown(255, 1, 255, 0);
+};
+
+// EventTarget Name
+namespace EN
+{
+	// Pallet Town
+	const std::string OaksLabDoor = "OaksLabDoor";
+	const std::string PlayersHouseDoor = "PlayersHouseDoor";
+	const std::string RivalshouseDoor = "RivalsHouseDoor";
+	const std::string TechMan = "TechMan";
+
+	// Players House
+
+
+	// Rivals House
+
+	// Oaks Lab
+
 };
 
 // Resource Name

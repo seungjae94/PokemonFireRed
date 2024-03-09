@@ -23,6 +23,14 @@ void UInteriorPlayersHouse1FLevel::BeginPlay()
 	UEventManager::SetDirection(GetName(), Global::Player, FTileVector::Up);
 
 	// 이벤트 트리거 생성
+	MakeStair();
+	MakeDoor();
+	MakePlayersMom();
+	MakeDecorations();
+}
+
+void UInteriorPlayersHouse1FLevel::MakeStair()
+{
 	UEventTargetInit StairTo2FSetting;
 	StairTo2FSetting.SetName("StairTo2F");
 	StairTo2FSetting.SetPoint({ 10, 2 });
@@ -34,7 +42,10 @@ void UInteriorPlayersHouse1FLevel::BeginPlay()
 	StairTo2F->SetFirstPath({ FVector(0.5f, -0.25f) * Global::FloatTileSize, FVector(0.5f, -0.25f) * Global::FloatTileSize });
 	StairTo2F->SetSecondPath({ FVector(0.5f, -0.125f) * Global::FloatTileSize, FVector(0.5f, -0.125f) * Global::FloatTileSize });
 	StairTo2F->RegisterPredefinedEvent();
+}
 
+void UInteriorPlayersHouse1FLevel::MakeDoor()
+{
 	UEventTargetInit PalletTownDoorSetting;
 	PalletTownDoorSetting.SetName("PalletTownDoor");
 	PalletTownDoorSetting.SetPoint({ 3, 9 });
@@ -46,8 +57,10 @@ void UInteriorPlayersHouse1FLevel::BeginPlay()
 	PalletTownDoor->SetExteriorDoorName("PlayersHouseDoor");
 	PalletTownDoor->SetTargetMapNameText(L"PALLET TOWN");
 	PalletTownDoor->RegisterPredefinedEvent();
+}
 
-
+void UInteriorPlayersHouse1FLevel::MakePlayersMom()
+{
 	UEventTargetInit PlayersMomSetting;
 	PlayersMomSetting.SetName("PlayersMom");
 	PlayersMomSetting.SetPoint({ 7, 4 });
@@ -67,7 +80,10 @@ void UInteriorPlayersHouse1FLevel::BeginPlay()
 		});
 	PlayersMom->SetTextColor(EFontColor::Red);
 	PlayersMom->RegisterPredefinedEvent();
+}
 
+void UInteriorPlayersHouse1FLevel::MakeDecorations()
+{
 	std::vector<std::wstring> DialogueSink =
 	{
 		LR"(It smells delicious!
@@ -92,5 +108,4 @@ void UInteriorPlayersHouse1FLevel::BeginPlay()
 		LR"(...I better go, too.)"
 	};
 	ADialogueActor* TV = ADialogueActor::GenerateObject(this, "TV", { 5, 1 }, EFontColor::Gray, DialogueTV);
-
 }

@@ -18,6 +18,7 @@ protected:
 	void BeginPlay() override;
 	void LevelStart(ULevel* _PrevLevel) override;
 private:
-
+	void MakeStair();
+	void MakeDecorations();
 };
 

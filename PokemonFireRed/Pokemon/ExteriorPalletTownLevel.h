@@ -19,6 +19,12 @@ protected:
 	void BeginPlay() override;
 	void LevelStart(ULevel* _PrevLevel) override;
 private:
-
+	// 태초 마을
+	void MakePalletTown();
+	void MakePTOaksLabDoor();
+	void MakePTPlayersHouseDoor();
+	void MakePTRivalsHouseDoor();
+	void MakePTTechMan();
+	void MakePTAnimatedTiles();
 };
 
