@@ -6,14 +6,14 @@ class UPokemon;
 struct FWildPokemonConstructorParam
 {
 public:
-	EPokedexNo Id = EPokedexNo::None;
+	EPokemonId Id = EPokemonId::None;
 	int Level = 0;
 };
 
 struct FWildPokemonEncounter
 {
 public:
-	EPokedexNo Id = EPokedexNo::None;
+	EPokemonId Id = EPokemonId::None;
 	float Prop = 0.0f;
 	int MinLevel = 1;
 	int MaxLevel = 100;

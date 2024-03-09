@@ -55,9 +55,9 @@ void UInteriorOaksLabLevel::BeginPlay()
 	SquirtleBall->SetActorLocation(FTileVector(9, 4).ToFVector());
 	CharmanderBall->SetActorLocation(FTileVector(10, 4).ToFVector());
 
-	BulbasaurBall->SetPokemon(EPokedexNo::Bulbasaur);
-	SquirtleBall->SetPokemon(EPokedexNo::Squirtle);
-	CharmanderBall->SetPokemon(EPokedexNo::Charmander);
+	BulbasaurBall->SetPokemon(EPokemonId::Bulbasaur);
+	SquirtleBall->SetPokemon(EPokemonId::Squirtle);
+	CharmanderBall->SetPokemon(EPokemonId::Charmander);
 }
 
 void UInteriorOaksLabLevel::MakeDoor()
@@ -103,8 +103,8 @@ void UInteriorOaksLabLevel::MakeRivalGreen()
 
 	UEventCondition GreenCond = UEventCondition(EEventTriggerAction::ZClick);
 	ATrainer* Green = SpawnEventTrigger<ATrainer>(GreenInit);
-	Green->AddPokemonToEntry(UPokemon(EPokedexNo::Rattata, 3));
-	Green->AddPokemonToEntry(UPokemon(EPokedexNo::Charmander, 3));
+	Green->AddPokemonToEntry(UPokemon(EPokemonId::Rattata, 3));
+	Green->AddPokemonToEntry(UPokemon(EPokemonId::Charmander, 3));
 	Green->SetPlayerWinMessage({
 		L"Player win\nfirst message.",
 		L"Player win\nsecond message."

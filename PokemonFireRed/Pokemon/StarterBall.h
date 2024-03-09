@@ -13,6 +13,7 @@ private:
 		NonEventMessage,
 		EventMessage1,
 		EventMessage2,
+		EventMessage3,
 		Select,
 		End,
 	};
@@ -27,7 +28,10 @@ public:
 	AStarterBall& operator=(const AStarterBall& _Other) = delete;
 	AStarterBall& operator=(AStarterBall&& _Other) noexcept = delete;
 
-	void SetPokemon(EPokedexNo _PokemonId);
+	void SetPokemon(EPokemonId _PokemonId)
+	{
+		PokemonId = _PokemonId;
+	}
 
 protected:
 
@@ -40,10 +44,20 @@ private:
 	APokemonMsgBox* MsgBox = nullptr;
 	
 	EState State = EState::None;
+	EPokemonId PokemonId = EPokemonId::None;
 
 	bool IsZClickEventOccur();
 	void CheckEventOccur();
+
+	// 상태 틱
 	void ProcessNonEventMessage();
-	void OpenWhileEvent();
+	void ProcessEventMessage1();
+	void ProcessEventMessage2();
+	void ProcessEventMessage3();
+	void ProcessSelect();
+
+	// 상태 전이
+	void StateChangeToEventMessage1();
+	void StateChangeToEventMessage3();
 };
 

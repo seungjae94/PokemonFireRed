@@ -4,14 +4,14 @@
 
 std::map<std::string, int> UPokemonDB::NameResolver;
 
-std::map<EPokedexNo, FPokemonSpecies> UPokemonDB::Species;
+std::map<EPokemonId, FPokemonSpecies> UPokemonDB::Species;
 std::map<EPokemonMove, FPokemonMove> UPokemonDB::Moves;
 std::map<EPokemonNature, FPokemonNature> UPokemonDB::Natures;
 std::map<EPokemonAbility, FPokemonAbility> UPokemonDB::Abilities;
 std::map<EPokemonGender, FPokemonGender> UPokemonDB::Genders;
 std::map<EPokemonStatus, FPokemonStatus> UPokemonDB::Statuses;
 std::map<EPokemonType, FPokemonType> UPokemonDB::Types;
-std::list<EPokedexNo> UPokemonDB::ImplementedSpeciesNo;
+std::list<EPokemonId> UPokemonDB::ImplementedSpeciesNo;
 
 std::map<std::string, std::map<int, UWildPokemonZone>> UPokemonDB::WildPokemonZones;
 
@@ -57,7 +57,7 @@ public:
 
 	void GeneratePokemons() {
 		// 레벨업 스킬 추가
-		std::map<EPokedexNo, std::map<int, std::vector<EPokemonMove>>> LevelUpMoveMap;
+		std::map<EPokemonId, std::map<int, std::vector<EPokemonMove>>> LevelUpMoveMap;
 
 		std::string LevelUpMoveFilePath = CurDir.AppendPath("LevelUpMove.csv");
 		UCsvReader LevelUpMoveFileReader = UCsvReader(LevelUpMoveFilePath);
@@ -65,7 +65,7 @@ public:
 
 		for (std::vector<std::string>& Line : LevelUpMoveLines)
 		{
-			EPokedexNo Id = static_cast<EPokedexNo>(UPokemonDB::Resolve(Line[0]));
+			EPokemonId Id = static_cast<EPokemonId>(UPokemonDB::Resolve(Line[0]));
 			int Level = std::stoi(Line[1]);
 			EPokemonMove MoveId = static_cast<EPokemonMove>(UPokemonDB::Resolve(Line[2]));
 
@@ -80,7 +80,7 @@ public:
 		for (std::vector<std::string>& Line : PokemonLines)
 		{
 			FPokemonSpecies Species = FPokemonSpecies();
-			Species.Id = static_cast<EPokedexNo>(std::stoi(Line[0]));
+			Species.Id = static_cast<EPokemonId>(std::stoi(Line[0]));
 			Species.Name = Line[1];
 			Species.BHp = std::stoi(Line[2]);
 			Species.BAtk = std::stoi(Line[3]);
@@ -285,7 +285,7 @@ public:
 
 			UWildPokemonZone& Zone = UPokemonDB::WildPokemonZones[MapName][ZoneId];
 			FWildPokemonEncounter Encounter;
-			Encounter.Id = static_cast<EPokedexNo>(UPokemonDB::Resolve(Line[2]));
+			Encounter.Id = static_cast<EPokemonId>(UPokemonDB::Resolve(Line[2]));
 			Encounter.Prop = std::stof(Line[3]);
 			Encounter.MinLevel = std::stoi(Line[4]);
 			Encounter.MaxLevel = std::stoi(Line[5]);

@@ -53,12 +53,12 @@ public:
 		AchievementMap[_Achievement] = true;
 	}
 
-	static void SeePokemon(EPokedexNo _PokedexNo)
+	static void SeePokemon(EPokemonId _PokedexNo)
 	{
 		PokedexSeenMap[_PokedexNo] = true;
 	}
 
-	static void OwnPokemon(EPokedexNo _PokedexNo)
+	static void OwnPokemon(EPokemonId _PokedexNo)
 	{
 		PokedexSeenMap[_PokedexNo] = true;
 		PokedexOwnedMap[_PokedexNo] = true;
@@ -121,8 +121,8 @@ private:
 	static std::vector<UPokemon> PokemonInComputer;
 
 	// 도감 정보
-	static std::map<EPokedexNo, bool> PokedexSeenMap;
-	static std::map<EPokedexNo, bool> PokedexOwnedMap;
+	static std::map<EPokemonId, bool> PokedexSeenMap;
+	static std::map<EPokemonId, bool> PokedexOwnedMap;
 
 	// 업적 정보 (이벤트 발생 조건으로 사용)
 	static std::map<EAchievement, bool> AchievementMap;

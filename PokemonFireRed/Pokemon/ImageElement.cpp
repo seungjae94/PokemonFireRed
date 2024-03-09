@@ -66,7 +66,7 @@ void AImageElement::SetPokemon(const UPokemon* _Pokemon)
 		MadePokemonAnimation = true;
 	}
 
-	EPokedexNo PokedexNo = _Pokemon->GetPokedexNo();
+	EPokemonId PokedexNo = _Pokemon->GetPokedexNo();
 	std::string AnimPrefix;
 	switch (Type)
 	{

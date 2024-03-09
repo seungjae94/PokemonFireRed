@@ -3,7 +3,7 @@
 #include "PokemonMath.h"
 #include "ExpCalculator.h"
 
-UPokemon::UPokemon(EPokedexNo _Id, int _Level)
+UPokemon::UPokemon(EPokemonId _Id, int _Level)
 	: Level(_Level)
 {
 	Species = UPokemonDB::FindSpecies(_Id);

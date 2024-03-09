@@ -13,10 +13,6 @@ AStarterBall::~AStarterBall()
 {
 }
 
-void AStarterBall::SetPokemon(EPokedexNo _PokemonId)
-{
-}
-
 void AStarterBall::BeginPlay()
 {
 	AActor::BeginPlay();
@@ -50,10 +46,16 @@ void AStarterBall::Tick(float _DeltaTime)
 		ProcessNonEventMessage();
 		break;
 	case AStarterBall::EState::EventMessage1:
+		ProcessEventMessage1();
 		break;
 	case AStarterBall::EState::EventMessage2:
+		ProcessEventMessage2();
+		break;
+	case AStarterBall::EState::EventMessage3:
+		ProcessEventMessage3();
 		break;
 	case AStarterBall::EState::Select:
+		ProcessSelect();
 		break;
 	case AStarterBall::EState::End:
 		break;
@@ -72,7 +74,8 @@ bool AStarterBall::IsZClickEventOccur()
 	APlayer* Player = UEventManager::FindCurLevelTarget<APlayer>(EN::Player);
 	FTileVector PlayerPoint = Player->GetPoint();
 	FTileVector PlayerDirection = Player->GetDirection();
-	bool IsStaring = (PlayerPoint + PlayerDirection) == FTileVector(GetActorLocation());
+	FTileVector ThisPoint = FTileVector(GetActorLocation());
+	bool IsStaring = (PlayerPoint + PlayerDirection) == ThisPoint;
 	return IsStaring;
 }
 
@@ -86,6 +89,7 @@ void AStarterBall::CheckEventOccur()
 			// 대화창만 대충 띄운다.
 			State = EState::NonEventMessage;
 			MsgBox->SetActive(true);
+			MsgBox->SetTextColor(EFontColor::Gray);
 			MsgBox->SetMessage(L"Those are POKé BALLS.\nThey contain POKéMON!");
 			MsgBox->Write();
 			UEventManager::DeactivatePlayer();
@@ -96,7 +100,7 @@ void AStarterBall::CheckEventOccur()
 			&& (false == UPlayerData::IsAchieved(EAchievement::GetFirstPokemon)))
 		{
 			// 스타팅 포켓몬 선택 대화창을 띄운다.
-			OpenWhileEvent();
+			StateChangeToEventMessage1();
 			return;
 		}
 		// 스타팅 포켓몬 획득 이후
@@ -105,6 +109,7 @@ void AStarterBall::CheckEventOccur()
 			// 대화창만 대충 띄운다.
 			State = EState::NonEventMessage;
 			MsgBox->SetActive(true);
+			MsgBox->SetTextColor(EFontColor::Gray);
 			MsgBox->SetMessage(L"That's PROF. OAK's last POKéMON");
 			MsgBox->Write();
 			UEventManager::DeactivatePlayer();
@@ -123,7 +128,77 @@ void AStarterBall::ProcessNonEventMessage()
 	}
 }
 
-void AStarterBall::OpenWhileEvent()
+void AStarterBall::ProcessEventMessage1()
 {
-	Destroy();
+	if (MsgBox->GetWriteState() == EWriteState::WriteEnd)
+	{
+		MsgBox->ShowSkipArrow();
+		State = EState::EventMessage2;
+	}
+}
+
+void AStarterBall::ProcessEventMessage2()
+{
+	if (true == UEngineInput::IsDown('Z'))
+	{
+		MsgBox->HideSkipArrow();
+		StateChangeToEventMessage3();
+	}
+}
+
+void AStarterBall::ProcessEventMessage3()
+{
+}
+
+void AStarterBall::ProcessSelect()
+{
+}
+
+void AStarterBall::StateChangeToEventMessage1()
+{
+	std::wstring Message;
+	switch (PokemonId)
+	{
+	case EPokemonId::Bulbasaur:
+		Message = L"I see! BULBASAUR is your choice.\nIt's very easy to raise.";
+		break;
+	case EPokemonId::Squirtle:
+		Message = L"Hm! SQUIRTLE is your choice.\nIt's one worth raising.";
+		break;
+	case EPokemonId::Charmander:
+		Message = L"Ah! CHARMANDER is your choice.\nYou should raise it patiently.";
+		break;
+	default:
+		break;
+	}
+	MsgBox->SetActive(true);
+	MsgBox->SetTextColor(EFontColor::Blue);
+	MsgBox->SetMessage(Message);
+	MsgBox->Write();
+
+	State = EState::EventMessage1;
+}
+
+void AStarterBall::StateChangeToEventMessage3()
+{
+	std::wstring Message;
+	switch (PokemonId)
+	{
+	case EPokemonId::Bulbasaur:
+		Message = L"So, RED, you want to go with\nthe GRASS POKeMON BULBASAUR?";
+		break;
+	case EPokemonId::Squirtle:
+		Message = L"So, RED, you've decided on the\nWATER POKeMON SQUIRTLE?";
+		break;
+	case EPokemonId::Charmander:
+		Message = L"So, RED, you're claiming the\nFIRE POKeMON CHARMANDER?";
+		break;
+	default:
+		break;
+	}
+
+	MsgBox->SetMessage(Message);
+	MsgBox->Write();
+
+	State = EState::Select;
 }

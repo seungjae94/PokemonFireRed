@@ -7,8 +7,8 @@ int UPlayerData::Money = 3000;
 std::vector<UPokemon> UPlayerData::PokemonEntry;
 std::vector<UPokemon> UPlayerData::PokemonInComputer;
 std::map<EAchievement, bool> UPlayerData::AchievementMap;
-std::map<EPokedexNo, bool> UPlayerData::PokedexSeenMap;
-std::map<EPokedexNo, bool> UPlayerData::PokedexOwnedMap;
+std::map<EPokemonId, bool> UPlayerData::PokedexSeenMap;
+std::map<EPokemonId, bool> UPlayerData::PokedexOwnedMap;
 
 class PlayerDataReleaser
 {

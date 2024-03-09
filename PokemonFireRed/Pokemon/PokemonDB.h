@@ -18,7 +18,7 @@ public:
 	UPokemonDB& operator=(const UPokemonDB& _Other) = delete;
 	UPokemonDB& operator=(UPokemonDB&& _Other) noexcept = delete;
 
-	static const FPokemonSpecies* FindSpecies(EPokedexNo _Id)
+	static const FPokemonSpecies* FindSpecies(EPokemonId _Id)
 	{
 		return &Species[_Id];
 	}
@@ -58,12 +58,12 @@ public:
 		return &WildPokemonZones[_MapName.data()][_Index];
 	}
 
-	static std::list<EPokedexNo> GetImplementedSpeciesNo()
+	static std::list<EPokemonId> GetImplementedSpeciesNo()
 	{
 		return ImplementedSpeciesNo;
 	}
 
-	static std::string GetSpeciesName(EPokedexNo _Id)
+	static std::string GetSpeciesName(EPokemonId _Id)
 	{
 		return Species[_Id].Name;
 	}
@@ -87,14 +87,14 @@ private:
 	}
 
 	// Æ÷ÄÏ¸ó
-	static std::map<EPokedexNo, FPokemonSpecies> Species;
+	static std::map<EPokemonId, FPokemonSpecies> Species;
 	static std::map<EPokemonMove, FPokemonMove> Moves;
 	static std::map<EPokemonNature, FPokemonNature> Natures;
 	static std::map<EPokemonAbility, FPokemonAbility> Abilities;
 	static std::map<EPokemonGender, FPokemonGender> Genders;
 	static std::map<EPokemonStatus, FPokemonStatus> Statuses;
 	static std::map<EPokemonType, FPokemonType> Types;
-	static std::list<EPokedexNo> ImplementedSpeciesNo;
+	static std::list<EPokemonId> ImplementedSpeciesNo;
 
 	// Zones[¸Ê ÀÌ¸§][¹øÈ£] = (Zone °´Ã¼)
 	static std::map<std::string, std::map<int, UWildPokemonZone>> WildPokemonZones;

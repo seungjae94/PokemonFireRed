@@ -5,7 +5,7 @@
 #include <list>
 #include <EngineBase/EngineString.h>
 
-enum class EPokedexNo
+enum class EPokemonId
 {
 	None,
 	Bulbasaur = 1,
@@ -356,7 +356,7 @@ public:
 	int YExp = 0;
 
 	// ±‚≈∏
-	EPokedexNo Id = EPokedexNo::None;
+	EPokemonId Id = EPokemonId::None;
 	std::string Name;
 	EExperienceGroup ExpGroup = EExperienceGroup::None;
 	std::vector<EPokemonType> TypeIds;

@@ -25,7 +25,7 @@ class UPokemon
 public:
 	// constructor destructor
 	UPokemon() {};
-	UPokemon(EPokedexNo _Id, int _Level = 1);
+	UPokemon(EPokemonId _Id, int _Level = 1);
 	~UPokemon();
 
 	// delete Function
@@ -63,7 +63,7 @@ public:
 		CurHp = _CurHp;
 	}
 
-	EPokedexNo GetPokedexNo() const
+	EPokemonId GetPokedexNo() const
 	{
 		return Species->Id;
 	}

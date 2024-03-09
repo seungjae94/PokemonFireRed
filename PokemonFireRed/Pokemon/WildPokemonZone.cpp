@@ -14,7 +14,7 @@ FWildPokemonConstructorParam UWildPokemonZone::GenerateWildPokemonConstructorPar
 {
 	float RandomNumber = UPokemonMath::Random(0.0f, 1.0f);
 
-	EPokedexNo Id = WildPokemonEncounters[0].Id;
+	EPokemonId Id = WildPokemonEncounters[0].Id;
 	int Level = WildPokemonEncounters[0].MinLevel;
 	for (int i = 0; i < WildPokemonEncounters.size(); ++i)
 	{

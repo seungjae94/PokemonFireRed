@@ -115,7 +115,7 @@ void APokemonSummaryCanvas::BeginPlay()
 
 void APokemonSummaryCanvas::RefreshAll()
 {
-	EPokedexNo PokedexNo = Pokemon->GetPokedexNo();
+	EPokemonId PokedexNo = Pokemon->GetPokedexNo();
 
 	// CommonBox
 	NameText->SetText(Pokemon->GetNameW());
