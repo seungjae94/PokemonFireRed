@@ -213,6 +213,7 @@ void AStarterBall::ProcessSelectMessage1()
 		Renderer->SetActive(false);
 
 		const FPokemonSpecies* Species = UPokemonDB::FindSpecies(PokemonId);
+		MsgBox->SetTextColor(EFontColor::Gray);
 		MsgBox->SetMessage(L"RED received the " + 
 			UPokemonString::ToUpperW(Species->Name) + L"\nfrom PROF. OAK!");
 		MsgBox->Write();
@@ -224,7 +225,7 @@ void AStarterBall::ProcessSelectMessage2()
 	// TODO: 라이벌이 포켓몬 고르는 이벤트 트리거
 	// UEventManager::TriggerEvent();
 
-	if (true == UEngineInput::IsDown('Z'))
+	if (MsgBox->GetWriteState() == EWriteState::WriteEnd && true == UEngineInput::IsDown('Z'))
 	{
 		UPokemon Starter = UPokemon(PokemonId, 5);
 		UPlayerData::AddPokemonToEntry(Starter);
