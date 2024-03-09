@@ -299,7 +299,7 @@ bool UEventProcessor::SubprocessMove(float _DeltaTime)
 
 		if (MoveTimer <= 0.0f)
 		{
-			UEventManager::SetPoint(MapName, Target->GetName(), FTileVector(Target->GetActorLocation()));
+			UEventManager::SetPoint(MapName, Target->GetName(), MoveNextPoints[i]);
 
 			// 이동이 끝난 타겟은 이동 종료 처리 및 이동 종료 마킹을 한다.
 			if (MovePathIndex + 1 >= Path.size())

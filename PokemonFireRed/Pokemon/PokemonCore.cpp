@@ -55,7 +55,7 @@ void UPokemonCore::BeginPlay()
 	//UPlayerData::AddPokemonToEntry(Pokemon3);
 	//UPlayerData::AddPokemonToEntry(Pokemon4);
 	//UPlayerData::AddPokemonToEntry(Pokemon5);
-	//UPlayerData::Achieve(EAchievement::GetStarterEventStart);
+	UPlayerData::Achieve(EAchievement::GetStarterEventStart);
 	//UPlayerData::Achieve(EAchievement::GetFirstPokemon);
 	//UPlayerData::Achieve(EAchievement::FightWithGreen);
 

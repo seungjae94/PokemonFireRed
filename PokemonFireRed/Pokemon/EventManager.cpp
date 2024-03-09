@@ -333,15 +333,17 @@ void UEventManager::SetPoint(std::string_view _MapName, std::string_view _Target
 		return;
 	}
 
+	FTileVector PrevPoint = Target->Point;
+
 	FVector TargetPosition = _Point.ToFVector();
 	Target->SetActorLocation(TargetPosition);
 	Target->Point = _Point;
 
 	// 트리거인 경우 트리거 맵도 수정해준다.
-	if (true == AllTriggers[MapName].contains(_Point))
+	if (true == AllTriggers[MapName].contains(PrevPoint))
 	{
-		std::list<AEventTrigger*>::iterator StartIter = AllTriggers[MapName][_Point].begin();
-		std::list<AEventTrigger*>::iterator EndIter = AllTriggers[MapName][_Point].end();
+		std::list<AEventTrigger*>::iterator StartIter = AllTriggers[MapName][PrevPoint].begin();
+		std::list<AEventTrigger*>::iterator EndIter = AllTriggers[MapName][PrevPoint].end();
 
 		for (; StartIter != EndIter; ++StartIter)
 		{
@@ -352,8 +354,8 @@ void UEventManager::SetPoint(std::string_view _MapName, std::string_view _Target
 				continue;
 			}
 
-			AllTriggers[MapName][_Point].erase(StartIter);
-			AllTriggers[MapName][FTileVector(TargetPosition)].push_back(Trigger);
+			AllTriggers[MapName][PrevPoint].erase(StartIter);
+			AllTriggers[MapName][_Point].push_back(Trigger);
 			return;
 		}
 	}
