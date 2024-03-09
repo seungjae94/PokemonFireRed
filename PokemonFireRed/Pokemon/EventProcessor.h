@@ -85,6 +85,7 @@ private:
 	/// <return>이벤트 명령 종료 여부</return>
 	void ActivatePlayerControl();
 	void DeactivatePlayerControl();
+	bool ProcessSetActive();
 	bool ProcessMove(float _DeltaTime);
 	bool SubprocessMoveStart();
 	bool SubprocessMove(float _DeltaTime);

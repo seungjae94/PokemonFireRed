@@ -15,6 +15,7 @@ class UPokemon;
 
 enum class EEventType
 {
+	SetActive,
 	Move,
 	MoveWithoutRestriction,
 	Surprise,
@@ -60,6 +61,27 @@ class UEventStream
 public:
 	UEventStream();
 	~UEventStream();
+
+	class SetActive
+	{
+		friend UEventProcessor;
+	public:
+		SetActive(std::string_view _MapName, std::string_view _TargetName, bool _Value)
+			: MapName(_MapName), TargetName(_TargetName), Value(_Value)
+		{
+		}
+	private:
+		std::string MapName;
+		std::string TargetName;
+		bool Value = true;
+	};
+
+	UEventStream& operator>>(const SetActive& _Data)
+	{
+		EventTypeList.push_back(EEventType::SetActive);
+		SetActiveDataSet.push_back(_Data);
+		return *this;
+	}
 
 	class Move
 	{
@@ -498,6 +520,7 @@ private:
 	std::vector<EEventType> EventTypeList;
 	bool DeactivatePlayer = true;
 	bool ActivatePlayer = true;
+	std::vector<SetActive> SetActiveDataSet;
 	std::vector<Move> MoveDataSet;
 	std::vector<MoveWithoutRestriction> MoveWithoutRestrictionDataSet;
 	std::vector<FadeIn> FadeInDataSet;

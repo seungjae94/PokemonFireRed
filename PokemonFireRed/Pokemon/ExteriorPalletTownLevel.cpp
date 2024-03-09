@@ -138,13 +138,12 @@ void UExteriorPalletTownLevel::MakePTGetStarterEventTrigger()
 	AEventTrigger* Trigger = SpawnEventTrigger<AEventTrigger>(Setting);
 	UEventManager::RegisterEvent(Trigger, Cond,
 		ES::Start(true)
-		>> ES::ChangePoint(Global::ExteriorPalletTownLevel, EN::Oak, { 75, 142 })
+		//>> ES::ChangePoint(Global::ExteriorPalletTownLevel, EN::Oak, { 75, 142 })
+		>> ES::SetActive(GetName(), EN::Oak, true)
 		>> ES::Chat({ L"OAK: Hey! Wait!\nDon't go out!" }, EFontColor::Blue, 16)
 		>> ES::ChangeDirection(Global::ExteriorPalletTownLevel, EN::Player, FTileVector::Down)
 		//>> ES::Surprise(EN::Player, {})
-		>> ES::Move(EN::Oak,
-			{ Up, Up, Up, Up, Right, Up, Up },
-			3.6f, false)
+		>> ES::Move(EN::Oak, { Up, Up, Up, Up, Up, Right, Up }, 3.6f, false)
 		>> ES::Wait(0.5f)
 		>> ES::Chat({
 	   L"OAK: It's unsafe!\nWild POKeMON live in tall grass!",
@@ -156,8 +155,10 @@ void UExteriorPalletTownLevel::MakePTGetStarterEventTrigger()
 		   // Player Path
 		   {Down, Down, Left, Down, Down, Down, Down, Down, Down, Down, Down, Down, Down, Down, Right, Right, Right, Right}
 		   })
+		>> ES::ChangeDirection(Global::ExteriorPalletTownLevel, EN::Oak, Up)
 		>> ES::PlayAnimation(EN::OaksLabDoor, "DoorOpen")
-		>> ES::Move({ EN::Oak, EN::Player }, { {Up}, {Right } })
+		>> ES::Move({ EN::Oak, EN::Player }, { {Up}, {Right} })
+		>> ES::SetActive(GetName(), EN::Oak, false)
 		>> ES::Move(EN::Player, { Up })
 		>> ES::PlayAnimation(EN::OaksLabDoor, "DoorClose")
 		>> ES::FadeOut(0.5f)
@@ -191,14 +192,14 @@ void UExteriorPalletTownLevel::MakePTGetStarterEventTrigger()
 		L"OAK: Be patient, GREEN.\nYou can have one, too!"
 			}, EFontColor::Blue, 16)
 		>> ES::End(true)
-		);
+	);
 }
 
 void UExteriorPalletTownLevel::MakePTOak()
 {
 	UEventTargetSetting Setting;
 	Setting.SetName(EN::Oak);
-	Setting.SetPoint({ 300, 300 });
+	Setting.SetPoint({ 75, 142 });
 	Setting.SetDirection(FTileVector::Down);
 	Setting.SetCollidable(true);
 	Setting.SetRotatable(true);
@@ -206,6 +207,7 @@ void UExteriorPalletTownLevel::MakePTOak()
 	Setting.SetImageNameAuto();
 
 	AEventTarget* Oak = SpawnEventTarget<AEventTarget>(Setting);
+	Oak->SetActive(false);
 }
 
 void UExteriorPalletTownLevel::MakePTAnimatedTiles()

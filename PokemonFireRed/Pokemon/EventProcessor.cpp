@@ -44,6 +44,9 @@ void UEventProcessor::Tick(float _DeltaTime)
 		bool ProcessingResult = false;
 		switch (CurEventType)
 		{
+		case EEventType::SetActive:
+			ProcessingResult = ProcessSetActive();
+			break;
 		case EEventType::Move:
 			ProcessingResult = ProcessMove(_DeltaTime);
 			break;
@@ -146,6 +149,27 @@ void UEventProcessor::DeactivatePlayerControl()
 	}
 
 	CurPlayer->StateChange(EPlayerState::OutOfControl);
+}
+
+bool UEventProcessor::ProcessSetActive()
+{
+	int CurIndexOfType = GetCurIndexOfType(EEventType::SetActive);
+	ES::SetActive& Data = CurStream->SetActiveDataSet[CurIndexOfType];
+
+	std::string MapName = ToUpper(Data.MapName);
+	std::string TargetName = ToUpper(Data.TargetName);
+
+	AEventTarget* Target = UEventManager::FindTarget<AEventTarget>(MapName, TargetName);
+
+	if (nullptr == Target)
+	{
+		MsgBoxAssert(MapName + ":" + TargetName + "은 존재하지 않는 이벤트 타겟입니다. 존재하지 않는 이벤트 타겟을 켜고 끌 수 없습니다.");
+		return true;
+	}
+
+	Target->SetActive(Data.Value);
+
+	return true;
 }
 
 bool UEventProcessor::ProcessMove(float _DeltaTime)
