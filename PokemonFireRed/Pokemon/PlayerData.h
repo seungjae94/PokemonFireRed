@@ -13,7 +13,7 @@ enum class EAchievement
 {
 	None,
 	GetStarterEventStart,
-	GetFirstPokemon,
+	SelectFirstPokemon,
 	FightWithGreen,
 	GetPokedex
 };

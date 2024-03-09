@@ -63,5 +63,8 @@ private:
 	// 상태 전이
 	void StateChangeToEventMessage1();
 	void StateChangeToEventMessage3();
+
+	// 유틸 함수
+	UPokemon PickRivalPokemon();
 };
 

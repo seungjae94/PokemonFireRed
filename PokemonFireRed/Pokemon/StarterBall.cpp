@@ -4,6 +4,7 @@
 #include "EventManager.h"
 #include "Player.h"
 #include "DialogueWindow.h"
+#include "Trainer.h"
 
 AStarterBall::AStarterBall()
 {
@@ -103,7 +104,7 @@ void AStarterBall::CheckEventOccur()
 		}
 		// 스타팅 포켓몬을 획득해야 하는 경우
 		else if ((true == UPlayerData::IsAchieved(EAchievement::GetStarterEventStart))
-			&& (false == UPlayerData::IsAchieved(EAchievement::GetFirstPokemon)))
+			&& (false == UPlayerData::IsAchieved(EAchievement::SelectFirstPokemon)))
 		{
 			// 스타팅 포켓몬 선택 대화창을 띄운다.
 			StateChangeToEventMessage1();
@@ -222,15 +223,20 @@ void AStarterBall::ProcessSelectMessage1()
 
 void AStarterBall::ProcessSelectMessage2()
 {
-	// TODO: 라이벌이 포켓몬 고르는 이벤트 트리거
-	// UEventManager::TriggerEvent();
-
 	if (MsgBox->GetWriteState() == EWriteState::WriteEnd && true == UEngineInput::IsDown('Z'))
 	{
+		// 플레이어 포켓몬 획득
 		UPokemon Starter = UPokemon(PokemonId, 5);
 		UPlayerData::AddPokemonToEntry(Starter);
-		UPlayerData::Achieve(EAchievement::GetFirstPokemon);
-		UEventManager::ActivatePlayer();
+		UPlayerData::Achieve(EAchievement::SelectFirstPokemon);
+
+		// 라이벌 포켓몬 획득
+		ATrainer* Rival = UEventManager::FindCurLevelTarget<ATrainer>(EN::RivalGreen);
+		UPokemon RivalStarter = PickRivalPokemon();
+		Rival->AddPokemonToEntry(RivalStarter);
+		UEventManager::TriggerEvent(Rival, EEventTriggerAction::Direct);
+
+		// 이벤트 삭제
 		MsgBox->SetActive(false);
 		Destroy();
 	}
@@ -287,4 +293,22 @@ void AStarterBall::StateChangeToEventMessage3()
 	MsgBox->Write();
 
 	State = EState::EventMessage3;
+}
+
+UPokemon AStarterBall::PickRivalPokemon()
+{
+	switch (PokemonId)
+	{
+	case EPokemonId::Bulbasaur:
+		return UPokemon(EPokemonId::Charmander, 5);
+	case EPokemonId::Charmander:
+		return UPokemon(EPokemonId::Squirtle, 5);
+	case EPokemonId::Squirtle:
+		return UPokemon(EPokemonId::Bulbasaur, 5);
+	default:
+		MsgBoxAssert("플레이어의 스타팅 포켓몬이 잘못 설정되었습니다.");
+		break;
+	}
+
+	return UPokemon(EPokemonId::Caterpie, 1);
 }

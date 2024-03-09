@@ -81,27 +81,101 @@ void UInteriorOaksLabLevel::MakeRivalGreen()
 {
 	UEventTargetSetting GreenInit;
 	GreenInit.SetName("RIVALGREEN");
-	GreenInit.SetPoint({ 10, 6 });
+	GreenInit.SetPoint({ 5, 4 });
 	GreenInit.SetDirection(FTileVector::Down);
 	GreenInit.SetCollidable(true);
 	GreenInit.SetRotatable(true);
-	GreenInit.SetWalkable(false);						// 임시로 서있기만 가능한 캐릭터로 설정
-	GreenInit.SetImageNameAuto();	// 임시로 서있기만 가능한 캐릭터로 설정
+	GreenInit.SetWalkable(true);
+	GreenInit.SetImageNameAuto();
 
-	UEventCondition GreenCond = UEventCondition(EEventTriggerAction::ZClick);
 	ATrainer* Green = SpawnEventTrigger<ATrainer>(GreenInit);
-	Green->AddPokemonToEntry(UPokemon(EPokemonId::Rattata, 3));
-	Green->AddPokemonToEntry(UPokemon(EPokemonId::Charmander, 3));
 	Green->SetPlayerWinMessage({
 		L"Player win\nfirst message.",
 		L"Player win\nsecond message."
 		});
 	Green->SetBattler("RIVAL GREEN", RN::RivalGreenBattler);
 
-	UEventManager::RegisterEvent(Green, GreenCond,
+	// 이벤트 등록
+
+	// 1. 스타팅 포켓몬 획득 이벤트가 아예 시작되기 전 상황 (대화 이벤트)
+	UEventCondition BeforeGetStarterEventCond = UEventCondition(EEventTriggerAction::ZClick);
+	BeforeGetStarterEventCond.RegisterCheckFunc([]() {
+		return false == UPlayerData::IsAchieved(EAchievement::GetStarterEventStart);
+	});
+
+	UEventManager::RegisterEvent(Green, BeforeGetStarterEventCond,
 		ES::Start(true)
-		>> ES::Chat({ L"Let's fight!" }, EFontColor::Blue)
-		>> ES::TrainerBattle(Green)
+		>> ES::StarePlayer(EN::RivalGreen)
+		>> ES::Chat({ L"GREEN: What, it's only RED?\nGramps isn't around." }, EFontColor::Blue, 16)
+		>> ES::End(true)
+	);
+
+	// 2. 스타팅 포켓몬 획득 이벤트는 시작했지만 아직 플레이어가 포켓몬을 고르지 않은 상황 (대화 이벤트)
+	UEventCondition BeforePlayerSelectStarterCond = UEventCondition(EEventTriggerAction::ZClick);
+	BeforePlayerSelectStarterCond.RegisterCheckFunc([]() {
+		return true == UPlayerData::IsAchieved(EAchievement::GetStarterEventStart)
+			&& false == UPlayerData::IsAchieved(EAchievement::SelectFirstPokemon);
+	});
+
+	UEventManager::RegisterEvent(Green, BeforePlayerSelectStarterCond,
+		ES::Start(true)
+		>> ES::StarePlayer(EN::RivalGreen)
+		>> ES::Chat({ L"GREEN: Heh, I don't need to be\ngreedy like you. I'm mature!", L"Go ahead and choose, RED!" }, EFontColor::Blue, 16)
+		>> ES::End(true)
+	);
+
+	// 3. 라이벌이 포켓몬을 고르는 이벤트
+	UEventCondition PlayerSelectBulbasaurCond = UEventCondition(EEventTriggerAction::Direct);
+	UEventCondition PlayerSelectSquirtleCond = UEventCondition(EEventTriggerAction::Direct);
+	UEventCondition PlayerSelectCharmanderCond = UEventCondition(EEventTriggerAction::Direct);
+	PlayerSelectBulbasaurCond.RegisterCheckFunc([]() {
+		const UPokemon& PlayerSelectPokemon = UPlayerData::GetPokemonInEntry(0);
+		return PlayerSelectPokemon.GetPokedexNo() == EPokemonId::Bulbasaur;
+	});
+	PlayerSelectSquirtleCond.RegisterCheckFunc([]() {
+		const UPokemon& PlayerSelectPokemon = UPlayerData::GetPokemonInEntry(0);
+		return PlayerSelectPokemon.GetPokedexNo() == EPokemonId::Squirtle;
+	});
+	PlayerSelectCharmanderCond.RegisterCheckFunc([]() {
+		const UPokemon& PlayerSelectPokemon = UPlayerData::GetPokemonInEntry(0);
+		return PlayerSelectPokemon.GetPokedexNo() == EPokemonId::Charmander;
+	});
+
+	UEventManager::RegisterEvent(Green, PlayerSelectBulbasaurCond,
+		ES::Start(true)
+		>> ES::Move(EN::RivalGreen, { Down, Down, Right, Right, Right, Right, Right, Up }, Global::CharacterWalkSpeed, false)
+		>> ES::Chat({ L"GREEN: I'll take this one, then!" }, EFontColor::Blue, 16)
+		>> ES::Chat({ L"GREEN received the CHARMANDER\nfrom PROF.OAK!" }, EFontColor::Gray, 16)
+		>> ES::End(true)
+	);
+
+	UEventManager::RegisterEvent(Green, PlayerSelectSquirtleCond,
+		ES::Start(true)
+		>> ES::Move(EN::RivalGreen, { Down, Down, Right, Right, Right, Up }, Global::CharacterWalkSpeed, false)
+		>> ES::Chat({ L"GREEN: I'll take this one, then!" }, EFontColor::Blue, 16)
+		>> ES::Chat({ L"GREEN received the BULBASAUR\nfrom PROF.OAK!" }, EFontColor::Gray, 16)
+		>> ES::End(true)
+	);
+
+	UEventManager::RegisterEvent(Green, PlayerSelectCharmanderCond,
+		ES::Start(true)
+		>> ES::Move(EN::RivalGreen, { Down, Down, Right, Right, Right, Right, Up }, Global::CharacterWalkSpeed, false)
+		>> ES::Chat({ L"GREEN: I'll take this one, then!" }, EFontColor::Blue, 16)
+		>> ES::Chat({ L"GREEN received the SQUIRTLE\nfrom PROF.OAK!" }, EFontColor::Gray, 16)
+		>> ES::End(true)
+	);
+
+	// 라이벌이 포켓몬은 골랐지만 아직 배틀은 하지 않은 상황
+	UEventCondition BeforeBattleCond = UEventCondition(EEventTriggerAction::ZClick);
+	BeforeBattleCond.RegisterCheckFunc([]() {
+		return true == UPlayerData::IsAchieved(EAchievement::SelectFirstPokemon)
+			&& false == UPlayerData::IsAchieved(EAchievement::FightWithGreen);
+	});
+
+	UEventManager::RegisterEvent(Green, BeforeBattleCond,
+		ES::Start(true)
+		>> ES::StarePlayer(EN::RivalGreen)
+		>> ES::Chat({ L"GREEN: My POKéMON looks a lot\ntougher than yours." }, EFontColor::Blue, 16)
 		>> ES::End(true)
 	);
 }
@@ -115,13 +189,13 @@ void UInteriorOaksLabLevel::MakeSpecialTriggers()
 	UEventCondition BlockCond = UEventCondition(EEventTriggerAction::StepOn);
 	CheckFunc BlockChecker = []() {
 		return (true == UPlayerData::IsAchieved(EAchievement::GetStarterEventStart))
-			&& (false == UPlayerData::IsAchieved(EAchievement::GetFirstPokemon));
+			&& (false == UPlayerData::IsAchieved(EAchievement::SelectFirstPokemon));
 	};
 	BlockCond.RegisterCheckFunc(BlockChecker);
 
 	UEventCondition RivalBattleCond = UEventCondition(EEventTriggerAction::StepOn);
 	CheckFunc RivalBattleChecker = []() {
-		return (true == UPlayerData::IsAchieved(EAchievement::GetFirstPokemon))
+		return (true == UPlayerData::IsAchieved(EAchievement::SelectFirstPokemon))
 			&& (false == UPlayerData::IsAchieved(EAchievement::FightWithGreen));
 		};
 	RivalBattleCond.RegisterCheckFunc(RivalBattleChecker);

@@ -81,7 +81,7 @@ void AMenuCanvas::Tick(float _DeltaTime)
 		RefreshMenuBox();
 		RefreshExplainText();
 	}
-	else if (true == UPlayerData::IsAchieved(EAchievement::GetFirstPokemon) && MenuCount == 3)
+	else if (true == UPlayerData::IsAchieved(EAchievement::SelectFirstPokemon) && MenuCount == 3)
 	{
 		MenuCount = 4;
 		Cursor->SetOptionCount(MenuCount);
