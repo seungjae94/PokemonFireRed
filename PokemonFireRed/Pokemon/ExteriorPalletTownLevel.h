@@ -1,7 +1,8 @@
 #pragma once
 #include "MapLevel.h"
 
-// Ό³Έν :
+class UEventTargetSetting;
+
 class UExteriorPalletTownLevel : public UMapLevel
 {
 public:
@@ -25,7 +26,13 @@ private:
 	void MakePTPlayersHouseDoor();
 	void MakePTRivalsHouseDoor();
 	void MakePTTechMan();
-	void MakePTGetStarterEventTrigger();
+	void MakePTGetStarterEventTriggers();
+	void SpawnPTGetStarterEventTrigger(
+		UEventTargetSetting _Setting,
+		UEventCondition _Cond,
+		const std::vector<FTileVector>& _OakComePath, 
+		const std::vector<FTileVector>& _OakGoToLabPath, 
+		const std::vector<FTileVector>& _PlayerGoToLabPath);
 	void MakePTOak();
 	void MakePTAnimatedTiles();
 };

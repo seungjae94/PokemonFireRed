@@ -44,7 +44,7 @@ void UExteriorPalletTownLevel::MakePalletTown()
 	MakePTPlayersHouseDoor();
 	MakePTRivalsHouseDoor();
 	MakePTTechMan();
-	MakePTGetStarterEventTrigger();
+	MakePTGetStarterEventTriggers();
 	MakePTOak();
 	MakePTAnimatedTiles();
 }
@@ -118,12 +118,8 @@ and POKéMON as data via PC.)"
 	TechMan->RegisterPredefinedEvent();
 }
 
-void UExteriorPalletTownLevel::MakePTGetStarterEventTrigger()
+void UExteriorPalletTownLevel::MakePTGetStarterEventTriggers()
 {
-	UEventTargetSetting Setting;
-	Setting.SetName(EN::GetStarterEventTrigger);
-	Setting.SetPoint({ 76, 135 });
-
 	UEventCondition Cond = UEventCondition(EEventTriggerAction::StepOn);
 	CheckFunc Func = []() {
 		return false == UPlayerData::IsAchieved(EAchievement::GetStarterEventStart);
@@ -135,24 +131,47 @@ void UExteriorPalletTownLevel::MakePTGetStarterEventTrigger()
 	const FTileVector Left = FTileVector::Left;
 	const FTileVector Right = FTileVector::Right;
 
-	AEventTrigger* Trigger = SpawnEventTrigger<AEventTrigger>(Setting);
-	UEventManager::RegisterEvent(Trigger, Cond,
+	UEventTargetSetting Setting0;
+	Setting0.SetName(EN::GetStarterEventTrigger + "0");
+	Setting0.SetPoint({ 76, 135 });
+
+	std::vector<FTileVector> OakComePath0 = { Up, Up, Up, Up, Up, Right, Up };
+	std::vector<FTileVector> OakGoToLabPath0 = { Down, Left, Down, Down, Down, Down, Down, Down, Down, Down, Down, Down, Down, Right, Right, Right, Right, Right };
+	std::vector<FTileVector> PlayerGoToLabPath0 = { Down, Down, Left, Down, Down, Down, Down, Down, Down, Down, Down, Down, Down, Down, Right, Right, Right, Right };
+
+	SpawnPTGetStarterEventTrigger(Setting0, Cond, OakComePath0, OakGoToLabPath0, PlayerGoToLabPath0);
+
+	UEventTargetSetting Setting1;
+	Setting1.SetName(EN::GetStarterEventTrigger + "1");
+	Setting1.SetPoint({ 77, 135 });
+
+	std::vector<FTileVector> OakComePath1 = { Up, Up, Up, Up, Up, Right, Right, Up };
+	std::vector<FTileVector> OakGoToLabPath1 = { Down, Left, Left, Down, Down, Down, Down, Down, Down, Down, Down, Down, Down, Down, Right, Right, Right, Right, Right };
+	std::vector<FTileVector> PlayerGoToLabPath1 = { Down, Down, Left, Left, Down, Down, Down, Down, Down, Down, Down, Down, Down, Down, Down, Right, Right, Right, Right };
+	
+	SpawnPTGetStarterEventTrigger(Setting1, Cond, OakComePath1, OakGoToLabPath1, PlayerGoToLabPath1);
+}
+
+void UExteriorPalletTownLevel::SpawnPTGetStarterEventTrigger(UEventTargetSetting _Setting, UEventCondition _Cond, const std::vector<FTileVector>& _OakComePath, const std::vector<FTileVector>& _OakGoToLabPath, const std::vector<FTileVector>& _PlayerGoToLabPath)
+{
+	const FTileVector Up = FTileVector::Up;
+	const FTileVector Down = FTileVector::Down;
+	const FTileVector Left = FTileVector::Left;
+	const FTileVector Right = FTileVector::Right;
+
+	AEventTrigger* Trigger = SpawnEventTrigger<AEventTrigger>(_Setting);
+	UEventManager::RegisterEvent(Trigger, _Cond,
 		ES::Start(true)
 		>> ES::SetActive(GetName(), EN::Oak, true)
 		>> ES::Chat({ L"OAK: Hey! Wait!\nDon't go out!" }, EFontColor::Blue, 16)
 		>> ES::ChangeDirection(Global::ExteriorPalletTownLevel, EN::Player, FTileVector::Down)
 		//>> ES::Surprise(EN::Player, {})
-		>> ES::Move(EN::Oak, { Up, Up, Up, Up, Up, Right, Up }, 3.6f, false)
+		>> ES::Move(EN::Oak, _OakComePath, 3.6f, false)
 		>> ES::Chat({
 	   L"OAK: It's unsafe!\nWild POKeMON live in tall grass!",
 	   L"You need your own POKeMON for\nyour protection.",
 	   L"I know!\nHere, come with me!" }, EFontColor::Blue, 16)
-	   >> ES::Move({ EN::Oak, EN::Player }, {
-		   // Oak Path
-		   {Down, Left, Down, Down, Down, Down, Down, Down, Down, Down, Down, Down, Down, Right, Right, Right, Right, Right},
-		   // Player Path
-		   {Down, Down, Left, Down, Down, Down, Down, Down, Down, Down, Down, Down, Down, Down, Right, Right, Right, Right}
-		   })
+	   >> ES::Move({ EN::Oak, EN::Player }, { _OakGoToLabPath, _PlayerGoToLabPath })
 		>> ES::ChangeDirection(Global::ExteriorPalletTownLevel, EN::Oak, Up)
 		>> ES::PlayAnimation(EN::OaksLabDoor, "DoorOpen")
 		>> ES::Move({ EN::Oak, EN::Player }, { {Up}, {Right} })
@@ -189,6 +208,7 @@ void UExteriorPalletTownLevel::MakePTGetStarterEventTrigger()
 		>> ES::Achieve(EAchievement::GetStarterEventStart)
 		>> ES::End(true)
 	);
+
 }
 
 void UExteriorPalletTownLevel::MakePTOak()
