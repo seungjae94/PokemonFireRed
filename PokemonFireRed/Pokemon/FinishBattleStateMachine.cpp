@@ -143,7 +143,7 @@ void AFinishBattleStateMachine::ProcessOutOfPokemonMessage2()
 		{
 			State = ESubstate::PanicAndLost1;
 			int LostMoney = CalcLostMoney();
-			UPlayerData::LostMoney(LostMoney);
+			UPlayerData::LoseMoney(LostMoney);
 			MsgBox->HideSkipArrow();
 			MsgBox->SetMessage(L"RED panicked and lost " + std::to_wstring(LostMoney) + L"G");
 			MsgBox->Write();
@@ -228,7 +228,7 @@ void AFinishBattleStateMachine::ProcessPlayerLostAgainst2()
 	{
 		State = ESubstate::PaidAsThePrizeMoney1;
 		int LostMoney = CalcLostMoney();
-		UPlayerData::LostMoney(LostMoney);
+		UPlayerData::LoseMoney(LostMoney);
 		MsgBox->SetMessage(L"RED paid " + std::to_wstring(LostMoney) + L"G as the prize\nmoney…");
 		MsgBox->Write();
 	}

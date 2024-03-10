@@ -335,6 +335,7 @@ const FPokemonSpecies* UGameDB::FindSpecies(EPokemonId _Id)
 {
 	if (false == Species.contains(_Id))
 	{
+		MsgBoxAssert("아직 구현되지 않은 포켓몬을 찾으려고 했습니다. Id: " + static_cast<int>(_Id));
 		return nullptr;
 	}
 
@@ -345,6 +346,7 @@ const FPokemonMove* UGameDB::FindMove(EPokemonMove _Id)
 {
 	if (false == Moves.contains(_Id))
 	{
+		MsgBoxAssert("아직 구현되지 않은 기술을 찾으려고 했습니다. Id: " + static_cast<int>(_Id));
 		return nullptr;
 	}
 
@@ -355,6 +357,7 @@ const FPokemonNature* UGameDB::FindNature(EPokemonNature _Id)
 {
 	if (false == Natures.contains(_Id))
 	{
+		MsgBoxAssert("아직 구현되지 않은 성격을 찾으려고 했습니다. Id: " + static_cast<int>(_Id));
 		return nullptr;
 	}
 
@@ -365,6 +368,7 @@ const FPokemonAbility* UGameDB::FindAbility(EPokemonAbility _Id)
 {
 	if (false == Abilities.contains(_Id))
 	{
+		MsgBoxAssert("아직 구현되지 않은 특성을 찾으려고 했습니다. Id: " + static_cast<int>(_Id));
 		return nullptr;
 	}
 
@@ -385,6 +389,7 @@ const FPokemonType* UGameDB::FindType(EPokemonType _Id)
 {
 	if (false == Types.contains(_Id))
 	{
+		MsgBoxAssert("아직 구현되지 않은 타입을 찾으려고 했습니다. Id: " + static_cast<int>(_Id));
 		return nullptr;
 	}
 
@@ -395,6 +400,7 @@ const FPokemonStatus* UGameDB::FindStatus(EPokemonStatus _Id)
 {
 	if (false == Statuses.contains(_Id))
 	{
+		MsgBoxAssert("아직 구현되지 않은 상태를 찾으려고 했습니다. Id: " + static_cast<int>(_Id));
 		return nullptr;
 	}
 
@@ -407,10 +413,22 @@ const UWildPokemonZone* UGameDB::FindWildPokemonZone(std::string_view _MapName, 
 
 	if (false == WildPokemonZones.contains(MapName) || false == WildPokemonZones[MapName].contains(_Index))
 	{
+		MsgBoxAssert("아직 구현되지 않은 야생 포켓몬 존을 찾으려고 했습니다. 존 = " + MapName + ":" + std::to_string(_Index));
 		return nullptr;
 	}
 
 	return &WildPokemonZones[MapName][_Index];
+}
+
+const FItem* UGameDB::FindItem(EItemId _Id)
+{
+	if (false == Items.contains(_Id))
+	{
+		MsgBoxAssert("아직 구현되지 않은 아이템을 찾으려고 했습니다. Id: " + static_cast<int>(_Id));
+		return nullptr;
+	}
+
+	return &Items[_Id];
 }
 
 std::list<EPokemonId> UGameDB::GetImplementedSpeciesNo()

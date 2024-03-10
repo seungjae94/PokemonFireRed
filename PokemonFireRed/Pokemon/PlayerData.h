@@ -26,88 +26,36 @@ public:
 	UPlayerData();
 	~UPlayerData();
 
+	// 엔트리
 	static UPokemon& GetPokemonInEntry(int _Index);
 	static void AddPokemonToEntry(const UPokemon& _Pokemon);
 	static void AddPokemonToComputer(const UPokemon& _Pokemon);
-	
 	static void SwapEntry(int _Index0, int _Index1);
+	static int GetPokemonEntrySize();
 
-	static int GetPokemonEntrySize()
-	{
-		return static_cast<int>(PokemonEntry.size());
-	}
+	// 게임 진행도
+	static bool IsAchieved(EAchievement _Achievement);
+	static void Achieve(EAchievement _Achievement);
 
-	static bool IsAchieved(EAchievement _Achievement)
-	{
-		if (false == AchievementMap.contains(_Achievement))
-		{
-			AchievementMap[_Achievement] = false;
-			return false;
-		}
+	// 도감
+	static void SeePokemon(EPokemonId _PokedexNo);
+	static void OwnPokemon(EPokemonId _PokedexNo);
+	static int GetSeenPokemonCount();
+	static int GetOwnedPokemonCount();
 
-		return AchievementMap[_Achievement];
-	}
-
-	static void Achieve(EAchievement _Achievement)
-	{
-		AchievementMap[_Achievement] = true;
-	}
-
-	static void SeePokemon(EPokemonId _PokedexNo)
-	{
-		PokedexSeenMap[_PokedexNo] = true;
-	}
-
-	static void OwnPokemon(EPokemonId _PokedexNo)
-	{
-		PokedexSeenMap[_PokedexNo] = true;
-		PokedexOwnedMap[_PokedexNo] = true;
-	}
-
-	static int GetSeenPokemonCount()
-	{
-		return static_cast<int>(PokedexSeenMap.size());
-	}
-
-	static int GetOwnedPokemonCount()
-	{
-		return static_cast<int>(PokedexOwnedMap.size());
-	}
-
+	// 플레이어 정보
 	static int GetIdNo();
-	static std::wstring GetIdNoW()
-	{
-		return UPokemonString::PadLeft(std::to_wstring(GetIdNo()), 5, L'0');
-	}
+	static std::wstring GetIdNoW();
+	static std::wstring GetNickNameW();
+	static int GetMoney();
+	static void LoseMoney(int _Money);
+	static void GainMoney(int _Money);
 
-	static std::wstring GetNickNameW()
-	{
-		return UEngineString::AnsiToUniCode(Nickname);
-	}
-
-	static int GetMoney()
-	{
-		return Money;
-	}
-
-	static void LostMoney(int _Money)	
-	{
-		if (_Money <= 0)
-		{
-			MsgBoxAssert("[UPlayerData::LostMoney] 0 이하의 돈을 잃을 수 없습니다.");
-			return;
-		}
-	}
-
-	static void GainMoney(int _Money)
-	{
-		if (_Money <= 0)
-		{
-			MsgBoxAssert("[UPlayerData::GainMoney] 0 이하의 돈을 얻을 수 없습니다.");
-			return;
-		}
-	}
-
+	// 인벤토리
+	static void GainItem(EItemId _Id, int _Count = 1);
+	static void LoseItem(EItemId _Id, int _Count = 1);
+	static const std::map<EItemId, int>* GetUseItemsReadonly();
+	static const std::map<EItemId, int>* GetPokeBallsReadonly();
 protected:
 
 private:
@@ -126,5 +74,8 @@ private:
 
 	// 업적 정보 (이벤트 발생 조건으로 사용)
 	static std::map<EAchievement, bool> AchievementMap;
+
+	// 인벤토리
+	static std::map<EItemType, std::map<EItemId, int>> Inventory;
 };
 

@@ -27,6 +27,7 @@ public:
 	static const FPokemonType* FindType(EPokemonType _Id);
 	static const FPokemonStatus* FindStatus(EPokemonStatus _Id);
 	static const UWildPokemonZone* FindWildPokemonZone(std::string_view _MapName, int _Index);
+	static const FItem* FindItem(EItemId _Id);
 
 	static std::list<EPokemonId> GetImplementedSpeciesNo();
 	static std::string GetSpeciesName(EPokemonId _Id);
