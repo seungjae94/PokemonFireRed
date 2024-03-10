@@ -1,5 +1,8 @@
 #pragma once
 #include "Canvas.h"
+#include <list>
+
+struct FInventoryRecord;
 
 class ABagCanvas : public ACanvas
 {
@@ -14,8 +17,11 @@ public:
 	ABagCanvas& operator=(const ABagCanvas& _Other) = delete;
 	ABagCanvas& operator=(ABagCanvas&& _Other) noexcept = delete;
 
-	void Init() {}
-
+	void SetBackground(std::string_view _ImageName);
+	void SetItemImage(std::string_view _ImageName);
+	void SetItemExplain(std::wstring_view _Explain);
+	void SetTargetCursor(int _Cursor);
+	void RefreshList(const std::list<FInventoryRecord>& _Records);
 protected:
 
 private:
@@ -26,9 +32,9 @@ private:
 	AImageElement* RightArrow = nullptr;
 	AImageElement* ItemImage = nullptr;
 	AText* ItemExplain = nullptr;
+	ACursor* TargetCursor = nullptr;
 	std::vector<AText*> ItemNames;
 	std::vector<AText*> ItemCrosses;
 	std::vector<AText*> ItemCounts;
-	std::vector<ACursor*> TargetCursors;
 };
 

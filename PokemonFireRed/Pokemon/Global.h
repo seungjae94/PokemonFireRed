@@ -253,6 +253,7 @@ namespace RN
 
 	const std::string UBArrowLeft = "UBArrowLeft.png";
 	const std::string UBArrowRight = "UBArrowRight.png";
+	const std::string UBCloseBag = "UBCloseBag.png";
 };
 
 enum ERenderingOrder

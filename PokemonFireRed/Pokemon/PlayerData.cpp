@@ -246,3 +246,26 @@ std::list<FInventoryRecord> UPlayerData::GetItemList(EItemType _ItemType, int _S
 	return Result;
 }
 
+const FItem* UPlayerData::GetItem(EItemType _ItemType, int _Index)
+{
+	const std::map<EItemId, int>& Map = Inventory[_ItemType];
+
+	if (_Index >= Map.size())
+	{
+		MsgBoxAssert("[UPlayerData::GetItem] 인덱스를 잘못 설정했습니다. 인덱스가 맵의 크기 이상입니다.");
+		return {};
+	}
+
+	std::map<EItemId, int>::const_iterator StartIter = Map.begin();
+	StartIter = std::next(StartIter, _Index);
+
+	EItemId Id = StartIter->first;
+
+	return UGameDB::FindItem(Id);
+}
+
+int UPlayerData::GetRecordCount(EItemType _ItemType)
+{
+	return static_cast<int>(Inventory[_ItemType].size());
+}
+

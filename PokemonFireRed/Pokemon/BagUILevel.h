@@ -31,8 +31,21 @@ private:
 	void LevelStart(ULevel* _PrevLevel) override;
 	void LevelEnd(ULevel* _NextLevel) override;
 
-	int Page = 0;
-	std::string PrevLevelName;
+	// 하위 요소
 	ABagCanvas* Canvas = nullptr;
+	
+	// 상태
+	EState State = EState::None;
+
+	// 고유 데이터
+	int Page = 0;
+	std::vector<int> StartIndexMemory = { 0, 0, 0 };
+	std::vector<int> TargetIndexMemory = { 0, 0, 0 };
+	std::string PrevLevelName;
+
+	// 유틸 함수
+	static EItemType PageToItemType(int _Page);
+	static std::string PageToBackgroundName(int _Page);
+	static int ItemTypeToPage(EItemType _ItemType);
 };
 

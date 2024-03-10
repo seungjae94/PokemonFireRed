@@ -57,6 +57,8 @@ public:
 	static void GainItem(EItemId _Id, int _Count = 1);
 	static void LoseItem(EItemId _Id, int _Count = 1);
 	static std::list<FInventoryRecord> GetItemList(EItemType _ItemType, int _StartIndex, int _EndIndex);
+	static const FItem* GetItem(EItemType _ItemType, int _Index);
+	static int GetRecordCount(EItemType _ItemType);
 protected:
 
 private:
