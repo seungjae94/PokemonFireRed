@@ -32,6 +32,11 @@ public:
 		PixelGap = _PixelGap;
 	}
 
+	int GetOptionCount() const
+	{
+		return OptionCount;
+	}
+
 	void SetOptionCount(int _OptionCount)
 	{
 		OptionCount = _OptionCount;

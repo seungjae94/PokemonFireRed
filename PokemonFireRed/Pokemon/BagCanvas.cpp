@@ -26,7 +26,7 @@ void ABagCanvas::BeginPlay()
 	//RightArrow->CreateAnimation(Global::BagArrowLeft, 0, 1, 0.1f, true);
 	//RightArrow->ChangeAnimation(Global::BagArrowLeft);
 
-	ItemImage = CreateImageElement(Background, ERenderingOrder::UI1, EPivotType::LeftBot, 4, -8);
+	ItemImage = CreateImageElement(Background, ERenderingOrder::UI3, EPivotType::LeftBot, 4, -8);
 
 	ItemExplain = CreateText(Background, ERenderingOrder::UI1, EPivotType::LeftBot, 40, -33, EAlignType::Left, EFontColor::White);
 	
@@ -44,8 +44,18 @@ void ABagCanvas::BeginPlay()
 		ItemCrosses.push_back(ItemCross);
 		ItemCounts.push_back(ItemCount);
 	}
-}
 
+	ActionItemBox = CreateImageElement(Background, ERenderingOrder::UI2, EPivotType::LeftBot, 0, 0);
+	ActionItemBox->SetImage(RN::UBActionItemBox);
+
+	ActionItemText = CreateText(ActionItemBox, ERenderingOrder::UI3, EPivotType::LeftTop, 48, 21, EAlignType::Left, EFontColor::Black3);
+
+	ActionBox = CreateImageElement(ActionItemBox, ERenderingOrder::UI2, EPivotType::RightBot, -1, -1);
+	ActionBox->SetImage(RN::UBActionBox);
+
+	ActionCursor = CreateCursor(ActionBox, ERenderingOrder::UI3, EPivotType::LeftTop, 8, 11);
+	ActionCursor->SetOptionCount(2);
+}
 
 void ABagCanvas::SetBackground(std::string_view _ImageName)
 {
@@ -93,5 +103,36 @@ void ABagCanvas::RefreshList(const std::list<FInventoryRecord>& _Records)
 		ItemNames[i]->SetText(L"");
 		ItemCrosses[i]->SetText(L"");
 		ItemCounts[i]->SetText(L"");
+	}
+}
+
+void ABagCanvas::SetActionItemBoxActive(bool _Value)
+{
+	ActionItemBox->SetActive(_Value);
+}
+
+void ABagCanvas::SetActionItemText(std::wstring_view _Text)
+{
+	ActionItemText->SetText(_Text);
+}
+
+int ABagCanvas::GetActionCursor()
+{
+	return ActionCursor->GetCursor();
+}
+
+void ABagCanvas::IncActionCursor()
+{
+	if (ActionCursor->GetCursor() + 1 < ActionCursor->GetOptionCount())
+	{
+		ActionCursor->IncCursor();
+	}
+}
+
+void ABagCanvas::DecActionCursor()
+{
+	if (ActionCursor->GetCursor() - 1 >= 0)
+	{
+		ActionCursor->DecCursor();
 	}
 }

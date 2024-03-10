@@ -70,6 +70,7 @@ void UBagUILevel::LevelStart(ULevel* _PrevLevel)
 	RefreshPage();
 
 	State = EState::TargetSelect;
+	Canvas->SetActionItemBoxActive(false);
 }
 
 void UBagUILevel::LevelEnd(ULevel* _NextLevel)
@@ -97,7 +98,8 @@ void UBagUILevel::ProcessTargetSelect()
 		}
 
 		State = EState::ActionSelect;
-		// Canvas->SetActionBoxActive(true);
+		Canvas->SetActionItemBoxActive(true);
+		Canvas->SetActionItemText(GetTargetItem()->Name + L" is\nselected.");
 		return;
 	}
 
@@ -142,7 +144,42 @@ void UBagUILevel::ProcessTargetSelect()
 
 void UBagUILevel::ProcessActionSelect()
 {
+	if (true == UEngineInput::IsDown('Z'))
+	{
+		int Cursor = Canvas->GetActionCursor();
 
+		if (Cursor == 1)
+		{
+			Canvas->DecActionCursor();
+			Canvas->SetActionItemBoxActive(false);
+			State = EState::TargetSelect;
+		}
+		else
+		{
+
+		}
+		return;
+	}
+
+	if (true == UEngineInput::IsDown('X'))
+	{
+		Canvas->DecActionCursor();
+		Canvas->SetActionItemBoxActive(false);
+		State = EState::TargetSelect;
+		return;
+	}
+
+	if (true == UEngineInput::IsDown(VK_UP))
+	{
+		Canvas->DecActionCursor();
+		return;
+	}
+
+	if (true == UEngineInput::IsDown(VK_DOWN))
+	{
+		Canvas->IncActionCursor();
+		return;
+	}
 }
 
 void UBagUILevel::ScrollUp()
@@ -334,4 +371,11 @@ std::string UBagUILevel::PageToBackgroundName(int _Page)
 int UBagUILevel::ItemTypeToPage(EItemType _ItemType)
 {
 	return static_cast<int>(_ItemType) - 1;
+}
+
+const FItem* UBagUILevel::GetTargetItem()
+{
+	EItemType ItemType = PageToItemType(Page);
+	int TargetIndex = TargetIndexMemory[Page];
+	return UPlayerData::GetItem(ItemType, TargetIndex);
 }

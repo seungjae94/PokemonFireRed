@@ -22,6 +22,12 @@ public:
 	void SetItemExplain(std::wstring_view _Explain);
 	void SetTargetCursor(int _Cursor);
 	void RefreshList(const std::list<FInventoryRecord>& _Records);
+
+	void SetActionItemBoxActive(bool _Value);
+	void SetActionItemText(std::wstring_view _Text);
+	int GetActionCursor();
+	void IncActionCursor();
+	void DecActionCursor();
 protected:
 
 private:
@@ -36,5 +42,10 @@ private:
 	std::vector<AText*> ItemNames;
 	std::vector<AText*> ItemCrosses;
 	std::vector<AText*> ItemCounts;
+
+	AImageElement* ActionItemBox = nullptr;
+	AImageElement* ActionBox = nullptr;
+	AText* ActionItemText = nullptr;
+	ACursor* ActionCursor = nullptr;
 };
 

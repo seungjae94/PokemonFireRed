@@ -57,5 +57,7 @@ private:
 	static EItemType PageToItemType(int _Page);
 	static std::string PageToBackgroundName(int _Page);
 	static int ItemTypeToPage(EItemType _ItemType);
+
+	const FItem* GetTargetItem();
 };
 
