@@ -252,6 +252,7 @@ void ABattleExpGainStateMachine::ProcessTestLearnMove()
 			BattleMsg += Move->GetNameW();
 			BattleMsg += L"!";
 			MsgBox->SetMessage(BattleMsg);
+			MsgBox->Write();
 		}
 	}
 	else
@@ -262,7 +263,7 @@ void ABattleExpGainStateMachine::ProcessTestLearnMove()
 
 void ABattleExpGainStateMachine::ProcessLearnMoveSuccessMessage()
 {
-	if (true == UEngineInput::IsDown('Z'))
+	if (EWriteState::WriteEnd == MsgBox->GetWriteState() && true == UEngineInput::IsDown('Z'))
 	{
 		// 배울 기술이 더 있을 수도 있다.
 		State = ESubstate::TestLearnMove;
