@@ -47,6 +47,11 @@ private:
 	std::vector<int> TargetIndexMemory = { 0, 0, 0 };
 	std::string PrevLevelName;
 
+	// 로직 함수
+	void ScrollUp();
+	void ScrollDown();
+	void FixIndexes();
+
 	// 유틸 함수
 	void RefreshPage();
 	static EItemType PageToItemType(int _Page);

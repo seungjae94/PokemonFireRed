@@ -81,7 +81,8 @@ void UBagUILevel::ProcessTargetSelect()
 {
 	if (true == UEngineInput::IsDown('Z'))
 	{
-
+		State = EState::ActionSelect;
+		// Canvas->SetActionBoxActive(true);
 		return;
 	}
 
@@ -91,15 +92,15 @@ void UBagUILevel::ProcessTargetSelect()
 		return;
 	}
 
-	if (true == UEngineInput::IsDown('Z'))
+	if (true == UEngineInput::IsDown(VK_UP))
 	{
-
+		ScrollUp();
 		return;
 	}
 
-	if (true == UEngineInput::IsDown('Z'))
+	if (true == UEngineInput::IsDown(VK_DOWN))
 	{
-
+		ScrollDown();
 		return;
 	}
 }
@@ -109,44 +110,130 @@ void UBagUILevel::ProcessActionSelect()
 
 }
 
-void UBagUILevel::RefreshPage()
+void UBagUILevel::ScrollUp()
+{
+	int& StartIndex = StartIndexMemory[Page];
+	int& TargetIndex = TargetIndexMemory[Page];
+	int RecordCount = UPlayerData::GetRecordCount(PageToItemType(Page));
+
+	// 0. 커서를 더 올릴 수 없는 경우
+	if (TargetIndex == 0)
+	{
+		return;
+	}
+
+	// 1. RecordCount < 6인 경우 (리스트 스크롤이 발생할 가능성이 아예 없는 경우)
+	if (RecordCount < 6)
+	{
+		--TargetIndex;
+	}
+	// 2. RecordCount >= 6인 경우 (리스트 스크롤이 발생할 가능성은 있는 경우)
+	// 2-1. 리스트가 위로 쭉 땡겨져 있고 리스트 스크롤이 발생하지 않는 경우
+	else if (TargetIndex <= 2)
+	{
+		--TargetIndex;
+	}
+	// 2-2. 리스트가 아래로 쭉 땡겨져 있고 리스트 스크롤이 발생하지 않는 경우
+	else if (TargetIndex >= RecordCount - 2)
+	{
+		--TargetIndex;
+	}
+	// 2-3. 그외의 경우
+	else
+	{
+		--StartIndex;
+		--TargetIndex;
+	}
+
+	RefreshPage();
+}
+
+void UBagUILevel::ScrollDown()
+{
+	int& StartIndex = StartIndexMemory[Page];
+	int& TargetIndex = TargetIndexMemory[Page];
+	int RecordCount = UPlayerData::GetRecordCount(PageToItemType(Page));
+
+	// 0. 커서를 더 내릴 수 없는 경우
+	if (TargetIndex == RecordCount)
+	{
+		return;
+	}
+	
+	// 1. RecordCount < 6인 경우 (리스트 스크롤이 발생할 가능성이 아예 없는 경우)
+	if (RecordCount < 6)
+	{
+		++TargetIndex;
+	}
+	// 2. RecordCount >= 6인 경우 (리스트 스크롤이 발생할 가능성은 있는 경우)
+	// 2-1. 리스트가 위로 쭉 땡겨져 있고 리스트 스크롤이 발생하지 않는 경우
+	else if (TargetIndex <= 2)
+	{
+		++TargetIndex;
+	}
+	// 2-2. 리스트가 아래로 쭉 땡겨져 있고 리스트 스크롤이 발생하지 않는 경우
+	else if (TargetIndex >= RecordCount - 2)
+	{
+		++TargetIndex;
+	}
+	// 2-3. 그외의 경우
+	else
+	{
+		++StartIndex;
+		++TargetIndex;
+	}
+
+	RefreshPage();
+}
+
+// StartIndex, TargetIndex가 (아이템 삭제로 인해) 잘못 설정되어 있는 경우 고쳐주는 함수 
+void UBagUILevel::FixIndexes()
 {
 	EItemType ItemType = PageToItemType(Page);
 	int& StartIndex = StartIndexMemory[Page];
-	int EndIndex = 0;
 	int& TargetIndex = TargetIndexMemory[Page];
-	int TargetCursor = 0;
 	int RecordCount = UPlayerData::GetRecordCount(ItemType);
 
 	// 1. RecordCount < 6인 경우 (스크롤이 없는 경우)
 	if (RecordCount < 6)
 	{
 		StartIndex = 0;
-		EndIndex = RecordCount - 1;
 		TargetIndex = UPokemonMath::Min(TargetIndex, RecordCount);
-		TargetCursor = TargetIndex;
 	}
 	// 2. RecordCount >= 6인 경우 (스크롤이 있는 경우)
 	// 2-1. 제일 위로 당겨져 있는 경우
-	else if (TargetIndex <= 3)
+	else if (TargetIndex <= 2)
 	{
 		StartIndex = 0;
-		EndIndex = 5;
-		TargetCursor = TargetIndex;
 	}
 	// 2-2. 제일 아래로 당겨져 있는 경우
-	else if (TargetIndex >= RecordCount - 3)
+	else if (TargetIndex >= RecordCount - 2)
 	{
 		StartIndex = RecordCount - 5;
-		EndIndex = RecordCount;
-		TargetCursor = TargetIndex - StartIndex;
 	}
-	// 2-3. 그외의 경우
+	// 2-3. StartIndex가 정상적으로 설정되어 있는 경우
+	else if (TargetIndex - StartIndex == 2 || TargetIndex - StartIndex == 3)
+	{
+		return;
+	}
+	// 2-4. StartIndex가 비정상적으로 설정되어 있는 경우
 	else
 	{
-		EndIndex = StartIndex + 5;
-		TargetCursor = TargetIndex - StartIndex;
+		StartIndex = TargetIndex - 1;
 	}
+}
+
+void UBagUILevel::RefreshPage()
+{
+	EItemType ItemType = PageToItemType(Page);
+	int& StartIndex = StartIndexMemory[Page];
+	int& TargetIndex = TargetIndexMemory[Page];
+	int RecordCount = UPlayerData::GetRecordCount(ItemType);
+
+	FixIndexes();
+
+	int EndIndex = UPokemonMath::Min(StartIndex + 5, RecordCount - 1);
+	int TargetCursor = TargetIndex - StartIndex;
 
 	std::list<FInventoryRecord> Records = UPlayerData::GetItemList(ItemType, StartIndex, EndIndex);
 
