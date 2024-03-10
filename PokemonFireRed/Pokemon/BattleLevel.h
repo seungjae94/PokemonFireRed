@@ -104,7 +104,7 @@ private:
 
 	void ReturnToMapLevel()
 	{
-		UEventManager::FadeChangeLevel(PrevMapName);
+		UEventManager::FadeChangeLevel(PrevMapName, true);
 		State = EState::End;
 	}
 };

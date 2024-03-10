@@ -1,7 +1,10 @@
 #include "BagUILevel.h"
 #include <EngineBase/EngineDirectory.h>
 #include <EngineBase/EngineFile.h>
+#include <EnginePlatform/EngineInput.h>
 #include <EngineCore/EngineResourcesManager.h>
+#include "MapLevel.h"
+#include "PokemonUILevel.h"
 
 UBagUILevel::UBagUILevel()
 {
@@ -54,10 +57,19 @@ void UBagUILevel::LevelStart(ULevel* _PrevLevel)
 {
 	UPokemonLevel::LevelStart(_PrevLevel);
 
-	PrevLevelName = _PrevLevel->GetName();
+	UMapLevel* MapLevel = dynamic_cast<UMapLevel*>(_PrevLevel);
+	UPokemonUILevel* PokemonUILevel = dynamic_cast<UPokemonUILevel*>(_PrevLevel);
+
+	if (nullptr != MapLevel)
+	{
+		PrevLevelName = _PrevLevel->GetName();
+	}
+	else
+	{
+	}
+	RefreshPage();
 
 	State = EState::TargetSelect;
-	RefreshPage();
 }
 
 void UBagUILevel::LevelEnd(ULevel* _NextLevel)
@@ -67,7 +79,29 @@ void UBagUILevel::LevelEnd(ULevel* _NextLevel)
 
 void UBagUILevel::ProcessTargetSelect()
 {
+	if (true == UEngineInput::IsDown('Z'))
+	{
 
+		return;
+	}
+
+	if (true == UEngineInput::IsDown('X'))
+	{
+		UEventManager::FadeChangeLevel(PrevLevelName);
+		return;
+	}
+
+	if (true == UEngineInput::IsDown('Z'))
+	{
+
+		return;
+	}
+
+	if (true == UEngineInput::IsDown('Z'))
+	{
+
+		return;
+	}
 }
 
 void UBagUILevel::ProcessActionSelect()
