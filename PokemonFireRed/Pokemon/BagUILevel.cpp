@@ -112,6 +112,26 @@ void UBagUILevel::ProcessTargetSelect()
 		ScrollDown();
 		return;
 	}
+
+	if (true == UEngineInput::IsDown(VK_RIGHT))
+	{
+		if (Page + 1 <= 2)
+		{
+			++Page;
+			RefreshPage();
+			return;
+		}
+	}
+
+	if (true == UEngineInput::IsDown(VK_LEFT))
+	{
+		if (Page - 1 >= 0)
+		{
+			--Page;
+			RefreshPage();
+			return;
+		}
+	}
 }
 
 void UBagUILevel::ProcessActionSelect()
@@ -203,8 +223,17 @@ void UBagUILevel::FixIndexes()
 	int& TargetIndex = TargetIndexMemory[Page];
 	int RecordCount = UPlayerData::GetRecordCount(ItemType);
 
+	if (TargetIndex < 0)
+	{
+		TargetIndex = 0;
+	}
+	else if (TargetIndex > RecordCount)
+	{
+		TargetIndex = RecordCount;
+	}
+
 	// 1. RecordCount < 6인 경우 (스크롤이 없는 경우)
-	if (RecordCount < 6)
+	if(RecordCount < 6)
 	{
 		StartIndex = 0;
 		TargetIndex = UPokemonMath::Min(TargetIndex, RecordCount);
@@ -238,6 +267,16 @@ void UBagUILevel::RefreshPage()
 	int& StartIndex = StartIndexMemory[Page];
 	int& TargetIndex = TargetIndexMemory[Page];
 	int RecordCount = UPlayerData::GetRecordCount(ItemType);
+
+	if (RecordCount == 0)
+	{
+		Canvas->SetItemImage(RN::UBCloseBag);
+		Canvas->SetItemExplain(L"CLOSE BAG");
+		Canvas->SetBackground(PageToBackgroundName(Page));
+		Canvas->RefreshList({});
+		Canvas->SetTargetCursor(0);
+		return;
+	}
 
 	FixIndexes();
 

@@ -90,8 +90,8 @@ void ABagCanvas::RefreshList(const std::list<FInventoryRecord>& _Records)
 
 	for (int i = Index + 1; i < 6; ++i)
 	{
-		ItemNames[Index]->SetText(L"");
-		ItemCrosses[Index]->SetText(L"");
-		ItemCounts[Index]->SetText(L"");
+		ItemNames[i]->SetText(L"");
+		ItemCrosses[i]->SetText(L"");
+		ItemCounts[i]->SetText(L"");
 	}
 }
