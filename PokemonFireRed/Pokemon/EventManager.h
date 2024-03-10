@@ -215,6 +215,10 @@ public:
 		return DeltaTime;
 	}
 
+	// 제거 함수
+	static void RemoveTarget(std::string_view _MapName, std::string_view _TargetName);
+	static void RemoveTrigger(std::string_view _MapName, std::string_view _TargetName);
+
 protected:
 	// constructor destructor
 	UEventManager();

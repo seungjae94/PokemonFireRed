@@ -3,6 +3,7 @@
 
 class UEventTargetSetting;
 class UEventCondition;
+class AEventTrigger;
 class AStarterBall;
 class ATrainer;
 
@@ -34,14 +35,18 @@ private:
 	AStarterBall* BulbasaurBall = nullptr;
 	AStarterBall* SquirtleBall = nullptr;
 	AStarterBall* CharmanderBall = nullptr;
+	AEventTrigger* AfterRivalBattleTrigger = nullptr;
 	ATrainer* Green = nullptr;
-	std::vector<FTileVector> GreenBattleDynamicPath;
 
 	void MakeDoor();
 	void MakeOak();
 	void MakeRivalGreen();
 	void MakeSpecialTriggers();
 	void SpawnSpecialTrigger(UEventTargetSetting _Setting, UEventCondition _BlockCond, UEventCondition _RivalBattleCond);
+	void MakeAfterRivalBattleTrigger();
 	void MakeDecorations();
+
+	static std::vector<FTileVector> BeforeRivalBattlePathGenerator();
+	static std::vector<FTileVector> AfterRivalBattlePathGenerator();
 };
 

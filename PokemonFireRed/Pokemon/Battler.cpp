@@ -1,6 +1,7 @@
 #include "Battler.h"
 #include "PlayerData.h"
 #include "EventManager.h"
+#include "EventTrigger.h"
 #include "Trainer.h"
 
 UBattler::UBattler()
@@ -37,6 +38,7 @@ void UBattler::InitTrainer()
 	TrainerName = Trainer->GetBattlerName();
 	TrainerImageName = Trainer->GetBattlerImageName();
 	PlayerWinMessage = Trainer->GetPlayerWinMessage();
+	AfterBattleTrigger = Trainer->GetAfterBattleTrigger();
 	InitEnemyPokemon();
 }
 

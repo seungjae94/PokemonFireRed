@@ -25,6 +25,7 @@ std::vector<UPokemon>* UEventManager::EnemyEntry;
 ATrainer* UEventManager::Trainer;
 float UEventManager::DeltaTime = 0.0f;
 
+
 UEventManager::UEventManager()
 {
 }
@@ -32,6 +33,57 @@ UEventManager::UEventManager()
 UEventManager::~UEventManager()
 {
 
+}
+
+void UEventManager::RemoveTarget(std::string_view _MapName, std::string_view _TargetName)
+{
+	std::string MapName = UEngineString::ToUpper(_MapName);
+	std::string TargetName = UEngineString::ToUpper(_TargetName);
+
+	if (true == AllTargets.contains(MapName) && true == AllTargets[MapName].contains(TargetName))
+	{
+		AllTargets[MapName].erase(TargetName);
+	}
+}
+
+void UEventManager::RemoveTrigger(std::string_view _MapName, std::string_view _TriggerName)
+{
+	RemoveTarget(_MapName, _TriggerName);
+
+	std::string MapName = UEngineString::ToUpper(_MapName);
+	std::string TriggerName = UEngineString::ToUpper(_TriggerName);
+
+	if (false == AllTriggers.contains(MapName))
+	{
+		return;
+	}
+
+	for (std::pair<const FTileVector, std::list<AEventTrigger*>>& Pair : AllTriggers.at(MapName))
+	{
+		std::list<AEventTrigger*>& TriggerList = Pair.second;
+
+		std::list<AEventTrigger*>::iterator StartIter = TriggerList.begin();
+		std::list<AEventTrigger*>::iterator EndIter = TriggerList.end();
+
+		for (; StartIter != EndIter;)
+		{
+			AEventTrigger* Trigger = *StartIter;
+
+			if (nullptr == Trigger)
+			{
+				MsgBoxAssert("UEventManager::AllTriggers[" + MapName + "][" + Pair.first.ToString() + "]에 nullptr인 트리거가 저장되어 있습니다.");
+				return;
+			}
+
+			if (UEngineString::ToUpper(Trigger->GetName()) == TriggerName)
+			{
+				StartIter = TriggerList.erase(StartIter);
+				continue;
+			}
+
+			++StartIter;
+		}
+	}
 }
 
 // 이벤트 감지

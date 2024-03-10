@@ -60,6 +60,16 @@ public:
 		return PlayerWinMessage;
 	}
 
+	void SetAfterBattleTrigger(AEventTrigger* _Trigger)
+	{
+		AfterBattleTrigger = _Trigger;
+	}
+
+	AEventTrigger* GetAfterBattleTrigger()
+	{
+		return AfterBattleTrigger;
+	}
+
 protected:
 
 private:
@@ -69,5 +79,8 @@ private:
 
 	std::list<std::wstring> TrainerWinMessage;
 	std::list<std::wstring> PlayerWinMessage;
+
+	// 배틀 후 트리거 할 이벤트
+	AEventTrigger* AfterBattleTrigger = nullptr;
 };
 

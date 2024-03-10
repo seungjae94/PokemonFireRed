@@ -5,6 +5,7 @@
 #include "StatStage.h"
 
 class UPlayerData;
+class AEventTrigger;
 
 class UBattler
 {
@@ -53,7 +54,7 @@ public:
 		return false == IsPlayer() && false == IsWildPokemon();
 	}
 
-	// 배틀러 정보
+	// 트레이너 정보
 	std::wstring GetTrainerNameW() const
 	{
 		return UEngineString::AnsiToUniCode(TrainerName);
@@ -77,6 +78,11 @@ public:
 	int GetPlayerWinMessageSize()
 	{
 		return static_cast<int>(PlayerWinMessage.size());
+	}
+
+	AEventTrigger* GetAfterBattleTrigger()
+	{
+		return AfterBattleTrigger;
 	}
 
 	// 포켓몬 정보
@@ -223,14 +229,16 @@ protected:
 private:
 	// 배틀러 정보
 	std::vector<UPokemon*> Entry;
-	std::string TrainerName;
-	std::string TrainerImageName;
-	std::list<std::wstring> PlayerWinMessage;
-
 	int FightingPokemonIndex = 0;
 	int CurMoveIndex = 0;
 	bool IsPlayerValue = false;
 	bool IsWildPokemonValue = false;
+
+	// 트레이너 정보
+	std::string TrainerName;
+	std::string TrainerImageName;
+	std::list<std::wstring> PlayerWinMessage;
+	AEventTrigger* AfterBattleTrigger = nullptr;
 
 	// 액션 선택 관련 변수
 	EBattleAction Action = EBattleAction::None;

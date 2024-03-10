@@ -43,6 +43,7 @@ void UInteriorOaksLabLevel::BeginPlay()
 	MakeDoor();
 	MakeOak();
 	MakeRivalGreen();
+	MakeAfterRivalBattleTrigger();
 	MakeSpecialTriggers();
 	MakeDecorations();
 }
@@ -255,19 +256,7 @@ void UInteriorOaksLabLevel::SpawnSpecialTrigger(UEventTargetSetting _Setting, UE
 		>> ES::ChangeDirection(Global::InteriorOaksLabLevel, EN::RivalGreen, Down)
 		>> ES::ChangeDirection(Global::InteriorOaksLabLevel, EN::Player, Up)
 		>> ES::Chat({ L"GREEN: Wait, RED!\nLet's check out our POKéMON!", L"Come on, I'll take you on!" }, EFontColor::Blue, 16)
-		>> ES::MoveDynamicPath(EN::RivalGreen, []() {
-			const APlayer* Player = UEventManager::FindCurLevelTarget<APlayer>(EN::Player);
-			const ATrainer* Green = UEventManager::FindCurLevelTarget<ATrainer>(EN::RivalGreen);
-
-			std::vector<FTileVector> DynamicPath;
-			for (int i = 0; i < (Green->GetPoint().X - Player->GetPoint().X); ++i)
-			{
-				DynamicPath.push_back(FTileVector::Left);
-			}
-			DynamicPath.push_back(FTileVector::Down);
-			DynamicPath.push_back(FTileVector::Down);
-			return DynamicPath;
-		}, 3.6f, false)
+		>> ES::MoveDynamicPath(EN::RivalGreen, BeforeRivalBattlePathGenerator, 3.6f, false)
 		>> ES::FadeOut(FadeOutTime)
 		>> ES::Wait(FadeOutTime)
 		>> ES::FadeIn(FadeInTime)
@@ -281,7 +270,22 @@ void UInteriorOaksLabLevel::SpawnSpecialTrigger(UEventTargetSetting _Setting, UE
 		>> ES::TrainerBattle(Green)
 		>> ES::FadeIn(0.5f, EFadeType::VCurtain)
 		>> ES::Wait(0.5f)
+		>> ES::End(true)
+	);
+}
+
+void UInteriorOaksLabLevel::MakeAfterRivalBattleTrigger()
+{
+	UEventCondition Cond;
+	AfterRivalBattleTrigger = SpawnEventTrigger<AEventTrigger>(EN::AfterRivalBattleTrigger);
+	Green->SetAfterBattleTrigger(AfterRivalBattleTrigger);
+
+	UEventManager::RegisterEvent(AfterRivalBattleTrigger, Cond,
+		ES::Start(true)
 		>> ES::Achieve(EAchievement::FightWithGreen)
+		>> ES::Chat({L"GREEN: Okay! I'll make my\nPOKMON battle to toughen it up!", L"RED! Gramps!\nSmell you later!"}, EFontColor::Blue, 16)
+		>> ES::MoveDynamicPath(EN::RivalGreen, AfterRivalBattlePathGenerator, Global::CharacterWalkSpeed, false)
+		>> ES::Destroy(Green)
 		>> ES::End(true)
 	);
 }
@@ -325,6 +329,60 @@ void UInteriorOaksLabLevel::MakeDecorations()
 	ADialogueActor* BookShelf11 = ADialogueActor::GenerateObject(this, "BookShelf11", { 2, 8 }, EFontColor::Gray, DialogueBookShelf);
 	ADialogueActor* BookShelf12 = ADialogueActor::GenerateObject(this, "BookShelf12", { 1, 8 }, EFontColor::Gray, DialogueBookShelf);
 	ADialogueActor* BookShelf13 = ADialogueActor::GenerateObject(this, "BookShelf13", { 0, 8 }, EFontColor::Gray, DialogueBookShelf);
+}
+
+std::vector<FTileVector> UInteriorOaksLabLevel::BeforeRivalBattlePathGenerator()
+{
+	const APlayer* Player = UEventManager::FindCurLevelTarget<APlayer>(EN::Player);
+	const ATrainer* Green = UEventManager::FindCurLevelTarget<ATrainer>(EN::RivalGreen);
+
+	std::vector<FTileVector> DynamicPath;
+	for (int i = 0; i < (Green->GetPoint().X - Player->GetPoint().X); ++i)
+	{
+		DynamicPath.push_back(FTileVector::Left);
+	}
+	DynamicPath.push_back(FTileVector::Down);
+	DynamicPath.push_back(FTileVector::Down);
+	return DynamicPath;
+}
+
+std::vector<FTileVector> UInteriorOaksLabLevel::AfterRivalBattlePathGenerator()
+{
+	const ATrainer* Green = UEventManager::FindCurLevelTarget<ATrainer>(EN::RivalGreen);
+	FTileVector GreenPoint = Green->GetPoint();
+
+	std::vector<FTileVector> DynamicPath;
+	if (GreenPoint.X == 5)
+	{
+		DynamicPath.push_back(FTileVector::Right);
+		for (int i = 0; i < 5; ++i)
+		{
+			DynamicPath.push_back(FTileVector::Down);
+		}
+	}
+	else if (GreenPoint.X == 7)
+	{
+		DynamicPath.push_back(FTileVector::Left);
+		for (int i = 0; i < 5; ++i)
+		{
+			DynamicPath.push_back(FTileVector::Down);
+		}
+	}
+	else if (GreenPoint.X == 6)
+	{
+		DynamicPath.push_back(FTileVector::Right);
+		for (int i = 0; i < 3; ++i)
+		{
+			DynamicPath.push_back(FTileVector::Down);
+		}
+		DynamicPath.push_back(FTileVector::Left);
+		for (int i = 0; i < 2; ++i)
+		{
+			DynamicPath.push_back(FTileVector::Down);
+		}
+	}
+
+	return DynamicPath;
 }
 
 

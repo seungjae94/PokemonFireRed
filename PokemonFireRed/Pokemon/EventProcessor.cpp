@@ -195,7 +195,29 @@ bool UEventProcessor::ProcessDestroy()
 	}
 
 	Actor->Destroy();
+
+	AEventTarget* Target = dynamic_cast<AEventTarget*>(Actor);
 	
+	if (nullptr == Target)
+	{
+		return true;
+	}
+
+	// 이벤트 타겟일 경우
+	std::string MapName = UEngineString::ToUpper(Target->GetWorld()->GetName());
+	std::string TargetName = UEngineString::ToUpper(Target->GetName());
+	UEventManager::RemoveTarget(MapName, TargetName);
+
+	AEventTrigger* Trigger = dynamic_cast<AEventTrigger*>(Actor);
+	
+	if (nullptr == Trigger)
+	{
+		return true;
+	}
+
+	// 이벤트 트리거일 경우
+	UEventManager::RemoveTrigger(MapName, TargetName);
+
 	return true;
 }
 

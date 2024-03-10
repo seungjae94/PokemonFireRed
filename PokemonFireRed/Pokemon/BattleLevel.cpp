@@ -280,7 +280,12 @@ void UBattleLevel::ProcessFinishBattle()
 	if (true == FinishBattleSM->IsEnd())
 	{
 		State = EState::WaitBeforeReturn;
-		Timer = WaitBeforeReturnTime;
+		Timer = 0.0f;
+
+		if (BattleEndReason == EBattleEndReason::WinToWild)
+		{
+			Timer = WaitBeforeReturnTime;
+		}
 	}
 }
 
@@ -288,9 +293,23 @@ void UBattleLevel::ProcessWaitBeforeReturn()
 {
 	if (Timer <= 0.0f)
 	{
-		if (BattleEndReason == EBattleEndReason::WinToWild || BattleEndReason == EBattleEndReason::WinToTrainer)
+		if (BattleEndReason == EBattleEndReason::WinToWild)
 		{
 			ReturnToMapLevel();
+		}
+		else if (BattleEndReason == EBattleEndReason::WinToTrainer)
+		{
+			AEventTrigger* AfterBattleTrigger = Enemy.GetAfterBattleTrigger();
+			if (nullptr == AfterBattleTrigger)
+			{
+				ReturnToMapLevel();
+			}
+			else
+			{
+				UEventManager::TriggerEvent(AfterBattleTrigger, EEventTriggerAction::Direct);
+				ReturnToMapLevel();
+				State = EState::End;
+			}
 		}
 		else
 		{

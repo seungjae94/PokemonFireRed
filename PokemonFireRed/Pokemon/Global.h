@@ -4,8 +4,8 @@
 // 전역으로 사용할 상수를 정의한다.
 namespace Global
 {
-	const float CheatDamageBonusCoeff = 1.5f;
-	const float CheatExpBonusCoeff = 3.0f;
+	const float CheatDamageBonusCoeff = 3.0f;
+	const float CheatExpBonusCoeff = 1.0f;
 
 	const float CharacterWalkSpeed = 3.6f;
 	const float CharacterJumpSpeed = 1.4f;
@@ -94,6 +94,7 @@ namespace EN
 
 	// Oaks Lab
 	const std::string RivalGreen = "RivalGreen";
+	const std::string AfterRivalBattleTrigger = "AfterRivalBattleTrigger";
 
 	// Viridian City
 	const std::string Nurse = "Nurse";
