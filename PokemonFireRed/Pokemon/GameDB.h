@@ -7,6 +7,7 @@
 #include "PokemonString.h"
 #include "Global.h"
 #include "WildPokemonZone.h"
+#include "Item.h"
 
 class UGameDB
 {
@@ -37,6 +38,9 @@ private:
 	static std::map<std::string, int> NameResolver;
 	static int Resolve(std::string_view _Name);
 
+	// * -> acute e
+	static std::wstring AnsiToUnicodeWithReplacement(std::string _Text);
+
 	// 포켓몬
 	static std::map<EPokemonId, FPokemonSpecies> Species;
 	static std::map<EPokemonMove, FPokemonMove> Moves;
@@ -49,6 +53,9 @@ private:
 
 	// Zones[맵 이름][번호] = (Zone 객체)
 	static std::map<std::string, std::map<int, UWildPokemonZone>> WildPokemonZones;
+
+	// 아이템
+	static std::map<EItemId, FItem> Items;
 
 	// constructor destructor
 	UGameDB() {}

@@ -1,0 +1,8 @@
+ID,Type,Name,ImageName,Explain,BuyPrice,UseEffect,HealValue
+1,UseItem,POTION,ItemPosion.png,A spray-type wound medicine. It restores the HP of one POK*MON by 20 points.,300,Hp,20
+2,UseItem,SUPER POTION,ItemSuperPotion.png,A spray-type wound medicine. It restores the HP of one POK*MON by 50 points.,700,Hp,50
+3,UseItem,HYPER POTION,ItemHyperPotion.png,A spray-type wound medicine. It restores the HP of one POK*MON by 200 points.,1500,Hp,200
+4,UseItem,ANTIDOTE,ItemAnsion.png,A spray-type medicine. It heals one Pok*mon from a poisoning.,100,CurePoison,
+5,UseItem,BURN HEAL,ItemBurnHeal.png,A spray-type medicine. It heals one POK*MON of a burn.,250,CureBurn,
+6,UseItem,FULL HEAL,ItemFullHeal.png,A spray-type medicine. It heals all the status problems of one POK*MON.,600,CureAll,
+200,PokeBall,POK* BALL,ItemPokeBall.png,A BALL thrown to catch a wild POK*MON. It is designed in a capsule style.,200,,

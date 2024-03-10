@@ -10,16 +10,18 @@ enum class EItemId
 	Antidote,
 	BurnHeal,
 	FullHeal,
+	PokeBall = 200,
 };
 
 enum class EItemType
 {
+	None,
 	UseItem,
 	KeyItem,
 	PokeBall
 };
 
-enum class EHealType
+enum class EUseEffect
 {
 	None,
 	Hp,
@@ -28,21 +30,19 @@ enum class EHealType
 	CurePoison,
 };
 
-struct FUseItemEffect
-{
-public:
-	EHealType HealType = EHealType::None;
-	int HealValue = 0;
-};
-
 struct FItem
 {
 public:
 	EItemId Id = EItemId::None;
 	EItemType Type = EItemType::UseItem;
-	FUseItemEffect UseItemEffect;
+	
 	std::wstring Name;
 	std::wstring Explain;
+	int BuyPrice = 0;
 	std::string ImageName;
+
+	// 사용 효과
+	EUseEffect UseEffect = EUseEffect::None;
+	int HealValue = 0;
 };
 

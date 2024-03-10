@@ -1,4 +1,4 @@
-#include "GameDB.h"
+Ôªø#include "GameDB.h"
 #include <EngineBase/EngineDirectory.h>
 #include "CsvReader.h"
 
@@ -15,6 +15,8 @@ std::list<EPokemonId> UGameDB::ImplementedSpeciesNo;
 
 std::map<std::string, std::map<int, UWildPokemonZone>> UGameDB::WildPokemonZones;
 
+std::map<EItemId, FItem> UGameDB::Items;
+
 class GameDBInitiator
 {
 public:
@@ -30,8 +32,9 @@ public:
 		GenerateStatuses();
 		GenerateGenders();
 		GenerateWildPokemonZones();
+		GenerateItems();
 	}
-	
+
 	void InitNameResolver()
 	{
 		UGameDB::NameResolver[""] = 0;
@@ -56,7 +59,7 @@ public:
 	}
 
 	void GeneratePokemons() {
-		// ∑π∫ßæ˜ Ω∫≈≥ √ﬂ∞°
+		// Î†àÎ≤®ÏóÖ Ïä§ÌÇ¨ Ï∂îÍ∞Ä
 		std::map<EPokemonId, std::map<int, std::vector<EPokemonMove>>> LevelUpMoveMap;
 
 		std::string LevelUpMoveFilePath = CurDir.AppendPath("LevelUpMove.csv");
@@ -72,7 +75,7 @@ public:
 			LevelUpMoveMap[Id][Level].push_back(MoveId);
 		}
 
-		// ∆˜ƒœ∏Û ¡æ¡∑ √ﬂ∞°
+		// Ìè¨ÏºìÎ™¨ Ï¢ÖÏ°± Ï∂îÍ∞Ä
 		std::string PokemonFilePath = CurDir.AppendPath("Pokemon.csv");
 		UCsvReader PokemonFileReader = UCsvReader(PokemonFilePath);
 		std::vector<std::vector<std::string>> PokemonLines = PokemonFileReader.ReadLines();
@@ -99,7 +102,7 @@ public:
 			Species.MaleRatio = std::stof(Line[16]);
 			Species.CatchRate = std::stoi(Line[17]);
 			Species.Friendship = std::stoi(Line[18]);
-			
+
 			for (int i = 19; i <= 20; ++i)
 			{
 				int LineInt = UGameDB::Resolve(Line[i]);
@@ -271,7 +274,7 @@ public:
 			EPokemonGender::Female, RN::GenderMarkFemale, RN::BigGenderMarkFemale
 		);
 	}
-	
+
 	void GenerateWildPokemonZones()
 	{
 		std::string FilePath = CurDir.AppendPath("WildPokemonZone.csv");
@@ -290,6 +293,36 @@ public:
 			Encounter.MinLevel = std::stoi(Line[4]);
 			Encounter.MaxLevel = std::stoi(Line[5]);
 			Zone.AddWildPokemonEncounter(Encounter);
+		}
+	}
+
+	void GenerateItems()
+	{
+		std::string FilePath = CurDir.AppendPath("Item.csv");
+		UCsvReader Reader = UCsvReader(FilePath);
+		std::vector<std::vector<std::string>> Lines = Reader.ReadLines();
+
+		for (std::vector<std::string>& Line : Lines)
+		{
+			FItem Item = FItem();
+			Item.Id = static_cast<EItemId>(std::stoi(Line[0]));
+			Item.Type = static_cast<EItemType>(UGameDB::Resolve(Line[1]));
+			Item.Name = UGameDB::AnsiToUnicodeWithReplacement(Line[2]);
+			Item.ImageName = Line[3];
+			Item.Explain = UGameDB::AnsiToUnicodeWithReplacement(Line[4]);
+			Item.BuyPrice = std::stoi(Line[5]);
+
+			if (false == Line[6].empty())
+			{
+				Item.UseEffect = static_cast<EUseEffect>(UGameDB::Resolve(Line[6]));
+			}
+
+			if (false == Line[7].empty())
+			{
+				Item.HealValue = std::stoi(Line[7]);
+			}
+
+			UGameDB::Items[Item.Id] = Item;
 		}
 	}
 
@@ -396,11 +429,18 @@ int UGameDB::Resolve(std::string_view _Name)
 
 	if (false == NameResolver.contains(UpperName))
 	{
-		MsgBoxAssert("UGameDB::NameResolverø°º≠ ø°∑Ø∞° πﬂª˝«ﬂΩ¿¥œ¥Ÿ.");
+		MsgBoxAssert("UGameDB::NameResolverÏóêÏÑú ÏóêÎü¨Í∞Ä Î∞úÏÉùÌñàÏäµÎãàÎã§.");
 		return -1;
 	}
 
 	return NameResolver[UpperName];
+}
+
+std::wstring UGameDB::AnsiToUnicodeWithReplacement(std::string _Text)
+{
+	std::wstring Text = UEngineString::AnsiToUniCode(_Text);
+	std::replace(Text.begin(), Text.end(), L'*', L'√©');
+	return Text;
 }
 
 
