@@ -90,6 +90,12 @@ void UBagUILevel::ProcessTargetSelect()
 			return;
 		}
 
+		// 몬스터 볼은 선택할 수 없다. Give, Toss 기능은 구현하지 않을 것이다.
+		if (Page == 2)
+		{
+			return;
+		}
+
 		State = EState::ActionSelect;
 		// Canvas->SetActionBoxActive(true);
 		return;
