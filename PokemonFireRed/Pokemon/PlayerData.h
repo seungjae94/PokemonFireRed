@@ -4,11 +4,6 @@
 #include "Pokemon.h"
 #include "PokemonString.h"
 
-enum class EPokedexState
-{
-
-};
-
 enum class EAchievement
 {
 	None,
@@ -16,6 +11,13 @@ enum class EAchievement
 	SelectFirstPokemon,
 	FightWithGreen,
 	GetPokedex
+};
+
+struct FInventoryRecord
+{
+public:
+	EItemId Id = EItemId::None;
+	int Count = 0;
 };
 
 class UPlayerData
@@ -54,8 +56,7 @@ public:
 	// 인벤토리
 	static void GainItem(EItemId _Id, int _Count = 1);
 	static void LoseItem(EItemId _Id, int _Count = 1);
-	static const std::map<EItemId, int>* GetUseItemsReadonly();
-	static const std::map<EItemId, int>* GetPokeBallsReadonly();
+	static std::list<FInventoryRecord> GetItemList(EItemType _ItemType, int _StartIndex, int _EndIndex);
 protected:
 
 private:

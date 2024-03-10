@@ -399,6 +399,12 @@
     <ClInclude Include="Item.h">
       <Filter>6. Data\Item</Filter>
     </ClInclude>
+    <ClInclude Include="BagUILevel.h">
+      <Filter>2. Level\6. BagUILevel</Filter>
+    </ClInclude>
+    <ClInclude Include="BagCanvas.h">
+      <Filter>2. Level\6. BagUILevel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PokemonCore.cpp">
@@ -661,6 +667,12 @@
     </ClCompile>
     <ClCompile Include="Item.cpp">
       <Filter>6. Data\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="BagUILevel.cpp">
+      <Filter>2. Level\6. BagUILevel</Filter>
+    </ClCompile>
+    <ClCompile Include="BagCanvas.cpp">
+      <Filter>2. Level\6. BagUILevel</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

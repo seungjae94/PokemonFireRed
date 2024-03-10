@@ -206,15 +206,43 @@ void UPlayerData::LoseItem(EItemId _Id, int _Count)
 	}
 }
 
-const std::map<EItemId, int>* UPlayerData::GetUseItemsReadonly()
+std::list<FInventoryRecord> UPlayerData::GetItemList(EItemType _ItemType, int _StartIndex, int _EndIndex)
 {
-	return &Inventory[EItemType::UseItem];
+	const std::map<EItemId, int>& Map = Inventory[_ItemType];
+
+	if (_StartIndex > _EndIndex)
+	{
+		MsgBoxAssert("[UPlayerData::GetItemList] 인덱스를 잘못 설정했습니다. 시작 인덱스가 종료 인덱스보다 큽니다.");
+		return {};
+	}
+
+	if (_StartIndex < 0)
+	{
+		MsgBoxAssert("[UPlayerData::GetItemList] 인덱스를 잘못 설정했습니다. 시작 인덱스가 0보다 작습니다.");
+		return {};
+	}
+
+	if (_EndIndex >= Map.size())
+	{
+		MsgBoxAssert("[UPlayerData::GetItemList] 인덱스를 잘못 설정했습니다. 종료 인덱스가 맵의 크기 이상입니다.");
+		return {};
+	}
+
+	std::map<EItemId, int>::const_iterator StartIter = Map.begin();
+	StartIter = std::next(StartIter, _StartIndex);
+
+	std::list<FInventoryRecord> Result;
+
+	for (int i = 0; i <= _EndIndex - _StartIndex; ++i)
+	{
+		FInventoryRecord Record;
+		Record.Id = StartIter->first;
+		Record.Count = StartIter->second;
+		Result.push_back(Record);
+
+		++StartIter;
+	}
+
+	return Result;
 }
-
-const std::map<EItemId, int>* UPlayerData::GetPokeBallsReadonly()
-{
-	return &Inventory[EItemType::PokeBall];
-}
-
-
 

@@ -183,6 +183,14 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="BagCanvas.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="BagUILevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="BattleActionStateMachine.h">
       <SubType>
       </SubType>
@@ -536,6 +544,14 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="AnimatedSea.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="BagCanvas.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="BagUILevel.cpp">
       <SubType>
       </SubType>
     </ClCompile>
