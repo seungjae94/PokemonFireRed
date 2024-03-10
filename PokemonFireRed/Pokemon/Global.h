@@ -51,6 +51,8 @@ namespace Global
 	const std::string PokemonSummaryUILevel = "PokemonUISummaryLevel";
 	const std::string TrainerCardUILevel = "TrainerCardUILevel";
 	const std::string BattleLevel = "BattleLevel";
+	const std::string BagUILevel = "BagUILevel";
+
 	const std::string PokemonFrontPrefix = "PokemonFront";
 	const std::string PokemonBackPrefix = "PokemonBack";
 	const std::string PokemonMiniMovePrefix = "PokemonMiniMove";
@@ -243,6 +245,14 @@ namespace RN
 	// 맵 레벨 UI 리소스
 	const std::string StarterBackground = "StarterBackground.png";
 	const std::string StarterOptionBox = "StarterOptionBox.png";
+
+	// 가방 UI 레벨 리소스
+	const std::string UBItemsBackground = "UBItemsBackground.png";
+	const std::string UBKeyItemsBackground = "UBKeyItemsBackground.png";
+	const std::string UBPokeBallsBackground = "UBPokeBallsBackground.png";
+
+	const std::string UBArrowLeft = "UBArrowLeft.png";
+	const std::string UBArrowRight = "UBArrowRight.png";
 };
 
 enum ERenderingOrder

@@ -135,6 +135,7 @@ void AMenuCanvas::MenuAction()
 		UEventManager::FadeChangeLevel(Global::PokemonUILevel);
 		break;
 	case EMenuIndex::Bag:
+		UEventManager::FadeChangeLevel(Global::BagUILevel);
 		break;
 	case EMenuIndex::Player:
 		UEventManager::FadeChangeLevel(Global::TrainerCardUILevel);

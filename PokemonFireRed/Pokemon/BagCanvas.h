@@ -14,6 +14,8 @@ public:
 	ABagCanvas& operator=(const ABagCanvas& _Other) = delete;
 	ABagCanvas& operator=(ABagCanvas&& _Other) noexcept = delete;
 
+	void Init() {}
+
 protected:
 
 private:
@@ -23,8 +25,10 @@ private:
 	AImageElement* LeftArrow = nullptr;
 	AImageElement* RightArrow = nullptr;
 	AImageElement* ItemImage = nullptr;
-	
-
-
+	AText* ItemExplain = nullptr;
+	std::vector<AText*> ItemNames;
+	std::vector<AText*> ItemCrosses;
+	std::vector<AText*> ItemCounts;
+	std::vector<ACursor*> TargetCursors;
 };
 

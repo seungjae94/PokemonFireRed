@@ -10,6 +10,7 @@
 #include "PokemonSummaryUILevel.h"
 #include "TrainerCardUILevel.h"
 #include "BattleLevel.h"
+#include "BagUILevel.h"
 #include "Global.h"
 
 UPokemonCore::UPokemonCore()
@@ -71,6 +72,7 @@ void UPokemonCore::BeginPlay()
 	CreateLevel<UPokemonSummaryUILevel>(Global::PokemonSummaryUILevel);
 	CreateLevel<UTrainerCardUILevel>(Global::TrainerCardUILevel);
 	CreateLevel<UBattleLevel>(Global::BattleLevel);
+	CreateLevel<UBagUILevel>(Global::BagUILevel);
 
 	// 시작 레벨 설정
 	UEventManager::SetLevel(Global::InteriorOaksLabLevel);
