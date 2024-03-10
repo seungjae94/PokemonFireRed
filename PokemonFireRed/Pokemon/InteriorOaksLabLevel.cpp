@@ -95,8 +95,8 @@ void UInteriorOaksLabLevel::MakeRivalGreen()
 
 	Green = SpawnEventTrigger<ATrainer>(GreenInit);
 	Green->SetPlayerWinMessage({
-		L"Player win\nfirst message.",
-		L"Player win\nsecond message."
+		L"What?\nUnbelievable!",
+		L"I picked the wrong POKéMON!"
 		});
 	Green->SetBattler("RIVAL GREEN", RN::RivalGreenBattler);
 
@@ -254,7 +254,7 @@ void UInteriorOaksLabLevel::SpawnSpecialTrigger(UEventTargetSetting _Setting, UE
 		ES::Start(true)
 		>> ES::ChangeDirection(Global::InteriorOaksLabLevel, EN::RivalGreen, Down)
 		>> ES::ChangeDirection(Global::InteriorOaksLabLevel, EN::Player, Up)
-		>> ES::Chat({ L"GREEN: Wait, RED!\nLet's check out our POKeMON!", L"Come on, I'll take you on!" }, EFontColor::Blue, 16)
+		>> ES::Chat({ L"GREEN: Wait, RED!\nLet's check out our POKéMON!", L"Come on, I'll take you on!" }, EFontColor::Blue, 16)
 		>> ES::MoveDynamicPath(EN::RivalGreen, []() {
 			const APlayer* Player = UEventManager::FindCurLevelTarget<APlayer>(EN::Player);
 			const ATrainer* Green = UEventManager::FindCurLevelTarget<ATrainer>(EN::RivalGreen);
@@ -281,6 +281,7 @@ void UInteriorOaksLabLevel::SpawnSpecialTrigger(UEventTargetSetting _Setting, UE
 		>> ES::TrainerBattle(Green)
 		>> ES::FadeIn(0.5f, EFadeType::VCurtain)
 		>> ES::Wait(0.5f)
+		>> ES::Achieve(EAchievement::FightWithGreen)
 		>> ES::End(true)
 	);
 }
