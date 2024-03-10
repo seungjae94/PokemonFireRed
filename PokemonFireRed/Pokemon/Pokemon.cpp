@@ -6,7 +6,7 @@
 UPokemon::UPokemon(EPokemonId _Id, int _Level)
 	: Level(_Level)
 {
-	Species = UPokemonDB::FindSpecies(_Id);
+	Species = UGameDB::FindSpecies(_Id);
 	Name = UPokemonString::ToUpperW(Species->Name);
 	Level = _Level;
 	AccExp = UExpCalculator::GetNeedAccExp(this, _Level);
@@ -15,7 +15,7 @@ UPokemon::UPokemon(EPokemonId _Id, int _Level)
 	InitRandomGender();
 	InitRandomNature();
 	InitRandomAbility();
-	Status = UPokemonDB::FindStatus(EPokemonStatus::Normal);
+	Status = UGameDB::FindStatus(EPokemonStatus::Normal);
 	CurHp = GetHp();
 	for (int i = 0; i < GetMoveCount(); ++i)
 	{
@@ -67,7 +67,7 @@ std::string UPokemon::GetTypeImageName(int _Index) const
 	}
 
 	EPokemonType TypeId = Species->TypeIds[_Index];
-	return UPokemonDB::FindType(TypeId)->ImageName;
+	return UGameDB::FindType(TypeId)->ImageName;
 }
 
 std::wstring UPokemon::GetMoveNameW(int _Index) const
@@ -111,7 +111,7 @@ std::wstring UPokemon::GetMoveTypeW(int _Index) const
 		return L"";
 	}
 
-	const FPokemonType* Type = UPokemonDB::FindType(Moves[_Index]->TypeId);
+	const FPokemonType* Type = UGameDB::FindType(Moves[_Index]->TypeId);
 	return Type->GetNameW();
 }
 
@@ -123,7 +123,7 @@ std::wstring UPokemon::GetMoveTypeUpperW(int _Index) const
 		return L"";
 	}
 
-	const FPokemonType* Type = UPokemonDB::FindType(Moves[_Index]->TypeId);
+	const FPokemonType* Type = UGameDB::FindType(Moves[_Index]->TypeId);
 	return UPokemonString::ToUpperW(Type->Name);
 }
 
@@ -135,7 +135,7 @@ std::string UPokemon::GetMoveTypeImageName(int _Index) const
 		return "";
 	}
 
-	const FPokemonType* Type = UPokemonDB::FindType(Moves[_Index]->TypeId);
+	const FPokemonType* Type = UGameDB::FindType(Moves[_Index]->TypeId);
 	return Type->ImageName;
 }
 
@@ -179,7 +179,7 @@ void UPokemon::LearnMove(EPokemonMove _MoveId)
 		MsgBoxAssert("기술을 4개 배운 상태에서 기술을 추가하려고 했습니다.");
 	}
 
-	const FPokemonMove* Move = UPokemonDB::FindMove(_MoveId);
+	const FPokemonMove* Move = UGameDB::FindMove(_MoveId);
 	Moves.push_back(Move);
 	MoveCurPPs.push_back(Move->PP);
 }
@@ -285,7 +285,7 @@ void UPokemon::InitMoves()
 
 		for (EPokemonMove MoveId : MoveIds)
 		{
-			const FPokemonMove* Move = UPokemonDB::FindMove(MoveId);
+			const FPokemonMove* Move = UGameDB::FindMove(MoveId);
 
 			if (Moves.size() == 4)
 			{
@@ -322,11 +322,11 @@ void UPokemon::InitRandomGender()
 
 	if (GenderInt <= MaleRatio)
 	{
-		Gender = UPokemonDB::FindGender(EPokemonGender::Male);
+		Gender = UGameDB::FindGender(EPokemonGender::Male);
 	}
 	else
 	{
-		Gender = UPokemonDB::FindGender(EPokemonGender::Female);
+		Gender = UGameDB::FindGender(EPokemonGender::Female);
 	}
 }
 
@@ -334,7 +334,7 @@ void UPokemon::InitRandomNature()
 {
 	int NatureInt = UPokemonMath::RandomInt(1, static_cast<int>(EPokemonNature::MAX) - 1);
 	EPokemonNature NatureId = static_cast<EPokemonNature>(NatureInt);
-	Nature = UPokemonDB::FindNature(NatureId);
+	Nature = UGameDB::FindNature(NatureId);
 }
 
 void UPokemon::InitRandomAbility()
@@ -342,5 +342,5 @@ void UPokemon::InitRandomAbility()
 	int AbilitySize = static_cast<int>(Species->AbilityCandidateIds.size());
 	int AbilityInt = UPokemonMath::RandomInt(0, AbilitySize - 1);
 	EPokemonAbility AbilityId = Species->AbilityCandidateIds[AbilityInt];
-	Ability = UPokemonDB::FindAbility(AbilityId);
+	Ability = UGameDB::FindAbility(AbilityId);
 }

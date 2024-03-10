@@ -96,11 +96,11 @@ void UPokemonUtil::CreatePokemonMiniMoveAnimations(UImageRenderer* _Renderer)
 		_Renderer->SetImage(RN::PokemonMini);
 	}
 
-	for (EPokemonId No : UPokemonDB::GetImplementedSpeciesNo())
+	for (EPokemonId No : UGameDB::GetImplementedSpeciesNo())
 	{
 		int Idx = static_cast<int>(No) * 2 - 2;
 		_Renderer->CreateAnimation(
-			Global::PokemonMiniMovePrefix + UPokemonDB::GetSpeciesName(No),
+			Global::PokemonMiniMovePrefix + UGameDB::GetSpeciesName(No),
 			RN::PokemonMini, 
 			Idx, Idx + 1, 1.0f / 6, true);
 	}
@@ -119,11 +119,11 @@ void UPokemonUtil::CreatePokemonMiniStopAnimations(UImageRenderer* _Renderer)
 		_Renderer->SetImage(RN::PokemonMini);
 	}
 
-	for (EPokemonId No : UPokemonDB::GetImplementedSpeciesNo())
+	for (EPokemonId No : UGameDB::GetImplementedSpeciesNo())
 	{
 		int Idx = static_cast<int>(No) * 2 - 2;
 		_Renderer->CreateAnimation(
-			Global::PokemonMiniStopPrefix + UPokemonDB::GetSpeciesName(No),
+			Global::PokemonMiniStopPrefix + UGameDB::GetSpeciesName(No),
 			RN::PokemonMini,
 			Idx, Idx, 1.0f / 6, true);
 	}
@@ -142,11 +142,11 @@ void UPokemonUtil::CreatePokemonFrontAnimations(UImageRenderer* _Renderer)
 		_Renderer->SetImage(RN::PokemonFront);
 	}
 
-	for (EPokemonId No : UPokemonDB::GetImplementedSpeciesNo())
+	for (EPokemonId No : UGameDB::GetImplementedSpeciesNo())
 	{
 		int Idx = static_cast<int>(No) * 2  - 2;
 		_Renderer->CreateAnimation(
-			Global::PokemonFrontPrefix + UPokemonDB::GetSpeciesName(No),
+			Global::PokemonFrontPrefix + UGameDB::GetSpeciesName(No),
 			RN::PokemonFront,
 			Idx, Idx, 1.0f / 6, false);
 	}
@@ -165,11 +165,11 @@ void UPokemonUtil::CreatePokemonBackAnimations(UImageRenderer* _Renderer)
 		_Renderer->SetImage(RN::PokemonBack);
 	}
 
-	for (EPokemonId No : UPokemonDB::GetImplementedSpeciesNo())
+	for (EPokemonId No : UGameDB::GetImplementedSpeciesNo())
 	{
 		int Idx = static_cast<int>(No) * 2 - 2;
 		_Renderer->CreateAnimation(
-			Global::PokemonBackPrefix + UPokemonDB::GetSpeciesName(No),
+			Global::PokemonBackPrefix + UGameDB::GetSpeciesName(No),
 			RN::PokemonBack,
 			Idx, Idx, 1.0f / 6, false);
 	}

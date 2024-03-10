@@ -103,7 +103,7 @@ FMoveEffectTestResult UMoveEffectTester::Test(const UBattler* _Attacker, const U
 	// 상태 적용 체크
 	if (_StatusId != EPokemonStatus::Normal)
 	{
-		const FPokemonStatus* MoveStatus = UPokemonDB::FindStatus(_StatusId);
+		const FPokemonStatus* MoveStatus = UGameDB::FindStatus(_StatusId);
 		EPokemonStatus TargetStatusId = _Target->CurStatusId();
 		EPokemonStatus TargetTempStatusId = _Target->CurTempStatusId();
 

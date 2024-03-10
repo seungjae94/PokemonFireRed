@@ -213,7 +213,7 @@ void AStarterBall::ProcessSelectMessage1()
 		State = EState::SelectMessage2;
 		Renderer->SetActive(false);
 
-		const FPokemonSpecies* Species = UPokemonDB::FindSpecies(PokemonId);
+		const FPokemonSpecies* Species = UGameDB::FindSpecies(PokemonId);
 		MsgBox->SetTextColor(EFontColor::Gray);
 		MsgBox->SetMessage(L"RED received the " + 
 			UPokemonString::ToUpperW(Species->Name) + L"\nfrom PROF. OAK!");

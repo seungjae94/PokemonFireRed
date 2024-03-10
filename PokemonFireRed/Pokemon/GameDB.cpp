@@ -1,24 +1,24 @@
-#include "PokemonDB.h"
+#include "GameDB.h"
 #include <EngineBase/EngineDirectory.h>
 #include "CsvReader.h"
 
-std::map<std::string, int> UPokemonDB::NameResolver;
+std::map<std::string, int> UGameDB::NameResolver;
 
-std::map<EPokemonId, FPokemonSpecies> UPokemonDB::Species;
-std::map<EPokemonMove, FPokemonMove> UPokemonDB::Moves;
-std::map<EPokemonNature, FPokemonNature> UPokemonDB::Natures;
-std::map<EPokemonAbility, FPokemonAbility> UPokemonDB::Abilities;
-std::map<EPokemonGender, FPokemonGender> UPokemonDB::Genders;
-std::map<EPokemonStatus, FPokemonStatus> UPokemonDB::Statuses;
-std::map<EPokemonType, FPokemonType> UPokemonDB::Types;
-std::list<EPokemonId> UPokemonDB::ImplementedSpeciesNo;
+std::map<EPokemonId, FPokemonSpecies> UGameDB::Species;
+std::map<EPokemonMove, FPokemonMove> UGameDB::Moves;
+std::map<EPokemonNature, FPokemonNature> UGameDB::Natures;
+std::map<EPokemonAbility, FPokemonAbility> UGameDB::Abilities;
+std::map<EPokemonGender, FPokemonGender> UGameDB::Genders;
+std::map<EPokemonStatus, FPokemonStatus> UGameDB::Statuses;
+std::map<EPokemonType, FPokemonType> UGameDB::Types;
+std::list<EPokemonId> UGameDB::ImplementedSpeciesNo;
 
-std::map<std::string, std::map<int, UWildPokemonZone>> UPokemonDB::WildPokemonZones;
+std::map<std::string, std::map<int, UWildPokemonZone>> UGameDB::WildPokemonZones;
 
-class PokemonDBInitiator
+class GameDBInitiator
 {
 public:
-	PokemonDBInitiator()
+	GameDBInitiator()
 	{
 		CurDir.MoveToSearchChild("GameData");
 		InitNameResolver();
@@ -34,7 +34,7 @@ public:
 	
 	void InitNameResolver()
 	{
-		UPokemonDB::NameResolver[""] = 0;
+		UGameDB::NameResolver[""] = 0;
 
 		std::string FilePath = CurDir.AppendPath("NameResolver.csv");
 		UCsvReader Reader = UCsvReader(FilePath);
@@ -48,8 +48,8 @@ public:
 				if (false == Line[i].empty())
 				{
 					std::string UpperLine = UEngineString::ToUpper(Line[i]);
-					UPokemonDB::NameResolver[UpperLine] = IntValue;
-					UPokemonDB::NameResolver[UPokemonString::RemoveSpace(UpperLine)] = IntValue;
+					UGameDB::NameResolver[UpperLine] = IntValue;
+					UGameDB::NameResolver[UPokemonString::RemoveSpace(UpperLine)] = IntValue;
 				}
 			}
 		}
@@ -65,9 +65,9 @@ public:
 
 		for (std::vector<std::string>& Line : LevelUpMoveLines)
 		{
-			EPokemonId Id = static_cast<EPokemonId>(UPokemonDB::Resolve(Line[0]));
+			EPokemonId Id = static_cast<EPokemonId>(UGameDB::Resolve(Line[0]));
 			int Level = std::stoi(Line[1]);
-			EPokemonMove MoveId = static_cast<EPokemonMove>(UPokemonDB::Resolve(Line[2]));
+			EPokemonMove MoveId = static_cast<EPokemonMove>(UGameDB::Resolve(Line[2]));
 
 			LevelUpMoveMap[Id][Level].push_back(MoveId);
 		}
@@ -95,14 +95,14 @@ public:
 			Species.YSpDef = std::stoi(Line[12]);
 			Species.YSpeed = std::stoi(Line[13]);
 			Species.YExp = std::stoi(Line[14]);
-			Species.ExpGroup = static_cast<EExperienceGroup>(UPokemonDB::Resolve(Line[15]));
+			Species.ExpGroup = static_cast<EExperienceGroup>(UGameDB::Resolve(Line[15]));
 			Species.MaleRatio = std::stof(Line[16]);
 			Species.CatchRate = std::stoi(Line[17]);
 			Species.Friendship = std::stoi(Line[18]);
 			
 			for (int i = 19; i <= 20; ++i)
 			{
-				int LineInt = UPokemonDB::Resolve(Line[i]);
+				int LineInt = UGameDB::Resolve(Line[i]);
 
 				if (0 == LineInt)
 				{
@@ -114,7 +114,7 @@ public:
 
 			for (int i = 21; i <= 22; ++i)
 			{
-				int LineInt = UPokemonDB::Resolve(Line[i]);
+				int LineInt = UGameDB::Resolve(Line[i]);
 
 				if (0 == LineInt)
 				{
@@ -133,8 +133,8 @@ public:
 				}
 			}
 
-			UPokemonDB::Species[Species.Id] = Species;
-			UPokemonDB::ImplementedSpeciesNo.push_back(Species.Id);
+			UGameDB::Species[Species.Id] = Species;
+			UGameDB::ImplementedSpeciesNo.push_back(Species.Id);
 		}
 	}
 	void GenerateMoves() {
@@ -148,15 +148,15 @@ public:
 			Move.Id = static_cast<EPokemonMove>(std::stoi(Line[0]));
 			Move.Name = Line[1];
 			Move.Explain = Line[2];
-			Move.TypeId = static_cast<EPokemonType>(UPokemonDB::Resolve(Line[3]));
+			Move.TypeId = static_cast<EPokemonType>(UGameDB::Resolve(Line[3]));
 			Move.PP = std::stoi(Line[4]);
 			Move.BasePower = std::stoi(Line[5]);
 			Move.Accuracy = std::stoi(Line[6]);
-			//Move.IsContact = UPokemonDB::Resolve(Line[7]);
-			Move.BETarget = static_cast<EMoveEffectTarget>(UPokemonDB::Resolve(Line[8]));
+			//Move.IsContact = UGameDB::Resolve(Line[7]);
+			Move.BETarget = static_cast<EMoveEffectTarget>(UGameDB::Resolve(Line[8]));
 			if (false == Line[9].empty())
 			{
-				Move.BEStatStageId = static_cast<EStatStageChangeType>(UPokemonDB::Resolve(Line[9]));
+				Move.BEStatStageId = static_cast<EStatStageChangeType>(UGameDB::Resolve(Line[9]));
 			}
 			if (false == Line[10].empty())
 			{
@@ -164,17 +164,17 @@ public:
 			}
 			if (false == Line[11].empty())
 			{
-				Move.BEStatusId = static_cast<EPokemonStatus>(UPokemonDB::Resolve(Line[11]));
+				Move.BEStatusId = static_cast<EPokemonStatus>(UGameDB::Resolve(Line[11]));
 			}
 
-			Move.SETarget = static_cast<EMoveEffectTarget>(UPokemonDB::Resolve(Line[12]));
+			Move.SETarget = static_cast<EMoveEffectTarget>(UGameDB::Resolve(Line[12]));
 			if (Line[13] != "")
 			{
 				Move.SERate = std::stoi(Line[13]);
 			}
 			if (Line[14] != "")
 			{
-				Move.SEStatStageId = static_cast<EStatStageChangeType>(UPokemonDB::Resolve(Line[14]));
+				Move.SEStatStageId = static_cast<EStatStageChangeType>(UGameDB::Resolve(Line[14]));
 			}
 			if (Line[15] != "")
 			{
@@ -182,10 +182,10 @@ public:
 			}
 			if (Line[16] != "")
 			{
-				Move.SEStatusId = static_cast<EPokemonStatus>(UPokemonDB::Resolve(Line[16]));
+				Move.SEStatusId = static_cast<EPokemonStatus>(UGameDB::Resolve(Line[16]));
 			}
 
-			UPokemonDB::Moves[Move.Id] = Move;
+			UGameDB::Moves[Move.Id] = Move;
 		}
 	}
 	void GenerateNatures()
@@ -204,7 +204,7 @@ public:
 			Nature.NSpAtk = std::stof(Line[4]);
 			Nature.NSpDef = std::stof(Line[5]);
 			Nature.NSpeed = std::stof(Line[6]);
-			UPokemonDB::Natures[Nature.Id] = Nature;
+			UGameDB::Natures[Nature.Id] = Nature;
 		}
 	}
 	void GenerateAbilities()
@@ -219,7 +219,7 @@ public:
 			Ability.Id = static_cast<EPokemonAbility>(std::stoi(Line[0]));
 			Ability.Name = Line[1];
 			Ability.Explain = Line[2];
-			UPokemonDB::Abilities[Ability.Id] = Ability;
+			UGameDB::Abilities[Ability.Id] = Ability;
 		}
 	}
 	void GenerateTypes()
@@ -241,7 +241,7 @@ public:
 				Type.EffectTo[EnemyType] = std::stof(Line[i]);
 			}
 
-			UPokemonDB::Types[Type.Id] = Type;
+			UGameDB::Types[Type.Id] = Type;
 		}
 	}
 
@@ -258,16 +258,16 @@ public:
 			Status.Name = Line[1];
 			Status.ImageName = Line[2];
 
-			UPokemonDB::Statuses[Status.Id] = Status;
+			UGameDB::Statuses[Status.Id] = Status;
 		}
 	}
 
 	void GenerateGenders()
 	{
-		UPokemonDB::Genders[EPokemonGender::Male] = FPokemonGender(
+		UGameDB::Genders[EPokemonGender::Male] = FPokemonGender(
 			EPokemonGender::Male, RN::GenderMarkMale, RN::BigGenderMarkMale
 		);
-		UPokemonDB::Genders[EPokemonGender::Female] = FPokemonGender(
+		UGameDB::Genders[EPokemonGender::Female] = FPokemonGender(
 			EPokemonGender::Female, RN::GenderMarkFemale, RN::BigGenderMarkFemale
 		);
 	}
@@ -280,12 +280,12 @@ public:
 
 		for (std::vector<std::string>& Line : Lines)
 		{
-			std::string MapName = Line[0];
+			std::string MapName = UEngineString::ToUpper(Line[0]);
 			int ZoneId = std::stoi(Line[1]);
 
-			UWildPokemonZone& Zone = UPokemonDB::WildPokemonZones[MapName][ZoneId];
+			UWildPokemonZone& Zone = UGameDB::WildPokemonZones[MapName][ZoneId];
 			FWildPokemonEncounter Encounter;
-			Encounter.Id = static_cast<EPokemonId>(UPokemonDB::Resolve(Line[2]));
+			Encounter.Id = static_cast<EPokemonId>(UGameDB::Resolve(Line[2]));
 			Encounter.Prop = std::stof(Line[3]);
 			Encounter.MinLevel = std::stoi(Line[4]);
 			Encounter.MaxLevel = std::stoi(Line[5]);
@@ -296,4 +296,111 @@ public:
 	UEngineDirectory CurDir;
 };
 
-PokemonDBInitiator Init;
+GameDBInitiator Init;
+
+const FPokemonSpecies* UGameDB::FindSpecies(EPokemonId _Id)
+{
+	if (false == Species.contains(_Id))
+	{
+		return nullptr;
+	}
+
+	return &Species[_Id];
+}
+
+const FPokemonMove* UGameDB::FindMove(EPokemonMove _Id)
+{
+	if (false == Moves.contains(_Id))
+	{
+		return nullptr;
+	}
+
+	return &Moves[_Id];
+}
+
+const FPokemonNature* UGameDB::FindNature(EPokemonNature _Id)
+{
+	if (false == Natures.contains(_Id))
+	{
+		return nullptr;
+	}
+
+	return &Natures[_Id];
+}
+
+const FPokemonAbility* UGameDB::FindAbility(EPokemonAbility _Id)
+{
+	if (false == Abilities.contains(_Id))
+	{
+		return nullptr;
+	}
+
+	return &Abilities[_Id];
+}
+
+const FPokemonGender* UGameDB::FindGender(EPokemonGender _Id)
+{
+	if (false == Genders.contains(_Id))
+	{
+		return nullptr;
+	}
+
+	return &Genders[_Id];
+}
+
+const FPokemonType* UGameDB::FindType(EPokemonType _Id)
+{
+	if (false == Types.contains(_Id))
+	{
+		return nullptr;
+	}
+
+	return &Types[_Id];
+}
+
+const FPokemonStatus* UGameDB::FindStatus(EPokemonStatus _Id)
+{
+	if (false == Statuses.contains(_Id))
+	{
+		return nullptr;
+	}
+
+	return &Statuses[_Id];
+}
+
+const UWildPokemonZone* UGameDB::FindWildPokemonZone(std::string_view _MapName, int _Index)
+{
+	std::string MapName = UEngineString::ToUpper(_MapName);
+
+	if (false == WildPokemonZones.contains(MapName) || false == WildPokemonZones[MapName].contains(_Index))
+	{
+		return nullptr;
+	}
+
+	return &WildPokemonZones[MapName][_Index];
+}
+
+std::list<EPokemonId> UGameDB::GetImplementedSpeciesNo()
+{
+	return ImplementedSpeciesNo;
+}
+
+std::string UGameDB::GetSpeciesName(EPokemonId _Id)
+{
+	return Species[_Id].Name;
+}
+
+int UGameDB::Resolve(std::string_view _Name)
+{
+	std::string UpperName = UEngineString::ToUpper(_Name);
+
+	if (false == NameResolver.contains(UpperName))
+	{
+		MsgBoxAssert("UGameDB::NameResolver에서 에러가 발생했습니다.");
+		return -1;
+	}
+
+	return NameResolver[UpperName];
+}
+
+

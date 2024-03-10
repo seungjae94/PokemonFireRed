@@ -412,7 +412,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="PokemonDB.h">
+    <ClInclude Include="GameDB.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -759,7 +759,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="PokemonDB.cpp">
+    <ClCompile Include="GameDB.cpp">
       <SubType>
       </SubType>
     </ClCompile>

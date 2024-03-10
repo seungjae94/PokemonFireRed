@@ -146,7 +146,7 @@ public:
 	const FPokemonMove* CurMove() const
 	{
 		EPokemonMove MoveId = CurMoveId();
-		return UPokemonDB::FindMove(MoveId);
+		return UGameDB::FindMove(MoveId);
 	}
 
 	void SetMoveIndex(int _MoveIndex)
@@ -178,7 +178,7 @@ public:
 	{
 		const UPokemon* Pokemon = CurPokemonReadonly();
 		EPokemonStatus StatusId = Pokemon->GetStatusId();
-		return UPokemonDB::FindStatus(StatusId);
+		return UGameDB::FindStatus(StatusId);
 	}
 
 	EPokemonStatus CurStatusId() const
@@ -188,7 +188,7 @@ public:
 
 	const FPokemonStatus* CurTempStatus() const
 	{
-		return UPokemonDB::FindStatus(TempStatusId);
+		return UGameDB::FindStatus(TempStatusId);
 	}
 
 	EPokemonStatus CurTempStatusId() const

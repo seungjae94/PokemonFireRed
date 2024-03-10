@@ -86,7 +86,7 @@ void AImageElement::SetPokemon(EPokemonId _Id)
 		break;
 	}
 
-	const FPokemonSpecies* Species = UPokemonDB::FindSpecies(_Id);
+	const FPokemonSpecies* Species = UGameDB::FindSpecies(_Id);
 	Renderer->ChangeAnimation(AnimPrefix + Species->Name);
 }
 

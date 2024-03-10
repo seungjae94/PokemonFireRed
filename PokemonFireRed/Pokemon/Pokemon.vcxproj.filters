@@ -64,9 +64,6 @@
     <Filter Include="6. Data\Pokemon">
       <UniqueIdentifier>{c8a233f3-17a7-4d3f-a007-59e257088024}</UniqueIdentifier>
     </Filter>
-    <Filter Include="6. Data\Pokemon\DB">
-      <UniqueIdentifier>{eced8de5-9ab0-456a-abb7-bf3bcec28c58}</UniqueIdentifier>
-    </Filter>
     <Filter Include="7. Sound">
       <UniqueIdentifier>{134a8738-739c-45a2-bbf1-7006446013ed}</UniqueIdentifier>
     </Filter>
@@ -120,6 +117,12 @@
     </Filter>
     <Filter Include="2. Level\7. BattleLevel\Calculator">
       <UniqueIdentifier>{d7776502-6556-41a2-b549-5085b19c510e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6. Data\Item">
+      <UniqueIdentifier>{984afb4b-b7a5-45d3-8667-08814a15e515}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6. Data\Pokemon\Object">
+      <UniqueIdentifier>{eced8de5-9ab0-456a-abb7-bf3bcec28c58}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -276,12 +279,6 @@
     <ClInclude Include="TrainerCardCanvas.h">
       <Filter>2. Level\5. TrainerCardUILevel</Filter>
     </ClInclude>
-    <ClInclude Include="PokemonDB.h">
-      <Filter>6. Data\Pokemon\DB</Filter>
-    </ClInclude>
-    <ClInclude Include="PokemonStruct.h">
-      <Filter>6. Data\Pokemon\DB</Filter>
-    </ClInclude>
     <ClInclude Include="BattleLevel.h">
       <Filter>2. Level\7. BattleLevel</Filter>
     </ClInclude>
@@ -293,9 +290,6 @@
     </ClInclude>
     <ClInclude Include="SoundManager.h">
       <Filter>7. Sound</Filter>
-    </ClInclude>
-    <ClInclude Include="WildPokemonZone.h">
-      <Filter>6. Data\Pokemon\DB</Filter>
     </ClInclude>
     <ClInclude Include="WildBattleTrigger.h">
       <Filter>1. GlobalTrigger</Filter>
@@ -392,6 +386,15 @@
     </ClInclude>
     <ClInclude Include="StarterCanvas.h">
       <Filter>2. Level\2. MapLevel\1. Interior Level</Filter>
+    </ClInclude>
+    <ClInclude Include="GameDB.h">
+      <Filter>6. Data</Filter>
+    </ClInclude>
+    <ClInclude Include="PokemonStruct.h">
+      <Filter>6. Data\Pokemon</Filter>
+    </ClInclude>
+    <ClInclude Include="WildPokemonZone.h">
+      <Filter>6. Data\Pokemon</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -542,9 +545,6 @@
     <ClCompile Include="TrainerCardCanvas.cpp">
       <Filter>2. Level\5. TrainerCardUILevel</Filter>
     </ClCompile>
-    <ClCompile Include="PokemonDB.cpp">
-      <Filter>6. Data\Pokemon\DB</Filter>
-    </ClCompile>
     <ClCompile Include="BattleLevel.cpp">
       <Filter>2. Level\7. BattleLevel</Filter>
     </ClCompile>
@@ -556,9 +556,6 @@
     </ClCompile>
     <ClCompile Include="SoundManager.cpp">
       <Filter>7. Sound</Filter>
-    </ClCompile>
-    <ClCompile Include="WildPokemonZone.cpp">
-      <Filter>6. Data\Pokemon\DB</Filter>
     </ClCompile>
     <ClCompile Include="WildBattleTrigger.cpp">
       <Filter>1. GlobalTrigger</Filter>
@@ -652,6 +649,12 @@
     </ClCompile>
     <ClCompile Include="StarterCanvas.cpp">
       <Filter>2. Level\2. MapLevel\1. Interior Level</Filter>
+    </ClCompile>
+    <ClCompile Include="GameDB.cpp">
+      <Filter>6. Data</Filter>
+    </ClCompile>
+    <ClCompile Include="WildPokemonZone.cpp">
+      <Filter>6. Data\Pokemon</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
