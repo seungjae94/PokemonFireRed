@@ -281,7 +281,13 @@ void UInteriorOaksLabLevel::MakeAfterRivalBattleTrigger()
 	Green->SetAfterBattleTrigger(AfterRivalBattleTrigger);
 
 	UEventManager::RegisterEvent(AfterRivalBattleTrigger, Cond,
-		ES::Start(true)
+		ES::Start(false)
+		>> ES::FadeOut(FadeOutTime)
+		>> ES::Wait(FadeOutTime)
+		>> ES::ChangeLevel(Global::InteriorOaksLabLevel)
+		>> ES::DeactivatePlayerControl()
+		>> ES::FadeIn(FadeInTime)
+		>> ES::Wait(FadeInTime)
 		>> ES::Achieve(EAchievement::FightWithGreen)
 		>> ES::Chat({L"GREEN: Okay! I'll make my\nPOKMON battle to toughen it up!", L"RED! Gramps!\nSmell you later!"}, EFontColor::Blue, 16)
 		>> ES::MoveDynamicPath(EN::RivalGreen, AfterRivalBattlePathGenerator, Global::CharacterWalkSpeed, false)

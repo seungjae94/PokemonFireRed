@@ -307,7 +307,6 @@ void UBattleLevel::ProcessWaitBeforeReturn()
 			else
 			{
 				UEventManager::TriggerEvent(AfterBattleTrigger, EEventTriggerAction::Direct);
-				ReturnToMapLevel();
 				State = EState::End;
 			}
 		}

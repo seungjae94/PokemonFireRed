@@ -4,7 +4,7 @@
 // 전역으로 사용할 상수를 정의한다.
 namespace Global
 {
-	const float CheatDamageBonusCoeff = 3.0f;
+	const float CheatDamageBonusCoeff = 5.0f;
 	const float CheatExpBonusCoeff = 1.0f;
 
 	const float CharacterWalkSpeed = 3.6f;
