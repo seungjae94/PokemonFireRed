@@ -252,6 +252,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Item.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="MoveEffectApplier.h">
       <SubType>
       </SubType>
@@ -600,6 +604,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="FinishBattleStateMachine.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
       <SubType>
       </SubType>
     </ClCompile>
