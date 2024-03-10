@@ -81,6 +81,15 @@ void UBagUILevel::ProcessTargetSelect()
 {
 	if (true == UEngineInput::IsDown('Z'))
 	{
+		int RecordCount = UPlayerData::GetRecordCount(PageToItemType(Page));
+		int TargetIndex = TargetIndexMemory[Page];
+
+		if (TargetIndex == RecordCount)
+		{
+			UEventManager::FadeChangeLevel(PrevLevelName);
+			return;
+		}
+
 		State = EState::ActionSelect;
 		// Canvas->SetActionBoxActive(true);
 		return;
