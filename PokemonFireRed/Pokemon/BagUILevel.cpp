@@ -4,6 +4,7 @@
 #include <EnginePlatform/EngineInput.h>
 #include <EngineCore/EngineResourcesManager.h>
 #include "MapLevel.h"
+#include "BattleLevel.h"
 #include "PokemonUILevel.h"
 
 UBagUILevel::UBagUILevel()
@@ -12,6 +13,11 @@ UBagUILevel::UBagUILevel()
 
 UBagUILevel::~UBagUILevel()
 {
+}
+
+bool UBagUILevel::IsBattleMode() const
+{
+	return BattleMode;
 }
 
 void UBagUILevel::BeginPlay()
@@ -58,14 +64,24 @@ void UBagUILevel::LevelStart(ULevel* _PrevLevel)
 	UPokemonLevel::LevelStart(_PrevLevel);
 
 	UMapLevel* MapLevel = dynamic_cast<UMapLevel*>(_PrevLevel);
+	UBattleLevel* BattleLevel = dynamic_cast<UBattleLevel*>(_PrevLevel);
 	UPokemonUILevel* PokemonUILevel = dynamic_cast<UPokemonUILevel*>(_PrevLevel);
 
+	// 포켓몬 UI 레벨에서 되돌아오는 경우 레벨을 초기화하지 않는다.
+	if (nullptr != PokemonUILevel)
+	{
+		return;
+	}
+
+	BattleMode = false;
 	if (nullptr != MapLevel)
 	{
 		PrevLevelName = _PrevLevel->GetName();
 	}
-	else
+	else if (nullptr != BattleLevel)
 	{
+		PrevLevelName = _PrevLevel->GetName();
+		BattleMode = true;
 	}
 	RefreshPage();
 
@@ -148,16 +164,18 @@ void UBagUILevel::ProcessActionSelect()
 	{
 		int Cursor = Canvas->GetActionCursor();
 
+		// 취소 액션을 선택한 경우
 		if (Cursor == 1)
 		{
-			Canvas->DecActionCursor();
-			Canvas->SetActionItemBoxActive(false);
-			State = EState::TargetSelect;
 		}
-		else
+		// Use 액션을 선택한 경우
+		else if (Cursor == 0)
 		{
-
+			UEventManager::FadeChangeLevel(Global::PokemonUILevel);
 		}
+		Canvas->DecActionCursor();
+		Canvas->SetActionItemBoxActive(false);
+		State = EState::TargetSelect;
 		return;
 	}
 

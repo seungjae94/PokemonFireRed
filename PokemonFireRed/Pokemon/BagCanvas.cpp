@@ -48,7 +48,7 @@ void ABagCanvas::BeginPlay()
 	ActionItemBox = CreateImageElement(Background, ERenderingOrder::UI2, EPivotType::LeftBot, 0, 0);
 	ActionItemBox->SetImage(RN::UBActionItemBox);
 
-	ActionItemText = CreateText(ActionItemBox, ERenderingOrder::UI3, EPivotType::LeftTop, 48, 21, EAlignType::Left, EFontColor::Black3);
+	ActionItemText = CreateText(ActionItemBox, ERenderingOrder::UI3, EPivotType::LeftTop, 48, 21, EAlignType::Left, EFontColor::Gray);
 
 	ActionBox = CreateImageElement(ActionItemBox, ERenderingOrder::UI2, EPivotType::RightBot, -1, -1);
 	ActionBox->SetImage(RN::UBActionBox);

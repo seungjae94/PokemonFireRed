@@ -23,6 +23,10 @@ public:
 	UBagUILevel& operator=(const UBagUILevel& _Other) = delete;
 	UBagUILevel& operator=(UBagUILevel&& _Other) noexcept = delete;
 
+	bool IsBattleMode() const;
+
+	const FItem* GetTargetItem();
+
 protected:
 
 private:
@@ -36,6 +40,7 @@ private:
 	
 	// ╩Себ
 	EState State = EState::None;
+	bool BattleMode = false;
 
 	// ╩Себ ф╫
 	void ProcessTargetSelect();
@@ -57,7 +62,5 @@ private:
 	static EItemType PageToItemType(int _Page);
 	static std::string PageToBackgroundName(int _Page);
 	static int ItemTypeToPage(EItemType _ItemType);
-
-	const FItem* GetTargetItem();
 };
 

@@ -7,6 +7,7 @@
 #include "MapLevel.h"
 #include "BattleLevel.h"
 #include "PokemonSummaryUILevel.h"
+#include "BagUILevel.h"
 #include "BattleUtil.h"
 
 UPokemonUILevel::UPokemonUILevel()
@@ -48,8 +49,8 @@ void UPokemonUILevel::Tick(float _DeltaTime)
 	case EState::ActionSelectionWait:
 		ProcessActionSelectionWait();
 		break;
-	case EState::BattleActionSelectionWait:
-		ProcessBattleActionSelectionWait();
+	case EState::BattleShiftActionSelectionWait:
+		ProcessBattleShiftActionSelectionWait();
 		break;
 	case EState::BattleShiftFailMessageShow:
 		ProcessBattleShiftFailMessageShow();
@@ -77,6 +78,7 @@ void UPokemonUILevel::LevelStart(ULevel* _PrevLevel)
 	UMapLevel* MapLevel = dynamic_cast<UMapLevel*>(_PrevLevel);
 	UBattleLevel* BattleLevel = dynamic_cast<UBattleLevel*>(_PrevLevel);
 	UPokemonSummaryUILevel* SummaryUILevel = dynamic_cast<UPokemonSummaryUILevel*>(_PrevLevel);
+	UBagUILevel* BagUILevel = dynamic_cast<UBagUILevel*>(_PrevLevel);
 
 	if (nullptr != SummaryUILevel)
 	{
@@ -95,14 +97,29 @@ void UPokemonUILevel::LevelStart(ULevel* _PrevLevel)
 	// 맵 레벨 처리
 	if (nullptr != MapLevel)
 	{
-		BattleMode = false;
+		Mode = EMode::Pokemon;
+		Canvas->SetTargetSelectionMsgBoxImage(RN::PokemonUITargetSelectionMsgBox);
+	}
+	else if (nullptr != BagUILevel)
+	{
+		if (true == BagUILevel->IsBattleMode())
+		{
+			Mode = EMode::BattleItem;
+		}
+		else
+		{
+			Mode = EMode::Bag;
+		}
+		UseItem = BagUILevel->GetTargetItem();
+		Canvas->SetTargetSelectionMsgBoxImage(RN::PokemonUITargetSelectionMsgBoxBagMode);
 	}
 	// 배틀 레벨 처리
 	else if (nullptr != BattleLevel)
 	{
-		BattleMode = true;
+		Mode = EMode::BattleShift;
 		PlayerBattler = BattleLevel->GetPlayerBattler();
 		PlayerBattler->SetShiftPokemonIndex(PlayerBattler->CurPokemonIndex());
+		Canvas->SetTargetSelectionMsgBoxImage(RN::PokemonUITargetSelectionMsgBox);
 	}
 }
 
@@ -182,7 +199,7 @@ void UPokemonUILevel::ProcessActionSelectionWait()
 	}
 }
 
-void UPokemonUILevel::ProcessBattleActionSelectionWait()
+void UPokemonUILevel::ProcessBattleShiftActionSelectionWait()
 {
 	if (UEngineInput::IsDown(VK_UP))
 	{
@@ -286,7 +303,8 @@ void UPokemonUILevel::SelectTarget()
 	{
 		CancelTargetSelection();
 	}
-	else if (false == BattleMode)
+	// 메뉴창을 통해 포켓몬 UI 레벨로 들어온 경우
+	else if (EMode::Pokemon == Mode)
 	{
 		State = EState::ActionSelectionWait;
 		Canvas->SetTargetSelectionMsgBoxActive(false);
@@ -294,13 +312,24 @@ void UPokemonUILevel::SelectTarget()
 		Canvas->SetActionBoxActive(true);
 		Canvas->SetActionCursor(0);
 	}
-	else
+	// 배틀 레벨에서 Pokemon 액션을 선택해서 포켓몬 UI 레벨로 들어온 경우
+	else if (EMode::BattleShift == Mode)
 	{
-		State = EState::BattleActionSelectionWait;
+		State = EState::BattleShiftActionSelectionWait;
 		Canvas->SetTargetSelectionMsgBoxActive(false);
 		Canvas->SetActionSelectionMsgBoxActive(true);
 		Canvas->SetBattleActionBoxActive(true);
 		Canvas->SetActionCursor(0);
+	}
+	// 배틀 레벨에서 Item 액션을 선택해서 가방 레벨로 진입한 뒤 다시 아이템 사용 대상을 고르기 위해 포켓몬 UI 레벨로 들어온 경우
+	else if (EMode::BattleItem == Mode)
+	{
+		
+	}
+	// 가방 레벨에서 아이템 사용 대상을 고르기 위해 포켓몬 UI 레벨로 들어온 경우
+	else if (EMode::Bag == Mode)
+	{
+		State = EState::BagTestItemUseEffect;
 	}
 }
 
@@ -467,12 +496,20 @@ void UPokemonUILevel::ProcessSwitchMoveIn()
 	}
 }
 
+void UPokemonUILevel::ProcessBagTestItemUseEffect()
+{
+
+}
+
+void UPokemonUILevel::ProcessBagItemUseEffect()
+{
+}
 
 void UPokemonUILevel::CancelTargetSelection()
 {
-	if (true == BattleMode && PlayerBattler->CurPokemon()->IsFaint())
+	// 배틀 중 플레이어 포켓몬이 기절해서 강제로 포켓몬 레벨로 온 경우 -> Cancel 선택 불가능
+	if (EMode::BattleShift == Mode && PlayerBattler->CurPokemon()->IsFaint())
 	{
-		// 예외적으로 배틀중 플레이어 포켓몬이 기절해서 강제로 포켓몬을 골라야 하는 경우 취소 버튼을 누를 수 없다.
 		State = EState::TargetSelectionWait;
 		return;
 	}

@@ -39,6 +39,8 @@ public:
 	void IncBattleActionCursor();
 	void DecBattleActionCursor();
 
+	void SetTargetSelectionMsgBoxImage(std::string_view _ImageName);
+
 	// 스위치 기능
 	AImageElement* GetPokemonBox(int _Index);
 	bool IsFirstBox(const AImageElement* _PokemonBox) const;

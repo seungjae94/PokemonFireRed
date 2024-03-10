@@ -164,6 +164,11 @@ void APokemonCanvas::DecBattleActionCursor()
 	BattleActionCursor->DecCursor();
 }
 
+void APokemonCanvas::SetTargetSelectionMsgBoxImage(std::string_view _ImageName)
+{
+	TargetSelectionMsgBox->SetImage(_ImageName);
+}
+
 AImageElement* APokemonCanvas::GetPokemonBox(int _Index)
 {
 	if (_Index == 0)

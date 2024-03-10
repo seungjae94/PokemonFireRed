@@ -145,6 +145,7 @@ namespace RN
 
 	const std::string PokemonUIBackground = "UPBackground.png"; 
 	const std::string PokemonUITargetSelectionMsgBox = "UPTargetSelectionMsgBox.png"; 
+	const std::string PokemonUITargetSelectionMsgBoxBagMode = "UPTargetSelectionMsgBoxBagMode.png";
 	const std::string PokemonUIActionSelectionMsgBox = "UPActionSelectionMsgBox.png"; 
 	const std::string PokemonUISwitchSelectionMsgBox = "UPSwitchSelectionMsgBox.png"; 
 	const std::string PokemonUIBattleMsgBox = "UPBattleMsgBox.png"; 
@@ -160,8 +161,8 @@ namespace RN
 	const std::string PokemonUIEntryFromBox = "UPEntryFrom.png"; 
 	const std::string PokemonUIEntryToBox = "UPEntryTo.png"; 
 	const std::string PokemonUICancel = "UPCancel.png"; 
-
 	const std::string PokemonUICancelFocused = "UPCancelFocused.png"; 
+
 	const std::string PokemonSummaryUIBackground = "UPSBackground.png"; 
 	const std::string PokemonSummaryUICommonBox = "UPSCommonBox.png"; 
 	const std::string PokemonSummaryUISmallCommonBox = "UPSSmallCommonBox.png"; 
