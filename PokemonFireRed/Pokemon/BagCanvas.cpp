@@ -30,7 +30,7 @@ void ABagCanvas::BeginPlay()
 
 	ItemExplain = CreateText(Background, ERenderingOrder::UI1, EPivotType::LeftBot, 40, -33, EAlignType::Left, EFontColor::White);
 	
-	TargetCursor = CreateCursor(Background, ERenderingOrder::UI1, EPivotType::LeftTop, 97, 13);
+	TargetCursor = CreateCursor(Background, ERenderingOrder::UI1, EPivotType::LeftTop, 90, 12);
 	TargetCursor->SetOptionCount(6);
 
 	const int RowGap = 16;

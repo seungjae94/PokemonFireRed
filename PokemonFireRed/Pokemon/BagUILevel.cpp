@@ -32,7 +32,21 @@ void UBagUILevel::Tick(float _DeltaTime)
 {
 	UPokemonLevel::Tick(_DeltaTime);
 
-	
+	switch (State)
+	{
+	case EState::None:
+		break;
+	case EState::TargetSelect:
+		ProcessTargetSelect();
+		break;
+	case EState::ActionSelect:
+		ProcessActionSelect();
+		break;
+	case EState::End:
+		break;
+	default:
+		break;
+	}
 
 }
 
@@ -43,8 +57,26 @@ void UBagUILevel::LevelStart(ULevel* _PrevLevel)
 	PrevLevelName = _PrevLevel->GetName();
 
 	State = EState::TargetSelect;
+	RefreshPage();
+}
 
-	// 위에서부터 그릴 데이터를 최대 6개까지 제공해야 함
+void UBagUILevel::LevelEnd(ULevel* _NextLevel)
+{
+	UPokemonLevel::LevelEnd(_NextLevel);
+}
+
+void UBagUILevel::ProcessTargetSelect()
+{
+
+}
+
+void UBagUILevel::ProcessActionSelect()
+{
+
+}
+
+void UBagUILevel::RefreshPage()
+{
 	EItemType ItemType = PageToItemType(Page);
 	int& StartIndex = StartIndexMemory[Page];
 	int EndIndex = 0;
@@ -99,12 +131,6 @@ void UBagUILevel::LevelStart(ULevel* _PrevLevel)
 	Canvas->SetBackground(PageToBackgroundName(Page));
 	Canvas->RefreshList(Records);
 	Canvas->SetTargetCursor(TargetCursor);
-}
-
-void UBagUILevel::LevelEnd(ULevel* _NextLevel)
-{
-	UPokemonLevel::LevelEnd(_NextLevel);
-
 }
 
 EItemType UBagUILevel::PageToItemType(int _Page)

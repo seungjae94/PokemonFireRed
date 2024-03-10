@@ -37,6 +37,10 @@ private:
 	// 상태
 	EState State = EState::None;
 
+	// 상태 틱
+	void ProcessTargetSelect();
+	void ProcessActionSelect();
+
 	// 고유 데이터
 	int Page = 0;
 	std::vector<int> StartIndexMemory = { 0, 0, 0 };
@@ -44,6 +48,7 @@ private:
 	std::string PrevLevelName;
 
 	// 유틸 함수
+	void RefreshPage();
 	static EItemType PageToItemType(int _Page);
 	static std::string PageToBackgroundName(int _Page);
 	static int ItemTypeToPage(EItemType _ItemType);
