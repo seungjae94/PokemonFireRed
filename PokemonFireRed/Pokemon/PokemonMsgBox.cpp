@@ -108,6 +108,12 @@ void APokemonMsgBox::Write()
 	HideSkipArrow();
 }
 
+void APokemonMsgBox::Init()
+{
+	SetMessage(L"");
+	HideSkipArrow();
+}
+
 void APokemonMsgBox::BeginPlay()
 {
 	ACanvas::BeginPlay();

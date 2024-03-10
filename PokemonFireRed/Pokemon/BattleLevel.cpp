@@ -152,6 +152,7 @@ void UBattleLevel::LevelStart(ULevel* _PrevLevel)
 	Enemy.GetParticipants().push_back(Player.CurPokemon());
 	
 	Canvas->Init(&Player, &Enemy);
+	MsgBox->Init();
 
 	// 배틀 레벨 상태 초기화
 	State = EState::BattleStart;
@@ -287,7 +288,6 @@ void UBattleLevel::ProcessWaitBeforeReturn()
 {
 	if (Timer <= 0.0f)
 	{
-		MsgBox->SetMessage(L"");
 		if (BattleEndReason == EBattleEndReason::WinToWild || BattleEndReason == EBattleEndReason::WinToTrainer)
 		{
 			ReturnToMapLevel();

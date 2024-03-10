@@ -265,6 +265,7 @@ void AStarterBall::StateChangeToEventMessage1()
 	MsgBox->Write();
 
 	Canvas->SetActive(true);
+	Canvas->ResetCursor();
 	Canvas->SetOptionBoxActive(false);
 	Canvas->SetPokemon(PokemonId);
 

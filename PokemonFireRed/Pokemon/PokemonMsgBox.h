@@ -48,6 +48,9 @@ public:
 		return State;
 	}
 
+	// √ ±‚»≠
+	void Init();
+
 protected:
 
 private:

@@ -40,6 +40,11 @@ public:
 		}
 	}
 
+	void ResetCursor()
+	{
+		OptionCursor->SetCursor(0);
+	}
+
 	int GetCursor()
 	{
 		return OptionCursor->GetCursor();

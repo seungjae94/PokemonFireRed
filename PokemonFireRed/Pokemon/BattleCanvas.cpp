@@ -182,6 +182,7 @@ void ABattleCanvas::Init(const UBattler* _Player, const UBattler* _Enemy)
 	ActionCursor->SetCursor(0);
 	MoveSelectCursor->SetCursor(0);
 
+
 	// Activeness ¼³Á¤
 	Background->SetActive(true);
 	ActionBox->SetActive(false);
