@@ -41,7 +41,7 @@ void APokemonCanvas::Init()
 	SwitchSelectionMsgBox->SetActive(false);
 	ActionBox->SetActive(false);
 	BattleActionBox->SetActive(false);
-	BattleMsgBox->SetActive(false);
+	CustomMsgBox->SetActive(false);
 }
 
 void APokemonCanvas::BeginPlay()
@@ -66,9 +66,9 @@ void APokemonCanvas::BeginPlay()
 	BattleActionBox = CreateImageElement(Background, ERenderingOrder::UI4, EPivotType::RightBot, -1, -1);
 	BattleActionBox->SetImage(RN::PokemonUIBattleActionBox);
 
-	BattleMsgBox = CreateImageElement(Background,
+	CustomMsgBox = CreateImageElement(Background,
 		ERenderingOrder::UI6, EPivotType::RightBot, -1, -1);
-	BattleMsgBox->SetImage(RN::PokemonUIBattleMsgBox);
+	CustomMsgBox->SetImage(RN::PokemonUIBattleMsgBox);
 
 	FirstBox = CreateImageElement(Background, ERenderingOrder::UI1, EPivotType::LeftTop, 0, 0);
 	EntryBoxes.reserve(6);
@@ -87,10 +87,10 @@ void APokemonCanvas::BeginPlay()
 	BattleActionCursor->SetOptionCount(3);
 
 	// 배틀 메시지
-	BattleMsg = CreateText(BattleMsgBox,
+	CustomMsg = CreateText(CustomMsgBox,
 		ERenderingOrder::UI7, EPivotType::LeftTop, 7, 19,
 		EAlignType::Left, EFontColor::Black3);
-	BattleMsg->SetLineSpace(15);
+	CustomMsg->SetLineSpace(15);
 
 	// 엔트리
 	FirstNameText = CreateText(FirstBox, ERenderingOrder::UI2, EPivotType::RightBot, -53, -28, EAlignType::Left, EFontColor::WhiteGray, EFontSize::Mini);
@@ -207,6 +207,24 @@ void APokemonCanvas::LerpPokemonBox(int _Index, const FVector& _Before, const FV
 	}
 }
 
+void APokemonCanvas::LerpHeal(int _Index, int _PrevHp, int _NextHp, int _MaxHp, float _t)
+{
+	AScrollBar* HpBar = FirstHpBar;
+	AText* CurHpText = FirstCurHpText;
+
+	if (_Index > 0)
+	{
+		HpBar = EntryHpBars[_Index];
+		CurHpText = EntryCurHpTexts[_Index];
+	}
+
+	int LerpedHp = std::lround(UPokemonMath::Lerp(static_cast<float>(_NextHp), static_cast<float>(_PrevHp), _t));
+
+	HpBar->SetMaxValue(1000);
+	HpBar->SetValue(LerpedHp * 1000/_MaxHp);
+	CurHpText->SetText(std::to_wstring(LerpedHp));
+}
+
 void APokemonCanvas::SetTargetSelectionMsgBoxActive(bool _Value)
 {
 	TargetSelectionMsgBox->SetActive(_Value);
@@ -232,14 +250,14 @@ void APokemonCanvas::SetBattleActionBoxActive(bool _Value)
 	BattleActionBox->SetActive(_Value);
 }
 
-void APokemonCanvas::SetBattleMsgBoxActive(bool _Value)
+void APokemonCanvas::SetCustomMsgBoxActive(bool _Value)
 {
-	BattleMsgBox->SetActive(_Value);
+	CustomMsgBox->SetActive(_Value);
 }
 
-void APokemonCanvas::SetBattleMessage(std::wstring _Msg)
+void APokemonCanvas::SetCustomMessage(std::wstring _Msg)
 {
-	BattleMsg->SetText(_Msg);
+	CustomMsg->SetText(_Msg);
 }
 
 void APokemonCanvas::SetBoxState(int _BoxIndex, EBoxState _BoxState)

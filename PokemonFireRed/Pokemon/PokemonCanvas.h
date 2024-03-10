@@ -46,14 +46,17 @@ public:
 	bool IsFirstBox(const AImageElement* _PokemonBox) const;
 	void LerpPokemonBox(int _Index, const FVector& _Before, const FVector& _After, float _t);
 
+	// 힐 기능
+	void LerpHeal(int _Index, int _PrevHp, int _NextHp, int _MaxHp, float _t);
+
 	// Active 함수
 	void SetTargetSelectionMsgBoxActive(bool _Value);
 	void SetActionSelectionMsgBoxActive(bool _Value);
 	void SetSwitchSelectionMsgBoxActive(bool _Value);
 	void SetActionBoxActive(bool _Value);
 	void SetBattleActionBoxActive(bool _Value);
-	void SetBattleMsgBoxActive(bool _Value);
-	void SetBattleMessage(std::wstring _Msg);
+	void SetCustomMsgBoxActive(bool _Value);
+	void SetCustomMessage(std::wstring _Msg);
 
 	// Refresh 함수
 	void SetBoxState(int _BoxIndex, EBoxState _BoxState);
@@ -74,8 +77,8 @@ private:
 	ACursor* ActionCursor = nullptr;
 	AImageElement* BattleActionBox = nullptr;
 	ACursor* BattleActionCursor = nullptr;
-	AImageElement* BattleMsgBox = nullptr;
-	AText* BattleMsg = nullptr;
+	AImageElement* CustomMsgBox = nullptr;
+	AText* CustomMsg = nullptr;
 
 	AImageElement* FirstBox = nullptr;
 	AImageElement* FirstPokemonIcon = nullptr;

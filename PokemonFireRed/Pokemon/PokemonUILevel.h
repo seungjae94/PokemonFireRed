@@ -28,7 +28,8 @@ private:
 		SwitchMoveWait,
 		SwitchMoveIn,
 		BagTestItemUseEffect,
-		BagItemUseEffect,
+		BagHpUpEffect,
+		ReturnWait,
 	};
 
 	enum class ESwitchMoveState
@@ -83,7 +84,9 @@ private:
 	
 	// 고유 데이터 - 가방
 	const FItem* UseItem = nullptr;
-
+	const float HealTime = 0.5f;
+	int PrevHealHp = 0;
+	int NextHealHp = 0;
 
 	// 상태
 	EState State = EState::TargetSelectionWait;
@@ -99,7 +102,8 @@ private:
 	void ProcessSwitchMoveWait();
 	void ProcessSwitchMoveIn();
 	void ProcessBagTestItemUseEffect();
-	void ProcessBagItemUseEffect();
+	void ProcessBagHpUpEffect();
+	void ProcessReturnWait();
 
 	// 상태 전이 함수
 	void SelectTarget();

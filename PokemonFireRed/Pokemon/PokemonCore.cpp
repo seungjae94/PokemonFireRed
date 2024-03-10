@@ -43,8 +43,8 @@ void UPokemonCore::BeginPlay()
 	//UPokemon Pokemon3 = UPokemon(EPokemonId::Charmander, 7);
 	//UPokemon Pokemon4 = UPokemon(EPokemonId::Pidgey, 2);
 	//UPokemon Pokemon5 = UPokemon(EPokemonId::Caterpie, 3);
-	//Pokemon1.SetCurHp(Pokemon0.GetHp() / 6);
-	//Pokemon3.SetCurHp(Pokemon3.GetHp() / 3);
+	Pokemon0.SetCurHp(Pokemon0.GetHp() / 6);
+	Pokemon1.SetCurHp(Pokemon1.GetHp() / 3);
 	//Pokemon0.AddAccExp(0);
 	//Pokemon1.AddAccExp(15);
 	//Pokemon2.AddAccExp(5);

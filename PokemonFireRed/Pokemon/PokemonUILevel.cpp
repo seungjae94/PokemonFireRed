@@ -67,6 +67,15 @@ void UPokemonUILevel::Tick(float _DeltaTime)
 	case EState::SwitchMoveIn:
 		ProcessSwitchMoveIn();
 		break;
+	case EState::BagTestItemUseEffect:
+		ProcessBagTestItemUseEffect();
+		break;
+	case EState::BagHpUpEffect:
+		ProcessBagHpUpEffect();
+		break;
+	case EState::ReturnWait:
+		ProcessReturnWait();
+		break;
 	default:
 		break;
 	}
@@ -227,7 +236,7 @@ void UPokemonUILevel::ProcessBattleShiftFailMessageShow()
 	if (true == UEngineInput::IsDown('Z'))
 	{
 		State = EState::TargetSelectionWait;
-		Canvas->SetBattleMsgBoxActive(false);
+		Canvas->SetCustomMsgBoxActive(false);
 		Canvas->SetTargetSelectionMsgBoxActive(true);
 		Canvas->SetActionSelectionMsgBoxActive(false);
 		Canvas->SetBattleActionBoxActive(false);
@@ -374,18 +383,18 @@ void UPokemonUILevel::SelectBattleAction()
 		{
 			// 배틀에 나와 있는 포켓몬을 고르는 경우
 			State = EState::BattleShiftFailMessageShow;
-			Canvas->SetBattleMsgBoxActive(true);
+			Canvas->SetCustomMsgBoxActive(true);
 			Canvas->SetBattleActionBoxActive(false);
-			Canvas->SetBattleMessage(SelectedPokemon->GetNameW() + +L" is already\nin battle!");
+			Canvas->SetCustomMessage(SelectedPokemon->GetNameW() + +L" is already\nin battle!");
 			return;
 		}
 		else if (true == SelectedPokemon->IsFaint())
 		{
 			// 기절한 포켓몬을 고르는 경우
 			State = EState::BattleShiftFailMessageShow;
-			Canvas->SetBattleMsgBoxActive(true);
+			Canvas->SetCustomMsgBoxActive(true);
 			Canvas->SetBattleActionBoxActive(false);
-			Canvas->SetBattleMessage(SelectedPokemon->GetNameW() + L" has no energy\nleft to battle!");
+			Canvas->SetCustomMessage(SelectedPokemon->GetNameW() + L" has no energy\nleft to battle!");
 			return;
 		}
 
@@ -498,11 +507,107 @@ void UPokemonUILevel::ProcessSwitchMoveIn()
 
 void UPokemonUILevel::ProcessBagTestItemUseEffect()
 {
+	UPokemon* SelectedPokemon = &UPlayerData::GetPokemonInEntry(TargetCursor);
+	EUseEffect UseEffect = UseItem->UseEffect;
 
+	if (EUseEffect::Hp == UseEffect)
+	{
+		// 풀피인 경우
+		int CurHp = SelectedPokemon->GetCurHp();
+		int MaxHp = SelectedPokemon->GetHp();
+
+		if ( CurHp == MaxHp )
+		{
+			State = EState::ReturnWait;
+			Canvas->SetCustomMsgBoxActive(true);
+			Canvas->SetCustomMessage(L"It won't have any effect.");
+			return;
+		}
+
+		PrevHealHp = CurHp;
+		NextHealHp = UPokemonMath::Min(MaxHp, CurHp + UseItem->HealValue);
+		SelectedPokemon->SetCurHp(NextHealHp);
+
+		State = EState::BagHpUpEffect;
+		Timer = HealTime;
+	}
+	else if (EUseEffect::CureAll == UseEffect)
+	{
+		// 정상 상태 또는 기절 상태인 경우
+		EPokemonStatus StatusId = SelectedPokemon->GetStatusId();
+		if (EPokemonStatus::Normal == StatusId || EPokemonStatus::Faint == StatusId)
+		{
+			State = EState::ReturnWait;
+			Canvas->SetCustomMsgBoxActive(true);
+			Canvas->SetCustomMessage(L"It won't have any effect.");
+			return;
+		}
+
+		State = EState::ReturnWait;
+		SelectedPokemon->SetStatus(EPokemonStatus::Normal);
+		Canvas->SetCustomMsgBoxActive(true);
+		Canvas->SetCustomMessage(SelectedPokemon->GetNameW() + L" became healthy.");
+		Canvas->RefreshAllTargets();
+	}
+	else if (EUseEffect::CureBurn == UseEffect)
+	{
+		// 화상 상태가 아닌 경우
+		EPokemonStatus StatusId = SelectedPokemon->GetStatusId();
+		if (EPokemonStatus::Burn != StatusId)
+		{
+			State = EState::ReturnWait;
+			Canvas->SetCustomMsgBoxActive(true);
+			Canvas->SetCustomMessage(L"It won't have any effect.");
+			return;
+		}
+
+		State = EState::ReturnWait;
+		SelectedPokemon->SetStatus(EPokemonStatus::Normal);
+		Canvas->SetCustomMsgBoxActive(true);
+		Canvas->SetCustomMessage(SelectedPokemon->GetNameW() + L" was cured of it's burning.");
+		Canvas->RefreshAllTargets();
+	}
+	else if (EUseEffect::CurePoison == UseEffect)
+	{
+		// 중독 상태가 아닌 경우
+		EPokemonStatus StatusId = SelectedPokemon->GetStatusId();
+		if (EPokemonStatus::Poison != StatusId)
+		{
+			State = EState::ReturnWait;
+			Canvas->SetCustomMsgBoxActive(true);
+			Canvas->SetCustomMessage(L"It won't have any effect.");
+			return;
+		}
+
+		State = EState::ReturnWait;
+		SelectedPokemon->SetStatus(EPokemonStatus::Normal);
+		Canvas->SetCustomMsgBoxActive(true);
+		Canvas->SetCustomMessage(SelectedPokemon->GetNameW() + L" was cured of it's poisoning.");
+		Canvas->RefreshAllTargets();
+	}
 }
 
-void UPokemonUILevel::ProcessBagItemUseEffect()
+void UPokemonUILevel::ProcessBagHpUpEffect()
 {
+	const UPokemon* SelectedPokemon = &UPlayerData::GetPokemonInEntry(TargetCursor);
+	Canvas->LerpHeal(TargetCursor, PrevHealHp, NextHealHp, SelectedPokemon->GetHp(), Timer / HealTime);
+
+	if (Timer <= 0.0f)
+	{
+		State = EState::ReturnWait;
+
+		
+		Canvas->SetCustomMsgBoxActive(true);
+		Canvas->SetCustomMessage(SelectedPokemon->GetNameW() + L"'s HP was restored\nby " + std::to_wstring(NextHealHp - PrevHealHp) + L" points.");
+	}
+}
+
+void UPokemonUILevel::ProcessReturnWait()
+{
+	if (true == UEngineInput::IsDown('Z'))
+	{
+		UEventManager::FadeChangeLevel(PrevLevelName);
+	}
 }
 
 void UPokemonUILevel::CancelTargetSelection()
