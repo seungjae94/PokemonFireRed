@@ -21,5 +21,6 @@ private:
 
 	void MakeForestEntrances();
 	void MakePokemonCenterDoor();
+	void MakeAnimatedTiles();
 };
 

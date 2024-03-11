@@ -18,6 +18,7 @@ void UExteriorPewterCityLevel::BeginPlay()
 
 	MakeForestEntrances();
 	MakePokemonCenterDoor();
+	MakeAnimatedTiles();
 }
 
 void UExteriorPewterCityLevel::MakeForestEntrances()
@@ -67,4 +68,12 @@ void UExteriorPewterCityLevel::MakePokemonCenterDoor()
 	Door->SetTargetPoint({ 7, 8 });
 	Door->SetMoveDirection(FTileVector::Up);
 	Door->RegisterPredefinedEvent();
+}
+
+void UExteriorPewterCityLevel::MakeAnimatedTiles()
+{
+	DrawFlowers({
+		{31, 30}, {32, 30}, {33, 30}, {34, 30}, {36, 30}, {37, 30}, {38, 30}, {39, 30},
+		{31, 32}, {32, 32}, {33, 32}, {34, 32}, {36, 32}, {37, 32}, {38, 32}, {39, 32}
+	});
 }
