@@ -47,6 +47,8 @@ namespace Global
 	const std::string InteriorRivalsHouseLevel = "InteriorRivalsHouseLevel";
 	const std::string InteriorPlayersHouse1FLevel = "InteriorPlayersHouse1FLevel";
 	const std::string InteriorPlayersHouse2FLevel = "InteriorPlayersHouse2FLevel";
+	const std::string InteriorPokemonCenterLevel = "InteriorPokemonCenterLevel";
+	const std::string InteriorShopLevel = "InteriorShopLevel";
 	const std::string PokemonUILevel = "PokemonUILevel";
 	const std::string PokemonSummaryUILevel = "PokemonUISummaryLevel";
 	const std::string TrainerCardUILevel = "TrainerCardUILevel";

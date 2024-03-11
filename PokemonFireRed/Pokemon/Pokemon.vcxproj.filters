@@ -405,6 +405,9 @@
     <ClInclude Include="BagCanvas.h">
       <Filter>2. Level\6. BagUILevel</Filter>
     </ClInclude>
+    <ClInclude Include="InteriorPokemonCenterLevel.h">
+      <Filter>2. Level\2. MapLevel\1. Interior Level</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PokemonCore.cpp">
@@ -673,6 +676,9 @@
     </ClCompile>
     <ClCompile Include="BagCanvas.cpp">
       <Filter>2. Level\6. BagUILevel</Filter>
+    </ClCompile>
+    <ClCompile Include="InteriorPokemonCenterLevel.cpp">
+      <Filter>2. Level\2. MapLevel\1. Interior Level</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
