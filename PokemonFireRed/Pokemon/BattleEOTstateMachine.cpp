@@ -79,6 +79,16 @@ void ABattleEOTStateMachine::ProcessTestTempStatus()
 	// 임시 상태가 있는 경우
 	else
 	{
+		if (Target->CurTempStatusId() == EPokemonStatus::TempSeeded
+			&& CounterTarget->CurStatusId() == EPokemonStatus::Faint)
+		{
+			// EOT State Machine으로 들어온 이상 Target이 살아있다는 건 보장이 된다.
+			// 하지만, CounterTarget은 죽어 있을 수도 있다. 
+			// CounterTarget이 죽어 있는 경우 Seeded 효과가 적용되어서는 안된다.
+			State = ESubstate::TestStatus;
+			return;
+		}
+
 		State = ESubstate::TempStatusAnim;
 		Timer = TempStatusAnimTime;
 	}

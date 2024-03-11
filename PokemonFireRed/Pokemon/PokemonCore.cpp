@@ -42,7 +42,7 @@ void UPokemonCore::BeginPlay()
 	LoadSounds();
 
 	// 디버그용 포켓몬 추가 - 반드시 레벨 생성 이전에 수행
-	UPokemon Pokemon0 = UPokemon(EPokemonId::Bulbasaur, 30);
+	UPokemon Pokemon0 = UPokemon(EPokemonId::Bulbasaur, 7);
 	UPokemon Pokemon1 = UPokemon(EPokemonId::Rattata, 1);
 	UPokemon Pokemon2 = UPokemon(EPokemonId::Squirtle, 2);
 	UPokemon Pokemon3 = UPokemon(EPokemonId::Charmander, 7);
@@ -98,7 +98,7 @@ void UPokemonCore::BeginPlay()
 	CreateLevel<UBagUILevel>(Global::BagUILevel);
 
 	// 시작 레벨 설정
-	UEventManager::SetLevel(Global::ExteriorPalletTownLevel);
+	UEventManager::SetLevel(Global::InteriorPewterGymLevel);
 }
 
 void UPokemonCore::Tick(float _DeltaTime)

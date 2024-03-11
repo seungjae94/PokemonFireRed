@@ -74,7 +74,6 @@ FDamageResult UDamageCalculator::CalcDamage(const UBattler* _Attacker, const UBa
     {
         DamageValue *= 1.5f;
     }
-    DamageValue = std::floor(DamageValue);
 
     // 타입 효과
     const FPokemonType* MoveType = UGameDB::FindType(Move->TypeId);
@@ -91,7 +90,9 @@ FDamageResult UDamageCalculator::CalcDamage(const UBattler* _Attacker, const UBa
 
     if (true == UPokemonMath::Equal(TypeEffect, 0.0f))
     {
+        DamageResult.Damage = 0;
         DamageResult.TypeVs = ETypeVs::HasNoEffect;
+        return DamageResult;
     }
     else if (true == UPokemonMath::Equal(TypeEffect, 0.5f) || true == UPokemonMath::Equal(TypeEffect, 0.25f))
     {
@@ -107,12 +108,13 @@ FDamageResult UDamageCalculator::CalcDamage(const UBattler* _Attacker, const UBa
     }
 
     // 랜덤 변수
-    int RandomNumber = UPokemonMath::RandomInt(217, 255);
+    int RandomNumber = UPokemonMath::RandomInt(85, 100);
     DamageValue *= RandomNumber;
-    DamageValue /= 255;
+    DamageValue /= 100;
 
-    DamageResult.Damage = UPokemonMath::Floor(DamageValue);
+    int DamageInt = UPokemonMath::Floor(DamageValue);
 
+    DamageResult.Damage = UPokemonMath::Max(DamageInt, 1);
     return DamageResult;
 }
 
