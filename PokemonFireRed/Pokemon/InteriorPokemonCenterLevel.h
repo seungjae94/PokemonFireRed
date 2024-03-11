@@ -1,6 +1,8 @@
 #pragma once
 #include "MapLevel.h"
 
+class AInteriorDoor;
+
 class UInteriorPokemonCenterLevel : public UMapLevel
 {
 public:
@@ -19,7 +21,13 @@ protected:
 private:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
+	void LevelStart(ULevel* _PrevLevel) override;
 
+	AInteriorDoor* Door = nullptr;
+	void MakeDoor();
 	void MakeNurse();
+
+	void SetDoorTargetAsViridianCity();
+	//void SetDoorTargetAsPewterCity();
 };
 

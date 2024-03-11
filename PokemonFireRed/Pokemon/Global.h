@@ -100,6 +100,9 @@ namespace EN
 	const std::string RivalGreen = "RivalGreen";
 	const std::string AfterRivalBattleTrigger = "AfterRivalBattleTrigger";
 
+	// Common
+	const std::string InteriorDoor = "InteriorDoor";
+
 	// Viridian City
 	const std::string Nurse = "Nurse";
 	const std::string ShopOwner = "ShopOwner";
