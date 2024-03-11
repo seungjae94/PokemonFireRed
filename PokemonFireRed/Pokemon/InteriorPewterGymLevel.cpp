@@ -1,4 +1,4 @@
-#include "InteriorPewterGymLevel.h"
+ï»¿#include "InteriorPewterGymLevel.h"
 #include "InteriorDoor.h"
 #include "Trainer.h"
 
@@ -14,8 +14,8 @@ void UInteriorPewterGymLevel::BeginPlay()
 {
 	UMapLevel::BeginPlay();
 
-	// (µğ¹ö±ë) ÇÃ·¹ÀÌ¾î ½ÃÀÛ À§Ä¡ ¼³Á¤
-	UEventManager::SetPoint(GetName(), Global::Player, { 6, 14 });			// È¸»ö½ÃÆ¼ ¾Õ
+	// (ë””ë²„ê¹…) í”Œë ˆì´ì–´ ì‹œì‘ ìœ„ì¹˜ ì„¤ì •
+	UEventManager::SetPoint(GetName(), Global::Player, { 6, 14 });			// íšŒìƒ‰ì‹œí‹° ì•
 	UEventManager::SetDirection(GetName(), Global::Player, FTileVector::Up);
 
 	MakeCamper();
@@ -54,7 +54,7 @@ void UInteriorPewterGymLevel::MakeCamper()
 
 	ATrainer* Camper = SpawnEventTrigger<ATrainer>(Setting);
 	Camper->SetBattler("CAMPER LIAM", RN::CamperBattler);
-	Camper->SetPlayerWinMessage({ L"Darn!", L"Light-years isn't time¡¦\nIt measures distance!"});
+	Camper->SetPlayerWinMessage({ L"Darn!", L"Light-years isn't time\nIt measures distance!"});
 	Camper->AddPokemonToEntry(UPokemon(EPokemonId::Geodude, 10));
 	Camper->AddPokemonToEntry(UPokemon(EPokemonId::Sandshrew, 11));
 
@@ -107,12 +107,73 @@ void UInteriorPewterGymLevel::MakeCamper()
 
 void UInteriorPewterGymLevel::MakeGymLeader()
 {
+	UEventTargetSetting Setting;
+	Setting.SetName(EN::LeaderBrock);
+	Setting.SetPoint({ 6, 5 });
+	Setting.SetDirection(FTileVector::Down);
+	Setting.SetCollidable(true);
+	Setting.SetRotatable(true);
+	Setting.SetWalkable(false);
+	Setting.SetImageNameAuto();
 
+	UEventCondition BattleCond = UEventCondition(EEventTriggerAction::ZClick);
+	BattleCond.RegisterCheckFunc(FightWithBrockChecker);
+
+	ATrainer* Brock = SpawnEventTrigger<ATrainer>(Setting);
+	Brock->SetBattler("LEADER BROCK", RN::LeaderBrockBattler);
+	Brock->SetPlayerWinMessage({ L"I took you for granted, and so\nlost.", L"As proof of your victory, I confer\non you thisâ€¦", L"The official POKÃ©MON LEAGUE\nBOULDERBADGE."});
+	Brock->AddPokemonToEntry(UPokemon(EPokemonId::Geodude, 12));
+	Brock->AddPokemonToEntry(UPokemon(EPokemonId::Onix, 14));
+
+	UEventManager::RegisterEvent(Brock, BattleCond,
+		ES::Start(true)
+		>> ES::Chat({L"So, you're here. I'm BROCK.\nI'm PEWTER's GYM LEADER.", 
+			L"My rock-hard willpower is evident\neven in my POKÃ©MON.",
+			L"My POKÃ©MON are all rock hard, and\nhave true-grit determination.",
+			L"That's right - my POKÃ©MON are all\nthe ROCK type!",
+			L"Fuhaha! You're going to challenge\nme knowing that you'll lose?",
+			L"That's the TRAINER's honor that\ncompels you to challenge me.",
+			L"Fine, then!\nShow me your best!"}, EFontColor::Blue, 16)
+		>> ES::FadeOut(0.25f)
+		>> ES::Wait(0.25f)
+		>> ES::FadeIn(0.15f)
+		>> ES::Wait(0.15f)
+		>> ES::FadeOut(0.25f)
+		>> ES::Wait(0.25f)
+		>> ES::FadeIn(0.15f)
+		>> ES::Wait(0.15f)
+		>> ES::FadeOut(0.25f)
+		>> ES::Wait(0.25f)
+		>> ES::TrainerBattle(Brock)
+		>> ES::FadeIn(0.5f, EFadeType::VCurtain)
+		>> ES::Wait(0.5f)
+		>> ES::End(true)
+	);
+
+	UEventCondition EndingCond;
+	AEventTrigger* EndingTrigger = SpawnEventTrigger<AEventTrigger>("EndingTrigger");
+	UEventManager::RegisterEvent(EndingTrigger, EndingCond,
+		ES::Start(false)
+		>> ES::Achieve(EAchievement::FightWithPewterGymLeader)
+		>> ES::FadeOut(0.5f)
+		>> ES::Wait(0.5f)
+		>> ES::ChangeLevel(Global::InteriorPewterGymLevel)
+		>> ES::FadeIn(0.5f)
+		>> ES::Wait(0.5f)
+		>> ES::End(true)
+	);
+
+	Brock->SetAfterBattleTrigger(EndingTrigger);
 }
 
 bool UInteriorPewterGymLevel::FightWithCamperChecker()
 {
 	return false == UPlayerData::IsAchieved(EAchievement::FightWithPewterGymCamper);
+}
+
+bool UInteriorPewterGymLevel::FightWithBrockChecker()
+{
+	return false == UPlayerData::IsAchieved(EAchievement::FightWithPewterGymLeader);
 }
 
 std::vector<FTileVector> UInteriorPewterGymLevel::CamperPathGenerator()

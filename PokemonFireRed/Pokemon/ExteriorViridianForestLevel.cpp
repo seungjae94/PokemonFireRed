@@ -1,4 +1,4 @@
-#include "ExteriorViridianForestLevel.h"
+ï»¿#include "ExteriorViridianForestLevel.h"
 #include "Trainer.h"
 
 UExteriorViridianForestLevel::UExteriorViridianForestLevel()
@@ -13,9 +13,9 @@ void UExteriorViridianForestLevel::BeginPlay()
 {
 	UMapLevel::BeginPlay();
 
-	// (µð¹ö±ë) ÇÃ·¹ÀÌ¾î ½ÃÀÛ À§Ä¡ ¼³Á¤
-	UEventManager::SetPoint(GetName(), Global::Player, { 10, 20 });			// È¸»ö½ÃÆ¼ ¾Õ
-	//UEventManager::SetPoint(GetName(), Global::Player, { 35, 62 });			// »ó·Ï½ÃÆ¼ ¾Õ
+	// (ë””ë²„ê¹…) í”Œë ˆì´ì–´ ì‹œìž‘ ìœ„ì¹˜ ì„¤ì •
+	UEventManager::SetPoint(GetName(), Global::Player, { 10, 20 });			// íšŒìƒ‰ì‹œí‹° ì•ž
+	//UEventManager::SetPoint(GetName(), Global::Player, { 35, 62 });			// ìƒë¡ì‹œí‹° ì•ž
 
 	MakeBugCatcher0();
 	MakeBugCatcher1();
@@ -69,7 +69,7 @@ void UExteriorViridianForestLevel::MakeBugCatcher0()
 		UEventManager::RegisterEvent(BattleTile, BattleCond,
 			ES::Start(true)
 			>> ES::MoveDynamicPath(EN::BugCatcher0, BugCatcher0PathGenerator, Global::CharacterWalkSpeed, false)
-			>> ES::Chat({ L"Hey! you have POKeMON!\nCome on!\nLet's battle 'em!" }, EFontColor::Blue, 16)
+			>> ES::Chat({ L"Hey! you have POKÃ©MON!\nCome on!\nLet's battle 'em!" }, EFontColor::Blue, 16)
 			>> ES::FadeOut(0.25f)
 			>> ES::Wait(0.25f)
 			>> ES::FadeIn(0.15f)

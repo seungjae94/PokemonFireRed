@@ -171,7 +171,7 @@ void AStarterBall::ProcessSelect()
 		{
 			State = EState::SelectMessage1;
 			Canvas->SetActive(false);
-			MsgBox->SetMessage(L"This POKeMON is really quite\nenergetic!");
+			MsgBox->SetMessage(L"This POKéMON is really quite\nenergetic!");
 			MsgBox->Write();
 		}
 		else

@@ -24,6 +24,7 @@ private:
 	void MakeGymLeader();
 
 	static bool FightWithCamperChecker();
+	static bool FightWithBrockChecker();
 	static std::vector<FTileVector> CamperPathGenerator();
 };
 
