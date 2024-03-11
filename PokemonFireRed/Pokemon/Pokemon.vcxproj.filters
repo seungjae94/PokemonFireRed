@@ -124,6 +124,9 @@
     <Filter Include="6. Data\Pokemon\Object">
       <UniqueIdentifier>{eced8de5-9ab0-456a-abb7-bf3bcec28c58}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2. Level\2. MapLevel\1. Interior Level\Pallet Town">
+      <UniqueIdentifier>{48cb9f31-6539-44eb-affc-22366e8ab5b8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PokemonCore.h">
@@ -150,9 +153,6 @@
     <ClInclude Include="PokemonDebug.h">
       <Filter>3. Util</Filter>
     </ClInclude>
-    <ClInclude Include="InteriorOaksLabLevel.h">
-      <Filter>2. Level\2. MapLevel\1. Interior Level</Filter>
-    </ClInclude>
     <ClInclude Include="EventProcessor.h">
       <Filter>4. Event</Filter>
     </ClInclude>
@@ -164,15 +164,6 @@
     </ClInclude>
     <ClInclude Include="Warp.h">
       <Filter>2. Level\2. MapLevel\3. Actor\1. Trigger</Filter>
-    </ClInclude>
-    <ClInclude Include="InteriorPlayersHouse1FLevel.h">
-      <Filter>2. Level\2. MapLevel\1. Interior Level</Filter>
-    </ClInclude>
-    <ClInclude Include="InteriorPlayersHouse2FLevel.h">
-      <Filter>2. Level\2. MapLevel\1. Interior Level</Filter>
-    </ClInclude>
-    <ClInclude Include="InteriorRivalsHouseLevel.h">
-      <Filter>2. Level\2. MapLevel\1. Interior Level</Filter>
     </ClInclude>
     <ClInclude Include="EventCondition.h">
       <Filter>4. Event</Filter>
@@ -381,12 +372,6 @@
     <ClInclude Include="FinishBattleStateMachine.h">
       <Filter>2. Level\7. BattleLevel\StateMachine\4. FinishBattle</Filter>
     </ClInclude>
-    <ClInclude Include="StarterBall.h">
-      <Filter>2. Level\2. MapLevel\1. Interior Level</Filter>
-    </ClInclude>
-    <ClInclude Include="StarterCanvas.h">
-      <Filter>2. Level\2. MapLevel\1. Interior Level</Filter>
-    </ClInclude>
     <ClInclude Include="GameDB.h">
       <Filter>6. Data</Filter>
     </ClInclude>
@@ -407,6 +392,27 @@
     </ClInclude>
     <ClInclude Include="InteriorPokemonCenterLevel.h">
       <Filter>2. Level\2. MapLevel\1. Interior Level</Filter>
+    </ClInclude>
+    <ClInclude Include="InteriorShopLevel.h">
+      <Filter>2. Level\2. MapLevel\1. Interior Level</Filter>
+    </ClInclude>
+    <ClInclude Include="InteriorOaksLabLevel.h">
+      <Filter>2. Level\2. MapLevel\1. Interior Level\Pallet Town</Filter>
+    </ClInclude>
+    <ClInclude Include="InteriorPlayersHouse1FLevel.h">
+      <Filter>2. Level\2. MapLevel\1. Interior Level\Pallet Town</Filter>
+    </ClInclude>
+    <ClInclude Include="InteriorPlayersHouse2FLevel.h">
+      <Filter>2. Level\2. MapLevel\1. Interior Level\Pallet Town</Filter>
+    </ClInclude>
+    <ClInclude Include="StarterBall.h">
+      <Filter>2. Level\2. MapLevel\1. Interior Level\Pallet Town</Filter>
+    </ClInclude>
+    <ClInclude Include="StarterCanvas.h">
+      <Filter>2. Level\2. MapLevel\1. Interior Level\Pallet Town</Filter>
+    </ClInclude>
+    <ClInclude Include="InteriorRivalsHouseLevel.h">
+      <Filter>2. Level\2. MapLevel\1. Interior Level\Pallet Town</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -431,9 +437,6 @@
     <ClCompile Include="PokemonDebug.cpp">
       <Filter>3. Util</Filter>
     </ClCompile>
-    <ClCompile Include="InteriorOaksLabLevel.cpp">
-      <Filter>2. Level\2. MapLevel\1. Interior Level</Filter>
-    </ClCompile>
     <ClCompile Include="EventProcessor.cpp">
       <Filter>4. Event</Filter>
     </ClCompile>
@@ -445,15 +448,6 @@
     </ClCompile>
     <ClCompile Include="Warp.cpp">
       <Filter>2. Level\2. MapLevel\3. Actor\1. Trigger</Filter>
-    </ClCompile>
-    <ClCompile Include="InteriorPlayersHouse1FLevel.cpp">
-      <Filter>2. Level\2. MapLevel\1. Interior Level</Filter>
-    </ClCompile>
-    <ClCompile Include="InteriorPlayersHouse2FLevel.cpp">
-      <Filter>2. Level\2. MapLevel\1. Interior Level</Filter>
-    </ClCompile>
-    <ClCompile Include="InteriorRivalsHouseLevel.cpp">
-      <Filter>2. Level\2. MapLevel\1. Interior Level</Filter>
     </ClCompile>
     <ClCompile Include="EventCondition.cpp">
       <Filter>4. Event</Filter>
@@ -656,12 +650,6 @@
     <ClCompile Include="FinishBattleStateMachine.cpp">
       <Filter>2. Level\7. BattleLevel\StateMachine\4. FinishBattle</Filter>
     </ClCompile>
-    <ClCompile Include="StarterBall.cpp">
-      <Filter>2. Level\2. MapLevel\1. Interior Level</Filter>
-    </ClCompile>
-    <ClCompile Include="StarterCanvas.cpp">
-      <Filter>2. Level\2. MapLevel\1. Interior Level</Filter>
-    </ClCompile>
     <ClCompile Include="GameDB.cpp">
       <Filter>6. Data</Filter>
     </ClCompile>
@@ -679,6 +667,27 @@
     </ClCompile>
     <ClCompile Include="InteriorPokemonCenterLevel.cpp">
       <Filter>2. Level\2. MapLevel\1. Interior Level</Filter>
+    </ClCompile>
+    <ClCompile Include="InteriorShopLevel.cpp">
+      <Filter>2. Level\2. MapLevel\1. Interior Level</Filter>
+    </ClCompile>
+    <ClCompile Include="InteriorOaksLabLevel.cpp">
+      <Filter>2. Level\2. MapLevel\1. Interior Level\Pallet Town</Filter>
+    </ClCompile>
+    <ClCompile Include="InteriorPlayersHouse1FLevel.cpp">
+      <Filter>2. Level\2. MapLevel\1. Interior Level\Pallet Town</Filter>
+    </ClCompile>
+    <ClCompile Include="InteriorPlayersHouse2FLevel.cpp">
+      <Filter>2. Level\2. MapLevel\1. Interior Level\Pallet Town</Filter>
+    </ClCompile>
+    <ClCompile Include="StarterBall.cpp">
+      <Filter>2. Level\2. MapLevel\1. Interior Level\Pallet Town</Filter>
+    </ClCompile>
+    <ClCompile Include="StarterCanvas.cpp">
+      <Filter>2. Level\2. MapLevel\1. Interior Level\Pallet Town</Filter>
+    </ClCompile>
+    <ClCompile Include="InteriorRivalsHouseLevel.cpp">
+      <Filter>2. Level\2. MapLevel\1. Interior Level\Pallet Town</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

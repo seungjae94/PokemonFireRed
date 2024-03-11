@@ -20,8 +20,7 @@ void UExteriorPalletTownLevel::BeginPlay()
 	UMapLevel::BeginPlay();
 
 	// (디버깅) 플레이어 시작 위치 설정
-	UEventManager::SetPoint(GetName(), Global::Player, { 72, 80 });
-	//UEventManager::SetPoint(GetName(), Global::Player, { 12, 72 });
+	UEventManager::SetPoint(GetName(), Global::Player, { 82, 80 });
 	UEventManager::SetDirection(GetName(), Global::Player, FTileVector::Down);
 
 	// 마을 생성
@@ -242,6 +241,7 @@ void UExteriorPalletTownLevel::MakePTAnimatedTiles()
 void UExteriorPalletTownLevel::MakeViridianCity()
 {
 	MakeVCPokemonCenterDoor();
+	MakeVCShopDoor();
 	MakeVCAnimatedTiles();
 }
 
@@ -257,6 +257,22 @@ void UExteriorPalletTownLevel::MakeVCPokemonCenterDoor()
 	AExteriorDoor* Door = SpawnEventTrigger<AExteriorDoor>(Setting);
 	Door->SetTargetMapName(Global::InteriorPokemonCenterLevel);
 	Door->SetTargetPoint({ 7, 8 });
+	Door->SetMoveDirection(FTileVector::Up);
+	Door->RegisterPredefinedEvent();
+}
+
+void UExteriorPalletTownLevel::MakeVCShopDoor()
+{
+	UEventTargetSetting Setting;
+	Setting.SetName(EN::ViridianShopDoor);
+	Setting.SetPoint({ 88, 73 });
+	Setting.SetDirection(FTileVector::Up);
+	Setting.SetImageName(RN::SlideDoor);
+	Setting.SetHeight(1);
+
+	AExteriorDoor* Door = SpawnEventTrigger<AExteriorDoor>(Setting);
+	Door->SetTargetMapName(Global::InteriorShopLevel);
+	Door->SetTargetPoint({ 4, 7 });
 	Door->SetMoveDirection(FTileVector::Up);
 	Door->RegisterPredefinedEvent();
 }

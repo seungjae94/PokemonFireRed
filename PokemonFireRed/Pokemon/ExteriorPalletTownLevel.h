@@ -44,6 +44,7 @@ private:
 	// 상록 시티
 	void MakeViridianCity();
 	void MakeVCPokemonCenterDoor();
+	void MakeVCShopDoor();
 	void MakeVCAnimatedTiles();
 
 	// 22번 도로

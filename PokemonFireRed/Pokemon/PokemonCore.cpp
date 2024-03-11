@@ -7,6 +7,7 @@
 #include "InteriorPlayersHouse2FLevel.h"
 #include "InteriorRivalsHouseLevel.h"
 #include "InteriorPokemonCenterLevel.h"
+#include "InteriorShopLevel.h"
 #include "PokemonUILevel.h"
 #include "PokemonSummaryUILevel.h"
 #include "TrainerCardUILevel.h"
@@ -83,6 +84,7 @@ void UPokemonCore::BeginPlay()
 	CreateLevel<UInteriorPlayersHouse2FLevel>(Global::InteriorPlayersHouse2FLevel);
 	CreateLevel<UInteriorRivalsHouseLevel>(Global::InteriorRivalsHouseLevel);
 	CreateLevel<UInteriorPokemonCenterLevel>(Global::InteriorPokemonCenterLevel);
+	CreateLevel<InteriorShopLevel>(Global::InteriorShopLevel);
 	CreateLevel<UPokemonUILevel>(Global::PokemonUILevel);
 	CreateLevel<UPokemonSummaryUILevel>(Global::PokemonSummaryUILevel);
 	CreateLevel<UTrainerCardUILevel>(Global::TrainerCardUILevel);

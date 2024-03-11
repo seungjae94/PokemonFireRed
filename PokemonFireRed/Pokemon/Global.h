@@ -107,6 +107,7 @@ namespace EN
 	const std::string Nurse = "Nurse";
 	const std::string ShopOwner = "ShopOwner";
 	const std::string ViridianPokemonCenterDoor = "ViridianPokemonCenterDoor";
+	const std::string ViridianShopDoor = "ViridianShopDoor";
 
 	// Viridian Forest
 	const std::string BugCatcher0 = "BugCatcher0";
