@@ -20,11 +20,12 @@ void UExteriorPalletTownLevel::BeginPlay()
 	UMapLevel::BeginPlay();
 
 	// (디버깅) 플레이어 시작 위치 설정
-	UEventManager::SetPoint(GetName(), Global::Player, { 76, 136 });
+	UEventManager::SetPoint(GetName(), Global::Player, { 72, 80 });
 	UEventManager::SetDirection(GetName(), Global::Player, FTileVector::Down);
 
-	// 태초마을 생성
+	// 마을 생성
 	MakePalletTown();
+	MakeViridianCity();
 }
 
 void UExteriorPalletTownLevel::LevelStart(ULevel* _PrevLevel)
@@ -233,5 +234,26 @@ void UExteriorPalletTownLevel::MakePTAnimatedTiles()
 		{71, 156}, {72, 156}, {73, 156}, {74, 156},
 		{71, 157}, {72, 157}, {73, 157}, {74, 157},
 		{71, 158}, {72, 158}, {73, 158}, {74, 158},
+		});
+}
+
+void UExteriorPalletTownLevel::MakeViridianCity()
+{
+	MakeVCAnimatedTiles();
+}
+
+void UExteriorPalletTownLevel::MakeVCAnimatedTiles()
+{
+	DrawFlowers({
+		{80, 85}, {82, 85}, {84, 85}, {88, 85}, {90, 85}, {92, 85},
+		{87, 80}, {89, 80}, {86, 79}, {88, 79}, {87, 78}, {89, 78}, {86, 77}, {88, 77}
+	});
+
+	DrawSeas({
+		{63, 80}, {64, 80}, {65, 80}, {66, 80}, {67, 80}, {68, 80},
+		{63, 81}, {64, 81}, {65, 81}, {66, 81}, {67, 81}, {68, 81},
+		{63, 82}, {64, 82}, {65, 82}, {66, 82}, {67, 82}, {68, 82},
+		{63, 83}, {64, 83}, {65, 83}, {66, 83}, {67, 83}, {68, 83},
+		{63, 84}, {64, 84}, {65, 84}, {66, 84}, {67, 84}, {68, 84},
 		});
 }

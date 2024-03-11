@@ -40,5 +40,9 @@ private:
 		const std::vector<FTileVector>& _PlayerGoToLabPath);
 	void MakePTOak();
 	void MakePTAnimatedTiles();
+
+	// 상록 시티
+	void MakeViridianCity();
+	void MakeVCAnimatedTiles();
 };
 
