@@ -12,3 +12,5 @@ ID,NAME,BHP,BATK,BDEF,BSPATK,BSPDEF,BSPEED,YHP,YATK,YDEF,YSPATK,YSPDEF,YSPEED,YE
 50,DIGLETT,10,55,25,35,45,95,0,0,0,0,0,1,53,MediumFast,0.5,255,70,Ground,,Sand Veil,
 74,GEODUDE,40,80,100,30,30,20,0,0,1,0,0,0,60,MediumSlow,0.5,255,70,Rock,Ground,Rock Head,
 95,Onix,35,45,160,30,45,70,0,0,1,0,0,0,77,MediumFast,0.5,45,70,Rock,Ground,Rock Head,
+11,Metapod,50,20,55,25,25,30,0,0,2,0,0,0,72,MediumFast,0.5,120,70,Bug,,Shed Skin,
+14,Kakuna,45,25,50,25,25,35,0,0,2,0,0,0,71,MediumFast,0.5,120,70,Bug,Poison,Shed Skin,
