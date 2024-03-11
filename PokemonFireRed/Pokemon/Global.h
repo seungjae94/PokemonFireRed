@@ -256,8 +256,8 @@ namespace RN
 	const std::string GymDoor = "GymDoor";
 
 	// 맵 레벨 UI 리소스
+	const std::string YesNoOptionBox = "YesNoOptionBox.png";
 	const std::string StarterBackground = "StarterBackground.png";
-	const std::string StarterOptionBox = "StarterOptionBox.png";
 
 	// 가방 UI 레벨 리소스
 	const std::string UBItemsBackground = "UBItemsBackground.png";

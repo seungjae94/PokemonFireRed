@@ -1,4 +1,4 @@
-#include "InteriorPokemonCenterLevel.h"
+ï»¿#include "InteriorPokemonCenterLevel.h"
 #include <EnginePlatform/EngineInput.h>
 #include "InteriorDoor.h"
 #include "PokemonMsgBox.h"
@@ -16,14 +16,14 @@ void UInteriorPokemonCenterLevel::BeginPlay()
 {
 	UMapLevel::BeginPlay();
 
-	// (µğ¹ö±ë) ÇÃ·¹ÀÌ¾î ½ÃÀÛ À§Ä¡ ¼³Á¤
+	// (ë””ë²„ê¹…) í”Œë ˆì´ì–´ ì‹œì‘ ìœ„ì¹˜ ì„¤ì •
 	UEventManager::SetPoint(GetName(), Global::Player, { 5, 5 });
 	UEventManager::SetDirection(GetName(), Global::Player, FTileVector::Up);
 
 	MakeDoor();
 	MakeNurse();
 
-	// ÀÌº¥Æ® ·»´õ¸µ¿¡ ÇÊ¿äÇÑ ÇÏÀ§ ¿ä¼Ò ¼¼ÆÃ
+	// ì´ë²¤íŠ¸ ë Œë”ë§ì— í•„ìš”í•œ í•˜ìœ„ ìš”ì†Œ ì„¸íŒ…
 	Canvas = SpawnActor<APokemonCenterCanvas>();
 	MsgBox = SpawnActor<APokemonMsgBox>();
 
@@ -86,7 +86,7 @@ void UInteriorPokemonCenterLevel::LevelStart(ULevel* _PrevLevel)
 
 	UMapLevel* MapLevel = dynamic_cast<UMapLevel*>(_PrevLevel);
 	
-	// ¸Ê ·¹º§¿¡¼­ Á÷Á¢ Æ÷ÄÏ¸ó ¼¾ÅÍ¿¡ µé¾î¿Â °æ¿ì
+	// ë§µ ë ˆë²¨ì—ì„œ ì§ì ‘ í¬ì¼“ëª¬ ì„¼í„°ì— ë“¤ì–´ì˜¨ ê²½ìš°
 	if (nullptr != MapLevel)
 	{
 		if (MapLevel->GetName() == UEngineString::ToUpper(Global::ExteriorPalletTownLevel))
@@ -96,8 +96,8 @@ void UInteriorPokemonCenterLevel::LevelStart(ULevel* _PrevLevel)
 		return;
 	}
 	
-	// ¹èÆ²¿¡¼­ ÆĞ¹èÇØ¼­ Æ÷ÄÏ¸ó ¼¾ÅÍ·Î ¿Â °æ¿ì
-	SetDoorTargetAsViridianCity(); // ÀÓ½Ã·Î »ó·Ï ½ÃÆ¼·Î µ¹¾Æ¿Àµµ·Ï ¼³Á¤
+	// ë°°í‹€ì—ì„œ íŒ¨ë°°í•´ì„œ í¬ì¼“ëª¬ ì„¼í„°ë¡œ ì˜¨ ê²½ìš°
+	SetDoorTargetAsViridianCity(); // ì„ì‹œë¡œ ìƒë¡ ì‹œí‹°ë¡œ ëŒì•„ì˜¤ë„ë¡ ì„¤ì •
 }
 
 void UInteriorPokemonCenterLevel::MakeDoor()
@@ -155,8 +155,10 @@ void UInteriorPokemonCenterLevel::ProcessCheckHealEvent()
 	State = EState::WelcomeMessage1;
 	UEventManager::DeactivatePlayer();
 	Canvas->SetActive(true);
+	Canvas->SetOptionBoxActive(false);
+	Canvas->DecCursor();
 	MsgBox->SetActive(true);
-	MsgBox->SetMessage(L"Welcome to our POKeMON CENTER!");
+	MsgBox->SetMessage(L"Welcome to our POKÃ©MON CENTER!");
 	MsgBox->Write();
 }
 
@@ -174,7 +176,7 @@ void UInteriorPokemonCenterLevel::ProcessWelcomeMessage2()
 	if (true == UEngineInput::IsDown('Z'))
 	{
 		State = EState::HealSelectMessage;
-		MsgBox->SetMessage(L"Would you like me to heal\nyour POKeMON back to perfect health?");
+		MsgBox->SetMessage(L"Would you like me to heal your\nPOKÃ©MON back to perfect health?");
 		MsgBox->Write();
 	}
 }
@@ -183,22 +185,75 @@ void UInteriorPokemonCenterLevel::ProcessHealSelectMessage()
 {
 	if (EWriteState::WriteEnd == MsgBox->GetWriteState())
 	{
-
-		// Canvas->SetOptionBoxActive(true);
+		State = EState::HealSelect;
+		Canvas->SetOptionBoxActive(true);
 	}
 }
 
 void UInteriorPokemonCenterLevel::ProcessHealSelect()
 {
-	// Ä¿¼­ Á¶ÀÛ
+	// ì„ íƒ
+	if (true == UEngineInput::IsDown('Z'))
+	{
+		int Cursor = Canvas->GetCursor();
+
+		// íšŒë³µ ì„ íƒ
+		if (Cursor == 0)
+		{
+			State = EState::YesHealMessage;
+			Canvas->SetActive(false);
+			MsgBox->SetMessage(L"Okay, I'll take your POKÃ©MON for a\nfew seconds.");
+			MsgBox->Write();
+		}
+		// ì·¨ì†Œ ì„ íƒ
+		else if (Cursor == 1)
+		{
+			State = EState::NoHealMessage;
+			Canvas->SetActive(false);
+			MsgBox->SetMessage(L"We hope to see you again!");
+			MsgBox->Write();
+		}
+		return;
+	}
+
+	// ì·¨ì†Œ
+	if (true == UEngineInput::IsDown('X'))
+	{
+		State = EState::NoHealMessage;
+		Canvas->SetActive(false);
+		MsgBox->SetMessage(L"We hope to see you again!");
+		MsgBox->Write();
+		return;
+	}
+
+	if (true == UEngineInput::IsDown(VK_UP))
+	{
+		Canvas->DecCursor();
+	}
+
+	if (true == UEngineInput::IsDown(VK_DOWN))
+	{
+		Canvas->IncCursor();
+	}
 }
 
 void UInteriorPokemonCenterLevel::ProcessNoHealMessage()
 {
+	if (EWriteState::WriteEnd == MsgBox->GetWriteState()
+		&& true == UEngineInput::IsDown('Z'))
+	{
+		State = EState::CheckHealEvent;
+		UEventManager::ActivatePlayer();
+		MsgBox->SetActive(false);
+	}
 }
 
 void UInteriorPokemonCenterLevel::ProcessYesHealMessage()
 {
+	if (EWriteState::WriteEnd == MsgBox->GetWriteState())
+	{
+		int a = 0;
+	}
 }
 
 void UInteriorPokemonCenterLevel::ProcessBallAppear()
