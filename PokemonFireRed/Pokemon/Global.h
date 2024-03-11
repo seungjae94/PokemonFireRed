@@ -254,6 +254,7 @@ namespace RN
 	const std::string RedDoor = "RedDoor";
 	const std::string SlideDoor = "SlideDoor";
 	const std::string GymDoor = "GymDoor";
+	const std::string BallHeal = "BallHeal.png";
 
 	// 맵 레벨 UI 리소스
 	const std::string YesNoOptionBox = "YesNoOptionBox.png";

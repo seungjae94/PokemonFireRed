@@ -41,9 +41,9 @@ void UPokemonCore::BeginPlay()
 	// 디버그용 포켓몬 추가 - 반드시 레벨 생성 이전에 수행
 	UPokemon Pokemon0 = UPokemon(EPokemonId::Bulbasaur, 10);
 	UPokemon Pokemon1 = UPokemon(EPokemonId::Rattata, 1);
-	//UPokemon Pokemon2 = UPokemon(EPokemonId::Squirtle, 2);
-	//UPokemon Pokemon3 = UPokemon(EPokemonId::Charmander, 7);
-	//UPokemon Pokemon4 = UPokemon(EPokemonId::Pidgey, 2);
+	UPokemon Pokemon2 = UPokemon(EPokemonId::Squirtle, 2);
+	UPokemon Pokemon3 = UPokemon(EPokemonId::Charmander, 7);
+	UPokemon Pokemon4 = UPokemon(EPokemonId::Pidgey, 2);
 	//UPokemon Pokemon5 = UPokemon(EPokemonId::Caterpie, 3);
 	Pokemon0.SetCurHp(Pokemon0.GetHp() / 6);
 	Pokemon1.SetCurHp(Pokemon1.GetHp() / 3);
@@ -54,9 +54,9 @@ void UPokemonCore::BeginPlay()
 	//Pokemon4.AddAccExp(1);
 	UPlayerData::AddPokemonToEntry(Pokemon0);
 	UPlayerData::AddPokemonToEntry(Pokemon1);
-	//UPlayerData::AddPokemonToEntry(Pokemon2);
-	//UPlayerData::AddPokemonToEntry(Pokemon3);
-	//UPlayerData::AddPokemonToEntry(Pokemon4);
+	UPlayerData::AddPokemonToEntry(Pokemon2);
+	UPlayerData::AddPokemonToEntry(Pokemon3);
+	UPlayerData::AddPokemonToEntry(Pokemon4);
 	//UPlayerData::AddPokemonToEntry(Pokemon5);
 
 	// 디버그용 아이템 획득

@@ -1,5 +1,6 @@
 #pragma once
 #include "MapLevel.h"
+#include "PokemonCenterBalls.h"
 
 class AInteriorDoor;
 class APokemonMsgBox;
@@ -65,5 +66,11 @@ private:
 	void ProcessHealEndMessage1();
 	void ProcessHealEndMessage2();
 
+	// 상태 데이터
+	float Timer = 0.0f;
+	const float BallAppearInterval = 0.15f;
+	int MaxBallCount = 0;
+	int CurBallCount = 0;
+	APokemonCenterBalls* Balls = nullptr;
 };
 

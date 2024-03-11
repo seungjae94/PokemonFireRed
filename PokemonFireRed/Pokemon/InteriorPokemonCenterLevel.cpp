@@ -26,11 +26,14 @@ void UInteriorPokemonCenterLevel::BeginPlay()
 	// 이벤트 렌더링에 필요한 하위 요소 세팅
 	Canvas = SpawnActor<APokemonCenterCanvas>();
 	MsgBox = SpawnActor<APokemonMsgBox>();
-
+	Balls = SpawnActor<APokemonCenterBalls>();
+	
 	MsgBox->SetBackgroundImage(RN::DialogueWindow);
 	MsgBox->SetCoverImage(RN::DialogueWindowCover);
 	MsgBox->SetTextColor(EFontColor::Red);
 	MsgBox->SetLineSpace(16);
+
+	Balls->SetActorLocation(FTileVector(5, 1).ToFVector() + FVector(1.0f/3, 1.0f/4) * Global::FloatTileSize);
 
 	Canvas->SetActive(false);
 	MsgBox->SetActive(false);
@@ -39,6 +42,8 @@ void UInteriorPokemonCenterLevel::BeginPlay()
 void UInteriorPokemonCenterLevel::Tick(float _DeltaTime)
 {
 	UMapLevel::Tick(_DeltaTime);
+
+	Timer -= _DeltaTime;
 
 	switch (State)
 	{
@@ -252,12 +257,28 @@ void UInteriorPokemonCenterLevel::ProcessYesHealMessage()
 {
 	if (EWriteState::WriteEnd == MsgBox->GetWriteState())
 	{
-		int a = 0;
+		State = EState::BallAppear;
+		MaxBallCount = UPlayerData::GetPokemonEntrySize();
+		CurBallCount = 0;
+		Timer = 0.0f;
 	}
 }
 
 void UInteriorPokemonCenterLevel::ProcessBallAppear()
 {
+	if (Timer <= 0.0f)
+	{
+		Balls->SetActiveBall(CurBallCount, true);
+		++CurBallCount;
+		Timer = BallAppearInterval;
+		
+		if (CurBallCount == MaxBallCount)
+		{
+			State = EState::BallAnim;
+			return;
+		}
+	}
+
 }
 
 void UInteriorPokemonCenterLevel::ProcessBallAnim()

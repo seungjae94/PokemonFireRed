@@ -219,6 +219,9 @@ void UMapLevel::LoadObjectResources()
 		UEngineResourcesManager::GetInst().LoadFolder(CurDir.AppendPath(Name));
 	}
 
+	// BallHeal ·Îµå
+	UEngineResourcesManager::GetInst().CuttingImage(RN::BallHeal, 5, 1);
+
 	CurDir.MoveParent();
 }
 
