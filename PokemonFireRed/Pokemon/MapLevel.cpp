@@ -207,8 +207,10 @@ void UMapLevel::LoadObjectResources()
 
 	// 로드할 폴더 이름 정의
 	std::vector<std::string> LoadFolderNames = {
-		"GreenDoor",
-		"RedDoor"
+		RN::GreenDoor,
+		RN::RedDoor,
+		RN::SlideDoor,
+		RN::GymDoor
 	};
 
 	// 폴더 로드

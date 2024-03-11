@@ -103,6 +103,7 @@ namespace EN
 	// Viridian City
 	const std::string Nurse = "Nurse";
 	const std::string ShopOwner = "ShopOwner";
+	const std::string ViridianPokemonCenterDoor = "ViridianPokemonCenterDoor";
 
 	// Viridian Forest
 	const std::string BugCatcher0 = "BugCatcher0";
@@ -111,6 +112,7 @@ namespace EN
 	// Pewter City
 	const std::string Camper = "Camper";
 	const std::string LeaderBrock = "LeaderBrock";
+	const std::string PewterPokemonCenterDoor = "PewterPokemonCenterDoor";
 
 };
 
@@ -244,6 +246,10 @@ namespace RN
 
 	// 오브젝트 리소스
 	const std::string MapBall = "MapBall.png";
+	const std::string GreenDoor = "GreenDoor";
+	const std::string RedDoor = "RedDoor";
+	const std::string SlideDoor = "SlideDoor";
+	const std::string GymDoor = "GymDoor";
 
 	// 맵 레벨 UI 리소스
 	const std::string StarterBackground = "StarterBackground.png";

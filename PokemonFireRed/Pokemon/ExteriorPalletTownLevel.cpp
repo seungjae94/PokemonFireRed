@@ -20,8 +20,8 @@ void UExteriorPalletTownLevel::BeginPlay()
 	UMapLevel::BeginPlay();
 
 	// (디버깅) 플레이어 시작 위치 설정
-	//UEventManager::SetPoint(GetName(), Global::Player, { 72, 80 });
-	UEventManager::SetPoint(GetName(), Global::Player, { 12, 72 });
+	UEventManager::SetPoint(GetName(), Global::Player, { 72, 80 });
+	//UEventManager::SetPoint(GetName(), Global::Player, { 12, 72 });
 	UEventManager::SetDirection(GetName(), Global::Player, FTileVector::Down);
 
 	// 마을 생성
@@ -58,7 +58,7 @@ void UExteriorPalletTownLevel::MakePTOaksLabDoor()
 	Setting.SetName(EN::OaksLabDoor);
 	Setting.SetPoint({ 80, 147 });
 	Setting.SetDirection(FTileVector::Up);
-	Setting.SetImageName("GreenDoor");
+	Setting.SetImageName(RN::GreenDoor);
 	Setting.SetHeight(1);
 
 	AExteriorDoor* OaksLabDoor = SpawnEventTrigger<AExteriorDoor>(Setting);
@@ -74,7 +74,7 @@ void UExteriorPalletTownLevel::MakePTPlayersHouseDoor()
 	Setting.SetName(EN::PlayersHouseDoor);
 	Setting.SetPoint({ 70, 141 });
 	Setting.SetDirection(FTileVector::Up);
-	Setting.SetImageName("RedDoor");
+	Setting.SetImageName(RN::RedDoor);
 	Setting.SetHeight(1);
 
 	AExteriorDoor* PlayersHouseDoor = SpawnEventTrigger<AExteriorDoor>(Setting);
@@ -241,7 +241,24 @@ void UExteriorPalletTownLevel::MakePTAnimatedTiles()
 
 void UExteriorPalletTownLevel::MakeViridianCity()
 {
+	MakeVCPokemonCenterDoor();
 	MakeVCAnimatedTiles();
+}
+
+void UExteriorPalletTownLevel::MakeVCPokemonCenterDoor()
+{
+	UEventTargetSetting Setting;
+	Setting.SetName(EN::ViridianPokemonCenterDoor);
+	Setting.SetPoint({ 78, 80 });
+	Setting.SetDirection(FTileVector::Up);
+	Setting.SetImageName(RN::SlideDoor);
+	Setting.SetHeight(1);
+
+	AExteriorDoor* Door = SpawnEventTrigger<AExteriorDoor>(Setting);
+	Door->SetTargetMapName(Global::InteriorPokemonCenterLevel);
+	Door->SetTargetPoint({ 7, 8 });
+	Door->SetMoveDirection(FTileVector::Up);
+	Door->RegisterPredefinedEvent();
 }
 
 void UExteriorPalletTownLevel::MakeVCAnimatedTiles()
