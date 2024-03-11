@@ -20,5 +20,10 @@ private:
 	void BeginPlay() override;
 
 	void MakePewterCityDoor();
+	void MakeCamper();
+	void MakeGymLeader();
+
+	static bool FightWithCamperChecker();
+	static std::vector<FTileVector> CamperPathGenerator();
 };
 

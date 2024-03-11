@@ -241,6 +241,7 @@ namespace RN
 	const std::string PlayerBattler = "PlayerBattler.png"; 
 	const std::string RivalGreenBattler = "RivalGreenBattler.png";
 	const std::string BugCatcherBattler = "BugCatcherBattler.png";
+	const std::string CamperBattler = "CamperBattler.png";
 	const std::string LeaderBrockBattler = "LeaderBrock.png";
 
 	const std::string BattlePlayerEntryArrow = "BattlePlayerEntryArrow.png";
