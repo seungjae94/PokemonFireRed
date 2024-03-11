@@ -21,6 +21,11 @@ private:
 
 	void MakeForestEntrances();
 	void MakePokemonCenterDoor();
+	void MakeGymDoor();
 	void MakeAnimatedTiles();
+	void MakeShopClosedDoor();
+	void MakePrivateHouse1ClosedDoor();
+	void MakePrivateHouse2ClosedDoor();
+	void MakeMuseumClosedDoor();
 };
 
