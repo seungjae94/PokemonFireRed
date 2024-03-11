@@ -20,12 +20,14 @@ void UExteriorPalletTownLevel::BeginPlay()
 	UMapLevel::BeginPlay();
 
 	// (디버깅) 플레이어 시작 위치 설정
-	UEventManager::SetPoint(GetName(), Global::Player, { 72, 80 });
+	//UEventManager::SetPoint(GetName(), Global::Player, { 72, 80 });
+	UEventManager::SetPoint(GetName(), Global::Player, { 26, 70 });
 	UEventManager::SetDirection(GetName(), Global::Player, FTileVector::Down);
 
 	// 마을 생성
 	MakePalletTown();
 	MakeViridianCity();
+	MakeRoute22();
 }
 
 void UExteriorPalletTownLevel::LevelStart(ULevel* _PrevLevel)
@@ -256,4 +258,24 @@ void UExteriorPalletTownLevel::MakeVCAnimatedTiles()
 		{63, 83}, {64, 83}, {65, 83}, {66, 83}, {67, 83}, {68, 83},
 		{63, 84}, {64, 84}, {65, 84}, {66, 84}, {67, 84}, {68, 84},
 		});
+}
+
+void UExteriorPalletTownLevel::MakeRoute22()
+{
+	MakeR22AnimatedTiles();
+	MakeR22Prohibitor();
+}
+
+void UExteriorPalletTownLevel::MakeR22AnimatedTiles()
+{
+	DrawSeas({
+		{26, 72}, {27, 72}, {28, 72}, {29, 72}, {30, 72}, {31, 72},
+		{26, 73}, {27, 73}, {28, 73}, {29, 73}, {30, 73}, {31, 73},
+		{26, 74}, {27, 74}, {28, 74}, {29, 74}, {30, 74}, {31, 74},
+		{26, 75}, {27, 75}, {28, 75}, {29, 75}, {30, 75}, {31, 75},
+		});
+}
+
+void UExteriorPalletTownLevel::MakeR22Prohibitor()
+{
 }

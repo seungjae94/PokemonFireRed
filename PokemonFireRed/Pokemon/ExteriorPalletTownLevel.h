@@ -44,5 +44,10 @@ private:
 	// 상록 시티
 	void MakeViridianCity();
 	void MakeVCAnimatedTiles();
+
+	// 22번 도로
+	void MakeRoute22();
+	void MakeR22AnimatedTiles();
+	void MakeR22Prohibitor();
 };
 
