@@ -3,18 +3,18 @@
 
 class AInteriorDoor;
 
-class InteriorShopLevel : public UMapLevel
+class UInteriorShopLevel : public UMapLevel
 {
 public:
 	// constructor destructor
-	InteriorShopLevel();
-	~InteriorShopLevel();
+	UInteriorShopLevel();
+	~UInteriorShopLevel();
 
 	// delete Function
-	InteriorShopLevel(const InteriorShopLevel& _Other) = delete;
-	InteriorShopLevel(InteriorShopLevel&& _Other) noexcept = delete;
-	InteriorShopLevel& operator=(const InteriorShopLevel& _Other) = delete;
-	InteriorShopLevel& operator=(InteriorShopLevel&& _Other) noexcept = delete;
+	UInteriorShopLevel(const UInteriorShopLevel& _Other) = delete;
+	UInteriorShopLevel(UInteriorShopLevel&& _Other) noexcept = delete;
+	UInteriorShopLevel& operator=(const UInteriorShopLevel& _Other) = delete;
+	UInteriorShopLevel& operator=(UInteriorShopLevel&& _Other) noexcept = delete;
 
 protected:
 

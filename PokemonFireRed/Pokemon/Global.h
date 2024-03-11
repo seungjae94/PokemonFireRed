@@ -44,6 +44,7 @@ namespace Global
 	const std::string TutorialLevel = "TutorialLevel";
 	const std::string ExteriorPalletTownLevel = "ExteriorPalletTownLevel";
 	const std::string ExteriorViridianForestLevel = "ExteriorViridianForestLevel";
+	const std::string ExteriorPewterCityLevel = "ExteriorPewterCityLevel";
 	const std::string InteriorOaksLabLevel = "InteriorOaksLabLevel";
 	const std::string InteriorRivalsHouseLevel = "InteriorRivalsHouseLevel";
 	const std::string InteriorPlayersHouse1FLevel = "InteriorPlayersHouse1FLevel";

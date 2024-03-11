@@ -1,15 +1,15 @@
 #include "InteriorShopLevel.h"
 #include "InteriorDoor.h"
 
-InteriorShopLevel::InteriorShopLevel() 
+UInteriorShopLevel::UInteriorShopLevel() 
 {
 }
 
-InteriorShopLevel::~InteriorShopLevel() 
+UInteriorShopLevel::~UInteriorShopLevel() 
 {
 }
 
-void InteriorShopLevel::BeginPlay()
+void UInteriorShopLevel::BeginPlay()
 {
 	UMapLevel::BeginPlay();
 
@@ -20,12 +20,12 @@ void InteriorShopLevel::BeginPlay()
 	MakeDoor();
 }
 
-void InteriorShopLevel::Tick(float _DeltaTime)
+void UInteriorShopLevel::Tick(float _DeltaTime)
 {
 	UMapLevel::Tick(_DeltaTime);
 }
 
-void InteriorShopLevel::LevelStart(ULevel* _PrevLevel)
+void UInteriorShopLevel::LevelStart(ULevel* _PrevLevel)
 {
 	UMapLevel::LevelStart(_PrevLevel);
 
@@ -45,7 +45,7 @@ void InteriorShopLevel::LevelStart(ULevel* _PrevLevel)
 	SetDoorTargetAsViridianCity(); // 임시로 상록 시티로 돌아오도록 설정
 }
 
-void InteriorShopLevel::MakeDoor()
+void UInteriorShopLevel::MakeDoor()
 {
 	UEventTargetSetting Setting;
 	Setting.SetName(EN::InteriorDoor);
@@ -54,7 +54,7 @@ void InteriorShopLevel::MakeDoor()
 	Door = SpawnEventTrigger<AInteriorDoor>(Setting);
 }
 
-void InteriorShopLevel::SetDoorTargetAsViridianCity()
+void UInteriorShopLevel::SetDoorTargetAsViridianCity()
 {
 	Door->SetTargetMapName(Global::ExteriorPalletTownLevel);
 	Door->SetTargetPoint({ 88, 74 });
