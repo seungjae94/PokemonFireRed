@@ -23,6 +23,32 @@ void APokemonCenterBalls::SetActiveAllBalls(bool _Value)
 	}
 }
 
+void APokemonCenterBalls::PlayHealAnimation()
+{
+	for (UImageRenderer* Ball : Balls)
+	{
+		if (false == Ball->IsActive())
+		{
+			continue;
+		}
+
+		Ball->ChangeAnimation("BallBlink", true);
+	}
+}
+
+void APokemonCenterBalls::StopHealAnimation()
+{
+	for (UImageRenderer* Ball : Balls)
+	{
+		if (false == Ball->IsActive())
+		{
+			continue;
+		}
+
+		Ball->ChangeAnimation("BallIdle", true);
+	}
+}
+
 void APokemonCenterBalls::BeginPlay()
 {
 	for (int i = 0; i < 6; ++i)

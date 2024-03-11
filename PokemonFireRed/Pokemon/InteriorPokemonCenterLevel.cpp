@@ -80,6 +80,15 @@ void UInteriorPokemonCenterLevel::Tick(float _DeltaTime)
 	case EState::HealEndMessage2:
 		ProcessHealEndMessage2();
 		break;
+	case EState::HealEndMessage3:
+		ProcessHealEndMessage3();
+		break;
+	case EState::HealEndMessage4:
+		ProcessHealEndMessage4();
+		break;
+	case EState::HealEndMessage5:
+		ProcessHealEndMessage5();
+		break;
 	default:
 		break;
 	}
@@ -124,7 +133,7 @@ void UInteriorPokemonCenterLevel::MakeNurse()
 	Setting.SetRotatable(true);
 	Setting.SetImageNameAuto();
 
-	AEventTarget* Nurse = SpawnEventTarget<AEventTarget>(Setting);
+	Nurse = SpawnEventTarget<AEventTarget>(Setting);
 }
 
 void UInteriorPokemonCenterLevel::SetDoorTargetAsViridianCity()
@@ -258,6 +267,7 @@ void UInteriorPokemonCenterLevel::ProcessYesHealMessage()
 	if (EWriteState::WriteEnd == MsgBox->GetWriteState())
 	{
 		State = EState::BallAppear;
+		Nurse->SetDirection(FTileVector::Left);
 		MaxBallCount = UPlayerData::GetPokemonEntrySize();
 		CurBallCount = 0;
 		Timer = 0.0f;
@@ -271,10 +281,12 @@ void UInteriorPokemonCenterLevel::ProcessBallAppear()
 		Balls->SetActiveBall(CurBallCount, true);
 		++CurBallCount;
 		Timer = BallAppearInterval;
-		
+
 		if (CurBallCount == MaxBallCount)
 		{
 			State = EState::BallAnim;
+			Balls->PlayHealAnimation();
+			Timer = BallBlinkTime;
 			return;
 		}
 	}
@@ -283,12 +295,71 @@ void UInteriorPokemonCenterLevel::ProcessBallAppear()
 
 void UInteriorPokemonCenterLevel::ProcessBallAnim()
 {
+	if (Timer <= 0.0f)
+	{
+		State = EState::HealEndMessage1;
+		Nurse->SetDirection(FTileVector::Down);
+		Balls->StopHealAnimation();
+		MsgBox->SetMessage(L"Thank you for waiting.");
+		MsgBox->Write();
+
+		// 실제 치료 처리
+		for (int i = 0; i < UPlayerData::GetPokemonEntrySize(); ++i)
+		{
+			UPokemon& Pokemon = UPlayerData::GetPokemonInEntry(i);
+			Pokemon.HealAll();
+			Pokemon.Cure();
+		}
+	}
 }
 
 void UInteriorPokemonCenterLevel::ProcessHealEndMessage1()
 {
+	if (EWriteState::WriteEnd == MsgBox->GetWriteState())
+	{
+		State = EState::HealEndMessage2;
+		MsgBox->ShowSkipArrow();
+	}
 }
 
 void UInteriorPokemonCenterLevel::ProcessHealEndMessage2()
 {
+	if (true == UEngineInput::IsDown('Z'))
+	{
+		State = EState::HealEndMessage3;
+		MsgBox->HideSkipArrow();
+		MsgBox->SetMessage(L"We've restored your POKeMON to\nfull health.");
+		MsgBox->Write();
+	}
+}
+
+void UInteriorPokemonCenterLevel::ProcessHealEndMessage3()
+{
+	if (EWriteState::WriteEnd == MsgBox->GetWriteState())
+	{
+		State = EState::HealEndMessage4;
+		MsgBox->ShowSkipArrow();
+	}
+}
+
+void UInteriorPokemonCenterLevel::ProcessHealEndMessage4()
+{
+	if (true == UEngineInput::IsDown('Z'))
+	{
+		State = EState::HealEndMessage5;
+		MsgBox->HideSkipArrow();
+		MsgBox->SetMessage(L"We hope to see you again!");
+		MsgBox->Write();
+	}
+}
+
+void UInteriorPokemonCenterLevel::ProcessHealEndMessage5()
+{
+	if (EWriteState::WriteEnd == MsgBox->GetWriteState()
+		&& true == UEngineInput::IsDown('Z'))
+	{
+		State = EState::CheckHealEvent;
+		UEventManager::ActivatePlayer();
+		MsgBox->SetActive(false);
+	}
 }

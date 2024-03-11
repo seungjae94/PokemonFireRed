@@ -22,6 +22,9 @@ private:
 		BallAnim,
 		HealEndMessage1,
 		HealEndMessage2,
+		HealEndMessage3,
+		HealEndMessage4,
+		HealEndMessage5,
 	};
 public:
 	// constructor destructor
@@ -65,12 +68,17 @@ private:
 	void ProcessBallAnim();
 	void ProcessHealEndMessage1();
 	void ProcessHealEndMessage2();
+	void ProcessHealEndMessage3();
+	void ProcessHealEndMessage4();
+	void ProcessHealEndMessage5();
 
 	// 상태 데이터
 	float Timer = 0.0f;
 	const float BallAppearInterval = 0.15f;
+	const float BallBlinkTime = 1.8f;
 	int MaxBallCount = 0;
 	int CurBallCount = 0;
+	AEventTarget* Nurse = nullptr;
 	APokemonCenterBalls* Balls = nullptr;
 };
 

@@ -16,6 +16,8 @@ public:
 
 	void SetActiveBall(int _Index, bool _Value);
 	void SetActiveAllBalls(bool _Value);
+	void PlayHealAnimation();
+	void StopHealAnimation();
 
 protected:
 

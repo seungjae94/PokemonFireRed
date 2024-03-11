@@ -217,6 +217,11 @@ public:
 		CurHp = GetHp();
 	}
 
+	void Cure()
+	{
+		Status = UGameDB::FindStatus(EPokemonStatus::Normal);
+	}
+
 	int GetHp() const;
 	std::wstring GetHpW() const
 	{
