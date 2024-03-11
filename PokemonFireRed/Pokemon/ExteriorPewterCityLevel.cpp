@@ -15,7 +15,8 @@ void UExteriorPewterCityLevel::BeginPlay()
 	UMapLevel::BeginPlay();
 
 	// (디버깅) 플레이어 시작 위치 설정
-	UEventManager::SetPoint(GetName(), Global::Player, { 21, 31 });
+	UEventManager::SetPoint(GetName(), Global::Player, { 19, 21 });
+	UEventManager::SetDirection(GetName(), Global::Player, FTileVector::Up);
 
 	MakeForestEntrances();
 	MakePokemonCenterDoor();
