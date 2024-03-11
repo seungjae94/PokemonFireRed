@@ -17,6 +17,9 @@ public:
 protected:
 
 private:
+	void BeginPlay() override;
 
+	void MakeExitToR2();
+	void MakeExitToPewter();
 };
 
