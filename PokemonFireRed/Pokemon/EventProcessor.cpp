@@ -250,6 +250,12 @@ bool UEventProcessor::ProcessMoveDynamicPath(float _DeltaTime)
 		std::vector<FTileVector> Path = Data.Generator();
 		DynamicPaths.push_back(Path);
 
+		// 경로의 크기가 0이면 이동할 필요가 없다.
+		if (Path.size() == 0)
+		{
+			return true;
+		}
+
 		return SubprocessMoveStart({ Data.TargetName }, DynamicPaths, Data.MoveSpeed);
 	}
 
@@ -276,7 +282,6 @@ bool UEventProcessor::SubprocessMoveStart(const std::vector<std::string>& _Targe
 
 		if (_Paths[i].size() == 0)
 		{
-			MsgBoxAssert(std::string(MapName) + ":" + TargetName + "의 강제 이동 경로 크기가 0입니다.");
 			return false;
 		}
 
@@ -392,8 +397,8 @@ bool UEventProcessor::ProcessMoveWithoutRestriction()
 
 	if (Data.Path.size() <= 0)
 	{
-		MsgBoxAssert("강제 이동(타일 제약 X) 경로의 크기가 0 이하입니다.");
-		return false;
+		// 이동할 필요가 없다.
+		return true;
 	}
 
 	AEventTarget* Target = UEventManager::FindTarget<AEventTarget>(MapName, TargetName);
