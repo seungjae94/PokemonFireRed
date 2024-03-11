@@ -51,6 +51,7 @@ namespace Global
 	const std::string InteriorPlayersHouse2FLevel = "InteriorPlayersHouse2FLevel";
 	const std::string InteriorPokemonCenterLevel = "InteriorPokemonCenterLevel";
 	const std::string InteriorShopLevel = "InteriorShopLevel";
+	const std::string InteriorPewterGymLevel = "InteriorPewterGymLevel";
 	const std::string PokemonUILevel = "PokemonUILevel";
 	const std::string PokemonSummaryUILevel = "PokemonUISummaryLevel";
 	const std::string TrainerCardUILevel = "TrainerCardUILevel";
@@ -119,7 +120,7 @@ namespace EN
 	const std::string Camper = "Camper";
 	const std::string LeaderBrock = "LeaderBrock";
 	const std::string PewterPokemonCenterDoor = "PewterPokemonCenterDoor";
-
+	const std::string PewterGymDoor = "PewterGymDoor";
 };
 
 // Resource Name

@@ -20,6 +20,7 @@ void UExteriorPewterCityLevel::BeginPlay()
 
 	MakeForestEntrances();
 	MakePokemonCenterDoor();
+	MakeGymDoor();
 	MakeShopClosedDoor();
 	MakePrivateHouse1ClosedDoor();
 	MakePrivateHouse2ClosedDoor();
@@ -78,7 +79,18 @@ void UExteriorPewterCityLevel::MakePokemonCenterDoor()
 
 void UExteriorPewterCityLevel::MakeGymDoor()
 {
+	UEventTargetSetting Setting;
+	Setting.SetName(EN::PewterGymDoor);
+	Setting.SetPoint({ 19, 20 });
+	Setting.SetDirection(FTileVector::Up);
+	Setting.SetImageName(RN::GymDoor);
+	Setting.SetHeight(1);
 
+	AExteriorDoor* Door = SpawnEventTrigger<AExteriorDoor>(Setting);
+	Door->SetTargetMapName(Global::InteriorPewterGymLevel);
+	Door->SetTargetPoint({ 6, 14 });
+	Door->SetMoveDirection(FTileVector::Up);
+	Door->RegisterPredefinedEvent();
 }
 
 void UExteriorPewterCityLevel::MakeAnimatedTiles()
@@ -140,5 +152,3 @@ void UExteriorPewterCityLevel::MakeMuseumClosedDoor()
 	AClosedDoor* Door = SpawnEventTrigger<AClosedDoor>(Setting);
 	Door->RegisterPredefinedEvent();
 }
-
-// 19, 20 Gym
