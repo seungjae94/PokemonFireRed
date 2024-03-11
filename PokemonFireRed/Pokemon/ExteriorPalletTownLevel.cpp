@@ -21,7 +21,7 @@ void UExteriorPalletTownLevel::BeginPlay()
 
 	// (디버깅) 플레이어 시작 위치 설정
 	//UEventManager::SetPoint(GetName(), Global::Player, { 72, 80 });
-	UEventManager::SetPoint(GetName(), Global::Player, { 26, 70 });
+	UEventManager::SetPoint(GetName(), Global::Player, { 12, 72 });
 	UEventManager::SetDirection(GetName(), Global::Player, FTileVector::Down);
 
 	// 마을 생성
@@ -278,4 +278,20 @@ void UExteriorPalletTownLevel::MakeR22AnimatedTiles()
 
 void UExteriorPalletTownLevel::MakeR22Prohibitor()
 {
+	UEventTargetSetting Setting;
+	Setting.SetName("Prohibitor");
+	Setting.SetPoint({ 12, 69 });
+	Setting.SetDirection(FTileVector::Down);
+	Setting.SetHeight(1);
+	Setting.SetCollidable(true);
+
+	UEventCondition Cond = UEventCondition(EEventTriggerAction::ZClick);
+	AEventTrigger* Prohibitor = SpawnEventTrigger<AEventTrigger>(Setting);
+
+	UEventManager::RegisterEvent(Prohibitor, Cond,
+		ES::Start(true)
+		>> ES::Chat({ L"The door is firmly closed." }, EFontColor::Gray, 16)
+		>> ES::End(true)
+	);
+
 }
