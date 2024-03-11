@@ -18,5 +18,7 @@ protected:
 
 private:
 	void BeginPlay() override;
+
+	void MakeForestEntrances();
 };
 
