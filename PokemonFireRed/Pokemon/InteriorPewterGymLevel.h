@@ -1,8 +1,15 @@
 #pragma once
 #include "MapLevel.h"
+#include "EndingCanvas.h"
 
 class UInteriorPewterGymLevel : public UMapLevel
 {
+private:
+	enum class EState
+	{
+		None,
+		Ending,
+	};
 public:
 	// constructor destructor
 	UInteriorPewterGymLevel();
@@ -18,6 +25,7 @@ protected:
 
 private:
 	void BeginPlay() override;
+	void Tick(float _DeltaTime) override;
 
 	void MakePewterCityDoor();
 	void MakeCamper();
@@ -26,5 +34,11 @@ private:
 	static bool FightWithCamperChecker();
 	static bool FightWithBrockChecker();
 	static std::vector<FTileVector> CamperPathGenerator();
+
+	// 엔딩 이벤트 구현 - 상태
+	EState State = EState::None;
+	AEndingCanvas* Canvas = nullptr;
+
+	void ProcessEnding();
 };
 

@@ -1,6 +1,8 @@
 ﻿#include "InteriorPewterGymLevel.h"
 #include "InteriorDoor.h"
 #include "Trainer.h"
+#include <EnginePlatform/EngineInput.h>
+#include <EngineCore/EngineCore.h>
 
 UInteriorPewterGymLevel::UInteriorPewterGymLevel() 
 {
@@ -14,13 +16,43 @@ void UInteriorPewterGymLevel::BeginPlay()
 {
 	UMapLevel::BeginPlay();
 
+	UEngineResourcesManager::GetInst().CuttingImage(RN::EndingRunner, 6, 1);
+
 	// (디버깅) 플레이어 시작 위치 설정
 	UEventManager::SetPoint(GetName(), Global::Player, { 6, 14 });			// 회색시티 앞
 	UEventManager::SetDirection(GetName(), Global::Player, FTileVector::Up);
 
+	Canvas = SpawnActor<AEndingCanvas>();
+	// Canvas->SetActive(false);
+
 	MakeCamper();
 	MakeGymLeader();
 	MakePewterCityDoor();
+}
+
+void UInteriorPewterGymLevel::Tick(float _DeltaTime)
+{
+	UMapLevel::Tick(_DeltaTime);
+
+	switch (State)
+	{
+	case EState::None:
+		if (true == UPlayerData::IsAchieved(EAchievement::FightWithPewterGymLeader) && true == Player->HasControl())
+		{
+			State = EState::Ending;
+			UEventManager::DeactivatePlayer();
+		}
+		break;
+	case EState::Ending:
+		// 게임 종료 처리
+		if (true == UEngineInput::IsDown('Z'))
+		{
+			GEngine->MainWindow.Off();
+		}
+		break;
+	default:
+		break;
+	}
 }
 
 void UInteriorPewterGymLevel::MakePewterCityDoor()
@@ -191,4 +223,8 @@ std::vector<FTileVector> UInteriorPewterGymLevel::CamperPathGenerator()
 	}
 
 	return Path;
+}
+
+void UInteriorPewterGymLevel::ProcessEnding()
+{
 }

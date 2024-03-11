@@ -276,6 +276,12 @@ namespace RN
 	const std::string UBCloseBag = "UBCloseBag.png";
 	const std::string UBActionBox = "UBActionBox.png";
 	const std::string UBActionItemBox = "UBActionItemBox.png";
+
+	// 엔딩 리소스
+	const std::string EndingBackground = "EndingBackground.png";
+	const std::string EndingMessage = "EndingMessage.png";
+	const std::string EndingRunnerGround = "EndingRunnerGround.png";
+	const std::string EndingRunner = "EndingRunner.png";
 };
 
 enum ERenderingOrder
