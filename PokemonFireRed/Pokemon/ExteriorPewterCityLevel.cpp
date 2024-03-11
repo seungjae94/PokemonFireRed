@@ -1,4 +1,5 @@
 #include "ExteriorPewterCityLevel.h"
+#include "ExteriorDoor.h"
 
 UExteriorPewterCityLevel::UExteriorPewterCityLevel() 
 {
@@ -13,9 +14,10 @@ void UExteriorPewterCityLevel::BeginPlay()
 	UMapLevel::BeginPlay();
 
 	// (디버깅) 플레이어 시작 위치 설정
-	//UEventManager::SetPoint(GetName(), Global::Player, { 10, 10 });			// 회색시티 앞
+	UEventManager::SetPoint(GetName(), Global::Player, { 21, 31 });
 
 	MakeForestEntrances();
+	MakePokemonCenterDoor();
 }
 
 void UExteriorPewterCityLevel::MakeForestEntrances()
@@ -51,3 +53,18 @@ void UExteriorPewterCityLevel::MakeForestEntrances()
 	}
 }
 
+void UExteriorPewterCityLevel::MakePokemonCenterDoor()
+{
+	UEventTargetSetting Setting;
+	Setting.SetName(EN::PewterPokemonCenterDoor);
+	Setting.SetPoint({ 21, 29 });
+	Setting.SetDirection(FTileVector::Up);
+	Setting.SetImageName(RN::SlideDoor);
+	Setting.SetHeight(1);
+
+	AExteriorDoor* Door = SpawnEventTrigger<AExteriorDoor>(Setting);
+	Door->SetTargetMapName(Global::InteriorPokemonCenterLevel);
+	Door->SetTargetPoint({ 7, 8 });
+	Door->SetMoveDirection(FTileVector::Up);
+	Door->RegisterPredefinedEvent();
+}

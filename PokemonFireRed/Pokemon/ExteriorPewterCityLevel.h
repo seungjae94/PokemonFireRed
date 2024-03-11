@@ -20,5 +20,6 @@ private:
 	void BeginPlay() override;
 
 	void MakeForestEntrances();
+	void MakePokemonCenterDoor();
 };
 
