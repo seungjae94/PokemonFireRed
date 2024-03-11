@@ -84,7 +84,7 @@ void ABattleCanvas::BeginPlay()
 	EnemyBattlerMessagePos = EnemyBattlerInitPos + FVector::Right * 30 * Global::FloatPixelSize;
 	EnemyBattlerHidePos = EnemyBattlerInitPos + FVector::Right * Global::FloatHalfScreenX;
 
-	EnemyPokemonImage = CreateImageElement(EnemyGround, ERenderingOrder::UI2, EPivotType::LeftTop, 36, -25, EImageElementType::PokemonFront);
+	EnemyPokemonImage = CreateImageElement(EnemyGround, ERenderingOrder::UI2, EPivotType::LeftTop, 36, -35, EImageElementType::PokemonFront);
 	EnemyPokemonImageInitPos = EnemyPokemonImage->GetRelativePosition();
 	EnemyPokemonImageHidePos = EnemyPokemonImageInitPos + UPokemonUtil::PixelVector(0, 16);
 	EnemyPokemonImageFaintPos = EnemyPokemonImageInitPos + UPokemonUtil::PixelVector(0, 64);
