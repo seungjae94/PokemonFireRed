@@ -50,6 +50,7 @@ private:
 	void MakeVCPrivateHouseClosedDoor();
 	void MakeVCGymClosedDoor();
 	void MakeVCAnimatedTiles();
+	void MakeVCForestEntrances();
 
 	// 22¹ø µµ·Î
 	void MakeRoute22();

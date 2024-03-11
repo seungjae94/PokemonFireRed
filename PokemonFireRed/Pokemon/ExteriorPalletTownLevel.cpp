@@ -21,7 +21,8 @@ void UExteriorPalletTownLevel::BeginPlay()
 	UMapLevel::BeginPlay();
 
 	// (디버깅) 플레이어 시작 위치 설정
-	UEventManager::SetPoint(GetName(), Global::Player, { 82, 80 });			// 상록시티 
+	//UEventManager::SetPoint(GetName(), Global::Player, { 82, 80 });			// 상록시티 
+	UEventManager::SetPoint(GetName(), Global::Player, { 69, 27 });			// 상록숲 앞
 	//UEventManager::SetPoint(GetName(), Global::Player, { 77, 136 });		// 태초마을 - 1번 도로 입구 
 	UEventManager::SetDirection(GetName(), Global::Player, FTileVector::Down);
 
@@ -249,6 +250,7 @@ void UExteriorPalletTownLevel::MakeViridianCity()
 	MakeVCPrivateHouseClosedDoor();
 	MakeVCGymClosedDoor();
 	MakeVCAnimatedTiles();
+	MakeVCForestEntrances();
 }
 
 void UExteriorPalletTownLevel::MakeVCPokemonCenterDoor()
@@ -349,6 +351,35 @@ void UExteriorPalletTownLevel::MakeVCAnimatedTiles()
 		{63, 83}, {64, 83}, {65, 83}, {66, 83}, {67, 83}, {68, 83},
 		{63, 84}, {64, 84}, {65, 84}, {66, 84}, {67, 84}, {68, 84},
 		});
+}
+
+void UExteriorPalletTownLevel::MakeVCForestEntrances()
+{
+	UEventCondition Cond = UEventCondition(EEventTriggerAction::StepOn);
+
+	for (int i = 0; i < 2; ++i)
+	{
+		UEventTargetSetting Setting;
+		Setting.SetName("ForestEntrance" + std::to_string(i));
+		Setting.SetPoint({69 + i, 25});
+		Setting.SetHeight(1);
+
+		AEventTrigger* Trigger = SpawnEventTrigger<AEventTrigger>(Setting);
+
+		UEventManager::RegisterEvent(Trigger, Cond,
+			ES::Start(true)
+			>> ES::FadeOut(0.75f)
+			>> ES::Wait(0.75f)
+			>> ES::ChangeLevel(Global::ExteriorViridianForestLevel)
+			>> ES::ChangePoint(Global::ExteriorViridianForestLevel, EN::Player, {35, 62})
+			>> ES::ChangeDirection(Global::ExteriorViridianForestLevel, Global::Player, FTileVector::Up)
+			>> ES::CameraFocus(Global::Player)
+			>> ES::ShowMapName(L"VIRIDIAN FOREST")
+			>> ES::FadeIn(0.75f)
+			>> ES::Wait(0.75f)
+			>> ES::End(true)
+		);
+	}
 }
 
 void UExteriorPalletTownLevel::MakeRoute22()

@@ -13,6 +13,7 @@
 #include "TrainerCardUILevel.h"
 #include "BattleLevel.h"
 #include "BagUILevel.h"
+#include "ExteriorViridianForestLevel.h"
 #include "Global.h"
 
 UPokemonCore::UPokemonCore()
@@ -79,6 +80,7 @@ void UPokemonCore::BeginPlay()
 	CreateLevel<UTitleLevel>(Global::TitleLevel);
 	CreateLevel<UTutorialLevel>(Global::TutorialLevel);
 	CreateLevel<UExteriorPalletTownLevel>(Global::ExteriorPalletTownLevel);
+	CreateLevel<UExteriorViridianForestLevel>(Global::ExteriorViridianForestLevel);
 	CreateLevel<UInteriorOaksLabLevel>(Global::InteriorOaksLabLevel);
 	CreateLevel<UInteriorPlayersHouse1FLevel>(Global::InteriorPlayersHouse1FLevel);
 	CreateLevel<UInteriorPlayersHouse2FLevel>(Global::InteriorPlayersHouse2FLevel);
@@ -92,7 +94,7 @@ void UPokemonCore::BeginPlay()
 	CreateLevel<UBagUILevel>(Global::BagUILevel);
 
 	// 시작 레벨 설정
-	UEventManager::SetLevel(Global::InteriorPokemonCenterLevel);
+	UEventManager::SetLevel(Global::ExteriorPalletTownLevel);
 }
 
 void UPokemonCore::Tick(float _DeltaTime)

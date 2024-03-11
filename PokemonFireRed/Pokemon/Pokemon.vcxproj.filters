@@ -426,6 +426,9 @@
     <ClInclude Include="ClosedDoor.h">
       <Filter>2. Level\2. MapLevel\3. Actor</Filter>
     </ClInclude>
+    <ClInclude Include="ExteriorViridianForestLevel.h">
+      <Filter>2. Level\2. MapLevel\0. Exterior Level</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PokemonCore.cpp">
@@ -712,6 +715,9 @@
     </ClCompile>
     <ClCompile Include="ClosedDoor.cpp">
       <Filter>2. Level\2. MapLevel\3. Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="ExteriorViridianForestLevel.cpp">
+      <Filter>2. Level\2. MapLevel\0. Exterior Level</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
