@@ -1,6 +1,7 @@
 ﻿#include "ExteriorPalletTownLevel.h"
 #include "Global.h"
 #include "ExteriorDoor.h"
+#include "ClosedDoor.h"
 #include "DialogueActor.h"
 #include "Text.h"
 #include "PlayerData.h"
@@ -242,7 +243,11 @@ void UExteriorPalletTownLevel::MakePTAnimatedTiles()
 void UExteriorPalletTownLevel::MakeViridianCity()
 {
 	MakeVCPokemonCenterDoor();
-	MakeVCShopDoor();
+	//MakeVCShopDoor();
+	MakeVCShopClosedDoor();
+	MakeVCTrainerSchoolClosedDoor();
+	MakeVCPrivateHouseClosedDoor();
+	MakeVCGymClosedDoor();
 	MakeVCAnimatedTiles();
 }
 
@@ -278,6 +283,58 @@ void UExteriorPalletTownLevel::MakeVCShopDoor()
 	Door->RegisterPredefinedEvent();
 }
 
+void UExteriorPalletTownLevel::MakeVCShopClosedDoor()
+{
+	UEventTargetSetting Setting;
+	Setting.SetName("VCShopClosedDoor");
+	Setting.SetPoint({ 88, 73 });
+	Setting.SetDirection(FTileVector::Down);
+	Setting.SetHeight(1);
+	Setting.SetCollidable(true);
+
+	AClosedDoor* Door = SpawnEventTrigger<AClosedDoor>(Setting);
+	Door->RegisterPredefinedEvent();
+}
+
+void UExteriorPalletTownLevel::MakeVCTrainerSchoolClosedDoor()
+{
+	UEventTargetSetting Setting;
+	Setting.SetName("VCTrainerSchoolClosedDoor");
+	Setting.SetPoint({ 77, 72 });
+	Setting.SetDirection(FTileVector::Down);
+	Setting.SetHeight(1);
+	Setting.SetCollidable(true);
+
+	AClosedDoor* Door = SpawnEventTrigger<AClosedDoor>(Setting);
+	Door->RegisterPredefinedEvent();
+}
+
+void UExteriorPalletTownLevel::MakeVCPrivateHouseClosedDoor()
+{
+	UEventTargetSetting Setting;
+	Setting.SetName("VCPrivateHouseClosedDoor");
+	Setting.SetPoint({ 77, 65 });
+	Setting.SetDirection(FTileVector::Down);
+	Setting.SetHeight(1);
+	Setting.SetCollidable(true);
+
+	AClosedDoor* Door = SpawnEventTrigger<AClosedDoor>(Setting);
+	Door->RegisterPredefinedEvent();
+}
+
+void UExteriorPalletTownLevel::MakeVCGymClosedDoor()
+{
+	UEventTargetSetting Setting;
+	Setting.SetName("VCGymClosedDoor");
+	Setting.SetPoint({ 88, 64 });
+	Setting.SetDirection(FTileVector::Down);
+	Setting.SetHeight(1);
+	Setting.SetCollidable(true);
+
+	AClosedDoor* Door = SpawnEventTrigger<AClosedDoor>(Setting);
+	Door->RegisterPredefinedEvent();
+}
+
 void UExteriorPalletTownLevel::MakeVCAnimatedTiles()
 {
 	DrawFlowers({
@@ -297,7 +354,7 @@ void UExteriorPalletTownLevel::MakeVCAnimatedTiles()
 void UExteriorPalletTownLevel::MakeRoute22()
 {
 	MakeR22AnimatedTiles();
-	MakeR22Prohibitor();
+	MakeR22ClosedDoor();
 }
 
 void UExteriorPalletTownLevel::MakeR22AnimatedTiles()
@@ -310,22 +367,15 @@ void UExteriorPalletTownLevel::MakeR22AnimatedTiles()
 		});
 }
 
-void UExteriorPalletTownLevel::MakeR22Prohibitor()
+void UExteriorPalletTownLevel::MakeR22ClosedDoor()
 {
 	UEventTargetSetting Setting;
-	Setting.SetName("Prohibitor");
+	Setting.SetName("R22ClosedDoor");
 	Setting.SetPoint({ 12, 69 });
 	Setting.SetDirection(FTileVector::Down);
 	Setting.SetHeight(1);
 	Setting.SetCollidable(true);
 
-	UEventCondition Cond = UEventCondition(EEventTriggerAction::ZClick);
-	AEventTrigger* Prohibitor = SpawnEventTrigger<AEventTrigger>(Setting);
-
-	UEventManager::RegisterEvent(Prohibitor, Cond,
-		ES::Start(true)
-		>> ES::Chat({ L"The door is firmly closed." }, EFontColor::Gray, 16)
-		>> ES::End(true)
-	);
-
+	AClosedDoor* Door = SpawnEventTrigger<AClosedDoor>(Setting);
+	Door->RegisterPredefinedEvent();
 }

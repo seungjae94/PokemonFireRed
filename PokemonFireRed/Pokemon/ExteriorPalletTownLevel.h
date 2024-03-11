@@ -45,11 +45,15 @@ private:
 	void MakeViridianCity();
 	void MakeVCPokemonCenterDoor();
 	void MakeVCShopDoor();
+	void MakeVCShopClosedDoor();
+	void MakeVCTrainerSchoolClosedDoor();
+	void MakeVCPrivateHouseClosedDoor();
+	void MakeVCGymClosedDoor();
 	void MakeVCAnimatedTiles();
 
 	// 22¹ø µµ·Î
 	void MakeRoute22();
 	void MakeR22AnimatedTiles();
-	void MakeR22Prohibitor();
+	void MakeR22ClosedDoor();
 };
 

@@ -37,9 +37,6 @@
     <Filter Include="2. Level\2. MapLevel\3. Actor">
       <UniqueIdentifier>{3b88d292-f9a2-4d41-863e-4b9d2397e54a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2. Level\2. MapLevel\3. Actor\1. Trigger">
-      <UniqueIdentifier>{90534d3f-513a-4990-9f4b-e981d1191cf6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="2. Level\2. MapLevel\4. Tile">
       <UniqueIdentifier>{2e631f4d-269c-44a0-8975-de30505b0590}</UniqueIdentifier>
     </Filter>
@@ -66,9 +63,6 @@
     </Filter>
     <Filter Include="7. Sound">
       <UniqueIdentifier>{134a8738-739c-45a2-bbf1-7006446013ed}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="1. GlobalTrigger">
-      <UniqueIdentifier>{5afc955f-9fe3-4a6d-bd92-3b7ac4681b20}</UniqueIdentifier>
     </Filter>
     <Filter Include="2. Level\4. PokemonUISummaryLevel">
       <UniqueIdentifier>{29fdf0d7-262d-4e47-913c-54d49556092d}</UniqueIdentifier>
@@ -130,6 +124,9 @@
     <Filter Include="2. Level\2. MapLevel\1. Interior Level\Common">
       <UniqueIdentifier>{f0a210b5-dfdf-4df5-85dc-173531d08fdf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="1. CommonTrigger">
+      <UniqueIdentifier>{5afc955f-9fe3-4a6d-bd92-3b7ac4681b20}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PokemonCore.h">
@@ -162,12 +159,6 @@
     <ClInclude Include="EventManager.h">
       <Filter>4. Event</Filter>
     </ClInclude>
-    <ClInclude Include="DialogueActor.h">
-      <Filter>2. Level\2. MapLevel\3. Actor\1. Trigger</Filter>
-    </ClInclude>
-    <ClInclude Include="Warp.h">
-      <Filter>2. Level\2. MapLevel\3. Actor\1. Trigger</Filter>
-    </ClInclude>
     <ClInclude Include="EventCondition.h">
       <Filter>4. Event</Filter>
     </ClInclude>
@@ -188,15 +179,6 @@
     </ClInclude>
     <ClInclude Include="MapLevel.h">
       <Filter>2. Level\2. MapLevel</Filter>
-    </ClInclude>
-    <ClInclude Include="Stair.h">
-      <Filter>2. Level\2. MapLevel\3. Actor\1. Trigger</Filter>
-    </ClInclude>
-    <ClInclude Include="InteriorDoor.h">
-      <Filter>2. Level\2. MapLevel\3. Actor\1. Trigger</Filter>
-    </ClInclude>
-    <ClInclude Include="ExteriorDoor.h">
-      <Filter>2. Level\2. MapLevel\3. Actor\1. Trigger</Filter>
     </ClInclude>
     <ClInclude Include="Text.h">
       <Filter>5. UI\Element</Filter>
@@ -235,7 +217,7 @@
       <Filter>6. Data</Filter>
     </ClInclude>
     <ClInclude Include="FadeLevelChanger.h">
-      <Filter>1. GlobalTrigger</Filter>
+      <Filter>1. CommonTrigger</Filter>
     </ClInclude>
     <ClInclude Include="ScrollBar.h">
       <Filter>5. UI\Element</Filter>
@@ -286,7 +268,7 @@
       <Filter>7. Sound</Filter>
     </ClInclude>
     <ClInclude Include="WildBattleTrigger.h">
-      <Filter>1. GlobalTrigger</Filter>
+      <Filter>1. CommonTrigger</Filter>
     </ClInclude>
     <ClInclude Include="BattleCanvas.h">
       <Filter>2. Level\7. BattleLevel</Filter>
@@ -367,7 +349,7 @@
       <Filter>5. UI\Element</Filter>
     </ClInclude>
     <ClInclude Include="Trainer.h">
-      <Filter>1. GlobalTrigger</Filter>
+      <Filter>1. CommonTrigger</Filter>
     </ClInclude>
     <ClInclude Include="TrainerBattleStartStateMachine.h">
       <Filter>2. Level\7. BattleLevel\StateMachine\0. BattleStart</Filter>
@@ -426,6 +408,24 @@
     <ClInclude Include="PokemonCenterBalls.h">
       <Filter>2. Level\2. MapLevel\1. Interior Level\Common</Filter>
     </ClInclude>
+    <ClInclude Include="DialogueActor.h">
+      <Filter>2. Level\2. MapLevel\3. Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="ExteriorDoor.h">
+      <Filter>2. Level\2. MapLevel\3. Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="InteriorDoor.h">
+      <Filter>2. Level\2. MapLevel\3. Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Stair.h">
+      <Filter>2. Level\2. MapLevel\3. Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Warp.h">
+      <Filter>2. Level\2. MapLevel\3. Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="ClosedDoor.h">
+      <Filter>2. Level\2. MapLevel\3. Actor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PokemonCore.cpp">
@@ -455,12 +455,6 @@
     <ClCompile Include="EventManager.cpp">
       <Filter>4. Event</Filter>
     </ClCompile>
-    <ClCompile Include="DialogueActor.cpp">
-      <Filter>2. Level\2. MapLevel\3. Actor\1. Trigger</Filter>
-    </ClCompile>
-    <ClCompile Include="Warp.cpp">
-      <Filter>2. Level\2. MapLevel\3. Actor\1. Trigger</Filter>
-    </ClCompile>
     <ClCompile Include="EventCondition.cpp">
       <Filter>4. Event</Filter>
     </ClCompile>
@@ -481,15 +475,6 @@
     </ClCompile>
     <ClCompile Include="MapLevel.cpp">
       <Filter>2. Level\2. MapLevel</Filter>
-    </ClCompile>
-    <ClCompile Include="Stair.cpp">
-      <Filter>2. Level\2. MapLevel\3. Actor\1. Trigger</Filter>
-    </ClCompile>
-    <ClCompile Include="InteriorDoor.cpp">
-      <Filter>2. Level\2. MapLevel\3. Actor\1. Trigger</Filter>
-    </ClCompile>
-    <ClCompile Include="ExteriorDoor.cpp">
-      <Filter>2. Level\2. MapLevel\3. Actor\1. Trigger</Filter>
     </ClCompile>
     <ClCompile Include="Text.cpp">
       <Filter>5. UI\Element</Filter>
@@ -528,7 +513,7 @@
       <Filter>6. Data</Filter>
     </ClCompile>
     <ClCompile Include="FadeLevelChanger.cpp">
-      <Filter>1. GlobalTrigger</Filter>
+      <Filter>1. CommonTrigger</Filter>
     </ClCompile>
     <ClCompile Include="ScrollBar.cpp">
       <Filter>5. UI\Element</Filter>
@@ -576,7 +561,7 @@
       <Filter>7. Sound</Filter>
     </ClCompile>
     <ClCompile Include="WildBattleTrigger.cpp">
-      <Filter>1. GlobalTrigger</Filter>
+      <Filter>1. CommonTrigger</Filter>
     </ClCompile>
     <ClCompile Include="BattleCanvas.cpp">
       <Filter>2. Level\7. BattleLevel</Filter>
@@ -654,7 +639,7 @@
       <Filter>5. UI\Element</Filter>
     </ClCompile>
     <ClCompile Include="Trainer.cpp">
-      <Filter>1. GlobalTrigger</Filter>
+      <Filter>1. CommonTrigger</Filter>
     </ClCompile>
     <ClCompile Include="TrainerBattleStartStateMachine.cpp">
       <Filter>2. Level\7. BattleLevel\StateMachine\0. BattleStart</Filter>
@@ -709,6 +694,24 @@
     </ClCompile>
     <ClCompile Include="PokemonCenterBalls.cpp">
       <Filter>2. Level\2. MapLevel\1. Interior Level\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="DialogueActor.cpp">
+      <Filter>2. Level\2. MapLevel\3. Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="ExteriorDoor.cpp">
+      <Filter>2. Level\2. MapLevel\3. Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="InteriorDoor.cpp">
+      <Filter>2. Level\2. MapLevel\3. Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Stair.cpp">
+      <Filter>2. Level\2. MapLevel\3. Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Warp.cpp">
+      <Filter>2. Level\2. MapLevel\3. Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="ClosedDoor.cpp">
+      <Filter>2. Level\2. MapLevel\3. Actor</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
