@@ -23,7 +23,7 @@ void UInteriorPewterGymLevel::BeginPlay()
 	UEventManager::SetDirection(GetName(), Global::Player, FTileVector::Up);
 
 	Canvas = SpawnActor<AEndingCanvas>();
-	// Canvas->SetActive(false);
+	Canvas->SetActive(false);
 
 	MakeCamper();
 	MakeGymLeader();
@@ -41,6 +41,7 @@ void UInteriorPewterGymLevel::Tick(float _DeltaTime)
 		{
 			State = EState::Ending;
 			UEventManager::DeactivatePlayer();
+			Canvas->SetActive(true);
 		}
 		break;
 	case EState::Ending:

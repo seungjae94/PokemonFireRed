@@ -42,14 +42,14 @@ void UPokemonCore::BeginPlay()
 	LoadSounds();
 
 	// 디버그용 포켓몬 추가 - 반드시 레벨 생성 이전에 수행
-	UPokemon Pokemon0 = UPokemon(EPokemonId::Bulbasaur, 10);
+	UPokemon Pokemon0 = UPokemon(EPokemonId::Bulbasaur, 30);
 	UPokemon Pokemon1 = UPokemon(EPokemonId::Rattata, 1);
 	UPokemon Pokemon2 = UPokemon(EPokemonId::Squirtle, 2);
 	UPokemon Pokemon3 = UPokemon(EPokemonId::Charmander, 7);
 	UPokemon Pokemon4 = UPokemon(EPokemonId::Pidgey, 2);
 	//UPokemon Pokemon5 = UPokemon(EPokemonId::Caterpie, 3);
-	Pokemon0.SetCurHp(Pokemon0.GetHp() / 6);
-	Pokemon1.SetCurHp(Pokemon1.GetHp() / 3);
+	//Pokemon0.SetCurHp(Pokemon0.GetHp() / 6);
+	//Pokemon1.SetCurHp(Pokemon1.GetHp() / 3);
 	//Pokemon0.AddAccExp(0);
 	//Pokemon1.AddAccExp(15);
 	//Pokemon2.AddAccExp(5);
