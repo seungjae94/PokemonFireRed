@@ -22,8 +22,8 @@ void UExteriorPalletTownLevel::BeginPlay()
 
 	// (디버깅) 플레이어 시작 위치 설정
 	//UEventManager::SetPoint(GetName(), Global::Player, { 82, 80 });			// 상록시티 
-	UEventManager::SetPoint(GetName(), Global::Player, { 69, 27 });			// 상록숲 앞
-	//UEventManager::SetPoint(GetName(), Global::Player, { 77, 136 });		// 태초마을 - 1번 도로 입구 
+	//UEventManager::SetPoint(GetName(), Global::Player, { 69, 27 });			// 상록숲 앞
+	UEventManager::SetPoint(GetName(), Global::Player, { 77, 136 });		// 태초마을 - 1번 도로 입구 
 	UEventManager::SetDirection(GetName(), Global::Player, FTileVector::Down);
 
 	// 마을 생성

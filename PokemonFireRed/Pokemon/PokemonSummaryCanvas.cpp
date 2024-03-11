@@ -46,7 +46,7 @@ void APokemonSummaryCanvas::BeginPlay()
 	NameText = CreateText(CommonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 40, 13, EAlignType::Left);
 	LevelText = CreateText(CommonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 14, 13, EAlignType::Left);
 	GenderIcon = CreateImageElement(CommonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 105, 3);
-	FrontImage = CreateImageElement(CommonBox, ERenderingOrder::UI2, EPivotType::RightTop, -28, 17, EImageElementType::PokemonFront);
+	FrontImage = CreateImageElement(CommonBox, ERenderingOrder::UI2, EPivotType::RightTop, -28, 5, EImageElementType::PokemonFront);
 	StatusImage = CreateImageElement(CommonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 6, 18);
 
 	// InfoBox ¿ä¼Ò
