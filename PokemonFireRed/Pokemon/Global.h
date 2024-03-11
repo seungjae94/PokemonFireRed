@@ -113,6 +113,7 @@ namespace EN
 	const std::string ViridianShopDoor = "ViridianShopDoor";
 
 	// Viridian Forest
+	const std::string BugCatcher = "BugCatcher";
 	const std::string BugCatcher0 = "BugCatcher0";
 	const std::string BugCatcher1 = "BugCatcher1";
 
@@ -239,6 +240,7 @@ namespace RN
 	const std::string BattlerPlaceHolder = "BattlerPlaceHolder.png";
 	const std::string PlayerBattler = "PlayerBattler.png"; 
 	const std::string RivalGreenBattler = "RivalGreenBattler.png";
+	const std::string BugCatcherBattler = "BugCatcherBattler.png";
 	const std::string LeaderBrockBattler = "LeaderBrock.png";
 
 	const std::string BattlePlayerEntryArrow = "BattlePlayerEntryArrow.png";
@@ -249,7 +251,7 @@ namespace RN
 	const std::string BattleEnemyGroundBall = "BattleEnemyGroundBall.png";
 
 	// 캐릭터 리소스
-	const std::string BugCatcher = "BugCatcher";
+	const std::string BugCatcher = "BugCatcherIdle.png";
 
 	// 오브젝트 리소스
 	const std::string MapBall = "MapBall.png";

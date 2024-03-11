@@ -156,6 +156,7 @@ void UEventManager::AddTarget(AEventTarget* _Target, const UEventTargetSetting& 
 
 	std::string TargetName = _Setting.Name;
 	std::string ImageName = _Setting.ImageName;
+	std::string AnimNamePrefix = _Setting.AnimNamePrefix;
 	std::string LevelName = _Target->GetWorld()->GetName();
 
 	// 멤버 변수 초기화
@@ -169,11 +170,17 @@ void UEventManager::AddTarget(AEventTarget* _Target, const UEventTargetSetting& 
 	_Target->Walkable = _Setting.Walkable;
 	_Target->Direction = _Setting.Direction;
 	_Target->ImageName = _Setting.ImageName;
+	_Target->AnimNamePrefix = _Setting.AnimNamePrefix;
 	_Target->Height = _Setting.Height;
 
 	if (_Target->ImageName != "")
 	{
 		_Target->HasImage = true;
+	}
+
+	if (AnimNamePrefix == "")
+	{
+		AnimNamePrefix = TargetName;
 	}
 
 	if (true == AllTargets[LevelName].contains(TargetName))
@@ -219,7 +226,7 @@ void UEventManager::AddTarget(AEventTarget* _Target, const UEventTargetSetting& 
 			int FrameIndex = 0;
 			for (std::string& DirectionName : AllDirectionNames)
 			{
-				std::string ImageName = TargetName + "Idle.png";
+				std::string ImageName = AnimNamePrefix + "Idle.png";
 
 				std::string UpperBodyAnimName = TargetName + "Idle" + DirectionName + Global::SuffixUpperBody;
 				UpperBodyRenderer->CreateAnimation(UpperBodyAnimName, ImageName, FrameIndex, FrameIndex, 0.0f, false);
@@ -242,7 +249,7 @@ void UEventManager::AddTarget(AEventTarget* _Target, const UEventTargetSetting& 
 
 			for (std::string& DirectionName : AllDirectionNames)
 			{
-				std::string ImageName = TargetName + "Walk" + DirectionName + ".png";
+				std::string ImageName = AnimNamePrefix + "Walk" + DirectionName + ".png";
 
 				std::string UpperBodyAnimName = TargetName + "Walk" + DirectionName + Global::SuffixUpperBody;
 				UpperBodyRenderer->CreateAnimation(UpperBodyAnimName + "0", ImageName, { 0, 1 }, WalkInterval, false); // 오른발

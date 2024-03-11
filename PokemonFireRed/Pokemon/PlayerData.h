@@ -10,6 +10,10 @@ enum class EAchievement
 	GetStarterEventStart,
 	SelectFirstPokemon,
 	FightWithGreen,
+	FightWithBugCatcher0,
+	FightWithBugCatcher1,
+	FightWithPewterGymCamper,
+	FightWithPewterGymLeader,
 	GetPokedex
 };
 

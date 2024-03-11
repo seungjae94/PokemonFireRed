@@ -157,7 +157,7 @@ void UMapLevel::LoadCharacterResources()
 		EN::Oak,
 		EN::Nurse,
 		EN::ShopOwner,
-		RN::BugCatcher,
+		EN::BugCatcher,
 		EN::Camper,
 		EN::LeaderBrock
 	};
@@ -174,7 +174,7 @@ void UMapLevel::LoadCharacterResources()
 		EN::TechMan,
 		EN::RivalGreen,
 		EN::Oak,
-		RN::BugCatcher,
+		EN::BugCatcher,
 		EN::Camper
 	};
 

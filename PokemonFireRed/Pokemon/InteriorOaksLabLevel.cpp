@@ -237,20 +237,6 @@ void UInteriorOaksLabLevel::SpawnSpecialTrigger(UEventTargetSetting _Setting, UE
 		>> ES::End(true)
 	);
 
-	auto Test = []() {
-		const APlayer* Player = UEventManager::FindCurLevelTarget<APlayer>(EN::Player);
-		const ATrainer* Green = UEventManager::FindCurLevelTarget<ATrainer>(EN::RivalGreen);
-
-		std::vector<FTileVector> DynamicPath;
-		for (int i = 0; i < (Green->GetPoint().X - Player->GetPoint().X); ++i)
-		{
-			DynamicPath.push_back(FTileVector::Left);
-		}
-		DynamicPath.push_back(FTileVector::Down);
-		DynamicPath.push_back(FTileVector::Down);
-		return DynamicPath;
-		};
-
 	UEventManager::RegisterEvent(Trigger, _RivalBattleCond,
 		ES::Start(true)
 		>> ES::ChangeDirection(Global::InteriorOaksLabLevel, EN::RivalGreen, Down)

@@ -67,6 +67,11 @@ public:
 		ImageName = UEngineString::ToUpper(_ImageName);
 	}
 
+	void SetAnimNamePrefix(std::string_view _Prefix)
+	{
+		AnimNamePrefix = UEngineString::ToUpper(_Prefix);
+	}
+
 	void SetHeight(int _Height)
 	{
 		Height = _Height;
@@ -80,6 +85,7 @@ private:
 	bool Rotatable = false;
 	bool Walkable = false;
 	std::string ImageName = "";
+	std::string AnimNamePrefix = "";
 	int Height = 2;
 };
 
@@ -161,6 +167,7 @@ protected:
 	UImageRenderer* UpperBodyRenderer = nullptr;
 	UImageRenderer* LowerBodyRenderer = nullptr;
 	std::string ImageName = "";
+	std::string AnimNamePrefix = "";
 
 	// ÄÝ¸®Àü
 	UCollision* Collision = nullptr;

@@ -98,7 +98,7 @@ void UPokemonCore::BeginPlay()
 	CreateLevel<UBagUILevel>(Global::BagUILevel);
 
 	// 시작 레벨 설정
-	UEventManager::SetLevel(Global::ExteriorPewterCityLevel);
+	UEventManager::SetLevel(Global::ExteriorViridianForestLevel);
 }
 
 void UPokemonCore::Tick(float _DeltaTime)
