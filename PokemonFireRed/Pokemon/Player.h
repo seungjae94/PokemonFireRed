@@ -50,6 +50,8 @@ public:
 	// FSM (Finite State Machine)
 	void StateChange(EPlayerState _State, bool _Restart = false);
 
+	bool HasControl() const;
+
 protected:
 private:
 	class UInputStatus

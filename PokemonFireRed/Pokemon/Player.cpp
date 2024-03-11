@@ -80,6 +80,11 @@ void APlayer::StateChange(EPlayerState _State, bool _Restart)
 	State = _State;
 }
 
+bool APlayer::HasControl() const
+{
+	return State != EPlayerState::OutOfControl;
+}
+
 void APlayer::ChangeAnimation(EPlayerState _State, FTileVector _Direction)
 {
 	std::string UpperAniName = GetName();

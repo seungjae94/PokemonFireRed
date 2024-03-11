@@ -148,12 +148,17 @@ void UInteriorPokemonCenterLevel::SetDoorTargetAsViridianCity()
 
 void UInteriorPokemonCenterLevel::ProcessCheckHealEvent()
 {
+	// 플레이어가 다른 이벤트를 실행중일 경우 이벤트를 체크하지 않는다.
+	if (false == Player->HasControl())
+	{
+		return;
+	}
+
 	if (false == UEngineInput::IsDown('Z'))
 	{
 		return;
 	}
 
-	APlayer* Player = UEventManager::FindCurLevelTarget<APlayer>(EN::Player);
 	FTileVector PlayerPoint = Player->GetPoint();
 	if (PlayerPoint != FTileVector(7, 4))
 	{
@@ -300,6 +305,7 @@ void UInteriorPokemonCenterLevel::ProcessBallAnim()
 		State = EState::HealEndMessage1;
 		Nurse->SetDirection(FTileVector::Down);
 		Balls->StopHealAnimation();
+		Balls->SetActiveAllBalls(false);
 		MsgBox->SetMessage(L"Thank you for waiting.");
 		MsgBox->Write();
 
