@@ -127,6 +127,9 @@
     <Filter Include="2. Level\2. MapLevel\1. Interior Level\Pallet Town">
       <UniqueIdentifier>{48cb9f31-6539-44eb-affc-22366e8ab5b8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2. Level\2. MapLevel\1. Interior Level\Common">
+      <UniqueIdentifier>{f0a210b5-dfdf-4df5-85dc-173531d08fdf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PokemonCore.h">
@@ -390,12 +393,6 @@
     <ClInclude Include="BagCanvas.h">
       <Filter>2. Level\6. BagUILevel</Filter>
     </ClInclude>
-    <ClInclude Include="InteriorPokemonCenterLevel.h">
-      <Filter>2. Level\2. MapLevel\1. Interior Level</Filter>
-    </ClInclude>
-    <ClInclude Include="InteriorShopLevel.h">
-      <Filter>2. Level\2. MapLevel\1. Interior Level</Filter>
-    </ClInclude>
     <ClInclude Include="InteriorOaksLabLevel.h">
       <Filter>2. Level\2. MapLevel\1. Interior Level\Pallet Town</Filter>
     </ClInclude>
@@ -413,6 +410,18 @@
     </ClInclude>
     <ClInclude Include="InteriorRivalsHouseLevel.h">
       <Filter>2. Level\2. MapLevel\1. Interior Level\Pallet Town</Filter>
+    </ClInclude>
+    <ClInclude Include="InteriorPokemonCenterLevel.h">
+      <Filter>2. Level\2. MapLevel\1. Interior Level\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="InteriorShopLevel.h">
+      <Filter>2. Level\2. MapLevel\1. Interior Level\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="PokemonCenterCanvas.h">
+      <Filter>2. Level\2. MapLevel\1. Interior Level\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="ShopCanvas.h">
+      <Filter>2. Level\2. MapLevel\1. Interior Level\Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -665,12 +674,6 @@
     <ClCompile Include="BagCanvas.cpp">
       <Filter>2. Level\6. BagUILevel</Filter>
     </ClCompile>
-    <ClCompile Include="InteriorPokemonCenterLevel.cpp">
-      <Filter>2. Level\2. MapLevel\1. Interior Level</Filter>
-    </ClCompile>
-    <ClCompile Include="InteriorShopLevel.cpp">
-      <Filter>2. Level\2. MapLevel\1. Interior Level</Filter>
-    </ClCompile>
     <ClCompile Include="InteriorOaksLabLevel.cpp">
       <Filter>2. Level\2. MapLevel\1. Interior Level\Pallet Town</Filter>
     </ClCompile>
@@ -688,6 +691,18 @@
     </ClCompile>
     <ClCompile Include="InteriorRivalsHouseLevel.cpp">
       <Filter>2. Level\2. MapLevel\1. Interior Level\Pallet Town</Filter>
+    </ClCompile>
+    <ClCompile Include="InteriorPokemonCenterLevel.cpp">
+      <Filter>2. Level\2. MapLevel\1. Interior Level\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="InteriorShopLevel.cpp">
+      <Filter>2. Level\2. MapLevel\1. Interior Level\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="PokemonCenterCanvas.cpp">
+      <Filter>2. Level\2. MapLevel\1. Interior Level\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="ShopCanvas.cpp">
+      <Filter>2. Level\2. MapLevel\1. Interior Level\Common</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -280,7 +280,15 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="PokemonCenterCanvas.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="PokemonMsgBox.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ShopCanvas.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -651,7 +659,15 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="PokemonCenterCanvas.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="PokemonMsgBox.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ShopCanvas.cpp">
       <SubType>
       </SubType>
     </ClCompile>
