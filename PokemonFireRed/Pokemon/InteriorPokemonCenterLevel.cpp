@@ -107,6 +107,10 @@ void UInteriorPokemonCenterLevel::LevelStart(ULevel* _PrevLevel)
 		{
 			SetDoorTargetAsViridianCity();
 		}
+		else if (MapLevel->GetName() == UEngineString::ToUpper(Global::ExteriorPewterCityLevel))
+		{
+			SetDoorTargetAsPewterCity();
+		}
 		return;
 	}
 	
@@ -143,6 +147,16 @@ void UInteriorPokemonCenterLevel::SetDoorTargetAsViridianCity()
 	Door->SetMoveDirection(FTileVector::Down);
 	Door->SetExteriorDoorName(EN::ViridianPokemonCenterDoor);
 	Door->SetTargetMapNameText(L"VIRIDIAN CITY");
+	Door->RegisterPredefinedEvent();
+}
+
+void UInteriorPokemonCenterLevel::SetDoorTargetAsPewterCity()
+{
+	Door->SetTargetMapName(Global::ExteriorPewterCityLevel);
+	Door->SetTargetPoint({ 21, 30 });
+	Door->SetMoveDirection(FTileVector::Down);
+	Door->SetExteriorDoorName(EN::PewterPokemonCenterDoor);
+	Door->SetTargetMapNameText(L"PEWTER CITY");
 	Door->RegisterPredefinedEvent();
 }
 

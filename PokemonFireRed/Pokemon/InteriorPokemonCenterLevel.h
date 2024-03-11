@@ -49,7 +49,7 @@ private:
 	void MakeNurse();
 
 	void SetDoorTargetAsViridianCity();
-	//void SetDoorTargetAsPewterCity();
+	void SetDoorTargetAsPewterCity();
 
 	// ป๓ลย
 	EState State = EState::CheckHealEvent;
