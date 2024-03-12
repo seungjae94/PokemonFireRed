@@ -119,6 +119,23 @@ void ABattleExpGainStateMachine::ProcessTestExpBarIncrease()
 	}
 
 	State = ESubstate::ExpBarIncrease;
+
+	int CurExp = ExpGainer->GetExp();
+	int ExpSize = ExpGainer->GetExpSize();
+	int DestExp = 0;
+
+	// 목표 레벨에 도달한 경우
+	if (ExpGainer->GetLevel() == SimResult.NextLevel)
+	{
+		DestExp = SimResult.NextExp;
+	}
+	// 목표 레벨에 도달하지 못한 경우
+	else
+	{
+		DestExp = ExpSize;
+	}
+
+	ExpBarIncTime = ExpBarIncBaseTime + ExpBarIncTimeVariance * (DestExp - CurExp) / ExpSize;
 	Timer = ExpBarIncTime;
 }
 

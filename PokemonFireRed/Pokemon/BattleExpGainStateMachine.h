@@ -66,7 +66,9 @@ private:
 	int PrevCurLevelExp = 0;
 	int NextCurLevelExp = 0;
 	int LevelUpCount = 0;
-	const float ExpBarIncTime = 1.0f;
+	const float ExpBarIncBaseTime = 0.5f;
+	const float ExpBarIncTimeVariance = 1.0f;
+	float ExpBarIncTime = 0.0f;
 	const float LevelUpEffectTime = 0.5f;
 	FLevelUpData LevelUpData;
 
