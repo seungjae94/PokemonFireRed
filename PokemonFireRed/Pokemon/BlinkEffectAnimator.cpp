@@ -8,14 +8,16 @@ ABlinkEffectAnimator::~ABlinkEffectAnimator()
 {
 }
 
-void ABlinkEffectAnimator::Start(bool _IsPlayer)
+void ABlinkEffectAnimator::Start(bool _IsPlayer, float _WaitTime)
 {
 	AAnimator::Start();
 
 	IsPlayer = _IsPlayer;
 	LoopCount = MaxLoopCount;
+	WaitTime = _WaitTime;
 
-	State = EState::CheckMore;
+	State = EState::Wait;
+	Timer = WaitTime;
 }
 
 bool ABlinkEffectAnimator::IsEnd()
@@ -33,6 +35,9 @@ void ABlinkEffectAnimator::Tick(float _DeltaTime)
 	{
 	case EState::None:
 		break;
+	case EState::Wait:
+		ProcessWait();
+		break;
 	case EState::CheckMore:
 		ProcessCheckMore();
 		break;
@@ -46,6 +51,14 @@ void ABlinkEffectAnimator::Tick(float _DeltaTime)
 		break;
 	default:
 		break;
+	}
+}
+
+void ABlinkEffectAnimator::ProcessWait()
+{
+	if (Timer <= 0.0f)
+	{
+		State = EState::CheckMore;
 	}
 }
 

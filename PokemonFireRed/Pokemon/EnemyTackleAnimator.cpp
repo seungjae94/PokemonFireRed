@@ -83,8 +83,7 @@ void AEnemyTackleAnimator::ProcessShowTackleEffect()
 	State = EState::EnemyMoveRight;
 	Timer = MoveTime;
 	TackleEffect->SetActive(true);
-
-	// PlayerShakeEffectAnimator->Start();
+	ShakeEffectAnimator->Start(true);
 }
 
 void AEnemyTackleAnimator::ProcessEnemyMoveRight()
@@ -95,18 +94,14 @@ void AEnemyTackleAnimator::ProcessEnemyMoveRight()
 	if (Timer <= 0.0f)
 	{
 		State = EState::HideTackleEffect;
-		TackleEffect->SetActive(false);
-		Timer = BeforeBlinkEffectTime;
 	}
 }
 
 void AEnemyTackleAnimator::ProcessHideTackleEffect()
 {
-	if (Timer <= 0.0f)
-	{
-		State = EState::WaitBlinkEffectEnd;
-		BlinkEffectAnimator->Start(true);
-	}
+	State = EState::WaitBlinkEffectEnd;
+	TackleEffect->SetActive(false);
+	BlinkEffectAnimator->Start(true, 0.5f);
 }
 
 void AEnemyTackleAnimator::ProcessWaitBlinkEffectEnd()

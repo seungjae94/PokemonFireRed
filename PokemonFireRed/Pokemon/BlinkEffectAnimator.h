@@ -7,6 +7,7 @@ private:
 	enum class EState
 	{
 		None,
+		Wait,
 		CheckMore,
 		Hide,
 		Show,
@@ -23,7 +24,7 @@ public:
 	ABlinkEffectAnimator& operator=(const ABlinkEffectAnimator& _Other) = delete;
 	ABlinkEffectAnimator& operator=(ABlinkEffectAnimator&& _Other) noexcept = delete;
 
-	void Start(bool _IsPlayer);
+	void Start(bool _IsPlayer, float _WaitTime = 0.0f);
 	bool IsEnd() override;
 
 protected:
@@ -33,6 +34,7 @@ private:
 
 	EState State = EState::None;
 	bool IsPlayer = true;
+	float WaitTime = 0.0f;
 	float Timer = 0.0f;
 	const float StateTime = 0.1f;
 	const int MaxLoopCount = 4;
@@ -40,6 +42,7 @@ private:
 
 	// ╩Себ ф╫
 	void Tick(float _DeltaTime) override;
+	void ProcessWait();
 	void ProcessCheckMore();
 	void ProcessHide();
 	void ProcessShow();

@@ -46,7 +46,6 @@ private:
 	// ตฅภฬลอ
 	FVector EnemyLeftPos;
 	const float MoveTime = 0.1f;
-	const float BeforeBlinkEffectTime = 0.25f;
 	float Timer = 0.0f;
 };
 
