@@ -4,9 +4,12 @@
 // 전역으로 사용할 상수를 정의한다.
 namespace Global
 {
+	// Cheat
 	const float CheatDamageBonusCoeff = 5.0f;
 	const float CheatExpBonusCoeff = 1.0f;
+	const float CheatWildBattleFrequency = 0.5f;
 
+	// 기타
 	const float CharacterWalkSpeed = 3.6f;
 	const float CharacterJumpSpeed = 1.4f;
 	const float CharacterWalkAnimFrameLength = 1.0f / 8;
