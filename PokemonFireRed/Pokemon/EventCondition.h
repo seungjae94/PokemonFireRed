@@ -25,11 +25,13 @@ public:
 	UEventCondition()
 		: TriggerAction(EEventTriggerAction::Direct)
 	{
+		Id = ++IdGenerator;
 	}
 
 	UEventCondition(EEventTriggerAction _TriggerAction)
 		: TriggerAction(_TriggerAction)
 	{
+		Id = ++IdGenerator;
 	}
 
 	~UEventCondition();
@@ -44,15 +46,21 @@ public:
 	/// </summary>
 	bool Check(EEventTriggerAction _TriggerAction) const;
 
-	// 주소 비교
+	bool operator==(const UEventCondition& _Other) const
+	{
+		return Id == _Other.Id;
+	}
+
 	bool operator<(const UEventCondition& _Other) const
 	{
-		return reinterpret_cast<__int64>(this) < reinterpret_cast<__int64>(&_Other);
+		return Id < _Other.Id;
 	}
 
 protected:
 
 private:
+	int Id = 0;
+	static int IdGenerator;
 	EEventTriggerAction TriggerAction = EEventTriggerAction::ZClick;
 	std::list<CheckFunc> AllCheckFunctions;
 };

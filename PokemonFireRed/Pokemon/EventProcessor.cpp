@@ -197,7 +197,7 @@ bool UEventProcessor::ProcessDestroy()
 	Actor->Destroy();
 
 	AEventTarget* Target = dynamic_cast<AEventTarget*>(Actor);
-	
+
 	if (nullptr == Target)
 	{
 		return true;
@@ -209,7 +209,7 @@ bool UEventProcessor::ProcessDestroy()
 	UEventManager::RemoveTarget(MapName, TargetName);
 
 	AEventTrigger* Trigger = dynamic_cast<AEventTrigger*>(Actor);
-	
+
 	if (nullptr == Trigger)
 	{
 		return true;
@@ -225,7 +225,7 @@ bool UEventProcessor::ProcessMove(float _DeltaTime)
 {
 	int CurIndexOfType = GetCurIndexOfType(EEventType::Move);
 	ES::Move& Data = CurStream->MoveDataSet[CurIndexOfType];
-	
+
 	// 이동 준비
 	if (MoveState == EMoveState::None)
 	{
@@ -371,7 +371,7 @@ bool UEventProcessor::SubprocessMove(const std::vector<std::string>& _TargetName
 			Target->ChangeMoveAnimation(Target->GetMoveState(), Target->GetDirection());
 		}
 	}
-	
+
 	if (MoveTimer <= 0.0f)
 	{
 		MoveTimer = MoveTime;
@@ -610,7 +610,7 @@ bool UEventProcessor::ProcessPlayAnimation()
 	default:
 		break;
 	}
-	
+
 	if (true == IsAnimEnd)
 	{
 		// 함수 상태 초기화 후 이벤트 종료
@@ -674,6 +674,8 @@ bool UEventProcessor::ProcessChangeLevel()
 	std::string PrevLevelName = UEventManager::CurLevelName;
 	std::string NextLevelName = ToUpper(Data.LevelName);
 
+	UEngineDebug::OutPutDebugText("[UEventProcessor::ProcessChangeLevel]\nPrevLevelName = " + PrevLevelName + "\nNextLevelName = " + NextLevelName);
+
 	UEventManager::SetLevel(NextLevelName);
 	if (false == IsPlayerActivated)
 	{
@@ -724,7 +726,7 @@ bool UEventProcessor::ProcessHideActor()
 {
 	int CurIndexOfType = GetCurIndexOfType(EEventType::HideActor);
 	ES::HideActor& Data = CurStream->HideActorDataSet[CurIndexOfType];
-	
+
 	AEventTarget* Target = UEventManager::FindCurLevelTarget<AEventTarget>(Data.TargetName);
 	Target->AllRenderersActiveOff();
 	return true;
@@ -855,10 +857,23 @@ void UEventProcessor::EndRun()
 
 void UEventProcessor::RegisterStream(const UEventCondition& _Condition, UEventStream _Stream)
 {
+	__int64 Address = reinterpret_cast<__int64>(&_Condition);
+	UEngineDebug::OutPutDebugText("In UEP::RegisterStream: " + std::to_string(Address));
+
 	AllStreams[_Condition] = _Stream;
+
+	UEngineDebug::OutPutDebugText("Registered Condition Addresses:");
+	for (std::pair<const UEventCondition, UEventStream>& Cond : AllStreams)
+	{
+		__int64 Address = reinterpret_cast<__int64>(&Cond.first);
+		UEngineDebug::OutPutDebugText(std::to_string(Address));
+	}
 }
 
 void UEventProcessor::UnregisterStream(const UEventCondition& _Condition)
 {
-	AllStreams.erase(_Condition);
+	if (true == AllStreams.contains(_Condition))
+	{
+		AllStreams.erase(_Condition);
+	}
 }

@@ -83,6 +83,8 @@ void UPokemonUILevel::Tick(float _DeltaTime)
 
 void UPokemonUILevel::LevelStart(ULevel* _PrevLevel)
 {
+	UPokemonLevel::LevelStart(_PrevLevel);
+
 	// 이전 레벨 분류
 	UMapLevel* MapLevel = dynamic_cast<UMapLevel*>(_PrevLevel);
 	UBattleLevel* BattleLevel = dynamic_cast<UBattleLevel*>(_PrevLevel);

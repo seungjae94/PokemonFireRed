@@ -1,5 +1,7 @@
 #include "EventCondition.h"
 
+int UEventCondition::IdGenerator = 0;
+
 UEventCondition::~UEventCondition()
 {
 }

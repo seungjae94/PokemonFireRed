@@ -28,7 +28,14 @@ void UPokemonLevel::BeginPlay()
 
 void UPokemonLevel::LevelStart(ULevel* _PrevLevel)
 {
+	ULevel::LevelStart(_PrevLevel);
+	UEngineDebug::OutPutDebugText("Level " + GetName() + " Started.");
+}
 
+void UPokemonLevel::LevelEnd(ULevel* _NextLevel)
+{
+	ULevel::LevelEnd(_NextLevel);
+	UEngineDebug::OutPutDebugText("Level " + GetName() + " Ended.");
 }
 
 void UPokemonLevel::Tick(float _DeltaTime)
@@ -64,7 +71,7 @@ void UPokemonLevel::Tick(float _DeltaTime)
 	}
 
 	// 태초 마을로 이동
-	if (true == UEngineInput::IsDown(VK_F2))
+	if (true == UEngineInput::IsDown('1'))
 	{
 		UEventManager::FadeChangeLevel(Global::ExteriorPalletTownLevel, true);
 		UEventManager::SetPoint(Global::ExteriorPalletTownLevel, EN::Player, { 77, 137 });
@@ -72,7 +79,7 @@ void UPokemonLevel::Tick(float _DeltaTime)
 	}
 
 	// 상록 시티로 이동
-	if (true == UEngineInput::IsDown(VK_F3))
+	if (true == UEngineInput::IsDown('2'))
 	{
 		UEventManager::FadeChangeLevel(Global::ExteriorPalletTownLevel, true);
 		UEventManager::SetPoint(Global::ExteriorPalletTownLevel, EN::Player, { 82, 80 });
@@ -80,7 +87,7 @@ void UPokemonLevel::Tick(float _DeltaTime)
 	}
 
 	// 상록숲으로 이동
-	if (true == UEngineInput::IsDown(VK_F4))
+	if (true == UEngineInput::IsDown('3'))
 	{
 		UEventManager::FadeChangeLevel(Global::ExteriorViridianForestLevel, true);
 		UEventManager::SetPoint(Global::ExteriorViridianForestLevel, EN::Player, { 35, 60 });
@@ -88,7 +95,7 @@ void UPokemonLevel::Tick(float _DeltaTime)
 	}
 
 	// 회색 시티로 이동
-	if (true == UEngineInput::IsDown(VK_F5))
+	if (true == UEngineInput::IsDown('4'))
 	{
 		UEventManager::FadeChangeLevel(Global::ExteriorPewterCityLevel, true);
 		UEventManager::SetPoint(Global::ExteriorPewterCityLevel, EN::Player, { 19, 21 });
