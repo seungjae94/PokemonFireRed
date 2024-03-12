@@ -49,7 +49,7 @@ void ABattleEnemyShiftStateMachine::Start(ABattleCanvas* _Canvas, APokemonMsgBox
 	State = ESubstate::EntryArrowMove;
 	Timer = EnemyArrowMoveTime;
 	Canvas->RefreshEnemyEntry();
-	Canvas->SetEnemyEntryArrowAlpha(1.0f);
+	Canvas->EnemyUIReadyForShift();
 }
 
 void ABattleEnemyShiftStateMachine::ProcessEntryArrowMove()

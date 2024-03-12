@@ -21,6 +21,7 @@ void ABattlePlayerShiftStateMachine::Start(std::wstring_view _TakeInPokemonName,
 	Timer = WaitTime;
 	MsgBox->SetMessage(TakeInPokemonName + L", that's enough!\nCome back!");
 	MsgBox->Write();
+	Canvas->PlayerUIReadyForShift();
 }
 
 void ABattlePlayerShiftStateMachine::Tick(float _DeltaTime)
@@ -47,6 +48,9 @@ void ABattlePlayerShiftStateMachine::Tick(float _DeltaTime)
 		break;
 	case ESubstate::SendOut:
 		ProcessSendOut();
+		break;
+	case ESubstate::ShowPlayerBox:
+		ProcessShowPlayerBox();
 		break;
 	case ESubstate::EndWait:
 		ProcessEndWait();
@@ -111,6 +115,17 @@ void ABattlePlayerShiftStateMachine::ProcessSendOut()
 	Canvas->TakeOutPlayerPokemonFromBall(Timer / SendOutTime);
 
 	if (Timer <= 0.0f && MsgBox->GetWriteState() == EWriteState::WriteEnd)
+	{
+		State = ESubstate::ShowPlayerBox;
+		Timer = ShowPlayerBoxTime;
+	}
+}
+
+void ABattlePlayerShiftStateMachine::ProcessShowPlayerBox()
+{
+	Canvas->LerpShowPlayerPokemonBox(Timer / ShowPlayerBoxTime);
+
+	if (Timer <= 0.0f)
 	{
 		State = ESubstate::EndWait;
 		Timer = WaitTime;

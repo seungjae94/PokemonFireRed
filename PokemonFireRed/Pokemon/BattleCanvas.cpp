@@ -230,8 +230,8 @@ void ABattleCanvas::InitEnemyImages()
 
 void ABattleCanvas::InitPlayerUI()
 {
-	PlayerPokemonBox->SetRelativePosition(PlayerPokemonBoxHidePos);
 	PlayerGround->SetRelativePosition(PlayerGroundHidePos);
+	PlayerPokemonBox->SetRelativePosition(PlayerPokemonBoxHidePos);
 	PlayerEntryArrow->SetRelativePosition(PlayerEntryArrowHidePos);
 	PlayerEntryArrow->SetAlpha(1.0f);
 
@@ -254,14 +254,6 @@ void ABattleCanvas::InitEnemyUI()
 		EnemyEntryBalls[i]->SetRelativePosition(EnemyEntryBallsHidePos[i]);
 		EnemyEntryBalls[i]->SetAlpha(1.0f);
 	}
-}
-
-void ABattleCanvas::InitPlayerEntry()
-{
-}
-
-void ABattleCanvas::InitEnemyEntry()
-{
 }
 
 void ABattleCanvas::RefreshEnemyPokemonBox()
@@ -378,6 +370,30 @@ void ABattleCanvas::RefreshEnemyPokemonImage()
 {
 	const UPokemon* EnemyPokemon = Enemy->CurPokemonReadonly();
 	EnemyPokemonImage->SetPokemon(EnemyPokemon);
+}
+
+void ABattleCanvas::PlayerUIReadyForShift()
+{
+	PlayerPokemonBox->SetRelativePosition(PlayerPokemonBoxHidePos);
+	PlayerEntryArrow->SetRelativePosition(PlayerEntryArrowHidePos);
+	PlayerEntryArrow->SetAlpha(1.0f);
+
+	for (int i = 0; i < 6; ++i)
+	{
+		PlayerEntryBalls[i]->SetAlpha(1.0f);
+	}
+}
+
+void ABattleCanvas::EnemyUIReadyForShift()
+{
+	EnemyPokemonBox->SetRelativePosition(EnemyPokemonBoxHidePos);
+	EnemyEntryArrow->SetRelativePosition(EnemyEntryArrowHidePos);
+	EnemyEntryArrow->SetAlpha(1.0f);
+
+	for (int i = 0; i < 6; ++i)
+	{
+		EnemyEntryBalls[i]->SetAlpha(1.0f);
+	}
 }
 
 
