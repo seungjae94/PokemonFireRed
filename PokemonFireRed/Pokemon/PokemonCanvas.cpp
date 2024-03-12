@@ -214,8 +214,8 @@ void APokemonCanvas::LerpHeal(int _Index, int _PrevHp, int _NextHp, int _MaxHp, 
 
 	if (_Index > 0)
 	{
-		HpBar = EntryHpBars[_Index];
-		CurHpText = EntryCurHpTexts[_Index];
+		HpBar = EntryHpBars[_Index-1];
+		CurHpText = EntryCurHpTexts[_Index-1];
 	}
 
 	int LerpedHp = std::lround(UPokemonMath::Lerp(static_cast<float>(_NextHp), static_cast<float>(_PrevHp), _t));

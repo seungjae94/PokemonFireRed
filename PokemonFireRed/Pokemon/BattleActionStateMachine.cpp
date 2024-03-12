@@ -66,8 +66,14 @@ void ABattleActionStateMachine::Start(UBattler* _Attacker, UBattler* _Defender)
 	case EBattleAction::Ball:
 	{
 		State = ESubstate::Ball;
-		MsgBox->SetMessage(L"Ball missed!");
-		MsgBox->Write();
+		
+		// (트레이너에게 던지는 경우)
+		// RED used\nPOKe BALL!
+		// The TRAINER blocked the BALL!
+		// 하고 플레이어 턴 종료됨
+		
+		//MsgBox->SetMessage(L"Ball missed!");
+		//MsgBox->Write();
 	}
 	break;
 	default:
@@ -135,10 +141,12 @@ void ABattleActionStateMachine::ProcessShift()
 
 void ABattleActionStateMachine::ProcessBall()
 {
-	if (EWriteState::WriteEnd == MsgBox->GetWriteState())
+	State = ESubstate::End;
+	/*if (true == BattleBallMachine->IsEnd())
 	{
+		// 처리
 		State = ESubstate::End;
-	}
+	}*/
 }
 
 void ABattleActionStateMachine::ProcessMove()
