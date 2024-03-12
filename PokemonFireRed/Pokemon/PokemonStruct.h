@@ -245,7 +245,8 @@ enum class EPokemonMove
 	DefenseCurl,
 	Bind,
 	RockThrow,
-	Harden
+	Harden,
+	VineWhip,
 };
 
 enum class EMoveEffectTarget

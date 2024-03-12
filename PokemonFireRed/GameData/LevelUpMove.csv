@@ -1,7 +1,7 @@
 NAME,Level,MoveName
 Bulbasaur,0,Tackle
 Bulbasaur,4,Growl
-Bulbasaur,7,LeechSeed
+Bulbasaur,7,Vine Whip
 Charmander,0,Scratch
 Charmander,0,Growl
 Charmander,7,Ember
@@ -33,7 +33,7 @@ Diglett,0,SandAttack
 Diglett,0,Scratch
 Diglett,5,Growl
 Onix,0,Tackle
-Onix,8,Harden
+Onix,8,DefenseCurl
 Onix,12,RockThrow
-MetaPod,0,Harden
-Kakuna,0,Harden
+MetaPod,0,DefenseCurl
+Kakuna,0,DefenseCurl
