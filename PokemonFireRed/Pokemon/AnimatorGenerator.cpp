@@ -3,6 +3,7 @@
 #include "Pokemon.h"
 #include "PlayerTackleAnimator.h"
 #include "EnemyTackleAnimator.h"
+#include "PlayerGrowlAnimator.h"
 
 AAnimatorGenerator::AAnimatorGenerator() 
 {
@@ -18,6 +19,8 @@ AAnimator* AAnimatorGenerator::Generate(UBattler* _Attacker, EPokemonMove _MoveI
 	{
 		switch (_MoveId)
 		{
+		case EPokemonMove::Growl:
+			return GetWorld()->SpawnActor <APlayerGrowlAnimator>();
 		case EPokemonMove::Tackle:
 		default:
 			return GetWorld()->SpawnActor<APlayerTackleAnimator>();

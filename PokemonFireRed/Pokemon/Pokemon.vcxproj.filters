@@ -477,6 +477,12 @@
     <ClInclude Include="EnemyTackleAnimator.h">
       <Filter>2. Level\7. BattleLevel\Animator\MoveAnimator</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerGrowlAnimator.h">
+      <Filter>2. Level\7. BattleLevel\Animator\MoveAnimator</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyGrowlAnimator.h">
+      <Filter>2. Level\7. BattleLevel\Animator\MoveAnimator</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PokemonCore.cpp">
@@ -798,6 +804,12 @@
       <Filter>2. Level\7. BattleLevel\StateMachine</Filter>
     </ClCompile>
     <ClCompile Include="EnemyTackleAnimator.cpp">
+      <Filter>2. Level\7. BattleLevel\Animator\MoveAnimator</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerGrowlAnimator.cpp">
+      <Filter>2. Level\7. BattleLevel\Animator\MoveAnimator</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyGrowlAnimator.cpp">
       <Filter>2. Level\7. BattleLevel\Animator\MoveAnimator</Filter>
     </ClCompile>
   </ItemGroup>

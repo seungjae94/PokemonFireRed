@@ -45,6 +45,7 @@ void UBattleLevel::BeginPlay()
 	{
 		UEngineResourcesManager::GetInst().LoadImg(File.GetFullPath());
 	}
+	UEngineResourcesManager::GetInst().CuttingImage(RN::GrowlEffect, 1, 6);
 
 	// 액터 생성
 	Canvas = SpawnActor<ABattleCanvas>();

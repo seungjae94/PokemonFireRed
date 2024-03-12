@@ -292,6 +292,7 @@ namespace RN
 
 	// 배틀 이펙트 리소스
 	const std::string TackleEffect = "TackleEffect.png";
+	const std::string GrowlEffect = "GrowlEffect.png";
 };
 
 enum ERenderingOrder

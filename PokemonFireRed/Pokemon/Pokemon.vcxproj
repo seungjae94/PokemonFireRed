@@ -268,6 +268,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="EnemyGrowlAnimator.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="EnemyTackleAnimator.h">
       <SubType>
       </SubType>
@@ -317,6 +321,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="MoveEffectTester.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="PlayerGrowlAnimator.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -699,6 +707,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="EnemyGrowlAnimator.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="EnemyTackleAnimator.cpp">
       <SubType>
       </SubType>
@@ -749,6 +761,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="MoveEffectTester.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PlayerGrowlAnimator.cpp">
       <SubType>
       </SubType>
     </ClCompile>
