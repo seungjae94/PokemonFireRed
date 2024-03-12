@@ -24,6 +24,8 @@ private: // 초기화 함수
 	void InitEnemyImages();		// 적 배틀러, 적 포켓몬, 적 볼 위치 초기화
 	void InitPlayerUI();
 	void InitEnemyUI();
+	void InitPlayerEntry();
+	void InitEnemyEntry();
 
 public:	// Refresh 함수
 	void RefreshEnemyPokemonBox();

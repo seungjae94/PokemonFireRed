@@ -233,10 +233,12 @@ void ABattleCanvas::InitPlayerUI()
 	PlayerPokemonBox->SetRelativePosition(PlayerPokemonBoxHidePos);
 	PlayerGround->SetRelativePosition(PlayerGroundHidePos);
 	PlayerEntryArrow->SetRelativePosition(PlayerEntryArrowHidePos);
+	PlayerEntryArrow->SetAlpha(1.0f);
 
 	for (int i = 0; i < 6; ++i)
 	{
 		PlayerEntryBalls[i]->SetRelativePosition(PlayerEntryBallsHidePos[i]);
+		PlayerEntryBalls[i]->SetAlpha(1.0f);
 	}
 }
 
@@ -245,11 +247,21 @@ void ABattleCanvas::InitEnemyUI()
 	EnemyGround->SetRelativePosition(EnemyGroundHidePos);
 	EnemyPokemonBox->SetRelativePosition(EnemyPokemonBoxHidePos);
 	EnemyEntryArrow->SetRelativePosition(EnemyEntryArrowHidePos);
+	EnemyEntryArrow->SetAlpha(1.0f);
 
 	for (int i = 0; i < 6; ++i)
 	{
 		EnemyEntryBalls[i]->SetRelativePosition(EnemyEntryBallsHidePos[i]);
+		EnemyEntryBalls[i]->SetAlpha(1.0f);
 	}
+}
+
+void ABattleCanvas::InitPlayerEntry()
+{
+}
+
+void ABattleCanvas::InitEnemyEntry()
+{
 }
 
 void ABattleCanvas::RefreshEnemyPokemonBox()
