@@ -19,6 +19,7 @@ public:
 	AAnimatorGenerator& operator=(AAnimatorGenerator&& _Other) noexcept = delete;
 
 	AAnimator* Generate(UBattler* _Attacker, EPokemonMove _MoveId);
+	AAnimator* Generate(UBattler* _Attacker, bool _IsStatDown);
 
 protected:
 

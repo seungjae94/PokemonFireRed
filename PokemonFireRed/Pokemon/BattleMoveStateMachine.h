@@ -26,11 +26,13 @@ private:
 		MoveCriticalMessage2,
 		MoveEffectiveMessage1,
 		MoveEffectiveMessage2,
-		MoveBE,
+		MoveBEStart,
+		MoveBEAnim,
 		MoveBEMessage1,
 		MoveBEMessage2,
 		TestSE,
-		MoveSE,
+		MoveSEStart,
+		MoveSEAnim,
 		MoveSEMessage1,
 		MoveSEMessage2,
 		End,
@@ -106,11 +108,13 @@ private:
 	void ProcessMoveCriticalMessage2();
 	void ProcessMoveEffectiveMessage1();
 	void ProcessMoveEffectiveMessage2();
-	void ProcessMoveBE();
+	void ProcessMoveBEStart();
+	void ProcessMoveBEAnim();
 	void ProcessMoveBEMessage1();
 	void ProcessMoveBEMessage2();
 	void ProcessTestSE();
-	void ProcessMoveSE();
+	void ProcessMoveSEStart();
+	void ProcessMoveSEAnim();
 	void ProcessMoveSEMessage1();
 	void ProcessMoveSEMessage2();
 

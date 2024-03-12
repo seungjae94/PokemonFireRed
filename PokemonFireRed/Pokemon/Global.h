@@ -144,7 +144,11 @@ namespace RN
 	const std::string NextMsgArrow = "NextMsgArrow.png";
 	const std::string MapNameWindow = "MapNameWindow.png";
 
-	const std::string PokemonFront = "PokemonFront.png"; 
+	const std::string PokemonFront = "PokemonFront.png";
+	const std::string PokemonFrontStat0 = "PokemonFrontStat0.png";
+	const std::string PokemonFrontStat1 = "PokemonFrontStat1.png";
+	const std::string PokemonFrontStat2 = "PokemonFrontStat2.png";
+	const std::string PokemonFrontStat3 = "PokemonFrontStat3.png";
 	const std::string PokemonBack = "PokemonBack.png"; 
 	const std::string PokemonMini = "PokemonMini.png"; 
 	const std::string PokemonFrontPlaceHolder = "PokemonFrontPlaceHolder.png"; 

@@ -483,6 +483,9 @@
     <ClInclude Include="EnemyGrowlAnimator.h">
       <Filter>2. Level\7. BattleLevel\Animator\MoveAnimator</Filter>
     </ClInclude>
+    <ClInclude Include="EnemyStatStageChangeAnimator.h">
+      <Filter>2. Level\7. BattleLevel\Animator\StatStageAnimator</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PokemonCore.cpp">
@@ -811,6 +814,9 @@
     </ClCompile>
     <ClCompile Include="EnemyGrowlAnimator.cpp">
       <Filter>2. Level\7. BattleLevel\Animator\MoveAnimator</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyStatStageChangeAnimator.cpp">
+      <Filter>2. Level\7. BattleLevel\Animator\StatStageAnimator</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

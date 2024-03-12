@@ -52,6 +52,11 @@ void ABattleMoveStateMachine::Start(UBattler* _Attacker, UBattler* _Defender)
 	MsgBox->SetMessage(UBattleUtil::GetPokemonFullName(Attacker) + L" used\n" + Move->GetNameW() + L"!");
 	MsgBox->Write();
 	
+	// 기존 애니메이터 삭제
+	if (nullptr != Animator)
+	{
+		Animator->Destroy();
+	}
 	Animator = AnimatorGenerator->Generate(_Attacker, Move->Id);
 	Animator->Start();
 }
@@ -62,54 +67,60 @@ void ABattleMoveStateMachine::Tick(float _DeltaTime)
 
 	switch (State)
 	{
-	case ABattleMoveStateMachine::ESubstate::None:
+	case ESubstate::None:
 		break;
-	case ABattleMoveStateMachine::ESubstate::MoveFail1:
+	case ESubstate::MoveFail1:
 		ProcessMoveFail1();
 		break;
-	case ABattleMoveStateMachine::ESubstate::MoveFail2:
+	case ESubstate::MoveFail2:
 		ProcessMoveFail2();
 		break;
-	case ABattleMoveStateMachine::ESubstate::MoveAnim:
+	case ESubstate::MoveAnim:
 		ProcessMoveAnim();
 		break;
-	case ABattleMoveStateMachine::ESubstate::MoveDamage:
+	case ESubstate::MoveDamage:
 		ProcessMoveDamage();
 		break;
-	case ABattleMoveStateMachine::ESubstate::MoveCriticalMessage1:
+	case ESubstate::MoveCriticalMessage1:
 		ProcessMoveCriticalMessage1();
 		break;
-	case ABattleMoveStateMachine::ESubstate::MoveCriticalMessage2:
+	case ESubstate::MoveCriticalMessage2:
 		ProcessMoveCriticalMessage2();
 		break;
-	case ABattleMoveStateMachine::ESubstate::MoveEffectiveMessage1:
+	case ESubstate::MoveEffectiveMessage1:
 		ProcessMoveEffectiveMessage1();
 		break;
-	case ABattleMoveStateMachine::ESubstate::MoveEffectiveMessage2:
+	case ESubstate::MoveEffectiveMessage2:
 		ProcessMoveEffectiveMessage2();
 		break;
-	case ABattleMoveStateMachine::ESubstate::MoveBE:
-		ProcessMoveBE();
+	case ESubstate::MoveBEStart:
+		ProcessMoveBEStart();
 		break;
-	case ABattleMoveStateMachine::ESubstate::MoveBEMessage1:
+	case ESubstate::MoveBEAnim:
+		ProcessMoveBEAnim();
+		break;
+	case ESubstate::MoveBEMessage1:
 		ProcessMoveBEMessage1();
 		break;
-	case ABattleMoveStateMachine::ESubstate::MoveBEMessage2:
+	case ESubstate::MoveBEMessage2:
 		ProcessMoveBEMessage2();
 		break;
-	case ABattleMoveStateMachine::ESubstate::TestSE:
+	case ESubstate::TestSE:
 		ProcessTestSE();
 		break;
-	case ABattleMoveStateMachine::ESubstate::MoveSE:
-		ProcessMoveSE();
+	case ESubstate::MoveSEStart:
+		ProcessMoveSEStart();
 		break;
-	case ABattleMoveStateMachine::ESubstate::MoveSEMessage1:
+	case ESubstate::MoveSEAnim:
+		ProcessMoveSEAnim();
+		break;
+	case ESubstate::MoveSEMessage1:
 		ProcessMoveSEMessage1();
 		break;
-	case ABattleMoveStateMachine::ESubstate::MoveSEMessage2:
+	case ESubstate::MoveSEMessage2:
 		ProcessMoveSEMessage2();
 		break;
-	case ABattleMoveStateMachine::ESubstate::End:
+	case ESubstate::End:
 		break;
 	default:
 		break;
@@ -245,9 +256,43 @@ void ABattleMoveStateMachine::ProcessMoveEffectiveMessage2()
 	}
 }
 
-void ABattleMoveStateMachine::ProcessMoveBE()
+void ABattleMoveStateMachine::ProcessMoveBEStart()
 {
-	if (Timer <= 0.0f)
+	const FPokemonMove* Move = Attacker->CurMove();
+
+	// 상태 변화인 경우
+	if (Move->BEStatusId != EPokemonStatus::Normal)
+	{
+
+	}
+	// 스탯 변화인 경우
+	else
+	{
+		bool IsStatDown = Move->BEStatStageValue < 0;
+		
+		// 기존 애니메이터 삭제
+		if (nullptr != Animator)
+		{
+			Animator->Destroy();
+		}
+
+		if (Move->BETarget == EMoveEffectTarget::Enemy)
+		{
+			Animator = AnimatorGenerator->Generate(Defender, IsStatDown);
+		}
+		else
+		{
+			Animator = AnimatorGenerator->Generate(Attacker, IsStatDown);
+		}
+	}
+
+	State = ESubstate::MoveBEAnim;
+	Animator->Start();
+}
+
+void ABattleMoveStateMachine::ProcessMoveBEAnim()
+{
+	if (true == Animator->IsEnd())
 	{
 		// 실제 BE 효과 적용
 		State = ESubstate::MoveBEMessage1;
@@ -307,9 +352,36 @@ void ABattleMoveStateMachine::ProcessTestSE()
 	StateChangeToMoveSE();
 }
 
-void ABattleMoveStateMachine::ProcessMoveSE()
+void ABattleMoveStateMachine::ProcessMoveSEStart()
 {
-	if (Timer <= 0.0f)
+	const FPokemonMove* Move = Attacker->CurMove();
+
+	// 상태 변화인 경우
+	if (Move->SEStatusId == EPokemonStatus::Normal)
+	{
+
+	}
+	// 스탯 변화인 경우
+	else
+	{
+		bool IsStatDown = Move->SEStatStageValue < 0;
+		if (Move->SETarget == EMoveEffectTarget::Enemy)
+		{
+			Animator = AnimatorGenerator->Generate(Defender, IsStatDown);
+		}
+		else
+		{
+			Animator = AnimatorGenerator->Generate(Attacker, IsStatDown);
+		}
+	}
+
+	State = ESubstate::MoveSEAnim;
+	Animator->Start();
+}
+
+void ABattleMoveStateMachine::ProcessMoveSEAnim()
+{
+	if (true == Animator->IsEnd())
 	{
 		// 실제 SE 효과 적용
 		State = ESubstate::MoveSEMessage1;
@@ -347,14 +419,10 @@ void ABattleMoveStateMachine::StateChangeToMoveFail(std::wstring _FailMessage)
 
 void ABattleMoveStateMachine::StateChangeToMoveBE()
 {
-	State = ESubstate::MoveBE;
-	MoveEffectState = EMoveEffectState::MoveEffect;
-	Timer = MoveEffectShowTime;
+	State = ESubstate::MoveBEStart;
 }
 
 void ABattleMoveStateMachine::StateChangeToMoveSE()
 {
-	State = ESubstate::MoveSE;
-	MoveEffectState = EMoveEffectState::MoveEffect;
-	Timer = MoveEffectShowTime;
+	State = ESubstate::MoveSEStart;
 }

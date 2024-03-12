@@ -137,9 +137,13 @@ void UPokemonCore::LoadPokemonResources()
 		UEngineResourcesManager::GetInst().LoadImg(Path);
 	}
 
-	UEngineResourcesManager::GetInst().CuttingImage("PokemonBack.png", 2, 154);
-	UEngineResourcesManager::GetInst().CuttingImage("PokemonFront.png", 2, 154);
-	UEngineResourcesManager::GetInst().CuttingImage("PokemonMini.png", 2, 154);
+	UEngineResourcesManager::GetInst().CuttingImage(RN::PokemonFront, 2, 154);
+	UEngineResourcesManager::GetInst().CuttingImage(RN::PokemonFrontStat0, 2, 154);
+	UEngineResourcesManager::GetInst().CuttingImage(RN::PokemonFrontStat1, 2, 154);
+	UEngineResourcesManager::GetInst().CuttingImage(RN::PokemonFrontStat2, 2, 154);
+	UEngineResourcesManager::GetInst().CuttingImage(RN::PokemonFrontStat3, 2, 154);
+	UEngineResourcesManager::GetInst().CuttingImage(RN::PokemonBack, 2, 154);
+	UEngineResourcesManager::GetInst().CuttingImage(RN::PokemonMini, 2, 154);
 
 	CurDir.MoveParent();
 }
