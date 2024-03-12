@@ -1,10 +1,12 @@
 #include "EnemyTackleAnimator.h"
+#include "BlinkEffectAnimator.h"
+#include "ShakeEffectAnimator.h"
 
-AEnemyTackleAnimator::AEnemyTackleAnimator() 
+AEnemyTackleAnimator::AEnemyTackleAnimator()
 {
 }
 
-AEnemyTackleAnimator::~AEnemyTackleAnimator() 
+AEnemyTackleAnimator::~AEnemyTackleAnimator()
 {
 }
 
@@ -93,21 +95,24 @@ void AEnemyTackleAnimator::ProcessEnemyMoveRight()
 	if (Timer <= 0.0f)
 	{
 		State = EState::HideTackleEffect;
+		TackleEffect->SetActive(false);
+		Timer = BeforeBlinkEffectTime;
 	}
 }
 
 void AEnemyTackleAnimator::ProcessHideTackleEffect()
 {
-	State = EState::WaitBlinkEffectEnd;
-	TackleEffect->SetActive(false);
-
-	// PlayerBlinkEffectAnimator->Start();
+	if (Timer <= 0.0f)
+	{
+		State = EState::WaitBlinkEffectEnd;
+		BlinkEffectAnimator->Start(true);
+	}
 }
 
 void AEnemyTackleAnimator::ProcessWaitBlinkEffectEnd()
 {
-	//if (true == PlayerBlinkEffectAnimator()->IsEnd())
-//{
-	State = EState::End;
-	//}
+	if (true == BlinkEffectAnimator->IsEnd())
+	{
+		State = EState::End;
+	}
 }
