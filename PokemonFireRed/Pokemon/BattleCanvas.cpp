@@ -222,6 +222,7 @@ void ABattleCanvas::InitEnemyImages()
 	else
 	{
 		EnemyBattler->SetImage(Enemy->GetTrainerImageName());
+		EnemyBattler->SetRelativePosition(EnemyBattlerInitPos);
 		EnemyPokemonImage->SetRelativePosition(EnemyPokemonImageHidePos);
 		EnemyPokemonImage->SetScaleFactor(0.0f);
 	}
