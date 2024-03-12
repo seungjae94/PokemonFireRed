@@ -14,7 +14,7 @@ void UExteriorViridianForestLevel::BeginPlay()
 	UMapLevel::BeginPlay();
 
 	// (디버깅) 플레이어 시작 위치 설정
-	UEventManager::SetPoint(GetName(), Global::Player, { 10, 20 });			// 회색시티 앞
+	UEventManager::SetPoint(GetName(), Global::Player, { 10, 20 });				// 회색시티 앞
 	//UEventManager::SetPoint(GetName(), Global::Player, { 35, 62 });			// 상록시티 앞
 
 	MakeBugCatcher0();
