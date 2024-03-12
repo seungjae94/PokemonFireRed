@@ -74,7 +74,7 @@ void UPokemonCore::BeginPlay()
 	UPlayerData::GainItem(EItemId::PokeBall, 999);
 
 	// 디버그용 업적 완료
-	UPlayerData::Achieve(EAchievement::GetStarterEventStart);
+	//UPlayerData::Achieve(EAchievement::GetStarterEventStart);
 	//UPlayerData::Achieve(EAchievement::SelectFirstPokemon);
 	//UPlayerData::Achieve(EAchievement::FightWithGreen);
 
@@ -98,7 +98,7 @@ void UPokemonCore::BeginPlay()
 	CreateLevel<UBagUILevel>(Global::BagUILevel);
 
 	// 시작 레벨 설정
-	UEventManager::SetLevel(Global::InteriorOaksLabLevel);
+	UEventManager::SetLevel(Global::InteriorPlayersHouse2FLevel);
 }
 
 void UPokemonCore::Tick(float _DeltaTime)
