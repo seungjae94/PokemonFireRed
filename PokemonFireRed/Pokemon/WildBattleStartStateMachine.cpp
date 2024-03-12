@@ -11,6 +11,12 @@ AWildBattleStartStateMachine::~AWildBattleStartStateMachine()
 {
 }
 
+void AWildBattleStartStateMachine::Start()
+{
+	State = ESubstate::FadeWait;
+	Timer = FadeWaitTime;
+}
+
 void AWildBattleStartStateMachine::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);

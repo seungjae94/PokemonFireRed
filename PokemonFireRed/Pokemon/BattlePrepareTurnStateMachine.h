@@ -1,5 +1,5 @@
 #pragma once
-#include <EngineCore/Actor.h>
+#include "BattleStateMachine.h"
 #include "Battler.h"
 
 class ABattlePlayerShiftStateMachine;
@@ -7,7 +7,7 @@ class ABattleEnemyShiftStateMachine;
 class ABattleCanvas;
 class APokemonMsgBox;
 
-class ABattlePrepareTurnStateMachine : public AActor
+class ABattlePrepareTurnStateMachine : public ABattleStateMachine
 {
 private:
 	enum class ESubstate
@@ -34,7 +34,7 @@ public:
 		return State == ESubstate::End;
 	}
 
-	void Start(ABattleCanvas* _Canvas, APokemonMsgBox* _MsgBox, UBattler* _Player, UBattler* _Enemy);
+	void Start() override;
 
 	void SetBPSSM(ABattlePlayerShiftStateMachine* _BPSSM)
 	{
@@ -54,12 +54,6 @@ private:
 	void ProcessSelectPokemonForce();
 	void ProcessPlayerShift();
 	void ProcessEnemyShift();
-
-	// 입력 데이터
-	ABattleCanvas* Canvas = nullptr;
-	APokemonMsgBox* MsgBox = nullptr;
-	UBattler* Player = nullptr;
-	UBattler* Enemy = nullptr;
 
 	// 상태
 	ESubstate State = ESubstate::None;

@@ -1,5 +1,5 @@
 #pragma once
-#include <EngineCore/Actor.h>
+#include "BattleStateMachine.h"
 #include "PlayerData.h"
 #include "Pokemon.h"
 #include "BattleEnums.h"
@@ -9,7 +9,7 @@ class UBattleLevel;
 class ABattleCanvas;
 class APokemonMsgBox;
 
-class ABattlePlayerActionSelectStateMachine : public AActor
+class ABattlePlayerActionSelectStateMachine : public ABattleStateMachine
 {
 private:
 	enum ECursorName
@@ -47,19 +47,13 @@ public:
 	}
 
 
-	void Start(ABattleCanvas* _Canvas, APokemonMsgBox* _MsgBox, UBattler* _Player, UBattler* _Enemy);
+	void Start() override;
 
 	void Reset();
 
 protected:
 
 private:
-	// 배틀 레벨 데이터
-	ABattleCanvas* Canvas = nullptr;
-	APokemonMsgBox* MsgBox = nullptr;
-	UBattler* Player = nullptr;
-	UBattler* Enemy = nullptr;
-
 	// 고유 데이터
 	float Timer = 0.0f;
 	int RunAttemptCount = 0;

@@ -12,12 +12,8 @@ ABattlePlayerActionSelectStateMachine::~ABattlePlayerActionSelectStateMachine()
 {
 }
 
-void ABattlePlayerActionSelectStateMachine::Start(ABattleCanvas* _Canvas, APokemonMsgBox* _MsgBox, UBattler* _Player, UBattler* _Enemy)
+void ABattlePlayerActionSelectStateMachine::Start()
 {
-	Canvas = _Canvas;
-	MsgBox = _MsgBox;
-	Player = _Player;
-	Enemy = _Enemy;
 	State = ESubstate::Select;
 	Canvas->RefreshMoveSelectBox();
 }

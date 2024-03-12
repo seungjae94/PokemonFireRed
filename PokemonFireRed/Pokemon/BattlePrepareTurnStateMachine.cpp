@@ -14,13 +14,8 @@ ABattlePrepareTurnStateMachine::~ABattlePrepareTurnStateMachine()
 {
 }
 
-void ABattlePrepareTurnStateMachine::Start(ABattleCanvas* _Canvas, APokemonMsgBox* _MsgBox, UBattler* _Player, UBattler* _Enemy)
+void ABattlePrepareTurnStateMachine::Start()
 {
-	Canvas = _Canvas;
-	MsgBox = _MsgBox;
-	Player = _Player;
-	Enemy = _Enemy;
-
 	if (true == Player->CurPokemon()->IsFaint())
 	{
 		State = ESubstate::SelectPokemonForce;
@@ -39,7 +34,7 @@ void ABattlePrepareTurnStateMachine::Start(ABattleCanvas* _Canvas, APokemonMsgBo
 		BattleEnemyShiftSM->Start(Canvas, MsgBox, Enemy);
 		return;
 	}
-	
+
 	State = ESubstate::End;
 }
 
