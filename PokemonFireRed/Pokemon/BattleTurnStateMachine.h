@@ -1,5 +1,5 @@
 #pragma once
-#include <EngineCore/Actor.h>
+#include "BattleStateMachine.h"
 #include "BattleEnums.h"
 #include "StatStage.h"
 #include "Pokemon.h"
@@ -23,7 +23,7 @@ enum class EBattleEndReason
 };
 
 // 턴 순서를 관리하는 역할
-class ABattleTurnStateMachine : public AActor
+class ABattleTurnStateMachine : public ABattleStateMachine
 {
 private:
 	enum class ESubstate
@@ -86,17 +86,11 @@ public:
 		BattleFaintSM = _FSM;
 	}
 
-	void Start(ABattleCanvas* _Canvas, APokemonMsgBox* _MsgBox, UBattler* _Player, UBattler* _Enemy);
+	void Start() override;
 
 protected:
 
 private:
-	// 배틀 레벨 데이터
-	ABattleCanvas* Canvas = nullptr;
-	APokemonMsgBox* MsgBox = nullptr;
-	UBattler* Player = nullptr;
-	UBattler* Enemy = nullptr;
-
 	// 상태 틱 함수
 	void ProcessAction1();
 	void ProcessAction1Faint();  // Faint 처리를 다 하고 나서 배틀 종료, 페이즈 스킵 등의 처리

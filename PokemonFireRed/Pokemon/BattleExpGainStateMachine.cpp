@@ -11,10 +11,10 @@ ABattleExpGainStateMachine::~ABattleExpGainStateMachine()
 {
 }
 
-void ABattleExpGainStateMachine::Start(ABattleCanvas* _Canvas, APokemonMsgBox* _MsgBox, UPokemon* _ExpGainer, int _Exp, bool _IsCurPokemon)
+void ABattleExpGainStateMachine::Start(UPokemon* _ExpGainer, int _Exp, bool _IsCurPokemon)
 {
-	Canvas = _Canvas;
-	MsgBox = _MsgBox;
+	ABattleStateMachine::Start();
+
 	ExpGainer = _ExpGainer;
 	Exp = UPokemonMath::Floor(_Exp * Global::ExpBonusCoeff);
 	IsCurPokemon = _IsCurPokemon;

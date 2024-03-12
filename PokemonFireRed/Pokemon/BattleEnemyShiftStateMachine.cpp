@@ -40,11 +40,9 @@ void ABattleEnemyShiftStateMachine::Tick(float _DeltaTime)
 	}
 }
 
-void ABattleEnemyShiftStateMachine::Start(ABattleCanvas* _Canvas, APokemonMsgBox* _MsgBox, const UBattler* _Enemy)
+void ABattleEnemyShiftStateMachine::Start()
 {
-	Canvas = _Canvas;
-	MsgBox = _MsgBox;
-	Enemy = _Enemy;
+	ABattleStateMachine::Start();
 
 	State = ESubstate::EntryArrowMove;
 	Timer = EnemyArrowMoveTime;

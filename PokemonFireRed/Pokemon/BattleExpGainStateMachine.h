@@ -1,12 +1,12 @@
 #pragma once
-#include <EngineCore/Actor.h>
+#include "BattleStateMachine.h"
 #include "Battler.h"
 #include "ExpCalculator.h"
 
 class ABattleCanvas;
 class APokemonMsgBox;
 
-class ABattleExpGainStateMachine : public AActor
+class ABattleExpGainStateMachine : public ABattleStateMachine
 {
 private:
 	enum class ESubstate
@@ -46,16 +46,16 @@ public:
 		return State == ESubstate::End;
 	}
 
-	void Start(ABattleCanvas* _Canvas, APokemonMsgBox* _MsgBox, UPokemon* _ExpGainer, int _Exp, bool _IsCurPokemon);
+	void Start(UPokemon* _ExpGainer, int _Exp, bool _IsCurPokemon);
 
 protected:
 
 	void Tick(float _DeltaTime) override;
 private:
+	void Start() override {};
+
 	ESubstate State = ESubstate::None;
 
-	ABattleCanvas* Canvas = nullptr;
-	APokemonMsgBox* MsgBox = nullptr;
 	UPokemon* ExpGainer = nullptr;
 	int Exp = 0;
 	bool IsCurPokemon = false;

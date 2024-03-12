@@ -10,12 +10,11 @@ ABattlePlayerShiftStateMachine::~ABattlePlayerShiftStateMachine()
 {
 }
 
-void ABattlePlayerShiftStateMachine::Start(std::wstring_view _TakeInPokemonName, ABattleCanvas* _Canvas, APokemonMsgBox* _MsgBox, const UBattler* _Player)
+void ABattlePlayerShiftStateMachine::Start(std::wstring_view _TakeInPokemonName)
 {
+	ABattleStateMachine::Start();
+
 	TakeInPokemonName = _TakeInPokemonName;
-	Canvas = _Canvas;
-	MsgBox = _MsgBox;
-	Player = _Player;
 
 	State = ESubstate::TakeIn;
 	Timer = WaitTime;

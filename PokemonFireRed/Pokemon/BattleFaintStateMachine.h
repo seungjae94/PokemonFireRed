@@ -1,5 +1,5 @@
 #pragma once
-#include <EngineCore/Actor.h>
+#include "BattleStateMachine.h"
 #include "Battler.h"
 #include "ExpCalculator.h"
 #include "BattleExpGainStateMachine.h"
@@ -7,7 +7,7 @@
 class ABattleCanvas;
 class APokemonMsgBox;
 
-class ABattleFaintStateMachine : public AActor
+class ABattleFaintStateMachine : public ABattleStateMachine
 {
 private:
 	enum class ESubstate
@@ -42,14 +42,13 @@ public:
 		BattleExpGainSM = _EGSM;
 	}
 
-	void Start(ABattleCanvas* _Canvas, APokemonMsgBox* _MsgBox, UBattler* _Attacker, UBattler* _Defender, bool& _PlayerFaintChecked, bool& _EnemyFaintChecked);
+	void Start(UBattler* _Attacker, UBattler* _Defender, bool& _AttackerFaintChecked, bool& _DefenderFaintChecked);
 
 protected:
 private:
 	void Tick(float _DeltaTime) override;
 
-	ABattleCanvas* Canvas = nullptr;
-	APokemonMsgBox* MsgBox = nullptr;
+	void Start() override {};
 	UBattler* Attacker = nullptr;
 	UBattler* Defender = nullptr;
 

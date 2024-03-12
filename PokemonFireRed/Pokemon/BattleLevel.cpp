@@ -170,7 +170,7 @@ void UBattleLevel::LevelStart(ULevel* _PrevLevel)
 	// BSSM 로직부터 시작
 	if (true == Enemy.IsWildPokemon())
 	{
-		WildBattleStartSM->Start(Canvas, MsgBox, &Player, &Enemy);
+		WildBattleStartSM->Start();
 	}
 	else
 	{
@@ -199,7 +199,7 @@ void UBattleLevel::ProcessBattleStart()
 	if (true == ProcessEndCondition)
 	{
 		State = EState::PrepareTurn1;
-		BattlePrepareTurnSM->Start(Canvas, MsgBox, &Player, &Enemy);
+		BattlePrepareTurnSM->Start();
 	}
 }
 
@@ -222,7 +222,7 @@ void UBattleLevel::ProcessPrepareTurn2()
 		State = EState::PlayerActionSelect;
 		Canvas->SetActionBoxActive(true);
 		MsgBox->SetWriteSpeed(1.0f);
-		PlayerActionSelectSM->Start(Canvas, MsgBox, &Player, &Enemy);
+		PlayerActionSelectSM->Start();
 	}
 }
 
@@ -239,7 +239,7 @@ void UBattleLevel::ProcessPlayerAction()
 		{
 			State = EState::Turn;
 			MsgBox->SetMessage(L"");
-			BattleTurnSM->Start(Canvas, MsgBox, &Player, &Enemy);
+			BattleTurnSM->Start();
 		}
 		break;
 		case EBattleAction::Escape:
@@ -255,7 +255,7 @@ void UBattleLevel::ProcessPlayerAction()
 			else
 			{
 				State = EState::Turn;
-				BattleTurnSM->Start(Canvas, MsgBox, &Player, &Enemy);
+				BattleTurnSM->Start();
 			}
 		}
 		break;
@@ -275,12 +275,12 @@ void UBattleLevel::ProcessTurn()
 		if (BattleTurnSM->WhyEnd() == EBattleEndReason::None)
 		{
 			State = EState::PrepareTurn1;
-			BattlePrepareTurnSM->Start(Canvas, MsgBox, &Player, &Enemy);
+			BattlePrepareTurnSM->Start();
 			return;
 		}
 
 		State = EState::FinishBattle;
-		FinishBattleSM->Start(Canvas, MsgBox, &Player, &Enemy, BattleEndReason);
+		FinishBattleSM->Start(BattleEndReason);
 	}
 }
 

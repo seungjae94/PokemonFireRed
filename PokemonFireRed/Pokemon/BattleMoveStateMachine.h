@@ -1,5 +1,5 @@
 #pragma once
-#include <EngineCore/Actor.h>
+#include "BattleStateMachine.h"
 #include "Battler.h"
 #include "AccuracyChecker.h"
 #include "MoveEffectTester.h"
@@ -11,7 +11,7 @@ class APokemonMsgBox;
 
 // 직접 데미지, 상태 변화 로직을 처리하는 SM
 // 포켓몬이 기절한다면 기절 상태로 만들어야 한다.
-class ABattleMoveStateMachine : public AActor
+class ABattleMoveStateMachine : public ABattleStateMachine
 {
 private:
 	enum class ESubstate
@@ -65,13 +65,12 @@ public:
 		return State == ESubstate::End;
 	}
 
-	void Start(ABattleCanvas* _Canvas, APokemonMsgBox* _MsgBox, UBattler* _Attacker, UBattler* _Defender);
+	void Start(UBattler* _Attacker, UBattler* _Defender);
 
 protected:
 	void Tick(float _DeltaTime) override;
 private:
-	ABattleCanvas* Canvas = nullptr;
-	APokemonMsgBox* MsgBox = nullptr;
+	void Start() override {};
 	UBattler* Attacker = nullptr;
 	UBattler* Defender = nullptr;
 

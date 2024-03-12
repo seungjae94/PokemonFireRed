@@ -1,5 +1,5 @@
 #pragma once
-#include <EngineCore/Actor.h>
+#include "BattleStateMachine.h"
 #include "Battler.h"
 #include "ExpCalculator.h"
 #include "BattleMoveStateMachine.h"
@@ -10,7 +10,7 @@ class ABattleCanvas;
 class APokemonMsgBox;
 
 // 액션을 수행하는 역할
-class ABattleActionStateMachine : public AActor
+class ABattleActionStateMachine : public ABattleStateMachine
 {
 private:
 	/*
@@ -45,7 +45,7 @@ public:
 	ABattleActionStateMachine& operator=(const ABattleActionStateMachine& _Other) = delete;
 	ABattleActionStateMachine& operator=(ABattleActionStateMachine&& _Other) noexcept = delete;
 
-	void Start(ABattleCanvas* _Canvas, APokemonMsgBox* _MsgBox, UBattler* _Attacker, UBattler* _Defender);
+	void Start(UBattler* _Attacker, UBattler* _Defender);
 
 	void SetBMSM(ABattleMoveStateMachine* _BMSM)
 	{
@@ -65,8 +65,7 @@ public:
 protected:
 	void Tick(float _DeltaTime) override;
 private:
-	ABattleCanvas* Canvas = nullptr;
-	APokemonMsgBox* MsgBox = nullptr;
+	void Start() override {};
 	UBattler* Attacker = nullptr;
 	UBattler* Defender = nullptr;
 

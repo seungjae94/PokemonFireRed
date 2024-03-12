@@ -12,10 +12,10 @@ ABattleFaintStateMachine::~ABattleFaintStateMachine()
 {
 }
 
-void ABattleFaintStateMachine::Start(ABattleCanvas* _Canvas, APokemonMsgBox* _MsgBox, UBattler* _Attacker, UBattler* _Defender, bool& _AttackerFaintChecked, bool& _DefenderFaintChecked)
+void ABattleFaintStateMachine::Start(UBattler* _Attacker, UBattler* _Defender, bool& _AttackerFaintChecked, bool& _DefenderFaintChecked)
 {
-	Canvas = _Canvas;
-	MsgBox = _MsgBox;
+	ABattleStateMachine::Start();
+
 	Attacker = _Attacker;
 	Defender = _Defender;
 
@@ -161,7 +161,7 @@ void ABattleFaintStateMachine::ProcessTestExpGain()
 	{
 		State = ESubstate::ExpGain;
 		UPokemon* ExpGainer = ExpGainByFaint.begin()->first;
-		BattleExpGainSM->Start(Canvas, MsgBox, ExpGainer, ExpGainByFaint.at(ExpGainer), PlayerCurPokemon == ExpGainer);
+		BattleExpGainSM->Start(ExpGainer, ExpGainByFaint.at(ExpGainer), PlayerCurPokemon == ExpGainer);
 		return;
 	}
 

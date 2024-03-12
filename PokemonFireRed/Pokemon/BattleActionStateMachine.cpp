@@ -13,10 +13,10 @@ ABattleActionStateMachine::~ABattleActionStateMachine()
 {
 }
 
-void ABattleActionStateMachine::Start(ABattleCanvas* _Canvas, APokemonMsgBox* _MsgBox, UBattler* _Attacker, UBattler* _Defender)
+void ABattleActionStateMachine::Start(UBattler* _Attacker, UBattler* _Defender)
 {
-	Canvas = _Canvas;
-	MsgBox = _MsgBox;
+	ABattleStateMachine::Start();
+
 	Attacker = _Attacker;
 	Defender = _Defender;
 
@@ -29,7 +29,7 @@ void ABattleActionStateMachine::Start(ABattleCanvas* _Canvas, APokemonMsgBox* _M
 	case EBattleAction::Fight:
 	{
 		State = ESubstate::Move;
-		BattleMoveSM->Start(Canvas, MsgBox, Attacker, Defender);
+		BattleMoveSM->Start(Attacker, Defender);
 	}
 	break;
 	case EBattleAction::Escape:
@@ -54,7 +54,7 @@ void ABattleActionStateMachine::Start(ABattleCanvas* _Canvas, APokemonMsgBox* _M
 		Enemy->GetParticipants().push_back(Player->CurPokemon());
 
 		Canvas->SetActionBoxActive(false);
-		BattleShiftSM->Start(TakeInPokemonName, Canvas, MsgBox, Player);
+		BattleShiftSM->Start(TakeInPokemonName);
 	}
 	break;
 	case EBattleAction::Item:

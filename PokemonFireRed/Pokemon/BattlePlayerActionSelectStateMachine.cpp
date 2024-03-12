@@ -14,6 +14,8 @@ ABattlePlayerActionSelectStateMachine::~ABattlePlayerActionSelectStateMachine()
 
 void ABattlePlayerActionSelectStateMachine::Start()
 {
+	ABattleStateMachine::Start();
+
 	State = ESubstate::Select;
 	Canvas->RefreshMoveSelectBox();
 }

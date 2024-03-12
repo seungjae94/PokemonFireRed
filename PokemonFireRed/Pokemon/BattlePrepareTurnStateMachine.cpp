@@ -16,6 +16,8 @@ ABattlePrepareTurnStateMachine::~ABattlePrepareTurnStateMachine()
 
 void ABattlePrepareTurnStateMachine::Start()
 {
+	ABattleStateMachine::Start();
+
 	if (true == Player->CurPokemon()->IsFaint())
 	{
 		State = ESubstate::SelectPokemonForce;
@@ -31,7 +33,7 @@ void ABattlePrepareTurnStateMachine::Start()
 		Player->GetParticipants().push_back(Enemy->CurPokemon());
 		Enemy->GetParticipants().push_back(Player->CurPokemon());
 
-		BattleEnemyShiftSM->Start(Canvas, MsgBox, Enemy);
+		BattleEnemyShiftSM->Start();
 		return;
 	}
 
@@ -75,7 +77,7 @@ void ABattlePrepareTurnStateMachine::ProcessSelectPokemonForce()
 		Enemy->GetParticipants().push_back(Player->CurPokemon());
 
 		// Shift 애니메이션 재생
-		BattlePlayerShiftSM->Start(TakeInPokemonName, Canvas, MsgBox, Player);
+		BattlePlayerShiftSM->Start(TakeInPokemonName);
 	}
 }
 

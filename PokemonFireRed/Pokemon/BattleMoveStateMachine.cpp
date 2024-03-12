@@ -12,10 +12,10 @@ ABattleMoveStateMachine::~ABattleMoveStateMachine()
 {
 }
 
-void ABattleMoveStateMachine::Start(ABattleCanvas* _Canvas, APokemonMsgBox* _MsgBox, UBattler* _Attacker, UBattler* _Defender)
+void ABattleMoveStateMachine::Start(UBattler* _Attacker, UBattler* _Defender)
 {
-	Canvas = _Canvas;
-	MsgBox = _MsgBox;
+	ABattleStateMachine::Start();
+
 	Attacker = _Attacker;
 	Defender = _Defender;
 

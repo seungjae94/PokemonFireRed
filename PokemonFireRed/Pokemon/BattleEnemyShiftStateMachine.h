@@ -1,11 +1,11 @@
 #pragma once
-#include <EngineCore/Actor.h>
+#include "BattleStateMachine.h"
 
 class ABattleCanvas;
 class APokemonMsgBox;
 class UBattler;
 
-class ABattleEnemyShiftStateMachine : public AActor
+class ABattleEnemyShiftStateMachine : public ABattleStateMachine
 {
 private:
 	enum class ESubstate
@@ -33,15 +33,13 @@ public:
 		return State == ESubstate::End;
 	}
 
-	void Start(ABattleCanvas* _Canvas, APokemonMsgBox* _MsgBox, const UBattler* _Enemy);
+	void Start() override;
 
 protected:
 
 private:
+	// 상태
 	ESubstate State = ESubstate::None;
-	ABattleCanvas* Canvas = nullptr;
-	APokemonMsgBox* MsgBox = nullptr;
-	const UBattler* Enemy = nullptr;
 
 	// 고유 데이터 - 상수
 	const float EnemyArrowMoveTime = 0.5f;

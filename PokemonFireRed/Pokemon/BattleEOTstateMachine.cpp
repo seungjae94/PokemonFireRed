@@ -11,10 +11,10 @@ ABattleEOTStateMachine::~ABattleEOTStateMachine()
 {
 }
 
-void ABattleEOTStateMachine::Start(ABattleCanvas* _Canvas, APokemonMsgBox* _MsgBox, UBattler* _Target, UBattler* _CounterTarget)
+void ABattleEOTStateMachine::Start(UBattler* _Target, UBattler* _CounterTarget)
 {
-	Canvas = _Canvas;
-	MsgBox = _MsgBox;
+	ABattleStateMachine::Start();
+
 	Target = _Target;
 	CounterTarget = _CounterTarget;
 

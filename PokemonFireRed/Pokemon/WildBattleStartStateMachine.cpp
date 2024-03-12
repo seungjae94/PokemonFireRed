@@ -13,6 +13,8 @@ AWildBattleStartStateMachine::~AWildBattleStartStateMachine()
 
 void AWildBattleStartStateMachine::Start()
 {
+	ABattleStateMachine::Start();
+
 	State = ESubstate::FadeWait;
 	Timer = FadeWaitTime;
 }

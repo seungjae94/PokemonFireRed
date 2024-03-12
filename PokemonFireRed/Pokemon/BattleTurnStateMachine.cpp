@@ -20,13 +20,9 @@ ABattleTurnStateMachine::~ABattleTurnStateMachine()
 {
 }
 
-void ABattleTurnStateMachine::Start(ABattleCanvas* _Canvas, APokemonMsgBox* _MsgBox, UBattler* _Player, UBattler* _Enemy)
+void ABattleTurnStateMachine::Start()
 {
-	// 입력 데이터 저장
-	Canvas = _Canvas;
-	MsgBox = _MsgBox;
-	Player = _Player;
-	Enemy = _Enemy;
+	ABattleStateMachine::Start();
 
 	// 적 액션 생성 및 데이터 초기화
 	UBattleEnemyActionGenerator::Generate(Enemy);
@@ -46,7 +42,7 @@ void ABattleTurnStateMachine::Start(ABattleCanvas* _Canvas, APokemonMsgBox* _Msg
 	}
 
 	State = ESubstate::Action1;
-	BattleActionSM->Start(Canvas, MsgBox, Attacker, Defender);
+	BattleActionSM->Start(Attacker, Defender);
 }
 
 void ABattleTurnStateMachine::ProcessAction1()
@@ -55,7 +51,7 @@ void ABattleTurnStateMachine::ProcessAction1()
 	{
 		State = ESubstate::Action1Faint;
 
-		BattleFaintSM->Start(Canvas, MsgBox, Attacker, Defender, GetAttackerFaintChecked(), GetDefenderFaintChecked());
+		BattleFaintSM->Start(Attacker, Defender, GetAttackerFaintChecked(), GetDefenderFaintChecked());
 	}
 }
 
@@ -88,7 +84,7 @@ void ABattleTurnStateMachine::ProcessTestAction2()
 
 	// 그 외의 경우 Action2를 수행한다.
 	State = ESubstate::Action2;
-	BattleActionSM->Start(Canvas, MsgBox, Attacker, Defender);
+	BattleActionSM->Start(Attacker, Defender);
 }
 
 void ABattleTurnStateMachine::ProcessAction2()
@@ -99,7 +95,7 @@ void ABattleTurnStateMachine::ProcessAction2()
 
 		bool AttackerFaintChecked = GetAttackerFaintChecked();
 		bool DefenderFaintChecked = GetDefenderFaintChecked();
-		BattleFaintSM->Start(Canvas, MsgBox, Attacker, Defender, GetAttackerFaintChecked(), GetDefenderFaintChecked());
+		BattleFaintSM->Start(Attacker, Defender, GetAttackerFaintChecked(), GetDefenderFaintChecked());
 	}
 }
 
@@ -149,7 +145,7 @@ void ABattleTurnStateMachine::ProcessTestEndOfTurn1()
 	// 그 외의 경우 EOT1을 수행한다.
 	State = ESubstate::EndOfTurn1;
 
-	BattleEOTSM->Start(Canvas, MsgBox, EOTTarget, EOTNextTarget);
+	BattleEOTSM->Start(EOTTarget, EOTNextTarget);
 }
 
 void ABattleTurnStateMachine::ProcessEndOfTurn1()
@@ -157,7 +153,7 @@ void ABattleTurnStateMachine::ProcessEndOfTurn1()
 	if (true == BattleEOTSM->IsEnd())
 	{
 		State = ESubstate::EndOfTurn1Faint;
-		BattleFaintSM->Start(Canvas, MsgBox, EOTNextTarget, EOTTarget, GetEOTNextTargetFaintChecked(), GetEOTTargetFaintChecked());
+		BattleFaintSM->Start(EOTNextTarget, EOTTarget, GetEOTNextTargetFaintChecked(), GetEOTTargetFaintChecked());
 	}
 }
 
@@ -188,7 +184,7 @@ void ABattleTurnStateMachine::ProcessTestEndOfTurn2()
 
 	// 그 외의 경우 EOT2를 수행한다.
 	State = ESubstate::EndOfTurn2;
-	BattleEOTSM->Start(Canvas, MsgBox, EOTNextTarget, EOTTarget);
+	BattleEOTSM->Start(EOTNextTarget, EOTTarget);
 }
 
 void ABattleTurnStateMachine::ProcessEndOfTurn2()
@@ -196,7 +192,7 @@ void ABattleTurnStateMachine::ProcessEndOfTurn2()
 	if (true == BattleEOTSM->IsEnd())
 	{
 		State = ESubstate::EndOfTurn2Faint;
-		BattleFaintSM->Start(Canvas, MsgBox, EOTTarget, EOTNextTarget, GetEOTTargetFaintChecked(), GetEOTNextTargetFaintChecked());
+		BattleFaintSM->Start(EOTTarget, EOTNextTarget, GetEOTTargetFaintChecked(), GetEOTNextTargetFaintChecked());
 	}
 }
 
