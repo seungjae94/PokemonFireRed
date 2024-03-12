@@ -1,8 +1,8 @@
 #include "AnimatorGenerator.h"
 #include "Battler.h"
 #include "Pokemon.h"
-
 #include "PlayerTackleAnimator.h"
+#include "EnemyTackleAnimator.h"
 
 AAnimatorGenerator::AAnimatorGenerator() 
 {
@@ -29,7 +29,7 @@ AAnimator* AAnimatorGenerator::Generate(UBattler* _Attacker, EPokemonMove _MoveI
 		{
 		case EPokemonMove::Tackle:
 		default:
-			return GetWorld()->SpawnActor<APlayerTackleAnimator>();
+			return GetWorld()->SpawnActor<AEnemyTackleAnimator>();
 		}
 	}
 

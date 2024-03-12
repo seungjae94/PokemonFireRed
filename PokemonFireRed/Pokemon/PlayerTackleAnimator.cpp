@@ -41,24 +41,24 @@ void APlayerTackleAnimator::Tick(float _DeltaTime)
 
 	switch (State)
 	{
-	case APlayerTackleAnimator::EState::None:
+	case EState::None:
 		break;
-	case APlayerTackleAnimator::EState::PlayerMoveRight:
+	case EState::PlayerMoveRight:
 		ProcessPlayerMoveRight();
 		break;
-	case APlayerTackleAnimator::EState::ShowTackleEffect:
+	case EState::ShowTackleEffect:
 		ProcessShowTackleEffect();
 		break;
-	case APlayerTackleAnimator::EState::PlayerMoveLeft:
+	case EState::PlayerMoveLeft:
 		ProcessPlayerMoveLeft();
 		break;
-	case APlayerTackleAnimator::EState::HideTackleEffect:
+	case EState::HideTackleEffect:
 		ProcessHideTackleEffect();
 		break;
-	case APlayerTackleAnimator::EState::WaitBlinkEffectEnd:
+	case EState::WaitBlinkEffectEnd:
 		ProcessWaitBlinkEffectEnd();
 		break;
-	case APlayerTackleAnimator::EState::End:
+	case EState::End:
 		break;
 	default:
 		break;
