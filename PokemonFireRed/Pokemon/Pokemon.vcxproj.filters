@@ -740,5 +740,8 @@
     <ClCompile Include="EndingCanvas.cpp">
       <Filter>2. Level\2. MapLevel\1. Interior Level\2. Pewter City</Filter>
     </ClCompile>
+    <ClCompile Include="Global.cpp">
+      <Filter>3. Util</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -679,6 +679,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Global.cpp" />
     <ClCompile Include="InteriorPewterGymLevel.cpp">
       <SubType>
       </SubType>

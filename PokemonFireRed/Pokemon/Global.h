@@ -5,9 +5,13 @@
 namespace Global
 {
 	// Cheat
-	const float CheatDamageBonusCoeff = 5.0f;
-	const float CheatExpBonusCoeff = 1.0f;
+	const float CheatDamageBonusCoeff = 3.0f;
+	const float CheatExpBonusCoeff = 2.0f;
 	const float CheatWildBattleFrequency = 0.5f;
+	extern bool IsCheatOn;
+	extern float DamageBonusCoeff;
+	extern float ExpBonusCoeff;
+	extern float WildBattleFrequency;
 
 	// ±‚≈∏
 	const float CharacterWalkSpeed = 3.6f;

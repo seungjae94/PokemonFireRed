@@ -16,7 +16,7 @@ void ABattleExpGainStateMachine::Start(ABattleCanvas* _Canvas, APokemonMsgBox* _
 	Canvas = _Canvas;
 	MsgBox = _MsgBox;
 	ExpGainer = _ExpGainer;
-	Exp = UPokemonMath::Floor(_Exp * Global::CheatExpBonusCoeff);
+	Exp = UPokemonMath::Floor(_Exp * Global::ExpBonusCoeff);
 	IsCurPokemon = _IsCurPokemon;
 
 	State = ESubstate::ExpGainMessage1;

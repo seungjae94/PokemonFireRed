@@ -598,7 +598,7 @@ bool APlayer::TryBattleEvent()
 	int RandomNumber = UPokemonMath::RandomInt(0, 2879);
 	int ZoneBoundNumber = 320;
 
-	ZoneBoundNumber = UPokemonMath::Round(ZoneBoundNumber * Global::CheatWildBattleFrequency);
+	ZoneBoundNumber = UPokemonMath::Round(ZoneBoundNumber * Global::WildBattleFrequency);
 
 	// 난수 < 320 일 때만 배틀을 시작한다.
 	if (RandomNumber >= ZoneBoundNumber)
