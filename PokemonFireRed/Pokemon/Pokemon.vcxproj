@@ -170,6 +170,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BattleStateMachine.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="AccuracyChecker.h">
       <SubType>
       </SubType>
@@ -180,6 +184,14 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="AnimatedSea.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Animator.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="AnimatorGenerator.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -237,6 +249,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="BattleUtil.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="BlinkEffectAnimator.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -312,6 +328,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="ShakeEffectAnimator.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="ShopCanvas.h">
       <SubType>
       </SubType>
@@ -325,6 +345,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="StatStage.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="PlayerTackleAnimator.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -575,6 +599,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BattleStateMachine.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="AccuracyChecker.cpp">
       <SubType>
       </SubType>
@@ -584,6 +612,14 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="AnimatedSea.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Animator.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="AnimatorGenerator.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -640,6 +676,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="BattleUtil.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="BlinkEffectAnimator.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -716,6 +756,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="ShakeEffectAnimator.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="ShopCanvas.cpp">
       <SubType>
       </SubType>
@@ -729,6 +773,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="StatStage.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PlayerTackleAnimator.cpp">
       <SubType>
       </SubType>
     </ClCompile>

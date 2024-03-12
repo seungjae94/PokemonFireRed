@@ -11,6 +11,14 @@ ATrainerBattleStartStateMachine::~ATrainerBattleStartStateMachine()
 {
 }
 
+void ATrainerBattleStartStateMachine::Start()
+{
+	ABattleStateMachine::Start();
+
+	State = ESubstate::FadeWait;
+	Timer = FadeWaitTime;
+}
+
 void ATrainerBattleStartStateMachine::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);

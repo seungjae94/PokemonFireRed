@@ -38,8 +38,17 @@ void UBattleLevel::BeginPlay()
 	UEngineResourcesManager::GetInst().CuttingImage(RN::BattleEnemyGroundBall, 3, 1);
 	UEngineResourcesManager::GetInst().LoadFolder(CurDir.AppendPath(Global::ThrowedBall));
 
+	// 이펙트 로드
+	CurDir.Move("Effect");
+	std::list<UEngineFile> AllEffectFiles = CurDir.AllFile({ ".bmp", ".png" }, false);
+	for (UEngineFile& File : AllEffectFiles)
+	{
+		UEngineResourcesManager::GetInst().LoadImg(File.GetFullPath());
+	}
+
 	// 액터 생성
 	Canvas = SpawnActor<ABattleCanvas>();
+	AnimatorGenerator = SpawnActor<AAnimatorGenerator>();
 	MsgBox = SpawnActor<APokemonMsgBox>();
 	MsgBox->SetBaseRenderingOrder(ERenderingOrder::UI4);
 	MsgBox->SetBackgroundImage(RN::BattleMsgBox);
@@ -165,7 +174,7 @@ void UBattleLevel::LevelStart(ULevel* _PrevLevel)
 	}
 	else
 	{
-		TrainerBattleStartSM->Start(Canvas, MsgBox, &Player, &Enemy);
+		TrainerBattleStartSM->Start();
 	}
 }
 

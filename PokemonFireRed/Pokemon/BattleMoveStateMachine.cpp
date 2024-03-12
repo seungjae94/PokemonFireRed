@@ -2,6 +2,7 @@
 #include "BattleUtil.h"
 #include "BattleCanvas.h"
 #include "PokemonMsgBox.h"
+#include "AnimatorGenerator.h"
 
 ABattleMoveStateMachine::ABattleMoveStateMachine()
 {

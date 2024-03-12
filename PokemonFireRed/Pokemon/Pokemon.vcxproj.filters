@@ -130,6 +130,21 @@
     <Filter Include="2. Level\2. MapLevel\1. Interior Level\0. Common">
       <UniqueIdentifier>{f0a210b5-dfdf-4df5-85dc-173531d08fdf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2. Level\7. BattleLevel\Animator">
+      <UniqueIdentifier>{33b5b5ef-8583-42df-b34d-0704aa1d62c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2. Level\7. BattleLevel\Animator\MoveAnimator">
+      <UniqueIdentifier>{1b949482-60c0-43a0-a427-94b2cf10db8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2. Level\7. BattleLevel\Animator\StatStageAnimator">
+      <UniqueIdentifier>{5feb6ced-8108-42d0-8ce0-b5137e103fbe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2. Level\7. BattleLevel\Animator\StatusAnimator">
+      <UniqueIdentifier>{cb095be6-7998-4853-9e7a-c619b7846257}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2. Level\7. BattleLevel\Animator\CommonAnimator">
+      <UniqueIdentifier>{c78de811-44cd-48a1-b813-c99c0416f124}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PokemonCore.h">
@@ -441,6 +456,24 @@
     <ClInclude Include="EndingCanvas.h">
       <Filter>2. Level\2. MapLevel\1. Interior Level\2. Pewter City</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerTackleAnimator.h">
+      <Filter>2. Level\7. BattleLevel\Animator\MoveAnimator</Filter>
+    </ClInclude>
+    <ClInclude Include="Animator.h">
+      <Filter>2. Level\7. BattleLevel\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="ShakeEffectAnimator.h">
+      <Filter>2. Level\7. BattleLevel\Animator\CommonAnimator</Filter>
+    </ClInclude>
+    <ClInclude Include="BlinkEffectAnimator.h">
+      <Filter>2. Level\7. BattleLevel\Animator\CommonAnimator</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimatorGenerator.h">
+      <Filter>2. Level\7. BattleLevel\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="BattleStateMachine.h">
+      <Filter>2. Level\7. BattleLevel\StateMachine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PokemonCore.cpp">
@@ -742,6 +775,24 @@
     </ClCompile>
     <ClCompile Include="Global.cpp">
       <Filter>3. Util</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerTackleAnimator.cpp">
+      <Filter>2. Level\7. BattleLevel\Animator\MoveAnimator</Filter>
+    </ClCompile>
+    <ClCompile Include="Animator.cpp">
+      <Filter>2. Level\7. BattleLevel\Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="ShakeEffectAnimator.cpp">
+      <Filter>2. Level\7. BattleLevel\Animator\CommonAnimator</Filter>
+    </ClCompile>
+    <ClCompile Include="BlinkEffectAnimator.cpp">
+      <Filter>2. Level\7. BattleLevel\Animator\CommonAnimator</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimatorGenerator.cpp">
+      <Filter>2. Level\7. BattleLevel\Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="BattleStateMachine.cpp">
+      <Filter>2. Level\7. BattleLevel\StateMachine</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

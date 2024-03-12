@@ -1,7 +1,9 @@
 #pragma once
 #include "PokemonLevel.h"
 #include "PlayerData.h"
+#include "Battler.h"
 #include "BattleCanvas.h"
+#include "AnimatorGenerator.h"
 #include "WildBattleStartStateMachine.h"
 #include "TrainerBattleStartStateMachine.h"
 #include "BattlePlayerActionSelectStateMachine.h"
@@ -14,10 +16,10 @@
 #include "BattleEnemyShiftStateMachine.h"
 #include "BattlePrepareTurnStateMachine.h"
 #include "FinishBattleStateMachine.h"
-#include "Battler.h"
 
 class UBattleLevel : public UPokemonLevel
 {
+	friend class ABattleStateMachine;
 private:
 	enum class EState
 	{
@@ -54,6 +56,8 @@ private:
 	UBattler Enemy;
 	ABattleCanvas* Canvas = nullptr;
 	APokemonMsgBox* MsgBox = nullptr;
+	AAnimatorGenerator* AnimatorGenerator = nullptr;
+
 	EBattleEndReason BattleEndReason = EBattleEndReason::None;
 	const float WaitBeforeReturnTime = 1.0f;
 

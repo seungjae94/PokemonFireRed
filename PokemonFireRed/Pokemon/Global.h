@@ -289,6 +289,9 @@ namespace RN
 	const std::string EndingMessage = "EndingMessage.png";
 	const std::string EndingRunnerGround = "EndingRunnerGround.png";
 	const std::string EndingRunner = "EndingRunner.png";
+
+	// 배틀 이펙트 리소스
+	const std::string TackleEffect = "TackleEffect.png";
 };
 
 enum ERenderingOrder
