@@ -356,7 +356,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="EnemyStatStageChangeAnimator.h">
+    <ClInclude Include="StatStageChangeAnimator.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -800,7 +800,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="EnemyStatStageChangeAnimator.cpp">
+    <ClCompile Include="StatStageChangeAnimator.cpp">
       <SubType>
       </SubType>
     </ClCompile>

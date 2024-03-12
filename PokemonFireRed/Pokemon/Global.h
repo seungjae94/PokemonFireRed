@@ -150,6 +150,10 @@ namespace RN
 	const std::string PokemonFrontStat2 = "PokemonFrontStat2.png";
 	const std::string PokemonFrontStat3 = "PokemonFrontStat3.png";
 	const std::string PokemonBack = "PokemonBack.png"; 
+	const std::string PokemonBackStat0 = "PokemonBackStat0.png"; 
+	const std::string PokemonBackStat1 = "PokemonBackStat1.png"; 
+	const std::string PokemonBackStat2 = "PokemonBackStat2.png"; 
+	const std::string PokemonBackStat3 = "PokemonBackStat3.png"; 
 	const std::string PokemonMini = "PokemonMini.png"; 
 	const std::string PokemonFrontPlaceHolder = "PokemonFrontPlaceHolder.png"; 
 	const std::string PokemonBackPlaceHolder = "PokemonBackPlaceHolder.png"; 

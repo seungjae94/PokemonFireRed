@@ -143,6 +143,10 @@ void UPokemonCore::LoadPokemonResources()
 	UEngineResourcesManager::GetInst().CuttingImage(RN::PokemonFrontStat2, 2, 154);
 	UEngineResourcesManager::GetInst().CuttingImage(RN::PokemonFrontStat3, 2, 154);
 	UEngineResourcesManager::GetInst().CuttingImage(RN::PokemonBack, 2, 154);
+	UEngineResourcesManager::GetInst().CuttingImage(RN::PokemonBackStat0, 2, 154);
+	UEngineResourcesManager::GetInst().CuttingImage(RN::PokemonBackStat1, 2, 154);
+	UEngineResourcesManager::GetInst().CuttingImage(RN::PokemonBackStat2, 2, 154);
+	UEngineResourcesManager::GetInst().CuttingImage(RN::PokemonBackStat3, 2, 154);
 	UEngineResourcesManager::GetInst().CuttingImage(RN::PokemonMini, 2, 154);
 
 	CurDir.MoveParent();

@@ -57,7 +57,7 @@ void ABattleMoveStateMachine::Start(UBattler* _Attacker, UBattler* _Defender)
 	{
 		Animator->Destroy();
 	}
-	Animator = AnimatorGenerator->Generate(_Attacker, Move->Id);
+	Animator = AnimatorGenerator->GenerateMoveAnimator(_Attacker, Move->Id);
 	Animator->Start();
 }
 
@@ -260,29 +260,29 @@ void ABattleMoveStateMachine::ProcessMoveBEStart()
 {
 	const FPokemonMove* Move = Attacker->CurMove();
 
+	// 기존 애니메이터 삭제
+	if (nullptr != Animator)
+	{
+		Animator->Destroy();
+	}
+
 	// 상태 변화인 경우
 	if (Move->BEStatusId != EPokemonStatus::Normal)
 	{
-
+		//Animator = AnimatorGenerator->GenerateSkipAnimator();
 	}
 	// 스탯 변화인 경우
 	else
 	{
 		bool IsStatDown = Move->BEStatStageValue < 0;
 		
-		// 기존 애니메이터 삭제
-		if (nullptr != Animator)
-		{
-			Animator->Destroy();
-		}
-
 		if (Move->BETarget == EMoveEffectTarget::Enemy)
 		{
-			Animator = AnimatorGenerator->Generate(Defender, IsStatDown);
+			Animator = AnimatorGenerator->GenerateStatStageEffectAnimator(Defender, IsStatDown);
 		}
 		else
 		{
-			Animator = AnimatorGenerator->Generate(Attacker, IsStatDown);
+			Animator = AnimatorGenerator->GenerateStatStageEffectAnimator(Attacker, IsStatDown);
 		}
 	}
 
@@ -356,10 +356,16 @@ void ABattleMoveStateMachine::ProcessMoveSEStart()
 {
 	const FPokemonMove* Move = Attacker->CurMove();
 
+	// 기존 애니메이터 삭제
+	if (nullptr != Animator)
+	{
+		Animator->Destroy();
+	}
+
 	// 상태 변화인 경우
 	if (Move->SEStatusId == EPokemonStatus::Normal)
 	{
-
+		//Animator = AnimatorGenerator->GenerateSkipAnimator();
 	}
 	// 스탯 변화인 경우
 	else
@@ -367,11 +373,11 @@ void ABattleMoveStateMachine::ProcessMoveSEStart()
 		bool IsStatDown = Move->SEStatStageValue < 0;
 		if (Move->SETarget == EMoveEffectTarget::Enemy)
 		{
-			Animator = AnimatorGenerator->Generate(Defender, IsStatDown);
+			Animator = AnimatorGenerator->GenerateStatStageEffectAnimator(Defender, IsStatDown);
 		}
 		else
 		{
-			Animator = AnimatorGenerator->Generate(Attacker, IsStatDown);
+			Animator = AnimatorGenerator->GenerateStatStageEffectAnimator(Attacker, IsStatDown);
 		}
 	}
 

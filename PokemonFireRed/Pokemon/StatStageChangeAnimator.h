@@ -1,7 +1,7 @@
 #pragma once
 #include "Animator.h"
 
-class AEnemyStatStageChangeAnimator : public AAnimator
+class AStatStageChangeAnimator : public AAnimator
 {
 private:
 	enum class EState
@@ -13,18 +13,19 @@ private:
 	};
 public:
 	// constructor destructor
-	AEnemyStatStageChangeAnimator();
-	~AEnemyStatStageChangeAnimator();
+	AStatStageChangeAnimator();
+	~AStatStageChangeAnimator();
 
 	// delete Function
-	AEnemyStatStageChangeAnimator(const AEnemyStatStageChangeAnimator& _Other) = delete;
-	AEnemyStatStageChangeAnimator(AEnemyStatStageChangeAnimator&& _Other) noexcept = delete;
-	AEnemyStatStageChangeAnimator& operator=(const AEnemyStatStageChangeAnimator& _Other) = delete;
-	AEnemyStatStageChangeAnimator& operator=(AEnemyStatStageChangeAnimator&& _Other) noexcept = delete;
+	AStatStageChangeAnimator(const AStatStageChangeAnimator& _Other) = delete;
+	AStatStageChangeAnimator(AStatStageChangeAnimator&& _Other) noexcept = delete;
+	AStatStageChangeAnimator& operator=(const AStatStageChangeAnimator& _Other) = delete;
+	AStatStageChangeAnimator& operator=(AStatStageChangeAnimator&& _Other) noexcept = delete;
 
 	void Start() override;
 	bool IsEnd() override;
 
+	void SetIsPlayer(bool _IsPlayer);
 	void SetIsStatDown(bool _IsStatDown);
 	void SetPokemonId(EPokemonId _PokemonId);
 
@@ -34,6 +35,7 @@ private:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 
+	bool IsPlayer = false;
 	bool IsStatDown = false;
 	EPokemonId PokemonId = EPokemonId::None;
 
@@ -49,5 +51,8 @@ private:
 	// 상태 틱 함수
 	void ProcessCheckWork();
 	void ProcessWork();
+
+	// 유틸 함수
+	int GetEffectiveImageIndex() const;
 };
 
