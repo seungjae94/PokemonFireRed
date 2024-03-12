@@ -29,7 +29,7 @@ void APlayerTackleAnimator::BeginPlay()
 {
 	AAnimator::BeginPlay();
 
-	TackleEffect = CreateImageElement(this, ERenderingOrder::UI6, EPivotType::RightTop, 30, 15);
+	TackleEffect = CreateImageElement(this, ERenderingOrder::UI6, EPivotType::RightTop, -45, 30);
 	TackleEffect->SetImage(RN::TackleEffect);
 }
 

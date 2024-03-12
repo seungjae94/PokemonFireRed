@@ -29,7 +29,7 @@ void AEnemyTackleAnimator::BeginPlay()
 {
 	AAnimator::BeginPlay();
 
-	TackleEffect = CreateImageElement(this, ERenderingOrder::UI6, EPivotType::LeftBot, 30, -50);
+	TackleEffect = CreateImageElement(this, ERenderingOrder::UI6, EPivotType::LeftBot, 55, -50);
 	TackleEffect->SetImage(RN::TackleEffect);
 }
 
