@@ -32,6 +32,7 @@ void ABattlePrepareTurnStateMachine::Start(ABattleCanvas* _Canvas, APokemonMsgBo
 	{
 		State = ESubstate::EnemyShift;
 		Enemy->EnemyAutoShift();
+		Enemy->ResetTemporalValues();
 		Player->GetParticipants().push_back(Enemy->CurPokemon());
 		Enemy->GetParticipants().push_back(Player->CurPokemon());
 

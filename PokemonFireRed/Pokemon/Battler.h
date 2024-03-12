@@ -25,6 +25,7 @@ public:
 	void Clear()
 	{
 		StatStage.Reset();
+		TempStatusId = EPokemonStatus::Normal;
 		Entry.clear();
 		Action = EBattleAction::None;
 		FightingPokemonIndex = 0;
@@ -168,9 +169,10 @@ public:
 	void EnemyAutoShift();
 
 	// Ω∫≈» ∫Ø∞Ê
-	void ResetTemporalStat()
+	void ResetTemporalValues()
 	{
 		StatStage.Reset();
+		TempStatusId = EPokemonStatus::Normal;
 		Participants.clear();
 	}
 

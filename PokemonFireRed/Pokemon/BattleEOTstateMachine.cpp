@@ -251,6 +251,7 @@ void ABattleEOTStateMachine::ProcessTestStatus()
 		}
 
 		MsgBox->SetMessage(BattleMsg);
+		MsgBox->Write();
 	}
 }
 

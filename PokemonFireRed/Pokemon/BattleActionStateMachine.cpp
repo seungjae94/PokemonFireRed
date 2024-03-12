@@ -49,6 +49,7 @@ void ABattleActionStateMachine::Start(ABattleCanvas* _Canvas, APokemonMsgBox* _M
 
 		// 실제 포켓몬 교체
 		Player->ShiftPokemon();
+		Player->ResetTemporalValues();
 		Player->GetParticipants().push_back(Enemy->CurPokemon());
 		Enemy->GetParticipants().push_back(Player->CurPokemon());
 
