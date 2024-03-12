@@ -39,7 +39,7 @@ private:
 	EState State = EState::None;
 	bool IsPlayer = true;
 	float Timer = 0.0f;
-	const float StateTime = 0.05f;
+	const float StateTime = 0.04f;
 	const int MaxLoopCount = 3;
 	int LoopCount = 3;
 	FVector* InitPos = nullptr;

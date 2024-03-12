@@ -94,14 +94,17 @@ void AEnemyTackleAnimator::ProcessEnemyMoveRight()
 	if (Timer <= 0.0f)
 	{
 		State = EState::HideTackleEffect;
+		TackleEffect->SetActive(false);
 	}
 }
 
 void AEnemyTackleAnimator::ProcessHideTackleEffect()
 {
-	State = EState::WaitBlinkEffectEnd;
-	TackleEffect->SetActive(false);
-	BlinkEffectAnimator->Start(true, 0.5f);
+	if (true == ShakeEffectAnimator->IsEnd())
+	{
+		State = EState::WaitBlinkEffectEnd;
+		BlinkEffectAnimator->Start(true, 0.5f);
+	}
 }
 
 void AEnemyTackleAnimator::ProcessWaitBlinkEffectEnd()

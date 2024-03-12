@@ -94,14 +94,17 @@ void APlayerTackleAnimator::ProcessPlayerMoveLeft()
 	if (Timer <= 0.0f)
 	{
 		State = EState::HideTackleEffect;
+		TackleEffect->SetActive(false);
 	}
 }
 
 void APlayerTackleAnimator::ProcessHideTackleEffect()
 {
-	State = EState::WaitBlinkEffectEnd;
-	TackleEffect->SetActive(false);
-	BlinkEffectAnimator->Start(false, 0.5f);
+	if (true == ShakeEffectAnimator->IsEnd())
+	{
+		State = EState::WaitBlinkEffectEnd;
+		BlinkEffectAnimator->Start(false, 0.5f);
+	}
 }
 
 void APlayerTackleAnimator::ProcessWaitBlinkEffectEnd()

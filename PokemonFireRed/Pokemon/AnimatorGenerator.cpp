@@ -3,7 +3,7 @@
 #include "Pokemon.h"
 #include "PlayerTackleAnimator.h"
 #include "EnemyTackleAnimator.h"
-#include "PlayerGrowlAnimator.h"
+#include "GrowlAnimator.h"
 #include "StatStageChangeAnimator.h"
 
 AAnimatorGenerator::AAnimatorGenerator() 
@@ -22,7 +22,11 @@ AAnimator* AAnimatorGenerator::GenerateMoveAnimator(UBattler* _Attacker, EPokemo
 		{
 		case EPokemonMove::LeechSeed:
 		case EPokemonMove::Growl:
-			return GetWorld()->SpawnActor <APlayerGrowlAnimator>();
+		{
+			AGrowlAnimator* Animator = GetWorld()->SpawnActor<AGrowlAnimator>();
+			Animator->SetIsPlayer(true);
+			return Animator;
+		}
 		case EPokemonMove::Tackle:
 		default:
 			return GetWorld()->SpawnActor<APlayerTackleAnimator>();
@@ -32,6 +36,17 @@ AAnimator* AAnimatorGenerator::GenerateMoveAnimator(UBattler* _Attacker, EPokemo
 	{
 		switch (_MoveId)
 		{
+		case EPokemonMove::Harden:
+		case EPokemonMove::DefenseCurl:
+		case EPokemonMove::StringShot:
+		case EPokemonMove::TailWhip:
+		case EPokemonMove::SandAttack:
+		case EPokemonMove::Growl:
+		{
+			AGrowlAnimator* Animator = GetWorld()->SpawnActor<AGrowlAnimator>();
+			Animator->SetIsPlayer(false);
+			return Animator;
+		}
 		case EPokemonMove::Tackle:
 		default:
 			return GetWorld()->SpawnActor<AEnemyTackleAnimator>();

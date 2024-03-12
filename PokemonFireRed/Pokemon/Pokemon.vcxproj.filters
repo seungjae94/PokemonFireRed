@@ -477,10 +477,7 @@
     <ClInclude Include="EnemyTackleAnimator.h">
       <Filter>2. Level\7. BattleLevel\Animator\MoveAnimator</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerGrowlAnimator.h">
-      <Filter>2. Level\7. BattleLevel\Animator\MoveAnimator</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyGrowlAnimator.h">
+    <ClInclude Include="GrowlAnimator.h">
       <Filter>2. Level\7. BattleLevel\Animator\MoveAnimator</Filter>
     </ClInclude>
     <ClInclude Include="StatStageChangeAnimator.h">
@@ -809,10 +806,7 @@
     <ClCompile Include="EnemyTackleAnimator.cpp">
       <Filter>2. Level\7. BattleLevel\Animator\MoveAnimator</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerGrowlAnimator.cpp">
-      <Filter>2. Level\7. BattleLevel\Animator\MoveAnimator</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyGrowlAnimator.cpp">
+    <ClCompile Include="GrowlAnimator.cpp">
       <Filter>2. Level\7. BattleLevel\Animator\MoveAnimator</Filter>
     </ClCompile>
     <ClCompile Include="StatStageChangeAnimator.cpp">
