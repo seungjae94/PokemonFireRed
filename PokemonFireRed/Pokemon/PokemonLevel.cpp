@@ -2,6 +2,7 @@
 #include <EnginePlatform/EngineInput.h>
 #include "EventManager.h"
 #include "FadeCanvas.h"
+#include "BattleLevel.h"
 
 UPokemonLevel::UPokemonLevel()
 {
@@ -27,7 +28,7 @@ void UPokemonLevel::BeginPlay()
 
 void UPokemonLevel::LevelStart(ULevel* _PrevLevel)
 {
-	
+
 }
 
 void UPokemonLevel::Tick(float _DeltaTime)
@@ -53,6 +54,45 @@ void UPokemonLevel::Tick(float _DeltaTime)
 			Global::WildBattleFrequency = Global::CheatWildBattleFrequency;
 			UEngineDebug::OutPutDebugText("Cheat on!");
 		}
+	}
+
+	UBattleLevel* BattleLevel = dynamic_cast<UBattleLevel*>(this);
+
+	if (nullptr != BattleLevel)
+	{
+		return;
+	}
+
+	// 태초 마을로 이동
+	if (true == UEngineInput::IsDown(VK_F2))
+	{
+		UEventManager::FadeChangeLevel(Global::ExteriorPalletTownLevel, true);
+		UEventManager::SetPoint(Global::ExteriorPalletTownLevel, EN::Player, { 77, 137 });
+		UEventManager::SetDirection(Global::ExteriorPalletTownLevel, EN::Player, FTileVector::Down);
+	}
+
+	// 상록 시티로 이동
+	if (true == UEngineInput::IsDown(VK_F3))
+	{
+		UEventManager::FadeChangeLevel(Global::ExteriorPalletTownLevel, true);
+		UEventManager::SetPoint(Global::ExteriorPalletTownLevel, EN::Player, { 82, 80 });
+		UEventManager::SetDirection(Global::ExteriorPalletTownLevel, EN::Player, FTileVector::Down);
+	}
+
+	// 상록숲으로 이동
+	if (true == UEngineInput::IsDown(VK_F4))
+	{
+		UEventManager::FadeChangeLevel(Global::ExteriorViridianForestLevel, true);
+		UEventManager::SetPoint(Global::ExteriorViridianForestLevel, EN::Player, { 35, 60 });
+		UEventManager::SetDirection(Global::ExteriorViridianForestLevel, EN::Player, FTileVector::Down);
+	}
+
+	// 회색 시티로 이동
+	if (true == UEngineInput::IsDown(VK_F5))
+	{
+		UEventManager::FadeChangeLevel(Global::ExteriorPewterCityLevel, true);
+		UEventManager::SetPoint(Global::ExteriorPewterCityLevel, EN::Player, { 19, 21 });
+		UEventManager::SetDirection(Global::ExteriorPewterCityLevel, EN::Player, FTileVector::Down);
 	}
 }
 
