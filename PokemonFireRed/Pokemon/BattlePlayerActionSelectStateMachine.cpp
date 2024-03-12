@@ -147,6 +147,14 @@ void ABattlePlayerActionSelectStateMachine::ProcessMoveSelect()
 
 	if (true == UEngineInput::IsDown('Z'))
 	{
+		int SelectMovePP = PlayerPokemon->GetMovePP(Cursor);
+
+		// PP가 0일 경우 기술을 사용할 수 없다.
+		if (SelectMovePP == 0)
+		{
+			return;
+		}
+
 		State = ESubstate::End;
 		Canvas->SetMoveSelectBoxActive(false);
 		Player->SetAction(EBattleAction::Fight);
