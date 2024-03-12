@@ -104,9 +104,6 @@ void UEventManager::Tick(float _DeltaTime)
 
 void UEventManager::RegisterEvent(AEventTrigger* _Trigger, const UEventCondition& _Condition, UEventStream _Stream)
 {
-	__int64 Address = reinterpret_cast<__int64>(&_Condition);
-	UEngineDebug::OutPutDebugText("In EM::RegisterEvent: " + std::to_string(Address));
-
 	UEventProcessor* Processor = AllProcessors[_Trigger];
 	Processor->RegisterStream(_Condition, _Stream);
 }
@@ -456,7 +453,6 @@ void UEventManager::FadeChangeLevel(std::string_view _TargetMapName, bool _Playe
 		return;
 	}
 
-	UEngineDebug::OutPutDebugText("FadeLevelChange to " + std::string(_TargetMapName) + "is triggered.");
 	LevelChanger->Trigger(_TargetMapName, _PlayerControl, _FadeInTime, _FadeOutTime);
 }
 

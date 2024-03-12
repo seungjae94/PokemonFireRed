@@ -21,9 +21,6 @@ void AFadeLevelChanger::Update(std::string_view _TargetLevelName, bool _PlayerCo
 
 void AFadeLevelChanger::RegisterPredefinedEvent()
 {
-	__int64 Address = reinterpret_cast<__int64>(&Cond);
-	UEngineDebug::OutPutDebugText(GetWorld()->GetName() + " FadeLevelChanger In RegisterPredefinedEvent: " + std::to_string(Address));
-
 	AEventTrigger::RegisterPredefinedEvent();
 	UEventManager::RegisterEvent(this, Cond,
 		ES::Start(false)

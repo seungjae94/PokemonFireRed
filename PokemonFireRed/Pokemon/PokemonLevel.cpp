@@ -29,13 +29,11 @@ void UPokemonLevel::BeginPlay()
 void UPokemonLevel::LevelStart(ULevel* _PrevLevel)
 {
 	ULevel::LevelStart(_PrevLevel);
-	UEngineDebug::OutPutDebugText("Level " + GetName() + " Started.");
 }
 
 void UPokemonLevel::LevelEnd(ULevel* _NextLevel)
 {
 	ULevel::LevelEnd(_NextLevel);
-	UEngineDebug::OutPutDebugText("Level " + GetName() + " Ended.");
 }
 
 void UPokemonLevel::Tick(float _DeltaTime)
