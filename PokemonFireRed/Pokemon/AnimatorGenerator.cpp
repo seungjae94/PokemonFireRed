@@ -28,9 +28,10 @@ AAnimator* AAnimatorGenerator::Generate(UBattler* _Attacker, EPokemonMove _MoveI
 		switch (_MoveId)
 		{
 		case EPokemonMove::Tackle:
-			break;
 		default:
 			return GetWorld()->SpawnActor<APlayerTackleAnimator>();
 		}
 	}
+
+	return GetWorld()->SpawnActor<APlayerTackleAnimator>();
 }

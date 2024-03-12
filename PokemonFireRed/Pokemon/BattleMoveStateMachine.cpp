@@ -51,7 +51,9 @@ void ABattleMoveStateMachine::Start(UBattler* _Attacker, UBattler* _Defender)
 	State = ESubstate::MoveAnim;
 	MsgBox->SetMessage(UBattleUtil::GetPokemonFullName(Attacker) + L" used\n" + Move->GetNameW() + L"!");
 	MsgBox->Write();
-	Timer = MoveAnimationShowTime;
+	
+	Animator = AnimatorGenerator->Generate(_Attacker, Move->Id);
+	Animator->Start();
 }
 
 void ABattleMoveStateMachine::Tick(float _DeltaTime)
@@ -133,9 +135,7 @@ void ABattleMoveStateMachine::ProcessMoveFail2()
 
 void ABattleMoveStateMachine::ProcessMoveAnim()
 {
-	// Move 애니메이션 재생
-
-	if (Timer <= 0.0f)
+	if (true == Animator->IsEnd())
 	{
 		DamageResult = UDamageCalculator::CalcDamage(Attacker, Defender);
 

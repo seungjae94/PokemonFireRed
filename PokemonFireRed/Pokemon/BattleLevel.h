@@ -20,6 +20,7 @@
 class UBattleLevel : public UPokemonLevel
 {
 	friend class ABattleStateMachine;
+	friend class AAnimator;
 private:
 	enum class EState
 	{

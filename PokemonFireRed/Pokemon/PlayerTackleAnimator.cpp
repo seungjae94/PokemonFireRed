@@ -8,9 +8,9 @@ APlayerTackleAnimator::~APlayerTackleAnimator()
 {
 }
 
-void APlayerTackleAnimator::Start(bool _IsTargetPlayer)
+void APlayerTackleAnimator::Start()
 {
-	AAnimator::Start(_IsTargetPlayer);
+	AAnimator::Start();
 
 	State = EState::PlayerMoveRight;
 	Timer = MoveTime;

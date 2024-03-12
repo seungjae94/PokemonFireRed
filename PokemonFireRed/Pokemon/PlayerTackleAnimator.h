@@ -25,7 +25,7 @@ public:
 	APlayerTackleAnimator& operator=(const APlayerTackleAnimator& _Other) = delete;
 	APlayerTackleAnimator& operator=(APlayerTackleAnimator&& _Other) noexcept = delete;
 
-	void Start(bool _IsTargetPlayer) override;
+	void Start() override;
 	bool IsEnd() override;
 
 protected:

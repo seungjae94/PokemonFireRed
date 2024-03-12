@@ -6,6 +6,7 @@
 #include "MoveEffectApplier.h"
 #include "DamageCalculator.h"
 
+class AAnimator;
 class ABattleCanvas;
 class APokemonMsgBox;
 
@@ -84,6 +85,7 @@ private:
 	FMoveEffectTestResult SEResult;
 
 	// Move 애니메이션 연출
+	AAnimator* Animator = nullptr;
 	const float MoveAnimationShowTime = 1.5f;
 
 	// Move로 인한 체력바 감소 연출

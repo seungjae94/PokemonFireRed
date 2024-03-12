@@ -15,18 +15,11 @@ public:
 	AAnimator& operator=(const AAnimator& _Other) = delete;
 	AAnimator& operator=(AAnimator&& _Other) noexcept = delete;
 
-	virtual void Start(bool _IsTargetPlayer) {
-		IsTargetPlayer = _IsTargetPlayer;
-		PlayerInitPos = BattleCanvas->PlayerPokemonImage->GetRelativePosition();
-		EnemyInitPos = BattleCanvas->EnemyPokemonImage->GetRelativePosition();
-	}
+	virtual void Start();
 	
-	virtual bool IsEnd() { 
-		return true; 
-	};
+	virtual bool IsEnd();
 
 protected:
-	bool IsTargetPlayer = true;
 	ABattleCanvas* BattleCanvas = nullptr;
 
 	FVector PlayerInitPos;
