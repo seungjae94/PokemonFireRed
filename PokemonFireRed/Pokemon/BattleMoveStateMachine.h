@@ -20,6 +20,8 @@ private:
 		None,
 		MoveFail1,
 		MoveFail2,
+		MoveUseMessage1,
+		MoveUseMessage2,
 		MoveAnim,
 		MoveDamage,
 		MoveCriticalMessage1,
@@ -104,6 +106,8 @@ private:
 	// ╩Себ ф╫
 	void ProcessMoveFail1();
 	void ProcessMoveFail2();
+	void ProcessMoveUseMessage1();
+	void ProcessMoveUseMessage2();
 	void ProcessMoveAnim();
 	void ProcessMoveDamage();
 	void ProcessMoveCriticalMessage1();

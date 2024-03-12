@@ -47,18 +47,10 @@ void ABattleMoveStateMachine::Start(UBattler* _Attacker, UBattler* _Defender)
 		}
 	}
 
-	// 기술이 성공할 경우 Move 애니메이션을 재생한다.
-	State = ESubstate::MoveAnim;
+	// 기술 사용에 성공했다는 메시지 출력한다.
+	State = ESubstate::MoveUseMessage1;
 	MsgBox->SetMessage(UBattleUtil::GetPokemonFullName(Attacker) + L" used\n" + Move->GetNameW() + L"!");
 	MsgBox->Write();
-	
-	// 기존 애니메이터 삭제
-	if (nullptr != Animator)
-	{
-		Animator->Destroy();
-	}
-	Animator = AnimatorGenerator->GenerateMoveAnimator(_Attacker, Move->Id);
-	Animator->Start();
 }
 
 void ABattleMoveStateMachine::Tick(float _DeltaTime)
@@ -74,6 +66,12 @@ void ABattleMoveStateMachine::Tick(float _DeltaTime)
 		break;
 	case ESubstate::MoveFail2:
 		ProcessMoveFail2();
+		break;
+	case ESubstate::MoveUseMessage1:
+		ProcessMoveUseMessage1();
+		break;
+	case ESubstate::MoveUseMessage2:
+		ProcessMoveUseMessage2();
 		break;
 	case ESubstate::MoveAnim:
 		ProcessMoveAnim();
@@ -141,6 +139,34 @@ void ABattleMoveStateMachine::ProcessMoveFail2()
 	if (Timer <= 0.0f)
 	{
 		State = ESubstate::End;
+	}
+}
+
+void ABattleMoveStateMachine::ProcessMoveUseMessage1()
+{
+	if (EWriteState::WriteEnd == MsgBox->GetWriteState())
+	{
+		State = ESubstate::MoveUseMessage2;
+		Timer = BattleMsgShowTime;
+	}
+}
+
+void ABattleMoveStateMachine::ProcessMoveUseMessage2()
+{
+	if (Timer <= 0.0f)
+	{
+		// 메시지 출력을 마친 뒤 Move 애니메이션을 재생한다.
+		State = ESubstate::MoveAnim;
+
+		// 기존 애니메이터가 있으면 삭제한다.
+		if (nullptr != Animator)
+		{
+			Animator->Destroy();
+		}
+
+		const FPokemonMove* Move = Attacker->CurMove();
+		Animator = AnimatorGenerator->GenerateMoveAnimator(Attacker, Move->Id);
+		Animator->Start();
 	}
 }
 
