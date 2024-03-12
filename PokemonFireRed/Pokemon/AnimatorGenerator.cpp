@@ -20,6 +20,7 @@ AAnimator* AAnimatorGenerator::GenerateMoveAnimator(UBattler* _Attacker, EPokemo
 	{
 		switch (_MoveId)
 		{
+		case EPokemonMove::LeechSeed:
 		case EPokemonMove::Growl:
 			return GetWorld()->SpawnActor <APlayerGrowlAnimator>();
 		case EPokemonMove::Tackle:

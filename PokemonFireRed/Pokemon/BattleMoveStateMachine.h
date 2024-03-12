@@ -91,7 +91,9 @@ private:
 	const float MoveAnimationShowTime = 1.5f;
 
 	// Move로 인한 체력바 감소 연출
-	const float HpBarDecreaseTime = 1.5f;
+	const float HpBarDecreaseBaseTime = 0.5f;
+	const float HpBarDecreaseTimeVariance = 1.5f;
+	float HpBarDecreaseTime = 0.0f;
 	int PrevHp = 0;
 	int NextHp = 0;
 

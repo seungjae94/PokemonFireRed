@@ -158,9 +158,14 @@ void ABattleMoveStateMachine::ProcessMoveAnim()
 		if (DamageResult.Damage > 0)
 		{
 			State = ESubstate::MoveDamage;
-			Timer = HpBarDecreaseTime;
 			PrevHp = Defender->CurPokemonReadonly()->GetCurHp();
 			NextHp = UPokemonMath::Max(PrevHp - DamageResult.Damage, 0);
+
+			int EffectiveDamage = PrevHp - NextHp;
+			int MaxHp = Defender->CurPokemonReadonly()->GetHp();
+
+			HpBarDecreaseTime = HpBarDecreaseBaseTime + HpBarDecreaseTimeVariance * EffectiveDamage / MaxHp;
+			Timer = HpBarDecreaseTime;
 		}
 		else
 		{
