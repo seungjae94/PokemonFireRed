@@ -88,7 +88,7 @@ void UInteriorPewterGymLevel::MakeCamper()
 	ATrainer* Camper = SpawnEventTrigger<ATrainer>(Setting);
 	Camper->SetBattler("CAMPER LIAM", RN::CamperBattler);
 	Camper->SetPlayerWinMessage({ L"Darn!", L"Light-years isn't time\nIt measures distance!"});
-	Camper->AddPokemonToEntry(UPokemon(EPokemonId::Geodude, 10));
+	Camper->AddPokemonToEntry(UPokemon(EPokemonId::Diglett, 10));
 	Camper->AddPokemonToEntry(UPokemon(EPokemonId::Sandshrew, 11));
 
 	UEventCondition Cond;
