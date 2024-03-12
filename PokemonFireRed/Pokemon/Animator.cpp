@@ -20,8 +20,8 @@ void AAnimator::Start()
 	}
 
 	BattleCanvas = BattleLevel->Canvas;
-	PlayerInitPos = BattleCanvas->PlayerPokemonImage->GetRelativePosition();
-	EnemyInitPos = BattleCanvas->EnemyPokemonImage->GetRelativePosition();
+	PlayerInitPos = BattleCanvas->PlayerPokemonImageInitPos;
+	EnemyInitPos = BattleCanvas->EnemyPokemonImageInitPos;
 }
 
 bool AAnimator::IsEnd()

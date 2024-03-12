@@ -44,8 +44,8 @@ private:
 	void ProcessWaitBlinkEffectEnd();
 
 	// ตฅภฬลอ
-	const FVector PlayerRightPos = PlayerInitPos + UPokemonUtil::PixelVector(10, 0);
-	const float MoveTime = 0.25f;
+	FVector PlayerRightPos;
+	const float MoveTime = 0.1f;
 	float Timer = 0.0f;
 };
 

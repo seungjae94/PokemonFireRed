@@ -17,6 +17,7 @@ void APlayerTackleAnimator::Start()
 
 	// ÃÊ±âÈ­
 	TackleEffect->SetActive(false);
+	PlayerRightPos = PlayerInitPos + UPokemonUtil::PixelVector(10, 0);
 }
 
 bool APlayerTackleAnimator::IsEnd()
@@ -28,7 +29,7 @@ void APlayerTackleAnimator::BeginPlay()
 {
 	AAnimator::BeginPlay();
 
-	TackleEffect = CreateImageElement(this, ERenderingOrder::UI6, EPivotType::RightTop, 10, 10);
+	TackleEffect = CreateImageElement(this, ERenderingOrder::UI6, EPivotType::RightTop, 30, 15);
 	TackleEffect->SetImage(RN::TackleEffect);
 }
 
