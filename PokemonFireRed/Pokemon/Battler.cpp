@@ -55,6 +55,51 @@ void UBattler::InitTrainer()
 	InitEnemyPokemon();
 }
 
+bool UBattler::IsPlayer() const
+{
+	return IsPlayerValue;
+}
+
+bool UBattler::IsWildPokemon() const
+{
+	return IsWildPokemonValue;
+}
+
+bool UBattler::IsTrainer() const
+{
+	return false == IsPlayer() && false == IsWildPokemon();
+}
+
+std::wstring UBattler::GetTrainerNameW() const
+{
+	return UEngineString::AnsiToUniCode(TrainerName);
+}
+
+std::string UBattler::GetTrainerImageName() const
+{
+	return TrainerImageName;
+}
+
+std::wstring UBattler::FrontPlayerWinMessage() const
+{
+	return PlayerWinMessage.front();
+}
+
+void UBattler::PopFrontPlayerWinMessage()
+{
+	PlayerWinMessage.pop_front();
+}
+
+int UBattler::GetPlayerWinMessageSize() const
+{
+	return static_cast<int>(PlayerWinMessage.size());
+}
+
+AEventTrigger* UBattler::GetAfterBattleTrigger()
+{
+	return AfterBattleTrigger;
+}
+
 void UBattler::InitCurPokemon()
 {
 	for (int i = 0; i < Entry.size(); ++i)
@@ -65,6 +110,21 @@ void UBattler::InitCurPokemon()
 			return;
 		}
 	}
+}
+
+UPokemon* UBattler::CurPokemon()
+{
+	return Entry[FightingPokemonIndex];
+}
+
+const UPokemon* UBattler::CurPokemonReadonly() const
+{
+	return Entry[FightingPokemonIndex];
+}
+
+int UBattler::CurPokemonIndex() const
+{
+	return FightingPokemonIndex;
 }
 
 void UBattler::ShiftPokemon()
@@ -94,6 +154,62 @@ int UBattler::CurMovePP()
 void UBattler::DecCurMovePP()
 {
 	return Entry[FightingPokemonIndex]->DecMovePP(CurMoveIndex);
+}
+
+EBattleAction UBattler::CurAction() const
+{
+	return Action;
+}
+
+void UBattler::SetAction(EBattleAction _Action)
+{
+	Action = _Action;
+}
+
+bool UBattler::GetRunResult() const
+{
+	return RunResult;
+}
+
+void UBattler::SetRunResult(bool _RunResult)
+{
+	RunResult = _RunResult;
+}
+
+EPokemonMove UBattler::CurMoveId() const
+{
+	return CurPokemonReadonly()->GetMoveId(CurMoveIndex);
+}
+
+const FPokemonMove* UBattler::CurMove() const
+{
+	EPokemonMove MoveId = CurMoveId();
+	return UGameDB::FindMove(MoveId);
+}
+
+void UBattler::SetMoveIndex(int _MoveIndex)
+{
+	CurMoveIndex = _MoveIndex;
+}
+
+int UBattler::GetShiftPokemonIndex() const
+{
+	return ShiftPokemonIndex;
+}
+
+void UBattler::SetShiftPokemonIndex(int _ShiftPokemonIndex)
+{
+	ShiftPokemonIndex = _ShiftPokemonIndex;
+}
+
+EItemSelectState UBattler::GetItemSelectState() const
+{
+	return ItemSelectState;
+}
+
+void UBattler::SetItemSelectState(EItemSelectState _State)
+{
+	ItemSelectState = _State;
 }
 
 void UBattler::EnemyAutoShift()

@@ -10,6 +10,7 @@
 #include "AccuracyChecker.h"
 #include "MapLevel.h"
 #include "PokemonUILevel.h"
+#include "BagUILevel.h"
 
 UBattleLevel::UBattleLevel()
 {
@@ -132,10 +133,11 @@ void UBattleLevel::LevelStart(ULevel* _PrevLevel)
 
 	UMapLevel* MapLevel = dynamic_cast<UMapLevel*>(_PrevLevel);
 	UPokemonUILevel* PokemonUILevel = dynamic_cast<UPokemonUILevel*>(_PrevLevel);
+	UBagUILevel* BagUILevel = dynamic_cast<UBagUILevel*>(_PrevLevel);
 
-	if (nullptr != PokemonUILevel)
+	if (nullptr != PokemonUILevel || nullptr != BagUILevel)
 	{
-		// 포켓몬 메뉴 진입 후 복귀하는 경우 레벨 초기화를 하지 않는다.
+		// 포켓몬 메뉴 또는 아이템 메뉴에 들어갔다가 복귀하는 경우 레벨 초기화를 하지 않는다.
 		return;
 	}
 
@@ -241,6 +243,8 @@ void UBattleLevel::ProcessPlayerAction()
 			break;
 		case EBattleAction::Fight:
 		case EBattleAction::Shift:
+		case EBattleAction::UseItem:
+		case EBattleAction::Ball:
 		{
 			State = EState::Turn;
 			MsgBox->SetMessage(L"");

@@ -121,6 +121,11 @@ int ABagCanvas::GetActionCursor()
 	return ActionCursor->GetCursor();
 }
 
+void ABagCanvas::SetActionCursor(int _Cursor)
+{
+	ActionCursor->SetCursor(_Cursor);
+}
+
 void ABagCanvas::IncActionCursor()
 {
 	if (ActionCursor->GetCursor() + 1 < ActionCursor->GetOptionCount())

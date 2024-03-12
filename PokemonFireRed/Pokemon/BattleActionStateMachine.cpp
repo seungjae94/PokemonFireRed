@@ -57,7 +57,13 @@ void ABattleActionStateMachine::Start(UBattler* _Attacker, UBattler* _Defender)
 		BattleShiftSM->Start(TakeInPokemonName);
 	}
 	break;
-	case EBattleAction::Item:
+	case EBattleAction::UseItem:
+	{
+		State = ESubstate::End;
+		Canvas->SetActionBoxActive(false);
+	}
+	break;
+	case EBattleAction::Ball:
 	{
 		State = ESubstate::UseItem;
 		MsgBox->SetMessage(L"Not Implemented Yet!");

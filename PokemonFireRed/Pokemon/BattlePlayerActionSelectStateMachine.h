@@ -26,6 +26,7 @@ private:
 		Select,
 		MoveSelect,
 		PokemonSelect,
+		ItemSelect,
 		CantRunMessage1,
 		CantRunMessage2,
 		End
@@ -69,6 +70,7 @@ private:
 	void ProcessSelect();
 	void ProcessMoveSelect();
 	void ProcessPokemonSelect();
+	void ProcessItemSelect();
 	void ProcessCantRunMessage1();
 	void ProcessCantRunMessage2();
 

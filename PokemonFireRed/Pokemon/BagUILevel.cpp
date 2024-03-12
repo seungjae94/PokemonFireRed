@@ -6,6 +6,7 @@
 #include "MapLevel.h"
 #include "BattleLevel.h"
 #include "PokemonUILevel.h"
+#include "Battler.h"
 
 UBagUILevel::UBagUILevel()
 {
@@ -51,6 +52,9 @@ void UBagUILevel::Tick(float _DeltaTime)
 	case EState::ActionSelect:
 		ProcessActionSelect();
 		break;
+	case EState::BattleModeItemUsageCheck:
+		ProcessBattleModeItemUsageCheck();
+		break;
 	case EState::End:
 		break;
 	default:
@@ -77,10 +81,12 @@ void UBagUILevel::LevelStart(ULevel* _PrevLevel)
 	if (nullptr != MapLevel)
 	{
 		PrevLevelName = _PrevLevel->GetName();
+		BattleMode = false;
 	}
 	else if (nullptr != BattleLevel)
 	{
 		PrevLevelName = _PrevLevel->GetName();
+		PlayerBattler = BattleLevel->GetPlayerBattler();
 		BattleMode = true;
 	}
 	RefreshPage();
@@ -101,14 +107,20 @@ void UBagUILevel::ProcessTargetSelect()
 		int RecordCount = UPlayerData::GetRecordCount(PageToItemType(Page));
 		int TargetIndex = TargetIndexMemory[Page];
 
+		// 취소 버튼을 누른 경우
 		if (TargetIndex == RecordCount)
 		{
+			// 배틀 모드에서 되돌아가는 경우 아이템 사용을 취소했다고 마킹을 해줘야 한다.
+			if (true == BattleMode)
+			{
+				PlayerBattler->SetItemSelectState(EItemSelectState::Canceled);
+			}
 			UEventManager::FadeChangeLevel(PrevLevelName);
 			return;
 		}
 
-		// 몬스터 볼은 선택할 수 없다. Give, Toss 기능은 구현하지 않을 것이다.
-		if (Page == 2)
+		// 배틀 모드가 아닐 때, 즉 맵 레벨에서 몬스터 볼은 사용할 수 없다.
+		if (false == BattleMode && Page == 2)
 		{
 			return;
 		}
@@ -121,6 +133,12 @@ void UBagUILevel::ProcessTargetSelect()
 
 	if (true == UEngineInput::IsDown('X'))
 	{
+		// 배틀 모드에서 되돌아가는 경우 아이템 사용을 취소했다고 마킹을 해줘야 한다.
+		if (true == BattleMode)
+		{
+			PlayerBattler->SetItemSelectState(EItemSelectState::Canceled);
+		}
+
 		UEventManager::FadeChangeLevel(PrevLevelName);
 		return;
 	}
@@ -164,24 +182,51 @@ void UBagUILevel::ProcessActionSelect()
 	{
 		int Cursor = Canvas->GetActionCursor();
 
-		// 취소 액션을 선택한 경우
+		// 취소 액션을 선택한 경우 액션창을 끄고 다시 아이템을 선택한다.
 		if (Cursor == 1)
 		{
+			State = EState::TargetSelect;
+			Canvas->SetActionCursor(0);
+			Canvas->SetActionItemBoxActive(false);
+			return;
 		}
-		// Use 액션을 선택한 경우
-		else if (Cursor == 0)
+		
+		// 배틀 모드에서 몬스터 볼을 선택한 경우
+		if (true == BattleMode && PageToItemType(Page) == EItemType::PokeBall)
 		{
+			State = EState::TargetSelect;
+			PlayerBattler->SetItemSelectState(EItemSelectState::BallSelected);
+			UEventManager::FadeChangeLevel(PrevLevelName);
+		}
+		// 배틀 모드에서 소비 아이템을 선택한 경우
+		else if (true == BattleMode && PageToItemType(Page) == EItemType::UseItem)
+		{
+			State = EState::BattleModeItemUsageCheck;
+			ItemUsage = EItemUsage::None;
 			UEventManager::FadeChangeLevel(Global::PokemonUILevel);
 		}
-		Canvas->DecActionCursor();
+		// 배틀 모드가 아니고 소비 아이템을 선택했지만 포켓몬이 없는 경우
+		else if (UPlayerData::GetPokemonEntrySize() == 0)
+		{
+			State = EState::TargetSelect;
+		}
+		// 배틀 모드가 아니고 소비 아이템을 선택했으며 포켓몬이 있는 경우
+		else
+		{
+			State = EState::TargetSelect;
+			UEventManager::FadeChangeLevel(Global::PokemonUILevel);
+		}
+
+		// 액션을 마치고 나면 액션창은 꺼둔다.
+		Canvas->SetActionCursor(0);
 		Canvas->SetActionItemBoxActive(false);
-		State = EState::TargetSelect;
 		return;
 	}
 
+	// 액션창을 끄고 다시 아이템을 선택한다.
 	if (true == UEngineInput::IsDown('X'))
 	{
-		Canvas->DecActionCursor();
+		Canvas->SetActionCursor(0);
 		Canvas->SetActionItemBoxActive(false);
 		State = EState::TargetSelect;
 		return;
@@ -197,6 +242,22 @@ void UBagUILevel::ProcessActionSelect()
 	{
 		Canvas->IncActionCursor();
 		return;
+	}
+}
+
+void UBagUILevel::ProcessBattleModeItemUsageCheck()
+{
+	// 소비 아이템을 사용했다.
+	if (EItemUsage::Used == ItemUsage)
+	{
+		State = EState::TargetSelect;
+		PlayerBattler->SetItemSelectState(EItemSelectState::ItemUsed);
+		UEventManager::FadeChangeLevel(PrevLevelName);
+	}
+	// 소비 아이템을 사용하지 않았다. 다시 아이템을 선택한다.
+	else if (EItemUsage::NotUsed == ItemUsage)
+	{
+		State = EState::TargetSelect;
 	}
 }
 
@@ -396,4 +457,9 @@ const FItem* UBagUILevel::GetTargetItem()
 	EItemType ItemType = PageToItemType(Page);
 	int TargetIndex = TargetIndexMemory[Page];
 	return UPlayerData::GetItem(ItemType, TargetIndex);
+}
+
+void UBagUILevel::SetItemUsage(EItemUsage _Usage)
+{
+	ItemUsage = _Usage;
 }

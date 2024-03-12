@@ -5,6 +5,7 @@
 #include "Battler.h"
 
 class UBattleLevel;
+class UBagUILevel;
 
 class UPokemonUILevel : public UPokemonLevel
 {
@@ -62,6 +63,7 @@ protected:
 private:
 	std::string PrevLevelName;
 	APokemonCanvas* Canvas = nullptr;
+	UBagUILevel* BagUILevel = nullptr;
 
 	// 고유 데이터
 	const float SwitchMoveOutTime = 1 / 4.0f;

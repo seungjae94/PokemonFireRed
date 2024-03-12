@@ -7,6 +7,14 @@
 class UPlayerData;
 class AEventTrigger;
 
+enum class EItemSelectState
+{
+	None,
+	Canceled,
+	ItemUsed,
+	BallSelected,
+};
+
 class UBattler
 {
 public:
@@ -28,126 +36,42 @@ public:
 	void InitPlayer();
 	void InitWildPokemon();
 	void InitTrainer();
-
-	bool IsPlayer() const
-	{
-		return IsPlayerValue;
-	}
-
-	bool IsWildPokemon() const
-	{
-		return IsWildPokemonValue;
-	}
-
-	bool IsTrainer() const
-	{
-		return false == IsPlayer() && false == IsWildPokemon();
-	}
+	bool IsPlayer() const;
+	bool IsWildPokemon() const;
+	bool IsTrainer() const;
 
 	// 트레이너 정보
-	std::wstring GetTrainerNameW() const
-	{
-		return UEngineString::AnsiToUniCode(TrainerName);
-	}
-
-	std::string GetTrainerImageName() const
-	{
-		return TrainerImageName;
-	}
-
-	std::wstring FrontPlayerWinMessage()
-	{
-		return PlayerWinMessage.front();
-	}
-
-	void PopFrontPlayerWinMessage()
-	{
-		PlayerWinMessage.pop_front();
-	}
-
-	int GetPlayerWinMessageSize()
-	{
-		return static_cast<int>(PlayerWinMessage.size());
-	}
-
-	AEventTrigger* GetAfterBattleTrigger()
-	{
-		return AfterBattleTrigger;
-	}
+	std::wstring GetTrainerNameW() const;
+	std::string GetTrainerImageName() const;
+	std::wstring FrontPlayerWinMessage() const;
+	void PopFrontPlayerWinMessage();
+	int GetPlayerWinMessageSize() const;
+	AEventTrigger* GetAfterBattleTrigger();
 
 	// 포켓몬 정보
 	void InitCurPokemon();
-
-	UPokemon* CurPokemon()
-	{
-		return Entry[FightingPokemonIndex];
-	}
-
-	const UPokemon* CurPokemonReadonly() const
-	{
-		return Entry[FightingPokemonIndex];
-	}
-
-	int CurPokemonIndex() const
-	{
-		return FightingPokemonIndex;
-	}
-
+	UPokemon* CurPokemon();
+	const UPokemon* CurPokemonReadonly() const;
+	int CurPokemonIndex() const;
 	void ShiftPokemon();
-
 	int GetLevel(int _Index);
-
 	int CurMovePP();
-
 	void DecCurMovePP();
 
 	// 액션
-	EBattleAction CurAction() const
-	{
-		return Action;
-	}
-
-	void SetAction(EBattleAction _Action)
-	{
-		Action = _Action;
-	}
+	EBattleAction CurAction() const;
+	void SetAction(EBattleAction _Action);
 
 	// 액션 디테일
-	bool GetRunResult() const
-	{
-		return RunResult;
-	}
-
-	void SetRunResult(bool _RunResult)
-	{
-		RunResult = _RunResult;
-	}
-
-	EPokemonMove CurMoveId() const
-	{
-		return CurPokemonReadonly()->GetMoveId(CurMoveIndex);
-	}
-
-	const FPokemonMove* CurMove() const
-	{
-		EPokemonMove MoveId = CurMoveId();
-		return UGameDB::FindMove(MoveId);
-	}
-
-	void SetMoveIndex(int _MoveIndex)
-	{
-		CurMoveIndex = _MoveIndex;
-	}
-
-	int GetShiftPokemonIndex() const
-	{
-		return ShiftPokemonIndex;
-	}
-
-	void SetShiftPokemonIndex(int _ShiftPokemonIndex)
-	{
-		ShiftPokemonIndex = _ShiftPokemonIndex;
-	}
+	bool GetRunResult() const;
+	void SetRunResult(bool _RunResult);
+	EPokemonMove CurMoveId() const;
+	const FPokemonMove* CurMove() const;
+	void SetMoveIndex(int _MoveIndex);
+	int GetShiftPokemonIndex() const;
+	void SetShiftPokemonIndex(int _ShiftPokemonIndex);
+	EItemSelectState GetItemSelectState() const;
+	void SetItemSelectState(EItemSelectState _State);
 
 	// 적 액션
 	void EnemyAutoShift();
@@ -220,6 +144,7 @@ private:
 	EBattleAction Action = EBattleAction::None;
 	bool RunResult = false;
 	int ShiftPokemonIndex = -1;
+	EItemSelectState ItemSelectState = EItemSelectState::None;
 
 	// 스탯 관련 변수
 	std::list<UPokemon*> Participants;

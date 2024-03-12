@@ -42,6 +42,9 @@ void ABattlePlayerActionSelectStateMachine::Tick(float _DeltaTime)
 	case ESubstate::PokemonSelect:
 		ProcessPokemonSelect();
 		break;
+	case ESubstate::ItemSelect:
+		ProcessItemSelect();
+		break;
 	case ESubstate::CantRunMessage1:
 		ProcessCantRunMessage1();
 		break;
@@ -69,7 +72,9 @@ void ABattlePlayerActionSelectStateMachine::ProcessSelect()
 			Canvas->SetMoveSelectBoxActive(true);
 			break;
 		case Bag:
-			// TODO: 가방 화면을 띄우고 어떤 아이템을 사용하기로 결정했는지 결과까지 받아서 BattleLevel에 보고
+			State = ESubstate::ItemSelect;
+			Player->SetItemSelectState(EItemSelectState::None);
+			UEventManager::FadeChangeLevel(Global::BagUILevel);
 			break;
 		case Pokemon:
 			State = ESubstate::PokemonSelect;
@@ -216,11 +221,39 @@ void ABattlePlayerActionSelectStateMachine::ProcessPokemonSelect()
 		}
 		else
 		{
-			// 포켓몬을 바꾸는 경우 PlayerAction 상태를 종료한다.
+			// 포켓몬을 바꾸는 경우 PlayerActionSelect 상태를 종료한다.
 			Player->SetAction(EBattleAction::Shift);
 			State = ESubstate::End;
 		}
 	}
+}
+
+void ABattlePlayerActionSelectStateMachine::ProcessItemSelect()
+{
+	EItemSelectState ItemSelectState = Player->GetItemSelectState();
+
+	switch (ItemSelectState)
+	{
+	case EItemSelectState::None:
+		break;
+	case EItemSelectState::Canceled:
+		// 취소한 경우 행동을 다시 고른다.
+		State = ESubstate::Select;
+		break;
+	case EItemSelectState::ItemUsed:
+		// 소비 아이템을 사용한 경우 소비 아이템을 사용했다고 마킹하고 PlayerActionSelect 상태를 종료한다.
+		Player->SetAction(EBattleAction::UseItem);
+		State = ESubstate::End;
+		break;
+	case EItemSelectState::BallSelected:
+		// 몬스터볼을 고른 경우 볼을 골랐다고 마킹하고 PlayerActionSelect 상태를 종료한다.
+		Player->SetAction(EBattleAction::Ball);
+		State = ESubstate::End;
+		break;
+	default:
+		break;
+	}
+
 }
 
 void ABattlePlayerActionSelectStateMachine::ProcessCantRunMessage1()

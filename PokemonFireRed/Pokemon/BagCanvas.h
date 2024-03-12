@@ -26,6 +26,7 @@ public:
 	void SetActionItemBoxActive(bool _Value);
 	void SetActionItemText(std::wstring_view _Text);
 	int GetActionCursor();
+	void SetActionCursor(int _Cursor);
 	void IncActionCursor();
 	void DecActionCursor();
 protected:

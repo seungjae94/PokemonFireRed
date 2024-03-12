@@ -13,7 +13,8 @@ enum class EBattleAction
 	Fight,
 	Escape,
 	Shift,
-	Item,
+	UseItem,
+	Ball,
 };
 
 enum class ETypeVs

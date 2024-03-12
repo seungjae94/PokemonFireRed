@@ -87,7 +87,7 @@ void UPokemonUILevel::LevelStart(ULevel* _PrevLevel)
 	UMapLevel* MapLevel = dynamic_cast<UMapLevel*>(_PrevLevel);
 	UBattleLevel* BattleLevel = dynamic_cast<UBattleLevel*>(_PrevLevel);
 	UPokemonSummaryUILevel* SummaryUILevel = dynamic_cast<UPokemonSummaryUILevel*>(_PrevLevel);
-	UBagUILevel* BagUILevel = dynamic_cast<UBagUILevel*>(_PrevLevel);
+	BagUILevel = dynamic_cast<UBagUILevel*>(_PrevLevel);
 
 	if (nullptr != SummaryUILevel)
 	{
@@ -333,7 +333,7 @@ void UPokemonUILevel::SelectTarget()
 	// 배틀 레벨에서 Item 액션을 선택해서 가방 레벨로 진입한 뒤 다시 아이템 사용 대상을 고르기 위해 포켓몬 UI 레벨로 들어온 경우
 	else if (EMode::BattleItem == Mode)
 	{
-		
+		State = EState::BagTestItemUseEffect;
 	}
 	// 가방 레벨에서 아이템 사용 대상을 고르기 위해 포켓몬 UI 레벨로 들어온 경우
 	else if (EMode::Bag == Mode)
@@ -512,15 +512,22 @@ void UPokemonUILevel::ProcessBagTestItemUseEffect()
 
 	if (EUseEffect::Hp == UseEffect)
 	{
-		// 풀피인 경우
 		int CurHp = SelectedPokemon->GetCurHp();
 		int MaxHp = SelectedPokemon->GetHp();
 
+		// 풀피인 경우
 		if ( CurHp == MaxHp )
 		{
 			State = EState::ReturnWait;
 			Canvas->SetCustomMsgBoxActive(true);
 			Canvas->SetCustomMessage(L"It won't have any effect.");
+
+			// 배틀 아이템 선택 모드에서 아이템 사용에 실패한 경우 아이템 사용에 실패했다고 마킹해둔다.
+			if (Mode == EMode::BattleItem)
+			{
+				BagUILevel->SetItemUsage(UBagUILevel::EItemUsage::NotUsed);
+			}
+			
 			return;
 		}
 
@@ -530,6 +537,12 @@ void UPokemonUILevel::ProcessBagTestItemUseEffect()
 
 		State = EState::BagHpUpEffect;
 		Timer = HealTime;
+
+		// 배틀 아이템 선택 모드에서 아이템 사용에 성공한 경우 아이템을 사용했다고 마킹해둔다.
+		if (Mode == EMode::BattleItem)
+		{
+			BagUILevel->SetItemUsage(UBagUILevel::EItemUsage::Used);
+		}
 	}
 	else if (EUseEffect::CureAll == UseEffect)
 	{
@@ -540,6 +553,12 @@ void UPokemonUILevel::ProcessBagTestItemUseEffect()
 			State = EState::ReturnWait;
 			Canvas->SetCustomMsgBoxActive(true);
 			Canvas->SetCustomMessage(L"It won't have any effect.");
+
+			// 배틀 아이템 선택 모드에서 아이템 사용에 실패한 경우 아이템 사용에 실패했다고 마킹해둔다.
+			if (Mode == EMode::BattleItem)
+			{
+				BagUILevel->SetItemUsage(UBagUILevel::EItemUsage::NotUsed);
+			}
 			return;
 		}
 
@@ -548,6 +567,12 @@ void UPokemonUILevel::ProcessBagTestItemUseEffect()
 		Canvas->SetCustomMsgBoxActive(true);
 		Canvas->SetCustomMessage(SelectedPokemon->GetNameW() + L" became healthy.");
 		Canvas->RefreshAllTargets();
+
+		// 배틀 아이템 선택 모드에서 아이템 사용에 성공한 경우 아이템을 사용했다고 마킹해둔다.
+		if (Mode == EMode::BattleItem)
+		{
+			BagUILevel->SetItemUsage(UBagUILevel::EItemUsage::Used);
+		}
 	}
 	else if (EUseEffect::CureBurn == UseEffect)
 	{
@@ -558,6 +583,12 @@ void UPokemonUILevel::ProcessBagTestItemUseEffect()
 			State = EState::ReturnWait;
 			Canvas->SetCustomMsgBoxActive(true);
 			Canvas->SetCustomMessage(L"It won't have any effect.");
+
+			// 배틀 아이템 선택 모드에서 아이템 사용에 실패한 경우 아이템 사용에 실패했다고 마킹해둔다.
+			if (Mode == EMode::BattleItem)
+			{
+				BagUILevel->SetItemUsage(UBagUILevel::EItemUsage::NotUsed);
+			}
 			return;
 		}
 
@@ -566,6 +597,12 @@ void UPokemonUILevel::ProcessBagTestItemUseEffect()
 		Canvas->SetCustomMsgBoxActive(true);
 		Canvas->SetCustomMessage(SelectedPokemon->GetNameW() + L" was cured of it's burning.");
 		Canvas->RefreshAllTargets();
+
+		// 배틀 아이템 선택 모드에서 아이템 사용에 성공한 경우 아이템을 사용했다고 마킹해둔다.
+		if (Mode == EMode::BattleItem)
+		{
+			BagUILevel->SetItemUsage(UBagUILevel::EItemUsage::Used);
+		}
 	}
 	else if (EUseEffect::CurePoison == UseEffect)
 	{
@@ -576,6 +613,12 @@ void UPokemonUILevel::ProcessBagTestItemUseEffect()
 			State = EState::ReturnWait;
 			Canvas->SetCustomMsgBoxActive(true);
 			Canvas->SetCustomMessage(L"It won't have any effect.");
+
+			// 배틀 아이템 선택 모드에서 아이템 사용에 실패한 경우 아이템 사용에 실패했다고 마킹해둔다.
+			if (Mode == EMode::BattleItem)
+			{
+				BagUILevel->SetItemUsage(UBagUILevel::EItemUsage::NotUsed);
+			}
 			return;
 		}
 
@@ -584,6 +627,12 @@ void UPokemonUILevel::ProcessBagTestItemUseEffect()
 		Canvas->SetCustomMsgBoxActive(true);
 		Canvas->SetCustomMessage(SelectedPokemon->GetNameW() + L" was cured of it's poisoning.");
 		Canvas->RefreshAllTargets();
+
+		// 배틀 아이템 선택 모드에서 아이템 사용에 성공한 경우 아이템을 사용했다고 마킹해둔다.
+		if (Mode == EMode::BattleItem)
+		{
+			BagUILevel->SetItemUsage(UBagUILevel::EItemUsage::Used);
+		}
 	}
 }
 
@@ -596,7 +645,6 @@ void UPokemonUILevel::ProcessBagHpUpEffect()
 	{
 		State = EState::ReturnWait;
 
-		
 		Canvas->SetCustomMsgBoxActive(true);
 		Canvas->SetCustomMessage(SelectedPokemon->GetNameW() + L"'s HP was restored\nby " + std::to_wstring(NextHealHp - PrevHealHp) + L" points.");
 	}
@@ -617,6 +665,12 @@ void UPokemonUILevel::CancelTargetSelection()
 	{
 		State = EState::TargetSelectionWait;
 		return;
+	}
+
+	// 배틀 아이템 선택 모드에서 아이템 사용을 포기한 경우 아이템을 사용하지 않았다고 마킹해둔다.
+	if (Mode == EMode::BattleItem)
+	{
+		BagUILevel->SetItemUsage(UBagUILevel::EItemUsage::NotUsed);
 	}
 
 	UEventManager::FadeChangeLevel(PrevLevelName, false);
