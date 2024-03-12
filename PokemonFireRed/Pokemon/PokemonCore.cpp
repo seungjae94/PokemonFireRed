@@ -74,9 +74,9 @@ void UPokemonCore::BeginPlay()
 	UPlayerData::GainItem(EItemId::PokeBall, 999);*/
 
 	// 디버그용 업적 완료
-	/*UPlayerData::Achieve(EAchievement::GetStarterEventStart);
-	UPlayerData::Achieve(EAchievement::SelectFirstPokemon);
-	UPlayerData::Achieve(EAchievement::FightWithGreen);*/
+	UPlayerData::Achieve(EAchievement::GetStarterEventStart);
+	//UPlayerData::Achieve(EAchievement::SelectFirstPokemon);
+	//UPlayerData::Achieve(EAchievement::FightWithGreen);
 
 	// 레벨 생성
 	CreateLevel<UTitleLevel>(Global::TitleLevel);
@@ -98,7 +98,7 @@ void UPokemonCore::BeginPlay()
 	CreateLevel<UBagUILevel>(Global::BagUILevel);
 
 	// 시작 레벨 설정
-	UEventManager::SetLevel(Global::TitleLevel);
+	UEventManager::SetLevel(Global::InteriorOaksLabLevel);
 }
 
 void UPokemonCore::Tick(float _DeltaTime)
