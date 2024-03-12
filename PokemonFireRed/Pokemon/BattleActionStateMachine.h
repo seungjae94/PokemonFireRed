@@ -22,7 +22,7 @@ private:
 		EscapeFail1,
 		EscapeFail2,
 		Shift,
-		UseItem,
+		Ball,
 		Move,
 		End
 	};
@@ -78,7 +78,7 @@ private:
 	void ProcessEscapeFail1();
 	void ProcessEscapeFail2();
 	void ProcessShift();
-	void ProcessItem();
+	void ProcessBall();
 	void ProcessMove();
 
 	// SM

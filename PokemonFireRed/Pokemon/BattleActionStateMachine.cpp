@@ -65,8 +65,8 @@ void ABattleActionStateMachine::Start(UBattler* _Attacker, UBattler* _Defender)
 	break;
 	case EBattleAction::Ball:
 	{
-		State = ESubstate::UseItem;
-		MsgBox->SetMessage(L"Not Implemented Yet!");
+		State = ESubstate::Ball;
+		MsgBox->SetMessage(L"Ball missed!");
 		MsgBox->Write();
 	}
 	break;
@@ -94,8 +94,8 @@ void ABattleActionStateMachine::Tick(float _DeltaTime)
 	case ABattleActionStateMachine::ESubstate::Shift:
 		ProcessShift();
 		break;
-	case ABattleActionStateMachine::ESubstate::UseItem:
-		ProcessItem();
+	case ABattleActionStateMachine::ESubstate::Ball:
+		ProcessBall();
 		break;
 	case ABattleActionStateMachine::ESubstate::Move:
 		ProcessMove();
@@ -133,9 +133,9 @@ void ABattleActionStateMachine::ProcessShift()
 	}
 }
 
-void ABattleActionStateMachine::ProcessItem()
+void ABattleActionStateMachine::ProcessBall()
 {
-	if (Timer <= 0.0f)
+	if (EWriteState::WriteEnd == MsgBox->GetWriteState())
 	{
 		State = ESubstate::End;
 	}
