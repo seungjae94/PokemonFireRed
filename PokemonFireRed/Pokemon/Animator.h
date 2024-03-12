@@ -2,6 +2,9 @@
 #include "Canvas.h"
 #include "BattleCanvas.h"
 
+class ABlinkEffectAnimator;
+class AShakeEffectAnimator;
+
 class AAnimator : public ACanvas
 {
 public:
@@ -21,6 +24,8 @@ public:
 
 protected:
 	ABattleCanvas* BattleCanvas = nullptr;
+	ABlinkEffectAnimator* BlinkEffectAnimator = nullptr;
+	AShakeEffectAnimator* ShakeEffectAnimator = nullptr;
 
 	FVector PlayerInitPos;
 	FVector EnemyInitPos;

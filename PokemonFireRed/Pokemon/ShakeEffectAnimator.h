@@ -1,18 +1,18 @@
 #pragma once
+#include "Animator.h"
 
-// Ό³Έν :
-class ShakeEffectAnimator
+class AShakeEffectAnimator : public AAnimator
 {
 public:
 	// constructor destructor
-	ShakeEffectAnimator();
-	~ShakeEffectAnimator();
+	AShakeEffectAnimator();
+	~AShakeEffectAnimator();
 
 	// delete Function
-	ShakeEffectAnimator(const ShakeEffectAnimator& _Other) = delete;
-	ShakeEffectAnimator(ShakeEffectAnimator&& _Other) noexcept = delete;
-	ShakeEffectAnimator& operator=(const ShakeEffectAnimator& _Other) = delete;
-	ShakeEffectAnimator& operator=(ShakeEffectAnimator&& _Other) noexcept = delete;
+	AShakeEffectAnimator(const AShakeEffectAnimator& _Other) = delete;
+	AShakeEffectAnimator(AShakeEffectAnimator&& _Other) noexcept = delete;
+	AShakeEffectAnimator& operator=(const AShakeEffectAnimator& _Other) = delete;
+	AShakeEffectAnimator& operator=(AShakeEffectAnimator&& _Other) noexcept = delete;
 
 protected:
 

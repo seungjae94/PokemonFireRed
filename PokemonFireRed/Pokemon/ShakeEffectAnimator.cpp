@@ -1,10 +1,10 @@
 #include "ShakeEffectAnimator.h"
 
-ShakeEffectAnimator::ShakeEffectAnimator() 
+AShakeEffectAnimator::AShakeEffectAnimator() 
 {
 }
 
-ShakeEffectAnimator::~ShakeEffectAnimator() 
+AShakeEffectAnimator::~AShakeEffectAnimator() 
 {
 }
 

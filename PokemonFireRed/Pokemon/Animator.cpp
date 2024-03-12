@@ -20,6 +20,8 @@ void AAnimator::Start()
 	}
 
 	BattleCanvas = BattleLevel->Canvas;
+	BlinkEffectAnimator = BattleLevel->BlinkEffectAnimator;
+	ShakeEffectAnimator = BattleLevel->ShakeEffectAnimator;
 	PlayerInitPos = BattleCanvas->PlayerPokemonImageInitPos;
 	EnemyInitPos = BattleCanvas->EnemyPokemonImageInitPos;
 }

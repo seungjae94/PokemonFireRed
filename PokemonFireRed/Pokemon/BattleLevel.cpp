@@ -82,6 +82,10 @@ void UBattleLevel::BeginPlay()
 	BattleFaintSM->SetEGSM(BattleExpGainSM);
 	BattlePrepareTurnSM->SetBPSSM(BattlePlayerShiftSM);
 	BattlePrepareTurnSM->SetBESSM(BattleEnemyShiftSM);
+
+	// 공용 애니메이터
+	BlinkEffectAnimator = SpawnActor<ABlinkEffectAnimator>();
+	ShakeEffectAnimator = SpawnActor<AShakeEffectAnimator>();
 }
 
 void UBattleLevel::Tick(float _DeltaTime)

@@ -16,6 +16,8 @@
 #include "BattleEnemyShiftStateMachine.h"
 #include "BattlePrepareTurnStateMachine.h"
 #include "FinishBattleStateMachine.h"
+#include "BlinkEffectAnimator.h"
+#include "ShakeEffectAnimator.h"
 
 class UBattleLevel : public UPokemonLevel
 {
@@ -85,11 +87,17 @@ private:
 	// BattleFaintSM이 내부적으로 사용하는 SM
 	ABattleExpGainStateMachine* BattleExpGainSM = nullptr;
 
+	// 공용 애니메이터
+	ABlinkEffectAnimator* BlinkEffectAnimator = nullptr;
+	AShakeEffectAnimator* ShakeEffectAnimator = nullptr;
+
+	// 레벨 함수
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 	void LevelStart(ULevel* _PrevLevel) override;
 	void LevelEnd(ULevel* _NextLevel) override;
 
+	// 상태 틱
 	void ProcessBattleStart();
 	void ProcessPrepareTurn1();
 	void ProcessPrepareTurn2();
