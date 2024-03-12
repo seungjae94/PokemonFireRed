@@ -303,8 +303,7 @@ void ABattleCanvas::RefreshPlayerPokemonBox()
 void ABattleCanvas::RefreshMoveSelectBox()
 {
 	const UPokemon* PlayerPokemon = Player->CurPokemonReadonly();
-
-	MoveSelectCursor->SetCursor(0);
+	int Cursor = MoveSelectCursor->GetCursor();
 
 	for (int i = 0; i < PlayerPokemon->GetMoveCount(); ++i)
 	{
@@ -315,11 +314,18 @@ void ABattleCanvas::RefreshMoveSelectBox()
 		MoveTexts[i]->SetText(L"-");
 	}
 
-	CurPPText->SetText(PlayerPokemon->GetMoveCurPPW(0));
-	MaxPPText->SetText(PlayerPokemon->GetMovePPW(0));
-	MoveTypeText->SetText(PlayerPokemon->GetMoveTypeUpperW(0));
-
+	RefreshMoveDetailBox();
 	MoveSelectBox->SetActive(MoveSelectBox->IsActive());
+}
+
+void ABattleCanvas::RefreshMoveDetailBox()
+{
+	const UPokemon* PlayerPokemon = Player->CurPokemonReadonly();
+	int Cursor = MoveSelectCursor->GetCursor();
+
+	CurPPText->SetText(PlayerPokemon->GetMoveCurPPW(Cursor));
+	MaxPPText->SetText(PlayerPokemon->GetMovePPW(Cursor));
+	MoveTypeText->SetText(PlayerPokemon->GetMoveTypeUpperW(Cursor));
 }
 
 void ABattleCanvas::RefreshPlayerEntry()

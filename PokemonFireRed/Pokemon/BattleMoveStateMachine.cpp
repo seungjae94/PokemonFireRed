@@ -20,6 +20,10 @@ void ABattleMoveStateMachine::Start(ABattleCanvas* _Canvas, APokemonMsgBox* _Msg
 
 	const FPokemonMove* Move = Attacker->CurMove();
 
+	// 기술 사용시 PP 감소
+	Attacker->DecCurMovePP();
+
+	// 정확도 체크
 	bool AccuracyCheckResult = UAccuracyChecker::Check(Attacker, Defender);
 
 	// 정확도 체크 단계에서 실패할 경우 MoveFail 상태로 보낸다.

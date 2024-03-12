@@ -81,6 +81,16 @@ std::wstring UPokemon::GetMoveNameW(int _Index) const
 	return Moves[_Index]->GetNameW();
 }
 
+int UPokemon::GetMovePP(int _Index) const
+{
+	return MoveCurPPs.at(_Index);
+}
+
+void UPokemon::DecMovePP(int _Index)
+{
+	--MoveCurPPs.at(_Index);
+}
+
 std::wstring UPokemon::GetMovePPW(int _Index) const
 {
 	if (_Index < 0 || _Index >= GetMoveCount())

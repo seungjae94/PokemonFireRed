@@ -12,6 +12,19 @@ UBattler::~UBattler()
 {
 }
 
+void UBattler::Clear()
+{
+	StatStage.Reset();
+	TempStatusId = EPokemonStatus::Normal;
+	Entry.clear();
+	Action = EBattleAction::None;
+	FightingPokemonIndex = 0;
+	CurMoveIndex = 0;
+	IsPlayerValue = false;
+	IsWildPokemonValue = false;
+	PlayerWinMessage.clear();
+}
+
 void UBattler::InitPlayer()
 {
 	IsPlayerValue = true;
@@ -62,6 +75,27 @@ void UBattler::ShiftPokemon()
 	ShiftPokemonIndex = -1;
 }
 
+int UBattler::GetLevel(int _Index)
+{
+	if (_Index >= Entry.size())
+	{
+		MsgBoxAssert("UBattler::GetLevel 함수에서 엔트리 인덱스를 초과해 포켓몬의 레벨을 확인하려고 했습니다.");
+		return 0;
+	}
+
+	return Entry[_Index]->GetLevel();
+}
+
+int UBattler::CurMovePP()
+{
+	return Entry[FightingPokemonIndex]->GetMovePP(CurMoveIndex);
+}
+
+void UBattler::DecCurMovePP()
+{
+	return Entry[FightingPokemonIndex]->DecMovePP(CurMoveIndex);
+}
+
 void UBattler::EnemyAutoShift()
 {
 	for (int i = 0; i < Entry.size(); ++i)
@@ -74,6 +108,20 @@ void UBattler::EnemyAutoShift()
 	}
 
 	ShiftPokemon();
+}
+
+void UBattler::ResetTemporalValues()
+{
+	StatStage.Reset();
+	TempStatusId = EPokemonStatus::Normal;
+	Participants.clear();
+}
+
+const FPokemonStatus* UBattler::CurStatus() const
+{
+	const UPokemon* Pokemon = CurPokemonReadonly();
+	EPokemonStatus StatusId = Pokemon->GetStatusId();
+	return UGameDB::FindStatus(StatusId);
 }
 
 void UBattler::DecBindCount()

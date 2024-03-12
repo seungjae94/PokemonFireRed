@@ -19,6 +19,7 @@ void ABattlePlayerActionSelectStateMachine::Start(ABattleCanvas* _Canvas, APokem
 	Player = _Player;
 	Enemy = _Enemy;
 	State = ESubstate::Select;
+	Canvas->RefreshMoveSelectBox();
 }
 
 void ABattlePlayerActionSelectStateMachine::Reset()

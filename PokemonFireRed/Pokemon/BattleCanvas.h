@@ -29,6 +29,7 @@ public:	// Refresh ÇÔ¼ö
 	void RefreshEnemyPokemonBox();
 	void RefreshPlayerPokemonBox();
 	void RefreshMoveSelectBox();
+	void RefreshMoveDetailBox();
 	void RefreshPlayerEntry();
 	void RefreshEnemyEntry();
 	void RefreshPlayerPokemonImage();
@@ -87,6 +88,7 @@ public:
 	void SetMoveSelectCursor(int _Cursor)
 	{
 		MoveSelectCursor->SetCursor(_Cursor);
+		RefreshMoveDetailBox();
 	}
 
 	// EnemyShift

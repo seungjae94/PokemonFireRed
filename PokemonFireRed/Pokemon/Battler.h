@@ -22,18 +22,7 @@ public:
 
 	UStatStage StatStage;
 
-	void Clear()
-	{
-		StatStage.Reset();
-		TempStatusId = EPokemonStatus::Normal;
-		Entry.clear();
-		Action = EBattleAction::None;
-		FightingPokemonIndex = 0;
-		CurMoveIndex = 0;
-		IsPlayerValue = false;
-		IsWildPokemonValue = false;
-		PlayerWinMessage.clear();
-	}
+	void Clear();
 
 	// 배틀러 정보
 	void InitPlayer();
@@ -106,16 +95,11 @@ public:
 
 	void ShiftPokemon();
 
-	int GetLevel(int _Index)
-	{
-		if (_Index >= Entry.size())
-		{
-			MsgBoxAssert("UBattler::GetLevel 함수에서 엔트리 인덱스를 초과해 포켓몬의 레벨을 확인하려고 했습니다.");
-			return 0;
-		}
+	int GetLevel(int _Index);
 
-		return Entry[_Index]->GetLevel();
-	}
+	int CurMovePP();
+
+	void DecCurMovePP();
 
 	// 액션
 	EBattleAction CurAction() const
@@ -169,19 +153,9 @@ public:
 	void EnemyAutoShift();
 
 	// 스탯 변경
-	void ResetTemporalValues()
-	{
-		StatStage.Reset();
-		TempStatusId = EPokemonStatus::Normal;
-		Participants.clear();
-	}
+	void ResetTemporalValues();
 
-	const FPokemonStatus* CurStatus() const
-	{
-		const UPokemon* Pokemon = CurPokemonReadonly();
-		EPokemonStatus StatusId = Pokemon->GetStatusId();
-		return UGameDB::FindStatus(StatusId);
-	}
+	const FPokemonStatus* CurStatus() const;
 
 	EPokemonStatus CurStatusId() const
 	{

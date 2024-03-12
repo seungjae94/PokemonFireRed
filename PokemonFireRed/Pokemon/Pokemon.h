@@ -184,6 +184,8 @@ public:
 	}
 
 	std::wstring GetMoveNameW(int _Index) const;
+	int GetMovePP(int _Index) const;
+	void DecMovePP(int _Index);
 	std::wstring GetMovePPW(int _Index) const;
 	std::wstring GetMoveCurPPW(int _Index) const;
 	std::wstring GetMoveTypeW(int _Index) const;
