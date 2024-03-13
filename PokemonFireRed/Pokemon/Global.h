@@ -86,7 +86,8 @@ namespace Global
 	const std::string FadeLevelChanger = "FadeLevelChanger";
 	const std::string WildBattleTrigger = "WildBattleTrigger";
 
-	const std::string BattleEnemyGroundBallShowAnim = "BattleEnemyGroundBallAnim";
+	const std::string BattleEnemyGroundBallAnim = "BattleEnemyGroundBallAnim";
+	const std::string BattleCatchBallAnim = "BattleCatchBallAnim";
 
 	const Color8Bit PixelColliderBlock(255, 0, 255, 0);
 	const Color8Bit PixelColliderBlockUpDown(255, 1, 255, 0);

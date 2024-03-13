@@ -115,6 +115,15 @@ public:
 
 	// FinishBattle
 	void LerpShowEnemyBattler(float _t);
+
+	// Catch
+	void SetCatchBallActive(bool _Value);
+	void SetCatchBallPosition(const FVector& _Pos);
+	void AddCatchBallPosition(const FVector& _Pos);
+	void PlayCatchBallOpenAnimation();
+	void PlayCatchBallCloseAnimation();
+	//void PlayCatchBallRotateLeftAnimation();
+	//void PlayCatchBallRotateRightAnimation();
 protected:
 
 private:
@@ -153,8 +162,10 @@ private:
 	std::vector<FVector> EnemyEntryBallsHidePos;
 	std::vector<FVector> PlayerEntryBallsInitPos;
 	std::vector<FVector> PlayerEntryBallsHidePos;
+	FVector EnemyCatchBallInitPos;
 	int HpBarMaxValue = 1000;
 	int ExpBarMaxValue = 1000;
+	const float CatchBallAnimTime = 0.1f;
 
 	// 최상위 요소
 	AImageElement* Background = nullptr;
@@ -190,6 +201,7 @@ private:
 	AImageElement* EnemyPokemonImage = nullptr;
 	AImageElement* EnemyBattler = nullptr;
 	AImageElement* EnemyGroundBall = nullptr;
+	AImageElement* EnemyCatchBall = nullptr;
 
 	// PlayerPokemonGround 요소
 	AImageElement* PlayerPokemonImage = nullptr;

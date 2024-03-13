@@ -1,6 +1,7 @@
 ﻿#include "BattlePokeBallStateMachine.h"
 #include "Battler.h"
 #include "PokemonMsgBox.h"
+#include "BattleCanvas.h"
 
 ABattlePokeBallStateMachine::ABattlePokeBallStateMachine() 
 {
@@ -17,24 +18,6 @@ void ABattlePokeBallStateMachine::Start()
 	State = ESubstate::BallUseMessage;
 	MsgBox->SetMessage(L"RED used\nPOKé BALL!");
 	MsgBox->Write();
-
-
-	if (true == Enemy->IsTrainer())
-	{
-		// Don't be a thief!
-		// (트레이너에게 던지는 경우)
-		// RED used\nPOKe BALL!
-		// The TRAINER blocked the BALL!
-		// 하고 플레이어 턴 종료됨
-
-		//MsgBox->SetMessage(L"Ball missed!");
-		//MsgBox->Write();
-	}
-	else
-	{
-		//Gotcha RATTATA\nwas caught!
-	}
-
 }
 
 bool ABattlePokeBallStateMachine::IsEnd() const
@@ -46,6 +29,8 @@ void ABattlePokeBallStateMachine::Tick(float _DeltaTime)
 {
 	ABattleStateMachine::Tick(_DeltaTime);
 
+	Timer -= _DeltaTime;
+
 	switch (State)
 	{
 	case ABattlePokeBallStateMachine::ESubstate::None:
@@ -54,7 +39,7 @@ void ABattlePokeBallStateMachine::Tick(float _DeltaTime)
 		ProcessBallUseMessage();
 		break;
 	case ABattlePokeBallStateMachine::ESubstate::PokeBallThrow:
-		ProcessPokeBallThrow();
+		ProcessPokeBallThrow(_DeltaTime);
 		break;
 	case ABattlePokeBallStateMachine::ESubstate::PokeBallBlocked:
 		ProcessPokeBallBlocked();
@@ -89,15 +74,40 @@ void ABattlePokeBallStateMachine::ProcessBallUseMessage()
 {
 	if (EWriteState::WriteEnd == MsgBox->GetWriteState())
 	{
+		State = ESubstate::PokeBallThrow;
 
-		State = ESubstate::End;
-
-		//State = ESubstate::PokeBallThrow;
+		Timer = BallThrowTime;
+		Canvas->SetCatchBallActive(true);
+		BallThrowVelocity = UPokemonUtil::PixelVector(200, -200);
 	}
 }
 
-void ABattlePokeBallStateMachine::ProcessPokeBallThrow()
+void ABattlePokeBallStateMachine::ProcessPokeBallThrow(float _DeltaTime)
 {
+	BallThrowVelocity += UPokemonUtil::PixelVector(0, 250) * _DeltaTime;
+	Canvas->AddCatchBallPosition(BallThrowVelocity * _DeltaTime);
+
+	if (Timer <= 0.0f)
+	{
+		State = ESubstate::End;
+
+
+		if (true == Enemy->IsTrainer())
+		{
+			// Don't be a thief!
+			// (트레이너에게 던지는 경우)
+			// RED used\nPOKe BALL!
+			// The TRAINER blocked the BALL!
+			// 하고 플레이어 턴 종료됨
+
+			//MsgBox->SetMessage(L"Ball missed!");
+			//MsgBox->Write();
+		}
+		else
+		{
+			//Gotcha RATTATA\nwas caught!
+		}
+	}
 }
 
 void ABattlePokeBallStateMachine::ProcessPokeBallBlocked()

@@ -61,6 +61,11 @@ void ABattleCanvas::BeginPlay()
 	EnemyEntryArrowInitPos = EnemyEntryArrow->GetRelativePosition();
 	EnemyEntryArrowHidePos = EnemyEntryArrowInitPos + FVector::Left * Global::FloatScreenX;
 
+	EnemyCatchBall = CreateImageElement(this, ERenderingOrder::UI3, EPivotType::LeftBot, 10, -50);
+	EnemyCatchBall->SetImage(RN::BattleBigBall);
+	EnemyCatchBall->CreateAnimation("Open", 0, 2, CatchBallAnimTime, false);
+	EnemyCatchBall->CreateAnimation("Close", { 2, 1, 0 }, { CatchBallAnimTime, CatchBallAnimTime, CatchBallAnimTime }, false);
+		
 	// EnemyPokemonBox 요소
 	EnemyPokemonNameText = CreateText(EnemyPokemonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 7, 12, EAlignType::Left, EFontColor::Black, EFontSize::Mini);
 	EnemyPokemonLevelText = CreateText(EnemyPokemonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 85, 12, EAlignType::Right, EFontColor::Black, EFontSize::Mini);
@@ -92,7 +97,7 @@ void ABattleCanvas::BeginPlay()
 	EnemyGroundBall = CreateImageElement(EnemyGround,
 		ERenderingOrder::UI5, EPivotType::RightBot, -56, -7);
 	EnemyGroundBall->SetImage(RN::BattleBigBall);
-	EnemyGroundBall->CreateAnimation(Global::BattleEnemyGroundBallShowAnim, 0, 2, 0.0667f, false);
+	EnemyGroundBall->CreateAnimation(Global::BattleEnemyGroundBallAnim, 0, 2, 0.0667f, false);
 
 	// PlayerGround 요소
 	PlayerBattler = CreateImageElement(PlayerGround, ERenderingOrder::UI3, EPivotType::RightBot, -12, 0);
@@ -196,6 +201,7 @@ void ABattleCanvas::Init(const UBattler* _Player, const UBattler* _Enemy)
 	StatBox->SetActive(false);
 	PlayerEntryArrow->SetActive(true);
 	EnemyEntryArrow->SetActive(true);
+	EnemyCatchBall->SetActive(false);
 }
 
 void ABattleCanvas::InitPlayerImages()
@@ -479,7 +485,7 @@ void ABattleCanvas::LerpHideEnemyBattler(float _t)
 void ABattleCanvas::PlayEnemyGroundBallAnimation()
 {
 	EnemyGroundBall->SetActive(true);
-	EnemyGroundBall->ChangeAnimation(Global::BattleEnemyGroundBallShowAnim, true);
+	EnemyGroundBall->ChangeAnimation(Global::BattleEnemyGroundBallAnim, true);
 }
 
 bool ABattleCanvas::IsEnemyGroundBallAnimationEnd()
@@ -672,6 +678,32 @@ void ABattleCanvas::LerpShowEnemyBattler(float _t)
 {
 	FVector Pos = UPokemonMath::Lerp(EnemyBattlerMessagePos, EnemyBattlerHidePos, _t);
 	EnemyBattler->SetRelativePosition(Pos);
+}
+
+void ABattleCanvas::SetCatchBallActive(bool _Value)
+{
+	EnemyCatchBall->SetActive(_Value);
+}
+
+void ABattleCanvas::SetCatchBallPosition(const FVector& _Pos)
+{
+	EnemyCatchBall->SetRelativePosition(_Pos);
+}
+
+void ABattleCanvas::AddCatchBallPosition(const FVector& _Pos)
+{
+	FVector CurPos = EnemyCatchBall->GetRelativePosition();
+	EnemyCatchBall->SetRelativePosition(CurPos + _Pos);
+}
+
+void ABattleCanvas::PlayCatchBallOpenAnimation()
+{
+	EnemyCatchBall->ChangeAnimation("Open", true);
+}
+
+void ABattleCanvas::PlayCatchBallCloseAnimation()
+{
+	EnemyCatchBall->ChangeAnimation("Close", true);
 }
 
 void ABattleCanvas::Tick(float _DeltaTime)

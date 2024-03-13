@@ -40,8 +40,12 @@ private:
 
 	ESubstate State = ESubstate::None;
 
+	const float BallThrowTime = 0.8f;
+	float Timer = 0.0f;
+	FVector BallThrowVelocity;
+
 	void ProcessBallUseMessage();
-	void ProcessPokeBallThrow();
+	void ProcessPokeBallThrow(float _DeltaTime);
 	void ProcessPokeBallBlocked();
 	void ProcessDontBeAThiefMessage();
 	void ProcessPokeBallVerticalMove();
