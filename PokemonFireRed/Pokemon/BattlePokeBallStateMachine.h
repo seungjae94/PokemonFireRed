@@ -47,15 +47,15 @@ private:
 
 	ESubstate State = ESubstate::None;
 
-	const float BallThrowTime = 0.8f;
+	const float BallThrowTime = 0.65f;
 	const float PullInTime = 0.5f;
 	const float ClosingTime = 0.25f;
 	float Timer = 0.0f;
 	FVector BallVelocity;
 	float BallGroundY = -90.0f * Global::FloatPixelSize;
 	
-	const FVector ThrowVelocity = UPokemonUtil::PixelVector(200, -250);
-	const int Gravity = 400;
+	const FVector ThrowVelocity = UPokemonUtil::PixelVector(245, -350);
+	const int Gravity = 700;
 	const float Elasticity = 0.75f;
 	const float BounceWaitTime = 0.05f;
 	const int MaxBounceCount = 3;
@@ -68,6 +68,7 @@ private:
 	const float CalcCatchWaitTime = 1.0f;
 	const float ShakeTime = 1.75f;
 	const float CatchSuccessAnimTime = 1.0f;
+	const float CatchFailAnimTime = 0.15f;
 
 	void ProcessBallUseMessage();
 	void ProcessPokeBallThrow(float _DeltaTime);

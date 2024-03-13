@@ -116,7 +116,7 @@ void ABattleCanvas::BeginPlay()
 	EnemyPokemonImageInitPos = EnemyPokemonImage->GetRelativePosition();
 	EnemyPokemonImageHidePos = EnemyPokemonImageInitPos + UPokemonUtil::PixelVector(0, 16);
 	EnemyPokemonImageFaintPos = EnemyPokemonImageInitPos + UPokemonUtil::PixelVector(0, 64);
-	EnemyPokemonImageCatchPos = EnemyPokemonImageInitPos + UPokemonUtil::PixelVector(0, -32);
+	EnemyPokemonImageCatchPos = EnemyPokemonImageInitPos + UPokemonUtil::PixelVector(0, -25);
 
 	EnemyGroundBall = CreateImageElement(EnemyGround,
 		ERenderingOrder::UI5, EPivotType::RightBot, -56, -7);
@@ -749,7 +749,7 @@ void ABattleCanvas::PlayCatchBallCloseAnimation()
 
 void ABattleCanvas::LerpCatchPullInEnemyPokemon(float _t)
 {
-	FVector Pos = UPokemonMath::Lerp(EnemyPokemonImageCatchPos, EnemyPokemonImageInitPos,_t);
+	FVector Pos = UPokemonMath::Lerp(EnemyPokemonImageCatchPos, EnemyPokemonImageInitPos, _t);
 	EnemyPokemonImage->SetRelativePosition(Pos);
 	EnemyPokemonImage->SetAlpha(_t);
 	EnemyPokemonImage->SetScaleFactor(_t);
@@ -757,7 +757,7 @@ void ABattleCanvas::LerpCatchPullInEnemyPokemon(float _t)
 
 void ABattleCanvas::LerpCatchFailEnemyPokemon(float _t)
 {
-	EnemyPokemonImage->SetRelativePosition(EnemyPokemonImageInitPos);
+	EnemyPokemonImage->SetRelativePosition(EnemyPokemonImageInitPos + UPokemonUtil::PixelVector(0, 20) * _t);
 	EnemyPokemonImage->SetAlpha(1.0f - _t);
 	EnemyPokemonImage->SetScaleFactor(1.0f - _t);
 }

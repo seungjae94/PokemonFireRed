@@ -100,7 +100,7 @@ void ABattlePokeBallStateMachine::ProcessBallUseMessage()
 
 void ABattlePokeBallStateMachine::ProcessPokeBallThrow(float _DeltaTime)
 {
-	BallVelocity += UPokemonUtil::PixelVector(0, 350) * _DeltaTime;
+	BallVelocity += UPokemonUtil::PixelVector(0, Gravity) * _DeltaTime;
 	Canvas->AddCatchBallPosition(BallVelocity * _DeltaTime);
 
 	if (Timer <= 0.0f)
@@ -252,6 +252,8 @@ void ABattlePokeBallStateMachine::ProcessCheckShakeMore()
 		else
 		{
 			State = ESubstate::CatchFailAnim;
+			Canvas->PlayCatchBallOpenAnimation();
+			Timer = CatchFailAnimTime;
 		}
 		return;
 	}
@@ -281,7 +283,13 @@ void ABattlePokeBallStateMachine::ProcessShake()
 
 void ABattlePokeBallStateMachine::ProcessCatchFailAnim()
 {
-	State = ESubstate::CatchSuccessAnim;
+	Canvas->LerpCatchFailEnemyPokemon(Timer / CatchFailAnimTime);
+
+	if (Timer <= 0.0f)
+	{
+		State = ESubstate::End;
+		Canvas->SetCatchBallActive(false);
+	}
 }
 
 void ABattlePokeBallStateMachine::ProcessCatchSuccessAnim(float _DeltaTime)
