@@ -14,7 +14,8 @@ enum class EAchievement
 	FightWithBugCatcher1,
 	FightWithPewterGymCamper,
 	FightWithPewterGymLeader,
-	GetPokedex
+	GetPokedex,
+	Fading
 };
 
 struct FInventoryRecord
@@ -42,6 +43,7 @@ public:
 	// 게임 진행도
 	static bool IsAchieved(EAchievement _Achievement);
 	static void Achieve(EAchievement _Achievement);
+	static void Unachieve(EAchievement _Achievement);
 
 	// 도감
 	static void SeePokemon(EPokemonId _PokedexNo);

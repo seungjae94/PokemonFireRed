@@ -24,11 +24,13 @@ void AFadeLevelChanger::RegisterPredefinedEvent()
 	AEventTrigger::RegisterPredefinedEvent();
 	UEventManager::RegisterEvent(this, Cond,
 		ES::Start(false)
+		>> ES::Achieve(EAchievement::Fading)
 		>> ES::FadeOut(FadeOutTime)
 		>> ES::Wait(FadeOutTime)
 		>> ES::ChangeLevel(TargetLevelName)
 		>> ES::FadeIn(FadeInTime)
 		>> ES::Wait(FadeInTime)
+		>> ES::Unachieve(EAchievement::Fading)
 		>> ES::End(PlayerControl)
 	);
 }

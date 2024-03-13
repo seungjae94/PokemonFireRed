@@ -111,6 +111,7 @@ private:
 	bool ProcessWildBattle();
 	bool ProcessTrainerBattle();
 	bool ProcessAchieve();
+	bool ProcessUnachieve();
 	bool ProcessDeactivatePlayerControl();
 
 	// 프로세싱 변수 - 공통

@@ -41,6 +41,7 @@ enum class EEventType
 	WildBattle,
 	TrainerBattle,
 	Achieve,
+	Unachieve,
 	End,
 };
 
@@ -552,6 +553,24 @@ public:
 		return *this;
 	}
 
+	class Unachieve
+	{
+		friend UEventProcessor;
+	public:
+		Unachieve(EAchievement _Achievement)
+			: Achievement(_Achievement)
+		{}
+	private:
+		EAchievement Achievement = EAchievement::None;
+	};
+
+	UEventStream& operator>>(const Unachieve& _Data)
+	{
+		EventTypeList.push_back(EEventType::Unachieve);
+		UnachieveDataSet.push_back(_Data);
+		return *this;
+	}
+
 	class End
 	{
 		friend UEventStream;
@@ -606,5 +625,6 @@ private:
 	std::vector<WildBattle> WildBattleDataSet;
 	std::vector<TrainerBattle> TrainerBattleDataSet;
 	std::vector<Achieve> AchieveDataSet;
+	std::vector<Unachieve> UnachieveDataSet;
 };
 

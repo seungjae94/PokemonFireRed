@@ -91,6 +91,11 @@ void UPlayerData::Achieve(EAchievement _Achievement)
 	AchievementMap[_Achievement] = true;
 }
 
+void UPlayerData::Unachieve(EAchievement _Achievement)
+{
+	AchievementMap[_Achievement] = false;
+}
+
 void UPlayerData::SeePokemon(EPokemonId _PokedexNo)
 {
 	PokedexSeenMap[_PokedexNo] = true;

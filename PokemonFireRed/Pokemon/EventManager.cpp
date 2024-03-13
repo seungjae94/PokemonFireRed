@@ -461,6 +461,11 @@ void UEventManager::SetCurLevelPlayerState(EPlayerState _State)
 
 void UEventManager::FadeChangeLevel(std::string_view _TargetMapName, bool _PlayerControl, float _FadeInTime, float _FadeOutTime)
 {
+	if (true == UPlayerData::IsAchieved(EAchievement::Fading))
+	{
+		return;
+	}
+
 	AFadeLevelChanger* LevelChanger = FindTarget<AFadeLevelChanger>(CurLevelName, Global::FadeLevelChanger);
 
 	if (nullptr == LevelChanger)

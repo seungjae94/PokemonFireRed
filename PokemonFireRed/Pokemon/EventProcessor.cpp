@@ -113,6 +113,9 @@ void UEventProcessor::Tick(float _DeltaTime)
 		case EEventType::Achieve:
 			ProcessingResult = ProcessAchieve();
 			break;
+		case EEventType::Unachieve:
+			ProcessingResult = ProcessUnachieve();
+			break;
 		case EEventType::DeactivatePlayerControl:
 			ProcessingResult = ProcessDeactivatePlayerControl();
 			break;
@@ -796,6 +799,14 @@ bool UEventProcessor::ProcessAchieve()
 	int CurIndexOfType = GetCurIndexOfType(EEventType::Achieve);
 	ES::Achieve& Data = CurStream->AchieveDataSet[CurIndexOfType];
 	UPlayerData::Achieve(Data.Achievement);
+	return true;
+}
+
+bool UEventProcessor::ProcessUnachieve()
+{
+	int CurIndexOfType = GetCurIndexOfType(EEventType::Unachieve);
+	ES::Achieve& Data = CurStream->AchieveDataSet[CurIndexOfType];
+	UPlayerData::Unachieve(Data.Achievement);
 	return true;
 }
 
