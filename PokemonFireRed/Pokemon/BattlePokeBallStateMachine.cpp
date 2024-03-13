@@ -90,7 +90,7 @@ void ABattlePokeBallStateMachine::ProcessBallUseMessage()
 
 		Timer = BallThrowTime;
 		Canvas->SetCatchBallActive(true);
-		BallVelocity = UPokemonUtil::PixelVector(200, -250);
+		BallVelocity = ThrowVelocity;
 	}
 }
 
@@ -153,7 +153,7 @@ void ABattlePokeBallStateMachine::ProcessPokeBallClosing()
 
 void ABattlePokeBallStateMachine::ProcessPokeBallDrop(float _DeltaTime)
 {
-	BallVelocity += UPokemonUtil::PixelVector(0, 250) * _DeltaTime;
+	BallVelocity += UPokemonUtil::PixelVector(0, Gravity) * _DeltaTime;
 	Canvas->AddCatchBallPosition(BallVelocity * _DeltaTime);
 
 	// 땅 높이와 비슷해진 경우
@@ -161,15 +161,36 @@ void ABattlePokeBallStateMachine::ProcessPokeBallDrop(float _DeltaTime)
 	if (BallPos.Y >= BallGroundY)
 	{
 		State = ESubstate::PokeBallCheckBounceMore;
+		BounceCount = MaxBounceCount;
 	}
 }
 
 void ABattlePokeBallStateMachine::ProcessPokeBallCheckBounceMore()
 {
+	// 다 튕긴 경우
+	if (BounceCount <= 0)
+	{
+		State = ESubstate::TestCatch;
+		return;
+	}
+
+	State = ESubstate::PokeBallBounce;
+	BallVelocity = -BallVelocity * Elasticity;
+	Timer = BounceWaitTime;
 }
 
 void ABattlePokeBallStateMachine::ProcessPokeBallBounce(float _DeltaTime)
 {
+	BallVelocity += UPokemonUtil::PixelVector(0, Gravity) * _DeltaTime;
+	Canvas->AddCatchBallPosition(BallVelocity * _DeltaTime);
+
+	// 일정 시간이 지난 뒤(튕기기 시작하는 시점에는 땅 높이와 비슷하기 때문) 땅 높이와 비슷해진 경우
+	FVector BallPos = Canvas->GetCatchBallPosition();
+	if (Timer <= 0.0f &&  BallPos.Y >= BallGroundY)
+	{
+		State = ESubstate::PokeBallCheckBounceMore;
+		--BounceCount;
+	}
 }
 
 void ABattlePokeBallStateMachine::ProcessTestCatch()

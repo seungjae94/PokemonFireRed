@@ -1,6 +1,7 @@
 #pragma once
 #include "BattleStateMachine.h"
 #include "Global.h"
+#include "PokemonUtil.h"
 
 class ABattlePokeBallStateMachine : public ABattleStateMachine
 {
@@ -51,6 +52,13 @@ private:
 	float Timer = 0.0f;
 	FVector BallVelocity;
 	float BallGroundY = -90.0f * Global::FloatPixelSize;
+	
+	const FVector ThrowVelocity = UPokemonUtil::PixelVector(200, -250);
+	const int Gravity = 400;
+	const float Elasticity = 0.75f;
+	const float BounceWaitTime = 0.05f;
+	const int MaxBounceCount = 3;
+	int BounceCount = 3;
 
 	void ProcessBallUseMessage();
 	void ProcessPokeBallThrow(float _DeltaTime);
