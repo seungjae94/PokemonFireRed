@@ -273,6 +273,7 @@ namespace RN
 	const std::string BattleEntryBallFaint = "BattleEntryBallFaint.png";
 	const std::string BattleBigBall = "BattleBigBall.png";
 	const std::string BattleCatchBall = "BattleCatchBall.png";
+	const std::string BattleCatchBallStar = "BattleCatchBallStar.png";
 
 	// 캐릭터 리소스
 	const std::string BugCatcher = "BugCatcherIdle.png";

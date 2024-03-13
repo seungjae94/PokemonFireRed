@@ -66,7 +66,8 @@ private:
 	int TestSuccessCount = 0;
 	int ShakeCount = 0;
 	const float CalcCatchWaitTime = 1.0f;
-	const float ShakeTime = 2.0f;
+	const float ShakeTime = 1.75f;
+	const float CatchSuccessAnimTime = 1.0f;
 
 	void ProcessBallUseMessage();
 	void ProcessPokeBallThrow(float _DeltaTime);
@@ -81,6 +82,6 @@ private:
 	void ProcessCheckShakeMore();
 	void ProcessShake();
 	void ProcessCatchFailAnim();
-	void ProcessCatchSuccessAnim();
+	void ProcessCatchSuccessAnim(float _DeltaTime);
 };
 

@@ -75,7 +75,7 @@ void ABattlePokeBallStateMachine::Tick(float _DeltaTime)
 		ProcessCatchFailAnim();
 		break;
 	case ESubstate::CatchSuccessAnim:
-		ProcessCatchSuccessAnim();
+		ProcessCatchSuccessAnim(_DeltaTime);
 		break;
 	case ESubstate::End:
 		break;
@@ -93,6 +93,7 @@ void ABattlePokeBallStateMachine::ProcessBallUseMessage()
 
 		Timer = BallThrowTime;
 		Canvas->SetCatchBallActive(true);
+		Canvas->HideCatchBallStars();
 		BallVelocity = ThrowVelocity;
 	}
 }
@@ -214,7 +215,7 @@ void ABattlePokeBallStateMachine::ProcessCalcCatch()
 		// 포획 성공
 		State = ESubstate::Shake;
 		TestSuccessCount = MaxTestSuccessCount;
-		ShakeCount = MaxTestSuccessCount;
+		ShakeCount = MaxTestSuccessCount - 1;
 		return;
 	}
 	
@@ -233,8 +234,7 @@ void ABattlePokeBallStateMachine::ProcessCalcCatch()
 	}
 
 	State = ESubstate::Shake;
-	//ShakeCount = UPokemonMath::Min(TestSuccessCount, 3);
-	ShakeCount = 1000;
+	ShakeCount = UPokemonMath::Min(TestSuccessCount, 3);
 }
 
 void ABattlePokeBallStateMachine::ProcessCheckShakeMore()
@@ -245,6 +245,8 @@ void ABattlePokeBallStateMachine::ProcessCheckShakeMore()
 		if (TestSuccessCount == MaxTestSuccessCount)
 		{
 			State = ESubstate::CatchSuccessAnim;
+			Canvas->ShowCatchBallStars();
+			Timer = CatchSuccessAnimTime;
 		}
 		// 포획 실패
 		else
@@ -279,10 +281,23 @@ void ABattlePokeBallStateMachine::ProcessShake()
 
 void ABattlePokeBallStateMachine::ProcessCatchFailAnim()
 {
+	State = ESubstate::CatchSuccessAnim;
 }
 
-void ABattlePokeBallStateMachine::ProcessCatchSuccessAnim()
+void ABattlePokeBallStateMachine::ProcessCatchSuccessAnim(float _DeltaTime)
 {
-	//Gotcha RATTATA\nwas caught!
+	// (0, 1), (0.5, 0.5), (1, 1)을 지나는 2차 함수 
+	Canvas->SetCatchBallAlpha(2.0f * (Timer - 0.5f) * (Timer - 0.5f) + 0.5f);
+	Canvas->AddCatchBallStarPos(0, UPokemonUtil::PixelVector(-20, 10) * _DeltaTime);
+	Canvas->AddCatchBallStarPos(1, UPokemonUtil::PixelVector(6, 20) * _DeltaTime);
+	Canvas->AddCatchBallStarPos(2, UPokemonUtil::PixelVector(20, 10) * _DeltaTime);
+
+
+	if (Timer <= 0.0f)
+	{
+		//Gotcha RATTATA\nwas caught!
+		State = ESubstate::End;
+		Canvas->HideCatchBallStars();
+	}
 }
 

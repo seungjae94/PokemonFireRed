@@ -113,6 +113,7 @@ public:
 	void ShowStatUpBox(const FLevelUpData& _LevelUpData);
 	void ShowStatAfterBox(const UPokemon* _Pokemon);
 	void HideStatUpWindow();
+	void SetCatchBallAlpha(float _t);
 
 	// FinishBattle
 	void LerpShowEnemyBattler(float _t);
@@ -128,7 +129,9 @@ public:
 	void LerpCatchFailEnemyPokemon(float _t);
 	void PlayCatchBallShakeLeftAnimation();
 	void PlayCatchBallShakeRightAnimation();
-	
+	void ShowCatchBallStars();
+	void HideCatchBallStars();
+	void AddCatchBallStarPos(int _Index, const FVector& _AddPos);
 protected:
 
 private:
@@ -235,5 +238,9 @@ private:
 	// EntryArrow 요소
 	std::vector<AImageElement*> PlayerEntryBalls;
 	std::vector<AImageElement*> EnemyEntryBalls;
+
+	// CatchBall 요소
+	std::vector<AImageElement*> CatchBallStars;
+	std::vector<FVector> CatchBallStarsInitPos;
 };
 

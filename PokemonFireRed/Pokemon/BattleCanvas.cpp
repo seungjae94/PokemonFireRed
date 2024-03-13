@@ -76,6 +76,19 @@ void ABattleCanvas::BeginPlay()
 	EnemyCatchBall->CreateAnimation("ShakeRight", { 4, 5, 6, 5, 4, 9, 10, 11, 10, 9 }, ShakeCatchBallAnimTimes, false);
 	EnemyCatchBallInitPos = EnemyCatchBall->GetRelativePosition();
 
+	AImageElement* CatchBallStar0 = CreateImageElement(EnemyCatchBall, ERenderingOrder::UI3, EPivotType::LeftTop, 0, 0);
+	AImageElement* CatchBallStar1 = CreateImageElement(EnemyCatchBall, ERenderingOrder::UI3, EPivotType::RightTop, 0, 2);
+	AImageElement* CatchBallStar2 = CreateImageElement(EnemyCatchBall, ERenderingOrder::UI3, EPivotType::RightTop, 2, 0);
+	CatchBallStar0->SetImage(RN::BattleCatchBallStar);
+	CatchBallStar1->SetImage(RN::BattleCatchBallStar);
+	CatchBallStar2->SetImage(RN::BattleCatchBallStar);
+	CatchBallStars.push_back(CatchBallStar0);
+	CatchBallStars.push_back(CatchBallStar1);
+	CatchBallStars.push_back(CatchBallStar2);
+	CatchBallStarsInitPos.push_back(CatchBallStar0->GetRelativePosition());
+	CatchBallStarsInitPos.push_back(CatchBallStar1->GetRelativePosition());
+	CatchBallStarsInitPos.push_back(CatchBallStar2->GetRelativePosition());
+
 	// EnemyPokemonBox ¿ä¼Ò
 	EnemyPokemonNameText = CreateText(EnemyPokemonBox, ERenderingOrder::UI4, EPivotType::LeftTop, 7, 12, EAlignType::Left, EFontColor::Black, EFontSize::Mini);
 	EnemyPokemonLevelText = CreateText(EnemyPokemonBox, ERenderingOrder::UI4, EPivotType::LeftTop, 85, 12, EAlignType::Right, EFontColor::Black, EFontSize::Mini);
@@ -692,6 +705,11 @@ void ABattleCanvas::HideStatUpWindow()
 	StatBox->SetActive(false);
 }
 
+void ABattleCanvas::SetCatchBallAlpha(float _t)
+{
+	EnemyCatchBall->SetAlpha(_t);
+}
+
 void ABattleCanvas::LerpShowEnemyBattler(float _t)
 {
 	FVector Pos = UPokemonMath::Lerp(EnemyBattlerMessagePos, EnemyBattlerHidePos, _t);
@@ -752,6 +770,30 @@ void ABattleCanvas::PlayCatchBallShakeLeftAnimation()
 void ABattleCanvas::PlayCatchBallShakeRightAnimation()
 {
 	EnemyCatchBall->ChangeAnimation("ShakeRight", true);
+}
+
+void ABattleCanvas::ShowCatchBallStars()
+{
+	for (int i = 0; i < 3; ++i)
+	{
+		CatchBallStars[i]->SetActive(true);
+		CatchBallStars[i]->SetRelativePosition(CatchBallStarsInitPos[i]);
+	}
+}
+
+void ABattleCanvas::HideCatchBallStars()
+{
+	for (int i = 0; i < 3; ++i)
+	{
+		CatchBallStars[i]->SetActive(false);
+		CatchBallStars[i]->SetRelativePosition(CatchBallStarsInitPos[i]);
+	}
+}
+
+void ABattleCanvas::AddCatchBallStarPos(int _Index, const FVector& _AddPos)
+{
+	FVector CurPos = CatchBallStars[_Index]->GetRelativePosition();
+	CatchBallStars[_Index]->SetRelativePosition(CurPos + _AddPos);
 }
 
 void ABattleCanvas::Tick(float _DeltaTime)
