@@ -16,11 +16,6 @@ UBagUILevel::~UBagUILevel()
 {
 }
 
-bool UBagUILevel::IsBattleMode() const
-{
-	return BattleMode;
-}
-
 void UBagUILevel::BeginPlay()
 {
 	UPokemonLevel::BeginPlay();
@@ -203,7 +198,7 @@ void UBagUILevel::ProcessActionSelect()
 		{
 			State = EState::BattleModeItemUsageCheck;
 			ItemUsage = EItemUsage::None;
-			UEventManager::FadeChangeLevel(Global::PokemonUILevel);
+			UEventManager::FadeChangeLevel(Global::BattleItemPokemonUILevel);
 		}
 		// 배틀 모드가 아니고 소비 아이템을 선택했지만 포켓몬이 없는 경우
 		else if (UPlayerData::GetPokemonEntrySize() == 0)
@@ -214,7 +209,7 @@ void UBagUILevel::ProcessActionSelect()
 		else
 		{
 			State = EState::TargetSelect;
-			UEventManager::FadeChangeLevel(Global::PokemonUILevel);
+			UEventManager::FadeChangeLevel(Global::BattleItemPokemonUILevel);
 		}
 
 		// 액션을 마치고 나면 액션창은 꺼둔다.

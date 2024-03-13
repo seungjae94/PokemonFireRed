@@ -20,5 +20,6 @@ void UPokemonSummaryUILevel::LevelStart(ULevel* _PrevLevel)
 	UPokemonLevel::LevelStart(_PrevLevel);
 	UPokemonUILevel* PrevLevel = dynamic_cast<UPokemonUILevel*>(_PrevLevel);
 	Canvas->SetPokemon(PrevLevel->GetTargetPokemon());
+	Canvas->SetPrevLevelName(PrevLevel->GetName());
 	Canvas->Reset();
 }

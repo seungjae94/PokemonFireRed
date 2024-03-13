@@ -170,6 +170,22 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BagItemPokemonUILevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="BattleBagUILevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="BattleItemPokemonUILevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="BattleShiftPokemonUILevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="BattleStateMachine.h">
       <SubType>
       </SubType>
@@ -309,6 +325,18 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Item.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ItemPokemonUILevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="MenuBagUILevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="MenuPokemonUILevel.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -611,6 +639,22 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BagItemPokemonUILevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="BattleBagUILevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="BattleItemPokemonUILevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="BattleShiftPokemonUILevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="BattleStateMachine.cpp">
       <SubType>
       </SubType>
@@ -749,6 +793,18 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Item.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ItemPokemonUILevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="MenuBagUILevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="MenuPokemonUILevel.cpp">
       <SubType>
       </SubType>
     </ClCompile>

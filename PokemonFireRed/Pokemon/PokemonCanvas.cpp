@@ -32,7 +32,6 @@ void APokemonCanvas::Init()
 
 	// 하위 요소 초기화
 	ActionCursor->SetCursor(0);
-	BattleActionCursor->SetCursor(0);
 	RefreshAllTargets();
 
 	// 렌더링 설정
@@ -40,7 +39,6 @@ void APokemonCanvas::Init()
 	ActionSelectionMsgBox->SetActive(false);
 	SwitchSelectionMsgBox->SetActive(false);
 	ActionBox->SetActive(false);
-	BattleActionBox->SetActive(false);
 	CustomMsgBox->SetActive(false);
 }
 
@@ -63,9 +61,6 @@ void APokemonCanvas::BeginPlay()
 	ActionBox = CreateImageElement(Background, ERenderingOrder::UI4, EPivotType::RightBot, -1, -1);
 	ActionBox->SetImage(RN::PokemonUIActionBox);
 
-	BattleActionBox = CreateImageElement(Background, ERenderingOrder::UI4, EPivotType::RightBot, -1, -1);
-	BattleActionBox->SetImage(RN::PokemonUIBattleActionBox);
-
 	CustomMsgBox = CreateImageElement(Background,
 		ERenderingOrder::UI6, EPivotType::RightBot, -1, -1);
 	CustomMsgBox->SetImage(RN::PokemonUIBattleMsgBox);
@@ -82,9 +77,6 @@ void APokemonCanvas::BeginPlay()
 	// 액션 선택창
 	ActionCursor = CreateCursor(ActionBox, ERenderingOrder::UI5, EPivotType::LeftTop, 8, 11, RN::BlackCursor, 16);
 	ActionCursor->SetOptionCount(3);
-
-	BattleActionCursor = CreateCursor(BattleActionBox, ERenderingOrder::UI5, EPivotType::LeftTop, 8, 11, RN::BlackCursor, 16);
-	BattleActionCursor->SetOptionCount(3);
 
 	// 배틀 메시지
 	CustomMsg = CreateText(CustomMsgBox,
@@ -144,29 +136,14 @@ void APokemonCanvas::DecActionCursor()
 	ActionCursor->DecCursor();
 }
 
-int APokemonCanvas::GetBattleActionCursor() const
-{
-	return BattleActionCursor->GetCursor();
-}
-
-void APokemonCanvas::SetBattleActionCursor(int _Cursor)
-{
-	BattleActionCursor->SetCursor(_Cursor);
-}
-
-void APokemonCanvas::IncBattleActionCursor()
-{
-	BattleActionCursor->IncCursor();
-}
-
-void APokemonCanvas::DecBattleActionCursor()
-{
-	BattleActionCursor->DecCursor();
-}
-
 void APokemonCanvas::SetTargetSelectionMsgBoxImage(std::string_view _ImageName)
 {
 	TargetSelectionMsgBox->SetImage(_ImageName);
+}
+
+void APokemonCanvas::SetActionBoxImage(std::string_view _ImageName)
+{
+	ActionBox->SetImage(_ImageName);
 }
 
 AImageElement* APokemonCanvas::GetPokemonBox(int _Index)
@@ -243,11 +220,6 @@ void APokemonCanvas::SetSwitchSelectionMsgBoxActive(bool _Value)
 void APokemonCanvas::SetActionBoxActive(bool _Value)
 {
 	ActionBox->SetActive(_Value);
-}
-
-void APokemonCanvas::SetBattleActionBoxActive(bool _Value)
-{
-	BattleActionBox->SetActive(_Value);
 }
 
 void APokemonCanvas::SetCustomMsgBoxActive(bool _Value)

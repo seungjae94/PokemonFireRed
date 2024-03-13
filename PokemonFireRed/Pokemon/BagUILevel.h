@@ -35,8 +35,6 @@ public:
 	UBagUILevel& operator=(const UBagUILevel& _Other) = delete;
 	UBagUILevel& operator=(UBagUILevel&& _Other) noexcept = delete;
 
-	bool IsBattleMode() const;
-
 	const FItem* GetTargetItem();
 
 	void SetItemUsage(EItemUsage _Usage);

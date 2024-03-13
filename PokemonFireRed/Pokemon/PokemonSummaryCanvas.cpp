@@ -236,6 +236,11 @@ void APokemonSummaryCanvas::Reset()
 	MovesDetailBox->SetActive(false);
 }
 
+void APokemonSummaryCanvas::SetPrevLevelName(std::string_view _PrevLevelName)
+{
+	PrevLevelName = _PrevLevelName;
+}
+
 void APokemonSummaryCanvas::Tick(float _DeltaTime)
 {
 	ACanvas::Tick(_DeltaTime);
@@ -263,7 +268,7 @@ void APokemonSummaryCanvas::InfoTick(float _DeltaTime)
 {
 	if (true == UEngineInput::IsDown('Z') || true == UEngineInput::IsDown('X'))
 	{
-		UEventManager::FadeChangeLevel(Global::PokemonUILevel, false);
+		UEventManager::FadeChangeLevel(PrevLevelName, false);
 		return;
 	}
 
@@ -281,7 +286,7 @@ void APokemonSummaryCanvas::SkillsTick(float _DeltaTime)
 {
 	if (true == UEngineInput::IsDown('X'))
 	{
-		UEventManager::FadeChangeLevel(Global::PokemonUILevel, false);
+		UEventManager::FadeChangeLevel(PrevLevelName, false);
 		return;
 	}
 
@@ -308,7 +313,7 @@ void APokemonSummaryCanvas::MovesTick(float _DeltaTime)
 {
 	if (true == UEngineInput::IsDown('X'))
 	{
-		UEventManager::FadeChangeLevel(Global::PokemonUILevel, false);
+		UEventManager::FadeChangeLevel(PrevLevelName, false);
 		return;
 	}
 

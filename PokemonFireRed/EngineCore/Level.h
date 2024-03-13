@@ -103,6 +103,17 @@ public:
 		}
 	}
 
+	template<typename EnumType>
+	void SetTimeScale(EnumType _Value, float _Scale)
+	{
+		SetTimeScale(static_cast<int>(_Value), _Scale);
+	}
+
+	void SetTimeScale(int _Value, float _Scale)
+	{
+		TimeScale[_Value] = _Scale;
+	}
+
 protected:
 
 private:

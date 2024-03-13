@@ -23,6 +23,8 @@ public:
 	APokemonSummaryCanvas& operator=(const APokemonSummaryCanvas& _Other) = delete;
 	APokemonSummaryCanvas& operator=(APokemonSummaryCanvas&& _Other) noexcept = delete;
 
+	void SetPrevLevelName(std::string_view _PrevLevelName);
+
 	void SetPokemon(UPokemon* _Pokemon)
 	{
 		Pokemon = _Pokemon;
@@ -32,9 +34,10 @@ public:
 	void Reset();
 
 protected:
+private:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
-private:
+
 	// FSM
 	EPokemonSummaryPageState State = EPokemonSummaryPageState::Info;
 	void InfoTick(float _DeltaTime);
@@ -44,6 +47,7 @@ private:
 
 	// 데이터
 	UPokemon* Pokemon = nullptr;
+	std::string PrevLevelName;
 
 	// 최상위 요소
 	AImageElement* Background = nullptr;

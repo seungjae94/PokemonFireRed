@@ -29,17 +29,13 @@ public:
 	// 캔버스 상태 초기화
 	void Init();
 
+	// 캔버스 데이터 변경
 	int GetActionCursor() const;
 	void SetActionCursor(int _Cursor);
 	void IncActionCursor();
 	void DecActionCursor();
-
-	int GetBattleActionCursor() const;
-	void SetBattleActionCursor(int _Cursor);
-	void IncBattleActionCursor();
-	void DecBattleActionCursor();
-
 	void SetTargetSelectionMsgBoxImage(std::string_view _ImageName);
+	void SetActionBoxImage(std::string_view _ImageName);
 
 	// 스위치 기능
 	AImageElement* GetPokemonBox(int _Index);
@@ -54,7 +50,6 @@ public:
 	void SetActionSelectionMsgBoxActive(bool _Value);
 	void SetSwitchSelectionMsgBoxActive(bool _Value);
 	void SetActionBoxActive(bool _Value);
-	void SetBattleActionBoxActive(bool _Value);
 	void SetCustomMsgBoxActive(bool _Value);
 	void SetCustomMessage(std::wstring _Msg);
 
@@ -75,8 +70,6 @@ private:
 	AImageElement* SwitchSelectionMsgBox = nullptr;
 	AImageElement* ActionBox = nullptr;
 	ACursor* ActionCursor = nullptr;
-	AImageElement* BattleActionBox = nullptr;
-	ACursor* BattleActionCursor = nullptr;
 	AImageElement* CustomMsgBox = nullptr;
 	AText* CustomMsg = nullptr;
 

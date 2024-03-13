@@ -132,7 +132,7 @@ void AMenuCanvas::MenuAction()
 	case EMenuIndex::Pokedex:
 		break;
 	case EMenuIndex::Pokemon:
-		UEventManager::FadeChangeLevel(Global::PokemonUILevel);
+		UEventManager::FadeChangeLevel(Global::MenuPokemonUILevel);
 		break;
 	case EMenuIndex::Bag:
 		UEventManager::FadeChangeLevel(Global::BagUILevel);

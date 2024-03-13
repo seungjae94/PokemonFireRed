@@ -22,7 +22,7 @@ void ABattlePrepareTurnStateMachine::Start()
 	{
 		State = ESubstate::SelectPokemonForce;
 		Player->SetShiftPokemonIndex(-1);
-		UEventManager::FadeChangeLevel(Global::PokemonUILevel);
+		UEventManager::FadeChangeLevel(Global::BattleShiftPokemonUILevel);
 		return;
 	}
 	else if (true == Enemy->CurPokemon()->IsFaint())

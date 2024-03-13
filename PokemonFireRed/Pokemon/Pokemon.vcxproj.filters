@@ -483,6 +483,27 @@
     <ClInclude Include="StatStageChangeAnimator.h">
       <Filter>2. Level\7. BattleLevel\Animator\StatStageAnimator</Filter>
     </ClInclude>
+    <ClInclude Include="BattleItemPokemonUILevel.h">
+      <Filter>2. Level\3. PokemonUILevel</Filter>
+    </ClInclude>
+    <ClInclude Include="BattleShiftPokemonUILevel.h">
+      <Filter>2. Level\3. PokemonUILevel</Filter>
+    </ClInclude>
+    <ClInclude Include="BattleBagUILevel.h">
+      <Filter>2. Level\6. BagUILevel</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuPokemonUILevel.h">
+      <Filter>2. Level\3. PokemonUILevel</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuBagUILevel.h">
+      <Filter>2. Level\6. BagUILevel</Filter>
+    </ClInclude>
+    <ClInclude Include="BagItemPokemonUILevel.h">
+      <Filter>2. Level\3. PokemonUILevel</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemPokemonUILevel.h">
+      <Filter>2. Level\3. PokemonUILevel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PokemonCore.cpp">
@@ -811,6 +832,27 @@
     </ClCompile>
     <ClCompile Include="StatStageChangeAnimator.cpp">
       <Filter>2. Level\7. BattleLevel\Animator\StatStageAnimator</Filter>
+    </ClCompile>
+    <ClCompile Include="BattleItemPokemonUILevel.cpp">
+      <Filter>2. Level\3. PokemonUILevel</Filter>
+    </ClCompile>
+    <ClCompile Include="BattleShiftPokemonUILevel.cpp">
+      <Filter>2. Level\3. PokemonUILevel</Filter>
+    </ClCompile>
+    <ClCompile Include="BattleBagUILevel.cpp">
+      <Filter>2. Level\6. BagUILevel</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuPokemonUILevel.cpp">
+      <Filter>2. Level\3. PokemonUILevel</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuBagUILevel.cpp">
+      <Filter>2. Level\6. BagUILevel</Filter>
+    </ClCompile>
+    <ClCompile Include="BagItemPokemonUILevel.cpp">
+      <Filter>2. Level\3. PokemonUILevel</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemPokemonUILevel.cpp">
+      <Filter>2. Level\3. PokemonUILevel</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

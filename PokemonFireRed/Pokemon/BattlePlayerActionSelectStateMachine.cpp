@@ -79,7 +79,7 @@ void ABattlePlayerActionSelectStateMachine::ProcessSelect()
 		case Pokemon:
 			State = ESubstate::PokemonSelect;
 			Player->SetShiftPokemonIndex(-1);
-			UEventManager::FadeChangeLevel(Global::PokemonUILevel);
+			UEventManager::FadeChangeLevel(Global::BattleShiftPokemonUILevel);
 			break;
 		case Run:
 		{
