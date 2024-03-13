@@ -33,36 +33,42 @@ void ABattlePokeBallStateMachine::Tick(float _DeltaTime)
 
 	switch (State)
 	{
-	case ABattlePokeBallStateMachine::ESubstate::None:
+	case ESubstate::None:
 		break;
-	case ABattlePokeBallStateMachine::ESubstate::BallUseMessage:
+	case ESubstate::BallUseMessage:
 		ProcessBallUseMessage();
 		break;
-	case ABattlePokeBallStateMachine::ESubstate::PokeBallThrow:
+	case ESubstate::PokeBallThrow:
 		ProcessPokeBallThrow(_DeltaTime);
 		break;
-	case ABattlePokeBallStateMachine::ESubstate::PokeBallBlocked:
+	case ESubstate::PokeBallBlocked:
 		ProcessPokeBallBlocked();
 		break;
-	case ABattlePokeBallStateMachine::ESubstate::DontBeAThiefMessage:
+	case ESubstate::DontBeAThiefMessage:
 		ProcessDontBeAThiefMessage();
 		break;
-	case ABattlePokeBallStateMachine::ESubstate::PokeBallVerticalMove:
+	case ESubstate::PokeBallPullInPokemon:
+		ProcessPokeBallPullInPokemon();
+		break;
+	case ESubstate::PokeBallClosing:
+		ProcessPokeBallClosing();
+		break;
+	case ESubstate::PokeBallVerticalMove:
 		ProcessPokeBallVerticalMove();
 		break;
-	case ABattlePokeBallStateMachine::ESubstate::TestCatch:
+	case ESubstate::TestCatch:
 		ProcessTestCatch();
 		break;
-	case ABattlePokeBallStateMachine::ESubstate::CatchResultAnim:
+	case ESubstate::CatchResultAnim:
 		ProcessCatchResultAnim();
 		break;
-	case ABattlePokeBallStateMachine::ESubstate::CatchFailMessage:
+	case ESubstate::CatchFailMessage:
 		ProcessCatchFailMessage();
 		break;
-	case ABattlePokeBallStateMachine::ESubstate::CatchSuccessMessage:
+	case ESubstate::CatchSuccessMessage:
 		ProcessCatchSuccessMessage();
 		break;
-	case ABattlePokeBallStateMachine::ESubstate::End:
+	case ESubstate::End:
 		break;
 	default:
 		break;
@@ -89,9 +95,6 @@ void ABattlePokeBallStateMachine::ProcessPokeBallThrow(float _DeltaTime)
 
 	if (Timer <= 0.0f)
 	{
-		State = ESubstate::End;
-
-
 		if (true == Enemy->IsTrainer())
 		{
 			// Don't be a thief!
@@ -102,10 +105,13 @@ void ABattlePokeBallStateMachine::ProcessPokeBallThrow(float _DeltaTime)
 
 			//MsgBox->SetMessage(L"Ball missed!");
 			//MsgBox->Write();
+			State = ESubstate::End;
 		}
 		else
 		{
-			//Gotcha RATTATA\nwas caught!
+			State = ESubstate::PokeBallPullInPokemon;
+			Canvas->PlayCatchBallOpenAnimation();
+			Timer = PullInTime;
 		}
 	}
 }
@@ -116,6 +122,26 @@ void ABattlePokeBallStateMachine::ProcessPokeBallBlocked()
 
 void ABattlePokeBallStateMachine::ProcessDontBeAThiefMessage()
 {
+}
+
+void ABattlePokeBallStateMachine::ProcessPokeBallPullInPokemon()
+{
+	Canvas->LerpCatchPullInEnemyPokemon(Timer / PullInTime);
+
+	if (Timer <= 0.0f)
+	{
+		State = ESubstate::PokeBallClosing;
+		Timer = ClosingTime;
+		Canvas->PlayCatchBallCloseAnimation();
+	}
+}
+
+void ABattlePokeBallStateMachine::ProcessPokeBallClosing()
+{
+	if (Timer <= 0.0f)
+	{
+		State = ESubstate::End;
+	}
 }
 
 void ABattlePokeBallStateMachine::ProcessPokeBallVerticalMove()
@@ -136,5 +162,6 @@ void ABattlePokeBallStateMachine::ProcessCatchFailMessage()
 
 void ABattlePokeBallStateMachine::ProcessCatchSuccessMessage()
 {
+	//Gotcha RATTATA\nwas caught!
 }
 

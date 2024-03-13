@@ -11,6 +11,8 @@ private:
 		PokeBallThrow,
 		PokeBallBlocked,
 		DontBeAThiefMessage,
+		PokeBallPullInPokemon,
+		PokeBallClosing,
 		PokeBallVerticalMove,
 		TestCatch,
 		CatchResultAnim,
@@ -41,6 +43,8 @@ private:
 	ESubstate State = ESubstate::None;
 
 	const float BallThrowTime = 0.8f;
+	const float PullInTime = 0.5f;
+	const float ClosingTime = 0.25f;
 	float Timer = 0.0f;
 	FVector BallThrowVelocity;
 
@@ -48,6 +52,8 @@ private:
 	void ProcessPokeBallThrow(float _DeltaTime);
 	void ProcessPokeBallBlocked();
 	void ProcessDontBeAThiefMessage();
+	void ProcessPokeBallPullInPokemon();
+	void ProcessPokeBallClosing();
 	void ProcessPokeBallVerticalMove();
 	void ProcessTestCatch();
 	void ProcessCatchResultAnim();

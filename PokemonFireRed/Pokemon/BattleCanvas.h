@@ -25,6 +25,7 @@ private: // 초기화 함수
 	void InitEnemyImages();		// 적 배틀러, 적 포켓몬, 적 볼 위치 초기화
 	void InitPlayerUI();
 	void InitEnemyUI();
+	void InitCatchBall();
 
 public:	// Refresh 함수
 	void RefreshEnemyPokemonBox();
@@ -122,6 +123,8 @@ public:
 	void AddCatchBallPosition(const FVector& _Pos);
 	void PlayCatchBallOpenAnimation();
 	void PlayCatchBallCloseAnimation();
+	void LerpCatchPullInEnemyPokemon(float _t);
+	void LerpCatchFailEnemyPokemon(float _t);
 	//void PlayCatchBallRotateLeftAnimation();
 	//void PlayCatchBallRotateRightAnimation();
 protected:
@@ -154,6 +157,7 @@ private:
 	FVector EnemyPokemonImageInitPos;
 	FVector EnemyPokemonImageHidePos;
 	FVector EnemyPokemonImageFaintPos;
+	FVector EnemyPokemonImageCatchPos;
 	FVector PlayerEntryArrowInitPos;
 	FVector PlayerEntryArrowHidePos;
 	FVector EnemyEntryArrowInitPos;

@@ -65,7 +65,8 @@ void ABattleCanvas::BeginPlay()
 	EnemyCatchBall->SetImage(RN::BattleBigBall);
 	EnemyCatchBall->CreateAnimation("Open", 0, 2, CatchBallAnimTime, false);
 	EnemyCatchBall->CreateAnimation("Close", { 2, 1, 0 }, { CatchBallAnimTime, CatchBallAnimTime, CatchBallAnimTime }, false);
-		
+	EnemyCatchBallInitPos = EnemyCatchBall->GetRelativePosition();
+
 	// EnemyPokemonBox ¿ä¼Ò
 	EnemyPokemonNameText = CreateText(EnemyPokemonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 7, 12, EAlignType::Left, EFontColor::Black, EFontSize::Mini);
 	EnemyPokemonLevelText = CreateText(EnemyPokemonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 85, 12, EAlignType::Right, EFontColor::Black, EFontSize::Mini);
@@ -93,6 +94,7 @@ void ABattleCanvas::BeginPlay()
 	EnemyPokemonImageInitPos = EnemyPokemonImage->GetRelativePosition();
 	EnemyPokemonImageHidePos = EnemyPokemonImageInitPos + UPokemonUtil::PixelVector(0, 16);
 	EnemyPokemonImageFaintPos = EnemyPokemonImageInitPos + UPokemonUtil::PixelVector(0, 64);
+	EnemyPokemonImageCatchPos = EnemyPokemonImageInitPos + UPokemonUtil::PixelVector(0, -32);
 
 	EnemyGroundBall = CreateImageElement(EnemyGround,
 		ERenderingOrder::UI5, EPivotType::RightBot, -56, -7);
@@ -184,6 +186,7 @@ void ABattleCanvas::Init(const UBattler* _Player, const UBattler* _Enemy)
 	InitEnemyImages();
 	InitPlayerUI();
 	InitEnemyUI();
+	InitCatchBall();
 	ActionCursor->SetCursor(0);
 	MoveSelectCursor->SetCursor(0);
 
@@ -260,6 +263,12 @@ void ABattleCanvas::InitEnemyUI()
 		EnemyEntryBalls[i]->SetRelativePosition(EnemyEntryBallsHidePos[i]);
 		EnemyEntryBalls[i]->SetAlpha(1.0f);
 	}
+}
+
+void ABattleCanvas::InitCatchBall()
+{
+	EnemyCatchBall->SetActive(false);
+	EnemyCatchBall->SetRelativePosition(EnemyCatchBallInitPos);
 }
 
 void ABattleCanvas::RefreshEnemyPokemonBox()
@@ -704,6 +713,21 @@ void ABattleCanvas::PlayCatchBallOpenAnimation()
 void ABattleCanvas::PlayCatchBallCloseAnimation()
 {
 	EnemyCatchBall->ChangeAnimation("Close", true);
+}
+
+void ABattleCanvas::LerpCatchPullInEnemyPokemon(float _t)
+{
+	FVector Pos = UPokemonMath::Lerp(EnemyPokemonImageCatchPos, EnemyPokemonImageInitPos,_t);
+	EnemyPokemonImage->SetRelativePosition(Pos);
+	EnemyPokemonImage->SetAlpha(_t);
+	EnemyPokemonImage->SetScaleFactor(_t);
+}
+
+void ABattleCanvas::LerpCatchFailEnemyPokemon(float _t)
+{
+	EnemyPokemonImage->SetRelativePosition(EnemyPokemonImageInitPos);
+	EnemyPokemonImage->SetAlpha(1.0f - _t);
+	EnemyPokemonImage->SetScaleFactor(1.0f - _t);
 }
 
 void ABattleCanvas::Tick(float _DeltaTime)
