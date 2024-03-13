@@ -437,6 +437,22 @@ void UEventManager::SetDirection(std::string_view _MapName, std::string_view _Ta
 	Target->ChangeMoveAnimation(Target->GetMoveState(), _Direction);
 }
 
+void UEventManager::SetActive(std::string_view _MapName, std::string_view _TargetName, bool _Value)
+{
+	std::string MapName = UEngineString::ToUpper(_MapName);
+	std::string TargetName = UEngineString::ToUpper(_TargetName);
+
+	AEventTarget* Target = AllTargets[MapName][TargetName];
+
+	if (nullptr == Target)
+	{
+		MsgBoxAssert("존재하지 않는 타겟" + MapName + ":" + TargetName + "을 회전시키려고 했습니다.");
+		return;
+	}
+
+	Target->SetActive(_Value);
+}
+
 void UEventManager::SetCurLevelPlayerState(EPlayerState _State)
 {
 	APlayer* Player = FindCurLevelTarget<APlayer>(Global::Player);

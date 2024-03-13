@@ -67,6 +67,8 @@ public:
 
 	static void SetDirection(std::string_view _MapName, std::string_view _TargetName, const FTileVector& _Direction);
 	
+	static void SetActive(std::string_view _MapName, std::string_view _TargetName, bool _Value);
+
 	static void SetCurLevelPlayerState(EPlayerState _State);
 
 	static void FadeChangeLevel(std::string_view _TargetLevelName, bool _PlayerControl = false, float _FadeInTime = 0.3f, float _FadeOutTime = 0.3f);

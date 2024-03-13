@@ -20,6 +20,7 @@ void AStatStageChangeAnimator::Start()
 
 	State = EState::Work;
 	Timer = ImageChangeInterval;
+	AlphaTimer = AlphaTime;
 	
 	if (true == IsStatDown)
 	{
@@ -31,6 +32,7 @@ void AStatStageChangeAnimator::Start()
 	}
 
 	StatImages[GetEffectiveImageIndex()]->SetActive(true);
+	StatImages[GetEffectiveImageIndex()]->SetAlpha(GetAlpha());
 }
 
 bool AStatStageChangeAnimator::IsEnd()
@@ -93,6 +95,7 @@ void AStatStageChangeAnimator::Tick(float _DeltaTime)
 	AAnimator::Tick(_DeltaTime);
 
 	Timer -= _DeltaTime;
+	AlphaTimer -= _DeltaTime;
 
 	switch (State)
 	{
@@ -131,6 +134,9 @@ void AStatStageChangeAnimator::ProcessCheckWork()
 
 void AStatStageChangeAnimator::ProcessWork()
 {
+	float Alpha = GetAlpha();
+	StatImages[GetEffectiveImageIndex()]->SetAlpha(Alpha);
+
 	if (Timer <= 0.0f)
 	{
 		State = EState::CheckWork;
@@ -149,10 +155,10 @@ void AStatStageChangeAnimator::ProcessWork()
 		ImageIndex = UPokemonMath::Mod(ImageIndex, 4);
 		
 		StatImages[GetEffectiveImageIndex()]->SetActive(true);
+		StatImages[GetEffectiveImageIndex()]->SetAlpha(Alpha);
 
 		--WorkCount;
 	}
-
 }
 
 int AStatStageChangeAnimator::GetEffectiveImageIndex() const
@@ -165,3 +171,18 @@ int AStatStageChangeAnimator::GetEffectiveImageIndex() const
 	return ImageIndex;
 }
 
+float AStatStageChangeAnimator::GetAlpha() const
+{
+	// FadeIn 
+	if (AlphaTime - AlphaTimer <= FadeTime)
+	{
+		return MaxAlpha * (AlphaTime - AlphaTimer) / FadeTime;
+	}
+	// FadeOut
+	else if (AlphaTimer <= FadeTime)
+	{
+		return MaxAlpha * AlphaTimer / FadeTime;
+	}
+
+	return MaxAlpha;
+}

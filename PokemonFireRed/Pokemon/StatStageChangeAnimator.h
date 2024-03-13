@@ -47,6 +47,12 @@ private:
 	int ImageIndex = 0;
 	const float ImageChangeInterval = 0.05f;
 	float Timer = 0.0f;
+	
+	const float MaxAlpha = 0.5f;
+	const float AlphaTime = MaxWorkCount * ImageChangeInterval;
+	const float FadeTime = 0.2f;
+	float AlphaTimer = 0.0f;
+
 
 	// 상태 틱 함수
 	void ProcessCheckWork();
@@ -54,5 +60,6 @@ private:
 
 	// 유틸 함수
 	int GetEffectiveImageIndex() const;
+	float GetAlpha() const;
 };
 

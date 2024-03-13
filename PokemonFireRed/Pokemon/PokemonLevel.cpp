@@ -74,6 +74,7 @@ void UPokemonLevel::Tick(float _DeltaTime)
 		UEventManager::FadeChangeLevel(Global::ExteriorPalletTownLevel, true);
 		UEventManager::SetPoint(Global::ExteriorPalletTownLevel, EN::Player, { 77, 137 });
 		UEventManager::SetDirection(Global::ExteriorPalletTownLevel, EN::Player, FTileVector::Down);
+		UEventManager::SetActive(Global::ExteriorPalletTownLevel, EN::Player, true);
 	}
 
 	// 상록 시티로 이동
@@ -82,6 +83,7 @@ void UPokemonLevel::Tick(float _DeltaTime)
 		UEventManager::FadeChangeLevel(Global::ExteriorPalletTownLevel, true);
 		UEventManager::SetPoint(Global::ExteriorPalletTownLevel, EN::Player, { 82, 80 });
 		UEventManager::SetDirection(Global::ExteriorPalletTownLevel, EN::Player, FTileVector::Down);
+		UEventManager::SetActive(Global::ExteriorPalletTownLevel, EN::Player, true);
 	}
 
 	// 상록숲으로 이동
@@ -90,6 +92,7 @@ void UPokemonLevel::Tick(float _DeltaTime)
 		UEventManager::FadeChangeLevel(Global::ExteriorViridianForestLevel, true);
 		UEventManager::SetPoint(Global::ExteriorViridianForestLevel, EN::Player, { 35, 60 });
 		UEventManager::SetDirection(Global::ExteriorViridianForestLevel, EN::Player, FTileVector::Down);
+		UEventManager::SetActive(Global::ExteriorViridianForestLevel, EN::Player, true);
 	}
 
 	// 회색 시티로 이동
@@ -98,6 +101,7 @@ void UPokemonLevel::Tick(float _DeltaTime)
 		UEventManager::FadeChangeLevel(Global::ExteriorPewterCityLevel, true);
 		UEventManager::SetPoint(Global::ExteriorPewterCityLevel, EN::Player, { 19, 21 });
 		UEventManager::SetDirection(Global::ExteriorPewterCityLevel, EN::Player, FTileVector::Down);
+		UEventManager::SetActive(Global::ExteriorPewterCityLevel, EN::Player, true);
 	}
 }
 

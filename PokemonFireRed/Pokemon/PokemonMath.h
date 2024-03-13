@@ -210,6 +210,24 @@ public:
 		return _Left;
 	}
 
+	static float Max(float _Left, float _Right)
+	{
+		if (_Left >= _Right)
+		{
+			return _Left;
+		}
+		return _Right;
+	}
+
+	static float Min(float _Left, float _Right)
+	{
+		if (_Left >= _Right)
+		{
+			return _Right;
+		}
+		return _Left;
+	}
+
 	static int Mod(int _Value, int _Divisor)
 	{
 		if (_Divisor <= 0)
