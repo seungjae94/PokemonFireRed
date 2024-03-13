@@ -294,6 +294,12 @@ public:
 		Level = _Level;
 	}
 
+	// Æ÷È¹·ü
+	int GetCatchRate() const
+	{
+		return Species->CatchRate;
+	}
+
 protected:
 
 private:

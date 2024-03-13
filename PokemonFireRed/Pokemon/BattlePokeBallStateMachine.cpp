@@ -62,17 +62,20 @@ void ABattlePokeBallStateMachine::Tick(float _DeltaTime)
 	case ESubstate::PokeBallBounce:
 		ProcessPokeBallBounce(_DeltaTime);
 		break;
-	case ESubstate::TestCatch:
-		ProcessTestCatch();
+	case ESubstate::CalcCatch:
+		ProcessCalcCatch();
 		break;
-	case ESubstate::CatchResultAnim:
-		ProcessCatchResultAnim();
+	case ESubstate::CheckShakeMore:
+		ProcessCheckShakeMore();
 		break;
-	case ESubstate::CatchFailMessage:
-		ProcessCatchFailMessage();
+	case ESubstate::Shake:
+		ProcessShake();
 		break;
-	case ESubstate::CatchSuccessMessage:
-		ProcessCatchSuccessMessage();
+	case ESubstate::CatchFailAnim:
+		ProcessCatchFailAnim();
+		break;
+	case ESubstate::CatchSuccessAnim:
+		ProcessCatchSuccessAnim();
 		break;
 	case ESubstate::End:
 		break;
@@ -170,7 +173,7 @@ void ABattlePokeBallStateMachine::ProcessPokeBallCheckBounceMore()
 	// 다 튕긴 경우
 	if (BounceCount <= 0)
 	{
-		State = ESubstate::TestCatch;
+		State = ESubstate::CalcCatch;
 		return;
 	}
 
@@ -193,19 +196,71 @@ void ABattlePokeBallStateMachine::ProcessPokeBallBounce(float _DeltaTime)
 	}
 }
 
-void ABattlePokeBallStateMachine::ProcessTestCatch()
+void ABattlePokeBallStateMachine::ProcessCalcCatch()
+{
+	const UPokemon* EnemyPokemon = Enemy->CurPokemonReadonly();
+	EffectiveCatchRate = (3 * EnemyPokemon->GetHp() - 2 * EnemyPokemon->GetCurHp()) * EnemyPokemon->GetCatchRate() / (3 * EnemyPokemon->GetHp()) * Global::CatchRateBonusCoeff;
+
+	EffectiveCatchRate = UPokemonMath::Max(EffectiveCatchRate, 1);
+
+	if (EffectiveCatchRate >= 255)
+	{
+		// 포획 성공
+		State = ESubstate::Shake;
+		TestSuccessCount = MaxTestSuccessCount;
+		ShakeCount = MaxTestSuccessCount;
+		return;
+	}
+	
+	// 흔들림 공식 계산
+	int Supremum = UPokemonMath::Round(65535 * std::powf(EffectiveCatchRate / 255.0f, 0.25f));
+	TestSuccessCount = 0;
+
+	for (int i = 0; i < 4; ++i)
+	{
+		int RandomInt = UPokemonMath::RandomInt(0, 65535);
+
+		if (RandomInt <= Supremum)
+		{
+			++TestSuccessCount;
+		}
+	}
+
+	ShakeCount = TestSuccessCount;
+
+	State = ESubstate::Shake;
+}
+
+void ABattlePokeBallStateMachine::ProcessCheckShakeMore()
+{
+	if (ShakeCount <= 0)
+	{
+		// 포획 성공
+		if (TestSuccessCount == MaxTestSuccessCount)
+		{
+			State = ESubstate::CatchSuccessAnim;
+		}
+		// 포획 실패
+		else
+		{
+			State = ESubstate::CatchFailAnim;
+		}
+		return;
+	}
+
+	State = ESubstate::Shake;
+	// Canvas->PlayCatchBallShakeAnim();
+}
+
+void ABattlePokeBallStateMachine::ProcessShake()
 {
 }
 
-void ABattlePokeBallStateMachine::ProcessCatchResultAnim()
+void ABattlePokeBallStateMachine::ProcessCatchFailAnim()
 {
 }
 
-void ABattlePokeBallStateMachine::ProcessCatchFailMessage()
-{
-}
-
-void ABattlePokeBallStateMachine::ProcessCatchSuccessMessage()
+void ABattlePokeBallStateMachine::ProcessCatchSuccessAnim()
 {
 	//Gotcha RATTATA\nwas caught!
 }

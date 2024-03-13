@@ -18,10 +18,11 @@ private:
 		PokeBallDrop,
 		PokeBallCheckBounceMore,
 		PokeBallBounce,
-		TestCatch,
-		CatchResultAnim,
-		CatchFailMessage,
-		CatchSuccessMessage,
+		CalcCatch,
+		CheckShakeMore,
+		Shake,
+		CatchFailAnim,
+		CatchSuccessAnim,
 		End,
 	};
 public:
@@ -60,6 +61,11 @@ private:
 	const int MaxBounceCount = 3;
 	int BounceCount = 3;
 
+	int EffectiveCatchRate = 0;
+	int MaxTestSuccessCount = 4;
+	int TestSuccessCount = 0;
+	int ShakeCount = 0;
+
 	void ProcessBallUseMessage();
 	void ProcessPokeBallThrow(float _DeltaTime);
 	void ProcessPokeBallBlocked();
@@ -69,9 +75,10 @@ private:
 	void ProcessPokeBallDrop(float _DeltaTime);
 	void ProcessPokeBallCheckBounceMore();
 	void ProcessPokeBallBounce(float _DeltaTime);
-	void ProcessTestCatch();
-	void ProcessCatchResultAnim();
-	void ProcessCatchFailMessage();
-	void ProcessCatchSuccessMessage();
+	void ProcessCalcCatch();
+	void ProcessCheckShakeMore();
+	void ProcessShake();
+	void ProcessCatchFailAnim();
+	void ProcessCatchSuccessAnim();
 };
 

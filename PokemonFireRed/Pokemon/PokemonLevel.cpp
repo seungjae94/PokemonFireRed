@@ -49,6 +49,7 @@ void UPokemonLevel::Tick(float _DeltaTime)
 			Global::DamageBonusCoeff = 1.0f;
 			Global::ExpBonusCoeff = 1.0f;
 			Global::WildBattleFrequency = 1.0f;
+			Global::CatchRateBonusCoeff = 1;
 			UEngineDebug::OutPutDebugText("Cheat off!");
 		}
 		else
@@ -57,6 +58,7 @@ void UPokemonLevel::Tick(float _DeltaTime)
 			Global::DamageBonusCoeff = Global::CheatDamageBonusCoeff;
 			Global::ExpBonusCoeff = Global::CheatExpBonusCoeff;
 			Global::WildBattleFrequency = Global::CheatWildBattleFrequency;
+			Global::CatchRateBonusCoeff = Global::CheatCatchRateBonusCoeff;
 			UEngineDebug::OutPutDebugText("Cheat on!");
 		}
 	}
