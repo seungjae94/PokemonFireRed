@@ -233,7 +233,7 @@ void ABattlePokeBallStateMachine::ProcessCalcCatch()
 		}
 	}
 
-	State = ESubstate::Shake;
+	State = ESubstate::CheckShakeMore;
 	ShakeCount = UPokemonMath::Min(TestSuccessCount, 3);
 }
 
