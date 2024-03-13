@@ -1,7 +1,9 @@
 #pragma once
+#include "BagUILevel.h"
 
-// Ό³Έν :
-class UBattleBagUILevel
+class UBattler;
+
+class UBattleBagUILevel : public UBagUILevel
 {
 public:
 	// constructor destructor
@@ -14,9 +16,17 @@ public:
 	UBattleBagUILevel& operator=(const UBattleBagUILevel& _Other) = delete;
 	UBattleBagUILevel& operator=(UBattleBagUILevel&& _Other) noexcept = delete;
 
+	UBattler* GetPlayerBattler();
+
 protected:
 
 private:
+	UBattler* PlayerBattler = nullptr;
 
+	void LevelStart(ULevel* _PrevLevel) override;
+
+	void SelectTarget() override;
+	void CancelTargetSelection() override;
+	void SelectAction() override;
 };
 

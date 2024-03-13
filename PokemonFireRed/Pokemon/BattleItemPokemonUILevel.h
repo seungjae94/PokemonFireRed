@@ -17,8 +17,13 @@ public:
 protected:
 
 private:
+	UBattler* PlayerBattler = nullptr;
 	void LevelStart(ULevel* _PrevLevel) override;
 
+
 	void ProcessItemUseResultMessage() override;
+	
+	// 상태 전이 함수
+	void CancelTargetSelection() override;
 };
 

@@ -18,7 +18,8 @@
 #include "PokemonSummaryUILevel.h"
 #include "TrainerCardUILevel.h"
 #include "BattleLevel.h"
-#include "BagUILevel.h"
+#include "MenuBagUILevel.h"
+#include "BattleBagUILevel.h"
 #include "Global.h"
 
 UPokemonCore::UPokemonCore()
@@ -52,7 +53,7 @@ void UPokemonCore::BeginPlay()
 	//UPokemon Pokemon4 = UPokemon(EPokemonId::Pidgey, 2);
 	//UPokemon Pokemon5 = UPokemon(EPokemonId::Caterpie, 3);
 	//Pokemon0.SetCurHp(Pokemon0.GetHp() / 6);
-	//Pokemon1.SetCurHp(Pokemon1.GetHp() / 3);
+	Pokemon1.SetCurHp(Pokemon1.GetHp() / 3);
 	//Pokemon0.AddAccExp(0);
 	//Pokemon1.AddAccExp(15);
 	//Pokemon2.AddAccExp(5);
@@ -101,7 +102,8 @@ void UPokemonCore::BeginPlay()
 	CreateLevel<UPokemonSummaryUILevel>(Global::PokemonSummaryUILevel);
 	CreateLevel<UTrainerCardUILevel>(Global::TrainerCardUILevel);
 	CreateLevel<UBattleLevel>(Global::BattleLevel);
-	CreateLevel<UBagUILevel>(Global::BagUILevel);
+	CreateLevel<UMenuBagUILevel>(Global::MenuBagUILevel);
+	CreateLevel<UBattleBagUILevel>(Global::BattleBagUILevel);
 
 	// 시작 레벨 설정
 	UEventManager::SetLevel(Global::ExteriorPalletTownLevel);

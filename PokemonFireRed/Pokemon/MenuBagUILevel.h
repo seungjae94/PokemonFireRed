@@ -1,7 +1,7 @@
 #pragma once
+#include "BagUILevel.h"
 
-// Ό³Έν :
-class UMenuBagUILevel
+class UMenuBagUILevel : public UBagUILevel
 {
 public:
 	// constructor destructor
@@ -17,6 +17,11 @@ public:
 protected:
 
 private:
+	std::string PrevMapName;
+	void LevelStart(ULevel* _PrevLevel) override;
 
+	void SelectTarget() override;
+	void CancelTargetSelection() override;
+	void SelectAction() override;
 };
 

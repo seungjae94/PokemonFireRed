@@ -8,6 +8,34 @@
 #include "PokemonUILevel.h"
 #include "Battler.h"
 
+const EBagUIState EBagUIState::None;
+const EBagUIState EBagUIState::TargetSelect;
+const EBagUIState EBagUIState::ActionSelect;
+int EBagUIState::MaxIndex = 0;
+
+bool UBagUILevel::IsCommonResourcesLoaded = false;
+
+void EBagUIState::operator=(const EBagUIState& _Other)
+{
+	Index = _Other.Index;
+}
+
+bool EBagUIState::operator==(const EBagUIState& _Other)
+{
+	return Index == _Other.Index;
+}
+
+bool EBagUIState::operator<(const EBagUIState& _Other)
+{
+	return Index < _Other.Index;
+}
+
+bool EBagUIState::operator>(const EBagUIState& _Other)
+{
+	return Index > _Other.Index;
+}
+
+
 UBagUILevel::UBagUILevel()
 {
 }
@@ -20,16 +48,21 @@ void UBagUILevel::BeginPlay()
 {
 	UPokemonLevel::BeginPlay();
 
-	UEngineDirectory CurDir;
-	CurDir.MoveToSearchChild("Resources");
-	CurDir.Move("BagUILevel");
-
-	std::list<UEngineFile> Files = CurDir.AllFile({ ".bmp", ".png" }, true);
-	for (UEngineFile& File : Files)
+	if (false == IsCommonResourcesLoaded)
 	{
-		UEngineResourcesManager::GetInst().LoadImg(File.GetFullPath());
-	}
+		UEngineDirectory CurDir;
+		CurDir.MoveToSearchChild("Resources");
+		CurDir.Move("BagUILevel");
 
+		std::list<UEngineFile> Files = CurDir.AllFile({ ".bmp", ".png" }, true);
+		for (UEngineFile& File : Files)
+		{
+			UEngineResourcesManager::GetInst().LoadImg(File.GetFullPath());
+		}
+
+		IsCommonResourcesLoaded = true;
+	}
+	
 	Canvas = SpawnActor<ABagCanvas>();
 }
 
@@ -37,33 +70,20 @@ void UBagUILevel::Tick(float _DeltaTime)
 {
 	UPokemonLevel::Tick(_DeltaTime);
 
-	switch (State)
+	if (State == EBagUIState::TargetSelect)
 	{
-	case EState::None:
-		break;
-	case EState::TargetSelect:
 		ProcessTargetSelect();
-		break;
-	case EState::ActionSelect:
-		ProcessActionSelect();
-		break;
-	case EState::BattleModeItemUsageCheck:
-		ProcessBattleModeItemUsageCheck();
-		break;
-	case EState::End:
-		break;
-	default:
-		break;
 	}
-
+	else if (State == EBagUIState::ActionSelect)
+	{
+		ProcessActionSelect();
+	}
 }
 
 void UBagUILevel::LevelStart(ULevel* _PrevLevel)
 {
 	UPokemonLevel::LevelStart(_PrevLevel);
 
-	UMapLevel* MapLevel = dynamic_cast<UMapLevel*>(_PrevLevel);
-	UBattleLevel* BattleLevel = dynamic_cast<UBattleLevel*>(_PrevLevel);
 	UPokemonUILevel* PokemonUILevel = dynamic_cast<UPokemonUILevel*>(_PrevLevel);
 
 	// 포켓몬 UI 레벨에서 되돌아오는 경우 레벨을 초기화하지 않는다.
@@ -72,69 +92,23 @@ void UBagUILevel::LevelStart(ULevel* _PrevLevel)
 		return;
 	}
 
-	BattleMode = false;
-	if (nullptr != MapLevel)
-	{
-		PrevLevelName = _PrevLevel->GetName();
-		BattleMode = false;
-	}
-	else if (nullptr != BattleLevel)
-	{
-		PrevLevelName = _PrevLevel->GetName();
-		PlayerBattler = BattleLevel->GetPlayerBattler();
-		BattleMode = true;
-	}
 	RefreshPage();
 
-	State = EState::TargetSelect;
+	State = EBagUIState::TargetSelect;
 	Canvas->SetActionItemBoxActive(false);
-}
-
-void UBagUILevel::LevelEnd(ULevel* _NextLevel)
-{
-	UPokemonLevel::LevelEnd(_NextLevel);
 }
 
 void UBagUILevel::ProcessTargetSelect()
 {
 	if (true == UEngineInput::IsDown('Z'))
 	{
-		int RecordCount = UPlayerData::GetRecordCount(PageToItemType(Page));
-		int TargetIndex = TargetIndexMemory[Page];
-
-		// 취소 버튼을 누른 경우
-		if (TargetIndex == RecordCount)
-		{
-			// 배틀 모드에서 되돌아가는 경우 아이템 사용을 취소했다고 마킹을 해줘야 한다.
-			if (true == BattleMode)
-			{
-				PlayerBattler->SetItemSelectState(EItemSelectState::Canceled);
-			}
-			UEventManager::FadeChangeLevel(PrevLevelName);
-			return;
-		}
-
-		// 배틀 모드가 아닐 때, 즉 맵 레벨에서 몬스터 볼은 사용할 수 없다.
-		if (false == BattleMode && Page == 2)
-		{
-			return;
-		}
-
-		State = EState::ActionSelect;
-		Canvas->SetActionItemBoxActive(true);
-		Canvas->SetActionItemText(GetTargetItem()->Name + L" is\nselected.");
+		SelectTarget();
 		return;
 	}
 
 	if (true == UEngineInput::IsDown('X'))
 	{
-		// 배틀 모드에서 되돌아가는 경우 아이템 사용을 취소했다고 마킹을 해줘야 한다.
-		if (true == BattleMode)
-		{
-			PlayerBattler->SetItemSelectState(EItemSelectState::Canceled);
-		}
-
-		UEventManager::FadeChangeLevel(PrevLevelName);
+		CancelTargetSelection();
 		return;
 	}
 
@@ -175,46 +149,7 @@ void UBagUILevel::ProcessActionSelect()
 {
 	if (true == UEngineInput::IsDown('Z'))
 	{
-		int Cursor = Canvas->GetActionCursor();
-
-		// 취소 액션을 선택한 경우 액션창을 끄고 다시 아이템을 선택한다.
-		if (Cursor == 1)
-		{
-			State = EState::TargetSelect;
-			Canvas->SetActionCursor(0);
-			Canvas->SetActionItemBoxActive(false);
-			return;
-		}
-		
-		// 배틀 모드에서 몬스터 볼을 선택한 경우
-		if (true == BattleMode && PageToItemType(Page) == EItemType::PokeBall)
-		{
-			State = EState::TargetSelect;
-			PlayerBattler->SetItemSelectState(EItemSelectState::BallSelected);
-			UEventManager::FadeChangeLevel(PrevLevelName);
-		}
-		// 배틀 모드에서 소비 아이템을 선택한 경우
-		else if (true == BattleMode && PageToItemType(Page) == EItemType::UseItem)
-		{
-			State = EState::BattleModeItemUsageCheck;
-			ItemUsage = EItemUsage::None;
-			UEventManager::FadeChangeLevel(Global::BattleItemPokemonUILevel);
-		}
-		// 배틀 모드가 아니고 소비 아이템을 선택했지만 포켓몬이 없는 경우
-		else if (UPlayerData::GetPokemonEntrySize() == 0)
-		{
-			State = EState::TargetSelect;
-		}
-		// 배틀 모드가 아니고 소비 아이템을 선택했으며 포켓몬이 있는 경우
-		else
-		{
-			State = EState::TargetSelect;
-			UEventManager::FadeChangeLevel(Global::BattleItemPokemonUILevel);
-		}
-
-		// 액션을 마치고 나면 액션창은 꺼둔다.
-		Canvas->SetActionCursor(0);
-		Canvas->SetActionItemBoxActive(false);
+		SelectAction();
 		return;
 	}
 
@@ -223,7 +158,7 @@ void UBagUILevel::ProcessActionSelect()
 	{
 		Canvas->SetActionCursor(0);
 		Canvas->SetActionItemBoxActive(false);
-		State = EState::TargetSelect;
+		State = EBagUIState::TargetSelect;
 		return;
 	}
 
@@ -240,20 +175,9 @@ void UBagUILevel::ProcessActionSelect()
 	}
 }
 
-void UBagUILevel::ProcessBattleModeItemUsageCheck()
+EItemType UBagUILevel::GetCurItemType() const
 {
-	// 소비 아이템을 사용했다.
-	if (EItemUsage::Used == ItemUsage)
-	{
-		State = EState::TargetSelect;
-		PlayerBattler->SetItemSelectState(EItemSelectState::ItemUsed);
-		UEventManager::FadeChangeLevel(PrevLevelName);
-	}
-	// 소비 아이템을 사용하지 않았다. 다시 아이템을 선택한다.
-	else if (EItemUsage::NotUsed == ItemUsage)
-	{
-		State = EState::TargetSelect;
-	}
+	return static_cast<EItemType>(Page + 1);
 }
 
 void UBagUILevel::ScrollUp()
@@ -452,9 +376,4 @@ const FItem* UBagUILevel::GetTargetItem()
 	EItemType ItemType = PageToItemType(Page);
 	int TargetIndex = TargetIndexMemory[Page];
 	return UPlayerData::GetItem(ItemType, TargetIndex);
-}
-
-void UBagUILevel::SetItemUsage(EItemUsage _Usage)
-{
-	ItemUsage = _Usage;
 }

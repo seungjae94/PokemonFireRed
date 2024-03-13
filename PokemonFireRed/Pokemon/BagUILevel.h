@@ -2,28 +2,26 @@
 #include "PokemonLevel.h"
 #include "BagCanvas.h"
 
-class UBattler;
+class EBagUIState
+{
+public:
+	static const EBagUIState None;
+	static const EBagUIState TargetSelect;
+	static const EBagUIState ActionSelect;
+
+	void operator=(const EBagUIState& _Other);
+	bool operator==(const EBagUIState& _Other);
+	bool operator<(const EBagUIState& _Other);
+	bool operator>(const EBagUIState& _Other);
+
+protected:
+	EBagUIState() : Index(MaxIndex++) {}
+	int Index = 0;
+	static int MaxIndex;
+};
 
 class UBagUILevel : public UPokemonLevel
 {
-private:
-	enum class EState
-	{
-		None,
-		TargetSelect,
-		ActionSelect,
-		BattleModeItemUsageCheck,
-		End
-	};
-
-public:
-	enum class EItemUsage
-	{
-		None,
-		Used,
-		NotUsed,
-	};
-
 public:
 	// constructor destructor
 	UBagUILevel();
@@ -36,39 +34,31 @@ public:
 	UBagUILevel& operator=(UBagUILevel&& _Other) noexcept = delete;
 
 	const FItem* GetTargetItem();
-
-	void SetItemUsage(EItemUsage _Usage);
-
 protected:
+	ABagCanvas* Canvas = nullptr;
+	EBagUIState State = EBagUIState::None;
 
-private:
+	int Page = 0;
+	std::vector<int> StartIndexMemory = { 0, 0, 0 };
+	std::vector<int> TargetIndexMemory = { 0, 0, 0 };
+
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 	void LevelStart(ULevel* _PrevLevel) override;
-	void LevelEnd(ULevel* _NextLevel) override;
-
-	// 하위 요소
-	ABagCanvas* Canvas = nullptr;
-	
-	// 상태
-	EState State = EState::None;
-	bool BattleMode = false;
-	bool BattleModeItemUsageChecker = false;
 
 	// 상태 틱
 	void ProcessTargetSelect();
 	void ProcessActionSelect();
-	void ProcessBattleModeItemUsageCheck();
 
-	// 고유 데이터
-	int Page = 0;
-	std::vector<int> StartIndexMemory = { 0, 0, 0 };
-	std::vector<int> TargetIndexMemory = { 0, 0, 0 };
-	std::string PrevLevelName;
+	// 상태 전이 함수
+	virtual void SelectTarget() {};
+	virtual void CancelTargetSelection() {};
+	virtual void SelectAction() {};
 
-	// 배틀 아이템 사용 기능 지원
-	UBattler* PlayerBattler = nullptr;
-	EItemUsage ItemUsage = EItemUsage::None;
+	// 유틸 함수
+	EItemType GetCurItemType() const;
+private:
+	static bool IsCommonResourcesLoaded;
 
 	// 로직 함수
 	void ScrollUp();

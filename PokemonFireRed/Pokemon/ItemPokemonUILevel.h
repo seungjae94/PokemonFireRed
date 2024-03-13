@@ -23,13 +23,14 @@ public:
 	UItemPokemonUILevel(UItemPokemonUILevel&& _Other) noexcept = delete;
 	UItemPokemonUILevel& operator=(const UItemPokemonUILevel& _Other) = delete;
 	UItemPokemonUILevel& operator=(UItemPokemonUILevel&& _Other) noexcept = delete;
-
-	const FItem* GetUseItem() const;
 protected:
 	void LevelStart(ULevel* _PrevLevel) override;
+	void Tick(float _DeltaTime) override;
+
+	bool ItemUseResult = false;
+	const FItem* UseItem = nullptr;
 private:
 	UBagUILevel* BagUILevel = nullptr;
-	const FItem* UseItem = nullptr;
 	const float HealTime = 0.5f;
 	float Timer = 0.0f;
 	int PrevHealHp = 0;
@@ -41,6 +42,5 @@ private:
 
 	// 상태 전이 함수
 	void SelectTarget() override;
-	void CancelTargetSelection() override;
 };
 

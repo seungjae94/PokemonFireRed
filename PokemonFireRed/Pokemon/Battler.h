@@ -72,6 +72,7 @@ public:
 	void SetShiftPokemonIndex(int _ShiftPokemonIndex);
 	EItemSelectState GetItemSelectState() const;
 	void SetItemSelectState(EItemSelectState _State);
+	void SelectItem(const FItem* _Item);
 
 	// 적 액션
 	void EnemyAutoShift();
@@ -144,6 +145,7 @@ private:
 	EBattleAction Action = EBattleAction::None;
 	bool RunResult = false;
 	int ShiftPokemonIndex = -1;
+	const FItem* SelectedItem = nullptr;
 	EItemSelectState ItemSelectState = EItemSelectState::None;
 
 	// 스탯 관련 변수

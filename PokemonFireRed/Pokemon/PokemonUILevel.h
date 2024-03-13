@@ -21,7 +21,7 @@ public:
 	bool operator>(const EPokemonUIState& _Other);
 protected:
 	EPokemonUIState() : Index(MaxIndex++) {}
-	int Index;
+	int Index = 0;
 	static int MaxIndex;
 };
 

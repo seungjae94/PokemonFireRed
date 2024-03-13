@@ -212,6 +212,11 @@ void UBattler::SetItemSelectState(EItemSelectState _State)
 	ItemSelectState = _State;
 }
 
+void UBattler::SelectItem(const FItem* _Item)
+{
+	SelectedItem = _Item;
+}
+
 void UBattler::EnemyAutoShift()
 {
 	for (int i = 0; i < Entry.size(); ++i)

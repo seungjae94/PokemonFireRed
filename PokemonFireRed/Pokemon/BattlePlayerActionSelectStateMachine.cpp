@@ -74,7 +74,7 @@ void ABattlePlayerActionSelectStateMachine::ProcessSelect()
 		case Bag:
 			State = ESubstate::ItemSelect;
 			Player->SetItemSelectState(EItemSelectState::None);
-			UEventManager::FadeChangeLevel(Global::BagUILevel);
+			UEventManager::FadeChangeLevel(Global::BattleBagUILevel);
 			break;
 		case Pokemon:
 			State = ESubstate::PokemonSelect;

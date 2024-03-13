@@ -14,11 +14,6 @@ UItemPokemonUILevel::~UItemPokemonUILevel()
 {
 }
 
-const FItem* UItemPokemonUILevel::GetUseItem() const
-{
-	return UseItem;
-}
-
 void UItemPokemonUILevel::LevelStart(ULevel* _PrevLevel)
 {
 	UPokemonUILevel::LevelStart(_PrevLevel);
@@ -31,7 +26,37 @@ void UItemPokemonUILevel::LevelStart(ULevel* _PrevLevel)
 		return;
 	}
 
+	State = EItemPokemonUIState::TargetSelectionWait;
+	UseItem = BagUILevel->GetTargetItem();
 	Canvas->SetTargetSelectionMsgBoxImage(RN::PokemonUITargetSelectionMsgBoxBagMode);
+}
+
+void UItemPokemonUILevel::Tick(float _DeltaTime)
+{
+	UPokemonUILevel::Tick(_DeltaTime);
+
+	Timer -= _DeltaTime;
+
+	if (State == EItemPokemonUIState::TargetSelectionWait)
+	{
+		ProcessTargetSelectionWait();
+	}
+	else if (State == EItemPokemonUIState::ActionSelectionWait)
+	{
+		ProcessActionSelectionWait();
+	}
+	else if (State == EItemPokemonUIState::TestItemUse)
+	{
+		ProcessTestItemUse();
+	}
+	else if (State == EItemPokemonUIState::HpUpEffect)
+	{
+		ProcessHpUpEffect();
+	}
+	else if (State == EItemPokemonUIState::ItemUseResultMessage)
+	{
+		ProcessItemUseResultMessage();
+	}
 }
 
 
@@ -53,7 +78,7 @@ void UItemPokemonUILevel::ProcessTestItemUse()
 			Canvas->SetCustomMessage(L"It won't have any effect.");
 
 			// 아이템 사용에 실패한 경우 아이템 사용에 실패했다고 마킹해둔다.
-			BagUILevel->SetItemUsage(UBagUILevel::EItemUsage::NotUsed);
+			ItemUseResult = false;
 			return;
 		}
 
@@ -64,8 +89,8 @@ void UItemPokemonUILevel::ProcessTestItemUse()
 		State = EItemPokemonUIState::HpUpEffect;
 		Timer = HealTime;
 
-		//아이템 사용에 성공한 경우 아이템을 사용했다고 마킹해둔다.
-		BagUILevel->SetItemUsage(UBagUILevel::EItemUsage::Used);
+		// 아이템 사용에 성공한 경우 아이템을 사용했다고 마킹해둔다.
+		ItemUseResult = true;
 	}
 	else if (EUseEffect::CureAll == UseEffect)
 	{
@@ -78,7 +103,7 @@ void UItemPokemonUILevel::ProcessTestItemUse()
 			Canvas->SetCustomMessage(L"It won't have any effect.");
 
 			// 아이템 사용에 실패한 경우 아이템 사용에 실패했다고 마킹해둔다.
-			BagUILevel->SetItemUsage(UBagUILevel::EItemUsage::NotUsed);
+			ItemUseResult = false;
 			return;
 		}
 
@@ -89,7 +114,7 @@ void UItemPokemonUILevel::ProcessTestItemUse()
 		Canvas->RefreshAllTargets();
 
 		// 아이템 사용에 성공한 경우 바로 
-		BagUILevel->SetItemUsage(UBagUILevel::EItemUsage::Used);
+		ItemUseResult = true;
 	}
 	else if (EUseEffect::CureBurn == UseEffect)
 	{
@@ -102,7 +127,7 @@ void UItemPokemonUILevel::ProcessTestItemUse()
 			Canvas->SetCustomMessage(L"It won't have any effect.");
 
 			// 아이템 사용에 실패한 경우 아이템 사용에 실패했다고 마킹해둔다.
-			BagUILevel->SetItemUsage(UBagUILevel::EItemUsage::NotUsed);
+			ItemUseResult = false;
 			return;
 		}
 
@@ -113,7 +138,7 @@ void UItemPokemonUILevel::ProcessTestItemUse()
 		Canvas->RefreshAllTargets();
 
 		// 아이템 사용에 성공한 경우 아이템을 사용했다고 마킹해둔다.
-		BagUILevel->SetItemUsage(UBagUILevel::EItemUsage::Used);
+		ItemUseResult = true;
 	}
 	else if (EUseEffect::CurePoison == UseEffect)
 	{
@@ -126,7 +151,7 @@ void UItemPokemonUILevel::ProcessTestItemUse()
 			Canvas->SetCustomMessage(L"It won't have any effect.");
 
 			// 배틀 아이템 선택 모드에서 아이템 사용에 실패한 경우 아이템 사용에 실패했다고 마킹해둔다.
-			BagUILevel->SetItemUsage(UBagUILevel::EItemUsage::NotUsed);
+			ItemUseResult = false;
 			return;
 		}
 
@@ -137,7 +162,7 @@ void UItemPokemonUILevel::ProcessTestItemUse()
 		Canvas->RefreshAllTargets();
 
 		// 배틀 아이템 선택 모드에서 아이템 사용에 성공한 경우 아이템을 사용했다고 마킹해둔다.
-		BagUILevel->SetItemUsage(UBagUILevel::EItemUsage::Used);
+		ItemUseResult = true;
 	}
 }
 
@@ -165,11 +190,4 @@ void UItemPokemonUILevel::SelectTarget()
 	}
 
 	State = EItemPokemonUIState::TestItemUse;
-}
-
-void UItemPokemonUILevel::CancelTargetSelection()
-{
-	BagUILevel->SetItemUsage(UBagUILevel::EItemUsage::NotUsed);
-	UEventManager::FadeChangeLevel(Global::BagUILevel, false);
-	Canvas->SetActionCursor(0);
 }
