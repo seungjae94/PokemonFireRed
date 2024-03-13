@@ -5,6 +5,7 @@
 #include "BattleMoveStateMachine.h"
 #include "BattlePlayerShiftStateMachine.h"
 #include "BattleExpGainStateMachine.h"
+#include "BattlePokeBallStateMachine.h"
 
 class ABattleCanvas;
 class APokemonMsgBox;
@@ -57,6 +58,11 @@ public:
 		BattleShiftSM = _BSSM;
 	}
 
+	void SetBBSM(ABattlePokeBallStateMachine* _BBSM)
+	{
+		BattlePokeBallSM = _BBSM;
+	}
+
 	bool IsEnd() const
 	{
 		return State == ESubstate::End;
@@ -84,5 +90,6 @@ private:
 	// SM
 	ABattleMoveStateMachine* BattleMoveSM = nullptr;
 	ABattlePlayerShiftStateMachine* BattleShiftSM = nullptr;
+	ABattlePokeBallStateMachine* BattlePokeBallSM = nullptr;
 };
 

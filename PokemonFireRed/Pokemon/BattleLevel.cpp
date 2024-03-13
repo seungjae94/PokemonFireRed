@@ -36,7 +36,7 @@ void UBattleLevel::BeginPlay()
 	}
 
 	UEngineResourcesManager::GetInst().CuttingImage(RN::PlayerBattler, 5, 1);
-	UEngineResourcesManager::GetInst().CuttingImage(RN::BattleEnemyGroundBall, 3, 1);
+	UEngineResourcesManager::GetInst().CuttingImage(RN::BattleBigBall, 3, 1);
 	UEngineResourcesManager::GetInst().LoadFolder(CurDir.AppendPath(Global::ThrowedBall));
 
 	// 이펙트 로드
@@ -75,15 +75,18 @@ void UBattleLevel::BeginPlay()
 	BattlePlayerShiftSM = SpawnActor<ABattlePlayerShiftStateMachine>();
 	BattleEnemyShiftSM = SpawnActor<ABattleEnemyShiftStateMachine>();
 	BattleExpGainSM = SpawnActor<ABattleExpGainStateMachine>();
+	BattlePokeBallSM = SpawnActor<ABattlePokeBallStateMachine>();
 
 	BattleTurnSM->SetBASM(BattleActionSM);
 	BattleTurnSM->SetEOTSM(BattleEOTSM);
 	BattleTurnSM->SetFSM(BattleFaintSM);
 	BattleActionSM->SetBMSM(BattleMoveSM);
 	BattleActionSM->SetBPSSM(BattlePlayerShiftSM);
+	BattleActionSM->SetBBSM(BattlePokeBallSM);
 	BattleFaintSM->SetEGSM(BattleExpGainSM);
 	BattlePrepareTurnSM->SetBPSSM(BattlePlayerShiftSM);
 	BattlePrepareTurnSM->SetBESSM(BattleEnemyShiftSM);
+
 
 	// 공용 애니메이터
 	BlinkEffectAnimator = SpawnActor<ABlinkEffectAnimator>();

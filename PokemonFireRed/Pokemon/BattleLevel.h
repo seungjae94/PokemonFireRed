@@ -15,6 +15,7 @@
 #include "BattlePlayerShiftStateMachine.h"
 #include "BattleEnemyShiftStateMachine.h"
 #include "BattlePrepareTurnStateMachine.h"
+#include "BattlePokeBallStateMachine.h"
 #include "FinishBattleStateMachine.h"
 #include "BlinkEffectAnimator.h"
 #include "ShakeEffectAnimator.h"
@@ -86,6 +87,9 @@ private:
 
 	// BattleFaintSM이 내부적으로 사용하는 SM
 	ABattleExpGainStateMachine* BattleExpGainSM = nullptr;
+
+	// 포획 SM
+	ABattlePokeBallStateMachine* BattlePokeBallSM = nullptr;
 
 	// 공용 애니메이터
 	ABlinkEffectAnimator* BlinkEffectAnimator = nullptr;

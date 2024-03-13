@@ -1,6 +1,6 @@
 #include "MenuPokemonUILevel.h"
 #include <EnginePlatform/EngineInput.h>
-#include "PokemonSummaryUILevel.h";
+#include "PokemonSummaryUILevel.h"
 #include "MapLevel.h"
 
 const EMenuPokemonUIState EMenuPokemonUIState::ActionSelectionWait;
