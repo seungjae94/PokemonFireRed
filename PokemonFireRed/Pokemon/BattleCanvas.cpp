@@ -15,7 +15,7 @@ void ABattleCanvas::BeginPlay()
 	ACanvas::BeginPlay();
 
 	// 최상위 요소
-	Background = CreateImageElement(this, ERenderingOrder::UI0, EPivotType::LeftTop, 0, 0);
+	Background = CreateImageElement(this, ERenderingOrder::Background, EPivotType::LeftTop, 0, 0);
 	Background->SetImage(RN::BattleBackground);
 
 	ActionBox = CreateImageElement(this, ERenderingOrder::UI7, EPivotType::RightBot, 0, 0);
@@ -24,7 +24,7 @@ void ABattleCanvas::BeginPlay()
 	MoveSelectBox = CreateImageElement(this, ERenderingOrder::UI7, EPivotType::LeftBot, 0, 0);
 	MoveSelectBox->SetImage(RN::BattleMoveSelectBox);
 
-	EnemyPokemonBox = CreateImageElement(this, ERenderingOrder::UI1, EPivotType::LeftTop, 13, 16);
+	EnemyPokemonBox = CreateImageElement(this, ERenderingOrder::UI3, EPivotType::LeftTop, 13, 16);
 	EnemyPokemonBox->SetImage(RN::BattleEnemyPokemonBox);
 	EnemyPokemonBoxInitPos = EnemyPokemonBox->GetRelativePosition();
 	EnemyPokemonBoxHidePos = EnemyPokemonBoxInitPos + FVector::Left * Global::FloatScreenX;
@@ -62,26 +62,26 @@ void ABattleCanvas::BeginPlay()
 	EnemyEntryArrowHidePos = EnemyEntryArrowInitPos + FVector::Left * Global::FloatScreenX;
 
 	std::vector<float> ShakeCatchBallAnimTimes;
-	for (int i = 0; i < 9; ++i)
+	for (int i = 0; i < 10; ++i)
 	{
-		ShakeCatchBallAnimTimes.push_back(CatchBallAnimTime);
+		ShakeCatchBallAnimTimes.push_back(CatchBallShakeAnimTime);
 	}
 
-	EnemyCatchBall = CreateImageElement(this, ERenderingOrder::UI9, EPivotType::LeftBot, 10, -50);
+	EnemyCatchBall = CreateImageElement(this, ERenderingOrder::UI2, EPivotType::LeftBot, 10, -50);
 	EnemyCatchBall->SetImage(RN::BattleCatchBall);
 	EnemyCatchBall->CreateAnimation("Idle", 0, 0, CatchBallAnimTime, false);
 	EnemyCatchBall->CreateAnimation("Open", 0, 2, CatchBallAnimTime, false);
 	EnemyCatchBall->CreateAnimation("Close", { 2, 1, 0 }, { CatchBallAnimTime, CatchBallAnimTime, CatchBallAnimTime }, false);
-	EnemyCatchBall->CreateAnimation("ShakeLeft", { 10, 11, 12, 13, 14, 13, 12, 11, 10, 9 }, ShakeCatchBallAnimTimes, false);
-	EnemyCatchBall->CreateAnimation("ShakeRight", { 4, 5, 6, 7, 8, 7, 6, 5, 4, 3 }, ShakeCatchBallAnimTimes, false);
+	EnemyCatchBall->CreateAnimation("ShakeLeft", { 10, 11, 12, 11, 10, 4, 5, 6, 5, 4 }, ShakeCatchBallAnimTimes, false);
+	EnemyCatchBall->CreateAnimation("ShakeRight", { 4, 5, 6, 5, 4, 9, 10, 11, 10, 9 }, ShakeCatchBallAnimTimes, false);
 	EnemyCatchBallInitPos = EnemyCatchBall->GetRelativePosition();
 
 	// EnemyPokemonBox 요소
-	EnemyPokemonNameText = CreateText(EnemyPokemonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 7, 12, EAlignType::Left, EFontColor::Black, EFontSize::Mini);
-	EnemyPokemonLevelText = CreateText(EnemyPokemonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 85, 12, EAlignType::Right, EFontColor::Black, EFontSize::Mini);
-	EnemyPokemonHpBar = CreateScrollBar(EnemyPokemonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 39, 17, EScrollType::Hp);
-	EnemyPokemonGenderMark = CreateImageElement(EnemyPokemonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 10, 5);
-	EnemyPokemonStatusMark = CreateImageElement(EnemyPokemonBox, ERenderingOrder::UI2, EPivotType::LeftTop, 7, 14);
+	EnemyPokemonNameText = CreateText(EnemyPokemonBox, ERenderingOrder::UI4, EPivotType::LeftTop, 7, 12, EAlignType::Left, EFontColor::Black, EFontSize::Mini);
+	EnemyPokemonLevelText = CreateText(EnemyPokemonBox, ERenderingOrder::UI4, EPivotType::LeftTop, 85, 12, EAlignType::Right, EFontColor::Black, EFontSize::Mini);
+	EnemyPokemonHpBar = CreateScrollBar(EnemyPokemonBox, ERenderingOrder::UI4, EPivotType::LeftTop, 39, 17, EScrollType::Hp);
+	EnemyPokemonGenderMark = CreateImageElement(EnemyPokemonBox, ERenderingOrder::UI4, EPivotType::LeftTop, 10, 5);
+	EnemyPokemonStatusMark = CreateImageElement(EnemyPokemonBox, ERenderingOrder::UI4, EPivotType::LeftTop, 7, 14);
 
 	// PlayerPokemonBox 요소
 	PlayerPokemonNameText = CreateText(PlayerPokemonBox, ERenderingOrder::UI5, EPivotType::RightTop, -84, 12, EAlignType::Left, EFontColor::Black, EFontSize::Mini);
@@ -742,6 +742,16 @@ void ABattleCanvas::LerpCatchFailEnemyPokemon(float _t)
 	EnemyPokemonImage->SetRelativePosition(EnemyPokemonImageInitPos);
 	EnemyPokemonImage->SetAlpha(1.0f - _t);
 	EnemyPokemonImage->SetScaleFactor(1.0f - _t);
+}
+
+void ABattleCanvas::PlayCatchBallShakeLeftAnimation()
+{
+	EnemyCatchBall->ChangeAnimation("ShakeLeft", true);
+}
+
+void ABattleCanvas::PlayCatchBallShakeRightAnimation()
+{
+	EnemyCatchBall->ChangeAnimation("ShakeRight", true);
 }
 
 void ABattleCanvas::Tick(float _DeltaTime)

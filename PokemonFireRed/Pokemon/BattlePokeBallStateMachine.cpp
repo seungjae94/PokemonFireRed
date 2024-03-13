@@ -193,11 +193,17 @@ void ABattlePokeBallStateMachine::ProcessPokeBallBounce(float _DeltaTime)
 	{
 		State = ESubstate::PokeBallCheckBounceMore;
 		--BounceCount;
+		Timer = CalcCatchWaitTime;
 	}
 }
 
 void ABattlePokeBallStateMachine::ProcessCalcCatch()
 {
+	if (Timer > 0.0f)
+	{
+		return;
+	}
+
 	const UPokemon* EnemyPokemon = Enemy->CurPokemonReadonly();
 	EffectiveCatchRate = (3 * EnemyPokemon->GetHp() - 2 * EnemyPokemon->GetCurHp()) * EnemyPokemon->GetCatchRate() / (3 * EnemyPokemon->GetHp()) * Global::CatchRateBonusCoeff;
 
@@ -226,9 +232,9 @@ void ABattlePokeBallStateMachine::ProcessCalcCatch()
 		}
 	}
 
-	ShakeCount = TestSuccessCount;
-
 	State = ESubstate::Shake;
+	//ShakeCount = UPokemonMath::Min(TestSuccessCount, 3);
+	ShakeCount = 1000;
 }
 
 void ABattlePokeBallStateMachine::ProcessCheckShakeMore()
@@ -249,11 +255,26 @@ void ABattlePokeBallStateMachine::ProcessCheckShakeMore()
 	}
 
 	State = ESubstate::Shake;
-	// Canvas->PlayCatchBallShakeAnim();
+
+	if (ShakeCount % 2 == 0)
+	{
+		Canvas->PlayCatchBallShakeLeftAnimation();
+	}
+	else
+	{
+		Canvas->PlayCatchBallShakeRightAnimation();
+	}
+
+	Timer = ShakeTime;
 }
 
 void ABattlePokeBallStateMachine::ProcessShake()
 {
+	if (Timer <= 0.0f)
+	{
+		State = ESubstate::CheckShakeMore;
+		--ShakeCount;
+	}
 }
 
 void ABattlePokeBallStateMachine::ProcessCatchFailAnim()

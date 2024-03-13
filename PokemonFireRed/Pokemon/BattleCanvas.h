@@ -126,8 +126,9 @@ public:
 	void PlayCatchBallCloseAnimation();
 	void LerpCatchPullInEnemyPokemon(float _t);
 	void LerpCatchFailEnemyPokemon(float _t);
-	//void PlayCatchBallRotateLeftAnimation();
-	//void PlayCatchBallRotateRightAnimation();
+	void PlayCatchBallShakeLeftAnimation();
+	void PlayCatchBallShakeRightAnimation();
+	
 protected:
 
 private:
@@ -171,6 +172,7 @@ private:
 	int HpBarMaxValue = 1000;
 	int ExpBarMaxValue = 1000;
 	const float CatchBallAnimTime = 0.1f;
+	const float CatchBallShakeAnimTime = 1.0f / 20;
 
 	// 최상위 요소
 	AImageElement* Background = nullptr;

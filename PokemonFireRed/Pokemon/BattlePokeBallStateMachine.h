@@ -65,6 +65,8 @@ private:
 	int MaxTestSuccessCount = 4;
 	int TestSuccessCount = 0;
 	int ShakeCount = 0;
+	const float CalcCatchWaitTime = 1.0f;
+	const float ShakeTime = 2.0f;
 
 	void ProcessBallUseMessage();
 	void ProcessPokeBallThrow(float _DeltaTime);
