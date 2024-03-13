@@ -61,10 +61,19 @@ void ABattleCanvas::BeginPlay()
 	EnemyEntryArrowInitPos = EnemyEntryArrow->GetRelativePosition();
 	EnemyEntryArrowHidePos = EnemyEntryArrowInitPos + FVector::Left * Global::FloatScreenX;
 
-	EnemyCatchBall = CreateImageElement(this, ERenderingOrder::UI3, EPivotType::LeftBot, 10, -50);
-	EnemyCatchBall->SetImage(RN::BattleBigBall);
+	std::vector<float> ShakeCatchBallAnimTimes;
+	for (int i = 0; i < 9; ++i)
+	{
+		ShakeCatchBallAnimTimes.push_back(CatchBallAnimTime);
+	}
+
+	EnemyCatchBall = CreateImageElement(this, ERenderingOrder::UI9, EPivotType::LeftBot, 10, -50);
+	EnemyCatchBall->SetImage(RN::BattleCatchBall);
+	EnemyCatchBall->CreateAnimation("Idle", 0, 0, CatchBallAnimTime, false);
 	EnemyCatchBall->CreateAnimation("Open", 0, 2, CatchBallAnimTime, false);
 	EnemyCatchBall->CreateAnimation("Close", { 2, 1, 0 }, { CatchBallAnimTime, CatchBallAnimTime, CatchBallAnimTime }, false);
+	EnemyCatchBall->CreateAnimation("ShakeLeft", { 10, 11, 12, 13, 14, 13, 12, 11, 10, 9 }, ShakeCatchBallAnimTimes, false);
+	EnemyCatchBall->CreateAnimation("ShakeRight", { 4, 5, 6, 7, 8, 7, 6, 5, 4, 3 }, ShakeCatchBallAnimTimes, false);
 	EnemyCatchBallInitPos = EnemyCatchBall->GetRelativePosition();
 
 	// EnemyPokemonBox ¿ä¼Ò

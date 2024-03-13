@@ -37,6 +37,7 @@ void UBattleLevel::BeginPlay()
 
 	UEngineResourcesManager::GetInst().CuttingImage(RN::PlayerBattler, 5, 1);
 	UEngineResourcesManager::GetInst().CuttingImage(RN::BattleBigBall, 3, 1);
+	UEngineResourcesManager::GetInst().CuttingImage(RN::BattleCatchBall, 15, 1);
 	UEngineResourcesManager::GetInst().LoadFolder(CurDir.AppendPath(Global::ThrowedBall));
 
 	// ¿Ã∆Â∆Æ ∑ŒµÂ
