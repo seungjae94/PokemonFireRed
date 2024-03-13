@@ -53,8 +53,14 @@ void ABattlePokeBallStateMachine::Tick(float _DeltaTime)
 	case ESubstate::PokeBallClosing:
 		ProcessPokeBallClosing();
 		break;
-	case ESubstate::PokeBallVerticalMove:
-		ProcessPokeBallVerticalMove();
+	case ESubstate::PokeBallDrop:
+		ProcessPokeBallDrop(_DeltaTime);
+		break;
+	case ESubstate::PokeBallCheckBounceMore:
+		ProcessPokeBallCheckBounceMore();
+		break;
+	case ESubstate::PokeBallBounce:
+		ProcessPokeBallBounce(_DeltaTime);
 		break;
 	case ESubstate::TestCatch:
 		ProcessTestCatch();
@@ -84,14 +90,14 @@ void ABattlePokeBallStateMachine::ProcessBallUseMessage()
 
 		Timer = BallThrowTime;
 		Canvas->SetCatchBallActive(true);
-		BallThrowVelocity = UPokemonUtil::PixelVector(200, -200);
+		BallVelocity = UPokemonUtil::PixelVector(200, -250);
 	}
 }
 
 void ABattlePokeBallStateMachine::ProcessPokeBallThrow(float _DeltaTime)
 {
-	BallThrowVelocity += UPokemonUtil::PixelVector(0, 250) * _DeltaTime;
-	Canvas->AddCatchBallPosition(BallThrowVelocity * _DeltaTime);
+	BallVelocity += UPokemonUtil::PixelVector(0, 350) * _DeltaTime;
+	Canvas->AddCatchBallPosition(BallVelocity * _DeltaTime);
 
 	if (Timer <= 0.0f)
 	{
@@ -140,11 +146,29 @@ void ABattlePokeBallStateMachine::ProcessPokeBallClosing()
 {
 	if (Timer <= 0.0f)
 	{
-		State = ESubstate::End;
+		State = ESubstate::PokeBallDrop;
+		BallVelocity = FVector::Zero;
 	}
 }
 
-void ABattlePokeBallStateMachine::ProcessPokeBallVerticalMove()
+void ABattlePokeBallStateMachine::ProcessPokeBallDrop(float _DeltaTime)
+{
+	BallVelocity += UPokemonUtil::PixelVector(0, 250) * _DeltaTime;
+	Canvas->AddCatchBallPosition(BallVelocity * _DeltaTime);
+
+	// 땅 높이와 비슷해진 경우
+	FVector BallPos = Canvas->GetCatchBallPosition();
+	if (BallPos.Y >= BallGroundY)
+	{
+		State = ESubstate::PokeBallCheckBounceMore;
+	}
+}
+
+void ABattlePokeBallStateMachine::ProcessPokeBallCheckBounceMore()
+{
+}
+
+void ABattlePokeBallStateMachine::ProcessPokeBallBounce(float _DeltaTime)
 {
 }
 

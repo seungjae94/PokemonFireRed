@@ -1,5 +1,6 @@
 #pragma once
 #include "BattleStateMachine.h"
+#include "Global.h"
 
 class ABattlePokeBallStateMachine : public ABattleStateMachine
 {
@@ -13,7 +14,9 @@ private:
 		DontBeAThiefMessage,
 		PokeBallPullInPokemon,
 		PokeBallClosing,
-		PokeBallVerticalMove,
+		PokeBallDrop,
+		PokeBallCheckBounceMore,
+		PokeBallBounce,
 		TestCatch,
 		CatchResultAnim,
 		CatchFailMessage,
@@ -46,7 +49,8 @@ private:
 	const float PullInTime = 0.5f;
 	const float ClosingTime = 0.25f;
 	float Timer = 0.0f;
-	FVector BallThrowVelocity;
+	FVector BallVelocity;
+	float BallGroundY = -90.0f * Global::FloatPixelSize;
 
 	void ProcessBallUseMessage();
 	void ProcessPokeBallThrow(float _DeltaTime);
@@ -54,7 +58,9 @@ private:
 	void ProcessDontBeAThiefMessage();
 	void ProcessPokeBallPullInPokemon();
 	void ProcessPokeBallClosing();
-	void ProcessPokeBallVerticalMove();
+	void ProcessPokeBallDrop(float _DeltaTime);
+	void ProcessPokeBallCheckBounceMore();
+	void ProcessPokeBallBounce(float _DeltaTime);
 	void ProcessTestCatch();
 	void ProcessCatchResultAnim();
 	void ProcessCatchFailMessage();

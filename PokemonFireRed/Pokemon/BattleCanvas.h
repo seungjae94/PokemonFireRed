@@ -119,6 +119,7 @@ public:
 
 	// Catch
 	void SetCatchBallActive(bool _Value);
+	FVector GetCatchBallPosition();
 	void SetCatchBallPosition(const FVector& _Pos);
 	void AddCatchBallPosition(const FVector& _Pos);
 	void PlayCatchBallOpenAnimation();

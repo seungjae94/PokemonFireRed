@@ -694,6 +694,11 @@ void ABattleCanvas::SetCatchBallActive(bool _Value)
 	EnemyCatchBall->SetActive(_Value);
 }
 
+FVector ABattleCanvas::GetCatchBallPosition()
+{
+	return EnemyCatchBall->GetRelativePosition();
+}
+
 void ABattleCanvas::SetCatchBallPosition(const FVector& _Pos)
 {
 	EnemyCatchBall->SetRelativePosition(_Pos);
