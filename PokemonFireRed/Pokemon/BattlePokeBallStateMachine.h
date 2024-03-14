@@ -12,7 +12,10 @@ private:
 		BallUseMessage,
 		PokeBallThrow,
 		PokeBallBlocked,
-		DontBeAThiefMessage,
+		PokeBallBlockedMessage1,
+		PokeBallBlockedMessage2,
+		PokeBallBlockedMessage3,
+		PokeBallBlockedMessage4,
 		PokeBallPullInPokemon,
 		PokeBallClosing,
 		PokeBallDrop,
@@ -73,11 +76,18 @@ private:
 	const float CatchSuccessAnimTime = 1.0f;
 	const float CatchFailAnimTime = 0.15f;
 	const float CatchFailMessageShowTime = 0.5f;
+	
+	// 트레이너 볼 블로킹
+	const float BlockTime = 0.5f;
+	const float BlockMessageShowTime = 0.75f;
 
 	void ProcessBallUseMessage();
 	void ProcessPokeBallThrow(float _DeltaTime);
-	void ProcessPokeBallBlocked();
-	void ProcessDontBeAThiefMessage();
+	void ProcessPokeBallBlocked(float _DeltaTime);
+	void ProcessPokeBallBlockedMessage1();
+	void ProcessPokeBallBlockedMessage2();
+	void ProcessPokeBallBlockedMessage3();
+	void ProcessPokeBallBlockedMessage4();
 	void ProcessPokeBallPullInPokemon();
 	void ProcessPokeBallClosing();
 	void ProcessPokeBallDrop(float _DeltaTime);

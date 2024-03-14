@@ -45,10 +45,19 @@ void ABattlePokeBallStateMachine::Tick(float _DeltaTime)
 		ProcessPokeBallThrow(_DeltaTime);
 		break;
 	case ESubstate::PokeBallBlocked:
-		ProcessPokeBallBlocked();
+		ProcessPokeBallBlocked(_DeltaTime);
 		break;
-	case ESubstate::DontBeAThiefMessage:
-		ProcessDontBeAThiefMessage();
+	case ESubstate::PokeBallBlockedMessage1:
+		ProcessPokeBallBlockedMessage1();
+		break;
+	case ESubstate::PokeBallBlockedMessage2:
+		ProcessPokeBallBlockedMessage2();
+		break;
+	case ESubstate::PokeBallBlockedMessage3:
+		ProcessPokeBallBlockedMessage3();
+		break;
+	case ESubstate::PokeBallBlockedMessage4:
+		ProcessPokeBallBlockedMessage4();
 		break;
 	case ESubstate::PokeBallPullInPokemon:
 		ProcessPokeBallPullInPokemon();
@@ -119,31 +128,67 @@ void ABattlePokeBallStateMachine::ProcessPokeBallThrow(float _DeltaTime)
 	{
 		if (true == Enemy->IsTrainer())
 		{
-			// Don't be a thief!
-			// (트레이너에게 던지는 경우)
-			// RED used\nPOKe BALL!
-			// The TRAINER blocked the BALL!
-			// 하고 플레이어 턴 종료됨
-
-			//MsgBox->SetMessage(L"Ball missed!");
-			//MsgBox->Write();
-			State = ESubstate::End;
+			State = ESubstate::PokeBallBlocked;
+			Timer = BlockTime;
+			return;
 		}
 		else
 		{
 			State = ESubstate::PokeBallPullInPokemon;
 			Canvas->PlayCatchBallOpenAnimation();
 			Timer = PullInTime;
+			return;
 		}
 	}
 }
 
-void ABattlePokeBallStateMachine::ProcessPokeBallBlocked()
+void ABattlePokeBallStateMachine::ProcessPokeBallBlocked(float _DeltaTime)
 {
+	Canvas->AddCatchBallPosition(UPokemonUtil::PixelVector(-300, 400) * _DeltaTime);
+
+	if (Timer <= 0.0f)
+	{
+		State = ESubstate::PokeBallBlockedMessage1;
+		MsgBox->SetMessage(L"The TRAINER blocked the BALL!");
+		MsgBox->Write();
+	}
 }
 
-void ABattlePokeBallStateMachine::ProcessDontBeAThiefMessage()
+void ABattlePokeBallStateMachine::ProcessPokeBallBlockedMessage1()
 {
+	if (EWriteState::WriteEnd == MsgBox->GetWriteState())
+	{
+		State = ESubstate::PokeBallBlockedMessage2;
+		Timer = BlockMessageShowTime;
+	}
+}
+
+void ABattlePokeBallStateMachine::ProcessPokeBallBlockedMessage2()
+{
+	if (Timer <= 0.0f)
+	{
+		State = ESubstate::PokeBallBlockedMessage3;
+		MsgBox->SetMessage(L"Don't be a thief!");
+		MsgBox->Write();
+	}
+}
+
+void ABattlePokeBallStateMachine::ProcessPokeBallBlockedMessage3()
+{
+	if (EWriteState::WriteEnd == MsgBox->GetWriteState())
+	{
+		State = ESubstate::PokeBallBlockedMessage4;
+		Timer = BlockMessageShowTime;
+	}
+}
+
+void ABattlePokeBallStateMachine::ProcessPokeBallBlockedMessage4()
+{
+	if (Timer <= 0.0f)
+	{
+		State = ESubstate::End;
+		MsgBox->SetMessage(L"");
+	}
 }
 
 void ABattlePokeBallStateMachine::ProcessPokeBallPullInPokemon()
