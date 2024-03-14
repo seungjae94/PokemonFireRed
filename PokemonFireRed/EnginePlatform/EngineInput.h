@@ -4,7 +4,6 @@
 #include <map>
 #include <EngineBase/EngineDebug.h>
 
-// 설명 :
 class UEngineInput
 {
 	friend class InputInitCreator;
@@ -18,10 +17,13 @@ private:
 		bool Press = false; // 키가 눌려있는가?
 		bool Free = true;   // 키가 떼어져있는가?
 
-		int Key = -1;		// 키의 이름
-
 		float PressTime = 0.0f;
 		float UpTime = 0.0f;
+
+		int Key = -1;		// 키의 이름
+
+		// GetAsyncKeyState 함수의 반환값을 이용해 키의 상태를 갱신해주는 함수
+		void KeyCheck(float _DeltaTime);
 
 		EngineKey()
 		{
@@ -31,9 +33,6 @@ private:
 			: Key(_Key)
 		{
 		}
-
-		// GetAsyncKeyState 함수의 반환값을 이용해 키의 상태를 갱신해주는 함수
-		void KeyCheck(float _DeltaTime);
 	};
 public:
 	// constructor destructor
@@ -51,7 +50,7 @@ public:
 	{
 		if (false == AllKeys.contains(_Key))
 		{
-			MsgBoxAssert("입력 설정이 존재하지 않는 키 입니다");
+			MsgBoxAssert("입력설정이 존재하지 않는 키 입니다");
 		}
 
 		bool Value = AllKeys[_Key].Down;
@@ -115,9 +114,6 @@ public:
 		return AllKeys[_Key].Free;
 	}
 
-	// 매 프레임마다 EngineCore::EngineTick에서 호출해주는 함수
-	static void KeyCheckTick(float _DeltaTime);
-
 	// '아무 키나 누르세요' 기능을 위한 함수
 	static bool IsAnykeyDown()
 	{
@@ -135,6 +131,9 @@ public:
 	{
 		return AnykeyFree;
 	}
+
+	// 매 프레임마다 EngineCore::EngineTick에서 호출해주는 함수
+	static void KeyCheckTick(float _DeltaTime);
 
 protected:
 	static std::map<int, EngineKey> AllKeys;

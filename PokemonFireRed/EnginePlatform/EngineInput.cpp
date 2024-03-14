@@ -6,26 +6,18 @@ bool UEngineInput::AnykeyPress = false;
 bool UEngineInput::AnykeyUp = false;
 bool UEngineInput::AnykeyFree = true;
 
-UEngineInput::UEngineInput() 
-{
-}
-
-UEngineInput::~UEngineInput() 
-{
-}
-
 void UEngineInput::EngineKey::KeyCheck(float _DeltaTime)
 {
 	// 실제로 키가 눌려있는 경우
-	if (GetAsyncKeyState(Key) != 0)
+	if (0 != GetAsyncKeyState(Key))
 	{
 		PressTime += _DeltaTime;
 		if (Free == true)
 		{
 			// 키가 막 눌린 경우
 			Down = true;
-			Up = false;
 			Press = true;
+			Up = false;
 			Free = false;
 		}
 		else if (Down == true)
@@ -34,8 +26,8 @@ void UEngineInput::EngineKey::KeyCheck(float _DeltaTime)
 
 			// Down의 다음 프레임인 경우
 			Down = false;
-			Up = false;
 			Press = true;
+			Up = false;
 			Free = false;
 		}
 	}
@@ -49,8 +41,8 @@ void UEngineInput::EngineKey::KeyCheck(float _DeltaTime)
 
 			// 키가 막 떼어진 경우
 			Down = false;
-			Up = true;
 			Press = false;
+			Up = true;
 			Free = true;
 		}
 		else if (Up == true)
@@ -66,61 +58,12 @@ void UEngineInput::EngineKey::KeyCheck(float _DeltaTime)
 	}
 }
 
-void UEngineInput::KeyCheckTick(float _DeltaTime)
+UEngineInput::UEngineInput()
 {
-	bool KeyCheck = false;
+}
 
-	for (std::pair<const int, EngineKey>& KeyPair : AllKeys)
-	{
-		EngineKey& CurKey = KeyPair.second;
-		CurKey.KeyCheck(_DeltaTime);
-
-		if (true == CurKey.Press)
-		{
-			KeyCheck = true;
-		}
-	}
-
-	// 적어도 하나의 키가 눌려져 있다.
-	if (true == KeyCheck)
-	{
-		if (true == AnykeyFree)
-		{
-			// 이전 프레임에 아무 키도 눌려있지 않았다.
-			AnykeyDown = true;
-			AnykeyPress = true;
-			AnykeyUp = false;
-			AnykeyFree = false;
-		}
-		else if (true == AnykeyDown)
-		{
-			// 이전 프레임에 처음으로 키 입력이 들어왔다.
-			AnykeyDown = false;
-			AnykeyPress = true;
-			AnykeyUp = false;
-			AnykeyFree = false;
-		}
-	}
-	else
-	{
-		if (true == AnykeyPress)
-		{
-			// 이전 프레임에 적어도 하나의 키가 눌려 있었다.
-			AnykeyDown = false;
-			AnykeyPress = false;
-			AnykeyUp = true;
-			AnykeyFree = false;
-		}
-		else if (true == AnykeyUp)
-		{
-			// 이전 프레임에 처음으로 키 입력이 사라졌다.
-			AnykeyDown = false;
-			AnykeyPress = false;
-			AnykeyUp = false;
-			AnykeyFree = true;
-		}
-
-	}
+UEngineInput::~UEngineInput()
+{
 }
 
 void UEngineInput::InputInit()
@@ -228,6 +171,64 @@ void UEngineInput::InputInit()
 		AllKeys[i] = EngineKey(i);
 	}
 }
+
+void UEngineInput::KeyCheckTick(float _DeltaTime)
+{
+	bool KeyCheck = false;
+
+	for (std::pair<const int, EngineKey>& KeyPair : AllKeys)
+	{
+		EngineKey& CurKey = KeyPair.second;
+		CurKey.KeyCheck(_DeltaTime);
+
+		if (true == CurKey.Press)
+		{
+			KeyCheck = true;
+		}
+	}
+
+	// 적어도 하나의 키가 눌려져 있다.
+	if (true == KeyCheck)
+	{
+		if (true == AnykeyFree)
+		{
+			// 이전 프레임에 아무 키도 눌려있지 않았다.
+			AnykeyDown = true;
+			AnykeyPress = true;
+			AnykeyUp = false;
+			AnykeyFree = false;
+		}
+		else if (true == AnykeyDown)
+		{
+			// 이전 프레임에 처음으로 키 입력이 들어왔다.
+			AnykeyDown = false;
+			AnykeyPress = true;
+			AnykeyUp = false;
+			AnykeyFree = false;
+		}
+	}
+	else
+	{
+		if (true == AnykeyPress)
+		{
+			// 이전 프레임에 적어도 하나의 키가 눌려 있었다.
+			AnykeyDown = false;
+			AnykeyPress = false;
+			AnykeyUp = true;
+			AnykeyFree = true;
+		}
+		else if (true == AnykeyUp)
+		{
+			// 이전 프레임에 처음으로 키 입력이 사라졌다.
+			AnykeyDown = false;
+			AnykeyPress = false;
+			AnykeyUp = false;
+			AnykeyFree = true;
+		}
+
+	}
+}
+
 
 // CPP 파일에 정의된 클래스는 다른 CPP 파일에서 볼 수 없다.
 class InputInitCreator

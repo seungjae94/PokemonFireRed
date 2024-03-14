@@ -67,9 +67,6 @@ public:
 
 	FVector GetScale();
 
-	// 이미지 회전에 사용하는 함수
-	void PlgCopy(UWindowImage* _CopyImage, const FTransform& _Trans, int _Index, float _RadAngle);
-
 	/// <summary>
 	/// 이미지 this에 이미지 _CopyImage를 그려주는 함수.
 	/// 주 사용처: 윈도우 이미지에 백버퍼 이미지를 그릴 때 사용.
@@ -101,11 +98,15 @@ public:
 	void TransCopy(UWindowImage* _CopyImage, const FTransform& _Trans, int _Index, Color8Bit _Color = Color8Bit::Black);
 
 	void AlphaCopy(UWindowImage* _CopyImage, const FTransform& _Trans, int _Index, Color8Bit _Color = Color8Bit::Black);
-	void AlphaCopy(UWindowImage* _CopyImage, const FTransform& _Trans, const FTransform& _CuttingTrans, int _Index, Color8Bit _Color = Color8Bit::Black);
+
+	// 이미지 회전에 사용하는 함수
+	void PlgCopy(UWindowImage* _CopyImage, const FTransform& _Trans, int _Index, float _RadAngle);
 
 	void TextCopy(const std::string& _Text, const std::string& _Font, float _Size, const FTransform& _Trans, Color8Bit _Color);
 
 	void TextCopy(const std::string& _Text, const std::string& _Font, float _Size, const FTransform& _Trans, Color8Bit _OutLineColor, Color8Bit _FillColor);
+
+	void TextCopy(const std::string& _Text, const std::string& _Font, float _Size, const FTransform& _Trans, Gdiplus::StringAlignment _SortOption1, Gdiplus::StringAlignment _SortOption2, Color8Bit _FillColor);
 
 	void TextCopyBold(const std::string& _Text, const std::string& _Font, float _Size, const FTransform& _Trans, Color8Bit _Color);
 
@@ -164,8 +165,6 @@ public:
 protected:
 
 private:
-	UWindowImage* RotationMaskImage = nullptr;
-
 	EImageLoadType LoadType = EImageLoadType::IMG_Cutting;
 
 	HBITMAP hBitMap = 0;
