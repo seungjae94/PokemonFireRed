@@ -70,5 +70,8 @@ you bought, received, or found.)",
 
 	void RefreshMenuBox();
 	void RefreshExplainText();
+
+	// 유틸 함수
+	void PlayClickSE();
 };
 

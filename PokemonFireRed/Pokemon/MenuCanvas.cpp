@@ -4,6 +4,7 @@
 #include "Global.h"
 #include "PokemonUtil.h"
 #include "EventManager.h"
+#include "SoundManager.h"
 #include "Text.h"
 #include "MapLevel.h"
 #include "EventTrigger.h"
@@ -92,12 +93,14 @@ void AMenuCanvas::Tick(float _DeltaTime)
 	// ¸Þ´ºÃ¢ ²ô±â
 	if (true == UEngineInput::IsDown(VK_RETURN) || true == UEngineInput::IsDown('X'))
 	{
+		PlayClickSE();
 		Close();
 		return;
 	}
 
 	if (true == UEngineInput::IsDown(VK_DOWN))
 	{
+		PlayClickSE();
 		Cursor->IncCursor();
 		RefreshExplainText();
 		return;
@@ -105,6 +108,7 @@ void AMenuCanvas::Tick(float _DeltaTime)
 
 	if (true == UEngineInput::IsDown(VK_UP))
 	{
+		PlayClickSE();
 		Cursor->DecCursor();
 		RefreshExplainText();
 		return;
@@ -112,6 +116,7 @@ void AMenuCanvas::Tick(float _DeltaTime)
 
 	if (true == UEngineInput::IsDown('Z'))
 	{
+		PlayClickSE();
 		MenuAction();
 		return;
 	}
@@ -170,4 +175,9 @@ void AMenuCanvas::RefreshExplainText()
 {
 	MenuExplainText->SetActive(true);
 	MenuExplainText->SetText(MenuExplains[GetMenuIndex()]);
+}
+
+void AMenuCanvas::PlayClickSE()
+{
+	USoundManager::PlaySE(RN::SEClick);
 }
