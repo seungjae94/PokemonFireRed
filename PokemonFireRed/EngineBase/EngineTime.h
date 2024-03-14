@@ -31,12 +31,11 @@ public:
 protected:
 
 private:
-	LARGE_INTEGER Count;     // 1초에 몇 카운트나 세는지
-	double dCount;			 // Count는 LARGE_INTEGER 타입으로  
 	__int64 Count64;
-
+	LARGE_INTEGER Count;     // 1초에 몇 카운트나 세는지
 	LARGE_INTEGER PrevTime;  // 직전 측정 시간
 	LARGE_INTEGER CurTime;   // 현재 측정 시간
+	double dCount;			 // Count는 LARGE_INTEGER 타입으로  
 	double DeltaTime;
 };
 
