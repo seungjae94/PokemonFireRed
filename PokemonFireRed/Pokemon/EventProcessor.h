@@ -97,9 +97,12 @@ private:
 	void PostProcessMoveWR(AEventTarget* _Target);
 	bool ProcessFadeIn();
 	bool ProcessFadeOut();
+	bool ProcessFadeInBgm();
+	bool ProcessFadeOutBgm();
 	bool ProcessWait();
 	bool ProcessPlayAnimation();
 	bool ProcessPlayBgm();
+	bool ProcessPlaySE();
 	bool ProcessChat();
 	bool ProcessShowMapName();
 	bool ProcessChangeLevel();

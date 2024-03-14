@@ -109,7 +109,7 @@ void ATitleLevelManager::Video3Logic(float _DeltaTime)
 	if (true == UPokemonInput::IsAnykeyDown())
 	{
 		// 아무 키나 누르면 타이틀 레벨을 종료한다.
-		UEventManager::FadeChangeLevel(Global::TutorialLevel, false, 1.0f, 1.0f);
+		UEventManager::FadeChangeLevel(Global::TutorialLevel, false, 1.0f, 1.0f, true, RN::BgmTutorial);
 		return;
 	}
 

@@ -69,6 +69,12 @@ void UEventProcessor::Tick(float _DeltaTime)
 		case EEventType::FadeOut:
 			ProcessingResult = ProcessFadeOut();
 			break;
+		case EEventType::FadeInBgm:
+			ProcessingResult = ProcessFadeInBgm();
+			break;
+		case EEventType::FadeOutBgm:
+			ProcessingResult = ProcessFadeOutBgm();
+			break;
 		case EEventType::Wait:
 			ProcessingResult = ProcessWait();
 			break;
@@ -77,6 +83,9 @@ void UEventProcessor::Tick(float _DeltaTime)
 			break;
 		case EEventType::PlayBgm:
 			ProcessingResult = ProcessPlayBgm();
+			break;
+		case EEventType::PlaySE:
+			ProcessingResult = ProcessPlaySE();
 			break;
 		case EEventType::Chat:
 			ProcessingResult = ProcessChat();
@@ -552,6 +561,22 @@ bool UEventProcessor::ProcessFadeOut()
 	return true;
 }
 
+bool UEventProcessor::ProcessFadeInBgm()
+{
+	int CurIndexOfType = GetCurIndexOfType(EEventType::FadeInBgm);
+	ES::FadeInBgm& Data = CurStream->FadeInBgmDataSet[CurIndexOfType];
+	USoundManager::FadeBgm(Data.TargetVolume, Data.Time);
+	return true;
+}
+
+bool UEventProcessor::ProcessFadeOutBgm()
+{
+	int CurIndexOfType = GetCurIndexOfType(EEventType::FadeOutBgm);
+	ES::FadeOutBgm& Data = CurStream->FadeOutBgmDataSet[CurIndexOfType];
+	USoundManager::FadeBgm(0.0f, Data.Time);
+	return true;
+}
+
 bool UEventProcessor::ProcessWait()
 {
 	static bool IsBegin = true;
@@ -662,6 +687,14 @@ bool UEventProcessor::ProcessPlayBgm()
 	ES::PlayBgm& Data = CurStream->PlayBgmDataSet[CurIndexOfType];
 	USoundManager::PlayBgm(Data.Name);
 	return true;
+}
+
+bool UEventProcessor::ProcessPlaySE()
+{
+	int CurIndexOfType = GetCurIndexOfType(EEventType::PlaySE);
+	ES::PlaySE& Data = CurStream->PlaySEDataSet[CurIndexOfType];
+	USoundManager::PlaySE(Data.Name);
+	return false;
 }
 
 bool UEventProcessor::ProcessChat()

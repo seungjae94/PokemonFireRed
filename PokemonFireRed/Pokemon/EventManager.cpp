@@ -1,6 +1,7 @@
 #include "EventManager.h"
 #include <EngineCore/EngineCore.h>
 #include <EngineCore/EngineResourcesManager.h>
+#include "SoundManager.h"
 #include "EventTarget.h"
 #include "EventTrigger.h"
 #include "EventProcessor.h"
@@ -90,6 +91,8 @@ void UEventManager::RemoveTrigger(std::string_view _MapName, std::string_view _T
 void UEventManager::Tick(float _DeltaTime)
 {
 	DeltaTime = _DeltaTime;
+
+	USoundManager::Tick(_DeltaTime);
 
 	for (std::pair<AEventTrigger* const, UEventProcessor*>& Pair : AllProcessors)
 	{
@@ -459,7 +462,7 @@ void UEventManager::SetCurLevelPlayerState(EPlayerState _State)
 	Player->StateChange(_State);
 }
 
-void UEventManager::FadeChangeLevel(std::string_view _TargetMapName, bool _PlayerControl, float _FadeInTime, float _FadeOutTime)
+void UEventManager::FadeChangeLevel(std::string_view _TargetMapName, bool _PlayerControl, float _FadeInTime, float _FadeOutTime, bool _IsFadeBgm, std::string_view _NewBgm)
 {
 	if (true == UPlayerData::IsAchieved(EAchievement::Fading))
 	{
@@ -474,7 +477,7 @@ void UEventManager::FadeChangeLevel(std::string_view _TargetMapName, bool _Playe
 		return;
 	}
 
-	LevelChanger->Trigger(_TargetMapName, _PlayerControl, _FadeInTime, _FadeOutTime);
+	LevelChanger->Trigger(_TargetMapName, _PlayerControl, _FadeInTime, _FadeOutTime, _IsFadeBgm, _NewBgm);
 }
 
 void UEventManager::WildBattle(const FWildPokemonConstructorParam _ConstructorParam)

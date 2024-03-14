@@ -24,6 +24,8 @@ enum class EEventType
 	Surprise,
 	FadeIn,
 	FadeOut,
+	FadeInBgm,
+	FadeOutBgm,
 	Wait,
 	Chat,
 	ShowMapName,
@@ -34,6 +36,7 @@ enum class EEventType
 	StarePlayer,
 	PlayAnimation,
 	PlayBgm,
+	PlaySE,
 	HideActor,
 	ShowActor,
 	CameraFocus,
@@ -234,6 +237,45 @@ public:
 		return *this;
 	}
 
+	class FadeInBgm
+	{
+		friend UEventProcessor;
+	public:
+		FadeInBgm(float _Time, float _TargetVolume = 1.0f)
+			: Time(_Time), TargetVolume(_TargetVolume)
+		{
+		}
+	private:
+		float Time = 0.0f;
+		float TargetVolume = 0.0f;
+	};
+
+	UEventStream& operator>>(const FadeInBgm& _Data)
+	{
+		EventTypeList.push_back(EEventType::FadeInBgm);
+		FadeInBgmDataSet.push_back(_Data);
+		return *this;
+	}
+
+	class FadeOutBgm
+	{
+		friend UEventProcessor;
+	public:
+		FadeOutBgm(float _Time)
+			: Time(_Time)
+		{
+		}
+	private:
+		float Time = 0.0f;
+	};
+
+	UEventStream& operator>>(const FadeOutBgm& _Data)
+	{
+		EventTypeList.push_back(EEventType::FadeOutBgm);
+		FadeOutBgmDataSet.push_back(_Data);
+		return *this;
+	}
+
 	class Wait
 	{
 		friend UEventProcessor;
@@ -295,6 +337,25 @@ public:
 	{
 		EventTypeList.push_back(EEventType::PlayBgm);
 		PlayBgmDataSet.push_back(_Data);
+		return *this;
+	}
+
+	class PlaySE
+	{
+		friend UEventProcessor;
+	public:
+		PlaySE(std::string_view _Name)
+			: Name(_Name)
+		{
+		}
+	private:
+		std::string Name = "";
+	};
+
+	UEventStream& operator>>(const PlaySE& _Data)
+	{
+		EventTypeList.push_back(EEventType::PlaySE);
+		PlaySEDataSet.push_back(_Data);
 		return *this;
 	}
 
@@ -650,6 +711,8 @@ private:
 	std::vector<Surprise> SurpriseDataSet;
 	std::vector<FadeIn> FadeInDataSet;
 	std::vector<FadeOut> FadeOutDataSet;
+	std::vector<FadeInBgm> FadeInBgmDataSet;
+	std::vector<FadeOutBgm> FadeOutBgmDataSet;
 	std::vector<Wait> WaitDataSet;
 	std::vector<Chat> ChatDataSet;
 	std::vector<ShowMapName> ShowMapNameDataSet;
@@ -660,6 +723,7 @@ private:
 	std::vector<StarePlayer> StarePlayerDataSet;
 	std::vector<PlayAnimation> PlayAnimationDataSet;
 	std::vector<PlayBgm> PlayBgmDataSet;
+	std::vector<PlaySE> PlaySEDataSet;
 	std::vector<HideActor> HideActorDataSet;
 	std::vector<ShowActor> ShowActorDataSet;
 	std::vector<CameraFocus> CameraFocusDataSet;

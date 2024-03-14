@@ -50,24 +50,17 @@ void UTutorialLevel::BeginPlay()
 	UEventManager::RegisterEvent(MapLevelChanger, DefaultCondition,
 		ES::Start(false)
 		>> ES::FadeOut(1.0f)
+		>> ES::FadeOutBgm(1.0f)
 		>> ES::Wait(1.0f)
 		>> ES::ChangeLevel(Global::InteriorPlayersHouse2FLevel)
+		>> ES::PlayBgm(RN::BgmPalletTown)
 		>> ES::CameraFocus(Global::Player)
 		>> ES::DeactivatePlayerControl()
 		>> ES::FadeIn(1.0f)
+		>> ES::FadeInBgm(1.0f)
 		>> ES::Wait(1.0f)
 		>> ES::End(true)
 	);
-}
-
-void UTutorialLevel::LevelStart(ULevel* _PrevLevel)
-{
-	USoundManager::PlayBgm(RN::BgmTutorial);
-}
-
-void UTutorialLevel::LevelEnd(ULevel* _NextLevel)
-{
-	USoundManager::StopBgm();
 }
 
 

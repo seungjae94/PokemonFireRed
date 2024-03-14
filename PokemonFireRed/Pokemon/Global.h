@@ -4,6 +4,8 @@
 // 전역으로 사용할 상수를 정의한다.
 namespace Global
 {
+	const float DefaultVolume = 0.25f;
+
 	// Cheat
 	const float CheatDamageBonusCoeff = 100.0f;
 	const float CheatExpBonusCoeff = 2.0f;

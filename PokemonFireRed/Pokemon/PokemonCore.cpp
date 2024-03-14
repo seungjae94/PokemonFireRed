@@ -36,7 +36,7 @@ void UPokemonCore::BeginPlay()
 	MainWindow.SetWindowTitle("Pokemon Firered");
 	MainWindow.SetWindowScale({ Global::ScreenX, Global::ScreenY });
 	MainWindow.SetClearColor(Color8Bit::BlackA);
-	UEngineSound::SetGlobalVolume(0.15f);
+	UEngineSound::SetGlobalVolume(0.25f);
 
 	// UI 리소스 로딩
 	LoadUIResources();
@@ -47,7 +47,7 @@ void UPokemonCore::BeginPlay()
 	// 사운드 리소스 로딩
 	LoadSounds();
 
-	// 디버그용 데이터 주입
+	// 디버그용 데이터
 	//DebugGeneratePokemons();
 	//DebugGenerateItems();
 	//DebugGenerateAchievements();
@@ -76,7 +76,7 @@ void UPokemonCore::BeginPlay()
 	CreateLevel<UBattleBagUILevel>(Global::BattleBagUILevel);
 
 	// 시작 레벨 설정
-	UEventManager::SetLevel(Global::ExteriorPalletTownLevel);
+	UEventManager::SetLevel(Global::TitleLevel);
 }
 
 void UPokemonCore::Tick(float _DeltaTime)
