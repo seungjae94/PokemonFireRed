@@ -152,11 +152,10 @@ void UBattleLevel::LevelStart(ULevel* _PrevLevel)
 	}
 
 	// 데이터 초기화
-	bool PlayerFirst = true;
 	Player.Clear();
+	Enemy.Clear();
 	Player.InitPlayer();
 	Player.InitCurPokemon(); // 기절하지 않은 첫 번째 포켓몬을 내보낸다.
-	Enemy.Clear();
 
 	if (true == UEventManager::IsWildPokemonBattle())
 	{

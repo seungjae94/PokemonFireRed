@@ -15,14 +15,26 @@ UBattler::~UBattler()
 void UBattler::Clear()
 {
 	StatStage.Reset();
-	TempStatusId = EPokemonStatus::Normal;
 	Entry.clear();
-	Action = EBattleAction::None;
 	FightingPokemonIndex = 0;
 	CurMoveIndex = 0;
 	IsPlayerValue = false;
 	IsWildPokemonValue = false;
+	TrainerName = "";
+	TrainerImageName = "";
 	PlayerWinMessage.clear();
+	AfterBattleTrigger = nullptr;
+
+	Action = EBattleAction::None;
+	RunResult = false;
+	ShiftPokemonIndex = -1;
+	SelectedItem = nullptr;
+	ItemSelectState = EItemSelectState::None;
+	CatchResult = false;
+
+	Participants.clear();
+	TempStatusId = EPokemonStatus::Normal;
+	BindCount = 0;
 }
 
 void UBattler::InitPlayer()
