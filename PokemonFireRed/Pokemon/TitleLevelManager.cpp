@@ -115,7 +115,7 @@ void ATitleLevelManager::Video3Logic(float _DeltaTime)
 	{
 		// 아무 키나 누르면 타이틀 레벨을 종료한다.
 		USoundManager::PlaySE(RN::TitleCharizardCry);
-		UEventManager::FadeChangeLevel(Global::TutorialLevel, false, 2.5f, 1.0f, true, RN::BgmTutorial);
+		UEventManager::FadeChangeLevel(Global::TutorialLevel, false, 0.5f, 2.0f, true, RN::BgmTutorial);
 		LevelEndMark = true;
 		return;
 	}

@@ -164,6 +164,8 @@ void ATutorialLevelManager::Tick(float _DeltaTime)
 	// Z키를 누를 경우 다음 페이지로 갈 수 있다면 다음 페이지로 간다.
 	if (true == UEngineInput::IsDown('Z'))
 	{
+		USoundManager::PlaySE(RN::SEClick);
+
 		PageIndex++;
 
 		if (PageIndex == 3)
@@ -200,6 +202,7 @@ void ATutorialLevelManager::Tick(float _DeltaTime)
 	{
 		if (PageIndex != 0 && PageIndex != 3)
 		{
+			USoundManager::PlaySE(RN::SEClick);
 			PageIndex--;
 			Renderer->SetImage(GetPageName());
 		}
