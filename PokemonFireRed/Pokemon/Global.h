@@ -147,6 +147,7 @@ namespace RN
 	// SE
 	const std::string TitleCharizardCry = "CryCharizard.wav";
 	const std::string SEClick = "SEClick.wav";
+	const std::string SEMenu = "SEMenu.wav";
 
 	// ¿ÃπÃ¡ˆ
 	const std::string RivalGreenCharacter = "RivalGreenCharacter.png";

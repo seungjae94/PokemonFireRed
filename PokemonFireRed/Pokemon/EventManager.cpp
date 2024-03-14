@@ -505,6 +505,7 @@ void UEventManager::OpenMenuWindow()
 
 	APlayer* CurLevelPlayer = FindCurLevelTarget<APlayer>(Global::Player);
 	CurLevelPlayer->StateChange(EPlayerState::OutOfControl);
+	USoundManager::PlaySE(RN::SEMenu);
 	Canvas->Open();
 }
 
