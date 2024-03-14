@@ -18,6 +18,7 @@ void ABattlePokeBallStateMachine::Start()
 	ABattleStateMachine::Start();
 
 	State = ESubstate::BallUseMessage;
+	Canvas->InitCatchBall();
 	MsgBox->SetMessage(L"RED used\nPOKé BALL!");
 	MsgBox->Write();
 }

@@ -249,6 +249,9 @@ void ABattleCanvas::InitEnemyImages()
 	{
 		EnemyBattler->SetImage(RN::BattlerPlaceHolder);
 		EnemyPokemonImage->SetRelativePosition(EnemyPokemonImageInitPos);
+		EnemyPokemonImage->SetActive(true);
+		EnemyPokemonImage->SetAlpha(1.0f);
+		EnemyPokemonImage->SetScaleFactor(1.0f);
 	}
 	else
 	{
@@ -291,6 +294,7 @@ void ABattleCanvas::InitCatchBall()
 {
 	EnemyCatchBall->SetActive(false);
 	EnemyCatchBall->SetRelativePosition(EnemyCatchBallInitPos);
+	EnemyCatchBall->ChangeAnimation("Idle");
 }
 
 void ABattleCanvas::RefreshEnemyPokemonBox()
