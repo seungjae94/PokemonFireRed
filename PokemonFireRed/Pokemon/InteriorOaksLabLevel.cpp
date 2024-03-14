@@ -65,6 +65,7 @@ void UInteriorOaksLabLevel::MakeDoor()
 	PalletTownDoor->SetMoveDirection(FTileVector::Down);
 	PalletTownDoor->SetExteriorDoorName("OaksLabDoor");
 	PalletTownDoor->SetTargetMapNameText(L"PALLET TOWN");
+	PalletTownDoor->SetTargetBgm(RN::BgmPalletTown);
 	PalletTownDoor->RegisterPredefinedEvent();
 }
 

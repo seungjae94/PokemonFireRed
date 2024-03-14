@@ -69,6 +69,7 @@ void UExteriorPalletTownLevel::MakePTOaksLabDoor()
 	OaksLabDoor->SetTargetMapName(Global::InteriorOaksLabLevel);
 	OaksLabDoor->SetTargetPoint({ 6, 12 });
 	OaksLabDoor->SetMoveDirection(FTileVector::Up);
+	OaksLabDoor->SetTargetBgm(RN::BgmOaksLab);
 	OaksLabDoor->RegisterPredefinedEvent();
 }
 

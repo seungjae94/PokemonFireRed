@@ -15,6 +15,11 @@ AWarp::~AWarp()
 {
 }
 
+void AWarp::SetTargetBgm(std::string_view _TargetBgm)
+{
+	TargetBgm = _TargetBgm;
+}
+
 bool AWarp::CheckPlayerDirection()
 {
 	FTileVector CurPlayerDirection = UEventManager::FindCurLevelTarget<APlayer>(Global::Player)->GetDirection();

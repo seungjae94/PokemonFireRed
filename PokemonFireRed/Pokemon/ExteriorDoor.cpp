@@ -19,23 +19,39 @@ void AExteriorDoor::RegisterPredefinedEvent()
 	UEventCondition Cond = UEventCondition(EEventTriggerAction::ArrowClick);
 	Cond.RegisterCheckFunc(ToCheckFunc(CheckPlayerDirection));
 
-	UEventManager::RegisterEvent(this, Cond,
-		ES::Start(true)
+	UEventStream Stream = ES::Start(true)
 		>> ES::Move(Global::Player, { FTileVector::Zero }, 7.2f) // 제자리 걷기 동작으로 문을 여는 동작을 표현
 		>> ES::PlaySE(RN::SEDoorOpen)
 		>> ES::PlayAnimation(GetName(), "DoorOpen")
 		>> ES::Move(Global::Player, { TargetDirection })
 		>> ES::HideActor(Global::Player)
 		>> ES::PlayAnimation(GetName(), "DoorClose")
-		>> ES::FadeOut(0.75f)
+		>> ES::FadeOut(0.75f);
+
+	if (false == TargetBgm.empty())
+	{
+		Stream = Stream >> ES::FadeOutBgm(0.75f);
+	}
+
+	Stream = Stream
 		>> ES::Wait(0.75f)
 		>> ES::ShowActor(Global::Player)
 		>> ES::ChangeLevel(TargetMapName)
 		>> ES::ChangePoint(TargetMapName, Global::Player, TargetPoint)
 		>> ES::ChangeDirection(TargetMapName, Global::Player, TargetDirection)
-		>> ES::CameraFocus(Global::Player)
+		>> ES::CameraFocus(Global::Player);
+
+	if (false == TargetBgm.empty())
+	{
+		Stream = Stream 
+			>> ES::PlayBgm(TargetBgm)
+			>> ES::FadeInBgm(0.75f);
+	}
+	
+	Stream = Stream
 		>> ES::FadeIn(0.75f)
 		>> ES::Wait(0.75f)
-		>> ES::End(true)
-	);
+		>> ES::End(true);
+
+	UEventManager::RegisterEvent(this, Cond, Stream);
 }

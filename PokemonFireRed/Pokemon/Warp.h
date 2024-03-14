@@ -29,11 +29,14 @@ public:
 		TargetDirection = _Direction;
 	}
 
+	void SetTargetBgm(std::string_view _TargetBgm);
+
 protected:
 	bool CheckPlayerDirection();
 	std::string TargetMapName;
 	FTileVector TargetPoint;
 	FTileVector TargetDirection;
+	std::string TargetBgm = "";
 private:
 };
 

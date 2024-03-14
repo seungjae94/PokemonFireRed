@@ -144,6 +144,15 @@ namespace EN
 // Resource Name
 namespace RN
 {
+	// BGM
+	const std::string BgmTitleBattle = "TitleBattle.wav";
+	const std::string BgmTitleScreen = "TitleScreen.wav";
+	const std::string BgmTutorial = "Tutorial.wav";
+	const std::string BgmPalletTown = "PalletTown.wav";
+	const std::string BgmWildBattle = "WildBattle.wav";
+	const std::string BgmOaksLab = "OaksLab.wav";
+	const std::string BgmOaksTheme = "OaksTheme.wav";
+
 	// SE
 	const std::string TitleCharizardCry = "CryCharizard.wav";
 	const std::string SEClick = "SEClick.wav";
@@ -249,12 +258,6 @@ namespace RN
 	const std::string StatusPlaceHolder = "StatusPlaceHolder.png";
 
 	const std::string MaleTrainerCard = "MaleTrainerCard.png";
-
-	const std::string BgmTitleBattle = "TitleBattle.wav"; 
-	const std::string BgmTitleScreen = "TitleScreen.wav"; 
-	const std::string BgmTutorial = "Tutorial.wav"; 
-	const std::string BgmPalletTown = "PalletTown.wav"; 
-	const std::string BgmWildBattle = "WildBattle.wav";
 
 	const std::string BattleLevel = "BattleLevel"; 
 	const std::string BattleMsgBox = "BattleMsgBox.png"; 
