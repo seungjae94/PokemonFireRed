@@ -88,6 +88,7 @@ void UBattleBagUILevel::SelectAction()
 	if (GetCurItemType() == EItemType::PokeBall)
 	{
 		State = EBagUIState::TargetSelect;
+		UPlayerData::LoseItem(GetTargetItem()->Id);
 		PlayerBattler->SelectItem(GetTargetItem());
 		PlayerBattler->SetItemSelectState(EItemSelectState::BallSelected);
 		UEventManager::FadeChangeLevel(Global::BattleLevel);

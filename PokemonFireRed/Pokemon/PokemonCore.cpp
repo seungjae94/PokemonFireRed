@@ -74,7 +74,7 @@ void UPokemonCore::BeginPlay()
 	//UPlayerData::GainItem(EItemId::FullHeal, 9);
 	//UPlayerData::GainItem(EItemId::BurnHeal, 99);
 	//UPlayerData::GainItem(EItemId::Antidote, 99);
-	//UPlayerData::GainItem(EItemId::PokeBall, 99);
+	UPlayerData::GainItem(EItemId::PokeBall, 99);
 
 	// 디버그용 업적 완료
 	UPlayerData::Achieve(EAchievement::GetStarterEventStart);
