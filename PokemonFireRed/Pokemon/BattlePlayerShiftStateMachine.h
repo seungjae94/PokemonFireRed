@@ -11,9 +11,11 @@ private:
 	enum class ESubstate
 	{
 		None,
-		Wait1,
+		TakeInMessage1,
+		TakeInMessage2,
 		TakeIn,
-		Wait2,
+		SendOutMessage1,
+		SendOutMessage2,
 		ThrowBall,
 		SendOut,
 		ShowPlayerBox,
@@ -56,12 +58,16 @@ private:
 	const float TakeInTime = 0.3f;
 	const float SendOutTime = 0.3f;
 	const float WaitTime = 0.75f;
+	const float EndWaitTime = 0.25f;
 	const float ShowPlayerBoxTime = 0.5f;
+	const float BattleMsgShowTime = 0.5f;
 
 	// »óÅÂ Æ½ ÇÔ¼ö
-	void ProcessWait1();
+	void ProcessTakeInMessage1();
+	void ProcessTakeInMessage2();
 	void ProcessTakeIn();
-	void ProcessWait2();
+	void ProcessSendOutMessage1();
+	void ProcessSendOutMessage2();
 	void ProcessThrowBall();
 	void ProcessSendOut();
 	void ProcessShowPlayerBox();

@@ -16,11 +16,10 @@ void ABattlePlayerShiftStateMachine::Start(std::wstring_view _TakeInPokemonName)
 
 	TakeInPokemonName = _TakeInPokemonName;
 
-	State = ESubstate::TakeIn;
-	Timer = WaitTime;
+	State = ESubstate::TakeInMessage1;
+	Canvas->PlayerUIReadyForShift();
 	MsgBox->SetMessage(TakeInPokemonName + L", that's enough!\nCome back!");
 	MsgBox->Write();
-	Canvas->PlayerUIReadyForShift();
 }
 
 void ABattlePlayerShiftStateMachine::Tick(float _DeltaTime)
@@ -33,14 +32,20 @@ void ABattlePlayerShiftStateMachine::Tick(float _DeltaTime)
 	{
 	case ESubstate::None:
 		break;
-	case ESubstate::Wait1:
-		ProcessWait1();
+	case ESubstate::TakeInMessage1:
+		ProcessTakeInMessage1();
+		break;
+	case ESubstate::TakeInMessage2:
+		ProcessTakeInMessage2();
 		break;
 	case ESubstate::TakeIn:
 		ProcessTakeIn();
 		break;
-	case ESubstate::Wait2:
-		ProcessWait2();
+	case ESubstate::SendOutMessage1:
+		ProcessSendOutMessage1();
+		break;
+	case ESubstate::SendOutMessage2:
+		ProcessSendOutMessage2();
 		break;
 	case ESubstate::ThrowBall:
 		ProcessThrowBall();
@@ -61,7 +66,16 @@ void ABattlePlayerShiftStateMachine::Tick(float _DeltaTime)
 	}
 }
 
-void ABattlePlayerShiftStateMachine::ProcessWait1()
+void ABattlePlayerShiftStateMachine::ProcessTakeInMessage1()
+{
+	if (EWriteState::WriteEnd == MsgBox->GetWriteState())
+	{
+		State = ESubstate::TakeInMessage2;
+		Timer = BattleMsgShowTime;
+	}
+}
+
+void ABattlePlayerShiftStateMachine::ProcessTakeInMessage2()
 {
 	if (Timer <= 0.0f)
 	{
@@ -74,23 +88,31 @@ void ABattlePlayerShiftStateMachine::ProcessTakeIn()
 {
 	Canvas->TakeInPlayerPokemonToBall(Timer / TakeInTime);
 
-	if (Timer <= 0.0f && MsgBox->GetWriteState() == EWriteState::WriteEnd)
+	if (Timer <= 0.0f)
 	{
-		State = ESubstate::Wait2;
-		Timer = WaitTime;
+		State = ESubstate::SendOutMessage1;
 		Canvas->SetPlayerPokemonBoxActive(false);
 		Canvas->SetPlayerPokemonImageActive(false);
+		MsgBox->SetMessage(L"Go! " + Player->CurPokemonReadonly()->GetNameW() + L"!");
+		MsgBox->Write();
 	}
 }
 
-void ABattlePlayerShiftStateMachine::ProcessWait2()
+void ABattlePlayerShiftStateMachine::ProcessSendOutMessage1()
+{
+	if (EWriteState::WriteEnd == MsgBox->GetWriteState())
+	{
+		State = ESubstate::SendOutMessage2;
+		Timer = BattleMsgShowTime;
+	}
+}
+
+void ABattlePlayerShiftStateMachine::ProcessSendOutMessage2()
 {
 	if (Timer <= 0.0f)
 	{
 		State = ESubstate::ThrowBall;
 		Canvas->PlayThrowedBallAnimation();
-		MsgBox->SetMessage(L"Go! " + Player->CurPokemonReadonly()->GetNameW() + L"!");
-		MsgBox->Write();
 	}
 }
 
@@ -127,7 +149,7 @@ void ABattlePlayerShiftStateMachine::ProcessShowPlayerBox()
 	if (Timer <= 0.0f)
 	{
 		State = ESubstate::EndWait;
-		Timer = WaitTime;
+		Timer = EndWaitTime;
 	}
 }
 
