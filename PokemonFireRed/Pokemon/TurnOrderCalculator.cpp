@@ -73,6 +73,7 @@ int UTurnOrderCalculator::ActionToPriority(const UBattler* _Battler)
     case EBattleAction::Escape:
     case EBattleAction::Shift:
     case EBattleAction::UseItem:
+    case EBattleAction::Ball:
         return 6;
     default:
         break;
