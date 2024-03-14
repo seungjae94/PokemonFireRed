@@ -300,19 +300,19 @@ void ABattlePokeBallStateMachine::ProcessCatchFailAnim()
 		Canvas->SetCatchBallActive(false);
 		Player->SetCatchResult(false);
 
-		if (0 == ShakeCount)
+		if (0 == TestSuccessCount)
 		{
 			MsgBox->SetMessage(L"Oh no!\nThe POKéMON broke free!");
 		}
-		else if (1 == ShakeCount)
+		else if (1 == TestSuccessCount)
 		{
 			MsgBox->SetMessage(L"Aww!\nIt appeared to be caught!");
 		}
-		else if (2 == ShakeCount)
+		else if (2 == TestSuccessCount)
 		{
 			MsgBox->SetMessage(L"Aargh!\nAlmost had it!");
 		}
-		else if (3 == ShakeCount)
+		else if (3 == TestSuccessCount)
 		{
 			MsgBox->SetMessage(L"Shoot!\nIt was so close, too!");
 		}
