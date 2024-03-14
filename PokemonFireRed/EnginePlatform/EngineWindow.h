@@ -19,7 +19,7 @@ public:
 	UEngineWindow& operator=(UEngineWindow&& _Other) noexcept = delete;
 
 	// 실제 윈도우를 화면에 띄운다.
-	void Open(std::string_view _Title = "Pokemon FireRed");
+	void Open(std::string_view _Title = "Title", std::string_view _IconPath = "");
 
 	// static 멤버 변수 hInstance를 초기화한다.
 	static void Init(HINSTANCE _hInst);
@@ -48,11 +48,6 @@ public:
 
 	void SetWindowPosition(const FVector& _Pos);
 	void SetWindowScale(const FVector& _Scale);
-	void SetClearColor(Color8Bit _Color)
-	{
-		_Color.A = 0;
-		ClearColor = _Color;
-	}
 
 	void ScreenClear();
 	void ScreenUpdate();
@@ -62,12 +57,27 @@ public:
 		return Scale;
 	}
 
+	void SetClearColor(Color8Bit _Color)
+	{
+		_Color.A = 0;
+		ClearColor = _Color;
+	}
+
+	void SetWindowTitle(std::string_view _Text)
+	{
+		SetWindowTextA(hWnd, _Text.data());
+	}
+
+	void SetWindowSmallIcon();
+
 	FVector GetMousePosition();
 
 	void Off()
 	{
 		WindowLive = false;
 	}
+
+	void CursorOff();
 
 protected:
 

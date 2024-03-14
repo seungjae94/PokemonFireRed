@@ -33,8 +33,10 @@ UPokemonCore::~UPokemonCore()
 void UPokemonCore::BeginPlay()
 {
 	// 게임 기본 설정
+	MainWindow.SetWindowTitle("Pokemon Firered");
 	MainWindow.SetWindowScale({ Global::ScreenX, Global::ScreenY });
 	MainWindow.SetClearColor(Color8Bit::BlackA);
+	UEngineSound::SetGlobalVolume(0.15f);
 
 	// UI 리소스 로딩
 	LoadUIResources();
