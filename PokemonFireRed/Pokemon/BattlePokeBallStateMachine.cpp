@@ -221,7 +221,7 @@ void ABattlePokeBallStateMachine::ProcessCalcCatch()
 	if (EffectiveCatchRate >= 255)
 	{
 		// 포획 성공
-		State = ESubstate::Shake;
+		State = ESubstate::CheckShakeMore;
 		TestSuccessCount = MaxTestSuccessCount;
 		ShakeCount = MaxTestSuccessCount - 1;
 		return;
