@@ -9,6 +9,12 @@
 // #pragma comment(lib, "fmod_vc.lib")
 
 std::map<std::string, UEngineSound*> UEngineSound::Resources;
+float UEngineSound::GlobalVolume = 1.0f;
+
+void UEngineSoundPlayer::SetVolume(float _Volume)
+{
+	Control->setVolume(_Volume * UEngineSound::GlobalVolume);
+}
 
 // 사운드 로드, 정보 획득 등 사운드 관리에 사용하는 핸들(권한)
 FMOD::System* SoundSystem = nullptr;
@@ -69,6 +75,21 @@ void UEngineSound::ResLoad(std::string_view _Path)
 	}
 }
 
+void UEngineSound::SetGlobalVolume(float _Value)
+{
+	GlobalVolume = _Value;
+
+	if (GlobalVolume <= 0.0f)
+	{
+		GlobalVolume = 0.0f;
+	}
+
+	if (GlobalVolume >= 1.0f)
+	{
+		GlobalVolume = 1.0f;
+	}
+}
+
 UEngineSoundPlayer UEngineSound::SoundPlay(std::string_view _Name)
 {
 	std::string UpperName = UEngineString::ToUpper(_Name);
@@ -84,6 +105,7 @@ UEngineSoundPlayer UEngineSound::SoundPlay(std::string_view _Name)
 	UEngineSoundPlayer Result;
 	SoundSystem->playSound(FindSound->SoundHandle, nullptr, false, &Result.Control);
 	Result.Control->setLoopCount(0);
+	Result.SetVolume(1.0f);
 
 	if (nullptr == Result.Control)
 	{
