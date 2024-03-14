@@ -16,6 +16,11 @@ UBattler* UBattleBagUILevel::GetPlayerBattler()
 	return PlayerBattler;
 }
 
+UBattleLevel* UBattleBagUILevel::GetBattleLevel()
+{
+	return BattleLevel;
+}
+
 void UBattleBagUILevel::LevelStart(ULevel* _PrevLevel)
 {
 	UBagUILevel::LevelStart(_PrevLevel);
@@ -28,8 +33,7 @@ void UBattleBagUILevel::LevelStart(ULevel* _PrevLevel)
 		return;
 	}
 
-
-	UBattleLevel* BattleLevel = dynamic_cast<UBattleLevel*>(_PrevLevel);
+	BattleLevel = dynamic_cast<UBattleLevel*>(_PrevLevel);
 
 	if (nullptr == BattleLevel)
 	{
@@ -49,6 +53,7 @@ void UBattleBagUILevel::SelectTarget()
 	if (TargetIndex == RecordCount)
 	{
 		// 아이템 사용을 취소했다고 마킹을 해줘야 한다.
+		BattleLevel->RefreshPlayerPokemonBox();
 		PlayerBattler->SetItemSelectState(EItemSelectState::Canceled);
 		UEventManager::FadeChangeLevel(Global::BattleLevel);
 		return;

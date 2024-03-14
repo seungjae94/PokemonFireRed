@@ -1,6 +1,8 @@
 #pragma once
 #include "ItemPokemonUILevel.h"
 
+class UBattleLevel;
+
 class UBattleItemPokemonUILevel : public UItemPokemonUILevel
 {
 public:
@@ -17,6 +19,7 @@ public:
 protected:
 
 private:
+	UBattleLevel* BattleLevel = nullptr;
 	UBattler* PlayerBattler = nullptr;
 	void LevelStart(ULevel* _PrevLevel) override;
 

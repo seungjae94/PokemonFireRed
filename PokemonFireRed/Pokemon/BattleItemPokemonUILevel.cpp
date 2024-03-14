@@ -1,5 +1,6 @@
 #include "BattleItemPokemonUILevel.h"
 #include <EnginePlatform/EngineInput.h>
+#include "BattleLevel.h"
 #include "BattleBagUILevel.h"
 
 UBattleItemPokemonUILevel::UBattleItemPokemonUILevel() 
@@ -22,6 +23,7 @@ void UBattleItemPokemonUILevel::LevelStart(ULevel* _PrevLevel)
 		return;
 	}
 
+	BattleLevel = BattleBagUILevel->GetBattleLevel();
 	PlayerBattler = BattleBagUILevel->GetPlayerBattler();
 	Canvas->SetActionBoxImage(RN::PokemonUIBattleActionBox);
 }
@@ -33,6 +35,7 @@ void UBattleItemPokemonUILevel::ProcessItemUseResultMessage()
 		// 아이템 사용에 성공한 경우
 		if (true == ItemUseResult)
 		{
+			BattleLevel->RefreshPlayerPokemonBox();
 			PlayerBattler->SelectItem(UseItem);
 			PlayerBattler->SetItemSelectState(EItemSelectState::ItemUsed);
 			UEventManager::FadeChangeLevel(Global::BattleLevel);

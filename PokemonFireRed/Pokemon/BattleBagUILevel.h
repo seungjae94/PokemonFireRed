@@ -1,6 +1,7 @@
 #pragma once
 #include "BagUILevel.h"
 
+class UBattleLevel;
 class UBattler;
 
 class UBattleBagUILevel : public UBagUILevel
@@ -17,10 +18,12 @@ public:
 	UBattleBagUILevel& operator=(UBattleBagUILevel&& _Other) noexcept = delete;
 
 	UBattler* GetPlayerBattler();
+	UBattleLevel* GetBattleLevel();
 
 protected:
 
 private:
+	UBattleLevel* BattleLevel = nullptr;
 	UBattler* PlayerBattler = nullptr;
 
 	void LevelStart(ULevel* _PrevLevel) override;

@@ -53,6 +53,11 @@ public:
 		return &Player;
 	}
 
+	void RefreshPlayerPokemonBox()
+	{
+		Canvas->RefreshPlayerPokemonBox();
+	}
+
 protected:
 private:
 	// ตฅภฬลอ
