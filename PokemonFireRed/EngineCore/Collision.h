@@ -25,14 +25,14 @@ public:
 	// 충돌 순서가 _Order인 충돌체와 충돌하는지 여부를 반환한다.
 	// 충돌할 경우 충돌체 전부를 _Result에 담아준다. 
 	template<typename EnumType>
-	bool CollisionCheck(EnumType _Order, std::vector<UCollision*>& _Result)
+	bool CollisionCheck(EnumType _Order, std::vector<UCollision*>& _Result, FVector _NextPos = FVector::Zero)
 	{
-		return CollisionCheck(static_cast<int>(_Order), _Result);
+		return CollisionCheck(static_cast<int>(_Order), _Result, _NextPos);
 	}
 
 	// 충돌 순서가 _Order인 충돌체와 충돌하는지 여부를 반환한다.
 	// 충돌할 경우 충돌체 전부를 _Result에 담아준다. 
-	bool CollisionCheck(int _Order, std::vector<UCollision*>& _Result);
+	bool CollisionCheck(int _Order, std::vector<UCollision*>& _Result, FVector _NextPos = FVector::Zero);
 
 	void DebugRender(FVector _CameraPos);
 

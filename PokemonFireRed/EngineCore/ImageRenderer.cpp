@@ -257,9 +257,15 @@ void UImageRenderer::TextRender(float _DeltaTime)
 	}
 }
 
+bool UImageRenderer::IsAnimation(std::string_view _Name)
+{
+	std::string UpperAniName = UEngineString::ToUpper(_Name);
+
+	return AnimationInfos.contains(UpperAniName);
+}
+
 void UImageRenderer::ImageRender(float _DeltaTime)
 {
-
 	if (nullptr == Image)
 	{
 		MsgBoxAssert("이미지가 존재하지 않는 랜더러 입니다");
@@ -275,8 +281,12 @@ void UImageRenderer::ImageRender(float _DeltaTime)
 	{
 	case EImageSortType::Left:
 	{
-		const UImageInfo& Info = Image->ImageInfo(InfoIndex);
 		RendererTrans.AddPosition({ RendererTrans.GetScale().hX() , 0.0f });
+		break;
+	}
+	case EImageSortType::Right:
+	{
+		RendererTrans.AddPosition({ -RendererTrans.GetScale().hX() , 0.0f });
 		break;
 	}
 	default:
