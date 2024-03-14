@@ -17,16 +17,7 @@ public:
 	UTickObject& operator=(const UTickObject& _Other) = delete;
 	UTickObject& operator=(UTickObject&& _Other) noexcept = delete;
 
-	virtual void BeginPlay() 
-	{
-	}
-
-	virtual void Tick(float _DeltaTime)
-	{
-	}
-
-	// ActiveValue 관련 함수
-
+	// Activeness 관련 함수
 	void ActiveOn()
 	{
 		IsActiveValue = true;
@@ -54,21 +45,6 @@ public:
 		IsActiveValue = false;
 	}
 
-	virtual void ActiveUpdate(float _DeltaTime)
-	{
-		ActiveTime -= _DeltaTime;
-
-		if (true == IsActiveUpdate)
-		{
-			if (0.0f >= ActiveTime)
-			{
-				IsActiveUpdate = false;
-				IsActiveValue = true;
-				return;
-			}
-		}
-	}
-
 	bool IsActive()
 	{
 		return IsActiveValue && IsDestroyValue == false;
@@ -84,6 +60,34 @@ public:
 		if (DestroyTime <= 0.0f)
 		{
 			IsDestroyValue = true;
+		}
+	}
+
+	int GetOrder()
+	{
+		return Order;
+	}
+
+	// UTickObject를 상속한 액터와 렌더러는 순서를 변경하는 것 외에도 추가 작업을 해야 하므로 가상 함수로 선언
+	// - 액터: 레벨의 AllActor 맵을 수정
+	// - 렌더러: 레벨의 Renderers 맵을 수정
+	virtual void SetOrder(int _Order)
+	{
+		Order = _Order;
+	}
+
+	virtual void ActiveUpdate(float _DeltaTime)
+	{
+		ActiveTime -= _DeltaTime;
+
+		if (true == IsActiveUpdate)
+		{
+			if (0.0f >= ActiveTime)
+			{
+				IsActiveUpdate = false;
+				IsActiveValue = true;
+				return;
+			}
 		}
 	}
 
@@ -108,20 +112,9 @@ public:
 		return IsDestroyValue;
 	}
 
-	// Order 관련 함수
-
-	int GetOrder()
-	{
-		return Order;
-	}
-
-	// UTickObject를 상속한 액터와 렌더러는 순서를 변경하는 것 외에도 추가 작업을 해야 하므로 가상 함수로 선언
-	// - 액터: 레벨의 AllActor 맵을 수정
-	// - 렌더러: 레벨의 Renderers 맵을 수정
-	virtual void SetOrder(int _Order)
-	{
-		Order = _Order;
-	}
+	virtual void BeginPlay();
+	virtual void Tick(float _DeltaTime);
+	virtual void End();
 
 	void DebugCheckOn()
 	{
@@ -141,22 +134,17 @@ protected:
 private:
 	bool IsDebugCheck = false;
 
-	// [Active 관련]
-	
-	bool IsActiveValue = true;
-	float ActiveTime = 0.0f;
-	bool IsActiveUpdate = false;
+	// 순서 관련
+	// - 액터에서는 업데이트 순서로 사용
+	// - 렌더러에서는 렌더링 순서로 사용
+	int Order = 0;
 
-	// [Destroy 관련]
-	
 	bool IsDestroyValue = false;		// 영구적으로 삭제되었는지 여부
 	float DestroyTime = 0.0f;			// Destroy까지 남은 시간
 	bool IsDestroyUpdate = false;		// DestroyUpdate 실행 여부를 결정
 
-
-	// [순서 관련]
-	// - 액터에서는 업데이트 순서로 사용
-	// - 렌더러에서는 렌더링 순서로 사용
-	int Order = 0;
+	bool IsActiveValue = true;
+	float ActiveTime = 0.0f;
+	bool IsActiveUpdate = false;
 };
 

@@ -7,9 +7,9 @@
 // 상위 개념인 레벨이 하위 개념인 액터, 렌더러를 직접 참조하면 순환 참조 문제가 발생할 수 있다.
 // 클래스 전방 선언으로 순환 참조 문제를 회피한다.
 class AActor;
+class UCollision;
 class UEngineCore;
 class UImageRenderer;
-class UCollision;
 
 // 액터들이 활동할 무대
 class ULevel : public UNameObject
@@ -30,17 +30,21 @@ public:
 	ULevel& operator=(const ULevel& _Other) = delete;
 	ULevel& operator=(ULevel&& _Other) noexcept = delete;
 
-	virtual void BeginPlay() 
-	{
-	}
+	virtual void BeginPlay() {}
+	virtual void Tick(float _DeltaTime) {}
 
-	virtual void Tick(float _DeltaTime) 
-	{
-	}
+	virtual void LevelStart(ULevel* _PrevLevel) {}
+	virtual void LevelEnd(ULevel* _NextLevel) {}
 
 	// 레벨에 액터를 생성해주는 함수
 	// - 액터의 월드를 현재 레벨로 설정하고, 액터의 BeginPlay를 호출한다.
 	// - 액터를 map에 저장한다.
+	template<typename ActorType, typename EnumType>
+	ActorType* SpawnActor(EnumType _Order)
+	{
+		return SpawnActor<ActorType>(static_cast<int>(_Order));
+	}
+
 	template<typename ActorType>
 	ActorType* SpawnActor(int _Order = 0)
 	{
@@ -50,21 +54,10 @@ public:
 		return NewActor;
 	}
 
-	template<typename ActorType, typename EnumType>
-	ActorType* SpawnActor(EnumType _Order)
-	{
-		return SpawnActor<ActorType>(static_cast<int>(_Order));
-	}
-
-	virtual void LevelStart(ULevel* _PrevLevel) {};
-	virtual void LevelEnd(ULevel* _NextLevel) {};
-
-	// 카메라 관련 함수
 	void SetCameraPos(FVector _CameraPos)
 	{
 		CameraPos = _CameraPos;
 	}
-
 
 	void AddCameraPos(FVector _CameraPos)
 	{
@@ -114,14 +107,12 @@ public:
 		TimeScale[_Value] = _Scale;
 	}
 
+	virtual void End() {}
+
 protected:
 
 private:
 	std::map<int, std::list<AActor*>> AllActor;
-	std::map<int, float> TimeScale;
-
-	std::map<int, std::list<UImageRenderer*>> Renderers;
-	std::map<int, std::list<UCollision*>> Collisions;
 
 	// 액터의 월드를 현재 레벨로 설정하고, 액터의 BeginPlay를 호출한다.
 	void ActorInit(AActor* _Actor);
@@ -134,6 +125,11 @@ private:
 
 	// Destroy한 오브젝트(액터) 릴리즈
 	void LevelRelease(float _DeltaTime);
+
+	std::map<int, float> TimeScale;
+
+	std::map<int, std::list<UImageRenderer*>> Renderers;
+	std::map<int, std::list<UCollision*>> Collisions;
 
 	// 카메라 위치
 	FVector CameraPos = FVector::Zero;

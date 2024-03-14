@@ -57,6 +57,8 @@ public:
 		AllLevel.insert(std::pair<std::string, ULevel*>(UpperName, NewLevel));
 	}
 
+	virtual void WindowOpen(std::string& _OutWindowTitle, std::string& _SmallIconPath) {}
+
 	void DestroyLevel(std::string_view _Name);
 
 	void ChangeLevel(std::string_view _Name);
@@ -87,6 +89,10 @@ private:
 	float FrameTime = 0.0f;			// (1 / Frame)과 동일.
 	float CurFrameTime = 0.0f;
 
+	// 윈도우 제목 및 아이콘 설정
+	std::string WindowTitle;
+	std::string WindowIconPath;
+
 	// 레벨 관련
 	bool EngineInit = false;
 	std::map<std::string, ULevel*> AllLevel;
@@ -94,13 +100,12 @@ private:
 	ULevel* NextLevel = nullptr;
 	std::vector<std::string> DestroyLevelName;
 
-	void LevelInit(ULevel* _Level, std::string_view _Name); // 레벨의 BeginPlay 함수를 호출해주는 함수
-
 	// 메시지 루프 콜백 함수
 	static void EngineTick();
 	void CoreTick();
 	static void EngineEnd();		// 코어가 레벨을 생성했기 때문에 코어가 레벨을 릴리즈해야 한다.
 
+	void LevelInit(ULevel* _Level, std::string_view _Name); // 레벨의 BeginPlay 함수를 호출해주는 함수
 };
 
 extern UEngineCore* GEngine;

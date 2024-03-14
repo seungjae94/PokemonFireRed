@@ -4,9 +4,8 @@
 #include <EnginePlatform\EngineSound.h>
 #include <EnginePlatform\EngineInput.h>
 
-
-UEngineCore* GEngine = nullptr;
 bool UEngineCore::IsDebugValue = false;
+UEngineCore* GEngine = nullptr;
 
 UEngineCore::UEngineCore()
 	: MainWindow()
@@ -41,16 +40,39 @@ void UEngineCore::CoreTick()
 
 	// 디버깅 편의성을 위한 옵션 기능
 	// - 디버깅으로 코드를 멈춰놓았을 때 DeltaTime이 커지면서 캐릭터가 한 번에 움직이는 문제를 해결
-	/*if (1.0f / 60.0f <= DeltaTime)
+	if (1.0f / 60.0f <= DeltaTime)
 	{
 		DeltaTime = 1.0f / 60.0f;
-	}*/
+	}
 
 	// 사운드 시스템 업데이트
 	UEngineSound::Update();
 
 	// 키 입력 체크
 	UEngineInput::KeyCheckTick(DeltaTime);
+
+	for (size_t i = 0; i < DestroyLevelName.size(); i++)
+	{
+		std::string UpperName = UEngineString::ToUpper(DestroyLevelName[i]);
+
+		ULevel* Level = AllLevel[UpperName];
+
+		AllLevel.erase(DestroyLevelName[i]);
+
+		if (Level == CurLevel)
+		{
+			CurLevel = nullptr;
+		}
+
+		Level->End();
+
+		if (nullptr != Level)
+		{
+			delete Level;
+			Level = nullptr;
+		}
+	}
+	DestroyLevelName.clear();
 
 	// 레벨 변경
 	// - 한 프레임 동안에는 레벨이 유지되어야 동작을 예상하기 쉽다.
@@ -68,22 +90,6 @@ void UEngineCore::CoreTick()
 		DeltaTime = MainTimer.TimeCheck();
 		CurFrameTime = 0.0f;
 	}
-
-	// 레벨 삭제 기능
-	for (size_t i = 0; i < DestroyLevelName.size(); i++)
-	{
-		std::string UpperName = UEngineString::ToUpper(DestroyLevelName[i]);
-
-		ULevel* Level = AllLevel[UpperName];
-		if (nullptr != Level)
-		{
-			delete Level;
-			Level = nullptr;
-		}
-
-		AllLevel.erase(DestroyLevelName[i]);
-	}
-	DestroyLevelName.clear();
 
 	// 예외 처리: 현재 레벨이 설정되지 않은 경우
 	if (nullptr == CurLevel)

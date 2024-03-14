@@ -11,11 +11,9 @@ ULevel::ULevel()
 
 ULevel::~ULevel()
 {
-	for (std::pair<const int, std::list<AActor*>>& Pair : AllActor)
+	for (std::pair<const int, std::list<AActor*>>& OrderListPair : AllActor)
 	{
-		int Order = Pair.first;
-		std::list<AActor*>& ActorList = Pair.second;
-
+		std::list<AActor*>& ActorList = OrderListPair.second;
 		for (AActor* Actor : ActorList)
 		{
 			if (nullptr == Actor)
@@ -30,11 +28,6 @@ ULevel::~ULevel()
 	AllActor.clear();
 }
 
-void ULevel::ActorInit(AActor* _Actor)
-{
-	_Actor->SetWorld(this);
-	_Actor->BeginPlay();
-}
 
 void ULevel::LevelTick(float _DeltaTime)
 {
@@ -68,9 +61,9 @@ void ULevel::LevelTick(float _DeltaTime)
 
 void ULevel::LevelRender(float _DeltaTime)
 {
-	for (std::pair<const int, std::list<UImageRenderer*>>& Pair : Renderers)
+	for (std::pair<const int, std::list<UImageRenderer*>>& OrderListPair : Renderers)
 	{
-		std::list<UImageRenderer*>& RendererList = Pair.second;
+		std::list<UImageRenderer*>& RendererList = OrderListPair.second;
 		for (UImageRenderer* Renderer : RendererList)
 		{
 			if (false == Renderer->IsActive())
@@ -119,7 +112,7 @@ void ULevel::LevelRelease(float _DeltaTime)
 
 			for (; StartIter != EndIter; )
 			{
-				UCollision* Collision = *StartIter;
+				UCollision* Collision = StartIter.operator*();
 
 				if (false == Collision->IsDestroy())
 				{
@@ -142,7 +135,7 @@ void ULevel::LevelRelease(float _DeltaTime)
 
 			for (; StartIter != EndIter; )
 			{
-				UImageRenderer* Renderer = *StartIter;
+				UImageRenderer* Renderer = StartIter.operator*();
 
 				if (false == Renderer->IsDestroy())
 				{
@@ -155,16 +148,16 @@ void ULevel::LevelRelease(float _DeltaTime)
 		}
 	}
 
-	for (std::pair<const int, std::list<AActor*>>& Pair : AllActor)
+	for (std::pair<const int, std::list<AActor*>>& OrderListPair : AllActor)
 	{
-		std::list<AActor*>& ActorList = Pair.second;
+		std::list<AActor*>& ActorList = OrderListPair.second;
 
 		std::list<AActor*>::iterator StartIter = ActorList.begin();
 		std::list<AActor*>::iterator EndIter = ActorList.end();
 
 		for (; StartIter != EndIter; )
 		{
-			AActor* Actor = *StartIter;
+			AActor* Actor = StartIter.operator*();
 
 			if (Actor == nullptr)
 			{
@@ -187,4 +180,10 @@ void ULevel::LevelRelease(float _DeltaTime)
 			StartIter = ActorList.erase(StartIter);
 		}
 	}
+}
+
+void ULevel::ActorInit(AActor* _Actor)
+{
+	_Actor->SetWorld(this);
+	_Actor->BeginPlay();
 }
