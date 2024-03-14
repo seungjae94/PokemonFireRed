@@ -22,7 +22,8 @@ private:
 		CheckShakeMore,
 		Shake,
 		CatchFailAnim,
-		CatchFailMessage,
+		CatchFailMessage1,
+		CatchFailMessage2,
 		CatchSuccessAnim,
 		CatchSuccessMessage,
 		End,
@@ -71,6 +72,7 @@ private:
 	const float ShakeTime = 1.75f;
 	const float CatchSuccessAnimTime = 1.0f;
 	const float CatchFailAnimTime = 0.15f;
+	const float CatchFailMessageShowTime = 0.5f;
 
 	void ProcessBallUseMessage();
 	void ProcessPokeBallThrow(float _DeltaTime);
@@ -85,7 +87,8 @@ private:
 	void ProcessCheckShakeMore();
 	void ProcessShake();
 	void ProcessCatchFailAnim();
-	void ProcessCatchFailMessage();
+	void ProcessCatchFailMessage1();
+	void ProcessCatchFailMessage2();
 	void ProcessCatchSuccessAnim(float _DeltaTime);
 	void ProcessCatchSuccessMessage();
 };

@@ -230,6 +230,7 @@ void ABattleTurnStateMachine::EndTurnWithReason()
 	if (true == Player->GetCatchResult())
 	{
 		Reason = EBattleEndReason::CatchSuccess;
+		Player->SetCatchResult(false);
 	}
 	else if (true == Enemy->AllFaint())
 	{

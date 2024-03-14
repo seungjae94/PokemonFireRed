@@ -77,8 +77,11 @@ void ABattlePokeBallStateMachine::Tick(float _DeltaTime)
 	case ESubstate::CatchFailAnim:
 		ProcessCatchFailAnim();
 		break;
-	case ESubstate::CatchFailMessage:
-		ProcessCatchFailMessage();
+	case ESubstate::CatchFailMessage1:
+		ProcessCatchFailMessage1();
+		break;
+	case ESubstate::CatchFailMessage2:
+		ProcessCatchFailMessage2();
 		break;
 	case ESubstate::CatchSuccessAnim:
 		ProcessCatchSuccessAnim(_DeltaTime);
@@ -296,7 +299,7 @@ void ABattlePokeBallStateMachine::ProcessCatchFailAnim()
 
 	if (Timer <= 0.0f)
 	{
-		State = ESubstate::CatchFailMessage;
+		State = ESubstate::CatchFailMessage1;
 		Canvas->SetCatchBallActive(false);
 		Player->SetCatchResult(false);
 
@@ -326,9 +329,18 @@ void ABattlePokeBallStateMachine::ProcessCatchFailAnim()
 	}
 }
 
-void ABattlePokeBallStateMachine::ProcessCatchFailMessage()
+void ABattlePokeBallStateMachine::ProcessCatchFailMessage1()
 {
 	if (EWriteState::WriteEnd == MsgBox->GetWriteState())
+	{
+		State = ESubstate::CatchFailMessage2;
+		Timer = CatchFailMessageShowTime;
+	}
+}
+
+void ABattlePokeBallStateMachine::ProcessCatchFailMessage2()
+{
+	if (Timer <= 0.0f)
 	{
 		State = ESubstate::End;
 	}
