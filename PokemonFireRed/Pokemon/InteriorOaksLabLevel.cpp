@@ -241,6 +241,7 @@ void UInteriorOaksLabLevel::SpawnSpecialTrigger(UEventTargetSetting _Setting, UE
 		ES::Start(true)
 		>> ES::ChangeDirection(Global::InteriorOaksLabLevel, EN::RivalGreen, Down)
 		>> ES::ChangeDirection(Global::InteriorOaksLabLevel, EN::Player, Up)
+		>> ES::Surprise(EN::Player)
 		>> ES::Chat({ L"GREEN: Wait, RED!\nLet's check out our POKéMON!", L"Come on, I'll take you on!" }, EFontColor::Blue, 16)
 		>> ES::MoveDynamicPath(EN::RivalGreen, BeforeRivalBattlePathGenerator, 3.6f, false)
 		>> ES::FadeOut(FadeOutTime)

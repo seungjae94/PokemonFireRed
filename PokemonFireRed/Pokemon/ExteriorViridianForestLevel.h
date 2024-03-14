@@ -27,6 +27,7 @@ private:
 	void MakeBugCatcher1();
 	void MakeExitToR2();
 	void MakeExitsToPewter();
+	void MakeAntidoteBall();
 
 	static bool FightWithBugCatcher0Checker();
 	static bool FightWithBugCatcher1Checker();

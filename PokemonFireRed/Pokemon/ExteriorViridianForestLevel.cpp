@@ -1,5 +1,6 @@
 ﻿#include "ExteriorViridianForestLevel.h"
 #include "Trainer.h"
+#include "ItemBall.h"
 
 UExteriorViridianForestLevel::UExteriorViridianForestLevel()
 {
@@ -21,6 +22,7 @@ void UExteriorViridianForestLevel::BeginPlay()
 	MakeBugCatcher1();
 	MakeExitToR2();
 	MakeExitsToPewter();
+	MakeAntidoteBall();
 }
 
 void UExteriorViridianForestLevel::MakeBugCatcher0()
@@ -214,6 +216,21 @@ void UExteriorViridianForestLevel::MakeExitsToPewter()
 			>> ES::End(true)
 		);
 	}
+}
+
+void UExteriorViridianForestLevel::MakeAntidoteBall()
+{
+	UEventTargetSetting AntidoteBallSetting;
+	AntidoteBallSetting.SetName("VFAntidoteBall");
+	AntidoteBallSetting.SetPoint({ 53, 47 });
+	AntidoteBallSetting.SetDirection(FTileVector::Down);
+	AntidoteBallSetting.SetCollidable(true);
+	AntidoteBallSetting.SetImageName(RN::MapBall);
+	AntidoteBallSetting.SetHeight(1);
+
+	AItemBall* AntidoteBall = SpawnEventTrigger<AItemBall>(AntidoteBallSetting);
+	AntidoteBall->SetItem(EItemId::Antidote, 5);
+	AntidoteBall->RegisterPredefinedEvent();
 }
 
 bool UExteriorViridianForestLevel::FightWithBugCatcher0Checker()

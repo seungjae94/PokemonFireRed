@@ -24,6 +24,10 @@ private:
 	void LoadPokemonResources();
 	void LoadSounds();
 	UEngineDirectory CurDir;
+
+	void DebugGeneratePokemons();
+	void DebugGenerateItems();
+	void DebugGenerateAchievements();
 };
 
 

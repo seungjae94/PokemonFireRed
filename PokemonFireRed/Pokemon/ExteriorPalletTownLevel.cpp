@@ -224,17 +224,29 @@ void UExteriorPalletTownLevel::MakePTOak()
 
 void UExteriorPalletTownLevel::MakePTItemBalls()
 {
-	UEventTargetSetting Setting;
-	Setting.SetName("PTPotionBall");
-	Setting.SetPoint({ 75, 142 });
-	Setting.SetDirection(FTileVector::Down);
-	Setting.SetCollidable(true);
-	Setting.SetImageName(RN::MapBall);
-	Setting.SetHeight(1);
+	UEventTargetSetting PotionBallSetting;
+	PotionBallSetting.SetName("PTPotionBall");
+	PotionBallSetting.SetPoint({ 66, 121 });
+	PotionBallSetting.SetDirection(FTileVector::Down);
+	PotionBallSetting.SetCollidable(true);
+	PotionBallSetting.SetImageName(RN::MapBall);
+	PotionBallSetting.SetHeight(1);
 
-	AItemBall* PotionBall = SpawnEventTrigger<AItemBall>(Setting);
+	AItemBall* PotionBall = SpawnEventTrigger<AItemBall>(PotionBallSetting);
 	PotionBall->SetItem(EItemId::Potion, 5);
 	PotionBall->RegisterPredefinedEvent();
+
+	UEventTargetSetting PokeBallSetting;
+	PokeBallSetting.SetName("PTPokeBall");
+	PokeBallSetting.SetPoint({ 67, 121 });
+	PokeBallSetting.SetDirection(FTileVector::Down);
+	PokeBallSetting.SetCollidable(true);
+	PokeBallSetting.SetImageName(RN::MapBall);
+	PokeBallSetting.SetHeight(1);
+
+	AItemBall* PokeBall = SpawnEventTrigger<AItemBall>(PokeBallSetting);
+	PokeBall->SetItem(EItemId::PokeBall, 10);
+	PokeBall->RegisterPredefinedEvent();
 }
 
 void UExteriorPalletTownLevel::MakePTAnimatedTiles()
