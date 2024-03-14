@@ -217,6 +217,16 @@ void UBattler::SelectItem(const FItem* _Item)
 	SelectedItem = _Item;
 }
 
+bool UBattler::GetCatchResult() const
+{
+	return CatchResult;
+}
+
+void UBattler::SetCatchResult(bool _Result)
+{
+	CatchResult = _Result;
+}
+
 void UBattler::EnemyAutoShift()
 {
 	for (int i = 0; i < Entry.size(); ++i)

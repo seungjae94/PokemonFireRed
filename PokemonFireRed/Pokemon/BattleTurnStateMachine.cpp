@@ -49,6 +49,13 @@ void ABattleTurnStateMachine::ProcessAction1()
 {
 	if (true == BattleActionSM->IsEnd())
 	{
+		// 포획에 성공한 경우 즉시 배틀을 종료해야 한다.
+		if (true == Player->GetCatchResult())
+		{
+			EndTurnWithReason();
+			return;
+		}
+
 		State = ESubstate::Action1Faint;
 
 		BattleFaintSM->Start(Attacker, Defender, GetAttackerFaintChecked(), GetDefenderFaintChecked());
@@ -220,7 +227,11 @@ void ABattleTurnStateMachine::SwapAttackerAndDefender()
 
 void ABattleTurnStateMachine::EndTurnWithReason()
 {
-	if (true == Enemy->AllFaint())
+	if (true == Player->GetCatchResult())
+	{
+		Reason = EBattleEndReason::CatchSuccess;
+	}
+	else if (true == Enemy->AllFaint())
 	{
 		if (true == Enemy->IsWildPokemon())
 		{
@@ -272,7 +283,7 @@ bool& ABattleTurnStateMachine::GetEOTTargetFaintChecked()
 	{
 		return PlayerFaintChecked;
 	}
-	
+
 	return EnemyFaintChecked;
 }
 

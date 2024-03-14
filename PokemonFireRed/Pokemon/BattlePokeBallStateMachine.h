@@ -22,7 +22,9 @@ private:
 		CheckShakeMore,
 		Shake,
 		CatchFailAnim,
+		CatchFailMessage,
 		CatchSuccessAnim,
+		CatchSuccessMessage,
 		End,
 	};
 public:
@@ -83,6 +85,8 @@ private:
 	void ProcessCheckShakeMore();
 	void ProcessShake();
 	void ProcessCatchFailAnim();
+	void ProcessCatchFailMessage();
 	void ProcessCatchSuccessAnim(float _DeltaTime);
+	void ProcessCatchSuccessMessage();
 };
 

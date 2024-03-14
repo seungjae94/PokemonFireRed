@@ -20,6 +20,7 @@ enum class EBattleEndReason
 	WinToTrainer,
 	LoseToWild,
 	LoseToTrainer,
+	CatchSuccess
 };
 
 // 턴 순서를 관리하는 역할

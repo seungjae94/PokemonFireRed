@@ -1,7 +1,9 @@
 ﻿#include "BattlePokeBallStateMachine.h"
+#include <EnginePlatform/EngineInput.h>
 #include "Battler.h"
 #include "PokemonMsgBox.h"
 #include "BattleCanvas.h"
+#include "PlayerData.h"
 
 ABattlePokeBallStateMachine::ABattlePokeBallStateMachine() 
 {
@@ -74,8 +76,14 @@ void ABattlePokeBallStateMachine::Tick(float _DeltaTime)
 	case ESubstate::CatchFailAnim:
 		ProcessCatchFailAnim();
 		break;
+	case ESubstate::CatchFailMessage:
+		ProcessCatchFailMessage();
+		break;
 	case ESubstate::CatchSuccessAnim:
 		ProcessCatchSuccessAnim(_DeltaTime);
+		break;
+	case ESubstate::CatchSuccessMessage:
+		ProcessCatchSuccessMessage();
 		break;
 	case ESubstate::End:
 		break;
@@ -287,8 +295,41 @@ void ABattlePokeBallStateMachine::ProcessCatchFailAnim()
 
 	if (Timer <= 0.0f)
 	{
-		State = ESubstate::End;
+		State = ESubstate::CatchFailMessage;
 		Canvas->SetCatchBallActive(false);
+		Player->SetCatchResult(false);
+
+		if (0 == ShakeCount)
+		{
+			MsgBox->SetMessage(L"Oh no!\nThe POKéMON broke free!");
+		}
+		else if (1 == ShakeCount)
+		{
+			MsgBox->SetMessage(L"Aww!\nIt appeared to be caught!");
+		}
+		else if (2 == ShakeCount)
+		{
+			MsgBox->SetMessage(L"Aargh!\nAlmost had it!");
+		}
+		else if (3 == ShakeCount)
+		{
+			MsgBox->SetMessage(L"Shoot!\nIt was so close, too!");
+		}
+		else
+		{
+			MsgBoxAssert("볼 흔들림 횟수가 0 이상 3 이하가 아닌데 포획 실패로 처리되었습니다.");
+			return;
+		}
+
+		MsgBox->Write();
+	}
+}
+
+void ABattlePokeBallStateMachine::ProcessCatchFailMessage()
+{
+	if (EWriteState::WriteEnd == MsgBox->GetWriteState())
+	{
+		State = ESubstate::End;
 	}
 }
 
@@ -300,12 +341,24 @@ void ABattlePokeBallStateMachine::ProcessCatchSuccessAnim(float _DeltaTime)
 	Canvas->AddCatchBallStarPos(1, UPokemonUtil::PixelVector(6, 20) * _DeltaTime);
 	Canvas->AddCatchBallStarPos(2, UPokemonUtil::PixelVector(20, 10) * _DeltaTime);
 
-
 	if (Timer <= 0.0f)
 	{
-		//Gotcha RATTATA\nwas caught!
-		State = ESubstate::End;
+		State = ESubstate::CatchSuccessMessage;
 		Canvas->HideCatchBallStars();
+		Player->SetCatchResult(true);
+		MsgBox->SetMessage(L"Gotcha!\n" + Enemy->CurPokemon()->GetNameW() + L" was caught!");
+		MsgBox->Write();
+	}
+}
+
+void ABattlePokeBallStateMachine::ProcessCatchSuccessMessage()
+{
+	if (EWriteState::WriteEnd == MsgBox->GetWriteState() && true == UEngineInput::IsDown('Z'))
+	{
+		State = ESubstate::End;
+
+		// 실제 포켓몬 획득
+		UPlayerData::AddPokemonToEntry(*Enemy->CurPokemon());
 	}
 }
 

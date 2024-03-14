@@ -137,7 +137,6 @@ void ABattleActionStateMachine::ProcessBall()
 {
 	if (true == BattlePokeBallSM->IsEnd())
 	{
-		// Ã³¸®
 		State = ESubstate::End;
 	}
 }

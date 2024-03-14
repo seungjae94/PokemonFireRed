@@ -41,6 +41,9 @@ void AFinishBattleStateMachine::Start(EBattleEndReason _BattleEndReason)
 		MsgBox->SetMessage(L"RED is out of\nusable POKéMON!");
 		MsgBox->Write();
 		break;
+	case EBattleEndReason::CatchSuccess:
+		State = ESubstate::End;
+		break;
 	default:
 		break;
 	}

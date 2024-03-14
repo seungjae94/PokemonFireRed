@@ -73,6 +73,8 @@ public:
 	EItemSelectState GetItemSelectState() const;
 	void SetItemSelectState(EItemSelectState _State);
 	void SelectItem(const FItem* _Item);
+	bool GetCatchResult() const;
+	void SetCatchResult(bool _Result);
 
 	// 적 액션
 	void EnemyAutoShift();
@@ -147,6 +149,7 @@ private:
 	int ShiftPokemonIndex = -1;
 	const FItem* SelectedItem = nullptr;
 	EItemSelectState ItemSelectState = EItemSelectState::None;
+	bool CatchResult = false;
 
 	// 스탯 관련 변수
 	std::list<UPokemon*> Participants;
