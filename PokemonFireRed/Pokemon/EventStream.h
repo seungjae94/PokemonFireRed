@@ -42,6 +42,7 @@ enum class EEventType
 	TrainerBattle,
 	Achieve,
 	Unachieve,
+	GainItem,
 	End,
 };
 
@@ -171,6 +172,25 @@ public:
 	{
 		EventTypeList.push_back(EEventType::MoveWithoutRestriction);
 		MoveWithoutRestrictionDataSet.push_back(_Data);
+		return *this;
+	}
+
+	class Surprise
+	{
+		friend UEventProcessor;
+	public:
+		Surprise(std::string_view _TargetName)
+			: TargetName(_TargetName)
+		{
+		}
+	private:
+		std::string TargetName;
+	};
+
+	UEventStream& operator>>(const Surprise& _Data)
+	{
+		EventTypeList.push_back(EEventType::Surprise);
+		SurpriseDataSet.push_back(_Data);
 		return *this;
 	}
 
@@ -571,6 +591,26 @@ public:
 		return *this;
 	}
 
+	class GainItem
+	{
+		friend UEventProcessor;
+	public:
+		GainItem(EItemId _ItemId, int _Count)
+			: ItemId(_ItemId), Count(_Count)
+		{
+		}
+	private:
+		EItemId ItemId = EItemId::None;
+		int Count = 0;
+	};
+
+	UEventStream& operator>>(const GainItem& _Data)
+	{
+		EventTypeList.push_back(EEventType::GainItem);
+		GainItemDataSet.push_back(_Data);
+		return *this;
+	}
+
 	class End
 	{
 		friend UEventStream;
@@ -607,6 +647,7 @@ private:
 	std::vector<Move> MoveDataSet;
 	std::vector<MoveDynamicPath> MoveDynamicPathDataSet;
 	std::vector<MoveWithoutRestriction> MoveWithoutRestrictionDataSet;
+	std::vector<Surprise> SurpriseDataSet;
 	std::vector<FadeIn> FadeInDataSet;
 	std::vector<FadeOut> FadeOutDataSet;
 	std::vector<Wait> WaitDataSet;
@@ -626,5 +667,6 @@ private:
 	std::vector<TrainerBattle> TrainerBattleDataSet;
 	std::vector<Achieve> AchieveDataSet;
 	std::vector<Unachieve> UnachieveDataSet;
+	std::vector<GainItem> GainItemDataSet;
 };
 
