@@ -86,13 +86,13 @@ void UBagUILevel::LevelStart(ULevel* _PrevLevel)
 
 	UPokemonUILevel* PokemonUILevel = dynamic_cast<UPokemonUILevel*>(_PrevLevel);
 
-	// 포켓몬 UI 레벨에서 되돌아오는 경우 레벨을 초기화하지 않는다.
+	RefreshPage();
+
+	// 포켓몬 UI 레벨에서 되돌아오는 경우 리스트만 초기화한다.
 	if (nullptr != PokemonUILevel)
 	{
 		return;
 	}
-
-	RefreshPage();
 
 	State = EBagUIState::TargetSelect;
 	Canvas->SetActionItemBoxActive(false);

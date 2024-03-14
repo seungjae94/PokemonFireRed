@@ -67,15 +67,14 @@ void UPokemonCore::BeginPlay()
 	//UPlayerData::AddPokemonToEntry(Pokemon5);
 
 	// 디버그용 아이템 획득
-	UPlayerData::GainItem(EItemId::Potion, 2);
-	UPlayerData::GainItem(EItemId::Potion, 3);
-	UPlayerData::GainItem(EItemId::SuperPotion, 6);
-	UPlayerData::GainItem(EItemId::HyperPotion, 17);
-	UPlayerData::LoseItem(EItemId::HyperPotion, 10);
-	UPlayerData::GainItem(EItemId::FullHeal, 9);
-	UPlayerData::GainItem(EItemId::BurnHeal, 99);
-	UPlayerData::GainItem(EItemId::Antidote, 99);
-	UPlayerData::GainItem(EItemId::PokeBall, 99);
+	UPlayerData::GainItem(EItemId::Potion, 1);
+	//UPlayerData::GainItem(EItemId::SuperPotion, 6);
+	//UPlayerData::GainItem(EItemId::HyperPotion, 17);
+	//UPlayerData::LoseItem(EItemId::HyperPotion, 10);
+	//UPlayerData::GainItem(EItemId::FullHeal, 9);
+	//UPlayerData::GainItem(EItemId::BurnHeal, 99);
+	//UPlayerData::GainItem(EItemId::Antidote, 99);
+	//UPlayerData::GainItem(EItemId::PokeBall, 99);
 
 	// 디버그용 업적 완료
 	UPlayerData::Achieve(EAchievement::GetStarterEventStart);

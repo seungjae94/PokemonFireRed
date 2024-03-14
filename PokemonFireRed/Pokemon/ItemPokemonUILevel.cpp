@@ -88,9 +88,6 @@ void UItemPokemonUILevel::ProcessTestItemUse()
 
 		State = EItemPokemonUIState::HpUpEffect;
 		Timer = HealTime;
-
-		// 아이템 사용에 성공한 경우 아이템을 사용했다고 마킹해둔다.
-		ItemUseResult = true;
 	}
 	else if (EUseEffect::CureAll == UseEffect)
 	{
@@ -112,9 +109,6 @@ void UItemPokemonUILevel::ProcessTestItemUse()
 		Canvas->SetCustomMsgBoxActive(true);
 		Canvas->SetCustomMessage(SelectedPokemon->GetNameW() + L" became healthy.");
 		Canvas->RefreshAllTargets();
-
-		// 아이템 사용에 성공한 경우 바로 
-		ItemUseResult = true;
 	}
 	else if (EUseEffect::CureBurn == UseEffect)
 	{
@@ -136,9 +130,6 @@ void UItemPokemonUILevel::ProcessTestItemUse()
 		Canvas->SetCustomMsgBoxActive(true);
 		Canvas->SetCustomMessage(SelectedPokemon->GetNameW() + L" was cured of it's burning.");
 		Canvas->RefreshAllTargets();
-
-		// 아이템 사용에 성공한 경우 아이템을 사용했다고 마킹해둔다.
-		ItemUseResult = true;
 	}
 	else if (EUseEffect::CurePoison == UseEffect)
 	{
@@ -160,10 +151,11 @@ void UItemPokemonUILevel::ProcessTestItemUse()
 		Canvas->SetCustomMsgBoxActive(true);
 		Canvas->SetCustomMessage(SelectedPokemon->GetNameW() + L" was cured of it's poisoning.");
 		Canvas->RefreshAllTargets();
-
-		// 배틀 아이템 선택 모드에서 아이템 사용에 성공한 경우 아이템을 사용했다고 마킹해둔다.
-		ItemUseResult = true;
 	}
+
+	// 아이템 사용 성공
+	ItemUseResult = true;
+	UPlayerData::LoseItem(UseItem->Id);
 }
 
 void UItemPokemonUILevel::ProcessHpUpEffect()
