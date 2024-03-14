@@ -20,15 +20,7 @@ public:
 	}
 };
 
-CollisionFunctionInit CollisionFunctionInitInst;
-
-FTransform::FTransform()
-{
-}
-
-FTransform::~FTransform()
-{
-}
+CollisionFunctionInit Inst;
 
 bool FTransform::CircleToCircle(const FTransform& _Left, const FTransform& _Right)
 {
@@ -96,13 +88,9 @@ bool FTransform::CircleToRect(const FTransform& _Left, const FTransform& _Right)
 	return false;
 }
 
-bool FTransform::CircleToPoint(const FTransform& _Left, const FTransform& _Right)
+bool FTransform::RectToCircle(const FTransform& _Left, const FTransform& _Right)
 {
-	FVector Dir = _Left.Position - _Right.Position;
-	float Len = _Left.Scale.hX();
-	float Size = Dir.Size2D();
-
-	return Size <= Len;
+	return CircleToRect(_Right, _Left);
 }
 
 bool FTransform::RectToRect(const FTransform& _Left, const FTransform& _Right)
@@ -130,9 +118,23 @@ bool FTransform::RectToRect(const FTransform& _Left, const FTransform& _Right)
 	return true;
 }
 
-bool FTransform::RectToCircle(const FTransform& _Left, const FTransform& _Right)
+bool FTransform::CircleToPoint(const FTransform& _Left, const FTransform& _Right)
 {
-	return CircleToRect(_Right, _Left);
+	FVector Dir = _Left.Position - _Right.Position;
+	float Len = _Left.Scale.hX();
+	float Size = Dir.Size2D();
+
+	return Size <= Len;
+}
+
+bool FTransform::PointToCircle(const FTransform& _Left, const FTransform& _Right)
+{
+	return CircleToPoint(_Right, _Left);
+}
+
+bool FTransform::PointToRect(const FTransform& _Left, const FTransform& _Right)
+{
+	return RectToPoint(_Right, _Left);
 }
 
 bool FTransform::RectToPoint(const FTransform& _Left, const FTransform& _Right)
@@ -160,14 +162,12 @@ bool FTransform::RectToPoint(const FTransform& _Left, const FTransform& _Right)
 	return  true;
 }
 
-bool FTransform::PointToRect(const FTransform& _Left, const FTransform& _Right)
+FTransform::FTransform()
 {
-	return RectToPoint(_Right, _Left);
 }
 
-bool FTransform::PointToCircle(const FTransform& _Left, const FTransform& _Right)
+FTransform::~FTransform()
 {
-	return CircleToPoint(_Right, _Left);
 }
 
 bool FTransform::Collision(ECollisionType _ThisType, ECollisionType _OtherType, const FTransform& _Other)

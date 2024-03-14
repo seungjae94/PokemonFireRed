@@ -45,10 +45,6 @@ public:
 	{
 		Scale = _Value;
 	}
-	void AddScale(FVector _Value)
-	{
-		Scale += _Value;
-	}
 	FVector GetScale() const
 	{
 		return Scale;
@@ -60,6 +56,10 @@ public:
 	void AddPosition(FVector _Value)
 	{
 		Position += _Value;
+	}
+	void AddScale(FVector _Value)
+	{
+		Scale += _Value;
 	}
 	FVector GetPosition() const
 	{
@@ -90,13 +90,13 @@ public:
 	{
 		return Position.X - Scale.hX();
 	}
-	float Right() const
-	{
-		return Position.X + Scale.hX();
-	}
 	float Top() const
 	{
 		return Position.Y - Scale.hY();
+	}
+	float Right() const
+	{
+		return Position.X + Scale.hX();
 	}
 	float Bottom() const
 	{
