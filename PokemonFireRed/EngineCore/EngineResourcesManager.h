@@ -33,6 +33,8 @@ public:
 	
 	void UnloadImg(std::string_view _Name);
 
+	bool IsImage(std::string_view _Name);
+
 	// 이미지 이름을 받아서 리소스 매니저가 가진 맵에서 이미지를 찾아준다.
 	UWindowImage* FindImg(std::string_view _Name);
 

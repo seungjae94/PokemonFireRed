@@ -45,7 +45,7 @@ UWindowImage* UEngineResourcesManager::LoadImg(std::string_view _Path, std::stri
 
 	Images[UpperName] = NewImage;
 
-	return NewImage;
+	return nullptr;
 
 }
 
@@ -62,6 +62,12 @@ void UEngineResourcesManager::UnloadImg(std::string_view _Name)
 	UWindowImage* Image = Images[UpperName];
 	Images.erase(UpperName);
 	delete Image;
+}
+
+bool UEngineResourcesManager::IsImage(std::string_view _Name)
+{
+	std::string UpperName = UEngineString::ToUpper(_Name);
+	return Images.contains(UpperName);
 }
 
 UWindowImage* UEngineResourcesManager::FindImg(std::string_view _Name)
@@ -113,5 +119,5 @@ UWindowImage* UEngineResourcesManager::LoadFolder(std::string_view _Path, std::s
 
 	Images[UpperName] = NewImage;
 
-	return nullptr;
+	return NewImage;
 }
