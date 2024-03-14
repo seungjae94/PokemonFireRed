@@ -61,5 +61,7 @@ private:
 	// 상태 틱 함수
 	void ProcessShow();
 
+	// 유틸 함수
+	void PlayClickSE();
 };
 

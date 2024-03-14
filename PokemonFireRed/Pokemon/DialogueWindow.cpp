@@ -3,6 +3,7 @@
 #include <EnginePlatform/EngineInput.h>
 #include <EngineCore/ImageRenderer.h>
 #include <EngineCore/EngineResourcesManager.h>
+#include "SoundManager.h"
 #include "PokemonLevel.h"
 #include "Text.h"
 #include "PokemonUtil.h"
@@ -35,6 +36,7 @@ void ADialogueWindow::Open(const std::vector<std::wstring>& _Dialogue, EFontColo
 
 	State = EState::Show;
 
+	PlayClickSE();
 	SetActive(true);
 	MsgBox->HideSkipArrow();
 }
@@ -89,6 +91,7 @@ void ADialogueWindow::ProcessShow()
 		MsgBox->ShowSkipArrow();
 		if (true == UEngineInput::IsDown('Z'))
 		{
+			PlayClickSE();
 			MsgBox->HideSkipArrow();
 			MsgBox->Write();
 		}
@@ -103,7 +106,7 @@ void ADialogueWindow::ProcessShow()
 		}
 		if (true == UEngineInput::IsDown('Z'))
 		{
-
+			PlayClickSE();
 			Index++;
 
 			// 대화 종료
@@ -121,4 +124,9 @@ void ADialogueWindow::ProcessShow()
 	default:
 		break;
 	}
+}
+
+void ADialogueWindow::PlayClickSE()
+{
+	USoundManager::PlaySE(RN::SEClick);
 }
