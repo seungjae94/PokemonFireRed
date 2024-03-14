@@ -23,10 +23,6 @@ public:
 		Transform.SetPosition(_Value);
 	}
 
-	FVector GetPosition() const
-	{
-		return Transform.GetPosition();
-	}
 
 	void AddPosition(const FVector& _Value)
 	{
@@ -51,6 +47,11 @@ public:
 	FTransform GetTransform()
 	{
 		return Transform;
+	}
+
+	FVector GetPosition() const
+	{
+		return Transform.GetPosition();
 	}
 
 	FTransform GetActorBaseTransform();

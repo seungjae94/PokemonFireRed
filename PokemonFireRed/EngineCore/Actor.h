@@ -9,6 +9,7 @@
 class ULevel;
 class UActorComponent;
 class UImageRenderer;
+class UCollision;
 
 // 이름이 있고, 매 틱마다 특정 동작을 하며, 레벨 상에서 Transform을 갖는 오브젝트.
 class AActor : public UNameObject, public UTickObject
@@ -42,11 +43,6 @@ public:
 	void AddActorLocation(FVector _Value)
 	{
 		Transform.AddPosition(_Value);
-	}
-
-	void SetActorScale(FVector _Value)
-	{
-		Transform.SetScale(_Value);
 	}
 
 	FTransform GetTransform()
@@ -86,10 +82,8 @@ public:
 	// 자신이 Destroy할 때 갖고 있는 렌더러도 Destroy 해야 한다.
 	// - 레벨도 렌더러 맵을 갖고 있기 때문에 렌더러도 메모리에서 지우기 전에 레벨의 렌더러 맵에서 지워줘야 한다.
 	void Destroy(float _DestroyTime = 0.0f) override;
-
 	void DestroyUpdate(float _DeltaTime) override;
 
-	void SetActive(bool _Active, float _ActiveTime = 0.0f) override;
 	void ActiveUpdate(float _DeltaTime) override;
 
 	// Actor가 살아있을 때, 렌더러와 콜리전이 Destory 된다면 액터가 직접 삭제한다.
@@ -98,6 +92,7 @@ public:
 	void AllRenderersActiveOff();
 	void AllRenderersActiveOn();
 
+	void SetActive(bool _Active, float _ActiveTime = 0.0f) override;
 protected:
 	void Tick(float _DeltaTime) override;
 	void ChildTick(float _DeltaTime);

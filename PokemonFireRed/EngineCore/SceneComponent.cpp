@@ -11,7 +11,6 @@ USceneComponent::~USceneComponent()
 
 FTransform USceneComponent::GetActorBaseTransform()
 {
-
 	FTransform Trans = Transform;
 	Trans.AddPosition(GetOwner()->GetActorLocation());
 	return Trans;
