@@ -22,6 +22,7 @@ void AExteriorDoor::RegisterPredefinedEvent()
 	UEventManager::RegisterEvent(this, Cond,
 		ES::Start(true)
 		>> ES::Move(Global::Player, { FTileVector::Zero }, 7.2f) // 제자리 걷기 동작으로 문을 여는 동작을 표현
+		>> ES::PlaySE(RN::SEDoorOpen)
 		>> ES::PlayAnimation(GetName(), "DoorOpen")
 		>> ES::Move(Global::Player, { TargetDirection })
 		>> ES::HideActor(Global::Player)

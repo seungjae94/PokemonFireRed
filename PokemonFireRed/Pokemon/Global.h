@@ -149,6 +149,7 @@ namespace RN
 	const std::string SEClick = "SEClick.wav";
 	const std::string SEMenu = "SEMenu.wav";
 	const std::string SEExitMap = "SEExitMap.wav";
+	const std::string SEDoorOpen = "SEDoorOpen.wav";
 
 	// ¿ÃπÃ¡ˆ
 	const std::string RivalGreenCharacter = "RivalGreenCharacter.png";
