@@ -118,6 +118,7 @@ void UInteriorPewterGymLevel::MakeCamper()
 		AEventTrigger* BattleTile = SpawnEventTrigger<AEventTrigger>(BattleTileSetting);
 		UEventManager::RegisterEvent(BattleTile, BattleCond,
 			ES::Start(true)
+			>> ES::Surprise(EN::Camper)
 			>> ES::MoveDynamicPath(EN::Camper, CamperPathGenerator, Global::CharacterWalkSpeed, false)
 			>> ES::Chat({ L"Stop right there, kid!", L"You're then thousand light-years\nfrom facing BROCK!"}, EFontColor::Blue, 16)
 			>> ES::FadeOut(0.25f)

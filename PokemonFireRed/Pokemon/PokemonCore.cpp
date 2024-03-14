@@ -46,7 +46,7 @@ void UPokemonCore::BeginPlay()
 	LoadSounds();
 
 	// 디버그용 포켓몬 추가 - 반드시 레벨 생성 이전에 수행
-	//UPokemon Pokemon0 = UPokemon(EPokemonId::Bulbasaur, 10);
+	UPokemon Pokemon0 = UPokemon(EPokemonId::Bulbasaur, 10);
 	//UPokemon Pokemon1 = UPokemon(EPokemonId::Rattata, 1);
 	//UPokemon Pokemon2 = UPokemon(EPokemonId::Squirtle, 2);
 	//UPokemon Pokemon3 = UPokemon(EPokemonId::Charmander, 7);
@@ -59,7 +59,7 @@ void UPokemonCore::BeginPlay()
 	//Pokemon2.AddAccExp(5);
 	//Pokemon3.AddAccExp(3);
 	//Pokemon4.AddAccExp(1);
-	//UPlayerData::AddPokemonToEntry(Pokemon0);
+	UPlayerData::AddPokemonToEntry(Pokemon0);
 	//UPlayerData::AddPokemonToEntry(Pokemon1);
 	//UPlayerData::AddPokemonToEntry(Pokemon2);
 	//UPlayerData::AddPokemonToEntry(Pokemon3);
@@ -77,9 +77,9 @@ void UPokemonCore::BeginPlay()
 	UPlayerData::GainItem(EItemId::PokeBall, 99);
 
 	// 디버그용 업적 완료
-	//UPlayerData::Achieve(EAchievement::GetStarterEventStart);
-	//UPlayerData::Achieve(EAchievement::SelectFirstPokemon);
-	//UPlayerData::Achieve(EAchievement::FightWithGreen);
+	UPlayerData::Achieve(EAchievement::GetStarterEventStart);
+	UPlayerData::Achieve(EAchievement::SelectFirstPokemon);
+	UPlayerData::Achieve(EAchievement::FightWithGreen);
 
 	// 레벨 생성
 	CreateLevel<UTitleLevel>(Global::TitleLevel);

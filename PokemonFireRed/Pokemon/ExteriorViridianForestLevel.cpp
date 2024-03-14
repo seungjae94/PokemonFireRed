@@ -68,6 +68,7 @@ void UExteriorViridianForestLevel::MakeBugCatcher0()
 		AEventTrigger* BattleTile = SpawnEventTrigger<AEventTrigger>(BattleTileSetting);
 		UEventManager::RegisterEvent(BattleTile, BattleCond,
 			ES::Start(true)
+			>> ES::Surprise(EN::BugCatcher0)
 			>> ES::MoveDynamicPath(EN::BugCatcher0, BugCatcher0PathGenerator, Global::CharacterWalkSpeed, false)
 			>> ES::Chat({ L"Hey! you have POKéMON!\nCome on!\nLet's battle 'em!" }, EFontColor::Blue, 16)
 			>> ES::FadeOut(0.25f)
@@ -132,6 +133,7 @@ void UExteriorViridianForestLevel::MakeBugCatcher1()
 		AEventTrigger* BattleTile = SpawnEventTrigger<AEventTrigger>(BattleTileSetting);
 		UEventManager::RegisterEvent(BattleTile, BattleCond,
 			ES::Start(true)
+			>> ES::Surprise(EN::BugCatcher1)
 			>> ES::MoveDynamicPath(EN::BugCatcher1, BugCatcher1PathGenerator, Global::CharacterWalkSpeed, false)
 			>> ES::Chat({ L"Hey Wait up!\nWhat's the hurry? Why the rush?" }, EFontColor::Blue, 16)
 			>> ES::FadeOut(0.25f)

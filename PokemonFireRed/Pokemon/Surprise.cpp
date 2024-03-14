@@ -24,7 +24,7 @@ void ASurprise::BeginPlay()
 {
 	AActor::BeginPlay();
 
-	const int WaitCount = 10;
+	const int WaitCount = 15;
 	std::vector<int> Indexes;
 	for (int i = 0; i <= 7; ++i)
 	{
