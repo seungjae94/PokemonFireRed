@@ -90,5 +90,8 @@ private:
 
 	// 사운드 재생
 	bool IsFirstTick = true;
+
+	// 레벨 종료 마킹
+	bool LevelEndMark = false;
 };
 

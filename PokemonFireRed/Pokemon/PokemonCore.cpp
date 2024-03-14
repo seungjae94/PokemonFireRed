@@ -134,9 +134,31 @@ void UPokemonCore::LoadSounds()
 {
 	CurDir.Move("Bgm");
 
-	// 사운드 로드
-	std::list<UEngineFile> AllSounds = CurDir.AllFile({ ".mp3", ".wav" });
-	for (UEngineFile& Sound : AllSounds)
+	// BGM 로드
+	std::list<UEngineFile> AllBgm = CurDir.AllFile({ ".mp3", ".wav" });
+	for (UEngineFile& Sound : AllBgm)
+	{
+		UEngineSound::Load(Sound.GetFullPath());
+	}
+
+	CurDir.MoveParent();
+
+	CurDir.Move("SE");
+
+	// SE 로드
+	std::list<UEngineFile> AllSE = CurDir.AllFile({ ".mp3", ".wav" });
+	for (UEngineFile& Sound : AllSE)
+	{
+		UEngineSound::Load(Sound.GetFullPath());
+	}
+
+	CurDir.MoveParent();
+
+	CurDir.Move("Cry");
+
+	// 포켓몬 울음소리 로드
+	std::list<UEngineFile> AllCries = CurDir.AllFile({ ".mp3", ".wav" });
+	for (UEngineFile& Sound : AllCries)
 	{
 		UEngineSound::Load(Sound.GetFullPath());
 	}

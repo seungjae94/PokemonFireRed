@@ -22,7 +22,8 @@ class GameDBInitiator
 public:
 	GameDBInitiator()
 	{
-		CurDir.MoveToSearchChild("GameData");
+		CurDir.MoveToSearchChild("Resources");
+		CurDir.Move("GameData");
 		InitNameResolver();
 		GeneratePokemons();
 		GenerateMoves();

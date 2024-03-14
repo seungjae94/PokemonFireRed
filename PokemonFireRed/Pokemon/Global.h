@@ -144,6 +144,8 @@ namespace EN
 // Resource Name
 namespace RN
 {
+	const std::string TitleCharizardCry = "CryCharizard.wav";
+
 	const std::string RivalGreenCharacter = "RivalGreenCharacter.png";
 
 	const std::string BlackScreen = "BlackScreen.png";
