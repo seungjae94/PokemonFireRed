@@ -11,6 +11,7 @@
 #include "EventStream.h"
 #include "Player.h"
 #include "Map.h"
+#include "Surprise.h"
 #include "MenuCanvas.h"
 #include "DialogueWindow.h"
 #include "MapNameCanvas.h"
@@ -60,6 +61,13 @@ void UMapLevel::BeginPlay()
 	// 액터 생성
 	Player = SpawnPlayer({ 0, 0 });
 	Map = SpawnActor<AMap>();
+
+	UEventTargetSetting SurpriseSetting;
+	SurpriseSetting.SetName(EN::Surprise);
+	SurpriseSetting.SetDirection(FTileVector::Down);
+	SurpriseSetting.SetPoint({10000, 10000});
+	SurpriseSetting.SetCollidable(false);
+	ASurprise* Surprise = SpawnEventTarget<ASurprise>(SurpriseSetting);
 
 	// 플레이어 데이터 바인딩
 	Player->SetMap(Map);
@@ -219,8 +227,9 @@ void UMapLevel::LoadObjectResources()
 		UEngineResourcesManager::GetInst().LoadFolder(CurDir.AppendPath(Name));
 	}
 
-	// BallHeal 로드
+	// BallHeal, Surprise 로드
 	UEngineResourcesManager::GetInst().CuttingImage(RN::BallHeal, 5, 1);
+	UEngineResourcesManager::GetInst().CuttingImage(RN::Surprise, 8, 1);
 
 	CurDir.MoveParent();
 }

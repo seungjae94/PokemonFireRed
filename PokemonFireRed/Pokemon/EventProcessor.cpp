@@ -9,6 +9,7 @@
 #include "FadeCanvas.h"
 #include "SoundManager.h"
 #include "Trainer.h"
+#include "Surprise.h"
 
 UEventProcessor::UEventProcessor()
 {
@@ -462,7 +463,27 @@ bool UEventProcessor::ProcessMoveWithoutRestriction()
 
 bool UEventProcessor::ProcessSurprise()
 {
-	return true;
+	int CurIndexOfType = GetCurIndexOfType(EEventType::Surprise);
+	ES::Surprise& Data = CurStream->SurpriseDataSet[CurIndexOfType];
+
+	if (true == SurpriseFirstTick)
+	{
+		AEventTarget* Target = UEventManager::FindCurLevelTarget<AEventTarget>(Data.TargetName);
+		Surprise = UEventManager::FindCurLevelTarget<ASurprise>(EN::Surprise);
+		UEventManager::SetPoint(UEventManager::CurLevelName, EN::Surprise, Target->GetPoint() + FTileVector(0, -2));
+		Surprise->Play();
+		Surprise->SetActive(true);
+		SurpriseFirstTick = false;
+		return false;
+	}
+	else if (true == Surprise->IsEnd())
+	{
+		Surprise->SetActive(false);
+		SurpriseFirstTick = true;
+		return true;
+	}
+
+	return false;
 }
 
 void UEventProcessor::PostProcessMoveWR(AEventTarget* _Target)

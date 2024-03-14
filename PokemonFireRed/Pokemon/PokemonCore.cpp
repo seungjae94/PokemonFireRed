@@ -46,22 +46,22 @@ void UPokemonCore::BeginPlay()
 	LoadSounds();
 
 	// 디버그용 포켓몬 추가 - 반드시 레벨 생성 이전에 수행
-	UPokemon Pokemon0 = UPokemon(EPokemonId::Bulbasaur, 10);
-	UPokemon Pokemon1 = UPokemon(EPokemonId::Rattata, 1);
-	UPokemon Pokemon2 = UPokemon(EPokemonId::Squirtle, 2);
+	//UPokemon Pokemon0 = UPokemon(EPokemonId::Bulbasaur, 10);
+	//UPokemon Pokemon1 = UPokemon(EPokemonId::Rattata, 1);
+	//UPokemon Pokemon2 = UPokemon(EPokemonId::Squirtle, 2);
 	//UPokemon Pokemon3 = UPokemon(EPokemonId::Charmander, 7);
 	//UPokemon Pokemon4 = UPokemon(EPokemonId::Pidgey, 2);
 	//UPokemon Pokemon5 = UPokemon(EPokemonId::Caterpie, 3);
 	//Pokemon0.SetCurHp(Pokemon0.GetHp() / 6);
-	Pokemon1.SetCurHp(Pokemon1.GetHp() / 3);
+	//Pokemon1.SetCurHp(Pokemon1.GetHp() / 3);
 	//Pokemon0.AddAccExp(0);
 	//Pokemon1.AddAccExp(15);
 	//Pokemon2.AddAccExp(5);
 	//Pokemon3.AddAccExp(3);
 	//Pokemon4.AddAccExp(1);
-	UPlayerData::AddPokemonToEntry(Pokemon0);
-	UPlayerData::AddPokemonToEntry(Pokemon1);
-	UPlayerData::AddPokemonToEntry(Pokemon2);
+	//UPlayerData::AddPokemonToEntry(Pokemon0);
+	//UPlayerData::AddPokemonToEntry(Pokemon1);
+	//UPlayerData::AddPokemonToEntry(Pokemon2);
 	//UPlayerData::AddPokemonToEntry(Pokemon3);
 	//UPlayerData::AddPokemonToEntry(Pokemon4);
 	//UPlayerData::AddPokemonToEntry(Pokemon5);
@@ -77,9 +77,9 @@ void UPokemonCore::BeginPlay()
 	UPlayerData::GainItem(EItemId::PokeBall, 99);
 
 	// 디버그용 업적 완료
-	UPlayerData::Achieve(EAchievement::GetStarterEventStart);
-	UPlayerData::Achieve(EAchievement::SelectFirstPokemon);
-	UPlayerData::Achieve(EAchievement::FightWithGreen);
+	//UPlayerData::Achieve(EAchievement::GetStarterEventStart);
+	//UPlayerData::Achieve(EAchievement::SelectFirstPokemon);
+	//UPlayerData::Achieve(EAchievement::FightWithGreen);
 
 	// 레벨 생성
 	CreateLevel<UTitleLevel>(Global::TitleLevel);

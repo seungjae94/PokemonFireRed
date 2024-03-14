@@ -4,6 +4,7 @@
 #include "EventManager.h"
 #include "EventCondition.h"
 
+class ASurprise;
 class AEventTarget;
 class AEventTrigger;
 class UEventCondition;
@@ -141,5 +142,9 @@ private:
 
 	// 프로세싱 변수 - 애니메이션
 	bool PlayAnimIsFirstTick = true;
+
+	// 프로세싱 변수 - Surprise
+	bool SurpriseFirstTick = true;
+	ASurprise* Surprise = nullptr;
 };
 

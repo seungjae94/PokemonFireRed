@@ -100,6 +100,7 @@ namespace EN
 {
 	// Common
 	const std::string SpecialTrigger = "SpecialTrigger";
+	const std::string Surprise = "Surprise";
 
 	// Pallet Town
 	const std::string OaksLabDoor = "OaksLabDoor";
@@ -285,6 +286,7 @@ namespace RN
 	const std::string SlideDoor = "SlideDoor";
 	const std::string GymDoor = "GymDoor";
 	const std::string BallHeal = "BallHeal.png";
+	const std::string Surprise = "Surprise.png";
 
 	// 맵 레벨 UI 리소스
 	const std::string YesNoOptionBox = "YesNoOptionBox.png";

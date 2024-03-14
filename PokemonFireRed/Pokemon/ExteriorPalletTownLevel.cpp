@@ -162,7 +162,7 @@ void UExteriorPalletTownLevel::SpawnPTGetStarterEventTrigger(UEventTargetSetting
 		>> ES::SetActive(GetName(), EN::Oak, true)
 		>> ES::Chat({ L"OAK: Hey! Wait!\nDon't go out!" }, EFontColor::Blue, 16)
 		>> ES::ChangeDirection(Global::ExteriorPalletTownLevel, EN::Player, FTileVector::Down)
-		//>> ES::Surprise(EN::Player, {})
+		>> ES::Surprise(EN::Player)
 		>> ES::Move(EN::Oak, _OakComePath, 3.6f, false)
 		>> ES::Chat({
 	   L"OAK: It's unsafe!\nWild POKéMON live in tall grass!",
