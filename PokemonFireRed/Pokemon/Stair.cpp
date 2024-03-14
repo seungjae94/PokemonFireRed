@@ -23,6 +23,7 @@ void AStair::RegisterPredefinedEvent()
 
 	UEventManager::RegisterEvent(this, StairCond,
 		ES::Start(true)
+		>> ES::PlaySE(RN::SEExitMap)
 		>> ES::FadeOut(0.5f)
 		>> ES::MoveWithoutRestriction(Global::Player, FirstPath, 0.75f * Global::CharacterWalkSpeed)
 		>> ES::ChangeLevel(TargetMapName)

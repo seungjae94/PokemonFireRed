@@ -25,6 +25,7 @@ void AInteriorDoor::RegisterPredefinedEvent()
 	UEventManager::RegisterEvent(this, Cond,
 		ES::Start(true)
 		>> ES::PlayAnimation(Global::Player, Global::Player + "Idle" + TargetDirection.ToDirectionString())
+		>> ES::PlaySE(RN::SEExitMap)
 		>> ES::FadeOut(0.5f)
 		>> ES::Wait(0.5f)
 		>> ES::ChangeLevel(TargetMapName)

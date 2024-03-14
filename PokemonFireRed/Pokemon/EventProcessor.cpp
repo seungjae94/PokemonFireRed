@@ -694,7 +694,7 @@ bool UEventProcessor::ProcessPlaySE()
 	int CurIndexOfType = GetCurIndexOfType(EEventType::PlaySE);
 	ES::PlaySE& Data = CurStream->PlaySEDataSet[CurIndexOfType];
 	USoundManager::PlaySE(Data.Name);
-	return false;
+	return true;
 }
 
 bool UEventProcessor::ProcessChat()
