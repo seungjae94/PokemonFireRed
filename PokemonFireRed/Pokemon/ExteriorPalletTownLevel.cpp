@@ -3,6 +3,7 @@
 #include "ExteriorDoor.h"
 #include "ClosedDoor.h"
 #include "DialogueActor.h"
+#include "ItemBall.h"
 #include "Text.h"
 #include "PlayerData.h"
 #include "Pokemon.h"
@@ -51,6 +52,7 @@ void UExteriorPalletTownLevel::MakePalletTown()
 	MakePTTechMan();
 	MakePTGetStarterEventTriggers();
 	MakePTOak();
+	MakePTItemBalls();
 	MakePTAnimatedTiles();
 }
 
@@ -218,6 +220,21 @@ void UExteriorPalletTownLevel::MakePTOak()
 
 	AEventTarget* Oak = SpawnEventTarget<AEventTarget>(Setting);
 	Oak->SetActive(false);
+}
+
+void UExteriorPalletTownLevel::MakePTItemBalls()
+{
+	UEventTargetSetting Setting;
+	Setting.SetName("PTPotionBall");
+	Setting.SetPoint({ 75, 142 });
+	Setting.SetDirection(FTileVector::Down);
+	Setting.SetCollidable(true);
+	Setting.SetImageName(RN::MapBall);
+	Setting.SetHeight(1);
+
+	AItemBall* PotionBall = SpawnEventTrigger<AItemBall>(Setting);
+	PotionBall->SetItem(EItemId::Potion, 5);
+	PotionBall->RegisterPredefinedEvent();
 }
 
 void UExteriorPalletTownLevel::MakePTAnimatedTiles()

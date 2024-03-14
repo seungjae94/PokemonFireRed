@@ -39,6 +39,7 @@ private:
 		const std::vector<FTileVector>& _OakGoToLabPath, 
 		const std::vector<FTileVector>& _PlayerGoToLabPath);
 	void MakePTOak();
+	void MakePTItemBalls();
 	void MakePTAnimatedTiles();
 
 	// 상록 시티

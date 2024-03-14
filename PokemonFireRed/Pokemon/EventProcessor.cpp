@@ -59,6 +59,9 @@ void UEventProcessor::Tick(float _DeltaTime)
 		case EEventType::MoveWithoutRestriction:
 			ProcessingResult = ProcessMoveWithoutRestriction();
 			break;
+		case EEventType::Surprise:
+			ProcessingResult = ProcessSurprise();
+			break;
 		case EEventType::FadeIn:
 			ProcessingResult = ProcessFadeIn();
 			break;
@@ -115,6 +118,9 @@ void UEventProcessor::Tick(float _DeltaTime)
 			break;
 		case EEventType::Unachieve:
 			ProcessingResult = ProcessUnachieve();
+			break;
+		case EEventType::GainItem:
+			ProcessingResult = ProcessGainItem();
 			break;
 		case EEventType::DeactivatePlayerControl:
 			ProcessingResult = ProcessDeactivatePlayerControl();
@@ -452,6 +458,11 @@ bool UEventProcessor::ProcessMoveWithoutRestriction()
 		MoveWRPathIndex++;
 	}
 	return false;
+}
+
+bool UEventProcessor::ProcessSurprise()
+{
+	return true;
 }
 
 void UEventProcessor::PostProcessMoveWR(AEventTarget* _Target)
@@ -807,6 +818,14 @@ bool UEventProcessor::ProcessUnachieve()
 	int CurIndexOfType = GetCurIndexOfType(EEventType::Unachieve);
 	ES::Achieve& Data = CurStream->AchieveDataSet[CurIndexOfType];
 	UPlayerData::Unachieve(Data.Achievement);
+	return true;
+}
+
+bool UEventProcessor::ProcessGainItem()
+{
+	int CurIndexOfType = GetCurIndexOfType(EEventType::GainItem);
+	ES::GainItem& Data = CurStream->GainItemDataSet[CurIndexOfType];
+	UPlayerData::GainItem(Data.ItemId, Data.Count);
 	return true;
 }
 

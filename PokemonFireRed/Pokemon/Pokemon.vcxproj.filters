@@ -507,6 +507,9 @@
     <ClInclude Include="BattlePokeBallStateMachine.h">
       <Filter>2. Level\7. BattleLevel\StateMachine\3. Turn\0. Action</Filter>
     </ClInclude>
+    <ClInclude Include="ItemBall.h">
+      <Filter>2. Level\2. MapLevel\3. Actor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PokemonCore.cpp">
@@ -859,6 +862,9 @@
     </ClCompile>
     <ClCompile Include="BattlePokeBallStateMachine.cpp">
       <Filter>2. Level\7. BattleLevel\StateMachine\3. Turn\0. Action</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemBall.cpp">
+      <Filter>2. Level\2. MapLevel\3. Actor</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

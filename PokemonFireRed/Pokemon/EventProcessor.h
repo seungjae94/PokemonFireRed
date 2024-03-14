@@ -92,6 +92,7 @@ private:
 	bool SubprocessMoveStart(const std::vector<std::string>& _TargetNames, const std::vector<std::vector<FTileVector>>& _Paths, float _MoveSpeed);
 	bool SubprocessMove(const std::vector<std::string>& _TargetNames, const std::vector<std::vector<FTileVector>>& _Paths, float _MoveSpeed, bool _CameraFollow, float _DeltaTime);
 	bool ProcessMoveWithoutRestriction();
+	bool ProcessSurprise();
 	void PostProcessMoveWR(AEventTarget* _Target);
 	bool ProcessFadeIn();
 	bool ProcessFadeOut();
@@ -112,6 +113,7 @@ private:
 	bool ProcessTrainerBattle();
 	bool ProcessAchieve();
 	bool ProcessUnachieve();
+	bool ProcessGainItem();
 	bool ProcessDeactivatePlayerControl();
 
 	// 프로세싱 변수 - 공통
