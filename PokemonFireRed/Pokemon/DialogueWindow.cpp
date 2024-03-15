@@ -36,7 +36,6 @@ void ADialogueWindow::Open(const std::vector<std::wstring>& _Dialogue, EFontColo
 
 	State = EState::Show;
 
-	PlayClickSE();
 	SetActive(true);
 	MsgBox->HideSkipArrow();
 }
@@ -106,7 +105,6 @@ void ADialogueWindow::ProcessShow()
 		}
 		if (true == UEngineInput::IsDown('Z'))
 		{
-			PlayClickSE();
 			Index++;
 
 			// 대화 종료
@@ -115,6 +113,8 @@ void ADialogueWindow::ProcessShow()
 				State = EState::End;
 				return;
 			}
+
+			PlayClickSE();
 
 			MsgBox->SetMessage(Dialogue[Index]);
 			MsgBox->HideSkipArrow();

@@ -7,6 +7,7 @@
 #include "EventManager.h"
 #include "MenuCanvas.h"
 #include "Pokemon.h"
+#include "SoundManager.h"
 
 APlayer::APlayer()
 {
@@ -527,6 +528,11 @@ bool APlayer::TryZClickEvent()
 	}
 
 	bool RunResult = UEventManager::TriggerEvent(Trigger, EEventTriggerAction::ZClick);
+
+	if (true == RunResult)
+	{
+		USoundManager::PlaySE(RN::SEClick);
+	}
 
 	return RunResult;
 }
