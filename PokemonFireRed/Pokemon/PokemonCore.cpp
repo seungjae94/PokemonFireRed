@@ -48,7 +48,7 @@ void UPokemonCore::BeginPlay()
 	LoadSounds();
 
 	// 디버그용 데이터
-	//DebugGeneratePokemons();
+	DebugGeneratePokemons();
 	//DebugGenerateItems();
 	DebugGenerateAchievements();
 
@@ -76,7 +76,7 @@ void UPokemonCore::BeginPlay()
 	CreateLevel<UBattleBagUILevel>(Global::BattleBagUILevel);
 
 	// 시작 레벨 설정
-	UEventManager::SetLevel(Global::InteriorOaksLabLevel);
+	UEventManager::SetLevel(Global::ExteriorViridianForestLevel);
 }
 
 void UPokemonCore::Tick(float _DeltaTime)
@@ -204,6 +204,6 @@ void UPokemonCore::DebugGenerateItems()
 void UPokemonCore::DebugGenerateAchievements()
 {
 	UPlayerData::Achieve(EAchievement::GetStarterEventStart);
-	//UPlayerData::Achieve(EAchievement::SelectFirstPokemon);
-	//UPlayerData::Achieve(EAchievement::FightWithGreen);
+	UPlayerData::Achieve(EAchievement::SelectFirstPokemon);
+	UPlayerData::Achieve(EAchievement::FightWithGreen);
 }
