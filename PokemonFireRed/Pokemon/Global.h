@@ -9,7 +9,7 @@ namespace Global
 	// Cheat
 	const float CheatDamageBonusCoeff = 100.0f;
 	const float CheatExpBonusCoeff = 2.0f;
-	const float CheatWildBattleFrequency = 0.5f;
+	const float CheatWildBattleFrequency = 0.0f;
 	const int CheatCatchRateBonusCoeff = 10;
 	extern bool IsCheatOn;
 	extern float DamageBonusCoeff;
