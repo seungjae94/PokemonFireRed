@@ -76,7 +76,7 @@ void UPokemonCore::BeginPlay()
 	CreateLevel<UBattleBagUILevel>(Global::BattleBagUILevel);
 
 	// 시작 레벨 설정
-	UEventManager::SetLevel(Global::ExteriorViridianForestLevel);
+	UEventManager::SetLevel(Global::InteriorPewterGymLevel);
 }
 
 void UPokemonCore::Tick(float _DeltaTime)

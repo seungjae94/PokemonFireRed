@@ -118,9 +118,11 @@ void UInteriorPewterGymLevel::MakeCamper()
 		AEventTrigger* BattleTile = SpawnEventTrigger<AEventTrigger>(BattleTileSetting);
 		UEventManager::RegisterEvent(BattleTile, BattleCond,
 			ES::Start(true)
+			>> ES::PlayBgm(RN::BgmEncounterBoy)
 			>> ES::Surprise(EN::Camper)
 			>> ES::MoveDynamicPath(EN::Camper, CamperPathGenerator, Global::CharacterWalkSpeed, false)
 			>> ES::Chat({ L"Stop right there, kid!", L"You're then thousand light-years\nfrom facing BROCK!"}, EFontColor::Blue, 16)
+			>> ES::PlayBgm(RN::BgmTrainerBattle)
 			>> ES::FadeOut(0.25f)
 			>> ES::Wait(0.25f)
 			>> ES::FadeIn(0.15f)
@@ -161,13 +163,15 @@ void UInteriorPewterGymLevel::MakeGymLeader()
 
 	UEventManager::RegisterEvent(Brock, BattleCond,
 		ES::Start(true)
-		>> ES::Chat({L"So, you're here. I'm BROCK.\nI'm PEWTER's GYM LEADER.", 
+		>> ES::Chat({ L"So, you're here. I'm BROCK.\nI'm PEWTER's GYM LEADER.",
 			L"My rock-hard willpower is evident\neven in my POKéMON.",
 			L"My POKéMON are all rock hard, and\nhave true-grit determination.",
 			L"That's right - my POKéMON are all\nthe ROCK type!",
 			L"Fuhaha! You're going to challenge\nme knowing that you'll lose?",
-			L"That's the TRAINER's honor that\ncompels you to challenge me.",
-			L"Fine, then!\nShow me your best!"}, EFontColor::Blue, 16)
+			L"That's the TRAINER's honor that\ncompels you to challenge me." }, EFontColor::Blue, 16)
+		>> ES::PlayBgm(RN::BgmEncounterGymLeader)
+		>> ES::Chat({ L"Fine, then!\nShow me your best!" }, EFontColor::Blue, 16)
+		>> ES::PlayBgm(RN::BgmGymLeaderBattle)
 		>> ES::FadeOut(0.25f)
 		>> ES::Wait(0.25f)
 		>> ES::FadeIn(0.15f)
