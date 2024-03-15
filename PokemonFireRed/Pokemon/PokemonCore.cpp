@@ -49,7 +49,7 @@ void UPokemonCore::BeginPlay()
 
 	// 디버그용 데이터
 	DebugGeneratePokemons();
-	//DebugGenerateItems();
+	DebugGenerateItems();
 	DebugGenerateAchievements();
 
 	// 레벨 생성

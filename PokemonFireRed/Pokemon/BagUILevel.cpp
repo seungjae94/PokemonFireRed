@@ -3,6 +3,7 @@
 #include <EngineBase/EngineFile.h>
 #include <EnginePlatform/EngineInput.h>
 #include <EngineCore/EngineResourcesManager.h>
+#include "SoundManager.h"
 #include "MapLevel.h"
 #include "BattleLevel.h"
 #include "PokemonUILevel.h"
@@ -102,12 +103,14 @@ void UBagUILevel::ProcessTargetSelect()
 {
 	if (true == UEngineInput::IsDown('Z'))
 	{
+		PlayClickSE();
 		SelectTarget();
 		return;
 	}
 
 	if (true == UEngineInput::IsDown('X'))
 	{
+		PlayClickSE();
 		CancelTargetSelection();
 		return;
 	}
@@ -128,6 +131,7 @@ void UBagUILevel::ProcessTargetSelect()
 	{
 		if (Page + 1 <= 2)
 		{
+			PlayClickSE();
 			++Page;
 			RefreshPage();
 			return;
@@ -138,6 +142,7 @@ void UBagUILevel::ProcessTargetSelect()
 	{
 		if (Page - 1 >= 0)
 		{
+			PlayClickSE();
 			--Page;
 			RefreshPage();
 			return;
@@ -149,6 +154,7 @@ void UBagUILevel::ProcessActionSelect()
 {
 	if (true == UEngineInput::IsDown('Z'))
 	{
+		PlayClickSE();
 		SelectAction();
 		return;
 	}
@@ -156,6 +162,7 @@ void UBagUILevel::ProcessActionSelect()
 	// 액션창을 끄고 다시 아이템을 선택한다.
 	if (true == UEngineInput::IsDown('X'))
 	{
+		PlayClickSE();
 		Canvas->SetActionCursor(0);
 		Canvas->SetActionItemBoxActive(false);
 		State = EBagUIState::TargetSelect;
@@ -164,13 +171,23 @@ void UBagUILevel::ProcessActionSelect()
 
 	if (true == UEngineInput::IsDown(VK_UP))
 	{
+		int PrevActionCursor = Canvas->GetActionCursor();
 		Canvas->DecActionCursor();
+		if (PrevActionCursor != Canvas->GetActionCursor())
+		{
+			PlayClickSE();
+		}
 		return;
 	}
 
 	if (true == UEngineInput::IsDown(VK_DOWN))
 	{
+		int PrevActionCursor = Canvas->GetActionCursor();
 		Canvas->IncActionCursor();
+		if (PrevActionCursor != Canvas->GetActionCursor())
+		{
+			PlayClickSE();
+		}
 		return;
 	}
 }
@@ -178,6 +195,11 @@ void UBagUILevel::ProcessActionSelect()
 EItemType UBagUILevel::GetCurItemType() const
 {
 	return static_cast<EItemType>(Page + 1);
+}
+
+void UBagUILevel::PlayClickSE()
+{
+	USoundManager::PlaySE(RN::SEClick);
 }
 
 void UBagUILevel::ScrollUp()
@@ -215,6 +237,7 @@ void UBagUILevel::ScrollUp()
 		--TargetIndex;
 	}
 
+	PlayClickSE();
 	RefreshPage();
 }
 
@@ -253,6 +276,7 @@ void UBagUILevel::ScrollDown()
 		++TargetIndex;
 	}
 
+	PlayClickSE();
 	RefreshPage();
 }
 

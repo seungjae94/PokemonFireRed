@@ -57,6 +57,7 @@ protected:
 
 	// 유틸 함수
 	EItemType GetCurItemType() const;
+	static void PlayClickSE();
 private:
 	static bool IsCommonResourcesLoaded;
 
