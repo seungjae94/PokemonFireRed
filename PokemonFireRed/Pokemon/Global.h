@@ -145,13 +145,26 @@ namespace EN
 namespace RN
 {
 	// BGM
-	const std::string BgmTitleBattle = "TitleBattle.mp3";
-	const std::string BgmTitleScreen = "TitleScreen.mp3";
-	const std::string BgmTutorial = "Tutorial.mp3";
-	const std::string BgmPalletTown = "PalletTown.mp3";
-	const std::string BgmWildBattle = "WildBattle.mp3";
-	const std::string BgmOaksLab = "OaksLab.mp3";
-	const std::string BgmOaksTheme = "OaksTheme.mp3";
+	const std::string BgmEncounterBoy = "BgmEncounterBoy.mp3";
+	const std::string BgmEncounterGymLeader = "BgmEncounterGymLeader.mp3";
+	const std::string BgmGym = "BgmGym.mp3";
+	const std::string BgmGymLeaderBattle = "BgmGymLeaderBattle.mp3";
+	const std::string BgmOaksLab = "BgmOaksLab.mp3";
+	const std::string BgmOaksTheme = "BgmOaksTheme.mp3";
+	const std::string BgmPalletTown = "BgmPalletTown.mp3";
+	const std::string BgmPokemonCenter = "BgmPokemonCenter.mp3";
+	const std::string BgmRivalAppears = "BgmRivalAppears.mp3";
+	const std::string BgmRoute1 = "BgmRoute1.mp3";
+	const std::string BgmTitleBattle = "BgmTitleBattle.mp3";
+	const std::string BgmTitleScreen = "BgmTitleScreen.mp3";
+	const std::string BgmTrainerBattle = "BgmTrainerBattle.mp3";
+	const std::string BgmTutorial = "BgmTutorial.mp3";
+	const std::string BgmVictoryGymLeader = "BgmVictoryGymLeader.mp3";
+	const std::string BgmVictoryTrainerBattle = "BgmVictoryTrainerBattle.mp3";
+	const std::string BgmVictoryWildBattle = "BgmVictoryWildBattle.mp3";
+	const std::string BgmViridianCity = "BgmViridianCity.mp3";
+	const std::string BgmViridianForest = "BgmViridianForest.mp3";
+	const std::string BgmWildBattle = "BgmWildBattle.mp3";
 
 	// SE
 	const std::string SEClick = "SEClick.mp3";
