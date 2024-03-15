@@ -64,6 +64,11 @@ void USoundManager::PlaySE(std::string_view _SEName, float _MuteTime)
 	}
 }
 
+void USoundManager::StopSE()
+{
+	SEPlayer.Off();
+}
+
 void USoundManager::FadeBgm(float _TargetVolume, float _FadeTime)
 {
 	StartVolume = CurVolume;

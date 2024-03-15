@@ -65,7 +65,7 @@ protected:
 	bool IsTargetCursorOnFirst() const;
 	bool IsTargetCursorOnEntry() const;
 	bool IsTargetCursorOnCancel() const;
-	void PlaySEClick();
+	virtual void PlaySEClick();
 private:
 	static bool IsCommonResourcesLoaded;
 };

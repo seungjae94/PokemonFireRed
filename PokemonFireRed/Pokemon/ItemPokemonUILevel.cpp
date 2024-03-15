@@ -1,6 +1,7 @@
 #include "ItemPokemonUILevel.h"
 #include <EnginePlatform/EngineInput.h>
 #include "BagUILevel.h"
+#include "SoundManager.h"
 
 const EItemPokemonUIState EItemPokemonUIState::TestItemUse;
 const EItemPokemonUIState EItemPokemonUIState::HpUpEffect;
@@ -155,6 +156,8 @@ void UItemPokemonUILevel::ProcessTestItemUse()
 
 	// 아이템 사용 성공
 	ItemUseResult = true;
+	USoundManager::StopSE();
+	USoundManager::PlaySE(RN::SERecover);
 	UPlayerData::LoseItem(UseItem->Id);
 }
 

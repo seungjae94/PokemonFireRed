@@ -38,6 +38,7 @@ public:
 
 	static void PlaySE(std::string_view _SEName, float _MuteTime = -1.0f);
 
+	static void StopSE();
 protected:
 
 private:

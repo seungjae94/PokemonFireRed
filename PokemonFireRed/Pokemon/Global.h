@@ -176,6 +176,7 @@ namespace RN
 	const std::string SEItemObtained = "SEItemObtained.mp3";
 	const std::string SEPokemonCenterHeal = "SEPokemonCenterHeal.mp3";
 	const std::string SEBadgeObtained = "SEBadgeObtained.mp3";
+	const std::string SERecover = "SERecover.mp3";
 	
 	// Cry
 	const std::string TitleCharizardCry = "CryCharizard.mp3";
