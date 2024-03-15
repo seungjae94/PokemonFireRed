@@ -179,6 +179,14 @@ namespace RN
 	const std::string SEPokemonCenterHeal = "SEPokemonCenterHeal.mp3";
 	const std::string SEBadgeObtained = "SEBadgeObtained.mp3";
 	const std::string SERecover = "SERecover.mp3";
+
+	const std::string SEThrowBall = "SEThrowBall.mp3";
+	const std::string SETakeInPokemon = "SETakeInPokemon.mp3";
+	const std::string SECaptureAttempt = "SECaptureAttempt.mp3";
+	const std::string SEBallBounce0 = "SEBallBounce0.mp3";
+	const std::string SEBallBounce1 = "SEBallBounce1.mp3";
+	const std::string SEBallBounce2 = "SEBallBounce2.mp3";
+	const std::string SEBallBounce3 = "SEBallBounce3.mp3";
 	
 	// Cry
 	const std::string TitleCharizardCry = "CryCharizard.mp3";

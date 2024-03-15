@@ -4,6 +4,7 @@
 #include "PokemonMsgBox.h"
 #include "BattleCanvas.h"
 #include "PlayerData.h"
+#include "SoundManager.h"
 
 ABattlePokeBallStateMachine::ABattlePokeBallStateMachine() 
 {
@@ -112,6 +113,7 @@ void ABattlePokeBallStateMachine::ProcessBallUseMessage()
 	{
 		State = ESubstate::PokeBallThrow;
 
+		USoundManager::PlaySE(RN::SEThrowBall);
 		Timer = BallThrowTime;
 		Canvas->SetCatchBallActive(true);
 		Canvas->HideCatchBallStars();
@@ -135,6 +137,7 @@ void ABattlePokeBallStateMachine::ProcessPokeBallThrow(float _DeltaTime)
 		else
 		{
 			State = ESubstate::PokeBallPullInPokemon;
+			USoundManager::PlaySE(RN::SETakeInPokemon);
 			Canvas->PlayCatchBallOpenAnimation();
 			Timer = PullInTime;
 			return;
@@ -198,6 +201,7 @@ void ABattlePokeBallStateMachine::ProcessPokeBallPullInPokemon()
 	if (Timer <= 0.0f)
 	{
 		State = ESubstate::PokeBallClosing;
+		USoundManager::PlaySE(RN::SECaptureAttempt);
 		Timer = ClosingTime;
 		Canvas->PlayCatchBallCloseAnimation();
 	}
@@ -222,6 +226,7 @@ void ABattlePokeBallStateMachine::ProcessPokeBallDrop(float _DeltaTime)
 	if (BallPos.Y >= BallGroundY)
 	{
 		State = ESubstate::PokeBallCheckBounceMore;
+		USoundManager::PlaySE(RN::SEBallBounce0);
 		BounceCount = MaxBounceCount;
 	}
 }
@@ -250,6 +255,7 @@ void ABattlePokeBallStateMachine::ProcessPokeBallBounce(float _DeltaTime)
 	if (Timer <= 0.0f &&  BallPos.Y >= BallGroundY)
 	{
 		State = ESubstate::PokeBallCheckBounceMore;
+		USoundManager::PlaySE(RN::SEBallBounce0);
 		--BounceCount;
 		Timer = CalcCatchWaitTime;
 	}
@@ -309,6 +315,7 @@ void ABattlePokeBallStateMachine::ProcessCheckShakeMore()
 		else
 		{
 			State = ESubstate::CatchFailAnim;
+			USoundManager::PlaySE(RN::SETakeInPokemon);
 			Canvas->PlayCatchBallOpenAnimation();
 			Timer = CatchFailAnimTime;
 		}
