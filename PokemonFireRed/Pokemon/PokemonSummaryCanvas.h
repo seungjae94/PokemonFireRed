@@ -108,5 +108,6 @@ private:
 
 	// À¯Æ¿
 	void RefreshMoveDetailBox();
+	void PlaySEClick();
 };
 

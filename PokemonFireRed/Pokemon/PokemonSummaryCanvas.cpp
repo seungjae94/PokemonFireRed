@@ -3,6 +3,7 @@
 #include "PokemonString.h"
 #include "PokemonLevel.h"
 #include "PokemonUtil.h"
+#include "SoundManager.h"
 #include "PlayerData.h"
 
 APokemonSummaryCanvas::APokemonSummaryCanvas()
@@ -215,6 +216,11 @@ void APokemonSummaryCanvas::RefreshMoveDetailBox()
 	}
 }
 
+void APokemonSummaryCanvas::PlaySEClick()
+{
+	USoundManager::PlaySE(RN::SEClick);
+}
+
 void APokemonSummaryCanvas::Reset()
 {
 	// 데이터 초기화
@@ -268,12 +274,14 @@ void APokemonSummaryCanvas::InfoTick(float _DeltaTime)
 {
 	if (true == UEngineInput::IsDown('Z') || true == UEngineInput::IsDown('X'))
 	{
+		PlaySEClick();
 		UEventManager::FadeChangeLevel(PrevLevelName, false);
 		return;
 	}
 
 	if (true == UEngineInput::IsDown(VK_RIGHT))
 	{
+		PlaySEClick();
 		State = EPokemonSummaryPageState::Skills;
 		Nav->SetImage(RN::PokemonSummaryUINavSkills);
 		InfoBox->SetActive(false);
@@ -286,12 +294,14 @@ void APokemonSummaryCanvas::SkillsTick(float _DeltaTime)
 {
 	if (true == UEngineInput::IsDown('X'))
 	{
+		PlaySEClick();
 		UEventManager::FadeChangeLevel(PrevLevelName, false);
 		return;
 	}
 
 	if (true == UEngineInput::IsDown(VK_LEFT))
 	{
+		PlaySEClick();
 		State = EPokemonSummaryPageState::Info;
 		Nav->SetImage(RN::PokemonSummaryUINavInfo);
 		InfoBox->SetActive(true);
@@ -301,6 +311,7 @@ void APokemonSummaryCanvas::SkillsTick(float _DeltaTime)
 
 	if (true == UEngineInput::IsDown(VK_RIGHT))
 	{
+		PlaySEClick();
 		State = EPokemonSummaryPageState::Moves;
 		Nav->SetImage(RN::PokemonSummaryUINavMoves);
 		MovesBox->SetActive(true);
@@ -313,12 +324,14 @@ void APokemonSummaryCanvas::MovesTick(float _DeltaTime)
 {
 	if (true == UEngineInput::IsDown('X'))
 	{
+		PlaySEClick();
 		UEventManager::FadeChangeLevel(PrevLevelName, false);
 		return;
 	}
 
 	if (true == UEngineInput::IsDown(VK_LEFT))
 	{
+		PlaySEClick();
 		State = EPokemonSummaryPageState::Skills;
 		Nav->SetImage(RN::PokemonSummaryUINavSkills);
 		SkillsBox->SetActive(true);
@@ -328,6 +341,7 @@ void APokemonSummaryCanvas::MovesTick(float _DeltaTime)
 
 	if (true == UEngineInput::IsDown('Z'))
 	{
+		PlaySEClick();
 		State = EPokemonSummaryPageState::MovesDetail;
 		Nav->SetImage(RN::PokemonSummaryUINavMovesDetail);
 		CommonBox->SetActive(false);
@@ -340,6 +354,7 @@ void APokemonSummaryCanvas::MovesDetailTick(float _DeltaTime)
 {
 	if (true == UEngineInput::IsDown('X'))
 	{
+		PlaySEClick();
 		State = EPokemonSummaryPageState::Moves;
 		Nav->SetImage(RN::PokemonSummaryUINavMoves);
 		CommonBox->SetActive(true);
@@ -350,6 +365,7 @@ void APokemonSummaryCanvas::MovesDetailTick(float _DeltaTime)
 
 	if (true == MoveFocusCursor->IsLast() && true == UEngineInput::IsDown('Z'))
 	{
+		PlaySEClick();
 		State = EPokemonSummaryPageState::Moves;
 		Nav->SetImage(RN::PokemonSummaryUINavMoves);
 		CommonBox->SetActive(true);
@@ -360,6 +376,7 @@ void APokemonSummaryCanvas::MovesDetailTick(float _DeltaTime)
 
 	if (true == UEngineInput::IsDown(VK_DOWN))
 	{
+		PlaySEClick();
 		MoveFocusCursor->IncCursor();
 		while (true)
 		{
@@ -379,6 +396,7 @@ void APokemonSummaryCanvas::MovesDetailTick(float _DeltaTime)
 
 	if (true == UEngineInput::IsUp(VK_UP))
 	{
+		PlaySEClick();
 		MoveFocusCursor->DecCursor();
 		while (true)
 		{
