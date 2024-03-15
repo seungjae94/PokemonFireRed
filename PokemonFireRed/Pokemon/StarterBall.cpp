@@ -238,7 +238,7 @@ void AStarterBall::ProcessSelectMessage1()
 
 		const FPokemonSpecies* Species = UGameDB::FindSpecies(PokemonId);
 
-		USoundManager::PlaySE(RN::SEItemObtained, 3.0f);
+		USoundManager::PlaySE(RN::SEPokemonObtained, 3.0f);
 		MsgBox->SetTextColor(EFontColor::Gray);
 		MsgBox->SetMessage(L"RED received the " + 
 			UPokemonString::ToUpperW(Species->Name) + L"\nfrom PROF. OAK!");
