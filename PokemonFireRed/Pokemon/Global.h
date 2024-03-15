@@ -159,6 +159,8 @@ namespace RN
 	const std::string SEMenu = "SEMenu.wav";
 	const std::string SEExitMap = "SEExitMap.wav";
 	const std::string SEDoorOpen = "SEDoorOpen.wav";
+	const std::string SESurprise = "SESurprise.wav";
+	const std::string SEFoundItem = "SEFoundItem.wav";
 
 	// ¿ÃπÃ¡ˆ
 	const std::string RivalGreenCharacter = "RivalGreenCharacter.png";

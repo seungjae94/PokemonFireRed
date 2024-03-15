@@ -161,8 +161,10 @@ void UExteriorPalletTownLevel::SpawnPTGetStarterEventTrigger(UEventTargetSetting
 	UEventManager::RegisterEvent(Trigger, _Cond,
 		ES::Start(true)
 		>> ES::SetActive(GetName(), EN::Oak, true)
+		>> ES::PlayBgm(RN::BgmOaksTheme)
 		>> ES::Chat({ L"OAK: Hey! Wait!\nDon't go out!" }, EFontColor::Blue, 16)
 		>> ES::ChangeDirection(Global::ExteriorPalletTownLevel, EN::Player, FTileVector::Down)
+		>> ES::PlaySE(RN::SESurprise)
 		>> ES::Surprise(EN::Player)
 		>> ES::Move(EN::Oak, _OakComePath, 3.6f, false)
 		>> ES::Chat({
@@ -171,6 +173,7 @@ void UExteriorPalletTownLevel::SpawnPTGetStarterEventTrigger(UEventTargetSetting
 	   L"I know!\nHere, come with me!" }, EFontColor::Blue, 16)
 	   >> ES::Move({ EN::Oak, EN::Player }, { _OakGoToLabPath, _PlayerGoToLabPath })
 		>> ES::ChangeDirection(Global::ExteriorPalletTownLevel, EN::Oak, Up)
+		>> ES::PlaySE(RN::SEDoorOpen)
 		>> ES::PlayAnimation(EN::OaksLabDoor, "DoorOpen")
 		>> ES::Move(EN::Oak, {Up})
 		>> ES::SetActive(GetName(), EN::Oak, false)
@@ -193,6 +196,10 @@ void UExteriorPalletTownLevel::SpawnPTGetStarterEventTrigger(UEventTargetSetting
 		>> ES::ChangePoint(Global::InteriorOaksLabLevel, EN::RivalGreen, { 5, 4 })
 		>> ES::ChangeDirection(Global::InteriorOaksLabLevel, EN::RivalGreen, Up)
 		>> ES::Move(EN::Player, { Up, Up, Up, Up, Up, Up, Up, Up })
+		>> ES::FadeOutBgm(0.25f)
+		>> ES::Wait(0.25f)
+		>> ES::PlayBgm(RN::BgmOaksLab)
+		>> ES::FadeInBgm(0.5f)
 		>> ES::Chat({ L"GREEN: Gramps!\nI'm fed up with waiting!" }, EFontColor::Blue, 16)
 		>> ES::Wait(0.5f)
 		>> ES::Chat({
