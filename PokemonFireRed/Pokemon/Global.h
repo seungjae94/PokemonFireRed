@@ -145,13 +145,13 @@ namespace EN
 namespace RN
 {
 	// BGM
-	const std::string BgmTitleBattle = "TitleBattle.wav";
-	const std::string BgmTitleScreen = "TitleScreen.wav";
-	const std::string BgmTutorial = "Tutorial.wav";
-	const std::string BgmPalletTown = "PalletTown.wav";
-	const std::string BgmWildBattle = "WildBattle.wav";
-	const std::string BgmOaksLab = "OaksLab.wav";
-	const std::string BgmOaksTheme = "OaksTheme.wav";
+	const std::string BgmTitleBattle = "TitleBattle.mp3";
+	const std::string BgmTitleScreen = "TitleScreen.mp3";
+	const std::string BgmTutorial = "Tutorial.mp3";
+	const std::string BgmPalletTown = "PalletTown.mp3";
+	const std::string BgmWildBattle = "WildBattle.mp3";
+	const std::string BgmOaksLab = "OaksLab.mp3";
+	const std::string BgmOaksTheme = "OaksTheme.mp3";
 
 	// SE
 	const std::string TitleCharizardCry = "CryCharizard.wav";
