@@ -75,6 +75,7 @@ void UExteriorPewterCityLevel::MakePokemonCenterDoor()
 	Door->SetTargetMapName(Global::InteriorPokemonCenterLevel);
 	Door->SetTargetPoint({ 7, 8 });
 	Door->SetMoveDirection(FTileVector::Up);
+	Door->SetTargetBgm(RN::BgmPokemonCenter);
 	Door->RegisterPredefinedEvent();
 }
 
@@ -91,6 +92,7 @@ void UExteriorPewterCityLevel::MakeGymDoor()
 	Door->SetTargetMapName(Global::InteriorPewterGymLevel);
 	Door->SetTargetPoint({ 6, 14 });
 	Door->SetMoveDirection(FTileVector::Up);
+	Door->SetTargetBgm(RN::BgmGym);
 	Door->RegisterPredefinedEvent();
 }
 

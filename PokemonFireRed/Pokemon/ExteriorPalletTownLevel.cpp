@@ -24,8 +24,8 @@ void UExteriorPalletTownLevel::BeginPlay()
 	AreaBgm = RN::BgmPalletTown;
 
 	// (디버깅) 플레이어 시작 위치 설정
-	UEventManager::SetPoint(GetName(), Global::Player, { 74, 90 });			// 상록시티 - 1번 도로 입구
-	//UEventManager::SetPoint(GetName(), Global::Player, { 82, 80 });			// 상록시티 
+	//UEventManager::SetPoint(GetName(), Global::Player, { 74, 90 });			// 상록시티 - 1번 도로 입구
+	UEventManager::SetPoint(GetName(), Global::Player, { 82, 80 });			// 상록시티 - 포켓몬 센터 근처
 	//UEventManager::SetPoint(GetName(), Global::Player, { 69, 27 });			// 상록숲 앞
 	//UEventManager::SetPoint(GetName(), Global::Player, { 77, 136 });		// 태초마을 - 1번 도로 입구 
 	UEventManager::SetDirection(GetName(), Global::Player, FTileVector::Down);
@@ -428,6 +428,7 @@ void UExteriorPalletTownLevel::MakeVCPokemonCenterDoor()
 	AExteriorDoor* Door = SpawnEventTrigger<AExteriorDoor>(Setting);
 	Door->SetTargetMapName(Global::InteriorPokemonCenterLevel);
 	Door->SetTargetPoint({ 7, 8 });
+	Door->SetTargetBgm(RN::BgmPokemonCenter);
 	Door->SetMoveDirection(FTileVector::Up);
 	Door->RegisterPredefinedEvent();
 }
