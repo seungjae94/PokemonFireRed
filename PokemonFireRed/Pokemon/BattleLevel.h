@@ -123,10 +123,11 @@ private:
 
 	// ¿ø·¡ ¸Ê ·¹º§·Î º¹±Í
 	std::string PrevMapName;
+	std::string PrevBgm;
 
 	void ReturnToMapLevel()
 	{
-		UEventManager::FadeChangeLevel(PrevMapName, true);
+		UEventManager::FadeChangeLevel(PrevMapName, true, 0.3f, 0.3f, true, PrevBgm);
 		State = EState::End;
 	}
 };

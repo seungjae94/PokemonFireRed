@@ -147,8 +147,9 @@ void UBattleLevel::LevelStart(ULevel* _PrevLevel)
 
 	if (nullptr != MapLevel)
 	{
-		// 이전 레벨이 맵 레벨인 경우 맵 레벨 이름을 기억한다.
+		// 이전 레벨이 맵 레벨인 경우 맵 레벨 이름과 BGM 이름을 기억한다.
 		PrevMapName = _PrevLevel->GetName();
+		PrevBgm = MapLevel->GetAreaBgm();
 	}
 
 	// 데이터 초기화
