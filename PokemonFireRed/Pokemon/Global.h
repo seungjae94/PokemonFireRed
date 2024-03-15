@@ -154,12 +154,12 @@ namespace RN
 	const std::string BgmOaksTheme = "OaksTheme.mp3";
 
 	// SE
-	const std::string TitleCharizardCry = "CryCharizard.wav";
-	const std::string SEClick = "SEClick.wav";
-	const std::string SEMenu = "SEMenu.wav";
-	const std::string SEExitMap = "SEExitMap.wav";
-	const std::string SEDoorOpen = "SEDoorOpen.wav";
-	const std::string SESurprise = "SESurprise.wav";
+	const std::string TitleCharizardCry = "CryCharizard.mp3";
+	const std::string SEClick = "SEClick.mp3";
+	const std::string SEMenu = "SEMenu.mp3";
+	const std::string SEExitMap = "SEExitMap.mp3";
+	const std::string SEDoorOpen = "SEDoorOpen.mp3";
+	const std::string SESurprise = "SESurprise.mp3";
 	const std::string SEFoundItem = "SEFoundItem.mp3";
 
 	// ¿ÃπÃ¡ˆ
