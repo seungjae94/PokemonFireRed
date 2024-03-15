@@ -1,5 +1,6 @@
 #include "TrainerCardCanvas.h"
 #include <EnginePlatform/EngineInput.h>
+#include "SoundManager.h"
 #include "PlayerData.h"
 #include "TrainerCardUILevel.h"
 #include "PokemonUtil.h"
@@ -37,6 +38,7 @@ void ATrainerCardCanvas::Tick(float _DeltaTime)
 {
 	if (true == UEngineInput::IsDown('Z') || true == UEngineInput::IsDown('X'))
 	{
+		USoundManager::PlaySE(RN::SEClick);
 		UEventManager::FadeChangeLevel(PrevMapLevelName);
 		return;
 	}
