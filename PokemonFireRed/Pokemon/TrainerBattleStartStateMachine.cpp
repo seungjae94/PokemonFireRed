@@ -2,6 +2,7 @@
 #include <EnginePlatform/EngineInput.h>
 #include "BattleCanvas.h"
 #include "PokemonMsgBox.h"
+#include "SoundManager.h"
 
 ATrainerBattleStartStateMachine::ATrainerBattleStartStateMachine() 
 {
@@ -143,6 +144,7 @@ void ATrainerBattleStartStateMachine::ProcessZClickWait()
 	if (true == UEngineInput::IsDown('Z'))
 	{
 		State = ESubstate::EnemyPokemonAppear;
+		USoundManager::PlaySE(RN::SEClick);
 		MsgBox->SetMessage(Enemy->GetTrainerNameW() + L" sent\nout " + Enemy->CurPokemonReadonly()->GetNameW() + L"!");
 		MsgBox->Write();
 		

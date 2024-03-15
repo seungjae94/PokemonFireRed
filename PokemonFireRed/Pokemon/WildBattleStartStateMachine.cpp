@@ -2,6 +2,7 @@
 #include <EnginePlatform/EngineInput.h>
 #include "BattleCanvas.h"
 #include "PokemonMsgBox.h"
+#include "SoundManager.h"
 
 AWildBattleStartStateMachine::AWildBattleStartStateMachine() 
 {
@@ -96,8 +97,9 @@ void AWildBattleStartStateMachine::ProcessZClickWait()
 {
 	if (true == UEngineInput::IsDown('Z') || true == UEngineInput::IsDown('X'))
 	{
-		Timer = PlayerBattleThrowTime;
 		State = ESubstate::PlayerBattlerThrow;
+		USoundManager::PlaySE(RN::SEClick);
+		Timer = PlayerBattleThrowTime;
 		Canvas->PlayBattlerThrowingAnimation();
 		MsgBox->SetMessage(L"Go! " + Player->CurPokemonReadonly()->GetNameW() + L"!");
 		MsgBox->Write();

@@ -4,6 +4,7 @@
 #include "BattleCanvas.h"
 #include "PokemonMsgBox.h"
 #include "ExpCalculator.h"
+#include "SoundManager.h"
 
 ABattleActionStateMachine::ABattleActionStateMachine()
 {
@@ -120,6 +121,7 @@ void ABattleActionStateMachine::ProcessEscapeFail2()
 {
 	if (true == UEngineInput::IsDown('Z'))
 	{
+		USoundManager::PlaySE(RN::SEClick);
 		State = ESubstate::End;
 	}
 

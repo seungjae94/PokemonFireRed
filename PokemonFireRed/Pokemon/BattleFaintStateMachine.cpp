@@ -3,6 +3,7 @@
 #include "BattleUtil.h"
 #include "BattleCanvas.h"
 #include "PokemonMsgBox.h"
+#include "SoundManager.h"
 
 ABattleFaintStateMachine::ABattleFaintStateMachine()
 {
@@ -139,6 +140,7 @@ void ABattleFaintStateMachine::ProcessShowFaintMessage2()
 {
 	if (true == UEngineInput::IsDown('Z'))
 	{
+		USoundManager::PlaySE(RN::SEClick);
 		MsgBox->HideSkipArrow();
 
 		// 플레이어 포켓몬이 쓰러진 경우 경험치 획득 X

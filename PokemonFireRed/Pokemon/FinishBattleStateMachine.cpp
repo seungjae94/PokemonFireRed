@@ -4,6 +4,7 @@
 #include "PokemonMsgBox.h"
 #include "Battler.h"
 #include "PlayerData.h"
+#include "SoundManager.h"
 
 AFinishBattleStateMachine::AFinishBattleStateMachine()
 {
@@ -140,6 +141,7 @@ void AFinishBattleStateMachine::ProcessOutOfPokemonMessage2()
 {
 	if (true == UEngineInput::IsDown('Z'))
 	{
+		USoundManager::PlaySE(RN::SEClick);
 		if (Reason == EBattleEndReason::LoseToWild)
 		{
 			State = ESubstate::PanicAndLost1;
@@ -173,6 +175,7 @@ void AFinishBattleStateMachine::ProcessPanicAndLost2()
 	if (true == UEngineInput::IsDown('Z'))
 	{
 		State = ESubstate::ManyDots1;
+		USoundManager::PlaySE(RN::SEClick);
 		MsgBox->HideSkipArrow();
 		MsgBox->SetMessage(L"… … … …");
 		MsgBox->Write();
@@ -193,6 +196,7 @@ void AFinishBattleStateMachine::ProcessManyDots2()
 	if (true == UEngineInput::IsDown('Z'))
 	{
 		State = ESubstate::WhitedOut1;
+		USoundManager::PlaySE(RN::SEClick);
 		MsgBox->HideSkipArrow();
 		MsgBox->SetMessage(L"RED whited out!");
 		MsgBox->Write();
@@ -249,6 +253,7 @@ void AFinishBattleStateMachine::ProcessPaidAsThePrizeMoney2()
 	if (true == UEngineInput::IsDown('Z'))
 	{
 		State = ESubstate::ManyDots1;
+		USoundManager::PlaySE(RN::SEClick);
 		MsgBox->HideSkipArrow();
 		MsgBox->SetMessage(L"… … … …");
 		MsgBox->Write();
@@ -269,6 +274,7 @@ void AFinishBattleStateMachine::ProcessPlayerDefeated2()
 	if (true == UEngineInput::IsDown('Z'))
 	{
 		State = ESubstate::EnemyBattlerMove;
+		USoundManager::PlaySE(RN::SEClick);
 		MsgBox->HideSkipArrow();
 		MsgBox->SetMessage(L"");
 		Timer = EnemyBattlerMoveTime;
@@ -318,6 +324,7 @@ void AFinishBattleStateMachine::ProcessEnemyBattlerMessage2()
 	if (true == UEngineInput::IsDown('Z'))
 	{
 		State = ESubstate::TestEnemyBattlerMessage;
+		USoundManager::PlaySE(RN::SEClick);
 		MsgBox->HideSkipArrow();
 	}
 }

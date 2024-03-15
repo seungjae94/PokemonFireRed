@@ -2,6 +2,7 @@
 #include <EnginePlatform/EngineInput.h>
 #include "BattleCanvas.h"
 #include "PokemonMsgBox.h"
+#include "SoundManager.h"
 
 ABattleExpGainStateMachine::ABattleExpGainStateMachine()
 {
@@ -103,8 +104,9 @@ void ABattleExpGainStateMachine::ProcessExpGainMessage2()
 {
 	if (true == UEngineInput::IsDown('Z'))
 	{
-		SimResult = UExpCalculator::SimExpGain(ExpGainer, Exp);
 		State = ESubstate::TestExpBarIncrease;
+		USoundManager::PlaySE(RN::SEClick);
+		SimResult = UExpCalculator::SimExpGain(ExpGainer, Exp);
 		MsgBox->HideSkipArrow();
 	}
 }
@@ -223,6 +225,7 @@ void ABattleExpGainStateMachine::ProcessLevelUpMessage2()
 	if (true == UEngineInput::IsDown('Z'))
 	{
 		State = ESubstate::StatUpDiffWindow;
+		USoundManager::PlaySE(RN::SEClick);
 		Canvas->ShowStatUpBox(LevelUpData);
 		MsgBox->HideSkipArrow();
 	}

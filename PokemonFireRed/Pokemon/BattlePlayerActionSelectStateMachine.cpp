@@ -3,6 +3,7 @@
 #include "BattleCanvas.h"
 #include "PokemonMsgBox.h"
 #include "EventManager.h"
+#include "SoundManager.h"
 
 ABattlePlayerActionSelectStateMachine::ABattlePlayerActionSelectStateMachine()
 {
@@ -64,6 +65,8 @@ void ABattlePlayerActionSelectStateMachine::ProcessSelect()
 
 	if (true == UEngineInput::IsDown('Z'))
 	{
+		USoundManager::PlaySE(RN::SEClick);
+
 		switch (Cursor)
 		{
 		case Fight:
@@ -110,6 +113,7 @@ void ABattlePlayerActionSelectStateMachine::ProcessSelect()
 	{
 		if (Cursor % 2 == 1)
 		{
+			USoundManager::PlaySE(RN::SEClick);
 			Canvas->SetActionCursor(Cursor - 1);
 			return;
 		}
@@ -119,6 +123,7 @@ void ABattlePlayerActionSelectStateMachine::ProcessSelect()
 	{
 		if (Cursor % 2 == 0)
 		{
+			USoundManager::PlaySE(RN::SEClick);
 			Canvas->SetActionCursor(Cursor + 1);
 			return;
 		}
@@ -128,6 +133,7 @@ void ABattlePlayerActionSelectStateMachine::ProcessSelect()
 	{
 		if (Cursor >= 2)
 		{
+			USoundManager::PlaySE(RN::SEClick);
 			Canvas->SetActionCursor(Cursor - 2);
 			return;
 		}
@@ -137,6 +143,7 @@ void ABattlePlayerActionSelectStateMachine::ProcessSelect()
 	{
 		if (Cursor < 2)
 		{
+			USoundManager::PlaySE(RN::SEClick);
 			Canvas->SetActionCursor(Cursor + 2);
 			return;
 		}
@@ -159,6 +166,7 @@ void ABattlePlayerActionSelectStateMachine::ProcessMoveSelect()
 		}
 
 		State = ESubstate::End;
+		USoundManager::PlaySE(RN::SEClick);
 		Canvas->SetMoveSelectBoxActive(false);
 		Player->SetAction(EBattleAction::Fight);
 		Player->SetMoveIndex(Cursor);
@@ -168,6 +176,7 @@ void ABattlePlayerActionSelectStateMachine::ProcessMoveSelect()
 	if (true == UEngineInput::IsDown('X'))
 	{
 		State = ESubstate::Select;
+		USoundManager::PlaySE(RN::SEClick);
 		Canvas->SetActionBoxActive(true);
 		Canvas->SetMoveSelectBoxActive(false);
 		return;
@@ -177,6 +186,7 @@ void ABattlePlayerActionSelectStateMachine::ProcessMoveSelect()
 	{
 		if (Cursor % 2 == 1)
 		{
+			USoundManager::PlaySE(RN::SEClick);
 			Canvas->SetMoveSelectCursor(Cursor - 1);
 		}
 		return;
@@ -186,6 +196,7 @@ void ABattlePlayerActionSelectStateMachine::ProcessMoveSelect()
 	{
 		if (Cursor % 2 == 0 && (Cursor + 1) < PlayerPokemon->GetMoveCount())
 		{
+			USoundManager::PlaySE(RN::SEClick);
 			Canvas->SetMoveSelectCursor(Cursor + 1);
 		}
 		return;
@@ -195,6 +206,7 @@ void ABattlePlayerActionSelectStateMachine::ProcessMoveSelect()
 	{
 		if (Cursor / 2 == 1)
 		{
+			USoundManager::PlaySE(RN::SEClick);
 			Canvas->SetMoveSelectCursor(Cursor - 2);
 		}
 		return;
@@ -204,6 +216,7 @@ void ABattlePlayerActionSelectStateMachine::ProcessMoveSelect()
 	{
 		if (Cursor / 2 == 0 && (Cursor + 2) < PlayerPokemon->GetMoveCount())
 		{
+			USoundManager::PlaySE(RN::SEClick);
 			Canvas->SetMoveSelectCursor(Cursor + 2);
 		}
 		return;
@@ -270,6 +283,7 @@ void ABattlePlayerActionSelectStateMachine::ProcessCantRunMessage2()
 	if (true == UEngineInput::IsDown('Z'))
 	{
 		State = ESubstate::Select;
+		USoundManager::PlaySE(RN::SEClick);
 		MsgBox->HideSkipArrow();
 		MsgBox->SetMessage(L"What will\n" + Player->CurPokemon()->GetNameW() + L" do?");
 		MsgBox->Write();

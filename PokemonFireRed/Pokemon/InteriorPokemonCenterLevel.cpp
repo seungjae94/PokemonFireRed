@@ -3,6 +3,7 @@
 #include "InteriorDoor.h"
 #include "PokemonMsgBox.h"
 #include "PokemonCenterCanvas.h"
+#include "SoundManager.h"
 
 UInteriorPokemonCenterLevel::UInteriorPokemonCenterLevel() 
 {
@@ -349,6 +350,7 @@ void UInteriorPokemonCenterLevel::ProcessHealEndMessage2()
 	if (true == UEngineInput::IsDown('Z'))
 	{
 		State = EState::HealEndMessage3;
+		USoundManager::PlaySE(RN::SEClick);
 		MsgBox->HideSkipArrow();
 		MsgBox->SetMessage(L"We've restored your POKéMON to\nfull health.");
 		MsgBox->Write();
@@ -369,6 +371,7 @@ void UInteriorPokemonCenterLevel::ProcessHealEndMessage4()
 	if (true == UEngineInput::IsDown('Z'))
 	{
 		State = EState::HealEndMessage5;
+		USoundManager::PlaySE(RN::SEClick);
 		MsgBox->HideSkipArrow();
 		MsgBox->SetMessage(L"We hope to see you again!");
 		MsgBox->Write();
