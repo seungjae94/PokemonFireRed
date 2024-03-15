@@ -24,7 +24,7 @@ void AItemBall::RegisterPredefinedEvent()
 
 	UEventManager::RegisterEvent(this, Cond,
 		ES::Start(true)
-		>> ES::PlaySE(RN::SEFoundItem)
+		>> ES::PlaySE(RN::SEItemObtained)
 		>> ES::Chat({ L"RED found " + std::to_wstring(Count) + L" " + Item->Name + L"!"}, EFontColor::Gray, 16)
 		>> ES::GainItem(ItemId, Count)
 		>> ES::Destroy(this)
