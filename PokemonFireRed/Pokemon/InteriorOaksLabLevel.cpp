@@ -263,6 +263,7 @@ void UInteriorOaksLabLevel::SpawnSpecialTrigger(UEventTargetSetting _Setting, UE
 		>> ES::Chat({ L"GREEN: Wait, RED!\nLet's check out our POKéMON!", L"Come on, I'll take you on!" }, EFontColor::Blue, 16)
 		>> ES::MoveDynamicPath(EN::RivalGreen, BeforeRivalBattlePathGenerator, 3.6f, false)
 		>> ES::PlayBgm(RN::BgmTrainerBattle)
+		>> ES::Wait(0.25f)
 		>> ES::FadeOut(FadeOutTime)
 		>> ES::Wait(FadeOutTime)
 		>> ES::FadeIn(FadeInTime)
