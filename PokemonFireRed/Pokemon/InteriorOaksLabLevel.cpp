@@ -6,6 +6,7 @@
 #include "DialogueActor.h"
 #include "Trainer.h"
 #include "StarterBall.h"
+#include "SoundManager.h"
 
 UInteriorOaksLabLevel::UInteriorOaksLabLevel()
 {
@@ -51,6 +52,17 @@ void UInteriorOaksLabLevel::BeginPlay()
 void UInteriorOaksLabLevel::Tick(float _DeltaTime)
 {
 	UMapLevel::Tick(_DeltaTime);
+}
+
+void UInteriorOaksLabLevel::LevelStart(ULevel* _PrevLevel)
+{
+	UMapLevel::LevelStart(_PrevLevel);
+
+	// 디버그용 BGM 재생
+	if (nullptr == _PrevLevel)
+	{
+		USoundManager::PlayBgm(RN::BgmOaksLab);
+	}
 }
 
 void UInteriorOaksLabLevel::MakeDoor()
@@ -153,6 +165,7 @@ void UInteriorOaksLabLevel::MakeRivalGreen()
 		>> ES::Move(EN::RivalGreen, { Down, Down, Right, Right, Right, Right, Right, Up }, Global::CharacterWalkSpeed, false)
 		>> ES::Chat({ L"GREEN: I'll take this one, then!" }, EFontColor::Blue, 16)
 		>> ES::Destroy(CharmanderBall)
+		>> ES::PlaySE(RN::SEFoundItem, 3.0f)
 		>> ES::Chat({ L"GREEN received the CHARMANDER\nfrom PROF.OAK!" }, EFontColor::Gray, 16)
 		>> ES::End(true)
 	);
@@ -162,6 +175,8 @@ void UInteriorOaksLabLevel::MakeRivalGreen()
 		>> ES::Move(EN::RivalGreen, { Down, Down, Right, Right, Right, Up }, Global::CharacterWalkSpeed, false)
 		>> ES::Chat({ L"GREEN: I'll take this one, then!" }, EFontColor::Blue, 16)
 		>> ES::Destroy(BulbasaurBall)
+		>> ES::PauseBgm()
+		>> ES::PlaySE(RN::SEFoundItem, 3.0f)
 		>> ES::Chat({ L"GREEN received the BULBASAUR\nfrom PROF.OAK!" }, EFontColor::Gray, 16)
 		>> ES::End(true)
 	);
@@ -171,6 +186,8 @@ void UInteriorOaksLabLevel::MakeRivalGreen()
 		>> ES::Move(EN::RivalGreen, { Down, Down, Right, Right, Right, Right, Up }, Global::CharacterWalkSpeed, false)
 		>> ES::Chat({ L"GREEN: I'll take this one, then!" }, EFontColor::Blue, 16)
 		>> ES::Destroy(SquirtleBall)
+		>> ES::PauseBgm()
+		>> ES::PlaySE(RN::SEFoundItem, 3.0f)
 		>> ES::Chat({ L"GREEN received the SQUIRTLE\nfrom PROF.OAK!" }, EFontColor::Gray, 16)
 		>> ES::End(true)
 	);

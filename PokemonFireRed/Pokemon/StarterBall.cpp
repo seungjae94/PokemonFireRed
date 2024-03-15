@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "DialogueWindow.h"
 #include "Trainer.h"
+#include "SoundManager.h"
 
 AStarterBall::AStarterBall()
 {
@@ -37,6 +38,8 @@ void AStarterBall::BeginPlay()
 void AStarterBall::Tick(float _DeltaTime)
 {
 	AActor::Tick(_DeltaTime);
+
+	Timer -= _DeltaTime;
 
 	switch (State)
 	{
@@ -95,6 +98,7 @@ void AStarterBall::CheckEventOccur()
 		{
 			// 대화창만 대충 띄운다.
 			State = EState::NonEventMessage;
+			USoundManager::PlaySE(RN::SEClick);
 			MsgBox->SetActive(true);
 			MsgBox->SetTextColor(EFontColor::Gray);
 			MsgBox->SetMessage(L"Those are POKé BALLS.\nThey contain POKéMON!");
@@ -107,6 +111,7 @@ void AStarterBall::CheckEventOccur()
 			&& (false == UPlayerData::IsAchieved(EAchievement::SelectFirstPokemon)))
 		{
 			// 스타팅 포켓몬 선택 대화창을 띄운다.
+			USoundManager::PlaySE(RN::SEClick);
 			StateChangeToEventMessage1();
 			UEventManager::DeactivatePlayer();
 			return;
@@ -116,6 +121,7 @@ void AStarterBall::CheckEventOccur()
 		{
 			// 대화창만 대충 띄운다.
 			State = EState::NonEventMessage;
+			USoundManager::PlaySE(RN::SEClick);
 			MsgBox->SetActive(true);
 			MsgBox->SetTextColor(EFontColor::Gray);
 			MsgBox->SetMessage(L"That's PROF. OAK's last POKéMON");
@@ -149,6 +155,7 @@ void AStarterBall::ProcessEventMessage2()
 {
 	if (true == UEngineInput::IsDown('Z'))
 	{
+		USoundManager::PlaySE(RN::SEClick);
 		MsgBox->HideSkipArrow();
 		StateChangeToEventMessage3();
 	}
@@ -167,6 +174,7 @@ void AStarterBall::ProcessSelect()
 {
 	if (true == UEngineInput::IsDown('Z'))
 	{
+		USoundManager::PlaySE(RN::SEClick);
 		if (Canvas->GetCursor() == 0)
 		{
 			State = EState::SelectMessage1;
@@ -186,6 +194,7 @@ void AStarterBall::ProcessSelect()
 
 	if (true == UEngineInput::IsDown('X'))
 	{
+		USoundManager::PlaySE(RN::SEClick);
 		State = EState::None;
 		UEventManager::ActivatePlayer();
 		MsgBox->SetActive(false);
@@ -195,13 +204,27 @@ void AStarterBall::ProcessSelect()
 
 	if (true == UEngineInput::IsDown(VK_UP))
 	{
+		int PrevCursor = Canvas->GetCursor();
 		Canvas->DecCursor();
+
+		// 커서가 바뀔 경우에만 SE 재생
+		if (PrevCursor != Canvas->GetCursor())
+		{
+			USoundManager::PlaySE(RN::SEClick);
+		}
 		return;
 	}
 
 	if (true == UEngineInput::IsDown(VK_DOWN))
 	{
+		int PrevCursor = Canvas->GetCursor();
 		Canvas->IncCursor();
+
+		// 커서가 바뀔 경우에만 SE 재생
+		if (PrevCursor != Canvas->GetCursor())
+		{
+			USoundManager::PlaySE(RN::SEClick);
+		}
 		return;
 	}
 }
@@ -214,6 +237,8 @@ void AStarterBall::ProcessSelectMessage1()
 		Renderer->SetActive(false);
 
 		const FPokemonSpecies* Species = UGameDB::FindSpecies(PokemonId);
+
+		USoundManager::PlaySE(RN::SEFoundItem, 3.0f);
 		MsgBox->SetTextColor(EFontColor::Gray);
 		MsgBox->SetMessage(L"RED received the " + 
 			UPokemonString::ToUpperW(Species->Name) + L"\nfrom PROF. OAK!");

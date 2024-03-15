@@ -87,6 +87,12 @@ void UEventProcessor::Tick(float _DeltaTime)
 		case EEventType::PlaySE:
 			ProcessingResult = ProcessPlaySE();
 			break;
+		case EEventType::PauseBgm:
+			ProcessingResult = ProcessPauseBgm();
+			break;
+		case EEventType::ResumeBgm:
+			ProcessingResult = ProcessResumeBgm();
+			break;
 		case EEventType::Chat:
 			ProcessingResult = ProcessChat();
 			break;
@@ -693,7 +699,8 @@ bool UEventProcessor::ProcessPlaySE()
 {
 	int CurIndexOfType = GetCurIndexOfType(EEventType::PlaySE);
 	ES::PlaySE& Data = CurStream->PlaySEDataSet[CurIndexOfType];
-	USoundManager::PlaySE(Data.Name);
+
+	USoundManager::PlaySE(Data.Name, Data.MuteTime);
 	return true;
 }
 
@@ -720,6 +727,18 @@ bool UEventProcessor::ProcessChat()
 
 	// 대화중인 경우
 	return false;
+}
+
+bool UEventProcessor::ProcessPauseBgm()
+{
+	USoundManager::PauseBgm();
+	return true;
+}
+
+bool UEventProcessor::ProcessResumeBgm()
+{
+	USoundManager::ResumeBgm();
+	return true;
 }
 
 bool UEventProcessor::ProcessShowMapName()

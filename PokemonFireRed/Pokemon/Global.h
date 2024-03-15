@@ -160,7 +160,7 @@ namespace RN
 	const std::string SEExitMap = "SEExitMap.wav";
 	const std::string SEDoorOpen = "SEDoorOpen.wav";
 	const std::string SESurprise = "SESurprise.wav";
-	const std::string SEFoundItem = "SEFoundItem.wav";
+	const std::string SEFoundItem = "SEFoundItem.mp3";
 
 	// ¿ÃπÃ¡ˆ
 	const std::string RivalGreenCharacter = "RivalGreenCharacter.png";

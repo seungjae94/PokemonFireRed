@@ -37,6 +37,8 @@ enum class EEventType
 	PlayAnimation,
 	PlayBgm,
 	PlaySE,
+	PauseBgm,
+	ResumeBgm,
 	HideActor,
 	ShowActor,
 	CameraFocus,
@@ -344,18 +346,51 @@ public:
 	{
 		friend UEventProcessor;
 	public:
-		PlaySE(std::string_view _Name)
-			: Name(_Name)
+		PlaySE(std::string_view _Name, float _MuteTime = -1.0f)
+			: Name(_Name), MuteTime(_MuteTime)
 		{
 		}
 	private:
 		std::string Name = "";
+		float MuteTime = -1.0f;
 	};
 
 	UEventStream& operator>>(const PlaySE& _Data)
 	{
 		EventTypeList.push_back(EEventType::PlaySE);
 		PlaySEDataSet.push_back(_Data);
+		return *this;
+	}
+
+	class PauseBgm
+	{
+		friend UEventProcessor;
+	public:
+		PauseBgm()
+		{
+		}
+	private:
+	};
+
+	UEventStream& operator>>(const PauseBgm& _Data)
+	{
+		EventTypeList.push_back(EEventType::PauseBgm);
+		return *this;
+	}
+
+	class ResumeBgm
+	{
+		friend UEventProcessor;
+	public:
+		ResumeBgm()
+		{
+		}
+	private:
+	};
+
+	UEventStream& operator>>(const ResumeBgm& _Data)
+	{
+		EventTypeList.push_back(EEventType::ResumeBgm);
 		return *this;
 	}
 

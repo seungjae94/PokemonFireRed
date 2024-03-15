@@ -10,7 +10,8 @@ private:
 	enum class EState
 	{
 		None,
-		Fade
+		Fade,
+		Mute,
 	};
 public:
 	// constructor destructor
@@ -35,18 +36,18 @@ public:
 
 	static void FadeBgm(float _TargetVolume, float _FadeTime);
 
-	static void PlaySE(std::string_view _SEName);
-
+	static void PlaySE(std::string_view _SEName, float _MuteTime = -1.0f);
 
 protected:
 
 private:
-	static EState FadeState;
+	static EState State;
 	static float CurVolume;
 	static float StartVolume;
 	static float TargetVolume;
 	static float FadeTime;
-	static float Timer;
+	static float FadeTimer;
+	static float MuteTimer;
 	static void Tick(float _DeltaTime);
 
 	static UEngineSoundPlayer BgmPlayer;

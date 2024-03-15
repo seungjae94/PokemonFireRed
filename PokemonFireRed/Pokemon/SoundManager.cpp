@@ -4,12 +4,13 @@
 UEngineSoundPlayer USoundManager::BgmPlayer;
 UEngineSoundPlayer USoundManager::SEPlayer;
 
-USoundManager::EState USoundManager::FadeState = USoundManager::EState::None;
+USoundManager::EState USoundManager::State = USoundManager::EState::None;
 float USoundManager::CurVolume = 1.0f;
 float USoundManager::StartVolume = 0.0f;
 float USoundManager::TargetVolume = 0.0f;
 float USoundManager::FadeTime = 0.0f;
-float USoundManager::Timer = 0.0f;
+float USoundManager::FadeTimer = 0.0f;
+float USoundManager::MuteTimer = 0.0f;
 
 USoundManager::USoundManager()
 {
@@ -50,10 +51,17 @@ void USoundManager::SetBgmVolume(float _Volume)
 	BgmPlayer.SetVolume(_Volume);
 }
 
-void USoundManager::PlaySE(std::string_view _SEName)
+void USoundManager::PlaySE(std::string_view _SEName, float _MuteTime)
 {
 	SEPlayer = UEngineSound::SoundPlay(_SEName);
 	SEPlayer.On();
+
+	if (_MuteTime >= 0.0f)
+	{
+		State = EState::Mute;
+		MuteTimer = _MuteTime;
+		PauseBgm();
+	}
 }
 
 void USoundManager::FadeBgm(float _TargetVolume, float _FadeTime)
@@ -62,25 +70,33 @@ void USoundManager::FadeBgm(float _TargetVolume, float _FadeTime)
 	TargetVolume = _TargetVolume;
 	FadeTime = _FadeTime;
 
-	FadeState = EState::Fade;
-	Timer = FadeTime;
+	State = EState::Fade;
+	FadeTimer = FadeTime;
 }
 
 void USoundManager::Tick(float _DeltaTime)
 {
-	if (FadeState != EState::Fade)
+	if (State == EState::Fade)
 	{
-		return;
+		FadeTimer -= _DeltaTime;
+		float NewVolume = UPokemonMath::Lerp(TargetVolume, StartVolume, FadeTimer / FadeTime);
+		SetBgmVolume(NewVolume);
+
+
+		if (FadeTimer <= 0.0f)
+		{
+			State = EState::None;
+		}
 	}
-
-	Timer -= _DeltaTime;
-	float NewVolume = UPokemonMath::Lerp(TargetVolume, StartVolume, Timer / FadeTime);
-	SetBgmVolume(NewVolume);
-
-
-	if (Timer <= 0.0f)
+	else if (State == EState::Mute)
 	{
-		FadeState = EState::None;
+		MuteTimer -= _DeltaTime;
+
+		if (MuteTimer <= 0.0f)
+		{
+			State = EState::None;
+			ResumeBgm();
+		}
 	}
 
 }

@@ -104,6 +104,8 @@ private:
 	bool ProcessPlayBgm();
 	bool ProcessPlaySE();
 	bool ProcessChat();
+	bool ProcessPauseBgm();
+	bool ProcessResumeBgm();
 	bool ProcessShowMapName();
 	bool ProcessChangeLevel();
 	bool ProcessChangePoint();

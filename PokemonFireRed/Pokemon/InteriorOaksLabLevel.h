@@ -24,6 +24,7 @@ protected:
 private:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
+	void LevelStart(ULevel* _PrevLevel) override;
 
 	const FTileVector Up = FTileVector::Up;
 	const FTileVector Down = FTileVector::Down;
