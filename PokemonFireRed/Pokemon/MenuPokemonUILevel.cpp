@@ -107,6 +107,7 @@ void UMenuPokemonUILevel::ProcessSwitchSelectionWait()
 {
 	if (true == UEngineInput::IsDown('X'))
 	{
+		PlaySEClick();
 		State = EMenuPokemonUIState::TargetSelectionWait;
 		Canvas->SetSwitchSelectionMsgBoxActive(false);
 		Canvas->SetTargetSelectionMsgBoxActive(true);
@@ -118,6 +119,7 @@ void UMenuPokemonUILevel::ProcessSwitchSelectionWait()
 
 	if (true == UEngineInput::IsDown('Z'))
 	{
+		PlaySEClick();
 		SelectSwitch();
 		return;
 	}
@@ -126,6 +128,7 @@ void UMenuPokemonUILevel::ProcessSwitchSelectionWait()
 	if (true == UEngineInput::IsDown(VK_LEFT)
 		&& true == IsTargetCursorOnEntry())
 	{
+		PlaySEClick();
 		Canvas->SetBoxState(TargetCursor, APokemonCanvas::EBoxState::Unfocused);
 		Canvas->SetBoxState(SwitchFromCursor, APokemonCanvas::EBoxState::From);
 		TargetCursor = 0;
@@ -137,6 +140,7 @@ void UMenuPokemonUILevel::ProcessSwitchSelectionWait()
 		&& true == IsTargetCursorOnFirst()
 		&& EntrySize > 1)
 	{
+		PlaySEClick();
 		Canvas->SetBoxState(TargetCursor, APokemonCanvas::EBoxState::Unfocused);
 		Canvas->SetBoxState(SwitchFromCursor, APokemonCanvas::EBoxState::From);
 		TargetCursor = 1;
@@ -147,6 +151,7 @@ void UMenuPokemonUILevel::ProcessSwitchSelectionWait()
 
 	if (true == UEngineInput::IsDown(VK_UP))
 	{
+		PlaySEClick();
 		Canvas->SetBoxState(TargetCursor, APokemonCanvas::EBoxState::Unfocused);
 		Canvas->SetBoxState(SwitchFromCursor, APokemonCanvas::EBoxState::From);
 		TargetCursor = UPokemonMath::Mod(TargetCursor - 1, EntrySize + 1);
@@ -156,6 +161,7 @@ void UMenuPokemonUILevel::ProcessSwitchSelectionWait()
 
 	if (true == UEngineInput::IsDown(VK_DOWN))
 	{
+		PlaySEClick();
 		Canvas->SetBoxState(TargetCursor, APokemonCanvas::EBoxState::Unfocused);
 		Canvas->SetBoxState(SwitchFromCursor, APokemonCanvas::EBoxState::From);
 		TargetCursor = UPokemonMath::Mod(TargetCursor + 1, EntrySize + 1);

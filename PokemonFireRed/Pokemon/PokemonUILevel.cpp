@@ -3,6 +3,7 @@
 #include <EngineBase/EngineFile.h>
 #include <EnginePlatform/EngineInput.h>
 #include <EngineCore/EngineResourcesManager.h>
+#include "SoundManager.h"
 #include "PokemonCanvas.h"
 #include "MapLevel.h"
 #include "BattleLevel.h"
@@ -91,6 +92,7 @@ void UPokemonUILevel::ProcessTargetSelectionWait()
 	// 타겟 선택 단계에서 취소 버튼을 누를 때의 행동
 	if (true == UEngineInput::IsDown('X'))
 	{
+		PlaySEClick();
 		CancelTargetSelection();
 		return;
 	}
@@ -98,6 +100,7 @@ void UPokemonUILevel::ProcessTargetSelectionWait()
 	// 타겟 선택 단계에서 타겟을 선택할 때의 행동
 	if (true == UEngineInput::IsDown('Z'))
 	{
+		PlaySEClick();
 		SelectTarget();
 		return;
 	}
@@ -107,6 +110,7 @@ void UPokemonUILevel::ProcessTargetSelectionWait()
 	if (true == UEngineInput::IsDown(VK_LEFT)
 		&& true == IsTargetCursorOnEntry())
 	{
+		PlaySEClick();
 		Canvas->SetBoxState(TargetCursor, APokemonCanvas::EBoxState::Unfocused);
 		TargetCursor = 0;
 		Canvas->SetBoxState(TargetCursor, APokemonCanvas::EBoxState::Focused);
@@ -117,6 +121,7 @@ void UPokemonUILevel::ProcessTargetSelectionWait()
 		&& true == IsTargetCursorOnFirst()
 		&& EntrySize > 1)
 	{
+		PlaySEClick();
 		Canvas->SetBoxState(TargetCursor, APokemonCanvas::EBoxState::Unfocused);
 		TargetCursor = 1;
 		Canvas->SetBoxState(TargetCursor, APokemonCanvas::EBoxState::Focused);
@@ -126,6 +131,7 @@ void UPokemonUILevel::ProcessTargetSelectionWait()
 
 	if (true == UEngineInput::IsDown(VK_UP))
 	{
+		PlaySEClick();
 		Canvas->SetBoxState(TargetCursor, APokemonCanvas::EBoxState::Unfocused);
 		TargetCursor = UPokemonMath::Mod(TargetCursor - 1, EntrySize + 1);
 		Canvas->SetBoxState(TargetCursor, APokemonCanvas::EBoxState::Focused);
@@ -134,6 +140,7 @@ void UPokemonUILevel::ProcessTargetSelectionWait()
 
 	if (true == UEngineInput::IsDown(VK_DOWN))
 	{
+		PlaySEClick();
 		Canvas->SetBoxState(TargetCursor, APokemonCanvas::EBoxState::Unfocused);
 		TargetCursor = UPokemonMath::Mod(TargetCursor + 1, EntrySize + 1);
 		Canvas->SetBoxState(TargetCursor, APokemonCanvas::EBoxState::Focused);
@@ -145,14 +152,17 @@ void UPokemonUILevel::ProcessActionSelectionWait()
 {
 	if (UEngineInput::IsDown(VK_UP))
 	{
+		PlaySEClick();
 		Canvas->DecActionCursor();
 	}
 	else if (UEngineInput::IsDown(VK_DOWN))
 	{
+		PlaySEClick();
 		Canvas->IncActionCursor();
 	}
 	else if (UEngineInput::IsDown('X'))
 	{
+		PlaySEClick();
 		State = EPokemonUIState::TargetSelectionWait;
 		Canvas->SetTargetSelectionMsgBoxActive(true);
 		Canvas->SetActionSelectionMsgBoxActive(false);
@@ -160,6 +170,7 @@ void UPokemonUILevel::ProcessActionSelectionWait()
 	}
 	else if (UEngineInput::IsDown('Z'))
 	{
+		PlaySEClick();
 		SelectAction();
 	}
 }
@@ -177,4 +188,9 @@ bool UPokemonUILevel::IsTargetCursorOnEntry() const
 bool UPokemonUILevel::IsTargetCursorOnCancel() const
 {
 	return TargetCursor == UPlayerData::GetPokemonEntrySize();
+}
+
+void UPokemonUILevel::PlaySEClick()
+{
+	USoundManager::PlaySE(RN::SEClick);
 }
