@@ -163,6 +163,7 @@ namespace RN
 	const std::string BgmVictoryTrainerBattle = "BgmVictoryTrainerBattle.mp3";
 	const std::string BgmVictoryWildBattle = "BgmVictoryWildBattle.mp3";
 	const std::string BgmViridianCity = "BgmViridianCity.mp3";
+	const std::string BgmPewterCity = "BgmViridianCity.mp3";	// Viridian City¿Í BGM °øÀ¯
 	const std::string BgmViridianForest = "BgmViridianForest.mp3";
 	const std::string BgmWildBattle = "BgmWildBattle.mp3";
 

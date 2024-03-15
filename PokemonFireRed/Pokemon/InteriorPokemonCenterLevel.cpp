@@ -147,6 +147,7 @@ void UInteriorPokemonCenterLevel::SetDoorTargetAsViridianCity()
 	Door->SetMoveDirection(FTileVector::Down);
 	Door->SetExteriorDoorName(EN::ViridianPokemonCenterDoor);
 	Door->SetTargetMapNameText(L"VIRIDIAN CITY");
+	Door->SetTargetBgm(RN::BgmViridianCity);
 	Door->RegisterPredefinedEvent();
 }
 
@@ -157,6 +158,7 @@ void UInteriorPokemonCenterLevel::SetDoorTargetAsPewterCity()
 	Door->SetMoveDirection(FTileVector::Down);
 	Door->SetExteriorDoorName(EN::PewterPokemonCenterDoor);
 	Door->SetTargetMapNameText(L"PEWTER CITY");
+	Door->SetTargetBgm(RN::BgmPewterCity);
 	Door->RegisterPredefinedEvent();
 }
 

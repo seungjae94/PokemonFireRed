@@ -68,6 +68,7 @@ void UInteriorPewterGymLevel::MakePewterCityDoor()
 	Door->SetMoveDirection(FTileVector::Down);
 	Door->SetExteriorDoorName(EN::PewterGymDoor);
 	Door->SetTargetMapNameText(L"PEWTER CITY");
+	Door->SetTargetBgm(RN::BgmPewterCity);
 	Door->RegisterPredefinedEvent();
 }
 
