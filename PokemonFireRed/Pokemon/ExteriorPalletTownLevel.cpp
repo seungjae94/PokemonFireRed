@@ -160,8 +160,11 @@ void UExteriorPalletTownLevel::SpawnPTGetStarterEventTrigger(UEventTargetSetting
 	AEventTrigger* Trigger = SpawnEventTrigger<AEventTrigger>(_Setting);
 	UEventManager::RegisterEvent(Trigger, _Cond,
 		ES::Start(true)
+		>> ES::FadeOutBgm(0.25f)
+		>> ES::Wait(0.25f)
 		>> ES::SetActive(GetName(), EN::Oak, true)
 		>> ES::PlayBgm(RN::BgmOaksTheme)
+		>> ES::FadeInBgm(0.5f)
 		>> ES::Chat({ L"OAK: Hey! Wait!\nDon't go out!" }, EFontColor::Blue, 16)
 		>> ES::ChangeDirection(Global::ExteriorPalletTownLevel, EN::Player, FTileVector::Down)
 		>> ES::PlaySE(RN::SESurprise)
