@@ -292,68 +292,6 @@ void UExteriorPalletTownLevel::MakePTAnimatedTiles()
 		});
 }
 
-void UExteriorPalletTownLevel::MakePalletToRoute1AreaChanger()
-{
-	UEventTargetSetting Setting0;
-	Setting0.SetName("PalletToRoute1AreaChanger0");
-	Setting0.SetPoint({ 76, 133 });
-	Setting0.SetHeight(1);
-
-	UEventTargetSetting Setting1;
-	Setting1.SetName("PalletToRoute1AreaChanger1");
-	Setting1.SetPoint({ 77, 133 });
-	Setting1.SetHeight(1);
-
-	AEventTrigger* Changer0 = SpawnEventTrigger<AEventTrigger>(Setting0);
-	AEventTrigger* Changer1 = SpawnEventTrigger<AEventTrigger>(Setting1);
-
-	UEventCondition Cond = UEventCondition(EEventTriggerAction::StepOn);
-	Cond.RegisterCheckFunc(IsPlayerNotInRoute1);
-
-	UEventStream Stream = ES::Start(false)
-		>> ES::ChangeArea("ROUTE 1", RN::BgmRoute1)
-		>> ES::ShowMapName(L"ROUTE 1")
-		>> ES::FadeOutBgm(0.25f)
-		>> ES::Wait(0.25f)
-		>> ES::PlayBgm(RN::BgmRoute1)
-		>> ES::FadeInBgm(0.25f)
-		>> ES::End(false);
-
-	UEventManager::RegisterEvent(Changer0, Cond, Stream);
-	UEventManager::RegisterEvent(Changer1, Cond, Stream);
-}
-
-void UExteriorPalletTownLevel::MakeRoute1ToPalletAreaChanger()
-{
-	UEventTargetSetting Setting0;
-	Setting0.SetName("Route1ToPalletAreaChanger0");
-	Setting0.SetPoint({ 76, 134 });
-	Setting0.SetHeight(1);
-
-	UEventTargetSetting Setting1;
-	Setting1.SetName("Route1ToPalletAreaChanger1");
-	Setting1.SetPoint({ 77, 134 });
-	Setting1.SetHeight(1);
-
-	AEventTrigger* Changer0 = SpawnEventTrigger<AEventTrigger>(Setting0);
-	AEventTrigger* Changer1 = SpawnEventTrigger<AEventTrigger>(Setting1);
-
-	UEventCondition Cond = UEventCondition(EEventTriggerAction::StepOn);
-	Cond.RegisterCheckFunc(IsPlayerNotInPalletTown);
-
-	UEventStream Stream = ES::Start(false)
-		>> ES::ChangeArea("PALLET TOWN", RN::BgmPalletTown)
-		>> ES::ShowMapName(L"PALLET TOWN")
-		>> ES::FadeOutBgm(0.25f)
-		>> ES::Wait(0.25f)
-		>> ES::PlayBgm(RN::BgmPalletTown)
-		>> ES::FadeInBgm(0.25f)
-		>> ES::End(false);
-
-	UEventManager::RegisterEvent(Changer0, Cond, Stream);
-	UEventManager::RegisterEvent(Changer1, Cond, Stream);
-}
-
 void UExteriorPalletTownLevel::MakeViridianCity()
 {
 	MakeVCPokemonCenterDoor();
@@ -529,6 +467,68 @@ void UExteriorPalletTownLevel::MakeR22ClosedDoor()
 }
 
 
+void UExteriorPalletTownLevel::MakePalletToRoute1AreaChanger()
+{
+	UEventTargetSetting Setting0;
+	Setting0.SetName("PalletToRoute1AreaChanger0");
+	Setting0.SetPoint({ 76, 133 });
+	Setting0.SetHeight(1);
+
+	UEventTargetSetting Setting1;
+	Setting1.SetName("PalletToRoute1AreaChanger1");
+	Setting1.SetPoint({ 77, 133 });
+	Setting1.SetHeight(1);
+
+	AEventTrigger* Changer0 = SpawnEventTrigger<AEventTrigger>(Setting0);
+	AEventTrigger* Changer1 = SpawnEventTrigger<AEventTrigger>(Setting1);
+
+	UEventCondition Cond = UEventCondition(EEventTriggerAction::StepOn);
+	Cond.RegisterCheckFunc(IsPlayerNotInRoute1);
+
+	UEventStream Stream = ES::Start(false)
+		>> ES::ChangeArea("ROUTE 1", RN::BgmRoute1)
+		>> ES::ShowMapName(L"ROUTE 1")
+		>> ES::FadeOutBgm(0.25f)
+		>> ES::Wait(0.25f)
+		>> ES::PlayBgm(RN::BgmRoute1)
+		>> ES::FadeInBgm(0.25f)
+		>> ES::End(false);
+
+	UEventManager::RegisterEvent(Changer0, Cond, Stream);
+	UEventManager::RegisterEvent(Changer1, Cond, Stream);
+}
+
+void UExteriorPalletTownLevel::MakeRoute1ToPalletAreaChanger()
+{
+	UEventTargetSetting Setting0;
+	Setting0.SetName("Route1ToPalletAreaChanger0");
+	Setting0.SetPoint({ 76, 134 });
+	Setting0.SetHeight(1);
+
+	UEventTargetSetting Setting1;
+	Setting1.SetName("Route1ToPalletAreaChanger1");
+	Setting1.SetPoint({ 77, 134 });
+	Setting1.SetHeight(1);
+
+	AEventTrigger* Changer0 = SpawnEventTrigger<AEventTrigger>(Setting0);
+	AEventTrigger* Changer1 = SpawnEventTrigger<AEventTrigger>(Setting1);
+
+	UEventCondition Cond = UEventCondition(EEventTriggerAction::StepOn);
+	Cond.RegisterCheckFunc(IsPlayerNotInPalletTown);
+
+	UEventStream Stream = ES::Start(false)
+		>> ES::ChangeArea("PALLET TOWN", RN::BgmPalletTown)
+		>> ES::ShowMapName(L"PALLET TOWN")
+		>> ES::FadeOutBgm(0.25f)
+		>> ES::Wait(0.25f)
+		>> ES::PlayBgm(RN::BgmPalletTown)
+		>> ES::FadeInBgm(0.25f)
+		>> ES::End(false);
+
+	UEventManager::RegisterEvent(Changer0, Cond, Stream);
+	UEventManager::RegisterEvent(Changer1, Cond, Stream);
+}
+
 void UExteriorPalletTownLevel::MakeViridianToRoute1AreaChanger()
 {
 	for (int i = 0; i < 4; ++i)
@@ -587,13 +587,13 @@ void UExteriorPalletTownLevel::MakeViridianToRoute2AreaChanger()
 	{
 		UEventTargetSetting Setting;
 		Setting.SetName("ViridianCityToRoute2Changer" + std::to_string(i));
-		Setting.SetPoint({ 71 + i, 52 });
+		Setting.SetPoint({ 71 + i, 53 });
 		Setting.SetHeight(1);
 
 		AEventTrigger* Changer = SpawnEventTrigger<AEventTrigger>(Setting);
 
 		UEventCondition Cond = UEventCondition(EEventTriggerAction::StepOn);
-		Cond.RegisterCheckFunc(IsPlayerNotInRoute1);
+		Cond.RegisterCheckFunc(IsPlayerNotInRoute2);
 
 		UEventManager::RegisterEvent(Changer, Cond,
 			ES::Start(false)
@@ -613,7 +613,7 @@ void UExteriorPalletTownLevel::MakeRoute2ToViridianAreaChanger()
 	{
 		UEventTargetSetting Setting;
 		Setting.SetName("Route2ToViridianCityChanger" + std::to_string(i));
-		Setting.SetPoint({ 71 + i, 53 });
+		Setting.SetPoint({ 71 + i, 54 });
 		Setting.SetHeight(1);
 
 		AEventTrigger* Changer = SpawnEventTrigger<AEventTrigger>(Setting);
@@ -654,6 +654,11 @@ bool UExteriorPalletTownLevel::IsPlayerNotInPalletTown()
 bool UExteriorPalletTownLevel::IsPlayerNotInRoute1()
 {
 	return GetAreaNameStatic() != "ROUTE 1";
+}
+
+bool UExteriorPalletTownLevel::IsPlayerNotInRoute2()
+{
+	return GetAreaNameStatic() != "ROUTE 2";
 }
 
 bool UExteriorPalletTownLevel::IsPlayerNotInViridianCity()

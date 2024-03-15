@@ -27,6 +27,9 @@ void UExteriorPewterCityLevel::BeginPlay()
 	MakePrivateHouse2ClosedDoor();
 	MakeMuseumClosedDoor();
 	MakeAnimatedTiles();
+
+	MakePewterToRoute2AreaChanger();
+	MakeRoute2ToPewterAreaChanger();
 }
 
 void UExteriorPewterCityLevel::MakeForestEntrances()
@@ -157,4 +160,79 @@ void UExteriorPewterCityLevel::MakeMuseumClosedDoor()
 
 	AClosedDoor* Door = SpawnEventTrigger<AClosedDoor>(Setting);
 	Door->RegisterPredefinedEvent();
+}
+
+void UExteriorPewterCityLevel::MakePewterToRoute2AreaChanger()
+{
+	for (int i = 0; i < 4; ++i)
+	{
+		UEventTargetSetting Setting;
+		Setting.SetName("PewterToRoute2AreaChanger" + std::to_string(i));
+		Setting.SetPoint({ 24 + i, 44 });
+		Setting.SetHeight(1);
+
+		AEventTrigger* Changer = SpawnEventTrigger<AEventTrigger>(Setting);
+
+		UEventCondition Cond = UEventCondition(EEventTriggerAction::StepOn);
+		Cond.RegisterCheckFunc(IsPlayerNotInRoute2);
+
+		UEventManager::RegisterEvent(Changer, Cond,
+			ES::Start(false)
+			>> ES::ChangeArea("ROUTE 2", RN::BgmRoute2)
+			>> ES::ShowMapName(L"ROUTE 2")
+			>> ES::FadeOutBgm(0.25f)
+			>> ES::Wait(0.25f)
+			>> ES::PlayBgm(RN::BgmRoute2)
+			>> ES::FadeInBgm(0.25f)
+			>> ES::End(false));
+	}
+}
+
+void UExteriorPewterCityLevel::MakeRoute2ToPewterAreaChanger()
+{
+	for (int i = 0; i < 4; ++i)
+	{
+		UEventTargetSetting Setting;
+		Setting.SetName("Route2ToPewterAreaChanger" + std::to_string(i));
+		Setting.SetPoint({ 24 + i, 43 });
+		Setting.SetHeight(1);
+
+		AEventTrigger* Changer = SpawnEventTrigger<AEventTrigger>(Setting);
+
+		UEventCondition Cond = UEventCondition(EEventTriggerAction::StepOn);
+		Cond.RegisterCheckFunc(IsPlayerNotInPewterCity);
+
+		UEventManager::RegisterEvent(Changer, Cond,
+			ES::Start(false)
+			>> ES::ChangeArea("PEWTER CITY", RN::BgmPewterCity)
+			>> ES::ShowMapName(L"PEWTER CITY")
+			>> ES::FadeOutBgm(0.25f)
+			>> ES::Wait(0.25f)
+			>> ES::PlayBgm(RN::BgmPewterCity)
+			>> ES::FadeInBgm(0.25f)
+			>> ES::End(false));
+	}
+}
+
+std::string UExteriorPewterCityLevel::GetAreaNameStatic()
+{
+	APlayer* Player = UEventManager::FindCurLevelTarget<APlayer>(EN::Player);
+	UExteriorPewterCityLevel* CurLevel = dynamic_cast<UExteriorPewterCityLevel*>(Player->GetWorld());
+	if (nullptr == CurLevel)
+	{
+		MsgBoxAssert("UExteriorPewterCityLevel::GetAreaNameStatic 함수를 UExteriorPewterCityLevel 외부에서 호출했습니다.");
+		return "";
+	}
+
+	return CurLevel->GetAreaName();
+}
+
+bool UExteriorPewterCityLevel::IsPlayerNotInPewterCity()
+{
+	return GetAreaNameStatic() != "PEWTER CITY";
+}
+
+bool UExteriorPewterCityLevel::IsPlayerNotInRoute2()
+{
+	return GetAreaNameStatic() != "ROUTE 2";
 }

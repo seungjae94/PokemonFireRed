@@ -27,5 +27,14 @@ private:
 	void MakePrivateHouse1ClosedDoor();
 	void MakePrivateHouse2ClosedDoor();
 	void MakeMuseumClosedDoor();
+
+	// 지역 변경
+	void MakePewterToRoute2AreaChanger();
+	void MakeRoute2ToPewterAreaChanger();
+
+	// 체크 함수
+	static std::string GetAreaNameStatic();
+	static bool IsPlayerNotInPewterCity();
+	static bool IsPlayerNotInRoute2();
 };
 

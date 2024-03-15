@@ -70,6 +70,7 @@ private:
 	static std::string GetAreaNameStatic();
 	static bool IsPlayerNotInPalletTown();
 	static bool IsPlayerNotInRoute1();
+	static bool IsPlayerNotInRoute2();
 	static bool IsPlayerNotInViridianCity();
 };
 
