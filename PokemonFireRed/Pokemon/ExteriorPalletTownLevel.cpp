@@ -33,6 +33,10 @@ void UExteriorPalletTownLevel::BeginPlay()
 	MakePalletTown();
 	MakeViridianCity();
 	MakeRoute22();
+
+	// 연결
+	MakeRoute1ToPalletAreaChanger();
+	MakePalletToRoute1AreaChanger();
 }
 
 void UExteriorPalletTownLevel::LevelStart(ULevel* _PrevLevel)
@@ -285,11 +289,61 @@ void UExteriorPalletTownLevel::MakePTAnimatedTiles()
 
 void UExteriorPalletTownLevel::MakePalletToRoute1AreaChanger()
 {
+	UEventTargetSetting Setting0;
+	Setting0.SetName("PalletToRoute1AreaChanger0");
+	Setting0.SetPoint({ 76, 133 });
+	Setting0.SetHeight(1);
 
+	UEventTargetSetting Setting1;
+	Setting1.SetName("PalletToRoute1AreaChanger1");
+	Setting1.SetPoint({ 77, 133 });
+	Setting1.SetHeight(1);
+
+	AEventTrigger* Changer0 = SpawnEventTrigger<AEventTrigger>(Setting0);
+	AEventTrigger* Changer1 = SpawnEventTrigger<AEventTrigger>(Setting1);
+
+	UEventCondition Cond = UEventCondition(EEventTriggerAction::StepOn);
+
+	UEventStream Stream = ES::Start(false)
+		>> ES::ChangeArea("ROUTE 1", RN::BgmRoute1)
+		>> ES::ShowMapName(L"ROUTE 1")
+		>> ES::FadeOutBgm(0.25f)
+		>> ES::Wait(0.25f)
+		>> ES::PlayBgm(RN::BgmRoute1)
+		>> ES::FadeInBgm(0.25f)
+		>> ES::End(false);
+
+	UEventManager::RegisterEvent(Changer0, Cond, Stream);
+	UEventManager::RegisterEvent(Changer1, Cond, Stream);
 }
 
 void UExteriorPalletTownLevel::MakeRoute1ToPalletAreaChanger()
 {
+	UEventTargetSetting Setting0;
+	Setting0.SetName("Route1ToPalletAreaChanger0");
+	Setting0.SetPoint({ 76, 134 });
+	Setting0.SetHeight(1);
+
+	UEventTargetSetting Setting1;
+	Setting1.SetName("Route1ToPalletAreaChanger1");
+	Setting1.SetPoint({ 77, 134 });
+	Setting1.SetHeight(1);
+
+	AEventTrigger* Changer0 = SpawnEventTrigger<AEventTrigger>(Setting0);
+	AEventTrigger* Changer1 = SpawnEventTrigger<AEventTrigger>(Setting1);
+
+	UEventCondition Cond = UEventCondition(EEventTriggerAction::StepOn);
+	UEventStream Stream = ES::Start(false)
+		>> ES::ChangeArea("PALLET TOWN", RN::BgmPalletTown)
+		>> ES::ShowMapName(L"PALLET TOWN")
+		>> ES::FadeOutBgm(0.25f)
+		>> ES::Wait(0.25f)
+		>> ES::PlayBgm(RN::BgmPalletTown)
+		>> ES::FadeInBgm(0.25f)
+		>> ES::End(false);
+
+	UEventManager::RegisterEvent(Changer0, Cond, Stream);
+	UEventManager::RegisterEvent(Changer1, Cond, Stream);
 }
 
 void UExteriorPalletTownLevel::MakeViridianToRoute1AreaChanger()

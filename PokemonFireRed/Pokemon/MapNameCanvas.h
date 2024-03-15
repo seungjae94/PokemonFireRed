@@ -8,6 +8,7 @@ enum class EMapNameCanvasState
 	Hide,
 	Open,
 	Close,
+	FastClose,
 	Show,
 };
 
@@ -38,17 +39,18 @@ private:
 
 	EMapNameCanvasState State = EMapNameCanvasState::Hide;
 
-	float ChangeSpeed = 3.0f;
-	float ChangeTime = 1 / ChangeSpeed;
+	float ChangeTime = 1 / 3.0f;
+	float FastChangeTime = 1 / 12.0f;
 	float ShowTime = 3.0f;
 	float CurChangeTime = 0.0f;
 
 	void OpenTick(float _DeltaTime);
 	void ShowTick(float _DeltaTime);
 	void CloseTick(float _DeltaTime);
+	void FastCloseTick(float _DeltaTime);
 
 	bool WaitingReopen = false;
-	std::wstring BackupString = L"";
+	std::wstring MemoryMapName = L"";
 
 	// Hide = 0.0f, Show = 1.0f로 계산할 때 현재 위치
 	float GetCurProp()

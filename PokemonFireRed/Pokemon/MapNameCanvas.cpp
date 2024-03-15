@@ -17,12 +17,10 @@ void AMapNameCanvas::Open(std::wstring_view _MapName)
 	if (EMapNameCanvasState::Hide != State)
 	{
 		// 이미 열려 있는 경우 빠르게 닫고 다시 연다.
-		WaitingReopen = true;
-		BackupString = _MapName;
-		State = EMapNameCanvasState::Close;
+		MemoryMapName = _MapName;
+		State = EMapNameCanvasState::FastClose;
 
-		float CurProp = GetCurProp();
-		CurChangeTime = ChangeTime * CurProp;
+		CurChangeTime = FastChangeTime;
 		return;
 	}
 
@@ -58,6 +56,9 @@ void AMapNameCanvas::Tick(float _DeltaTime)
 		break;
 	case EMapNameCanvasState::Close:
 		CloseTick(_DeltaTime);
+		break;
+	case EMapNameCanvasState::FastClose:
+		FastCloseTick(_DeltaTime);
 		break;
 	case EMapNameCanvasState::Show:
 		ShowTick(_DeltaTime);
@@ -102,14 +103,22 @@ void AMapNameCanvas::CloseTick(float _DeltaTime)
 	if (CurChangeTime < 0.0f)
 	{
 		State = EMapNameCanvasState::Hide;
+	}
+}
 
-		// Close 종료시 reopen 대기 중일 경우 열어준다.
-		if (true == WaitingReopen)
-		{
-			WaitingReopen = false;
-			Open(BackupString);
-			BackupString = L"";
-		}
+void AMapNameCanvas::FastCloseTick(float _DeltaTime)
+{
+	CurChangeTime -= _DeltaTime;
+
+	FVector Pos = UPokemonMath::Lerp(HidePos, ShowPos, CurChangeTime / FastChangeTime);
+	MapNameBox->SetRelativePosition(Pos);
+
+	if (CurChangeTime < 0.0f)
+	{
+		State = EMapNameCanvasState::Open;
+		MapNameText->SetText(MemoryMapName);
+		CurChangeTime = ChangeTime;
+		State = EMapNameCanvasState::Open;
 	}
 }
 
