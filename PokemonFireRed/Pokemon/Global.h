@@ -167,6 +167,7 @@ namespace RN
 	const std::string BgmPewterCity = "BgmViridianCity.mp3";		// Viridian City¿Í BGM °øÀ¯
 	const std::string BgmViridianForest = "BgmViridianForest.mp3";
 	const std::string BgmWildBattle = "BgmWildBattle.mp3";
+	const std::string BgmVictoryCapture = "BgmVictoryCapture.mp3";
 
 	// SE
 	const std::string SEClick = "SEClick.mp3";
@@ -187,7 +188,11 @@ namespace RN
 	const std::string SEBallBounce1 = "SEBallBounce1.mp3";
 	const std::string SEBallBounce2 = "SEBallBounce2.mp3";
 	const std::string SEBallBounce3 = "SEBallBounce3.mp3";
-	
+	const std::string SEBallShine = "SEBallShine.mp3";
+	const std::string SEBallShake = "SEBallShake.mp3";
+
+	const std::string SEPokemonCaughtFanfare = "SEPokemonCaught.mp3";
+
 	// Cry
 	const std::string TitleCharizardCry = "CryCharizard.mp3";
 

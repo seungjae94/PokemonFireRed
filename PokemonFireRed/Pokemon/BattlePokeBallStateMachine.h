@@ -28,6 +28,7 @@ private:
 		CatchFailMessage1,
 		CatchFailMessage2,
 		CatchSuccessAnim,
+		CatchSuccessFanfare,
 		CatchSuccessMessage,
 		End,
 	};
@@ -76,7 +77,8 @@ private:
 	const float CatchSuccessAnimTime = 1.0f;
 	const float CatchFailAnimTime = 0.15f;
 	const float CatchFailMessageShowTime = 0.5f;
-	
+	const float CatchFanfareMuteTime = 3.5f;
+
 	// 트레이너 볼 블로킹
 	const float BlockTime = 0.5f;
 	const float BlockMessageShowTime = 0.75f;
@@ -100,6 +102,7 @@ private:
 	void ProcessCatchFailMessage1();
 	void ProcessCatchFailMessage2();
 	void ProcessCatchSuccessAnim(float _DeltaTime);
+	void ProcessCatchSuccessFanfare();
 	void ProcessCatchSuccessMessage();
 };
 

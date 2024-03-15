@@ -96,6 +96,9 @@ void ABattlePokeBallStateMachine::Tick(float _DeltaTime)
 	case ESubstate::CatchSuccessAnim:
 		ProcessCatchSuccessAnim(_DeltaTime);
 		break;
+	case ESubstate::CatchSuccessFanfare:
+		ProcessCatchSuccessFanfare();
+		break;
 	case ESubstate::CatchSuccessMessage:
 		ProcessCatchSuccessMessage();
 		break;
@@ -308,6 +311,7 @@ void ABattlePokeBallStateMachine::ProcessCheckShakeMore()
 		if (TestSuccessCount == MaxTestSuccessCount)
 		{
 			State = ESubstate::CatchSuccessAnim;
+			USoundManager::PlaySE(RN::SEBallShine);
 			Canvas->ShowCatchBallStars();
 			Timer = CatchSuccessAnimTime;
 		}
@@ -333,6 +337,7 @@ void ABattlePokeBallStateMachine::ProcessCheckShakeMore()
 		Canvas->PlayCatchBallShakeRightAnimation();
 	}
 
+	USoundManager::PlaySE(RN::SEBallShake);
 	Timer = ShakeTime;
 }
 
@@ -408,17 +413,28 @@ void ABattlePokeBallStateMachine::ProcessCatchSuccessAnim(float _DeltaTime)
 
 	if (Timer <= 0.0f)
 	{
-		State = ESubstate::CatchSuccessMessage;
+		State = ESubstate::CatchSuccessFanfare;
+		USoundManager::PlaySE(RN::SEPokemonCaughtFanfare, CatchFanfareMuteTime);
 		Canvas->HideCatchBallStars();
 		Player->SetCatchResult(true);
 		MsgBox->SetMessage(L"Gotcha!\n" + Enemy->CurPokemon()->GetNameW() + L" was caught!");
 		MsgBox->Write();
+		Timer = CatchFanfareMuteTime;
+	}
+}
+
+void ABattlePokeBallStateMachine::ProcessCatchSuccessFanfare()
+{
+	if (Timer <= 0.0f)
+	{
+		State = ESubstate::CatchSuccessMessage;
+		USoundManager::PlayBgm(RN::BgmVictoryCapture);
 	}
 }
 
 void ABattlePokeBallStateMachine::ProcessCatchSuccessMessage()
 {
-	if (EWriteState::WriteEnd == MsgBox->GetWriteState() && true == UEngineInput::IsDown('Z'))
+	if (true == UEngineInput::IsDown('Z'))
 	{
 		State = ESubstate::End;
 
