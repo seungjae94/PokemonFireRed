@@ -42,12 +42,6 @@ private:
 	void MakePTItemBalls();
 	void MakePTAnimatedTiles();
 
-	// 1번 도로
-	void MakePalletToRoute1AreaChanger();
-	void MakeRoute1ToPalletAreaChanger();
-	void MakeViridianToRoute1AreaChanger();
-	void MakeRoute1ToViridianAreaChanger();
-
 	// 상록 시티
 	void MakeViridianCity();
 	void MakeVCPokemonCenterDoor();
@@ -63,6 +57,14 @@ private:
 	void MakeRoute22();
 	void MakeR22AnimatedTiles();
 	void MakeR22ClosedDoor();
+
+	// 지역 변경
+	void MakePalletToRoute1AreaChanger();
+	void MakeRoute1ToPalletAreaChanger();
+	void MakeViridianToRoute1AreaChanger();
+	void MakeRoute1ToViridianAreaChanger();
+	void MakeViridianToRoute2AreaChanger();
+	void MakeRoute2ToViridianAreaChanger();
 
 	// 체크 함수
 	static std::string GetAreaNameStatic();

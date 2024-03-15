@@ -155,6 +155,7 @@ namespace RN
 	const std::string BgmPokemonCenter = "BgmPokemonCenter.mp3";
 	const std::string BgmRivalAppears = "BgmRivalAppears.mp3";
 	const std::string BgmRoute1 = "BgmRoute1.mp3";
+	const std::string BgmRoute2 = "BgmRoute1.mp3";					// Route 1과 BGM 공유
 	const std::string BgmTitleBattle = "BgmTitleBattle.mp3";
 	const std::string BgmTitleScreen = "BgmTitleScreen.mp3";
 	const std::string BgmTrainerBattle = "BgmTrainerBattle.mp3";
@@ -163,7 +164,7 @@ namespace RN
 	const std::string BgmVictoryTrainerBattle = "BgmVictoryTrainerBattle.mp3";
 	const std::string BgmVictoryWildBattle = "BgmVictoryWildBattle.mp3";
 	const std::string BgmViridianCity = "BgmViridianCity.mp3";
-	const std::string BgmPewterCity = "BgmViridianCity.mp3";	// Viridian City와 BGM 공유
+	const std::string BgmPewterCity = "BgmViridianCity.mp3";		// Viridian City와 BGM 공유
 	const std::string BgmViridianForest = "BgmViridianForest.mp3";
 	const std::string BgmWildBattle = "BgmWildBattle.mp3";
 

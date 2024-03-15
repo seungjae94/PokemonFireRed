@@ -289,7 +289,10 @@ void APlayer::Walk(float _DeltaTime)
 	bool StepOnResult = TryStepOnEvent();
 	if (true == StepOnResult)
 	{
-		StateChange(EPlayerState::Idle);
+		if (State == EPlayerState::Walk)
+		{
+			StateChange(EPlayerState::Idle);
+		}
 		return;
 	}
 

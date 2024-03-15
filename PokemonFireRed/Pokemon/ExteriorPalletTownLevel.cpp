@@ -39,7 +39,9 @@ void UExteriorPalletTownLevel::BeginPlay()
 	MakeRoute1ToPalletAreaChanger();
 	MakePalletToRoute1AreaChanger();
 	MakeRoute1ToViridianAreaChanger();
-	MakeViridianToRoute1AreaChanger();
+	MakeViridianToRoute1AreaChanger();	
+	MakeRoute2ToViridianAreaChanger();
+	MakeViridianToRoute2AreaChanger();
 }
 
 void UExteriorPalletTownLevel::LevelStart(ULevel* _PrevLevel)
@@ -352,58 +354,6 @@ void UExteriorPalletTownLevel::MakeRoute1ToPalletAreaChanger()
 	UEventManager::RegisterEvent(Changer1, Cond, Stream);
 }
 
-void UExteriorPalletTownLevel::MakeViridianToRoute1AreaChanger()
-{
-	for (int i = 0; i < 4; ++i)
-	{
-		UEventTargetSetting Setting;
-		Setting.SetName("ViridianCityToRoute1Changer" + std::to_string(i));
-		Setting.SetPoint({ 74 + i, 94 });
-		Setting.SetHeight(1);
-
-		AEventTrigger* Changer = SpawnEventTrigger<AEventTrigger>(Setting);
-
-		UEventCondition Cond = UEventCondition(EEventTriggerAction::StepOn);
-		Cond.RegisterCheckFunc(IsPlayerNotInRoute1);
-
-		UEventManager::RegisterEvent(Changer, Cond,
-			ES::Start(false)
-			>> ES::ChangeArea("ROUTE 1", RN::BgmRoute1)
-			>> ES::ShowMapName(L"ROUTE 1")
-			>> ES::FadeOutBgm(0.25f)
-			>> ES::Wait(0.25f)
-			>> ES::PlayBgm(RN::BgmRoute1)
-			>> ES::FadeInBgm(0.25f)
-			>> ES::End(false));
-	}
-}
-
-void UExteriorPalletTownLevel::MakeRoute1ToViridianAreaChanger()
-{
-	for (int i = 0; i < 4; ++i)
-	{
-		UEventTargetSetting Setting;
-		Setting.SetName("Route1ToViridianCityChanger" + std::to_string(i));
-		Setting.SetPoint({ 74 + i, 93 });
-		Setting.SetHeight(1);
-
-		AEventTrigger* Changer = SpawnEventTrigger<AEventTrigger>(Setting);
-
-		UEventCondition Cond = UEventCondition(EEventTriggerAction::StepOn);
-		Cond.RegisterCheckFunc(IsPlayerNotInViridianCity);
-
-		UEventManager::RegisterEvent(Changer, Cond, 
-			ES::Start(false)
-			>> ES::ChangeArea("VIRIDIAN CITY", RN::BgmViridianCity)
-			>> ES::ShowMapName(L"VIRIDIAN CITY")
-			>> ES::FadeOutBgm(0.25f)
-			>> ES::Wait(0.25f)
-			>> ES::PlayBgm(RN::BgmViridianCity)
-			>> ES::FadeInBgm(0.25f)
-			>> ES::End(false));
-	}
-}
-
 void UExteriorPalletTownLevel::MakeViridianCity()
 {
 	MakeVCPokemonCenterDoor();
@@ -532,6 +482,7 @@ void UExteriorPalletTownLevel::MakeVCForestEntrances()
 
 		UEventManager::RegisterEvent(Trigger, Cond,
 			ES::Start(true)
+			>> ES::FadeOutBgm(0.75f)
 			>> ES::FadeOut(0.75f)
 			>> ES::Wait(0.75f)
 			>> ES::ChangeLevel(Global::ExteriorViridianForestLevel)
@@ -539,6 +490,8 @@ void UExteriorPalletTownLevel::MakeVCForestEntrances()
 			>> ES::ChangeDirection(Global::ExteriorViridianForestLevel, Global::Player, FTileVector::Up)
 			>> ES::CameraFocus(Global::Player)
 			>> ES::ShowMapName(L"VIRIDIAN FOREST")
+			>> ES::PlayBgm(RN::BgmViridianForest)
+			>> ES::FadeInBgm(0.75f)
 			>> ES::FadeIn(0.75f)
 			>> ES::Wait(0.75f)
 			>> ES::End(true)
@@ -575,6 +528,111 @@ void UExteriorPalletTownLevel::MakeR22ClosedDoor()
 	Door->RegisterPredefinedEvent();
 }
 
+
+void UExteriorPalletTownLevel::MakeViridianToRoute1AreaChanger()
+{
+	for (int i = 0; i < 4; ++i)
+	{
+		UEventTargetSetting Setting;
+		Setting.SetName("ViridianCityToRoute1Changer" + std::to_string(i));
+		Setting.SetPoint({ 74 + i, 94 });
+		Setting.SetHeight(1);
+
+		AEventTrigger* Changer = SpawnEventTrigger<AEventTrigger>(Setting);
+
+		UEventCondition Cond = UEventCondition(EEventTriggerAction::StepOn);
+		Cond.RegisterCheckFunc(IsPlayerNotInRoute1);
+
+		UEventManager::RegisterEvent(Changer, Cond,
+			ES::Start(false)
+			>> ES::ChangeArea("ROUTE 1", RN::BgmRoute1)
+			>> ES::ShowMapName(L"ROUTE 1")
+			>> ES::FadeOutBgm(0.25f)
+			>> ES::Wait(0.25f)
+			>> ES::PlayBgm(RN::BgmRoute1)
+			>> ES::FadeInBgm(0.25f)
+			>> ES::End(false));
+	}
+}
+
+void UExteriorPalletTownLevel::MakeRoute1ToViridianAreaChanger()
+{
+	for (int i = 0; i < 4; ++i)
+	{
+		UEventTargetSetting Setting;
+		Setting.SetName("Route1ToViridianCityChanger" + std::to_string(i));
+		Setting.SetPoint({ 74 + i, 93 });
+		Setting.SetHeight(1);
+
+		AEventTrigger* Changer = SpawnEventTrigger<AEventTrigger>(Setting);
+
+		UEventCondition Cond = UEventCondition(EEventTriggerAction::StepOn);
+		Cond.RegisterCheckFunc(IsPlayerNotInViridianCity);
+
+		UEventManager::RegisterEvent(Changer, Cond,
+			ES::Start(false)
+			>> ES::ChangeArea("VIRIDIAN CITY", RN::BgmViridianCity)
+			>> ES::ShowMapName(L"VIRIDIAN CITY")
+			>> ES::FadeOutBgm(0.25f)
+			>> ES::Wait(0.25f)
+			>> ES::PlayBgm(RN::BgmViridianCity)
+			>> ES::FadeInBgm(0.25f)
+			>> ES::End(false));
+	}
+}
+
+void UExteriorPalletTownLevel::MakeViridianToRoute2AreaChanger()
+{
+	for (int i = 0; i < 5; ++i)
+	{
+		UEventTargetSetting Setting;
+		Setting.SetName("ViridianCityToRoute2Changer" + std::to_string(i));
+		Setting.SetPoint({ 71 + i, 52 });
+		Setting.SetHeight(1);
+
+		AEventTrigger* Changer = SpawnEventTrigger<AEventTrigger>(Setting);
+
+		UEventCondition Cond = UEventCondition(EEventTriggerAction::StepOn);
+		Cond.RegisterCheckFunc(IsPlayerNotInRoute1);
+
+		UEventManager::RegisterEvent(Changer, Cond,
+			ES::Start(false)
+			>> ES::ChangeArea("ROUTE 2", RN::BgmRoute2)
+			>> ES::ShowMapName(L"ROUTE 2")
+			>> ES::FadeOutBgm(0.25f)
+			>> ES::Wait(0.25f)
+			>> ES::PlayBgm(RN::BgmRoute2)
+			>> ES::FadeInBgm(0.25f)
+			>> ES::End(false));
+	}
+}
+
+void UExteriorPalletTownLevel::MakeRoute2ToViridianAreaChanger()
+{
+	for (int i = 0; i < 5; ++i)
+	{
+		UEventTargetSetting Setting;
+		Setting.SetName("Route2ToViridianCityChanger" + std::to_string(i));
+		Setting.SetPoint({ 71 + i, 53 });
+		Setting.SetHeight(1);
+
+		AEventTrigger* Changer = SpawnEventTrigger<AEventTrigger>(Setting);
+
+		UEventCondition Cond = UEventCondition(EEventTriggerAction::StepOn);
+		Cond.RegisterCheckFunc(IsPlayerNotInViridianCity);
+
+		UEventManager::RegisterEvent(Changer, Cond,
+			ES::Start(false)
+			>> ES::ChangeArea("VIRIDIAN CITY", RN::BgmViridianCity)
+			>> ES::ShowMapName(L"VIRIDIAN CITY")
+			>> ES::FadeOutBgm(0.25f)
+			>> ES::Wait(0.25f)
+			>> ES::PlayBgm(RN::BgmViridianCity)
+			>> ES::FadeInBgm(0.25f)
+			>> ES::End(false));
+	}
+}
+
 std::string UExteriorPalletTownLevel::GetAreaNameStatic()
 {
 	APlayer* Player = UEventManager::FindCurLevelTarget<APlayer>(EN::Player);
@@ -602,3 +660,4 @@ bool UExteriorPalletTownLevel::IsPlayerNotInViridianCity()
 {
 	return GetAreaNameStatic() != "VIRIDIAN CITY";
 }
+
