@@ -63,5 +63,11 @@ private:
 	void MakeRoute22();
 	void MakeR22AnimatedTiles();
 	void MakeR22ClosedDoor();
+
+	// 체크 함수
+	static std::string GetAreaNameStatic();
+	static bool IsPlayerNotInPalletTown();
+	static bool IsPlayerNotInRoute1();
+	static bool IsPlayerNotInViridianCity();
 };
 

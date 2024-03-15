@@ -303,6 +303,7 @@ void UExteriorPalletTownLevel::MakePalletToRoute1AreaChanger()
 	AEventTrigger* Changer1 = SpawnEventTrigger<AEventTrigger>(Setting1);
 
 	UEventCondition Cond = UEventCondition(EEventTriggerAction::StepOn);
+	Cond.RegisterCheckFunc(IsPlayerNotInRoute1);
 
 	UEventStream Stream = ES::Start(false)
 		>> ES::ChangeArea("ROUTE 1", RN::BgmRoute1)
@@ -333,6 +334,8 @@ void UExteriorPalletTownLevel::MakeRoute1ToPalletAreaChanger()
 	AEventTrigger* Changer1 = SpawnEventTrigger<AEventTrigger>(Setting1);
 
 	UEventCondition Cond = UEventCondition(EEventTriggerAction::StepOn);
+	Cond.RegisterCheckFunc(IsPlayerNotInPalletTown);
+
 	UEventStream Stream = ES::Start(false)
 		>> ES::ChangeArea("PALLET TOWN", RN::BgmPalletTown)
 		>> ES::ShowMapName(L"PALLET TOWN")
@@ -522,4 +525,32 @@ void UExteriorPalletTownLevel::MakeR22ClosedDoor()
 
 	AClosedDoor* Door = SpawnEventTrigger<AClosedDoor>(Setting);
 	Door->RegisterPredefinedEvent();
+}
+
+std::string UExteriorPalletTownLevel::GetAreaNameStatic()
+{
+	APlayer* Player = UEventManager::FindCurLevelTarget<APlayer>(EN::Player);
+	UExteriorPalletTownLevel* CurLevel = dynamic_cast<UExteriorPalletTownLevel*>(Player->GetWorld());
+	if (nullptr == CurLevel)
+	{
+		MsgBoxAssert("UExteriorPalletTownLevel::IsPlayerInPalletTown 함수를 UExteriorPalletTownLevel 외부에서 호출했습니다.");
+		return "";
+	}
+
+	return CurLevel->GetAreaName();
+}
+
+bool UExteriorPalletTownLevel::IsPlayerNotInPalletTown()
+{
+	return GetAreaNameStatic() != "PALLET TOWN";
+}
+
+bool UExteriorPalletTownLevel::IsPlayerNotInRoute1()
+{
+	return GetAreaNameStatic() != "ROUTE 1";
+}
+
+bool UExteriorPalletTownLevel::IsPlayerNotInViridianCity()
+{
+	return GetAreaNameStatic() != "VIRIDIAN CITY";
 }
