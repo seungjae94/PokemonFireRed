@@ -27,6 +27,12 @@ public:
 	UMapLevel& operator=(const UMapLevel& _Other) = delete;
 	UMapLevel& operator=(UMapLevel&& _Other) noexcept = delete;
 
+	std::string GetAreaName() const;
+	std::string GetAreaBgm() const;
+
+	void SetAreaName(std::string_view _AreaName);
+	void SetAreaBgm(std::string_view _AreaBgm);
+
 protected:
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
@@ -36,6 +42,9 @@ protected:
 	APlayer* Player = nullptr;
 	AEventTrigger* FadeInTrigger = nullptr;
 
+	std::string AreaName = "";
+	std::string AreaBgm = "";
+	
 	UEngineDirectory CurDir;
 
 	void LevelStart(ULevel* _PrevLevel) override;

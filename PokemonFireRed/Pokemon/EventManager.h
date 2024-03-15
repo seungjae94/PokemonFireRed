@@ -61,6 +61,8 @@ public:
 	// - 사이드 이펙트가 없는 이벤트 명령은 
 	//   이벤트 트리거를 만들지 않고 즉시 실행해도 문제가 되지 않는다.
 
+	static void ChangeArea(std::string_view _AreaName, std::string_view _AreaBgm);
+
 	static void SetLevel(std::string_view _LevelName);
 
 	static void SetPoint(std::string_view _MapName, std::string_view _TargetName, const FTileVector& _Point);

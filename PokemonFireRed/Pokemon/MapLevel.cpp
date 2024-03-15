@@ -27,6 +27,26 @@ UMapLevel::~UMapLevel()
 {
 }
 
+std::string UMapLevel::GetAreaName() const
+{
+	return AreaName;
+}
+
+std::string UMapLevel::GetAreaBgm() const
+{
+	return AreaBgm;
+}
+
+void UMapLevel::SetAreaName(std::string_view _AreaName)
+{
+	AreaName = _AreaName;
+}
+
+void UMapLevel::SetAreaBgm(std::string_view _AreaBgm)
+{
+	AreaBgm = _AreaBgm;
+}
+
 void UMapLevel::BeginPlay()
 {
 	static bool IsCommonResourceLoaded = false;

@@ -42,6 +42,12 @@ private:
 	void MakePTItemBalls();
 	void MakePTAnimatedTiles();
 
+	// 1번 도로
+	void MakePalletToRoute1AreaChanger();
+	void MakeRoute1ToPalletAreaChanger();
+	void MakeViridianToRoute1AreaChanger();
+	void MakeRoute1ToViridianAreaChanger();
+
 	// 상록 시티
 	void MakeViridianCity();
 	void MakeVCPokemonCenterDoor();

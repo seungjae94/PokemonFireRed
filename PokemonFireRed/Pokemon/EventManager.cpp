@@ -376,6 +376,28 @@ void UEventManager::AddDialogueWindow(ADialogueWindow* _Window)
 
 // 이벤트 구현
 
+void UEventManager::ChangeArea(std::string_view _AreaName, std::string_view _AreaBgm)
+{
+	APlayer* Player = FindCurLevelTarget<APlayer>(EN::Player);
+
+	if (nullptr == Player)
+	{
+		MsgBoxAssert("맵 레벨이 아닌데 지역을 변경하려고 했습니다.");
+		return;
+	}
+
+	UMapLevel* MapLevel = dynamic_cast<UMapLevel*>(Player->GetWorld());
+
+	if (nullptr == MapLevel)
+	{
+		MsgBoxAssert("맵 레벨이 아닌데 지역을 변경하려고 했습니다.");
+		return;
+	}
+
+	MapLevel->SetAreaName(_AreaName);
+	MapLevel->SetAreaBgm(_AreaBgm);
+}
+
 void UEventManager::SetLevel(std::string_view _LevelName)
 {
 	CurLevelName = UEngineString::ToUpper(_LevelName);

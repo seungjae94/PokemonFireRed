@@ -99,6 +99,9 @@ void UEventProcessor::Tick(float _DeltaTime)
 		case EEventType::ShowMapName:
 			ProcessingResult = ProcessShowMapName();
 			break;
+		case EEventType::ChangeArea:
+			ProcessingResult = ProcessChangeArea();
+			break;
 		case EEventType::ChangeLevel:
 			ProcessingResult = ProcessChangeLevel();
 			break;
@@ -750,6 +753,14 @@ bool UEventProcessor::ProcessShowMapName()
 	MapNameCanvas->SetActive(true);
 	MapNameCanvas->AllRenderersActiveOn();
 	MapNameCanvas->Open(Data.MapName);
+	return true;
+}
+
+bool UEventProcessor::ProcessChangeArea()
+{
+	int CurIndexOfType = GetCurIndexOfType(EEventType::ChangeArea);
+	ES::ChangeArea& Data = CurStream->ChangeAreaDataSet[CurIndexOfType];
+	UEventManager::ChangeArea(Data.AreaName, Data.AreaBgm);
 	return true;
 }
 

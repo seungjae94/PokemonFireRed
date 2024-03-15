@@ -107,6 +107,7 @@ private:
 	bool ProcessPauseBgm();
 	bool ProcessResumeBgm();
 	bool ProcessShowMapName();
+	bool ProcessChangeArea();
 	bool ProcessChangeLevel();
 	bool ProcessChangePoint();
 	bool ProcessChangePosition();

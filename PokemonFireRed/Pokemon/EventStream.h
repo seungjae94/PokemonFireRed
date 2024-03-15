@@ -29,6 +29,7 @@ enum class EEventType
 	Wait,
 	Chat,
 	ShowMapName,
+	ChangeArea,
 	ChangeLevel,
 	ChangePoint,
 	ChangePosition,
@@ -435,6 +436,26 @@ public:
 		return *this;
 	}
 
+	class ChangeArea
+	{
+		friend UEventProcessor;
+	public:
+		ChangeArea(std::string_view _AreaName, std::string_view _AreaBgm)
+			: AreaName(_AreaName), AreaBgm(_AreaBgm)
+		{
+		}
+	private:
+		std::string AreaName;
+		std::string AreaBgm;
+	};
+
+	UEventStream& operator>>(const ChangeArea& _Data)
+	{
+		EventTypeList.push_back(EEventType::ChangeArea);
+		ChangeAreaDataSet.push_back(_Data);
+		return *this;
+	}
+
 	class ChangeLevel
 	{
 		friend UEventProcessor;
@@ -751,6 +772,7 @@ private:
 	std::vector<Wait> WaitDataSet;
 	std::vector<Chat> ChatDataSet;
 	std::vector<ShowMapName> ShowMapNameDataSet;
+	std::vector<ChangeArea> ChangeAreaDataSet;
 	std::vector<ChangeLevel> ChangeLevelDataSet;
 	std::vector<ChangePoint> ChangePointDataSet;
 	std::vector<ChangePosition> ChangePositionDataSet;

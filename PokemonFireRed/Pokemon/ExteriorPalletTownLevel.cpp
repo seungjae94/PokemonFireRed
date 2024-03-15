@@ -20,6 +20,8 @@ UExteriorPalletTownLevel::~UExteriorPalletTownLevel()
 void UExteriorPalletTownLevel::BeginPlay()
 {
 	UMapLevel::BeginPlay();
+	AreaName = "PALLET TOWN";
+	AreaBgm = RN::BgmPalletTown;
 
 	// (디버깅) 플레이어 시작 위치 설정
 	//UEventManager::SetPoint(GetName(), Global::Player, { 82, 80 });			// 상록시티 
@@ -279,6 +281,23 @@ void UExteriorPalletTownLevel::MakePTAnimatedTiles()
 		{71, 157}, {72, 157}, {73, 157}, {74, 157},
 		{71, 158}, {72, 158}, {73, 158}, {74, 158},
 		});
+}
+
+void UExteriorPalletTownLevel::MakePalletToRoute1AreaChanger()
+{
+
+}
+
+void UExteriorPalletTownLevel::MakeRoute1ToPalletAreaChanger()
+{
+}
+
+void UExteriorPalletTownLevel::MakeViridianToRoute1AreaChanger()
+{
+}
+
+void UExteriorPalletTownLevel::MakeRoute1ToViridianAreaChanger()
+{
 }
 
 void UExteriorPalletTownLevel::MakeViridianCity()
