@@ -27,6 +27,7 @@ public:
 	bool IsEnd() override;
 
 	void SetIsPlayer(bool _IsPlayer);
+	void SetGrowlSound(std::string_view _Sound);
 
 protected:
 
@@ -51,6 +52,7 @@ private:
 
 	// ตฅภฬลอ
 	bool IsPlayer = true;
+	std::string GrowlSound;
 	FVector PlayerUpEffectInitPos;
 	FVector PlayerMidEffectInitPos;
 	FVector PlayerDownEffectInitPos;

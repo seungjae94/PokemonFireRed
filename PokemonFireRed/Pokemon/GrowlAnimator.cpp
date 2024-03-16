@@ -16,6 +16,7 @@ void AGrowlAnimator::Start()
 	State = EState::CheckMore;
 	LoopCount = MaxLoopCount;
 
+	USoundManager::PlaySE(GrowlSound);
 	if (true == IsPlayer)
 	{
 		UpEffect = PlayerUpEffect;
@@ -50,6 +51,11 @@ bool AGrowlAnimator::IsEnd()
 void AGrowlAnimator::SetIsPlayer(bool _IsPlayer)
 {
 	IsPlayer = _IsPlayer;
+}
+
+void AGrowlAnimator::SetGrowlSound(std::string_view _Sound)
+{
+	GrowlSound = _Sound;
 }
 
 void AGrowlAnimator::BeginPlay()

@@ -25,6 +25,7 @@ AAnimator* AAnimatorGenerator::GenerateMoveAnimator(UBattler* _Attacker, EPokemo
 		{
 			AGrowlAnimator* Animator = GetWorld()->SpawnActor<AGrowlAnimator>();
 			Animator->SetIsPlayer(true);
+			Animator->SetGrowlSound(_Attacker->CurPokemon()->GetCrySoundName());
 			return Animator;
 		}
 		case EPokemonMove::Tackle:
@@ -49,6 +50,7 @@ AAnimator* AAnimatorGenerator::GenerateMoveAnimator(UBattler* _Attacker, EPokemo
 		{
 			AGrowlAnimator* Animator = GetWorld()->SpawnActor<AGrowlAnimator>();
 			Animator->SetIsPlayer(false);
+			Animator->SetGrowlSound(_Attacker->CurPokemon()->GetCrySoundName());
 			return Animator;
 		}
 		case EPokemonMove::Tackle:
