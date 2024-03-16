@@ -16,6 +16,8 @@ void UInteriorPewterGymLevel::BeginPlay()
 {
 	UMapLevel::BeginPlay();
 
+	AreaBgm = RN::BgmGym;
+
 	UEngineResourcesManager::GetInst().CuttingImage(RN::EndingRunner, 6, 1);
 
 	// (디버깅) 플레이어 시작 위치 설정
@@ -97,9 +99,12 @@ void UInteriorPewterGymLevel::MakeCamper()
 	UEventManager::RegisterEvent(WinTrigger, Cond,
 		ES::Start(false)
 		>> ES::Achieve(EAchievement::FightWithPewterGymCamper)
+		>> ES::FadeOutBgm(0.5f)
 		>> ES::FadeOut(0.5f)
 		>> ES::Wait(0.5f)
 		>> ES::ChangeLevel(Global::InteriorPewterGymLevel)
+		>> ES::PlayBgm(RN::BgmGym)
+		>> ES::FadeInBgm(0.5f)
 		>> ES::FadeIn(0.5f)
 		>> ES::Wait(0.5f)
 		>> ES::End(true)
@@ -195,9 +200,12 @@ void UInteriorPewterGymLevel::MakeGymLeader()
 	UEventManager::RegisterEvent(EndingTrigger, EndingCond,
 		ES::Start(false)
 		>> ES::Achieve(EAchievement::FightWithPewterGymLeader)
+		>> ES::FadeOutBgm(0.5f)
 		>> ES::FadeOut(0.5f)
 		>> ES::Wait(0.5f)
 		>> ES::ChangeLevel(Global::InteriorPewterGymLevel)
+		>> ES::PlayBgm(RN::BgmGym)
+		>> ES::FadeInBgm(0.5f)
 		>> ES::FadeIn(0.5f)
 		>> ES::Wait(0.5f)
 		>> ES::End(true)
