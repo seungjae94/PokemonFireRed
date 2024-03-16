@@ -8,7 +8,7 @@ namespace Global
 
 	// Cheat
 	const float CheatDamageBonusCoeff = 100.0f;
-	const float CheatExpBonusCoeff = 5.0f;
+	const float CheatExpBonusCoeff = 20.0f;
 	const float CheatWildBattleFrequency = 0.0f;
 	const int CheatCatchRateBonusCoeff = 10;
 	extern bool IsCheatOn;
@@ -200,6 +200,7 @@ namespace RN
 	const std::string SEStatDown = "SEStatDown.mp3";
 	const std::string SEStatUp = "SEStatUp.mp3";
 	const std::string SELevelUp = "SELevelUp.mp3";
+	const std::string SELevelUpFanfare = "SEItemObtained.mp3";	// 아이템 획득 사운드와 SE 공유
 	const std::string SELowHp = "SELowHp.mp3";
 	const std::string SEGainExp = "SEGainExp.mp3";
 

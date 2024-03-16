@@ -26,6 +26,11 @@ void ABattleExpGainStateMachine::Start(UPokemon* _ExpGainer, int _Exp, bool _IsC
 	BattleMsg += L" Exp. Points!";
 	MsgBox->SetMessage(BattleMsg);
 	MsgBox->Write();
+
+	if (true == Enemy->IsWildPokemon())
+	{
+		USoundManager::PlayBgm(RN::BgmVictoryWildBattle);
+	}
 }
 
 void ABattleExpGainStateMachine::Tick(float _DeltaTime)
@@ -212,6 +217,9 @@ void ABattleExpGainStateMachine::ProcessLevelUpEffect()
 
 		// 변경 사항 플레이어 UI에 반영
 		Canvas->RefreshPlayerPokemonBox();
+
+		// SE 재생
+		USoundManager::PlaySE(RN::SELevelUpFanfare, 1.75f);
 	}
 }
 
