@@ -1,5 +1,7 @@
 #include "PokemonLevel.h"
 #include <EnginePlatform/EngineInput.h>
+#include <EngineCore/EngineDebug.h>
+#include <EngineCore/EngineCore.h>
 #include "EventManager.h"
 #include "FadeCanvas.h"
 #include "BattleLevel.h"
@@ -54,6 +56,11 @@ void UPokemonLevel::Tick(float _DeltaTime)
 	UEventManager::Tick(_DeltaTime * TimeScaleValue);
 	SetAllTimeScale(TimeScaleValue);
 
+	if (true == UEngineInput::IsDown(VK_F2))
+	{
+		GEngine->EngineDebugSwitch();
+	}
+
 	if (true == UEngineInput::IsDown('Q'))
 	{
 		ApplyDamageCheat();
@@ -73,6 +80,8 @@ void UPokemonLevel::Tick(float _DeltaTime)
 	{
 		ApplyCatchCheat();
 	}
+
+	PrintCheatInfo();
 
 	UBattleLevel* BattleLevel = dynamic_cast<UBattleLevel*>(this);
 
@@ -122,28 +131,33 @@ void UPokemonLevel::Tick(float _DeltaTime)
 	}
 }
 
+void UPokemonLevel::PrintCheatInfo()
+{
+	float FontSize = 30.0f;
+	UEngineDebug::DebugTextPrint("(1) 데미지 배율: " + std::to_string(Global::DamageBonusCoeff), FontSize);
+	UEngineDebug::DebugTextPrint("(2) 경험치 배율: " + std::to_string(Global::ExpBonusCoeff), FontSize);
+	UEngineDebug::DebugTextPrint("(3) 야생 포켓몬 출현율: " + std::to_string(Global::WildBattleFrequency), FontSize);
+	UEngineDebug::DebugTextPrint("(4) 포획률: " + std::to_string(Global::CatchRateBonusCoeff), FontSize);
+}
+
 void UPokemonLevel::ApplyDamageCheat()
 {
 	DamageCheatStage = UPokemonMath::Mod(++DamageCheatStage, 4);
 
 	if (0 == DamageCheatStage)
 	{
-		UEngineDebug::OutPutDebugText("Damage x1");
 		Global::DamageBonusCoeff = 1.0f;
 	}
 	else if (1 == DamageCheatStage)
 	{
-		UEngineDebug::OutPutDebugText("Damage x2");
 		Global::DamageBonusCoeff = 2.0f;
 	}
 	else if (2 == DamageCheatStage)
 	{
-		UEngineDebug::OutPutDebugText("Damage x4");
 		Global::DamageBonusCoeff = 4.0f;
 	}
 	else if (3 == DamageCheatStage)
 	{
-		UEngineDebug::OutPutDebugText("Damage x16");
 		Global::DamageBonusCoeff = 16.0f;
 	}
 }
@@ -154,22 +168,18 @@ void UPokemonLevel::ApplyExpCheat()
 
 	if (0 == ExpCheatStage)
 	{
-		UEngineDebug::OutPutDebugText("Exp x1");
 		Global::ExpBonusCoeff = 1.0f;
 	}
 	else if (1 == ExpCheatStage)
 	{
-		UEngineDebug::OutPutDebugText("Exp x2");
 		Global::ExpBonusCoeff = 2.0f;
 	}
 	else if (2 == ExpCheatStage)
 	{
-		UEngineDebug::OutPutDebugText("Exp x4");
 		Global::ExpBonusCoeff = 4.0f;
 	}
 	else if (3 == ExpCheatStage)
 	{
-		UEngineDebug::OutPutDebugText("Exp x16");
 		Global::ExpBonusCoeff = 16.0f;
 	}
 }
@@ -180,17 +190,14 @@ void UPokemonLevel::ApplyEncounterCheat()
 
 	if (0 == EncounterCheatStage)
 	{
-		UEngineDebug::OutPutDebugText("야생 포켓몬 출현율 x1");
 		Global::WildBattleFrequency = 1.0f;
 	}
 	else if (1 == EncounterCheatStage)
 	{
-		UEngineDebug::OutPutDebugText("야생 포켓몬 출현율 x8");
 		Global::WildBattleFrequency = 8.0f;
 	}
 	else if (2 == EncounterCheatStage)
 	{
-		UEngineDebug::OutPutDebugText("야생 포켓몬 출현율 x0");
 		Global::WildBattleFrequency = 0.0f;
 	}
 }
@@ -201,22 +208,18 @@ void UPokemonLevel::ApplyCatchCheat()
 
 	if (0 == CatchCheatStage)
 	{
-		UEngineDebug::OutPutDebugText("포획률 x1");
 		Global::CatchRateBonusCoeff = 1.0f;
 	}
 	else if (1 == CatchCheatStage)
 	{
-		UEngineDebug::OutPutDebugText("포획률 x16");
 		Global::CatchRateBonusCoeff = 16.0f;
 	}
 	else if (2 == CatchCheatStage)
 	{
-		UEngineDebug::OutPutDebugText("포획률 x0.25");
 		Global::CatchRateBonusCoeff = 0.25f;
 	}
 	else if (3 == CatchCheatStage)
 	{
-		UEngineDebug::OutPutDebugText("포획률 x0.5");
-		Global::CatchRateBonusCoeff = 0.25f;
+		Global::CatchRateBonusCoeff = 0.5f;
 	}
 }

@@ -79,6 +79,7 @@ private:
 	static int CatchCheatStage;
 	static int EncounterCheatStage;
 
+	static void PrintCheatInfo();
 	static void ApplyDamageCheat();
 	static void ApplyExpCheat();
 	static void ApplyCatchCheat();

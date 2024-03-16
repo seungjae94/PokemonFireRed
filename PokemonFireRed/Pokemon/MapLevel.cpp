@@ -126,19 +126,18 @@ void UMapLevel::Tick(float _DeltaTime)
 {
 	UPokemonLevel::Tick(_DeltaTime);
 
-	// 디버깅 기능
+	// 플레이어 위치 확인
 	if (UEngineInput::IsDown('P'))
 	{
 		PokemonDebug::ReportPosition(Player, Global::Player);
 	}
 
+	// 콜리전 맵 확인
 	if (UEngineInput::IsDown('O'))
 	{
 		bool ActiveValue = Map->IsCollisionRendererActive();
 		Map->SetCollisionRendererActive(!ActiveValue);
 	}
-
-	PokemonDebug::ReportFrameRate(_DeltaTime, 100.0f);
 }
 
 void UMapLevel::LevelStart(ULevel* _PrevLevel)
