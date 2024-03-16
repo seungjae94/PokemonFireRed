@@ -101,6 +101,7 @@ void ABattlePlayerActionSelectStateMachine::ProcessSelect()
 
 			bool RunResult = CalcRunResult();
 			Player->SetRunResult(RunResult);
+			++RunAttemptCount;
 		}
 		break;
 		default:
