@@ -17,6 +17,9 @@ namespace Global
 	extern float WildBattleFrequency;
 	extern int CatchRateBonusCoeff;
 
+	// SE 시간
+	const float LevelUpFanfareTime = 1.1f;
+
 	// 기타
 	const float CharacterWalkSpeed = 3.6f;
 	const float CharacterJumpSpeed = 1.4f;

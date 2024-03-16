@@ -219,7 +219,7 @@ void ABattleExpGainStateMachine::ProcessLevelUpEffect()
 		Canvas->RefreshPlayerPokemonBox();
 
 		// SE Àç»ý
-		USoundManager::PlaySE(RN::SELevelUpFanfare, 1.75f);
+		USoundManager::PlaySE(RN::SELevelUpFanfare, Global::LevelUpFanfareTime);
 	}
 }
 
