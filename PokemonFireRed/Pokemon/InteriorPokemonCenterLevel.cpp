@@ -360,6 +360,7 @@ void UInteriorPokemonCenterLevel::ProcessBallAnim()
 			UPokemon& Pokemon = UPlayerData::GetPokemonInEntry(i);
 			Pokemon.HealAll();
 			Pokemon.Cure();
+			Pokemon.RestorePP();
 		}
 	}
 }

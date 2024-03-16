@@ -229,6 +229,14 @@ public:
 		Status = UGameDB::FindStatus(EPokemonStatus::Normal);
 	}
 
+	void RestorePP()
+	{
+		for (int i = 0; i < Moves.size(); ++i)
+		{
+			MoveCurPPs[i] = Moves[i]->PP;
+		}
+	}
+
 	int GetHp() const;
 	std::wstring GetHpW() const
 	{

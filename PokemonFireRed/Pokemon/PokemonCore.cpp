@@ -183,10 +183,10 @@ void UPokemonCore::DebugGeneratePokemons()
 	Pokemon4.AddAccExp(1);
 	UPlayerData::AddPokemonToEntry(Pokemon0);
 	UPlayerData::AddPokemonToEntry(Pokemon1);
-	UPlayerData::AddPokemonToEntry(Pokemon2);
-	UPlayerData::AddPokemonToEntry(Pokemon3);
-	UPlayerData::AddPokemonToEntry(Pokemon4);
-	UPlayerData::AddPokemonToEntry(Pokemon5);
+	//UPlayerData::AddPokemonToEntry(Pokemon2);
+	//UPlayerData::AddPokemonToEntry(Pokemon3);
+	//UPlayerData::AddPokemonToEntry(Pokemon4);
+	//UPlayerData::AddPokemonToEntry(Pokemon5);
 }
 
 void UPokemonCore::DebugGenerateItems()
