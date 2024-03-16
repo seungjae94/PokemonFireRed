@@ -165,6 +165,7 @@ void ABattleFaintStateMachine::ProcessShowFaintMessage2()
 		// 적 포켓몬이 쓰러진 경우 경험치 획득 O
 		else
 		{
+			IsFirstGainer = true;
 			ExpGainByFaint = UExpCalculator::SimFaint(Fainter);
 			State = ESubstate::TestExpGain;
 		}
@@ -177,7 +178,8 @@ void ABattleFaintStateMachine::ProcessTestExpGain()
 	{
 		State = ESubstate::ExpGain;
 		UPokemon* ExpGainer = ExpGainByFaint.begin()->first;
-		BattleExpGainSM->Start(ExpGainer, ExpGainByFaint.at(ExpGainer), PlayerCurPokemon == ExpGainer);
+		BattleExpGainSM->Start(ExpGainer, ExpGainByFaint.at(ExpGainer), PlayerCurPokemon == ExpGainer, IsFirstGainer);
+		IsFirstGainer = false;
 		return;
 	}
 

@@ -46,7 +46,7 @@ public:
 		return State == ESubstate::End;
 	}
 
-	void Start(UPokemon* _ExpGainer, int _Exp, bool _IsCurPokemon);
+	void Start(UPokemon* _ExpGainer, int _Exp, bool _IsCurPokemon, bool _IsFirst);
 
 protected:
 

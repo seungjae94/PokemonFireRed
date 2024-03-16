@@ -12,7 +12,7 @@ ABattleExpGainStateMachine::~ABattleExpGainStateMachine()
 {
 }
 
-void ABattleExpGainStateMachine::Start(UPokemon* _ExpGainer, int _Exp, bool _IsCurPokemon)
+void ABattleExpGainStateMachine::Start(UPokemon* _ExpGainer, int _Exp, bool _IsCurPokemon, bool _IsFirst)
 {
 	ABattleStateMachine::Start();
 
@@ -27,7 +27,7 @@ void ABattleExpGainStateMachine::Start(UPokemon* _ExpGainer, int _Exp, bool _IsC
 	MsgBox->SetMessage(BattleMsg);
 	MsgBox->Write();
 
-	if (true == Enemy->IsWildPokemon())
+	if (true == Enemy->IsWildPokemon() && true == _IsFirst)
 	{
 		USoundManager::PlayBgm(RN::BgmVictoryWildBattle);
 	}

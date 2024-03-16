@@ -61,6 +61,7 @@ private:
 	const float CryWaitTime = 0.5f;
 	const float FaintTime = 0.25f;
 	float Timer = 0.0f;
+	bool IsFirstGainer = true;
 
 	// 고유 데이터 - 경험치 획득 데이터
 	FSimExpGainResult SimExpGainResult;
