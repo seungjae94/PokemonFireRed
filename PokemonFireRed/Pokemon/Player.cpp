@@ -418,6 +418,7 @@ void APlayer::WalkInPlace(float _DeltaTime)
 
 void APlayer::JumpStart()
 {
+	USoundManager::PlaySE(RN::SELedgeJump);
 	ChangeAnimation(EPlayerState::Jump, Direction);
 	MemoryDirection = FTileVector::Zero;
 	CurJumpTime = JumpTime;
