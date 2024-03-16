@@ -244,7 +244,7 @@ void UExteriorViridianForestLevel::MakeAntidoteBall()
 {
 	UEventTargetSetting AntidoteBallSetting;
 	AntidoteBallSetting.SetName("VFAntidoteBall");
-	AntidoteBallSetting.SetPoint({ 53, 47 });
+	AntidoteBallSetting.SetPoint({ 50, 43 });
 	AntidoteBallSetting.SetDirection(FTileVector::Down);
 	AntidoteBallSetting.SetCollidable(true);
 	AntidoteBallSetting.SetImageName(RN::MapBall);
