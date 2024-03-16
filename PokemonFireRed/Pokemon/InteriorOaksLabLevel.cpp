@@ -20,6 +20,8 @@ void UInteriorOaksLabLevel::BeginPlay()
 {
 	UMapLevel::BeginPlay();
 
+	AreaBgm = RN::BgmOaksLab;
+
 	// 플레이어 시작 위치 설정
 	UEventManager::SetPoint(GetName(), Global::Player, { 6, 6 });
 	UEventManager::SetDirection(GetName(), Global::Player, FTileVector::Up);

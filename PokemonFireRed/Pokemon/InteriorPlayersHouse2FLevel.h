@@ -18,6 +18,7 @@ protected:
 	void BeginPlay() override;
 private:
 	void MakeStair();
+	void MakeItemBall();
 	void MakeDecorations();
 };
 

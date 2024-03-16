@@ -48,9 +48,9 @@ void UPokemonCore::BeginPlay()
 	LoadSounds();
 
 	// 디버그용 데이터
-	DebugGeneratePokemons();
-	DebugGenerateItems();
-	DebugGenerateAchievements();
+	//DebugGeneratePokemons();
+	//DebugGenerateItems();
+	//DebugGenerateAchievements();
 
 	// 레벨 생성
 	CreateLevel<UTitleLevel>(Global::TitleLevel);
@@ -76,7 +76,7 @@ void UPokemonCore::BeginPlay()
 	CreateLevel<UBattleBagUILevel>(Global::BattleBagUILevel);
 
 	// 시작 레벨 설정
-	UEventManager::SetLevel(Global::ExteriorPalletTownLevel);
+	UEventManager::SetLevel(Global::TitleLevel);
 }
 
 void UPokemonCore::Tick(float _DeltaTime)

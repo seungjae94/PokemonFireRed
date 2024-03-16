@@ -5,6 +5,7 @@
 #include "EventStream.h"
 #include "EventCondition.h"
 #include "SoundManager.h"
+#include "ItemBall.h"
 
 UInteriorPlayersHouse2FLevel::UInteriorPlayersHouse2FLevel()
 {
@@ -24,6 +25,7 @@ void UInteriorPlayersHouse2FLevel::BeginPlay()
 
 	// 이벤트 트리거 생성
 	MakeStair();
+	MakeItemBall();
 	MakeDecorations();
 }
 
@@ -40,6 +42,21 @@ void UInteriorPlayersHouse2FLevel::MakeStair()
 	StairTo1F->SetFirstPath({ FVector(-0.5f, 0.125f) * Global::FloatTileSize, FVector(-0.5f, 0.125f) * Global::FloatTileSize });
 	StairTo1F->SetSecondPath({ FVector(-0.5f, 0.25f) * Global::FloatTileSize, FVector(-0.5f, 0.25f) * Global::FloatTileSize });
 	StairTo1F->RegisterPredefinedEvent();
+}
+
+void UInteriorPlayersHouse2FLevel::MakeItemBall()
+{
+	UEventTargetSetting PotionBallSetting;
+	PotionBallSetting.SetName("PTPotionBall");
+	PotionBallSetting.SetPoint({ 6, 2 });
+	PotionBallSetting.SetDirection(FTileVector::Down);
+	PotionBallSetting.SetCollidable(true);
+	PotionBallSetting.SetImageName(RN::MapBall);
+	PotionBallSetting.SetHeight(1);
+
+	AItemBall* PotionBall = SpawnEventTrigger<AItemBall>(PotionBallSetting);
+	PotionBall->SetItem(EItemId::Potion, 5);
+	PotionBall->RegisterPredefinedEvent();
 }
 
 void UInteriorPlayersHouse2FLevel::MakeDecorations()
