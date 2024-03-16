@@ -291,10 +291,13 @@ void UInteriorOaksLabLevel::MakeAfterRivalBattleTrigger()
 
 	UEventManager::RegisterEvent(AfterRivalBattleTrigger, Cond,
 		ES::Start(false)
+		>> ES::FadeOutBgm(FadeOutTime)
 		>> ES::FadeOut(FadeOutTime)
 		>> ES::Wait(FadeOutTime)
 		>> ES::ChangeLevel(Global::InteriorOaksLabLevel)
 		>> ES::DeactivatePlayerControl()
+		>> ES::PlayBgm(RN::BgmOaksLab)
+		>> ES::FadeInBgm(FadeInTime)
 		>> ES::FadeIn(FadeInTime)
 		>> ES::Wait(FadeInTime)
 		>> ES::Achieve(EAchievement::FightWithGreen)
