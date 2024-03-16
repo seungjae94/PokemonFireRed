@@ -12,7 +12,7 @@ ASurprise::~ASurprise()
 void ASurprise::Play()
 {
 	SetActive(true);
-	Renderer->ChangeAnimation("Surprise");
+	Renderer->ChangeAnimation("Surprise", true);
 }
 
 bool ASurprise::IsEnd() const

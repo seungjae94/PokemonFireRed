@@ -48,9 +48,9 @@ void UPokemonCore::BeginPlay()
 	LoadSounds();
 
 	// 디버그용 데이터
-	//DebugGeneratePokemons();
+	DebugGeneratePokemons();
 	//DebugGenerateItems();
-	//DebugGenerateAchievements();
+	DebugGenerateAchievements();
 
 	// 레벨 생성
 	CreateLevel<UTitleLevel>(Global::TitleLevel);
