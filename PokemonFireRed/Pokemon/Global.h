@@ -195,9 +195,9 @@ namespace RN
 	const std::string SEBallBounce3 = "SEBallBounce3.mp3";
 	const std::string SEBallShine = "SEBallShine.mp3";
 	const std::string SEBallShake = "SEBallShake.mp3";
+	const std::string SEBallPlace = "SEBallShake.mp3";				// 볼 흔들림 사운드와 SE 공유
 
 	const std::string SEPokemonCaughtFanfare = "SEPokemonCaught.mp3";
-
 	const std::string SETackle = "SETackle.mp3";
 	const std::string SENotVeryEffectiveDamage = "SENotVeryEffectiveDamage.mp3";
 	const std::string SENormalDamage = "SENormalDamage.mp3";
@@ -205,7 +205,7 @@ namespace RN
 	const std::string SEStatDown = "SEStatDown.mp3";
 	const std::string SEStatUp = "SEStatUp.mp3";
 	const std::string SELevelUp = "SELevelUp.mp3";
-	const std::string SELevelUpFanfare = "SEItemObtained.mp3";	// 아이템 획득 사운드와 SE 공유
+	const std::string SELevelUpFanfare = "SEItemObtained.mp3";		// 아이템 획득 사운드와 SE 공유
 	const std::string SELowHp = "SELowHp.mp3";
 	const std::string SEGainExp = "SEGainExp.mp3";
 	const std::string SEFaint = "SEFaint.mp3";

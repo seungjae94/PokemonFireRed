@@ -69,11 +69,17 @@ void UInteriorPokemonCenterLevel::Tick(float _DeltaTime)
 	case EState::YesHealMessage:
 		ProcessYesHealMessage();
 		break;
+	case EState::BallAppearWait:
+		ProcessBallAppearWait();
+		break;
 	case EState::BallAppear:
 		ProcessBallAppear();
 		break;
 	case EState::BallAnim:
 		ProcessBallAnim();
+		break;
+	case EState::BallHealEndWait:
+		ProcessBallHealEndWait();
 		break;
 	case EState::HealEndMessage1:
 		ProcessHealEndMessage1();
@@ -190,6 +196,7 @@ void UInteriorPokemonCenterLevel::ProcessCheckHealEvent()
 
 	State = EState::WelcomeMessage1;
 	UEventManager::DeactivatePlayer();
+	USoundManager::PlaySE(RN::SEClick);
 	Canvas->SetActive(true);
 	Canvas->SetOptionBoxActive(false);
 	Canvas->DecCursor();
@@ -212,6 +219,8 @@ void UInteriorPokemonCenterLevel::ProcessWelcomeMessage2()
 	if (true == UEngineInput::IsDown('Z'))
 	{
 		State = EState::HealSelectMessage;
+		USoundManager::PlaySE(RN::SEClick);
+		MsgBox->HideSkipArrow();
 		MsgBox->SetMessage(L"Would you like me to heal your\nPOKéMON back to perfect health?");
 		MsgBox->Write();
 	}
@@ -232,6 +241,7 @@ void UInteriorPokemonCenterLevel::ProcessHealSelect()
 	if (true == UEngineInput::IsDown('Z'))
 	{
 		int Cursor = Canvas->GetCursor();
+		USoundManager::PlaySE(RN::SEClick);
 
 		// 회복 선택
 		if (Cursor == 0)
@@ -256,6 +266,7 @@ void UInteriorPokemonCenterLevel::ProcessHealSelect()
 	if (true == UEngineInput::IsDown('X'))
 	{
 		State = EState::NoHealMessage;
+		USoundManager::PlaySE(RN::SEClick);
 		Canvas->SetActive(false);
 		MsgBox->SetMessage(L"We hope to see you again!");
 		MsgBox->Write();
@@ -264,11 +275,19 @@ void UInteriorPokemonCenterLevel::ProcessHealSelect()
 
 	if (true == UEngineInput::IsDown(VK_UP))
 	{
+		if (1 == Canvas->GetCursor())
+		{
+			USoundManager::PlaySE(RN::SEClick);
+		}
 		Canvas->DecCursor();
 	}
 
 	if (true == UEngineInput::IsDown(VK_DOWN))
 	{
+		if (0 == Canvas->GetCursor())
+		{
+			USoundManager::PlaySE(RN::SEClick);
+		}
 		Canvas->IncCursor();
 	}
 }
@@ -288,6 +307,16 @@ void UInteriorPokemonCenterLevel::ProcessYesHealMessage()
 {
 	if (EWriteState::WriteEnd == MsgBox->GetWriteState())
 	{
+		State = EState::BallAppearWait;
+		Timer = BallAppearWaitTime;
+		USoundManager::PauseBgm();
+	}
+}
+
+void UInteriorPokemonCenterLevel::ProcessBallAppearWait()
+{
+	if (Timer <= 0.0f)
+	{
 		State = EState::BallAppear;
 		Nurse->SetDirection(FTileVector::Left);
 		MaxBallCount = UPlayerData::GetPokemonEntrySize();
@@ -300,6 +329,7 @@ void UInteriorPokemonCenterLevel::ProcessBallAppear()
 {
 	if (Timer <= 0.0f)
 	{
+		USoundManager::PlaySE(RN::SEBallPlace);
 		Balls->SetActiveBall(CurBallCount, true);
 		++CurBallCount;
 		Timer = BallAppearInterval;
@@ -307,24 +337,22 @@ void UInteriorPokemonCenterLevel::ProcessBallAppear()
 		if (CurBallCount == MaxBallCount)
 		{
 			State = EState::BallAnim;
+			USoundManager::PlaySE(RN::SEPokemonCenterHeal);
 			Balls->PlayHealAnimation();
 			Timer = BallBlinkTime;
 			return;
 		}
 	}
-
 }
 
 void UInteriorPokemonCenterLevel::ProcessBallAnim()
 {
 	if (Timer <= 0.0f)
 	{
-		State = EState::HealEndMessage1;
+		State = EState::BallHealEndWait;
 		Nurse->SetDirection(FTileVector::Down);
 		Balls->StopHealAnimation();
-		Balls->SetActiveAllBalls(false);
-		MsgBox->SetMessage(L"Thank you for waiting.");
-		MsgBox->Write();
+		Timer = BallHealEndWaitTime;
 
 		// 실제 치료 처리
 		for (int i = 0; i < UPlayerData::GetPokemonEntrySize(); ++i)
@@ -333,6 +361,18 @@ void UInteriorPokemonCenterLevel::ProcessBallAnim()
 			Pokemon.HealAll();
 			Pokemon.Cure();
 		}
+	}
+}
+
+void UInteriorPokemonCenterLevel::ProcessBallHealEndWait()
+{
+	if (Timer <= 0.0f)
+	{
+		State = EState::HealEndMessage1;
+		USoundManager::ResumeBgm();
+		MsgBox->SetMessage(L"Thank you for waiting.");
+		MsgBox->Write();
+		Balls->SetActiveAllBalls(false);
 	}
 }
 

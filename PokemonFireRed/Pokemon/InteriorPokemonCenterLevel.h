@@ -18,8 +18,10 @@ private:
 		HealSelect,
 		NoHealMessage,
 		YesHealMessage,
+		BallAppearWait,
 		BallAppear,
 		BallAnim,
+		BallHealEndWait,
 		HealEndMessage1,
 		HealEndMessage2,
 		HealEndMessage3,
@@ -64,8 +66,10 @@ private:
 	void ProcessHealSelect();
 	void ProcessNoHealMessage();
 	void ProcessYesHealMessage();
+	void ProcessBallAppearWait();
 	void ProcessBallAppear();
 	void ProcessBallAnim();
+	void ProcessBallHealEndWait();
 	void ProcessHealEndMessage1();
 	void ProcessHealEndMessage2();
 	void ProcessHealEndMessage3();
@@ -74,8 +78,10 @@ private:
 
 	// 상태 데이터
 	float Timer = 0.0f;
-	const float BallAppearInterval = 0.15f;
+	const float BallAppearWaitTime = 0.5f;
+	const float BallAppearInterval = 0.25f;
 	const float BallBlinkTime = 1.8f;
+	const float BallHealEndWaitTime = 1.5f;
 	int MaxBallCount = 0;
 	int CurBallCount = 0;
 	AEventTarget* Nurse = nullptr;
