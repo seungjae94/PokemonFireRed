@@ -307,14 +307,24 @@ void ABattleMoveStateMachine::ProcessMoveBEStart()
 	else
 	{
 		bool IsStatDown = Move->BEStatStageValue < 0;
-		
+
 		if (Move->BETarget == EMoveEffectTarget::Enemy)
 		{
+			
 			Animator = AnimatorGenerator->GenerateStatStageEffectAnimator(Defender, IsStatDown);
 		}
 		else
 		{
 			Animator = AnimatorGenerator->GenerateStatStageEffectAnimator(Attacker, IsStatDown);
+		}
+
+		if (true == IsStatDown)
+		{
+			USoundManager::PlaySE(RN::SEStatDown);
+		}
+		else
+		{
+			USoundManager::PlaySE(RN::SEStatUp);
 		}
 	}
 
