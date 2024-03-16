@@ -18,7 +18,7 @@ public:
 	AAnimatorGenerator& operator=(const AAnimatorGenerator& _Other) = delete;
 	AAnimatorGenerator& operator=(AAnimatorGenerator&& _Other) noexcept = delete;
 
-	AAnimator* GenerateMoveAnimator(UBattler* _Attacker, EPokemonMove _MoveId);
+	AAnimator* GenerateMoveAnimator(UBattler* _Attacker, EPokemonMove _MoveId, ETypeVs _TypeVs);
 	AAnimator* GenerateStatStageEffectAnimator(UBattler* _Target, bool _IsStatDown);
 
 protected:

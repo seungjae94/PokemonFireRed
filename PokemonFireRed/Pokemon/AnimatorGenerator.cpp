@@ -6,15 +6,15 @@
 #include "GrowlAnimator.h"
 #include "StatStageChangeAnimator.h"
 
-AAnimatorGenerator::AAnimatorGenerator() 
+AAnimatorGenerator::AAnimatorGenerator()
 {
 }
 
-AAnimatorGenerator::~AAnimatorGenerator() 
+AAnimatorGenerator::~AAnimatorGenerator()
 {
 }
 
-AAnimator* AAnimatorGenerator::GenerateMoveAnimator(UBattler* _Attacker, EPokemonMove _MoveId)
+AAnimator* AAnimatorGenerator::GenerateMoveAnimator(UBattler* _Attacker, EPokemonMove _MoveId, ETypeVs _TypeVs)
 {
 	if (true == _Attacker->IsPlayer())
 	{
@@ -29,7 +29,11 @@ AAnimator* AAnimatorGenerator::GenerateMoveAnimator(UBattler* _Attacker, EPokemo
 		}
 		case EPokemonMove::Tackle:
 		default:
-			return GetWorld()->SpawnActor<APlayerTackleAnimator>();
+		{
+			APlayerTackleAnimator* Animator = GetWorld()->SpawnActor<APlayerTackleAnimator>();
+			Animator->SetTypeVs(_TypeVs);
+			return Animator;
+		}
 		}
 	}
 	else

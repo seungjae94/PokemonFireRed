@@ -28,6 +28,8 @@ public:
 	void Start() override;
 	bool IsEnd() override;
 
+	void SetTypeVs(ETypeVs _TypeVs);
+
 protected:
 
 private:
@@ -37,6 +39,7 @@ private:
 	
 	// ป๓ลย
 	EState State = EState::None;
+	ETypeVs TypeVs = ETypeVs::NormallyEffective;
 	void ProcessPlayerMoveRight();
 	void ProcessShowTackleEffect();
 	void ProcessPlayerMoveLeft();
@@ -47,5 +50,7 @@ private:
 	FVector PlayerRightPos;
 	const float MoveTime = 0.1f;
 	float Timer = 0.0f;
+	const float DamageSoundWaitTime = 0.4f;
+	bool IsDamageSoundPlayed = false;
 };
 

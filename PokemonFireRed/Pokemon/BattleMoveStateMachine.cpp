@@ -164,8 +164,11 @@ void ABattleMoveStateMachine::ProcessMoveUseMessage2()
 			Animator->Destroy();
 		}
 
+		// 데미지 효과에 따라 다른 SE가 나오는 경우가 있기 때문에 먼저 계산한다.
+		DamageResult = UDamageCalculator::CalcDamage(Attacker, Defender);
+
 		const FPokemonMove* Move = Attacker->CurMove();
-		Animator = AnimatorGenerator->GenerateMoveAnimator(Attacker, Move->Id);
+		Animator = AnimatorGenerator->GenerateMoveAnimator(Attacker, Move->Id, DamageResult.TypeVs);
 		Animator->Start();
 	}
 }
@@ -174,8 +177,6 @@ void ABattleMoveStateMachine::ProcessMoveAnim()
 {
 	if (true == Animator->IsEnd())
 	{
-		DamageResult = UDamageCalculator::CalcDamage(Attacker, Defender);
-
 		if (true == Attacker->IsPlayer())
 		{
 			DamageResult.Damage = UPokemonMath::Floor(DamageResult.Damage * Global::DamageBonusCoeff);

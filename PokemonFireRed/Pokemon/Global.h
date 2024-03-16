@@ -193,6 +193,15 @@ namespace RN
 
 	const std::string SEPokemonCaughtFanfare = "SEPokemonCaught.mp3";
 
+	const std::string SETackle = "SETackle.mp3";
+	const std::string SENotVeryEffectiveDamage = "SENotVeryEffectiveDamage.mp3";
+	const std::string SENormalDamage = "SENormalDamage.mp3";
+	const std::string SESuperEffectiveDamage = "SESuperEffectiveDamage.mp3";
+	const std::string SEStatDown = "SEStatDown.mp3";
+	const std::string SEStatUp = "SEStatUp.mp3";
+	const std::string SELevelUp = "SELevelUp.mp3";
+	const std::string SELowHp = "SELowHp.mp3";
+
 	// Cry
 	const std::string TitleCharizardCry = "CryCharizard.mp3";
 

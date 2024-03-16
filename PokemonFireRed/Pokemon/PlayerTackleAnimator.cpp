@@ -27,6 +27,11 @@ bool APlayerTackleAnimator::IsEnd()
 	return State == EState::End;
 }
 
+void APlayerTackleAnimator::SetTypeVs(ETypeVs _TypeVs)
+{
+	TypeVs = _TypeVs;
+}
+
 void APlayerTackleAnimator::BeginPlay()
 {
 	AAnimator::BeginPlay();
@@ -75,6 +80,7 @@ void APlayerTackleAnimator::ProcessPlayerMoveRight()
 	if (Timer <= 0.0f)
 	{
 		State = EState::ShowTackleEffect;
+		USoundManager::PlaySE(RN::SETackle);
 	}
 }
 
@@ -104,11 +110,34 @@ void APlayerTackleAnimator::ProcessHideTackleEffect()
 	{
 		State = EState::WaitBlinkEffectEnd;
 		BlinkEffectAnimator->Start(false, 0.5f);
+
+		Timer = DamageSoundWaitTime;
+		IsDamageSoundPlayed = false;
 	}
 }
 
 void APlayerTackleAnimator::ProcessWaitBlinkEffectEnd()
 {
+	if (false == IsDamageSoundPlayed && Timer <= 0.0f)
+	{
+		switch (TypeVs)
+		{
+		case ETypeVs::NotVeryEffective:
+			USoundManager::PlaySE(RN::SENotVeryEffectiveDamage);
+			break;
+		case ETypeVs::NormallyEffective:
+			USoundManager::PlaySE(RN::SENormalDamage);
+			break;
+		case ETypeVs::SuperEffective:
+			USoundManager::PlaySE(RN::SESuperEffectiveDamage);
+			break;
+		default:
+			break;
+		}
+
+		IsDamageSoundPlayed = true;
+	}
+
 	if (true == BlinkEffectAnimator->IsEnd())
 	{
 		State = EState::End;

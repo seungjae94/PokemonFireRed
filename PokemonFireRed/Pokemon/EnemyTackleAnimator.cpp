@@ -27,6 +27,11 @@ bool AEnemyTackleAnimator::IsEnd()
 	return State == EState::End;
 }
 
+void AEnemyTackleAnimator::SetTypeVs(ETypeVs _TypeVs)
+{
+	TypeVs = _TypeVs;
+}
+
 void AEnemyTackleAnimator::BeginPlay()
 {
 	AAnimator::BeginPlay();
@@ -75,6 +80,7 @@ void AEnemyTackleAnimator::ProcessEnemyMoveLeft()
 	if (Timer <= 0.0f)
 	{
 		State = EState::ShowTackleEffect;
+		USoundManager::PlaySE(RN::SETackle);
 	}
 }
 
@@ -104,11 +110,34 @@ void AEnemyTackleAnimator::ProcessHideTackleEffect()
 	{
 		State = EState::WaitBlinkEffectEnd;
 		BlinkEffectAnimator->Start(true, 0.5f);
+
+		Timer = DamageSoundWaitTime;
+		IsDamageSoundPlayed = false;
 	}
 }
 
 void AEnemyTackleAnimator::ProcessWaitBlinkEffectEnd()
 {
+	if (false == IsDamageSoundPlayed && Timer <= 0.0f)
+	{
+		switch (TypeVs)
+		{
+		case ETypeVs::NotVeryEffective:
+			USoundManager::PlaySE(RN::SENotVeryEffectiveDamage);
+			break;
+		case ETypeVs::NormallyEffective:
+			USoundManager::PlaySE(RN::SENormalDamage);
+			break;
+		case ETypeVs::SuperEffective:
+			USoundManager::PlaySE(RN::SESuperEffectiveDamage);
+			break;
+		default:
+			break;
+		}
+
+		IsDamageSoundPlayed = true;
+	}
+
 	if (true == BlinkEffectAnimator->IsEnd())
 	{
 		State = EState::End;

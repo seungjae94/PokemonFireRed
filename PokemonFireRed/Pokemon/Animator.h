@@ -1,6 +1,7 @@
 #pragma once
 #include "Canvas.h"
 #include "BattleCanvas.h"
+#include "SoundManager.h"
 
 class ABlinkEffectAnimator;
 class AShakeEffectAnimator;
