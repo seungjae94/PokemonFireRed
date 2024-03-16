@@ -46,7 +46,7 @@ void ABattleActionStateMachine::Start(UBattler* _Attacker, UBattler* _Defender)
 
 		UBattler* Player = _Attacker;
 		UBattler* Enemy = _Defender;
-		std::wstring TakeInPokemonName = Player->CurPokemon()->GetNameW();
+		UPokemon* TakeInPokemon = Player->CurPokemon();
 
 		// 실제 포켓몬 교체
 		Player->ShiftPokemon();
@@ -55,7 +55,7 @@ void ABattleActionStateMachine::Start(UBattler* _Attacker, UBattler* _Defender)
 		Enemy->GetParticipants().push_back(Player->CurPokemon());
 
 		Canvas->SetActionBoxActive(false);
-		BattleShiftSM->Start(TakeInPokemonName);
+		BattleShiftSM->Start(TakeInPokemon);
 	}
 	break;
 	case EBattleAction::UseItem:

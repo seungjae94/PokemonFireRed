@@ -11,16 +11,27 @@ ABattlePlayerShiftStateMachine::~ABattlePlayerShiftStateMachine()
 {
 }
 
-void ABattlePlayerShiftStateMachine::Start(std::wstring_view _TakeInPokemonName)
+void ABattlePlayerShiftStateMachine::Start(UPokemon* _TakeInPokemon)
 {
 	ABattleStateMachine::Start();
 
-	TakeInPokemonName = _TakeInPokemonName;
+	TakeInPokemonName = _TakeInPokemon->GetNameW();
 
-	State = ESubstate::TakeInMessage1;
-	Canvas->PlayerUIReadyForShift();
-	MsgBox->SetMessage(TakeInPokemonName + L", that's enough!\nCome back!");
-	MsgBox->Write();
+	if (false == _TakeInPokemon->IsFaint())
+	{
+		State = ESubstate::TakeInMessage1;
+		Canvas->PlayerUIReadyForShift();
+		MsgBox->SetMessage(TakeInPokemonName + L", that's enough!\nCome back!");
+		MsgBox->Write();
+	}
+	else
+	{
+		State = ESubstate::SendOutMessage1;
+		Canvas->SetPlayerPokemonBoxActive(false);
+		Canvas->SetPlayerPokemonImageActive(false);
+		MsgBox->SetMessage(L"Go! " + Player->CurPokemonReadonly()->GetNameW() + L"!");
+		MsgBox->Write();
+	}
 }
 
 void ABattlePlayerShiftStateMachine::Tick(float _DeltaTime)
@@ -128,7 +139,7 @@ void ABattlePlayerShiftStateMachine::ProcessThrowBall()
 		Canvas->SetPlayerPokemonBoxActive(true);
 		Canvas->RefreshPlayerPokemonBox();
 		Canvas->RefreshPlayerPokemonImage();
-		Canvas->RefreshMoveSelectBox();
+		Canvas->InitMoveSelectBox();
 		Canvas->SetPlayerPokemonImageActive(true);
 	}
 }

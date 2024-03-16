@@ -69,7 +69,7 @@ void ABattlePrepareTurnStateMachine::ProcessSelectPokemonForce()
 	if (Player->GetShiftPokemonIndex() >= 0)
 	{
 		State = ESubstate::PlayerShift;
-		std::wstring TakeInPokemonName = Player->CurPokemon()->GetNameW();
+		UPokemon* TakeInPokemon = Player->CurPokemon();
 
 		// 角力 Shift 贸府
 		Player->ShiftPokemon();
@@ -77,7 +77,7 @@ void ABattlePrepareTurnStateMachine::ProcessSelectPokemonForce()
 		Enemy->GetParticipants().push_back(Player->CurPokemon());
 
 		// Shift 局聪皋捞记 犁积
-		BattlePlayerShiftSM->Start(TakeInPokemonName);
+		BattlePlayerShiftSM->Start(TakeInPokemon);
 	}
 }
 

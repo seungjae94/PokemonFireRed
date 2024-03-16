@@ -38,7 +38,7 @@ public:
 		return State == ESubstate::End;
 	}
 
-	void Start(std::wstring_view _TakeInPokemonName);
+	void Start(UPokemon* _TakeInPokemon);
 
 protected:
 

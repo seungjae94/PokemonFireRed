@@ -291,8 +291,8 @@ void ABattleCanvas::InitEnemyUI()
 
 void ABattleCanvas::InitMoveSelectBox()
 {
-	SetActionCursor(0);
 	SetMoveSelectCursor(0);
+	RefreshMoveSelectBox();
 }
 
 void ABattleCanvas::InitCatchBall()
