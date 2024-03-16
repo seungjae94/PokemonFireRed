@@ -92,6 +92,9 @@ private:
 	float WalkInputLatency = 0.75f; // 걷기 동작을 몇 퍼센트나 수행했을 때부터 입력을 받기 시작할 것인지.
 	float JumpInputLatency = 0.875f; // 걷기 동작을 몇 퍼센트나 수행했을 때부터 입력을 받기 시작할 것인지.
 
+	const float CollisionSEInterval = 2.0f / WalkSpeed;
+	float CollisionSETimer = 0.0f;
+
 	void BeginPlay() override;
 	void Tick(float _DeltaTime) override;
 

@@ -69,6 +69,7 @@ void APlayer::StateChange(EPlayerState _State, bool _Restart)
 		WalkStart();
 		break;
 	case EPlayerState::WalkInPlace:
+		CollisionSETimer = 0.0f;
 		WalkInPlaceStart();
 		break;
 	case EPlayerState::Jump:
@@ -345,6 +346,8 @@ void APlayer::WalkInPlaceStart()
 
 void APlayer::WalkInPlace(float _DeltaTime)
 {
+	CollisionSETimer -= _DeltaTime;
+
 	// 1. Z 버튼을 눌렀다.
 	if (true == IsZDown() && true == TryZClickEvent())
 	{
@@ -373,6 +376,12 @@ void APlayer::WalkInPlace(float _DeltaTime)
 	// 2. 지금 보고 있는 방향과 입력 방향이 같다.
 	if (InputDirection == Direction)
 	{
+		if (CollisionSETimer <= 0.0f)
+		{
+			USoundManager::PlaySE(RN::SECollision);
+			CollisionSETimer = CollisionSEInterval;
+		}
+
 		// 애니메이션만 갱신한다.
 		if (true == LowerBodyRenderer->IsCurAnimationEnd())
 		{
