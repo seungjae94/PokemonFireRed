@@ -29,6 +29,11 @@ void UPokemonLevel::BeginPlay()
 	UEventManager::AddDialogueWindow(DialogueWindow);
 	DialogueWindow->SetActive(false);
 
+	if (nullptr == DebugCanvas)
+	{
+		DebugCanvas = SpawnActor<ADebugCanvas>();
+	}
+
 	// 게임 공용 트리거 생성
 	SpawnEventTrigger<AFadeLevelChanger>(Global::FadeLevelChanger);
 }
@@ -58,7 +63,8 @@ void UPokemonLevel::Tick(float _DeltaTime)
 
 	if (true == UEngineInput::IsDown(VK_F2))
 	{
-		GEngine->EngineDebugSwitch();
+		DebugCanvas->Refresh();
+		DebugCanvas->SetActive(!DebugCanvas->IsActive());
 	}
 
 	if (true == UEngineInput::IsDown('Q'))
@@ -80,8 +86,6 @@ void UPokemonLevel::Tick(float _DeltaTime)
 	{
 		ApplyCatchCheat();
 	}
-
-	PrintCheatInfo();
 
 	UBattleLevel* BattleLevel = dynamic_cast<UBattleLevel*>(this);
 
@@ -131,15 +135,6 @@ void UPokemonLevel::Tick(float _DeltaTime)
 	}
 }
 
-void UPokemonLevel::PrintCheatInfo()
-{
-	float FontSize = 30.0f;
-	UEngineDebug::DebugTextPrint("(1) 데미지 배율: " + std::to_string(Global::DamageBonusCoeff), FontSize);
-	UEngineDebug::DebugTextPrint("(2) 경험치 배율: " + std::to_string(Global::ExpBonusCoeff), FontSize);
-	UEngineDebug::DebugTextPrint("(3) 야생 포켓몬 출현율: " + std::to_string(Global::WildBattleFrequency), FontSize);
-	UEngineDebug::DebugTextPrint("(4) 포획률: " + std::to_string(Global::CatchRateBonusCoeff), FontSize);
-}
-
 void UPokemonLevel::ApplyDamageCheat()
 {
 	DamageCheatStage = UPokemonMath::Mod(++DamageCheatStage, 4);
@@ -160,6 +155,8 @@ void UPokemonLevel::ApplyDamageCheat()
 	{
 		Global::DamageBonusCoeff = 16.0f;
 	}
+
+	DebugCanvas->Refresh();
 }
 
 void UPokemonLevel::ApplyExpCheat()
@@ -182,6 +179,8 @@ void UPokemonLevel::ApplyExpCheat()
 	{
 		Global::ExpBonusCoeff = 16.0f;
 	}
+
+	DebugCanvas->Refresh();
 }
 
 void UPokemonLevel::ApplyEncounterCheat()
@@ -200,6 +199,8 @@ void UPokemonLevel::ApplyEncounterCheat()
 	{
 		Global::WildBattleFrequency = 0.0f;
 	}
+
+	DebugCanvas->Refresh();
 }
 
 void UPokemonLevel::ApplyCatchCheat()
@@ -222,4 +223,6 @@ void UPokemonLevel::ApplyCatchCheat()
 	{
 		Global::CatchRateBonusCoeff = 0.5f;
 	}
+
+	DebugCanvas->Refresh();
 }

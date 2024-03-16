@@ -7,6 +7,7 @@
 #include "DialogueWindow.h"
 #include "FadeLevelChanger.h"
 #include "FadeCanvas.h"
+#include "DebugCanvas.h"
 
 // 포켓몬 게임의 모든 레벨이 공통적으로 수행해야 하는 Tick 동작을 정의하는 클래스
 // - 최초 개발 의도: 이벤트 매니저의 Tick을 돌리기 위해 생성
@@ -73,16 +74,16 @@ protected:
 	void Tick(float _DeltaTime) override;
 private:
 	AFadeCanvas* FadeCanvas = nullptr;
+	ADebugCanvas* DebugCanvas = nullptr;
 
 	static int DamageCheatStage;
 	static int ExpCheatStage;
 	static int CatchCheatStage;
 	static int EncounterCheatStage;
 
-	static void PrintCheatInfo();
-	static void ApplyDamageCheat();
-	static void ApplyExpCheat();
-	static void ApplyCatchCheat();
-	static void ApplyEncounterCheat();
+	void ApplyDamageCheat();
+	void ApplyExpCheat();
+	void ApplyCatchCheat();
+	void ApplyEncounterCheat();
 };
 

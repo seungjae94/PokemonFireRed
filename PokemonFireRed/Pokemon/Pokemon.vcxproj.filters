@@ -513,6 +513,9 @@
     <ClInclude Include="Surprise.h">
       <Filter>2. Level\2. MapLevel\3. Actor</Filter>
     </ClInclude>
+    <ClInclude Include="DebugCanvas.h">
+      <Filter>2. Level</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PokemonCore.cpp">
@@ -871,6 +874,9 @@
     </ClCompile>
     <ClCompile Include="Surprise.cpp">
       <Filter>2. Level\2. MapLevel\3. Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugCanvas.cpp">
+      <Filter>2. Level</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

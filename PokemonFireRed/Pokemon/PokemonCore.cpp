@@ -81,10 +81,6 @@ void UPokemonCore::BeginPlay()
 
 void UPokemonCore::Tick(float _DeltaTime)
 {
-	if (UEngineInput::IsDown('F') && _DeltaTime > 0.0f)
-	{
-		UEngineDebug::OutPutDebugText(std::to_string(1 / _DeltaTime));
-	}
 }
 
 void UPokemonCore::LoadUIResources()
