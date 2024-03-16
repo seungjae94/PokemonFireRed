@@ -8,7 +8,7 @@ namespace Global
 
 	// Cheat
 	const float CheatDamageBonusCoeff = 100.0f;
-	const float CheatExpBonusCoeff = 2.0f;
+	const float CheatExpBonusCoeff = 5.0f;
 	const float CheatWildBattleFrequency = 0.0f;
 	const int CheatCatchRateBonusCoeff = 10;
 	extern bool IsCheatOn;
@@ -201,6 +201,7 @@ namespace RN
 	const std::string SEStatUp = "SEStatUp.mp3";
 	const std::string SELevelUp = "SELevelUp.mp3";
 	const std::string SELowHp = "SELowHp.mp3";
+	const std::string SEGainExp = "SEGainExp.mp3";
 
 	// Cry
 	const std::string TitleCharizardCry = "CryCharizard.mp3";

@@ -139,6 +139,7 @@ void ABattleExpGainStateMachine::ProcessTestExpBarIncrease()
 
 	ExpBarIncTime = ExpBarIncBaseTime + ExpBarIncTimeVariance * (DestExp - CurExp) / ExpSize;
 	Timer = ExpBarIncTime;
+	USoundManager::PlaySE(RN::SEGainExp);
 }
 
 void ABattleExpGainStateMachine::ProcessExpBarIncrease()
@@ -164,6 +165,7 @@ void ABattleExpGainStateMachine::ProcessExpBarIncrease()
 		{
 			// °æÇèÄ¡ È¹µæ
 			ExpGainer->AddAccExp(DestExp - CurExp);
+			USoundManager::StopSE();
 			State = ESubstate::End;
 		}
 	}
@@ -186,6 +188,8 @@ void ABattleExpGainStateMachine::ProcessExpBarIncrease()
 			// ·¹º§¾÷ ÀÌÆåÆ®
 			State = ESubstate::LevelUpEffect;
 			Timer = LevelUpEffectTime;
+			USoundManager::StopSE();
+			USoundManager::PlaySE(RN::SELevelUp);
 		}
 	}
 }
