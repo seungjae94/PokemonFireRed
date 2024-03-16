@@ -73,5 +73,15 @@ protected:
 	void Tick(float _DeltaTime) override;
 private:
 	AFadeCanvas* FadeCanvas = nullptr;
+
+	static int DamageCheatStage;
+	static int ExpCheatStage;
+	static int CatchCheatStage;
+	static int EncounterCheatStage;
+
+	static void ApplyDamageCheat();
+	static void ApplyExpCheat();
+	static void ApplyCatchCheat();
+	static void ApplyEncounterCheat();
 };
 

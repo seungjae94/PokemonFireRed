@@ -7,15 +7,10 @@ namespace Global
 	const float DefaultVolume = 0.25f;
 
 	// Cheat
-	const float CheatDamageBonusCoeff = 100.0f;
-	const float CheatExpBonusCoeff = 20.0f;
-	const float CheatWildBattleFrequency = 0.0f;
-	const int CheatCatchRateBonusCoeff = 10;
-	extern bool IsCheatOn;
 	extern float DamageBonusCoeff;
 	extern float ExpBonusCoeff;
 	extern float WildBattleFrequency;
-	extern int CatchRateBonusCoeff;
+	extern float CatchRateBonusCoeff;
 
 	// SE ½Ã°£
 	const float LevelUpFanfareTime = 1.1f;

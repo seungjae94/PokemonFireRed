@@ -272,8 +272,8 @@ void ABattlePokeBallStateMachine::ProcessCalcCatch()
 	}
 
 	const UPokemon* EnemyPokemon = Enemy->CurPokemonReadonly();
-	EffectiveCatchRate = (3 * EnemyPokemon->GetHp() - 2 * EnemyPokemon->GetCurHp()) * EnemyPokemon->GetCatchRate() / (3 * EnemyPokemon->GetHp()) * Global::CatchRateBonusCoeff;
-
+	float EffectiveCatchRateFloat = (3 * EnemyPokemon->GetHp() - 2 * EnemyPokemon->GetCurHp()) * EnemyPokemon->GetCatchRate() / (3 * EnemyPokemon->GetHp()) * Global::CatchRateBonusCoeff;
+	EffectiveCatchRate = UPokemonMath::Round(EffectiveCatchRateFloat);
 	EffectiveCatchRate = UPokemonMath::Max(EffectiveCatchRate, 1);
 
 	if (EffectiveCatchRate >= 255)
