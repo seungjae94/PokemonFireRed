@@ -261,6 +261,7 @@ void UBattleLevel::ProcessPlayerAction()
 			if (true == RunResult)
 			{
 				State = EState::Run;
+				USoundManager::PlaySE(RN::SERunAway);
 				Canvas->SetActionBoxActive(false);
 				MsgBox->SetMessage(L"Got away safely!");
 				MsgBox->Write();

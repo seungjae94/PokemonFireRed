@@ -204,6 +204,7 @@ namespace RN
 	const std::string SELowHp = "SELowHp.mp3";
 	const std::string SEGainExp = "SEGainExp.mp3";
 	const std::string SEFaint = "SEFaint.mp3";
+	const std::string SERunAway = "SERunAway.mp3";
 
 	// Cry
 	const std::string TitleCharizardCry = "CryCharizard.mp3";
