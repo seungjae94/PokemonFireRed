@@ -39,6 +39,11 @@ public:
 		return Name;
 	}
 
+	std::string GetCrySoundName() const
+	{
+		return Species->GetCrySoundName();
+	}
+	
 	int GetLevel() const
 	{
 		return Level;

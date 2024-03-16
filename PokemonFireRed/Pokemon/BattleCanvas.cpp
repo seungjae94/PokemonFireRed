@@ -199,6 +199,8 @@ void ABattleCanvas::Init(const UBattler* _Player, const UBattler* _Enemy)
 	Player = _Player;
 	Enemy = _Enemy;
 
+	ActionCursor->SetCursor(0);
+	MoveSelectCursor->SetCursor(0);
 	RefreshPlayerPokemonBox();
 	RefreshEnemyPokemonBox();
 	RefreshMoveSelectBox();
@@ -209,9 +211,6 @@ void ABattleCanvas::Init(const UBattler* _Player, const UBattler* _Enemy)
 	InitPlayerUI();
 	InitEnemyUI();
 	InitCatchBall();
-	ActionCursor->SetCursor(0);
-	MoveSelectCursor->SetCursor(0);
-
 
 	// Activeness ¼³Á¤
 	Background->SetActive(true);
@@ -288,6 +287,12 @@ void ABattleCanvas::InitEnemyUI()
 		EnemyEntryBalls[i]->SetRelativePosition(EnemyEntryBallsHidePos[i]);
 		EnemyEntryBalls[i]->SetAlpha(1.0f);
 	}
+}
+
+void ABattleCanvas::InitMoveSelectBox()
+{
+	SetActionCursor(0);
+	SetMoveSelectCursor(0);
 }
 
 void ABattleCanvas::InitCatchBall()

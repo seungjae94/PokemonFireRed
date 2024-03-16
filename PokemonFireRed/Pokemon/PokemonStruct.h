@@ -366,4 +366,9 @@ public:
 	float MaleRatio = 0.0f;
 	int CatchRate = 0;
 	int Friendship = 0;
+
+	std::string GetCrySoundName() const
+	{
+		return "Cry" + Name + ".mp3";
+	}
 };

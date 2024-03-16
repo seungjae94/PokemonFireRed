@@ -75,6 +75,7 @@ void AWildBattleStartStateMachine::ProcessGroundMove()
 	{
 		Timer = EnemyPokemonBoxMoveTime;
 
+		USoundManager::PlaySE(Enemy->CurPokemon()->GetCrySoundName());
 		MsgBox->SetMessage(L"Wild " + Enemy->CurPokemonReadonly()->GetNameW() + L" appeared!");
 		MsgBox->Write();
 
@@ -120,6 +121,7 @@ void AWildBattleStartStateMachine::ProcessPlayerBattlerThrow()
 
 	if (true == BallThrowAnimationPlayed && Canvas->IsThrowedBallAnimationEnd())
 	{
+		USoundManager::PlaySE(Player->CurPokemon()->GetCrySoundName());
 		Timer = PlayerPokemonTakeoutTime;
 		Canvas->SetThrowedBallActive(false);
 		State = ESubstate::PlayerPokemonTakeout;

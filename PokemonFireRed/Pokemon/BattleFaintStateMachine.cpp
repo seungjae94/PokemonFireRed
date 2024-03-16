@@ -63,6 +63,9 @@ void ABattleFaintStateMachine::Tick(float _DeltaTime)
 	case ESubstate::TestFaint:
 		ProcessTestFaint();
 		break;
+	case ESubstate::CryWait:
+		ProcessCryWait();
+		break;
 	case ESubstate::HidePokemon:
 		ProcessHidePokemon();
 		break;
@@ -89,14 +92,25 @@ void ABattleFaintStateMachine::ProcessTestFaint()
 {
 	if (Fainters.size() > 0)
 	{
-		State = ESubstate::HidePokemon;
-		Timer = FaintTime;
+		State = ESubstate::CryWait;
 		Fainter = Fainters.front();
 		Fainters.pop_front();
+		USoundManager::PlaySE(Fainter->CurPokemon()->GetCrySoundName());
+		Timer = CryWaitTime;
 		return;
 	}
 
 	State = ESubstate::End;
+}
+
+void ABattleFaintStateMachine::ProcessCryWait()
+{
+	if (Timer <= 0.0f)
+	{
+		State = ESubstate::HidePokemon;
+		Timer = FaintTime;
+		USoundManager::PlaySE(RN::SEFaint);
+	}
 }
 
 void ABattleFaintStateMachine::ProcessHidePokemon()

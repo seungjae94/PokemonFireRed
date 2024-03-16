@@ -206,6 +206,7 @@ namespace RN
 	const std::string SELevelUpFanfare = "SEItemObtained.mp3";	// 아이템 획득 사운드와 SE 공유
 	const std::string SELowHp = "SELowHp.mp3";
 	const std::string SEGainExp = "SEGainExp.mp3";
+	const std::string SEFaint = "SEFaint.mp3";
 
 	// Cry
 	const std::string TitleCharizardCry = "CryCharizard.mp3";

@@ -14,6 +14,7 @@ private:
 	{
 		None,
 		TestFaint,
+		CryWait,
 		HidePokemon,
 		ShowFaintMessage1,
 		ShowFaintMessage2,
@@ -57,7 +58,8 @@ private:
 	UBattler* Fainter = nullptr;
 	const UPokemon* PlayerCurPokemon = nullptr;
 	std::list<UBattler*> Fainters;
-	const float FaintTime = 0.5f;
+	const float CryWaitTime = 0.5f;
+	const float FaintTime = 0.25f;
 	float Timer = 0.0f;
 
 	// 고유 데이터 - 경험치 획득 데이터
@@ -65,6 +67,7 @@ private:
 	std::map<UPokemon*, int> ExpGainByFaint;
 
 	// 상태 틱 함수
+	void ProcessCryWait();
 	void ProcessTestFaint();
 	void ProcessHidePokemon();
 	void ProcessShowFaintMessage1();
