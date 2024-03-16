@@ -145,6 +145,7 @@ void ATrainerBattleStartStateMachine::ProcessZClickWait()
 	{
 		State = ESubstate::EnemyPokemonAppear;
 		USoundManager::PlaySE(RN::SEClick);
+		USoundManager::PlaySE(Enemy->CurPokemon()->GetCrySoundName());
 		MsgBox->SetMessage(Enemy->GetTrainerNameW() + L" sent\nout " + Enemy->CurPokemonReadonly()->GetNameW() + L"!");
 		MsgBox->Write();
 		
@@ -228,6 +229,7 @@ void ATrainerBattleStartStateMachine::ProcessPlayerBattlerThrow2(float _DeltaTim
 	if (Timer <= 0.0f && true == Canvas->IsThrowedBallAnimationEnd())
 	{
 		State = ESubstate::PlayerPokemonTakeout;
+		USoundManager::PlaySE(Player->CurPokemon()->GetCrySoundName());
 		Canvas->SetThrowedBallActive(false);
 		Timer = PlayerPokemonTakeoutTime;
 	}

@@ -121,10 +121,10 @@ void AWildBattleStartStateMachine::ProcessPlayerBattlerThrow()
 
 	if (true == BallThrowAnimationPlayed && Canvas->IsThrowedBallAnimationEnd())
 	{
+		State = ESubstate::PlayerPokemonTakeout;
 		USoundManager::PlaySE(Player->CurPokemon()->GetCrySoundName());
 		Timer = PlayerPokemonTakeoutTime;
 		Canvas->SetThrowedBallActive(false);
-		State = ESubstate::PlayerPokemonTakeout;
 	}
 }
 
