@@ -1,4 +1,5 @@
 #include "DebugCanvas.h"
+#include <sstream>
 
 ADebugCanvas::ADebugCanvas()
 {
@@ -10,10 +11,25 @@ ADebugCanvas::~ADebugCanvas()
 
 void ADebugCanvas::Refresh()
 {
-	DmgInfo->SetText(L"DMG: x" + std::to_wstring(Global::DamageBonusCoeff));
-	ExpInfo->SetText(L"EXP: x" + std::to_wstring(Global::ExpBonusCoeff));
-	CatchRateInfo->SetText(L"Catch Rate: x" + std::to_wstring(Global::CatchRateBonusCoeff));
-	EncounterRateInfo->SetText(L"Encounter Rate: x" + std::to_wstring(Global::WildBattleFrequency));
+	std::wostringstream DmgStream;
+	DmgStream << std::setprecision(2) << Global::DamageBonusCoeff;
+	std::wstring DmgText = DmgStream.str();
+	DmgInfo->SetText(L"DMG: x" + DmgText);
+
+	std::wostringstream ExpStream;
+	ExpStream << std::setprecision(2) << Global::ExpBonusCoeff;
+	std::wstring ExpText = ExpStream.str();
+	ExpInfo->SetText(L"EXP: x" + ExpText);
+
+	std::wostringstream CRStream;
+	CRStream << std::setprecision(2) << Global::CatchRateBonusCoeff;
+	std::wstring CRText = CRStream.str();
+	CatchRateInfo->SetText(L"Catch Rate: x" + CRText);
+
+	std::wostringstream ERStream;
+	ERStream << std::setprecision(2) << Global::EncounterRateBonusCoeff;
+	std::wstring ERText = ERStream.str();
+	EncounterRateInfo->SetText(L"Encounter Rate: x" + ERText);
 }
 
 void ADebugCanvas::BeginPlay()

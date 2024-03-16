@@ -9,7 +9,7 @@ namespace Global
 	// Cheat
 	extern float DamageBonusCoeff;
 	extern float ExpBonusCoeff;
-	extern float WildBattleFrequency;
+	extern float EncounterRateBonusCoeff;
 	extern float CatchRateBonusCoeff;
 
 	// SE ½Ã°£

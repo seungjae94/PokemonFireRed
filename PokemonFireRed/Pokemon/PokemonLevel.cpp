@@ -189,15 +189,15 @@ void UPokemonLevel::ApplyEncounterCheat()
 
 	if (0 == EncounterCheatStage)
 	{
-		Global::WildBattleFrequency = 1.0f;
+		Global::EncounterRateBonusCoeff = 1.0f;
 	}
 	else if (1 == EncounterCheatStage)
 	{
-		Global::WildBattleFrequency = 8.0f;
+		Global::EncounterRateBonusCoeff = 8.0f;
 	}
 	else if (2 == EncounterCheatStage)
 	{
-		Global::WildBattleFrequency = 0.0f;
+		Global::EncounterRateBonusCoeff = 0.0f;
 	}
 
 	DebugCanvas->Refresh();
