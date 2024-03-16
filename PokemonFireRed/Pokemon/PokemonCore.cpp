@@ -33,7 +33,7 @@ UPokemonCore::~UPokemonCore()
 void UPokemonCore::BeginPlay()
 {
 	// 게임 기본 설정
-	MainWindow.SetWindowTitle("Pokemon Firered");
+	MainWindow.SetWindowTitle("Pokemon FireRed");
 	MainWindow.SetWindowScale({ Global::ScreenX, Global::ScreenY });
 	MainWindow.SetClearColor(Color8Bit::BlackA);
 	UEngineSound::SetGlobalVolume(0.25f);
@@ -48,9 +48,9 @@ void UPokemonCore::BeginPlay()
 	LoadSounds();
 
 	// 디버그용 데이터
-	DebugGeneratePokemons();
+	//DebugGeneratePokemons();
 	//DebugGenerateItems();
-	DebugGenerateAchievements();
+	//DebugGenerateAchievements();
 
 	// 레벨 생성
 	CreateLevel<UTitleLevel>(Global::TitleLevel);
@@ -76,11 +76,7 @@ void UPokemonCore::BeginPlay()
 	CreateLevel<UBattleBagUILevel>(Global::BattleBagUILevel);
 
 	// 시작 레벨 설정
-	UEventManager::SetLevel(Global::ExteriorPalletTownLevel);
-}
-
-void UPokemonCore::Tick(float _DeltaTime)
-{
+	UEventManager::SetLevel(Global::TitleLevel);
 }
 
 void UPokemonCore::LoadUIResources()
