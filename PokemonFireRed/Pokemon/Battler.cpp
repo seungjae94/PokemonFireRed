@@ -64,6 +64,7 @@ void UBattler::InitTrainer()
 	TrainerImageName = Trainer->GetBattlerImageName();
 	PlayerWinMessage = Trainer->GetPlayerWinMessage();
 	AfterBattleTrigger = Trainer->GetAfterBattleTrigger();
+	GymLeader = Trainer->IsGymLeader();
 	InitEnemyPokemon();
 }
 
@@ -110,6 +111,16 @@ int UBattler::GetPlayerWinMessageSize() const
 AEventTrigger* UBattler::GetAfterBattleTrigger()
 {
 	return AfterBattleTrigger;
+}
+
+bool UBattler::IsGymLeader() const
+{
+	return GymLeader;
+}
+
+void UBattler::SetGymLeader(bool _GymLeader)
+{
+	GymLeader = _GymLeader;
 }
 
 void UBattler::InitCurPokemon()

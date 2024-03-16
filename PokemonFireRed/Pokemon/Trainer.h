@@ -70,12 +70,23 @@ public:
 		return AfterBattleTrigger;
 	}
 
+	void SetGymLeader(bool _GymLeader)
+	{
+		GymLeader = _GymLeader;
+	}
+
+	bool IsGymLeader() const
+	{
+		return GymLeader;
+	}
+
 protected:
 
 private:
 	std::vector<UPokemon> Entry;
 	std::string BattlerName;
 	std::string BattlerImageName;
+	bool GymLeader = false;
 
 	std::list<std::wstring> TrainerWinMessage;
 	std::list<std::wstring> PlayerWinMessage;

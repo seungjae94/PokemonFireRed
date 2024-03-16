@@ -47,6 +47,8 @@ public:
 	void PopFrontPlayerWinMessage();
 	int GetPlayerWinMessageSize() const;
 	AEventTrigger* GetAfterBattleTrigger();
+	bool IsGymLeader() const;
+	void SetGymLeader(bool _GymLeader);
 
 	// 포켓몬 정보
 	void InitCurPokemon();
@@ -142,6 +144,7 @@ private:
 	std::string TrainerImageName;
 	std::list<std::wstring> PlayerWinMessage;
 	AEventTrigger* AfterBattleTrigger = nullptr;
+	bool GymLeader = false;
 
 	// 액션 선택 관련 변수
 	EBattleAction Action = EBattleAction::None;

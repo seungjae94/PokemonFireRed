@@ -31,6 +31,16 @@ void AFinishBattleStateMachine::Start(EBattleEndReason _BattleEndReason)
 		State = ESubstate::PlayerDefeated1;
 		MsgBox->SetMessage(L"Player defeated\n" + Enemy->GetTrainerNameW() + L"!");
 		MsgBox->Write();
+
+		if (true == Enemy->IsGymLeader())
+		{
+			USoundManager::PlayBgm(RN::BgmVictoryGymLeader);
+		}
+		else
+		{
+			USoundManager::PlayBgm(RN::BgmVictoryTrainerBattle);
+		}
+
 		break;
 	case EBattleEndReason::LoseToWild:
 		State = ESubstate::OutOfPokemonMessage1;

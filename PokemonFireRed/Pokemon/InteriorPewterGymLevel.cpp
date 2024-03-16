@@ -161,6 +161,7 @@ void UInteriorPewterGymLevel::MakeGymLeader()
 	Brock->SetPlayerWinMessage({ L"I took you for granted, and so\nlost.", L"As proof of your victory, I confer\non you this…", L"The official POKéMON LEAGUE\nBOULDERBADGE."});
 	Brock->AddPokemonToEntry(UPokemon(EPokemonId::Geodude, 12));
 	Brock->AddPokemonToEntry(UPokemon(EPokemonId::Onix, 14));
+	Brock->SetGymLeader(true);
 
 	UEventManager::RegisterEvent(Brock, BattleCond,
 		ES::Start(true)
