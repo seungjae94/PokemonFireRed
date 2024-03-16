@@ -2,6 +2,7 @@
 #include "BattleCanvas.h"
 #include "PokemonMsgBox.h"
 #include "Battler.h"
+#include "SoundManager.h"
 
 ABattleEnemyShiftStateMachine::ABattleEnemyShiftStateMachine()
 {
@@ -69,6 +70,7 @@ void ABattleEnemyShiftStateMachine::ProcessPokemonAppearWait()
 	if (Timer <= 0)
 	{
 		State = ESubstate::PokemonAppear;
+		USoundManager::PlaySE(Enemy->CurPokemon()->GetCrySoundName());
 		Canvas->PlayEnemyGroundBallAnimation();
 		Canvas->RefreshEnemyPokemonImage();
 		EntryFadeTimer = EntryFadeTime;

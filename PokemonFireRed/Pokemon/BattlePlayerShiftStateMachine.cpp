@@ -1,6 +1,7 @@
 #include "BattlePlayerShiftStateMachine.h"
 #include "BattleCanvas.h"
 #include "PokemonMsgBox.h"
+#include "SoundManager.h"
 
 ABattlePlayerShiftStateMachine::ABattlePlayerShiftStateMachine() 
 {
@@ -122,6 +123,7 @@ void ABattlePlayerShiftStateMachine::ProcessThrowBall()
 	{
 		State = ESubstate::SendOut;
 		Timer = SendOutTime;
+		USoundManager::PlaySE(Player->CurPokemon()->GetCrySoundName());
 		Canvas->SetThrowedBallActive(false);
 		Canvas->SetPlayerPokemonBoxActive(true);
 		Canvas->RefreshPlayerPokemonBox();
