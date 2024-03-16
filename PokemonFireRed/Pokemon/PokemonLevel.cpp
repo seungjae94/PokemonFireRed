@@ -44,7 +44,15 @@ void UPokemonLevel::LevelEnd(ULevel* _NextLevel)
 void UPokemonLevel::Tick(float _DeltaTime)
 {
 	ULevel::Tick(_DeltaTime);
-	UEventManager::Tick(_DeltaTime);
+	
+	float TimeScaleValue = 1.0f;
+	if (true == UEngineInput::IsPress(VK_SPACE))
+	{
+		TimeScaleValue = 2.0f;
+	}
+
+	UEventManager::Tick(_DeltaTime * TimeScaleValue);
+	SetAllTimeScale(TimeScaleValue);
 
 	if (true == UEngineInput::IsDown('Q'))
 	{
