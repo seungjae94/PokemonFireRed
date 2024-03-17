@@ -26,6 +26,10 @@ void UBattleShiftPokemonUILevel::Tick(float _DeltaTime)
 	{
 		ProcessActionSelectionWait();
 	}
+	else if (State == EBattleShiftPokemonUIState::BattleShiftFailMessageShow)
+	{
+		ProcessBattleShiftFailMessageShow();
+	}
 }
 
 void UBattleShiftPokemonUILevel::LevelStart(ULevel* _PrevLevel)
