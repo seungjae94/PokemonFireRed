@@ -115,6 +115,7 @@ void UInteriorOaksLabLevel::MakeRivalGreen()
 		L"I picked the wrong POKéMON!"
 		});
 	Green->SetBattler("RIVAL GREEN", RN::RivalGreenBattler);
+	Green->SetRegionGrass(false);
 
 	// 이벤트 등록
 

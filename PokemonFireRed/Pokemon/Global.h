@@ -322,6 +322,10 @@ namespace RN
 	const std::string BattleStatUpBox = "BattleStatUpBox.png";
 	const std::string BattleStatAfterBox = "BattleStatAfterBox.png";
 
+	const std::string BattleBackgroundStone = "BattleBackgroundStone.png";
+	const std::string BattlePlayerGroundStone = "BattlePlayerGroundStone.png";
+	const std::string BattleEnemyGroundStone = "BattleEnemyGroundStone.png";
+
 	const std::string BattlerPlaceHolder = "BattlerPlaceHolder.png";
 	const std::string PlayerBattler = "PlayerBattler.png"; 
 	const std::string RivalGreenBattler = "RivalGreenBattler.png";

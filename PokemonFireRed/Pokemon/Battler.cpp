@@ -20,6 +20,7 @@ void UBattler::Clear()
 	CurMoveIndex = 0;
 	IsPlayerValue = false;
 	IsWildPokemonValue = false;
+	RegionGrass = true;
 	TrainerName = "";
 	TrainerImageName = "";
 	PlayerWinMessage.clear();
@@ -65,6 +66,7 @@ void UBattler::InitTrainer()
 	PlayerWinMessage = Trainer->GetPlayerWinMessage();
 	AfterBattleTrigger = Trainer->GetAfterBattleTrigger();
 	GymLeader = Trainer->IsGymLeader();
+	RegionGrass = Trainer->IsRegionGrass();
 	InitEnemyPokemon();
 }
 
@@ -121,6 +123,16 @@ bool UBattler::IsGymLeader() const
 void UBattler::SetGymLeader(bool _GymLeader)
 {
 	GymLeader = _GymLeader;
+}
+
+bool UBattler::IsRegionGrass() const
+{
+	return RegionGrass;
+}
+
+void UBattler::SetRegionGrass(bool _Value)
+{
+	RegionGrass = _Value;
 }
 
 void UBattler::InitCurPokemon()

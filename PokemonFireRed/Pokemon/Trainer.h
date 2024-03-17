@@ -80,6 +80,16 @@ public:
 		return GymLeader;
 	}
 
+	void SetRegionGrass(bool _RegionGrass)
+	{
+		RegionGrass = _RegionGrass;
+	}
+
+	bool IsRegionGrass() const
+	{
+		return RegionGrass;
+	}
+
 protected:
 
 private:
@@ -87,6 +97,7 @@ private:
 	std::string BattlerName;
 	std::string BattlerImageName;
 	bool GymLeader = false;
+	bool RegionGrass = true;
 
 	std::list<std::wstring> TrainerWinMessage;
 	std::list<std::wstring> PlayerWinMessage;

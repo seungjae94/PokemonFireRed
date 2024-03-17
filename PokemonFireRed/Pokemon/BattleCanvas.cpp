@@ -206,6 +206,7 @@ void ABattleCanvas::Init(const UBattler* _Player, const UBattler* _Enemy)
 	RefreshMoveSelectBox();
 	RefreshPlayerEntry();
 	RefreshEnemyEntry();
+	InitGroundImages();
 	InitPlayerImages();
 	InitEnemyImages();
 	InitPlayerUI();
@@ -226,6 +227,22 @@ void ABattleCanvas::Init(const UBattler* _Player, const UBattler* _Enemy)
 	PlayerEntryArrow->SetActive(true);
 	EnemyEntryArrow->SetActive(true);
 	EnemyCatchBall->SetActive(false);
+}
+
+void ABattleCanvas::InitGroundImages()
+{
+	if (true == Enemy->IsRegionGrass())
+	{
+		Background->SetImage(RN::BattleBackground);
+		PlayerGround->SetImage(RN::BattlePlayerGround);
+		EnemyGround->SetImage(RN::BattleEnemyGround);
+	}
+	else
+	{
+		Background->SetImage(RN::BattleBackgroundStone);
+		PlayerGround->SetImage(RN::BattlePlayerGroundStone);
+		EnemyGround->SetImage(RN::BattleEnemyGroundStone);
+	}
 }
 
 void ABattleCanvas::InitPlayerImages()

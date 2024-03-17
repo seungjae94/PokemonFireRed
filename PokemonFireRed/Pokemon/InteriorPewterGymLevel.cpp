@@ -93,6 +93,7 @@ void UInteriorPewterGymLevel::MakeCamper()
 	Camper->SetPlayerWinMessage({ L"Darn!", L"Light-years isn't time\nIt measures distance!"});
 	Camper->AddPokemonToEntry(UPokemon(EPokemonId::Diglett, 10));
 	Camper->AddPokemonToEntry(UPokemon(EPokemonId::Sandshrew, 11));
+	Camper->SetRegionGrass(false);
 
 	UEventCondition Cond;
 	AEventTrigger* WinTrigger = SpawnEventTrigger<AEventTrigger>("CamperWinTrigger");
@@ -167,6 +168,7 @@ void UInteriorPewterGymLevel::MakeGymLeader()
 	Brock->AddPokemonToEntry(UPokemon(EPokemonId::Geodude, 12));
 	Brock->AddPokemonToEntry(UPokemon(EPokemonId::Onix, 14));
 	Brock->SetGymLeader(true);
+	Brock->SetRegionGrass(false);
 
 	UEventManager::RegisterEvent(Brock, BattleCond,
 		ES::Start(true)

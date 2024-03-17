@@ -22,6 +22,7 @@ public:
 	void InitCatchBall();
 
 private: // 초기화 함수
+	void InitGroundImages();
 	void InitPlayerImages();	// 플레이어 배틀러, 플레이어 포켓몬, 볼 위치 초기화
 	void InitEnemyImages();		// 적 배틀러, 적 포켓몬, 적 볼 위치 초기화
 	void InitPlayerUI();

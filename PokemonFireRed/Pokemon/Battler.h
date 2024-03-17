@@ -49,6 +49,8 @@ public:
 	AEventTrigger* GetAfterBattleTrigger();
 	bool IsGymLeader() const;
 	void SetGymLeader(bool _GymLeader);
+	bool IsRegionGrass() const;
+	void SetRegionGrass(bool _Value);
 
 	// 포켓몬 정보
 	void InitCurPokemon();
@@ -145,6 +147,7 @@ private:
 	std::list<std::wstring> PlayerWinMessage;
 	AEventTrigger* AfterBattleTrigger = nullptr;
 	bool GymLeader = false;
+	bool RegionGrass = true;
 
 	// 액션 선택 관련 변수
 	EBattleAction Action = EBattleAction::None;
