@@ -382,6 +382,7 @@ void UInteriorPokemonCenterLevel::ProcessHealEndMessage1()
 	if (EWriteState::WriteEnd == MsgBox->GetWriteState())
 	{
 		State = EState::HealEndMessage2;
+		USoundManager::ResumeBgm();
 		MsgBox->ShowSkipArrow();
 	}
 }
@@ -392,6 +393,7 @@ void UInteriorPokemonCenterLevel::ProcessHealEndMessage2()
 	{
 		State = EState::HealEndMessage3;
 		USoundManager::PlaySE(RN::SEClick);
+		USoundManager::ResumeBgm();
 		MsgBox->HideSkipArrow();
 		MsgBox->SetMessage(L"We've restored your POKéMON to\nfull health.");
 		MsgBox->Write();
