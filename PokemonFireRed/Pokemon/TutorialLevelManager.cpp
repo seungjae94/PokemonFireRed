@@ -200,7 +200,7 @@ void ATutorialLevelManager::Tick(float _DeltaTime)
 	// X키를 누를 경우 이전 페이지로 갈 수 있다면 이전 페이지로 간다.
 	if (true == UEngineInput::IsDown('X'))
 	{
-		if (PageIndex != 0 && PageIndex != 3)
+		if (PageIndex != 0 && PageIndex != 3 && PageIndex < 6)
 		{
 			USoundManager::PlaySE(RN::SEClick);
 			PageIndex--;
