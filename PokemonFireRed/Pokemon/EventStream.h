@@ -74,13 +74,43 @@ public:
 	UEventStream();
 	~UEventStream();
 
-	class SetActive
+private:
+	class EventCommand
+	{
+		friend UEventProcessor;
+	public:
+		EventCommand(EEventType _EventType)
+			: EventType(_EventType)
+		{}
+
+		virtual ~EventCommand() {}
+
+		virtual EventCommand* Clone() const = 0;
+
+	protected:
+		EEventType EventType;
+	};
+
+public:
+	UEventStream& operator>>(const EventCommand& _Data)
+	{
+		EventCommand* Data = _Data.Clone();
+		EventCommands.push_back(Data);
+		return *this;
+	}
+
+	class SetActive : public EventCommand
 	{
 		friend UEventProcessor;
 	public:
 		SetActive(std::string_view _MapName, std::string_view _TargetName, bool _Value)
-			: MapName(_MapName), TargetName(_TargetName), Value(_Value)
+			: MapName(_MapName), TargetName(_TargetName), Value(_Value), EventCommand(EEventType::SetActive)
 		{
+		}
+
+		inline SetActive* Clone() const override 
+		{ 
+			return new SetActive(*this);
 		}
 	private:
 		std::string MapName;
@@ -88,41 +118,37 @@ public:
 		bool Value = true;
 	};
 
-	UEventStream& operator>>(const SetActive& _Data)
-	{
-		EventTypeList.push_back(EEventType::SetActive);
-		SetActiveDataSet.push_back(_Data);
-		return *this;
-	}
-
-	class Destroy
+	class Destroy : public EventCommand
 	{
 		friend UEventProcessor;
 	public:
 		Destroy(AActor* _Actor)
-			: Actor(_Actor)
+			: Actor(_Actor), EventCommand(EEventType::Destroy)
 		{
+		}
+
+		inline Destroy* Clone() const override
+		{
+			return new Destroy(*this);
 		}
 	private:
 		AActor* Actor = nullptr;
 	};
 
-	UEventStream& operator>>(const Destroy& _Data)
-	{
-		EventTypeList.push_back(EEventType::Destroy);
-		DestroyDataSet.push_back(_Data);
-		return *this;
-	}
-
-	class Move
+	class Move : public EventCommand
 	{
 		friend UEventProcessor;
 	public:
 		Move(std::string_view _TargetName, const std::vector<FTileVector>& _Path, float _MoveSpeed = Global::CharacterWalkSpeed, bool _CameraFollow = true);
 
 		Move(const std::vector<std::string>& _TargetNames, const std::vector<std::vector<FTileVector>>& _Paths, float _MoveSpeed = Global::CharacterWalkSpeed, bool _CameraFollow = true)
-			: TargetNames(_TargetNames), Paths(_Paths), MoveSpeed(_MoveSpeed), CameraFollow(_CameraFollow)
+			: TargetNames(_TargetNames), Paths(_Paths), MoveSpeed(_MoveSpeed), CameraFollow(_CameraFollow), EventCommand(EEventType::Move)
 		{
+		}
+
+		inline Move* Clone() const override
+		{
+			return new Move(*this);
 		}
 	private:
 		std::vector<std::string> TargetNames;
@@ -131,20 +157,18 @@ public:
 		float MoveSpeed = 3.6f;
 	};
 
-	UEventStream& operator>>(const Move& _Data)
-	{
-		EventTypeList.push_back(EEventType::Move);
-		MoveDataSet.push_back(_Data);
-		return *this;
-	}
-
-	class MoveDynamicPath
+	class MoveDynamicPath : public EventCommand
 	{
 		friend UEventProcessor;
 	public:
 		MoveDynamicPath(std::string_view _TargetName, std::vector<FTileVector>(*_Generator)(void), float _MoveSpeed = Global::CharacterWalkSpeed, bool _CameraFollow = true)
-			: TargetName(_TargetName), Generator(_Generator), MoveSpeed(_MoveSpeed), CameraFollow(_CameraFollow)
+			: TargetName(_TargetName), Generator(_Generator), MoveSpeed(_MoveSpeed), CameraFollow(_CameraFollow), EventCommand(EEventType::MoveDynamicPath)
 		{
+		}
+
+		inline MoveDynamicPath* Clone() const override
+		{
+			return new MoveDynamicPath(*this);
 		}
 	private:
 		std::string TargetName;
@@ -153,20 +177,18 @@ public:
 		float MoveSpeed = 3.6f;
 	};
 
-	UEventStream& operator>>(const MoveDynamicPath& _Data)
-	{
-		EventTypeList.push_back(EEventType::MoveDynamicPath);
-		MoveDynamicPathDataSet.push_back(_Data);
-		return *this;
-	}
-
-	class MoveWithoutRestriction
+	class MoveWithoutRestriction : public EventCommand
 	{
 		friend UEventProcessor;
 	public:
 		MoveWithoutRestriction(std::string_view _TargetName, const std::vector<FVector>& _Path, float _MoveSpeed = 3.6f)
-			: TargetName(_TargetName), Path(_Path), MoveSpeed(_MoveSpeed)
+			: TargetName(_TargetName), Path(_Path), MoveSpeed(_MoveSpeed), EventCommand(EEventType::MoveWithoutRestriction)
 		{
+		}
+
+		inline MoveWithoutRestriction* Clone() const override
+		{
+			return new MoveWithoutRestriction(*this);
 		}
 	private:
 		std::string TargetName;
@@ -174,141 +196,127 @@ public:
 		float MoveSpeed = 3.6f;
 	};
 
-	UEventStream& operator>>(const MoveWithoutRestriction& _Data)
-	{
-		EventTypeList.push_back(EEventType::MoveWithoutRestriction);
-		MoveWithoutRestrictionDataSet.push_back(_Data);
-		return *this;
-	}
-
-	class Surprise
+	class Surprise : public EventCommand
 	{
 		friend UEventProcessor;
 	public:
 		Surprise(std::string_view _TargetName)
-			: TargetName(_TargetName)
+			: TargetName(_TargetName), EventCommand(EEventType::Surprise)
 		{
+		}
+
+		inline Surprise* Clone() const override
+		{
+			return new Surprise(*this);
 		}
 	private:
 		std::string TargetName;
 	};
 
-	UEventStream& operator>>(const Surprise& _Data)
-	{
-		EventTypeList.push_back(EEventType::Surprise);
-		SurpriseDataSet.push_back(_Data);
-		return *this;
-	}
-
-	class FadeIn
+	class FadeIn : public EventCommand
 	{
 		friend UEventProcessor;
 	public:
 		FadeIn(float _Time, EFadeType _FadeType = EFadeType::Black)
-			: Time(_Time), FadeType(_FadeType)
+			: Time(_Time), FadeType(_FadeType), EventCommand(EEventType::FadeIn)
 		{
+		}
+
+		inline FadeIn* Clone() const override
+		{
+			return new FadeIn(*this);
 		}
 	private:
 		float Time = 0.0f;
 		EFadeType FadeType = EFadeType::Black;
 	};
 
-	UEventStream& operator>>(const FadeIn& _Data)
-	{
-		EventTypeList.push_back(EEventType::FadeIn);
-		FadeInDataSet.push_back(_Data);
-		return *this;
-	}
-
-	class FadeOut
+	class FadeOut : public EventCommand
 	{
 		friend UEventProcessor;
 	public:
 		FadeOut(float _Time, EFadeType _FadeType = EFadeType::Black)
-			: Time(_Time), FadeType(_FadeType)
+			: Time(_Time), FadeType(_FadeType), EventCommand(EEventType::FadeOut)
 		{
+		}
+
+		inline FadeOut* Clone() const override
+		{
+			return new FadeOut(*this);
 		}
 	private:
 		float Time = 0.0f;
 		EFadeType FadeType = EFadeType::Black;
 	};
 
-	UEventStream& operator>>(const FadeOut& _Data)
-	{
-		EventTypeList.push_back(EEventType::FadeOut);
-		FadeOutDataSet.push_back(_Data);
-		return *this;
-	}
-
-	class FadeInBgm
+	class FadeInBgm : public EventCommand
 	{
 		friend UEventProcessor;
 	public:
 		FadeInBgm(float _Time, float _TargetVolume = 1.0f)
-			: Time(_Time), TargetVolume(_TargetVolume)
+			: Time(_Time), TargetVolume(_TargetVolume), EventCommand(EEventType::FadeInBgm)
 		{
+		}
+
+		inline FadeInBgm* Clone() const override
+		{
+			return new FadeInBgm(*this);
 		}
 	private:
 		float Time = 0.0f;
 		float TargetVolume = 0.0f;
 	};
-
-	UEventStream& operator>>(const FadeInBgm& _Data)
-	{
-		EventTypeList.push_back(EEventType::FadeInBgm);
-		FadeInBgmDataSet.push_back(_Data);
-		return *this;
-	}
-
-	class FadeOutBgm
+	 
+	class FadeOutBgm : public EventCommand
 	{
 		friend UEventProcessor;
 	public:
 		FadeOutBgm(float _Time)
-			: Time(_Time)
+			: Time(_Time), EventCommand(EEventType::FadeOutBgm)
 		{
+		}
+
+		inline FadeOutBgm* Clone() const override
+		{
+			return new FadeOutBgm(*this);
 		}
 	private:
 		float Time = 0.0f;
 	};
 
-	UEventStream& operator>>(const FadeOutBgm& _Data)
-	{
-		EventTypeList.push_back(EEventType::FadeOutBgm);
-		FadeOutBgmDataSet.push_back(_Data);
-		return *this;
-	}
-
-	class Wait
+	class Wait : public EventCommand
 	{
 		friend UEventProcessor;
 	public:
 		Wait(float _Time)
-			: Time(_Time)
+			: Time(_Time), EventCommand(EEventType::Wait)
 		{
+		}
+
+		inline Wait* Clone() const override
+		{
+			return new Wait(*this);
 		}
 	private:
 		float Time;
 	};
 
-	UEventStream& operator>>(const Wait& _Data)
-	{
-		EventTypeList.push_back(EEventType::Wait);
-		WaitDataSet.push_back(_Data);
-		return *this;
-	}
-
-	class PlayAnimation
+	class PlayAnimation : public EventCommand
 	{
 		friend UEventProcessor;
 	public:
 		PlayAnimation(std::string_view _TargetName, std::string_view _AnimName, bool _Wait = true, EAnimTarget _AnimTarget = EAnimTarget::All)
-			: TargetName(_TargetName), AnimName(_AnimName), Wait(_Wait), AnimTarget(_AnimTarget)
+			: TargetName(_TargetName), AnimName(_AnimName), Wait(_Wait), AnimTarget(_AnimTarget), EventCommand(EEventType::PlayAnimation)
 		{
 			if (_AnimName.ends_with(Global::SuffixLowerBody) || _AnimName.ends_with(Global::SuffixUpperBody))
 			{
 				MsgBoxAssert(AnimName + "은 유효하지 않습니다. PlayAnimation 이벤트에 애니메이션 이름을 적을 땐 LowerBody, UpperBody suffix를 생략해야 합니다.");
 			}
+		}
+
+		inline PlayAnimation* Clone() const override
+		{
+			return new PlayAnimation(*this);
 		}
 	private:
 		std::string TargetName = "";
@@ -317,91 +325,85 @@ public:
 		EAnimTarget AnimTarget = EAnimTarget::All;
 	};
 
-	UEventStream& operator>>(const PlayAnimation& _Data)
-	{
-		EventTypeList.push_back(EEventType::PlayAnimation);
-		PlayAnimationDataSet.push_back(_Data);
-		return *this;
-	}
-
-	class PlayBgm
+	class PlayBgm : public EventCommand
 	{
 		friend UEventProcessor;
 	public:
 		PlayBgm(std::string_view _Name)
-			: Name(_Name)
+			: Name(_Name), EventCommand(EEventType::PlayBgm)
 		{
+		}
+
+		inline PlayBgm* Clone() const override
+		{
+			return new PlayBgm(*this);
 		}
 	private:
 		std::string Name = "";
 	};
 
-	UEventStream& operator>>(const PlayBgm& _Data)
-	{
-		EventTypeList.push_back(EEventType::PlayBgm);
-		PlayBgmDataSet.push_back(_Data);
-		return *this;
-	}
-
-	class PlaySE
+	class PlaySE : public EventCommand
 	{
 		friend UEventProcessor;
 	public:
 		PlaySE(std::string_view _Name, float _MuteTime = -1.0f)
-			: Name(_Name), MuteTime(_MuteTime)
+			: Name(_Name), MuteTime(_MuteTime), EventCommand(EEventType::PlaySE)
 		{
+		}
+
+		inline PlaySE* Clone() const override
+		{
+			return new PlaySE(*this);
 		}
 	private:
 		std::string Name = "";
 		float MuteTime = -1.0f;
 	};
 
-	UEventStream& operator>>(const PlaySE& _Data)
-	{
-		EventTypeList.push_back(EEventType::PlaySE);
-		PlaySEDataSet.push_back(_Data);
-		return *this;
-	}
-
-	class PauseBgm
+	class PauseBgm : public EventCommand
 	{
 		friend UEventProcessor;
 	public:
 		PauseBgm()
+			: EventCommand(EEventType::PauseBgm)
 		{
+		}
+
+		inline PauseBgm* Clone() const override
+		{
+			return new PauseBgm(*this);
 		}
 	private:
 	};
 
-	UEventStream& operator>>(const PauseBgm& _Data)
-	{
-		EventTypeList.push_back(EEventType::PauseBgm);
-		return *this;
-	}
-
-	class ResumeBgm
+	class ResumeBgm : public EventCommand
 	{
 		friend UEventProcessor;
 	public:
 		ResumeBgm()
+			: EventCommand(EEventType::ResumeBgm)
 		{
+		}
+
+		inline ResumeBgm* Clone() const override
+		{
+			return new ResumeBgm(*this);
 		}
 	private:
 	};
 
-	UEventStream& operator>>(const ResumeBgm& _Data)
-	{
-		EventTypeList.push_back(EEventType::ResumeBgm);
-		return *this;
-	}
-
-	class Chat
+	class Chat : public EventCommand
 	{
 		friend UEventProcessor;
 	public:
 		Chat(const std::vector<std::wstring>& _Dialogue, EFontColor _Color, int _LineSpace = 14, bool _IsSequential = true)
-			: Dialogue(_Dialogue), Color(_Color), LineSpace(_LineSpace), IsSequential(_IsSequential)
+			: Dialogue(_Dialogue), Color(_Color), LineSpace(_LineSpace), IsSequential(_IsSequential), EventCommand(EEventType::Chat)
 		{
+		}
+
+		inline Chat* Clone() const override
+		{
+			return new Chat(*this);
 		}
 	private:
 		std::vector<std::wstring> Dialogue;
@@ -410,72 +412,59 @@ public:
 		bool IsSequential = true;
 	};
 
-	UEventStream& operator>>(const Chat& _Data)
-	{
-		EventTypeList.push_back(EEventType::Chat);
-		ChatDataSet.push_back(_Data);
-		return *this;
-	}
-
-	class ShowMapName
+	class ShowMapName : public EventCommand
 	{
 		friend UEventProcessor;
 	public:
 		ShowMapName(std::wstring_view _MapName)
-			: MapName(_MapName)
+			: MapName(_MapName), EventCommand(EEventType::ShowMapName)
 		{
+		}
+
+		inline ShowMapName* Clone() const override
+		{
+			return new ShowMapName(*this);
 		}
 	private:
 		std::wstring MapName;
 	};
 
-	UEventStream& operator>>(const ShowMapName& _Data)
-	{
-		EventTypeList.push_back(EEventType::ShowMapName);
-		ShowMapNameDataSet.push_back(_Data);
-		return *this;
-	}
-
-	class ChangeArea
+	class ChangeArea : public EventCommand
 	{
 		friend UEventProcessor;
 	public:
 		ChangeArea(std::string_view _AreaName, std::string_view _AreaBgm)
-			: AreaName(_AreaName), AreaBgm(_AreaBgm)
+			: AreaName(_AreaName), AreaBgm(_AreaBgm), EventCommand(EEventType::ChangeArea)
 		{
+		}
+
+		inline ChangeArea* Clone() const override
+		{
+			return new ChangeArea(*this);
 		}
 	private:
 		std::string AreaName;
 		std::string AreaBgm;
 	};
 
-	UEventStream& operator>>(const ChangeArea& _Data)
-	{
-		EventTypeList.push_back(EEventType::ChangeArea);
-		ChangeAreaDataSet.push_back(_Data);
-		return *this;
-	}
-
-	class ChangeLevel
+	class ChangeLevel : public EventCommand
 	{
 		friend UEventProcessor;
 	public:
 		ChangeLevel(std::string_view _LevelName)
-			: LevelName(_LevelName)
+			: LevelName(_LevelName), EventCommand(EEventType::ChangeLevel)
 		{
+		}
+
+		inline ChangeLevel* Clone() const override
+		{
+			return new ChangeLevel(*this);
 		}
 	private:
 		std::string LevelName;
 	};
 
-	UEventStream& operator>>(const ChangeLevel& _Data)
-	{
-		EventTypeList.push_back(EEventType::ChangeLevel);
-		ChangeLevelDataSet.push_back(_Data);
-		return *this;
-	}
-
-	class ChangePoint
+	class ChangePoint : public EventCommand
 	{
 		friend UEventProcessor;
 	public:
@@ -483,8 +472,14 @@ public:
 			std::string_view _TargetName, const FTileVector& _Point)
 			: LevelName(_LevelName),
 			TargetName(_TargetName),
-			Point(_Point)
+			Point(_Point),
+			EventCommand(EEventType::ChangePoint)
 		{
+		}
+
+		inline ChangePoint* Clone() const override
+		{
+			return new ChangePoint(*this);
 		}
 	private:
 		std::string LevelName;
@@ -492,14 +487,7 @@ public:
 		FTileVector Point;
 	};
 
-	UEventStream& operator>>(const ChangePoint& _Data)
-	{
-		EventTypeList.push_back(EEventType::ChangePoint);
-		ChangePointDataSet.push_back(_Data);
-		return *this;
-	}
-
-	class ChangePosition
+	class ChangePosition : public EventCommand
 	{
 		friend UEventProcessor;
 	public:
@@ -507,8 +495,14 @@ public:
 			std::string_view _TargetName, const FVector& _Position)
 			: LevelName(_LevelName),
 			TargetName(_TargetName),
-			Position(_Position)
+			Position(_Position),
+			EventCommand(EEventType::ChangePosition)
 		{
+		}
+
+		inline ChangePosition* Clone() const override
+		{
+			return new ChangePosition(*this);
 		}
 	private:
 		std::string LevelName;
@@ -516,14 +510,7 @@ public:
 		FVector Position;
 	};
 
-	UEventStream& operator>>(const ChangePosition& _Data)
-	{
-		EventTypeList.push_back(EEventType::ChangePosition);
-		ChangePositionDataSet.push_back(_Data);
-		return *this;
-	}
-
-	class ChangeDirection
+	class ChangeDirection : public EventCommand
 	{
 		friend UEventProcessor;
 	public:
@@ -531,8 +518,14 @@ public:
 			std::string_view _TargetName, const FTileVector& _Direction)
 			: LevelName(_LevelName),
 			TargetName(_TargetName),
-			Direction(_Direction)
+			Direction(_Direction),
+			EventCommand(EEventType::ChangeDirection)
 		{
+		}
+
+		inline ChangeDirection* Clone() const override
+		{
+			return new ChangeDirection(*this);
 		}
 	private:
 		std::string LevelName;
@@ -540,212 +533,185 @@ public:
 		FTileVector Direction;
 	};
 
-	UEventStream& operator>>(const ChangeDirection& _Data)
-	{
-		EventTypeList.push_back(EEventType::ChangeDirection);
-		ChangeDirectionDataSet.push_back(_Data);
-		return *this;
-	}
-
-	class StarePlayer
+	class StarePlayer : public EventCommand
 	{
 		friend UEventProcessor;
 	public:
 		StarePlayer(std::string_view _TargetName)
-			: TargetName(_TargetName)
+			: TargetName(_TargetName), EventCommand(EEventType::StarePlayer)
 		{
+		}
+
+		inline StarePlayer* Clone() const override
+		{
+			return new StarePlayer(*this);
 		}
 	private:
 		std::string TargetName;
 	};
 
-	UEventStream& operator>>(const StarePlayer& _Data)
-	{
-		EventTypeList.push_back(EEventType::StarePlayer);
-		StarePlayerDataSet.push_back(_Data);
-		return *this;
-	}
-
-	class HideActor
+	class HideActor : public EventCommand
 	{
 		friend UEventProcessor;
 	public:
 		HideActor(std::string_view _TargetName)
-			: TargetName(_TargetName)
+			: TargetName(_TargetName), EventCommand(EEventType::HideActor)
 		{
+		}
+
+		inline HideActor* Clone() const override
+		{
+			return new HideActor(*this);
 		}
 	private:
 		std::string TargetName;
 	};
 
-	UEventStream& operator>>(const HideActor& _Data)
-	{
-		EventTypeList.push_back(EEventType::HideActor);
-		HideActorDataSet.push_back(_Data);
-		return *this;
-	}
-
-	class ShowActor
+	class ShowActor : public EventCommand
 	{
 		friend UEventProcessor;
 	public:
 		ShowActor(std::string_view _TargetName)
-			: TargetName(_TargetName)
+			: TargetName(_TargetName), EventCommand(EEventType::ShowActor)
 		{
+		}
+
+		inline ShowActor* Clone() const override
+		{
+			return new ShowActor(*this);
 		}
 	private:
 		std::string TargetName;
 	};
 
-	UEventStream& operator>>(const ShowActor& _Data)
-	{
-		EventTypeList.push_back(EEventType::ShowActor);
-		ShowActorDataSet.push_back(_Data);
-		return *this;
-	}
-
-	class CameraFocus
+	class CameraFocus : public EventCommand
 	{
 		friend UEventProcessor;
 	public:
 		CameraFocus(std::string_view _TargetName)
-			: TargetName(_TargetName)
+			: TargetName(_TargetName), EventCommand(EEventType::CameraFocus)
 		{
+		}
+
+		inline CameraFocus* Clone() const override
+		{
+			return new CameraFocus(*this);
 		}
 	private:
 		std::string TargetName;
 	};
 
-	UEventStream& operator>>(const CameraFocus& _Data)
-	{
-		EventTypeList.push_back(EEventType::CameraFocus);
-		CameraFocusDataSet.push_back(_Data);
-		return *this;
-	}
-
-	class DeactivatePlayerControl
+	class DeactivatePlayerControl : public EventCommand
 	{
 		friend UEventProcessor;
 	public:
 		DeactivatePlayerControl()
+			: EventCommand(EEventType::DeactivatePlayerControl)
 		{
+		}
+
+		inline DeactivatePlayerControl* Clone() const override
+		{
+			return new DeactivatePlayerControl(*this);
 		}
 	};
 
-	UEventStream& operator>>(const DeactivatePlayerControl& _Data)
-	{
-		EventTypeList.push_back(EEventType::DeactivatePlayerControl);
-		return *this;
-	}
-
-	class WildBattle
+	class WildBattle : public EventCommand
 	{
 		friend UEventProcessor;
 	public:
-		WildBattle(AWildBattleTrigger* _Wild) : Entry() {}
+		WildBattle(AWildBattleTrigger* _Wild) : Entry(), EventCommand(EEventType::WildBattle) {}
+
+		inline WildBattle* Clone() const override
+		{
+			return new WildBattle(*this);
+		}
 	private:
 		std::vector<UPokemon>* Entry;
 	};
 
-	UEventStream& operator>>(const WildBattle& _Data)
-	{
-		EventTypeList.push_back(EEventType::WildBattle);
-		WildBattleDataSet.push_back(_Data);
-		return *this;
-	}
-
-	class TrainerBattle
+	class TrainerBattle : public EventCommand
 	{
 		friend UEventProcessor;
 	public:
 		TrainerBattle(ATrainer* _Trainer)
-			: Trainer(_Trainer)
+			: Trainer(_Trainer), EventCommand(EEventType::TrainerBattle)
 		{}
+
+		inline TrainerBattle* Clone() const override
+		{
+			return new TrainerBattle(*this);
+		}
 	private:
 		ATrainer* Trainer = nullptr;
 	};
 
-	UEventStream& operator>>(const TrainerBattle& _Data)
-	{
-		EventTypeList.push_back(EEventType::TrainerBattle);
-		TrainerBattleDataSet.push_back(_Data);
-		return *this;
-	}
-
-	class Achieve
+	class Achieve : public EventCommand
 	{
 		friend UEventProcessor;
 	public:
 		Achieve(EAchievement _Achievement)
-			: Achievement(_Achievement)
+			: Achievement(_Achievement), EventCommand(EEventType::Achieve)
 		{}
+
+		inline Achieve* Clone() const override
+		{
+			return new Achieve(*this);
+		}
 	private:
 		EAchievement Achievement = EAchievement::None;
 	};
 
-	UEventStream& operator>>(const Achieve& _Data)
-	{
-		EventTypeList.push_back(EEventType::Achieve);
-		AchieveDataSet.push_back(_Data);
-		return *this;
-	}
-
-	class Unachieve
+	class Unachieve : public EventCommand
 	{
 		friend UEventProcessor;
 	public:
 		Unachieve(EAchievement _Achievement)
-			: Achievement(_Achievement)
+			: Achievement(_Achievement), EventCommand(EEventType::Unachieve)
 		{}
+
+		inline Unachieve* Clone() const override
+		{
+			return new Unachieve(*this);
+		}
 	private:
 		EAchievement Achievement = EAchievement::None;
 	};
 
-	UEventStream& operator>>(const Unachieve& _Data)
-	{
-		EventTypeList.push_back(EEventType::Unachieve);
-		UnachieveDataSet.push_back(_Data);
-		return *this;
-	}
-
-	class GainItem
+	class GainItem : public EventCommand
 	{
 		friend UEventProcessor;
 	public:
 		GainItem(EItemId _ItemId, int _Count)
-			: ItemId(_ItemId), Count(_Count)
+			: ItemId(_ItemId), Count(_Count), EventCommand(EEventType::GainItem)
 		{
+		}
+
+		inline GainItem* Clone() const override
+		{
+			return new GainItem(*this);
 		}
 	private:
 		EItemId ItemId = EItemId::None;
 		int Count = 0;
 	};
 
-	UEventStream& operator>>(const GainItem& _Data)
+	class End : public EventCommand
 	{
-		EventTypeList.push_back(EEventType::GainItem);
-		GainItemDataSet.push_back(_Data);
-		return *this;
-	}
-
-	class End
-	{
-		friend UEventStream;
+		friend UEventProcessor;
 	public:
 		End(bool _ActivatePlayer)
-			: ActivatePlayer(_ActivatePlayer)
+			: ActivatePlayer(_ActivatePlayer), EventCommand(EEventType::End)
 		{
+		}
+
+		inline End* Clone() const override
+		{
+			return new End(*this);
 		}
 	private:
 		bool ActivatePlayer = true;
 	};
-
-	UEventStream& operator>>(const End& _End)
-	{
-		EventTypeList.push_back(EEventType::End);
-		ActivatePlayer = _End.ActivatePlayer;
-		return *this;
-	}
 
 	static UEventStream Start(bool _DeactivatePlayer)
 	{
@@ -756,38 +722,7 @@ public:
 protected:
 
 private:
-	std::vector<EEventType> EventTypeList;
+	std::vector<EventCommand*> EventCommands;
 	bool DeactivatePlayer = true;
-	bool ActivatePlayer = true;
-	std::vector<SetActive> SetActiveDataSet;
-	std::vector<Destroy> DestroyDataSet;
-	std::vector<Move> MoveDataSet;
-	std::vector<MoveDynamicPath> MoveDynamicPathDataSet;
-	std::vector<MoveWithoutRestriction> MoveWithoutRestrictionDataSet;
-	std::vector<Surprise> SurpriseDataSet;
-	std::vector<FadeIn> FadeInDataSet;
-	std::vector<FadeOut> FadeOutDataSet;
-	std::vector<FadeInBgm> FadeInBgmDataSet;
-	std::vector<FadeOutBgm> FadeOutBgmDataSet;
-	std::vector<Wait> WaitDataSet;
-	std::vector<Chat> ChatDataSet;
-	std::vector<ShowMapName> ShowMapNameDataSet;
-	std::vector<ChangeArea> ChangeAreaDataSet;
-	std::vector<ChangeLevel> ChangeLevelDataSet;
-	std::vector<ChangePoint> ChangePointDataSet;
-	std::vector<ChangePosition> ChangePositionDataSet;
-	std::vector<ChangeDirection> ChangeDirectionDataSet;
-	std::vector<StarePlayer> StarePlayerDataSet;
-	std::vector<PlayAnimation> PlayAnimationDataSet;
-	std::vector<PlayBgm> PlayBgmDataSet;
-	std::vector<PlaySE> PlaySEDataSet;
-	std::vector<HideActor> HideActorDataSet;
-	std::vector<ShowActor> ShowActorDataSet;
-	std::vector<CameraFocus> CameraFocusDataSet;
-	std::vector<WildBattle> WildBattleDataSet;
-	std::vector<TrainerBattle> TrainerBattleDataSet;
-	std::vector<Achieve> AchieveDataSet;
-	std::vector<Unachieve> UnachieveDataSet;
-	std::vector<GainItem> GainItemDataSet;
 };
 

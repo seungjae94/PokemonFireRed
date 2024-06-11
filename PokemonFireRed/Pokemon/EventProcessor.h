@@ -55,30 +55,12 @@ private:
 	bool IsRunningValue = false;
 
 	int CurCommandIndex = 0;
-	std::map<EEventType, int> CurIndexOfTypeMap;
 	UEventStream* CurStream = nullptr;
 
 	std::map<UEventCondition, UEventStream> AllStreams;
 
 	void Tick(float _DeltaTime);
 	void EndRun();
-
-	// 편의 함수
-	int GetCurIndexOfType(EEventType _Type)
-	{
-		if (false == CurIndexOfTypeMap.contains(_Type))
-		{
-			CurIndexOfTypeMap[_Type] = 0;
-		}
-
-		return CurIndexOfTypeMap[_Type];
-	}
-
-	void IncCurIndexOfType(EEventType _Type)
-	{
-		int CurIndexOfType = GetCurIndexOfType(_Type);
-		CurIndexOfTypeMap[_Type] = CurIndexOfType + 1;
-	}
 
 	std::string ToUpper(std::string_view _Name);
 
