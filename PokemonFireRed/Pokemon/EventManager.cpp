@@ -105,7 +105,7 @@ void UEventManager::Tick(float _DeltaTime)
 	}
 }
 
-void UEventManager::RegisterEvent(AEventTrigger* _Trigger, const UEventCondition& _Condition, UEventStream _Stream)
+void UEventManager::RegisterEvent(AEventTrigger* _Trigger, const UEventCondition& _Condition, UEventStream& _Stream)
 {
 	UEventProcessor* Processor = AllProcessors[_Trigger];
 	Processor->RegisterStream(_Condition, _Stream);

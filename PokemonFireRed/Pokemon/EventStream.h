@@ -70,6 +70,7 @@ enum class EAnimTarget
 class UEventStream
 {
 	friend UEventProcessor;
+	friend class UEventStreamReleaser;
 public:
 	UEventStream();
 	~UEventStream();
@@ -108,6 +109,8 @@ public:
 		{
 		}
 
+		~SetActive() {}
+
 		inline SetActive* Clone() const override 
 		{ 
 			return new SetActive(*this);
@@ -127,6 +130,8 @@ public:
 		{
 		}
 
+		~Destroy() {}
+
 		inline Destroy* Clone() const override
 		{
 			return new Destroy(*this);
@@ -145,6 +150,8 @@ public:
 			: TargetNames(_TargetNames), Paths(_Paths), MoveSpeed(_MoveSpeed), CameraFollow(_CameraFollow), EventCommand(EEventType::Move)
 		{
 		}
+
+		~Move() {}
 
 		inline Move* Clone() const override
 		{
@@ -166,6 +173,8 @@ public:
 		{
 		}
 
+		~MoveDynamicPath() {}
+
 		inline MoveDynamicPath* Clone() const override
 		{
 			return new MoveDynamicPath(*this);
@@ -186,6 +195,8 @@ public:
 		{
 		}
 
+		~MoveWithoutRestriction() {}
+
 		inline MoveWithoutRestriction* Clone() const override
 		{
 			return new MoveWithoutRestriction(*this);
@@ -205,6 +216,8 @@ public:
 		{
 		}
 
+		~Surprise() {}
+
 		inline Surprise* Clone() const override
 		{
 			return new Surprise(*this);
@@ -221,6 +234,8 @@ public:
 			: Time(_Time), FadeType(_FadeType), EventCommand(EEventType::FadeIn)
 		{
 		}
+
+		~FadeIn() {}
 
 		inline FadeIn* Clone() const override
 		{
@@ -240,6 +255,8 @@ public:
 		{
 		}
 
+		~FadeOut() {}
+
 		inline FadeOut* Clone() const override
 		{
 			return new FadeOut(*this);
@@ -257,6 +274,8 @@ public:
 			: Time(_Time), TargetVolume(_TargetVolume), EventCommand(EEventType::FadeInBgm)
 		{
 		}
+
+		~FadeInBgm() {}
 
 		inline FadeInBgm* Clone() const override
 		{
@@ -276,6 +295,8 @@ public:
 		{
 		}
 
+		~FadeOutBgm() {}
+
 		inline FadeOutBgm* Clone() const override
 		{
 			return new FadeOutBgm(*this);
@@ -289,9 +310,12 @@ public:
 		friend UEventProcessor;
 	public:
 		Wait(float _Time)
-			: Time(_Time), EventCommand(EEventType::Wait)
+			: Time(_Time), 
+			EventCommand(EEventType::Wait)
 		{
 		}
+
+		~Wait() {}
 
 		inline Wait* Clone() const override
 		{
@@ -314,6 +338,8 @@ public:
 			}
 		}
 
+		~PlayAnimation() {}
+
 		inline PlayAnimation* Clone() const override
 		{
 			return new PlayAnimation(*this);
@@ -334,6 +360,8 @@ public:
 		{
 		}
 
+		~PlayBgm() {}
+
 		inline PlayBgm* Clone() const override
 		{
 			return new PlayBgm(*this);
@@ -350,6 +378,8 @@ public:
 			: Name(_Name), MuteTime(_MuteTime), EventCommand(EEventType::PlaySE)
 		{
 		}
+
+		~PlaySE() {}
 
 		inline PlaySE* Clone() const override
 		{
@@ -369,6 +399,8 @@ public:
 		{
 		}
 
+		~PauseBgm() {}
+
 		inline PauseBgm* Clone() const override
 		{
 			return new PauseBgm(*this);
@@ -385,6 +417,8 @@ public:
 		{
 		}
 
+		~ResumeBgm() {}
+
 		inline ResumeBgm* Clone() const override
 		{
 			return new ResumeBgm(*this);
@@ -400,6 +434,8 @@ public:
 			: Dialogue(_Dialogue), Color(_Color), LineSpace(_LineSpace), IsSequential(_IsSequential), EventCommand(EEventType::Chat)
 		{
 		}
+
+		~Chat() {}
 
 		inline Chat* Clone() const override
 		{
@@ -421,6 +457,8 @@ public:
 		{
 		}
 
+		~ShowMapName() {}
+
 		inline ShowMapName* Clone() const override
 		{
 			return new ShowMapName(*this);
@@ -437,6 +475,8 @@ public:
 			: AreaName(_AreaName), AreaBgm(_AreaBgm), EventCommand(EEventType::ChangeArea)
 		{
 		}
+
+		~ChangeArea() {}
 
 		inline ChangeArea* Clone() const override
 		{
@@ -455,6 +495,8 @@ public:
 			: LevelName(_LevelName), EventCommand(EEventType::ChangeLevel)
 		{
 		}
+
+		~ChangeLevel() {}
 
 		inline ChangeLevel* Clone() const override
 		{
@@ -476,6 +518,8 @@ public:
 			EventCommand(EEventType::ChangePoint)
 		{
 		}
+
+		~ChangePoint() {}
 
 		inline ChangePoint* Clone() const override
 		{
@@ -500,6 +544,8 @@ public:
 		{
 		}
 
+		~ChangePosition() {}
+
 		inline ChangePosition* Clone() const override
 		{
 			return new ChangePosition(*this);
@@ -523,6 +569,8 @@ public:
 		{
 		}
 
+		~ChangeDirection() {}
+
 		inline ChangeDirection* Clone() const override
 		{
 			return new ChangeDirection(*this);
@@ -542,6 +590,8 @@ public:
 		{
 		}
 
+		~StarePlayer() {}
+
 		inline StarePlayer* Clone() const override
 		{
 			return new StarePlayer(*this);
@@ -558,6 +608,8 @@ public:
 			: TargetName(_TargetName), EventCommand(EEventType::HideActor)
 		{
 		}
+
+		~HideActor() {}
 
 		inline HideActor* Clone() const override
 		{
@@ -576,6 +628,8 @@ public:
 		{
 		}
 
+		~ShowActor() {}
+
 		inline ShowActor* Clone() const override
 		{
 			return new ShowActor(*this);
@@ -592,6 +646,8 @@ public:
 			: TargetName(_TargetName), EventCommand(EEventType::CameraFocus)
 		{
 		}
+
+		~CameraFocus() {}
 
 		inline CameraFocus* Clone() const override
 		{
@@ -610,6 +666,8 @@ public:
 		{
 		}
 
+		~DeactivatePlayerControl() {}
+
 		inline DeactivatePlayerControl* Clone() const override
 		{
 			return new DeactivatePlayerControl(*this);
@@ -621,6 +679,8 @@ public:
 		friend UEventProcessor;
 	public:
 		WildBattle(AWildBattleTrigger* _Wild) : Entry(), EventCommand(EEventType::WildBattle) {}
+
+		~WildBattle() {}
 
 		inline WildBattle* Clone() const override
 		{
@@ -638,6 +698,8 @@ public:
 			: Trainer(_Trainer), EventCommand(EEventType::TrainerBattle)
 		{}
 
+		~TrainerBattle() {}
+
 		inline TrainerBattle* Clone() const override
 		{
 			return new TrainerBattle(*this);
@@ -653,6 +715,8 @@ public:
 		Achieve(EAchievement _Achievement)
 			: Achievement(_Achievement), EventCommand(EEventType::Achieve)
 		{}
+
+		~Achieve() {}
 
 		inline Achieve* Clone() const override
 		{
@@ -670,6 +734,8 @@ public:
 			: Achievement(_Achievement), EventCommand(EEventType::Unachieve)
 		{}
 
+		~Unachieve() {}
+
 		inline Unachieve* Clone() const override
 		{
 			return new Unachieve(*this);
@@ -686,6 +752,8 @@ public:
 			: ItemId(_ItemId), Count(_Count), EventCommand(EEventType::GainItem)
 		{
 		}
+
+		~GainItem() {}
 
 		inline GainItem* Clone() const override
 		{
@@ -705,6 +773,8 @@ public:
 		{
 		}
 
+		~End() {}
+
 		inline End* Clone() const override
 		{
 			return new End(*this);
@@ -713,15 +783,17 @@ public:
 		bool ActivatePlayer = true;
 	};
 
-	static UEventStream Start(bool _DeactivatePlayer)
+	static UEventStream& Start(bool _DeactivatePlayer)
 	{
-		UEventStream StartStream = UEventStream();
-		StartStream.DeactivatePlayer = _DeactivatePlayer;
-		return StartStream;
+		UEventStream* NewStream = new UEventStream();
+		NewStream->DeactivatePlayer = _DeactivatePlayer;
+		AllStreams.push_back(NewStream);
+		return *NewStream;
 	}
 protected:
 
 private:
+	inline static std::list<UEventStream*> AllStreams;
 	std::vector<EventCommand*> EventCommands;
 	bool DeactivatePlayer = true;
 };

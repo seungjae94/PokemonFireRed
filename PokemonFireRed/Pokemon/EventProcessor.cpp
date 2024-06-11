@@ -900,7 +900,7 @@ std::string UEventProcessor::ToUpper(std::string_view _Name)
 
 bool UEventProcessor::TryRun(EEventTriggerAction _TriggerAction)
 {
-	for (std::pair<const UEventCondition, UEventStream>& Pair : AllStreams)
+	for (std::pair<const UEventCondition, UEventStream*>& Pair : AllStreams)
 	{
 		const UEventCondition& Condition = Pair.first;
 
@@ -909,7 +909,7 @@ bool UEventProcessor::TryRun(EEventTriggerAction _TriggerAction)
 		if (true == CheckResult && false == IsRunningValue)
 		{
 			CurCommandIndex = 0;
-			CurStream = &Pair.second;
+			CurStream = Pair.second;
 			if (true == CurStream->DeactivatePlayer)
 			{
 				IsPlayerActivated = false;
@@ -936,9 +936,9 @@ void UEventProcessor::EndRun()
 }
 
 
-void UEventProcessor::RegisterStream(const UEventCondition& _Condition, UEventStream _Stream)
+void UEventProcessor::RegisterStream(const UEventCondition& _Condition, UEventStream& _Stream)
 {
-	AllStreams[_Condition] = _Stream;
+	AllStreams[_Condition] = &_Stream;
 }
 
 void UEventProcessor::UnregisterStream(const UEventCondition& _Condition)

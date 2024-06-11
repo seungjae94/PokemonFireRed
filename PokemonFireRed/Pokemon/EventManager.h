@@ -39,7 +39,7 @@ public:
 	UEventManager& operator=(UEventManager&& _Other) noexcept = delete;
 
 	// 이벤트 등록
-	static void RegisterEvent(AEventTrigger* _Trigger, const UEventCondition& _Condition, UEventStream _Stream);
+	static void RegisterEvent(AEventTrigger* _Trigger, const UEventCondition& _Condition, UEventStream& _Stream);
 	static void UnregisterEvent(AEventTrigger* _Trigger, const UEventCondition& _Condition);
 
 	// 이벤트 트리거

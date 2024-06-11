@@ -22,7 +22,7 @@ void AInteriorDoor::RegisterPredefinedEvent()
 	Cond = UEventCondition(EEventTriggerAction::ArrowClick);
 	Cond.RegisterCheckFunc(ToCheckFunc(CheckPlayerDirection));
 
-	UEventStream Stream = ES::Start(true)
+	UEventStream& Stream = ES::Start(true)
 		>> ES::PlayAnimation(Global::Player, Global::Player + "Idle" + TargetDirection.ToDirectionString())
 		>> ES::PlaySE(RN::SEExitMap);
 

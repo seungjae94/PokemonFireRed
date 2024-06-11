@@ -485,7 +485,7 @@ void UExteriorPalletTownLevel::MakePalletToRoute1AreaChanger()
 	UEventCondition Cond = UEventCondition(EEventTriggerAction::StepOn);
 	Cond.RegisterCheckFunc(IsPlayerNotInRoute1);
 
-	UEventStream Stream = ES::Start(false)
+	UEventStream& Stream = ES::Start(false)
 		>> ES::ChangeArea("ROUTE 1", RN::BgmRoute1)
 		>> ES::ShowMapName(L"ROUTE 1")
 		>> ES::FadeOutBgm(0.25f)
@@ -516,7 +516,7 @@ void UExteriorPalletTownLevel::MakeRoute1ToPalletAreaChanger()
 	UEventCondition Cond = UEventCondition(EEventTriggerAction::StepOn);
 	Cond.RegisterCheckFunc(IsPlayerNotInPalletTown);
 
-	UEventStream Stream = ES::Start(false)
+	UEventStream& Stream = ES::Start(false)
 		>> ES::ChangeArea("PALLET TOWN", RN::BgmPalletTown)
 		>> ES::ShowMapName(L"PALLET TOWN")
 		>> ES::FadeOutBgm(0.25f)
