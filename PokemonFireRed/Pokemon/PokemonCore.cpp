@@ -173,29 +173,29 @@ void UPokemonCore::DebugGeneratePokemons()
 	Pokemon2.AddAccExp(5);
 	Pokemon3.AddAccExp(3);
 	Pokemon4.AddAccExp(1);
-	UPlayerData::AddPokemonToEntry(Pokemon0);
-	UPlayerData::AddPokemonToEntry(Pokemon1);
-	//UPlayerData::AddPokemonToEntry(Pokemon2);
-	//UPlayerData::AddPokemonToEntry(Pokemon3);
-	//UPlayerData::AddPokemonToEntry(Pokemon4);
-	//UPlayerData::AddPokemonToEntry(Pokemon5);
+	UUserData::AddPokemonToEntry(Pokemon0);
+	UUserData::AddPokemonToEntry(Pokemon1);
+	//UUserData::AddPokemonToEntry(Pokemon2);
+	//UUserData::AddPokemonToEntry(Pokemon3);
+	//UUserData::AddPokemonToEntry(Pokemon4);
+	//UUserData::AddPokemonToEntry(Pokemon5);
 }
 
 void UPokemonCore::DebugGenerateItems()
 {
-	UPlayerData::GainItem(EItemId::Potion, 1);
-	UPlayerData::GainItem(EItemId::SuperPotion, 6);
-	UPlayerData::GainItem(EItemId::HyperPotion, 17);
-	UPlayerData::LoseItem(EItemId::HyperPotion, 10);
-	UPlayerData::GainItem(EItemId::FullHeal, 9);
-	UPlayerData::GainItem(EItemId::BurnHeal, 99);
-	UPlayerData::GainItem(EItemId::Antidote, 99);
-	UPlayerData::GainItem(EItemId::PokeBall, 99);
+	UUserData::GainItem(EItemId::Potion, 1);
+	UUserData::GainItem(EItemId::SuperPotion, 6);
+	UUserData::GainItem(EItemId::HyperPotion, 17);
+	UUserData::LoseItem(EItemId::HyperPotion, 10);
+	UUserData::GainItem(EItemId::FullHeal, 9);
+	UUserData::GainItem(EItemId::BurnHeal, 99);
+	UUserData::GainItem(EItemId::Antidote, 99);
+	UUserData::GainItem(EItemId::PokeBall, 99);
 }
 
 void UPokemonCore::DebugGenerateAchievements()
 {
-	UPlayerData::Achieve(EAchievement::GetStarterEventStart);
-	UPlayerData::Achieve(EAchievement::SelectFirstPokemon);
-	UPlayerData::Achieve(EAchievement::FightWithGreen);
+	UUserData::Achieve(EAchievement::GetStarterEventStart);
+	UUserData::Achieve(EAchievement::SelectFirstPokemon);
+	UUserData::Achieve(EAchievement::FightWithGreen);
 }

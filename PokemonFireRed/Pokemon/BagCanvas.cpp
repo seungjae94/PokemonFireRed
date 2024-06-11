@@ -1,5 +1,5 @@
 #include "BagCanvas.h"
-#include "PlayerData.h"
+#include "UserData.h"
 #include "Item.h"
 
 ABagCanvas::ABagCanvas()
@@ -82,7 +82,7 @@ void ABagCanvas::RefreshList(const std::list<FInventoryRecord>& _Records)
 	int Index = 0;
 	for (const FInventoryRecord& Record : _Records)
 	{
-		const FItem* Item = UGameDB::FindItem(Record.Id);
+		const FItem* Item = UGameData::FindItem(Record.Id);
 		ItemNames[Index]->SetText(Item->Name);
 		ItemCrosses[Index]->SetText(L"x");
 		ItemCounts[Index]->SetText(std::to_wstring(Record.Count));

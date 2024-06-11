@@ -231,7 +231,7 @@
     <ClInclude Include="Pokemon.h">
       <Filter>6. Data\Pokemon</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerData.h">
+    <ClInclude Include="UserData.h">
       <Filter>6. Data</Filter>
     </ClInclude>
     <ClInclude Include="FadeLevelChanger.h">
@@ -375,9 +375,6 @@
     <ClInclude Include="FinishBattleStateMachine.h">
       <Filter>2. Level\7. BattleLevel\StateMachine\4. FinishBattle</Filter>
     </ClInclude>
-    <ClInclude Include="GameDB.h">
-      <Filter>6. Data</Filter>
-    </ClInclude>
     <ClInclude Include="PokemonStruct.h">
       <Filter>6. Data\Pokemon</Filter>
     </ClInclude>
@@ -516,6 +513,7 @@
     <ClInclude Include="DebugCanvas.h">
       <Filter>2. Level</Filter>
     </ClInclude>
+    <ClInclude Include="GameData.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PokemonCore.cpp">
@@ -599,7 +597,7 @@
     <ClCompile Include="Pokemon.cpp">
       <Filter>6. Data\Pokemon</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerData.cpp">
+    <ClCompile Include="UserData.cpp">
       <Filter>6. Data</Filter>
     </ClCompile>
     <ClCompile Include="FadeLevelChanger.cpp">
@@ -736,9 +734,6 @@
     </ClCompile>
     <ClCompile Include="FinishBattleStateMachine.cpp">
       <Filter>2. Level\7. BattleLevel\StateMachine\4. FinishBattle</Filter>
-    </ClCompile>
-    <ClCompile Include="GameDB.cpp">
-      <Filter>6. Data</Filter>
     </ClCompile>
     <ClCompile Include="WildPokemonZone.cpp">
       <Filter>6. Data\Pokemon</Filter>
@@ -878,5 +873,6 @@
     <ClCompile Include="DebugCanvas.cpp">
       <Filter>2. Level</Filter>
     </ClCompile>
+    <ClCompile Include="GameData.cpp" />
   </ItemGroup>
 </Project>

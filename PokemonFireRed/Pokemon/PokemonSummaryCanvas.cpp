@@ -4,7 +4,7 @@
 #include "PokemonLevel.h"
 #include "PokemonUtil.h"
 #include "SoundManager.h"
-#include "PlayerData.h"
+#include "UserData.h"
 
 APokemonSummaryCanvas::APokemonSummaryCanvas()
 {
@@ -121,7 +121,7 @@ void APokemonSummaryCanvas::RefreshAll()
 	// CommonBox
 	NameText->SetText(Pokemon->GetNameW());
 	LevelText->SetText(std::to_wstring(Pokemon->GetLevel()));
-	IdNoText->SetText(UPlayerData::GetIdNoW());
+	IdNoText->SetText(UUserData::GetIdNoW());
 	FrontImage->SetPokemon(Pokemon);
 	GenderIcon->SetImage(Pokemon->GetBigGenderImageName());
 	StatusImage->SetImage(Pokemon->GetStatusImageName());

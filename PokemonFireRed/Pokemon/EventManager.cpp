@@ -486,7 +486,7 @@ void UEventManager::SetCurLevelPlayerState(EPlayerState _State)
 
 void UEventManager::FadeChangeLevel(std::string_view _TargetMapName, bool _PlayerControl, float _FadeInTime, float _FadeOutTime, bool _IsFadeBgm, std::string_view _NewBgm)
 {
-	if (true == UPlayerData::IsAchieved(EAchievement::Fading))
+	if (true == UUserData::IsAchieved(EAchievement::Fading))
 	{
 		return;
 	}

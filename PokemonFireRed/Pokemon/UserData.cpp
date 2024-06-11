@@ -1,39 +1,39 @@
-#include "PlayerData.h"
+#include "UserData.h"
 #include "PokemonMath.h"
 
-int UPlayerData::IdNo = -1;
-std::string UPlayerData::Nickname = "RED";
-int UPlayerData::Money = 3000;
-std::vector<UPokemon> UPlayerData::PokemonEntry;
-std::vector<UPokemon> UPlayerData::PokemonInComputer;
-std::map<EAchievement, bool> UPlayerData::AchievementMap;
-std::map<EPokemonId, bool> UPlayerData::PokedexSeenMap;
-std::map<EPokemonId, bool> UPlayerData::PokedexOwnedMap;
-std::map<EItemType, std::map<EItemId, int>> UPlayerData::Inventory;
+int UUserData::IdNo = -1;
+std::string UUserData::Nickname = "RED";
+int UUserData::Money = 3000;
+std::vector<UPokemon> UUserData::PokemonEntry;
+std::vector<UPokemon> UUserData::PokemonInComputer;
+std::map<EAchievement, bool> UUserData::AchievementMap;
+std::map<EPokemonId, bool> UUserData::PokedexSeenMap;
+std::map<EPokemonId, bool> UUserData::PokedexOwnedMap;
+std::map<EItemType, std::map<EItemId, int>> UUserData::Inventory;
 
-class PlayerDataReleaser
+class UserDataReleaser
 {
 public:
-	PlayerDataReleaser(){}
-	~PlayerDataReleaser(){
+	UserDataReleaser(){}
+	~UserDataReleaser(){
 	}
 };
-PlayerDataReleaser Releaser;
+UserDataReleaser Releaser;
 
-UPlayerData::UPlayerData()
+UUserData::UUserData()
 {
 }
 
-UPlayerData::~UPlayerData()
+UUserData::~UUserData()
 {
 }
 
-UPokemon& UPlayerData::GetPokemonInEntry(int _Index)
+UPokemon& UUserData::GetPokemonInEntry(int _Index)
 {
 	return PokemonEntry[_Index];
 }
 
-void UPlayerData::AddPokemonToEntry(const UPokemon& _Pokemon)
+void UUserData::AddPokemonToEntry(const UPokemon& _Pokemon)
 {
 	if (PokemonEntry.size() == 6)
 	{
@@ -45,12 +45,12 @@ void UPlayerData::AddPokemonToEntry(const UPokemon& _Pokemon)
 	PokemonEntry.push_back(_Pokemon);
 }
 
-void UPlayerData::AddPokemonToComputer(const UPokemon& _Pokemon)
+void UUserData::AddPokemonToComputer(const UPokemon& _Pokemon)
 {
 	PokemonInComputer.push_back(_Pokemon);
 }
 
-void UPlayerData::SwapEntry(int _Index0, int _Index1)
+void UUserData::SwapEntry(int _Index0, int _Index1)
 {
 	if (_Index0 < 0 || _Index0 >= PokemonEntry.size())
 	{
@@ -70,12 +70,12 @@ void UPlayerData::SwapEntry(int _Index0, int _Index1)
 	PokemonEntry[_Index1] = Pokemon0;
 }
 
-int UPlayerData::GetPokemonEntrySize()
+int UUserData::GetPokemonEntrySize()
 {
 	return static_cast<int>(PokemonEntry.size());
 }
 
-bool UPlayerData::IsAchieved(EAchievement _Achievement)
+bool UUserData::IsAchieved(EAchievement _Achievement)
 {
 	if (false == AchievementMap.contains(_Achievement))
 	{
@@ -86,38 +86,38 @@ bool UPlayerData::IsAchieved(EAchievement _Achievement)
 	return AchievementMap[_Achievement];
 }
 
-void UPlayerData::Achieve(EAchievement _Achievement)
+void UUserData::Achieve(EAchievement _Achievement)
 {
 	AchievementMap[_Achievement] = true;
 }
 
-void UPlayerData::Unachieve(EAchievement _Achievement)
+void UUserData::Unachieve(EAchievement _Achievement)
 {
 	AchievementMap[_Achievement] = false;
 }
 
-void UPlayerData::SeePokemon(EPokemonId _PokedexNo)
+void UUserData::SeePokemon(EPokemonId _PokedexNo)
 {
 	PokedexSeenMap[_PokedexNo] = true;
 }
 
-void UPlayerData::OwnPokemon(EPokemonId _PokedexNo)
+void UUserData::OwnPokemon(EPokemonId _PokedexNo)
 {
 	PokedexSeenMap[_PokedexNo] = true;
 	PokedexOwnedMap[_PokedexNo] = true;
 }
 
-int UPlayerData::GetSeenPokemonCount()
+int UUserData::GetSeenPokemonCount()
 {
 	return static_cast<int>(PokedexSeenMap.size());
 }
 
-int UPlayerData::GetOwnedPokemonCount()
+int UUserData::GetOwnedPokemonCount()
 {
 	return static_cast<int>(PokedexOwnedMap.size());
 }
 
-int UPlayerData::GetIdNo()
+int UUserData::GetIdNo()
 {
 	if (IdNo == -1)
 	{
@@ -128,26 +128,26 @@ int UPlayerData::GetIdNo()
 	return IdNo;
 }
 
-std::wstring UPlayerData::GetIdNoW()
+std::wstring UUserData::GetIdNoW()
 {
 	return UPokemonString::PadLeft(std::to_wstring(GetIdNo()), 5, L'0');
 }
 
-std::wstring UPlayerData::GetNickNameW()
+std::wstring UUserData::GetNickNameW()
 {
 	return UEngineString::AnsiToUniCode(Nickname);
 }
 
-int UPlayerData::GetMoney()
+int UUserData::GetMoney()
 {
 	return Money;
 }
 
-void UPlayerData::LoseMoney(int _Money)
+void UUserData::LoseMoney(int _Money)
 {
 	if (_Money <= 0)
 	{
-		MsgBoxAssert("[UPlayerData::LoseMoney] 0 이하의 돈을 잃을 수 없습니다.");
+		MsgBoxAssert("[UUserData::LoseMoney] 0 이하의 돈을 잃을 수 없습니다.");
 		return;
 	}
 
@@ -159,20 +159,20 @@ void UPlayerData::LoseMoney(int _Money)
 	}
 }
 
-void UPlayerData::GainMoney(int _Money)
+void UUserData::GainMoney(int _Money)
 {
 	if (_Money <= 0)
 	{
-		MsgBoxAssert("[UPlayerData::GainMoney] 0 이하의 돈을 얻을 수 없습니다.");
+		MsgBoxAssert("[UUserData::GainMoney] 0 이하의 돈을 얻을 수 없습니다.");
 		return;
 	}
 
 	Money += _Money;
 }
 
-void UPlayerData::GainItem(EItemId _Id, int _Count)
+void UUserData::GainItem(EItemId _Id, int _Count)
 {
-	const FItem* Item = UGameDB::FindItem(_Id);
+	const FItem* Item = UGameData::FindItem(_Id);
 	EItemType ItemType = Item->Type;
 
 	if (false == Inventory.contains(ItemType) || false == Inventory[ItemType].contains(_Id))
@@ -183,14 +183,14 @@ void UPlayerData::GainItem(EItemId _Id, int _Count)
 	Inventory[ItemType][_Id] += _Count;
 }
 
-void UPlayerData::LoseItem(EItemId _Id, int _Count)
+void UUserData::LoseItem(EItemId _Id, int _Count)
 {
-	const FItem* Item = UGameDB::FindItem(_Id);
+	const FItem* Item = UGameData::FindItem(_Id);
 	EItemType ItemType = Item->Type;
 
 	if (false == Inventory.contains(ItemType) || false == Inventory[ItemType].contains(_Id))
 	{
-		MsgBoxAssert("[UPlayerData::LoseItem] 갖고 있지 않는 아이템을 잃을 수 없습니다.");
+		MsgBoxAssert("[UUserData::LoseItem] 갖고 있지 않는 아이템을 잃을 수 없습니다.");
 		return;
 	}
 
@@ -198,7 +198,7 @@ void UPlayerData::LoseItem(EItemId _Id, int _Count)
 
 	if (_Count > HaveCount)
 	{
-		MsgBoxAssert("[UPlayerData::LoseItem] Id: " + std::to_string(static_cast<int>(_Id)) + " 아이템을 " 
+		MsgBoxAssert("[UUserData::LoseItem] Id: " + std::to_string(static_cast<int>(_Id)) + " 아이템을 " 
 			+ std::to_string(HaveCount) + "개만 갖고 있으므로 " + std::to_string(_Count) + "개를 잃을 수 없습니다.");
 		return;
 	}
@@ -211,25 +211,25 @@ void UPlayerData::LoseItem(EItemId _Id, int _Count)
 	}
 }
 
-std::list<FInventoryRecord> UPlayerData::GetItemList(EItemType _ItemType, int _StartIndex, int _EndIndex)
+std::list<FInventoryRecord> UUserData::GetItemList(EItemType _ItemType, int _StartIndex, int _EndIndex)
 {
 	const std::map<EItemId, int>& Map = Inventory[_ItemType];
 
 	if (_StartIndex > _EndIndex)
 	{
-		MsgBoxAssert("[UPlayerData::GetItemList] 인덱스를 잘못 설정했습니다. 시작 인덱스가 종료 인덱스보다 큽니다.");
+		MsgBoxAssert("[UUserData::GetItemList] 인덱스를 잘못 설정했습니다. 시작 인덱스가 종료 인덱스보다 큽니다.");
 		return {};
 	}
 
 	if (_StartIndex < 0)
 	{
-		MsgBoxAssert("[UPlayerData::GetItemList] 인덱스를 잘못 설정했습니다. 시작 인덱스가 0보다 작습니다.");
+		MsgBoxAssert("[UUserData::GetItemList] 인덱스를 잘못 설정했습니다. 시작 인덱스가 0보다 작습니다.");
 		return {};
 	}
 
 	if (_EndIndex >= Map.size())
 	{
-		MsgBoxAssert("[UPlayerData::GetItemList] 인덱스를 잘못 설정했습니다. 종료 인덱스가 맵의 크기 이상입니다.");
+		MsgBoxAssert("[UUserData::GetItemList] 인덱스를 잘못 설정했습니다. 종료 인덱스가 맵의 크기 이상입니다.");
 		return {};
 	}
 
@@ -251,13 +251,13 @@ std::list<FInventoryRecord> UPlayerData::GetItemList(EItemType _ItemType, int _S
 	return Result;
 }
 
-const FItem* UPlayerData::GetItem(EItemType _ItemType, int _Index)
+const FItem* UUserData::GetItem(EItemType _ItemType, int _Index)
 {
 	const std::map<EItemId, int>& Map = Inventory[_ItemType];
 
 	if (_Index >= Map.size())
 	{
-		MsgBoxAssert("[UPlayerData::GetItem] 인덱스를 잘못 설정했습니다. 인덱스가 맵의 크기 이상입니다.");
+		MsgBoxAssert("[UUserData::GetItem] 인덱스를 잘못 설정했습니다. 인덱스가 맵의 크기 이상입니다.");
 		return {};
 	}
 
@@ -266,10 +266,10 @@ const FItem* UPlayerData::GetItem(EItemType _ItemType, int _Index)
 
 	EItemId Id = StartIter->first;
 
-	return UGameDB::FindItem(Id);
+	return UGameData::FindItem(Id);
 }
 
-int UPlayerData::GetRecordCount(EItemType _ItemType)
+int UUserData::GetRecordCount(EItemType _ItemType)
 {
 	return static_cast<int>(Inventory[_ItemType].size());
 }

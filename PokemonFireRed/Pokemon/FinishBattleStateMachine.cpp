@@ -3,7 +3,7 @@
 #include "BattleCanvas.h"
 #include "PokemonMsgBox.h"
 #include "Battler.h"
-#include "PlayerData.h"
+#include "UserData.h"
 #include "SoundManager.h"
 
 AFinishBattleStateMachine::AFinishBattleStateMachine()
@@ -156,7 +156,7 @@ void AFinishBattleStateMachine::ProcessOutOfPokemonMessage2()
 		{
 			State = ESubstate::PanicAndLost1;
 			int LostMoney = CalcLostMoney();
-			UPlayerData::LoseMoney(LostMoney);
+			UUserData::LoseMoney(LostMoney);
 			MsgBox->HideSkipArrow();
 			MsgBox->SetMessage(L"RED panicked and lost " + std::to_wstring(LostMoney) + L"G");
 			MsgBox->Write();
@@ -243,7 +243,7 @@ void AFinishBattleStateMachine::ProcessPlayerLostAgainst2()
 	{
 		State = ESubstate::PaidAsThePrizeMoney1;
 		int LostMoney = CalcLostMoney();
-		UPlayerData::LoseMoney(LostMoney);
+		UUserData::LoseMoney(LostMoney);
 		MsgBox->SetMessage(L"RED paid " + std::to_wstring(LostMoney) + L"G as the prize\nmoney…");
 		MsgBox->Write();
 	}
@@ -315,7 +315,7 @@ void AFinishBattleStateMachine::ProcessTestEnemyBattlerMessage()
 
 	State = ESubstate::GotMoneyForWining1;
 	int PrizeMoney = CalcPrizeMoney();
-	UPlayerData::GainMoney(PrizeMoney);
+	UUserData::GainMoney(PrizeMoney);
 	MsgBox->SetMessage(L"RED got " + std::to_wstring(PrizeMoney) + L"G\nfor winning!");
 	MsgBox->Write();
 }
@@ -369,7 +369,7 @@ int AFinishBattleStateMachine::CalcMaxLevel()
 int AFinishBattleStateMachine::CalcLostMoney()
 {
 	int MaxLevel = CalcMaxLevel();
-	int LostMoney = UPokemonMath::Min(MaxLevel * 8, UPlayerData::GetMoney());
+	int LostMoney = UPokemonMath::Min(MaxLevel * 8, UUserData::GetMoney());
 	return LostMoney;
 }
 

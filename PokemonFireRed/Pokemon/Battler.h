@@ -4,7 +4,7 @@
 #include "BattleEnums.h"
 #include "StatStage.h"
 
-class UPlayerData;
+class UUserData;
 class AEventTrigger;
 
 enum class EItemSelectState
@@ -95,7 +95,7 @@ public:
 
 	const FPokemonStatus* CurTempStatus() const
 	{
-		return UGameDB::FindStatus(TempStatusId);
+		return UGameData::FindStatus(TempStatusId);
 	}
 
 	EPokemonStatus CurTempStatusId() const

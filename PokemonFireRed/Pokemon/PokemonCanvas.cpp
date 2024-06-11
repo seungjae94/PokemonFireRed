@@ -17,7 +17,7 @@ APokemonCanvas::~APokemonCanvas()
 void APokemonCanvas::Init()
 {
 	// 데이터 초기화
-	int EntrySize = UPlayerData::GetPokemonEntrySize();
+	int EntrySize = UUserData::GetPokemonEntrySize();
 	FirstBoxState = EBoxState::Focused;
 	EntryBoxStates.clear();
 	for (int i = 1; i < EntrySize; ++i)
@@ -152,7 +152,7 @@ AImageElement* APokemonCanvas::GetPokemonBox(int _Index)
 	{
 		return FirstBox;
 	}
-	else if (_Index == UPlayerData::GetPokemonEntrySize())
+	else if (_Index == UUserData::GetPokemonEntrySize())
 	{
 		MsgBoxAssert("CancelBox는 PokemonBox가 아닙니다.");
 		return nullptr;
@@ -174,7 +174,7 @@ void APokemonCanvas::LerpPokemonBox(int _Index, const FVector& _Before, const FV
 	{
 		Mover = FirstBox;
 	}
-	else if (_Index == UPlayerData::GetPokemonEntrySize())
+	else if (_Index == UUserData::GetPokemonEntrySize())
 	{
 		MsgBoxAssert("CancelBox를 Lerp하려고 했습니다.");
 	}
@@ -240,7 +240,7 @@ void APokemonCanvas::SetBoxState(int _BoxIndex, EBoxState _BoxState)
 		return;
 	}
 
-	if (_BoxIndex == UPlayerData::GetPokemonEntrySize())
+	if (_BoxIndex == UUserData::GetPokemonEntrySize())
 	{
 		if (_BoxState == EBoxState::To)
 		{
@@ -296,7 +296,7 @@ void APokemonCanvas::RefreshFirst(bool _IsSwitchMode)
 		FirstBox->SetRelativePosition(PixelX, PixelY);
 	}
 
-	const UPokemon& Pokemon = UPlayerData::GetPokemonInEntry(0);
+	const UPokemon& Pokemon = UUserData::GetPokemonInEntry(0);
 	FirstNameText->SetText(Pokemon.GetNameW());
 	std::wstring LevelText = L"";
 	if (Pokemon.GetStatusId() == EPokemonStatus::Normal)
@@ -356,7 +356,7 @@ void APokemonCanvas::RefreshEntry(int _Index, bool _IsSwitchMode)
 		EntryBoxes[_Index - 1]->SetRelativePosition(PixelX, PixelY);
 	}
 
-	if (_Index < 0 || _Index >= UPlayerData::GetPokemonEntrySize())
+	if (_Index < 0 || _Index >= UUserData::GetPokemonEntrySize())
 	{
 		EntryLevelTexts[_Index - 1]->SetActive(false);
 		EntryHpTexts[_Index - 1]->SetActive(false);
@@ -369,7 +369,7 @@ void APokemonCanvas::RefreshEntry(int _Index, bool _IsSwitchMode)
 		return;
 	}
 
-	const UPokemon& Pokemon = UPlayerData::GetPokemonInEntry(_Index);
+	const UPokemon& Pokemon = UUserData::GetPokemonInEntry(_Index);
 	EntryNameTexts[_Index - 1]->SetText(Pokemon.GetNameW());
 	std::wstring LevelText = L"";
 	if (Pokemon.GetStatusId() == EPokemonStatus::Normal)

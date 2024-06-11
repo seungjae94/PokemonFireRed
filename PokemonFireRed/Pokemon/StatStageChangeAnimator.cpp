@@ -14,7 +14,7 @@ void AStatStageChangeAnimator::Start()
 
 	for (int i = 0; i < 8; ++i)
 	{
-		StatImages[i]->ChangeAnimation(UGameDB::GetSpeciesName(PokemonId));
+		StatImages[i]->ChangeAnimation(UGameData::GetSpeciesName(PokemonId));
 		StatImages[i]->SetActive(false);
 	}
 
@@ -80,10 +80,10 @@ void AStatStageChangeAnimator::BeginPlay()
 		StatImage->SetImage(ImageNames[i]);
 		StatImage->SetAlpha(0.75f);
 		
-		for (EPokemonId No : UGameDB::GetImplementedSpeciesNo())
+		for (EPokemonId No : UGameData::GetImplementedSpeciesNo())
 		{
 			int Idx = static_cast<int>(No) * 2 - 2;
-			StatImage->CreateAnimation(UGameDB::GetSpeciesName(No), Idx, Idx, 1.0f / 6, false);
+			StatImage->CreateAnimation(UGameData::GetSpeciesName(No), Idx, Idx, 1.0f / 6, false);
 		}
 
 		StatImages.push_back(StatImage);

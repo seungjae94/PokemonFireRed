@@ -41,7 +41,7 @@ public:
 
 	UPokemon* GetTargetPokemon()
 	{
-		return &UPlayerData::GetPokemonInEntry(TargetCursor);
+		return &UUserData::GetPokemonInEntry(TargetCursor);
 	}
 
 protected:

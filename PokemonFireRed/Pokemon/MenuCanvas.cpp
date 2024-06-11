@@ -10,7 +10,7 @@
 #include "EventTrigger.h"
 #include "EventCondition.h"
 #include "EventStream.h"
-#include "PlayerData.h"
+#include "UserData.h"
 
 int AMenuCanvas::MenuCount = 3;
 
@@ -75,14 +75,14 @@ void AMenuCanvas::Tick(float _DeltaTime)
 	}
 
 	// 윈도우 갱신
-	if (true == UPlayerData::IsAchieved(EAchievement::GetPokedex) && MenuCount == 4)
+	if (true == UUserData::IsAchieved(EAchievement::GetPokedex) && MenuCount == 4)
 	{
 		MenuCount = 5;
 		Cursor->SetOptionCount(MenuCount);
 		RefreshMenuBox();
 		RefreshExplainText();
 	}
-	else if (true == UPlayerData::IsAchieved(EAchievement::SelectFirstPokemon) && MenuCount == 3)
+	else if (true == UUserData::IsAchieved(EAchievement::SelectFirstPokemon) && MenuCount == 3)
 	{
 		MenuCount = 4;
 		Cursor->SetOptionCount(MenuCount);

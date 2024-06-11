@@ -39,7 +39,7 @@ void UInteriorPewterGymLevel::Tick(float _DeltaTime)
 	switch (State)
 	{
 	case EState::None:
-		if (true == UPlayerData::IsAchieved(EAchievement::FightWithPewterGymLeader) && true == Player->HasControl())
+		if (true == UUserData::IsAchieved(EAchievement::FightWithPewterGymLeader) && true == Player->HasControl())
 		{
 			State = EState::Ending;
 			UEventManager::DeactivatePlayer();
@@ -218,12 +218,12 @@ void UInteriorPewterGymLevel::MakeGymLeader()
 
 bool UInteriorPewterGymLevel::FightWithCamperChecker()
 {
-	return false == UPlayerData::IsAchieved(EAchievement::FightWithPewterGymCamper);
+	return false == UUserData::IsAchieved(EAchievement::FightWithPewterGymCamper);
 }
 
 bool UInteriorPewterGymLevel::FightWithBrockChecker()
 {
-	return false == UPlayerData::IsAchieved(EAchievement::FightWithPewterGymLeader);
+	return false == UUserData::IsAchieved(EAchievement::FightWithPewterGymLeader);
 }
 
 std::vector<FTileVector> UInteriorPewterGymLevel::CamperPathGenerator()

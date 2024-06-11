@@ -319,7 +319,7 @@ void UInteriorPokemonCenterLevel::ProcessBallAppearWait()
 	{
 		State = EState::BallAppear;
 		Nurse->SetDirection(FTileVector::Left);
-		MaxBallCount = UPlayerData::GetPokemonEntrySize();
+		MaxBallCount = UUserData::GetPokemonEntrySize();
 		CurBallCount = 0;
 		Timer = 0.0f;
 	}
@@ -355,9 +355,9 @@ void UInteriorPokemonCenterLevel::ProcessBallAnim()
 		Timer = BallHealEndWaitTime;
 
 		// 실제 치료 처리
-		for (int i = 0; i < UPlayerData::GetPokemonEntrySize(); ++i)
+		for (int i = 0; i < UUserData::GetPokemonEntrySize(); ++i)
 		{
-			UPokemon& Pokemon = UPlayerData::GetPokemonInEntry(i);
+			UPokemon& Pokemon = UUserData::GetPokemonInEntry(i);
 			Pokemon.HealAll();
 			Pokemon.Cure();
 			Pokemon.RestorePP();

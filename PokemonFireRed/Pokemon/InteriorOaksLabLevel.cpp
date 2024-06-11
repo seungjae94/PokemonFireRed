@@ -122,7 +122,7 @@ void UInteriorOaksLabLevel::MakeRivalGreen()
 	// 1. 스타팅 포켓몬 획득 이벤트가 아예 시작되기 전 상황 (대화 이벤트)
 	UEventCondition BeforeGetStarterEventCond = UEventCondition(EEventTriggerAction::ZClick);
 	BeforeGetStarterEventCond.RegisterCheckFunc([]() {
-		return false == UPlayerData::IsAchieved(EAchievement::GetStarterEventStart);
+		return false == UUserData::IsAchieved(EAchievement::GetStarterEventStart);
 	});
 
 	UEventManager::RegisterEvent(Green, BeforeGetStarterEventCond,
@@ -135,8 +135,8 @@ void UInteriorOaksLabLevel::MakeRivalGreen()
 	// 2. 스타팅 포켓몬 획득 이벤트는 시작했지만 아직 플레이어가 포켓몬을 고르지 않은 상황 (대화 이벤트)
 	UEventCondition BeforePlayerSelectStarterCond = UEventCondition(EEventTriggerAction::ZClick);
 	BeforePlayerSelectStarterCond.RegisterCheckFunc([]() {
-		return true == UPlayerData::IsAchieved(EAchievement::GetStarterEventStart)
-			&& false == UPlayerData::IsAchieved(EAchievement::SelectFirstPokemon);
+		return true == UUserData::IsAchieved(EAchievement::GetStarterEventStart)
+			&& false == UUserData::IsAchieved(EAchievement::SelectFirstPokemon);
 	});
 
 	UEventManager::RegisterEvent(Green, BeforePlayerSelectStarterCond,
@@ -151,15 +151,15 @@ void UInteriorOaksLabLevel::MakeRivalGreen()
 	UEventCondition PlayerSelectSquirtleCond = UEventCondition(EEventTriggerAction::Direct);
 	UEventCondition PlayerSelectCharmanderCond = UEventCondition(EEventTriggerAction::Direct);
 	PlayerSelectBulbasaurCond.RegisterCheckFunc([]() {
-		const UPokemon& PlayerSelectPokemon = UPlayerData::GetPokemonInEntry(0);
+		const UPokemon& PlayerSelectPokemon = UUserData::GetPokemonInEntry(0);
 		return PlayerSelectPokemon.GetPokedexNo() == EPokemonId::Bulbasaur;
 	});
 	PlayerSelectSquirtleCond.RegisterCheckFunc([]() {
-		const UPokemon& PlayerSelectPokemon = UPlayerData::GetPokemonInEntry(0);
+		const UPokemon& PlayerSelectPokemon = UUserData::GetPokemonInEntry(0);
 		return PlayerSelectPokemon.GetPokedexNo() == EPokemonId::Squirtle;
 	});
 	PlayerSelectCharmanderCond.RegisterCheckFunc([]() {
-		const UPokemon& PlayerSelectPokemon = UPlayerData::GetPokemonInEntry(0);
+		const UPokemon& PlayerSelectPokemon = UUserData::GetPokemonInEntry(0);
 		return PlayerSelectPokemon.GetPokedexNo() == EPokemonId::Charmander;
 	});
 
@@ -198,8 +198,8 @@ void UInteriorOaksLabLevel::MakeRivalGreen()
 	// 라이벌이 포켓몬은 골랐지만 아직 배틀은 하지 않은 상황
 	UEventCondition BeforeBattleCond = UEventCondition(EEventTriggerAction::ZClick);
 	BeforeBattleCond.RegisterCheckFunc([]() {
-		return true == UPlayerData::IsAchieved(EAchievement::SelectFirstPokemon)
-			&& false == UPlayerData::IsAchieved(EAchievement::FightWithGreen);
+		return true == UUserData::IsAchieved(EAchievement::SelectFirstPokemon)
+			&& false == UUserData::IsAchieved(EAchievement::FightWithGreen);
 	});
 
 	UEventManager::RegisterEvent(Green, BeforeBattleCond,
@@ -218,15 +218,15 @@ void UInteriorOaksLabLevel::MakeSpecialTriggers()
 {
 	UEventCondition BlockCond = UEventCondition(EEventTriggerAction::StepOn);
 	CheckFunc BlockChecker = []() {
-		return (true == UPlayerData::IsAchieved(EAchievement::GetStarterEventStart))
-			&& (false == UPlayerData::IsAchieved(EAchievement::SelectFirstPokemon));
+		return (true == UUserData::IsAchieved(EAchievement::GetStarterEventStart))
+			&& (false == UUserData::IsAchieved(EAchievement::SelectFirstPokemon));
 	};
 	BlockCond.RegisterCheckFunc(BlockChecker);
 
 	UEventCondition RivalBattleCond = UEventCondition(EEventTriggerAction::StepOn);
 	CheckFunc RivalBattleChecker = []() {
-		return (true == UPlayerData::IsAchieved(EAchievement::SelectFirstPokemon))
-			&& (false == UPlayerData::IsAchieved(EAchievement::FightWithGreen));
+		return (true == UUserData::IsAchieved(EAchievement::SelectFirstPokemon))
+			&& (false == UUserData::IsAchieved(EAchievement::FightWithGreen));
 		};
 	RivalBattleCond.RegisterCheckFunc(RivalBattleChecker);
 

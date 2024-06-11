@@ -864,21 +864,21 @@ bool UEventProcessor::ProcessTrainerBattle()
 bool UEventProcessor::ProcessAchieve()
 {
 	ES::Achieve* Data = dynamic_cast<ES::Achieve*>(CurStream->EventCommands[CurCommandIndex]);
-	UPlayerData::Achieve(Data->Achievement);
+	UUserData::Achieve(Data->Achievement);
 	return true;
 }
 
 bool UEventProcessor::ProcessUnachieve()
 {
 	ES::Unachieve* Data = dynamic_cast<ES::Unachieve*>(CurStream->EventCommands[CurCommandIndex]);
-	UPlayerData::Unachieve(Data->Achievement);
+	UUserData::Unachieve(Data->Achievement);
 	return true;
 }
 
 bool UEventProcessor::ProcessGainItem()
 {
 	ES::GainItem* Data = dynamic_cast<ES::GainItem*>(CurStream->EventCommands[CurCommandIndex]);
-	UPlayerData::GainItem(Data->ItemId, Data->Count);
+	UUserData::GainItem(Data->ItemId, Data->Count);
 	return true;
 }
 

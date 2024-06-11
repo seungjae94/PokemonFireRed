@@ -1,26 +1,26 @@
-﻿#include "GameDB.h"
+﻿#include "GameData.h"
 #include <EngineBase/EngineDirectory.h>
 #include "CsvReader.h"
 
-std::map<std::string, int> UGameDB::NameResolver;
+std::map<std::string, int> UGameData::NameResolver;
 
-std::map<EPokemonId, FPokemonSpecies> UGameDB::Species;
-std::map<EPokemonMove, FPokemonMove> UGameDB::Moves;
-std::map<EPokemonNature, FPokemonNature> UGameDB::Natures;
-std::map<EPokemonAbility, FPokemonAbility> UGameDB::Abilities;
-std::map<EPokemonGender, FPokemonGender> UGameDB::Genders;
-std::map<EPokemonStatus, FPokemonStatus> UGameDB::Statuses;
-std::map<EPokemonType, FPokemonType> UGameDB::Types;
-std::list<EPokemonId> UGameDB::ImplementedSpeciesNo;
+std::map<EPokemonId, FPokemonSpecies> UGameData::Species;
+std::map<EPokemonMove, FPokemonMove> UGameData::Moves;
+std::map<EPokemonNature, FPokemonNature> UGameData::Natures;
+std::map<EPokemonAbility, FPokemonAbility> UGameData::Abilities;
+std::map<EPokemonGender, FPokemonGender> UGameData::Genders;
+std::map<EPokemonStatus, FPokemonStatus> UGameData::Statuses;
+std::map<EPokemonType, FPokemonType> UGameData::Types;
+std::list<EPokemonId> UGameData::ImplementedSpeciesNo;
 
-std::map<std::string, std::map<int, UWildPokemonZone>> UGameDB::WildPokemonZones;
+std::map<std::string, std::map<int, UWildPokemonZone>> UGameData::WildPokemonZones;
 
-std::map<EItemId, FItem> UGameDB::Items;
+std::map<EItemId, FItem> UGameData::Items;
 
-class GameDBInitiator
+class GameDataInitiator
 {
 public:
-	GameDBInitiator()
+	GameDataInitiator()
 	{
 		CurDir.MoveToSearchChild("Resources");
 		CurDir.Move("GameData");
@@ -38,7 +38,7 @@ public:
 
 	void InitNameResolver()
 	{
-		UGameDB::NameResolver[""] = 0;
+		UGameData::NameResolver[""] = 0;
 
 		std::string FilePath = CurDir.AppendPath("NameResolver.csv");
 		UCsvReader Reader = UCsvReader(FilePath);
@@ -52,8 +52,8 @@ public:
 				if (false == Line[i].empty())
 				{
 					std::string UpperLine = UEngineString::ToUpper(Line[i]);
-					UGameDB::NameResolver[UpperLine] = IntValue;
-					UGameDB::NameResolver[UPokemonString::RemoveSpace(UpperLine)] = IntValue;
+					UGameData::NameResolver[UpperLine] = IntValue;
+					UGameData::NameResolver[UPokemonString::RemoveSpace(UpperLine)] = IntValue;
 				}
 			}
 		}
@@ -69,9 +69,9 @@ public:
 
 		for (std::vector<std::string>& Line : LevelUpMoveLines)
 		{
-			EPokemonId Id = static_cast<EPokemonId>(UGameDB::Resolve(Line[0]));
+			EPokemonId Id = static_cast<EPokemonId>(UGameData::Resolve(Line[0]));
 			int Level = std::stoi(Line[1]);
-			EPokemonMove MoveId = static_cast<EPokemonMove>(UGameDB::Resolve(Line[2]));
+			EPokemonMove MoveId = static_cast<EPokemonMove>(UGameData::Resolve(Line[2]));
 
 			LevelUpMoveMap[Id][Level].push_back(MoveId);
 		}
@@ -99,14 +99,14 @@ public:
 			Species.YSpDef = std::stoi(Line[12]);
 			Species.YSpeed = std::stoi(Line[13]);
 			Species.YExp = std::stoi(Line[14]);
-			Species.ExpGroup = static_cast<EExperienceGroup>(UGameDB::Resolve(Line[15]));
+			Species.ExpGroup = static_cast<EExperienceGroup>(UGameData::Resolve(Line[15]));
 			Species.MaleRatio = std::stof(Line[16]);
 			Species.CatchRate = std::stoi(Line[17]);
 			Species.Friendship = std::stoi(Line[18]);
 
 			for (int i = 19; i <= 20; ++i)
 			{
-				int LineInt = UGameDB::Resolve(Line[i]);
+				int LineInt = UGameData::Resolve(Line[i]);
 
 				if (0 == LineInt)
 				{
@@ -118,7 +118,7 @@ public:
 
 			for (int i = 21; i <= 22; ++i)
 			{
-				int LineInt = UGameDB::Resolve(Line[i]);
+				int LineInt = UGameData::Resolve(Line[i]);
 
 				if (0 == LineInt)
 				{
@@ -137,8 +137,8 @@ public:
 				}
 			}
 
-			UGameDB::Species[Species.Id] = Species;
-			UGameDB::ImplementedSpeciesNo.push_back(Species.Id);
+			UGameData::Species[Species.Id] = Species;
+			UGameData::ImplementedSpeciesNo.push_back(Species.Id);
 		}
 	}
 	void GenerateMoves() {
@@ -152,15 +152,15 @@ public:
 			Move.Id = static_cast<EPokemonMove>(std::stoi(Line[0]));
 			Move.Name = Line[1];
 			Move.Explain = Line[2];
-			Move.TypeId = static_cast<EPokemonType>(UGameDB::Resolve(Line[3]));
+			Move.TypeId = static_cast<EPokemonType>(UGameData::Resolve(Line[3]));
 			Move.PP = std::stoi(Line[4]);
 			Move.BasePower = std::stoi(Line[5]);
 			Move.Accuracy = std::stoi(Line[6]);
-			//Move.IsContact = UGameDB::Resolve(Line[7]);
-			Move.BETarget = static_cast<EMoveEffectTarget>(UGameDB::Resolve(Line[8]));
+			//Move.IsContact = UGameData::Resolve(Line[7]);
+			Move.BETarget = static_cast<EMoveEffectTarget>(UGameData::Resolve(Line[8]));
 			if (false == Line[9].empty())
 			{
-				Move.BEStatStageId = static_cast<EStatStageChangeType>(UGameDB::Resolve(Line[9]));
+				Move.BEStatStageId = static_cast<EStatStageChangeType>(UGameData::Resolve(Line[9]));
 			}
 			if (false == Line[10].empty())
 			{
@@ -168,17 +168,17 @@ public:
 			}
 			if (false == Line[11].empty())
 			{
-				Move.BEStatusId = static_cast<EPokemonStatus>(UGameDB::Resolve(Line[11]));
+				Move.BEStatusId = static_cast<EPokemonStatus>(UGameData::Resolve(Line[11]));
 			}
 
-			Move.SETarget = static_cast<EMoveEffectTarget>(UGameDB::Resolve(Line[12]));
+			Move.SETarget = static_cast<EMoveEffectTarget>(UGameData::Resolve(Line[12]));
 			if (Line[13] != "")
 			{
 				Move.SERate = std::stoi(Line[13]);
 			}
 			if (Line[14] != "")
 			{
-				Move.SEStatStageId = static_cast<EStatStageChangeType>(UGameDB::Resolve(Line[14]));
+				Move.SEStatStageId = static_cast<EStatStageChangeType>(UGameData::Resolve(Line[14]));
 			}
 			if (Line[15] != "")
 			{
@@ -186,10 +186,10 @@ public:
 			}
 			if (Line[16] != "")
 			{
-				Move.SEStatusId = static_cast<EPokemonStatus>(UGameDB::Resolve(Line[16]));
+				Move.SEStatusId = static_cast<EPokemonStatus>(UGameData::Resolve(Line[16]));
 			}
 
-			UGameDB::Moves[Move.Id] = Move;
+			UGameData::Moves[Move.Id] = Move;
 		}
 	}
 	void GenerateNatures()
@@ -208,7 +208,7 @@ public:
 			Nature.NSpAtk = std::stof(Line[4]);
 			Nature.NSpDef = std::stof(Line[5]);
 			Nature.NSpeed = std::stof(Line[6]);
-			UGameDB::Natures[Nature.Id] = Nature;
+			UGameData::Natures[Nature.Id] = Nature;
 		}
 	}
 	void GenerateAbilities()
@@ -223,7 +223,7 @@ public:
 			Ability.Id = static_cast<EPokemonAbility>(std::stoi(Line[0]));
 			Ability.Name = Line[1];
 			Ability.Explain = Line[2];
-			UGameDB::Abilities[Ability.Id] = Ability;
+			UGameData::Abilities[Ability.Id] = Ability;
 		}
 	}
 	void GenerateTypes()
@@ -245,7 +245,7 @@ public:
 				Type.EffectTo[EnemyType] = std::stof(Line[i]);
 			}
 
-			UGameDB::Types[Type.Id] = Type;
+			UGameData::Types[Type.Id] = Type;
 		}
 	}
 
@@ -262,16 +262,16 @@ public:
 			Status.Name = Line[1];
 			Status.ImageName = Line[2];
 
-			UGameDB::Statuses[Status.Id] = Status;
+			UGameData::Statuses[Status.Id] = Status;
 		}
 	}
 
 	void GenerateGenders()
 	{
-		UGameDB::Genders[EPokemonGender::Male] = FPokemonGender(
+		UGameData::Genders[EPokemonGender::Male] = FPokemonGender(
 			EPokemonGender::Male, RN::GenderMarkMale, RN::BigGenderMarkMale
 		);
-		UGameDB::Genders[EPokemonGender::Female] = FPokemonGender(
+		UGameData::Genders[EPokemonGender::Female] = FPokemonGender(
 			EPokemonGender::Female, RN::GenderMarkFemale, RN::BigGenderMarkFemale
 		);
 	}
@@ -287,9 +287,9 @@ public:
 			std::string MapName = UEngineString::ToUpper(Line[0]);
 			int ZoneId = std::stoi(Line[1]);
 
-			UWildPokemonZone& Zone = UGameDB::WildPokemonZones[MapName][ZoneId];
+			UWildPokemonZone& Zone = UGameData::WildPokemonZones[MapName][ZoneId];
 			FWildPokemonEncounter Encounter;
-			Encounter.Id = static_cast<EPokemonId>(UGameDB::Resolve(Line[2]));
+			Encounter.Id = static_cast<EPokemonId>(UGameData::Resolve(Line[2]));
 			Encounter.Prop = std::stof(Line[3]);
 			Encounter.MinLevel = std::stoi(Line[4]);
 			Encounter.MaxLevel = std::stoi(Line[5]);
@@ -307,15 +307,15 @@ public:
 		{
 			FItem Item = FItem();
 			Item.Id = static_cast<EItemId>(std::stoi(Line[0]));
-			Item.Type = static_cast<EItemType>(UGameDB::Resolve(Line[1]));
-			Item.Name = UGameDB::AnsiToUnicodeWithReplacement(Line[2]);
+			Item.Type = static_cast<EItemType>(UGameData::Resolve(Line[1]));
+			Item.Name = UGameData::AnsiToUnicodeWithReplacement(Line[2]);
 			Item.ImageName = Line[3];
-			Item.Explain = UGameDB::AnsiToUnicodeWithReplacement(Line[4]);
+			Item.Explain = UGameData::AnsiToUnicodeWithReplacement(Line[4]);
 			Item.BuyPrice = std::stoi(Line[5]);
 
 			if (false == Line[6].empty())
 			{
-				Item.UseEffect = static_cast<EUseEffect>(UGameDB::Resolve(Line[6]));
+				Item.UseEffect = static_cast<EUseEffect>(UGameData::Resolve(Line[6]));
 			}
 
 			if (false == Line[7].empty())
@@ -323,16 +323,16 @@ public:
 				Item.HealValue = std::stoi(Line[7]);
 			}
 
-			UGameDB::Items[Item.Id] = Item;
+			UGameData::Items[Item.Id] = Item;
 		}
 	}
 
 	UEngineDirectory CurDir;
 };
 
-GameDBInitiator Init;
+GameDataInitiator Init;
 
-const FPokemonSpecies* UGameDB::FindSpecies(EPokemonId _Id)
+const FPokemonSpecies* UGameData::FindSpecies(EPokemonId _Id)
 {
 	if (false == Species.contains(_Id))
 	{
@@ -343,7 +343,7 @@ const FPokemonSpecies* UGameDB::FindSpecies(EPokemonId _Id)
 	return &Species[_Id];
 }
 
-const FPokemonMove* UGameDB::FindMove(EPokemonMove _Id)
+const FPokemonMove* UGameData::FindMove(EPokemonMove _Id)
 {
 	if (false == Moves.contains(_Id))
 	{
@@ -354,7 +354,7 @@ const FPokemonMove* UGameDB::FindMove(EPokemonMove _Id)
 	return &Moves[_Id];
 }
 
-const FPokemonNature* UGameDB::FindNature(EPokemonNature _Id)
+const FPokemonNature* UGameData::FindNature(EPokemonNature _Id)
 {
 	if (false == Natures.contains(_Id))
 	{
@@ -365,7 +365,7 @@ const FPokemonNature* UGameDB::FindNature(EPokemonNature _Id)
 	return &Natures[_Id];
 }
 
-const FPokemonAbility* UGameDB::FindAbility(EPokemonAbility _Id)
+const FPokemonAbility* UGameData::FindAbility(EPokemonAbility _Id)
 {
 	if (false == Abilities.contains(_Id))
 	{
@@ -376,7 +376,7 @@ const FPokemonAbility* UGameDB::FindAbility(EPokemonAbility _Id)
 	return &Abilities[_Id];
 }
 
-const FPokemonGender* UGameDB::FindGender(EPokemonGender _Id)
+const FPokemonGender* UGameData::FindGender(EPokemonGender _Id)
 {
 	if (false == Genders.contains(_Id))
 	{
@@ -386,7 +386,7 @@ const FPokemonGender* UGameDB::FindGender(EPokemonGender _Id)
 	return &Genders[_Id];
 }
 
-const FPokemonType* UGameDB::FindType(EPokemonType _Id)
+const FPokemonType* UGameData::FindType(EPokemonType _Id)
 {
 	if (false == Types.contains(_Id))
 	{
@@ -397,7 +397,7 @@ const FPokemonType* UGameDB::FindType(EPokemonType _Id)
 	return &Types[_Id];
 }
 
-const FPokemonStatus* UGameDB::FindStatus(EPokemonStatus _Id)
+const FPokemonStatus* UGameData::FindStatus(EPokemonStatus _Id)
 {
 	if (false == Statuses.contains(_Id))
 	{
@@ -408,7 +408,7 @@ const FPokemonStatus* UGameDB::FindStatus(EPokemonStatus _Id)
 	return &Statuses[_Id];
 }
 
-const UWildPokemonZone* UGameDB::FindWildPokemonZone(std::string_view _MapName, int _Index)
+const UWildPokemonZone* UGameData::FindWildPokemonZone(std::string_view _MapName, int _Index)
 {
 	std::string MapName = UEngineString::ToUpper(_MapName);
 
@@ -421,7 +421,7 @@ const UWildPokemonZone* UGameDB::FindWildPokemonZone(std::string_view _MapName, 
 	return &WildPokemonZones[MapName][_Index];
 }
 
-const FItem* UGameDB::FindItem(EItemId _Id)
+const FItem* UGameData::FindItem(EItemId _Id)
 {
 	if (false == Items.contains(_Id))
 	{
@@ -432,30 +432,30 @@ const FItem* UGameDB::FindItem(EItemId _Id)
 	return &Items[_Id];
 }
 
-std::list<EPokemonId> UGameDB::GetImplementedSpeciesNo()
+std::list<EPokemonId> UGameData::GetImplementedSpeciesNo()
 {
 	return ImplementedSpeciesNo;
 }
 
-std::string UGameDB::GetSpeciesName(EPokemonId _Id)
+std::string UGameData::GetSpeciesName(EPokemonId _Id)
 {
 	return Species[_Id].Name;
 }
 
-int UGameDB::Resolve(std::string_view _Name)
+int UGameData::Resolve(std::string_view _Name)
 {
 	std::string UpperName = UEngineString::ToUpper(_Name);
 
 	if (false == NameResolver.contains(UpperName))
 	{
-		MsgBoxAssert("UGameDB::NameResolver에서 에러가 발생했습니다.");
+		MsgBoxAssert("UGameData::NameResolver에서 에러가 발생했습니다.");
 		return -1;
 	}
 
 	return NameResolver[UpperName];
 }
 
-std::wstring UGameDB::AnsiToUnicodeWithReplacement(std::string _Text)
+std::wstring UGameData::AnsiToUnicodeWithReplacement(std::string _Text)
 {
 	std::wstring Text = UEngineString::AnsiToUniCode(_Text);
 	std::replace(Text.begin(), Text.end(), L'*', L'é');

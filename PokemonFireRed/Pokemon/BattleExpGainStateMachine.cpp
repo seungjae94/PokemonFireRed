@@ -277,7 +277,7 @@ void ABattleExpGainStateMachine::ProcessTestLearnMove()
 			State = ESubstate::LearnMoveSuccessMessage;
 
 			EPokemonMove MoveId = LevelUpData.Moves.front();
-			const FPokemonMove* Move = UGameDB::FindMove(MoveId);
+			const FPokemonMove* Move = UGameData::FindMove(MoveId);
 
 			std::wstring BattleMsg = ExpGainer->GetNameW();
 			BattleMsg += L" learned\n";

@@ -76,7 +76,7 @@ FDamageResult UDamageCalculator::CalcDamage(const UBattler* _Attacker, const UBa
     }
 
     // 타입 효과
-    const FPokemonType* MoveType = UGameDB::FindType(Move->TypeId);
+    const FPokemonType* MoveType = UGameData::FindType(Move->TypeId);
     
     float TypeEffect = 1.0f;
 

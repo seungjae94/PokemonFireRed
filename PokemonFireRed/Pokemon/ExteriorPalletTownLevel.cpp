@@ -5,7 +5,7 @@
 #include "DialogueActor.h"
 #include "ItemBall.h"
 #include "Text.h"
-#include "PlayerData.h"
+#include "UserData.h"
 #include "Pokemon.h"
 #include "SoundManager.h"
 
@@ -141,7 +141,7 @@ void UExteriorPalletTownLevel::MakePTGetStarterEventTriggers()
 {
 	UEventCondition Cond = UEventCondition(EEventTriggerAction::StepOn);
 	CheckFunc Func = []() {
-		return false == UPlayerData::IsAchieved(EAchievement::GetStarterEventStart);
+		return false == UUserData::IsAchieved(EAchievement::GetStarterEventStart);
 		};
 	Cond.RegisterCheckFunc(Func);
 

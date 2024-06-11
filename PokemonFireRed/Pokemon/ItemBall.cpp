@@ -20,7 +20,7 @@ void AItemBall::RegisterPredefinedEvent()
 
 	UEventCondition Cond = UEventCondition(EEventTriggerAction::ZClick);
 
-	const FItem* Item = UGameDB::FindItem(ItemId);
+	const FItem* Item = UGameData::FindItem(ItemId);
 
 	UEventManager::RegisterEvent(this, Cond,
 		ES::Start(true)

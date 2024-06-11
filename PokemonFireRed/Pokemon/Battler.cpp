@@ -1,5 +1,5 @@
 #include "Battler.h"
-#include "PlayerData.h"
+#include "UserData.h"
 #include "EventManager.h"
 #include "EventTrigger.h"
 #include "Trainer.h"
@@ -42,10 +42,10 @@ void UBattler::InitPlayer()
 {
 	IsPlayerValue = true;
 
-	int PlayerEntrySize = static_cast<int>(UPlayerData::GetPokemonEntrySize());
+	int PlayerEntrySize = static_cast<int>(UUserData::GetPokemonEntrySize());
 	for (int i = 0; i < PlayerEntrySize; ++i)
 	{
-		Entry.push_back(&UPlayerData::GetPokemonInEntry(i));
+		Entry.push_back(&UUserData::GetPokemonInEntry(i));
 	}
 }
 
@@ -219,7 +219,7 @@ EPokemonMove UBattler::CurMoveId() const
 const FPokemonMove* UBattler::CurMove() const
 {
 	EPokemonMove MoveId = CurMoveId();
-	return UGameDB::FindMove(MoveId);
+	return UGameData::FindMove(MoveId);
 }
 
 void UBattler::SetMoveIndex(int _MoveIndex)
@@ -287,7 +287,7 @@ const FPokemonStatus* UBattler::CurStatus() const
 {
 	const UPokemon* Pokemon = CurPokemonReadonly();
 	EPokemonStatus StatusId = Pokemon->GetStatusId();
-	return UGameDB::FindStatus(StatusId);
+	return UGameData::FindStatus(StatusId);
 }
 
 void UBattler::DecBindCount()

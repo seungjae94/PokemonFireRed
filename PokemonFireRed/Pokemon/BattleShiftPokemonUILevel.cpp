@@ -74,7 +74,7 @@ void UBattleShiftPokemonUILevel::ProcessBattleShiftFailMessageShow()
 void UBattleShiftPokemonUILevel::SelectTarget()
 {
 	// 취소 버튼을 선택한 경우
-	if (TargetCursor == UPlayerData::GetPokemonEntrySize())
+	if (TargetCursor == UUserData::GetPokemonEntrySize())
 	{
 		CancelTargetSelection();
 		return;
@@ -109,7 +109,7 @@ void UBattleShiftPokemonUILevel::SelectAction()
 	case 0:
 	{
 		// Send Out
-		const UPokemon* SelectedPokemon = &UPlayerData::GetPokemonInEntry(TargetCursor);
+		const UPokemon* SelectedPokemon = &UUserData::GetPokemonInEntry(TargetCursor);
 		if (SelectedPokemon == PlayerBattler->CurPokemon())
 		{
 			// 배틀에 나와 있는 포켓몬을 고르는 경우

@@ -96,11 +96,11 @@ void UPokemonUtil::CreatePokemonMiniMoveAnimations(UImageRenderer* _Renderer)
 		_Renderer->SetImage(RN::PokemonMini);
 	}
 
-	for (EPokemonId No : UGameDB::GetImplementedSpeciesNo())
+	for (EPokemonId No : UGameData::GetImplementedSpeciesNo())
 	{
 		int Idx = static_cast<int>(No) * 2 - 2;
 		_Renderer->CreateAnimation(
-			Global::PokemonMiniMovePrefix + UGameDB::GetSpeciesName(No),
+			Global::PokemonMiniMovePrefix + UGameData::GetSpeciesName(No),
 			RN::PokemonMini, 
 			Idx, Idx + 1, 1.0f / 6, true);
 	}
@@ -119,11 +119,11 @@ void UPokemonUtil::CreatePokemonMiniStopAnimations(UImageRenderer* _Renderer)
 		_Renderer->SetImage(RN::PokemonMini);
 	}
 
-	for (EPokemonId No : UGameDB::GetImplementedSpeciesNo())
+	for (EPokemonId No : UGameData::GetImplementedSpeciesNo())
 	{
 		int Idx = static_cast<int>(No) * 2 - 2;
 		_Renderer->CreateAnimation(
-			Global::PokemonMiniStopPrefix + UGameDB::GetSpeciesName(No),
+			Global::PokemonMiniStopPrefix + UGameData::GetSpeciesName(No),
 			RN::PokemonMini,
 			Idx, Idx, 1.0f / 6, true);
 	}
@@ -142,11 +142,11 @@ void UPokemonUtil::CreatePokemonFrontAnimations(UImageRenderer* _Renderer)
 		_Renderer->SetImage(RN::PokemonFront);
 	}
 
-	for (EPokemonId No : UGameDB::GetImplementedSpeciesNo())
+	for (EPokemonId No : UGameData::GetImplementedSpeciesNo())
 	{
 		int Idx = static_cast<int>(No) * 2  - 2;
 		_Renderer->CreateAnimation(
-			Global::PokemonFrontPrefix + UGameDB::GetSpeciesName(No),
+			Global::PokemonFrontPrefix + UGameData::GetSpeciesName(No),
 			RN::PokemonFront,
 			Idx, Idx, 1.0f / 6, false);
 	}
@@ -165,11 +165,11 @@ void UPokemonUtil::CreatePokemonBackAnimations(UImageRenderer* _Renderer)
 		_Renderer->SetImage(RN::PokemonBack);
 	}
 
-	for (EPokemonId No : UGameDB::GetImplementedSpeciesNo())
+	for (EPokemonId No : UGameData::GetImplementedSpeciesNo())
 	{
 		int Idx = static_cast<int>(No) * 2 - 2;
 		_Renderer->CreateAnimation(
-			Global::PokemonBackPrefix + UGameDB::GetSpeciesName(No),
+			Global::PokemonBackPrefix + UGameData::GetSpeciesName(No),
 			RN::PokemonBack,
 			Idx, Idx, 1.0f / 6, false);
 	}

@@ -3,7 +3,7 @@
 #include "Battler.h"
 #include "PokemonMsgBox.h"
 #include "BattleCanvas.h"
-#include "PlayerData.h"
+#include "UserData.h"
 #include "SoundManager.h"
 
 ABattlePokeBallStateMachine::ABattlePokeBallStateMachine() 
@@ -439,7 +439,7 @@ void ABattlePokeBallStateMachine::ProcessCatchSuccessMessage()
 		State = ESubstate::End;
 
 		// 실제 포켓몬 획득
-		UPlayerData::AddPokemonToEntry(*Enemy->CurPokemon());
+		UUserData::AddPokemonToEntry(*Enemy->CurPokemon());
 	}
 }
 

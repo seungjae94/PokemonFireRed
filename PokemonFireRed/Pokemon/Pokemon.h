@@ -6,7 +6,7 @@
 #include <EngineBase/EngineDebug.h>
 #include "PokemonString.h"
 #include "Global.h"
-#include "GameDB.h"
+#include "GameData.h"
 
 struct FLevelUpData
 {
@@ -170,7 +170,7 @@ public:
 
 	void SetStatus(EPokemonStatus _StatusId)
 	{
-		Status = UGameDB::FindStatus(_StatusId);
+		Status = UGameData::FindStatus(_StatusId);
 	}
 
 	bool IsFaint() const
@@ -226,7 +226,7 @@ public:
 
 	void Cure()
 	{
-		Status = UGameDB::FindStatus(EPokemonStatus::Normal);
+		Status = UGameData::FindStatus(EPokemonStatus::Normal);
 	}
 
 	void RestorePP()

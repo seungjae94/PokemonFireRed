@@ -532,7 +532,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="PlayerData.h">
+    <ClInclude Include="UserData.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -544,7 +544,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="GameDB.h">
+    <ClInclude Include="GameData.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -1012,7 +1012,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="PlayerData.cpp">
+    <ClCompile Include="UserData.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -1024,7 +1024,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="GameDB.cpp">
+    <ClCompile Include="GameData.cpp">
       <SubType>
       </SubType>
     </ClCompile>

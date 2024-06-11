@@ -9,15 +9,15 @@
 #include "WildPokemonZone.h"
 #include "Item.h"
 
-class UGameDB
+class UGameData
 {
-	friend class GameDBInitiator;
+	friend class GameDataInitiator;
 public:
 	// delete Function
-	UGameDB(const UGameDB& _Other) = delete;
-	UGameDB(UGameDB&& _Other) noexcept = delete;
-	UGameDB& operator=(const UGameDB& _Other) = delete;
-	UGameDB& operator=(UGameDB&& _Other) noexcept = delete;
+	UGameData(const UGameData& _Other) = delete;
+	UGameData(UGameData&& _Other) noexcept = delete;
+	UGameData& operator=(const UGameData& _Other) = delete;
+	UGameData& operator=(UGameData&& _Other) noexcept = delete;
 
 	static const FPokemonSpecies* FindSpecies(EPokemonId _Id);
 	static const FPokemonMove* FindMove(EPokemonMove _Id);
@@ -59,7 +59,7 @@ private:
 	static std::map<EItemId, FItem> Items;
 
 	// constructor destructor
-	UGameDB() {}
-	~UGameDB() {}
+	UGameData() {}
+	~UGameData() {}
 };
 

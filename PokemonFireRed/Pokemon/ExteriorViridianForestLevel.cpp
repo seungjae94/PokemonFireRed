@@ -257,12 +257,12 @@ void UExteriorViridianForestLevel::MakeAntidoteBall()
 
 bool UExteriorViridianForestLevel::FightWithBugCatcher0Checker()
 {
-	return false == UPlayerData::IsAchieved(EAchievement::FightWithBugCatcher0);
+	return false == UUserData::IsAchieved(EAchievement::FightWithBugCatcher0);
 }
 
 bool UExteriorViridianForestLevel::FightWithBugCatcher1Checker()
 {
-	return false == UPlayerData::IsAchieved(EAchievement::FightWithBugCatcher1);
+	return false == UUserData::IsAchieved(EAchievement::FightWithBugCatcher1);
 }
 
 std::vector<FTileVector> UExteriorViridianForestLevel::BugCatcher0PathGenerator()
