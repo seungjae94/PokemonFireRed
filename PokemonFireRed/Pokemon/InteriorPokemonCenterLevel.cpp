@@ -18,8 +18,8 @@ void UInteriorPokemonCenterLevel::BeginPlay()
 	UMapLevel::BeginPlay();
 
 	// (디버깅) 플레이어 시작 위치 설정
-	UEventManager::SetPoint(GetName(), Global::Player, { 5, 5 });
-	UEventManager::SetDirection(GetName(), Global::Player, FTileVector::Up);
+	UEventManager::SetPoint(GetName(), Global::PlayerCharacter, { 5, 5 });
+	UEventManager::SetDirection(GetName(), Global::PlayerCharacter, FTileVector::Up);
 
 	MakeDoor();
 	MakeNurse();
@@ -319,7 +319,7 @@ void UInteriorPokemonCenterLevel::ProcessBallAppearWait()
 	{
 		State = EState::BallAppear;
 		Nurse->SetDirection(FTileVector::Left);
-		MaxBallCount = UUserData::GetPokemonEntrySize();
+		MaxBallCount = UPlayerData::GetPokemonEntrySize();
 		CurBallCount = 0;
 		Timer = 0.0f;
 	}
@@ -355,9 +355,9 @@ void UInteriorPokemonCenterLevel::ProcessBallAnim()
 		Timer = BallHealEndWaitTime;
 
 		// 실제 치료 처리
-		for (int i = 0; i < UUserData::GetPokemonEntrySize(); ++i)
+		for (int i = 0; i < UPlayerData::GetPokemonEntrySize(); ++i)
 		{
-			UPokemon& Pokemon = UUserData::GetPokemonInEntry(i);
+			UPokemon& Pokemon = UPlayerData::GetPokemonInEntry(i);
 			Pokemon.HealAll();
 			Pokemon.Cure();
 			Pokemon.RestorePP();

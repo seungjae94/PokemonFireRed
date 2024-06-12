@@ -31,7 +31,7 @@ AAnimator* AAnimatorGenerator::GenerateMoveAnimator(UBattler* _Attacker, EPokemo
 		case EPokemonMove::Tackle:
 		default:
 		{
-			APlayerTackleAnimator* Animator = GetWorld()->SpawnActor<APlayerTackleAnimator>();
+			APlayerCharacterTackleAnimator* Animator = GetWorld()->SpawnActor<APlayerCharacterTackleAnimator>();
 			Animator->SetTypeVs(_TypeVs);
 			return Animator;
 		}
@@ -59,7 +59,7 @@ AAnimator* AAnimatorGenerator::GenerateMoveAnimator(UBattler* _Attacker, EPokemo
 		}
 	}
 
-	return GetWorld()->SpawnActor<APlayerTackleAnimator>();
+	return GetWorld()->SpawnActor<APlayerCharacterTackleAnimator>();
 }
 
 AAnimator* AAnimatorGenerator::GenerateStatStageEffectAnimator(UBattler* _Target, bool _IsStatDown)

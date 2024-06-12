@@ -15,7 +15,7 @@ class UEventTargetSetting;
 class AEventTrigger;
 class UEventProcessor;
 class UEventStream;
-class APlayer;
+class APlayerCharacter;
 class UEventManagerReleaser;
 class UEventCondition;
 class ACanvas;
@@ -263,7 +263,7 @@ private:
 	// 등록 함수
 	static void AddTarget(AEventTarget* _Target, const UEventTargetSetting& _Setting);
 	static void AddTrigger(AEventTrigger* _Trigger, const UEventTargetSetting& _Setting);
-	static void AddPlayer(APlayer* _Player, const FTileVector& _Point);
+	static void AddPlayer(APlayerCharacter* _Player, const FTileVector& _Point);
 	static void AddCommonCanvas(ACanvas* _Canvas, std::string_view _Name);
 	static void AddDialogueWindow(ADialogueWindow* _Window);
 

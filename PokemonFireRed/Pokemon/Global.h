@@ -80,7 +80,7 @@ namespace Global
 	
 	const std::string TutorialLevelFader = "TutorialLevelFader";
 	const std::string ThrowedBall = "ThrowedBall";
-	const std::string Player = "Player";
+	const std::string PlayerCharacter = "PlayerCharacter";
 	const std::string FadeCanvas = "FadeCanvas";
 	const std::string MenuWindow = "MenuWindow";
 	const std::string DialogueWindow = "DialogueWindow";
@@ -109,10 +109,10 @@ namespace EN
 	const std::string TechMan = "TechMan";
 	const std::string GetStarterEventTrigger = "GetStarterEventTrigger";
 	const std::string Oak = "Oak";
-	const std::string Player = "Player";
+	const std::string PlayerCharacter = "PlayerCharacter";
 
 	// Players House
-	const std::string PlayersMom = "PlayersMom";
+	const std::string Mom = "Mom";
 
 	// Oaks Lab
 	const std::string RivalGreen = "RivalGreen";

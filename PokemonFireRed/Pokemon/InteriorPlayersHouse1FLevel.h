@@ -19,7 +19,7 @@ protected:
 private:
 	void MakeStair();
 	void MakeDoor();
-	void MakePlayersMom();
+	void MakeMom();
 	void MakeDecorations();
 };
 

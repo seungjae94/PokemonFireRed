@@ -27,20 +27,20 @@ enum class EPlayerAction
 };
 
 // 사용자 입력에 따라 이동하는 액터
-class APlayer : public AEventTarget
+class APlayerCharacter : public AEventTarget
 {
 	friend UEventManager;
 	friend UEventProcessor;
 public:
 	// constructor destructor
-	APlayer();
-	~APlayer();
+	APlayerCharacter();
+	~APlayerCharacter();
 
 	// delete Function
-	APlayer(const APlayer& _Other) = delete;
-	APlayer(APlayer&& _Other) noexcept = delete;
-	APlayer& operator=(const APlayer& _Other) = delete;
-	APlayer& operator=(APlayer&& _Other) noexcept = delete;
+	APlayerCharacter(const APlayerCharacter& _Other) = delete;
+	APlayerCharacter(APlayerCharacter&& _Other) noexcept = delete;
+	APlayerCharacter& operator=(const APlayerCharacter& _Other) = delete;
+	APlayerCharacter& operator=(APlayerCharacter&& _Other) noexcept = delete;
 
 	void SetMap(AMap* _Map)
 	{

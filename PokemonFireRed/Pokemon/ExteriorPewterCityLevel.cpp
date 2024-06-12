@@ -16,8 +16,8 @@ void UExteriorPewterCityLevel::BeginPlay()
 
 	// (디버깅) 플레이어 시작 위치 설정
 	//UEventManager::SetPoint(GetName(), Global::Player, { 19, 21 });				// 회색 체육관 앞
-	UEventManager::SetPoint(GetName(), Global::Player, { 21, 57 });				// 상록숲 앞
-	UEventManager::SetDirection(GetName(), Global::Player, FTileVector::Up);
+	UEventManager::SetPoint(GetName(), Global::PlayerCharacter, { 21, 57 });				// 상록숲 앞
+	UEventManager::SetDirection(GetName(), Global::PlayerCharacter, FTileVector::Up);
 
 	MakeForestEntrances();
 	MakePokemonCenterDoor();
@@ -36,7 +36,7 @@ void UExteriorPewterCityLevel::MakeForestEntrances()
 {
 	UEventCondition Cond = UEventCondition(EEventTriggerAction::ArrowClick);
 	Cond.RegisterCheckFunc([]() {
-		const APlayer* Player = UEventManager::FindCurLevelTarget<APlayer>(EN::Player);
+		const APlayerCharacter* Player = UEventManager::FindCurLevelTarget<APlayerCharacter>(EN::PlayerCharacter);
 		return Player->GetDirection() == FTileVector::Down;
 		});
 
@@ -55,9 +55,9 @@ void UExteriorPewterCityLevel::MakeForestEntrances()
 			>> ES::FadeOut(0.75f)
 			>> ES::Wait(0.75f)
 			>> ES::ChangeLevel(Global::ExteriorViridianForestLevel)
-			>> ES::ChangePoint(Global::ExteriorViridianForestLevel, EN::Player, { 11, 10 })
-			>> ES::ChangeDirection(Global::ExteriorViridianForestLevel, Global::Player, FTileVector::Down)
-			>> ES::CameraFocus(Global::Player)
+			>> ES::ChangePoint(Global::ExteriorViridianForestLevel, EN::PlayerCharacter, { 11, 10 })
+			>> ES::ChangeDirection(Global::ExteriorViridianForestLevel, Global::PlayerCharacter, FTileVector::Down)
+			>> ES::CameraFocus(Global::PlayerCharacter)
 			>> ES::ShowMapName(L"VIRIDIAN FOREST")
 			>> ES::PlayBgm(RN::BgmViridianForest)
 			>> ES::FadeInBgm(0.75f)
@@ -216,7 +216,7 @@ void UExteriorPewterCityLevel::MakeRoute2ToPewterAreaChanger()
 
 std::string UExteriorPewterCityLevel::GetAreaNameStatic()
 {
-	APlayer* Player = UEventManager::FindCurLevelTarget<APlayer>(EN::Player);
+	APlayerCharacter* Player = UEventManager::FindCurLevelTarget<APlayerCharacter>(EN::PlayerCharacter);
 	UExteriorPewterCityLevel* CurLevel = dynamic_cast<UExteriorPewterCityLevel*>(Player->GetWorld());
 	if (nullptr == CurLevel)
 	{

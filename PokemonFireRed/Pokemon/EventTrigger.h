@@ -6,7 +6,7 @@
 #include "EventTarget.h"
 #include "EventStream.h"
 
-class APlayer;
+class APlayerCharacter;
 
 // 플레이어와의 상호 작용을 통해 이벤트를 발생시키는 액터
 class AEventTrigger : public AEventTarget

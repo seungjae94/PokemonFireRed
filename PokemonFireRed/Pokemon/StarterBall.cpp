@@ -1,8 +1,8 @@
 ﻿#include "StarterBall.h"
 #include <EnginePlatform/EngineInput.h>
-#include "UserData.h"
+#include "PlayerData.h"
 #include "EventManager.h"
-#include "Player.h"
+#include "PlayerCharacter.h"
 #include "DialogueWindow.h"
 #include "Trainer.h"
 #include "SoundManager.h"
@@ -81,7 +81,7 @@ bool AStarterBall::IsZClickEventOccur()
 		return false;
 	}
 
-	APlayer* Player = UEventManager::FindCurLevelTarget<APlayer>(EN::Player);
+	APlayerCharacter* Player = UEventManager::FindCurLevelTarget<APlayerCharacter>(EN::PlayerCharacter);
 	FTileVector PlayerPoint = Player->GetPoint();
 	FTileVector PlayerDirection = Player->GetDirection();
 	FTileVector ThisPoint = FTileVector(GetActorLocation());
@@ -94,7 +94,7 @@ void AStarterBall::CheckEventOccur()
 	if (true == IsZClickEventOccur())
 	{
 		// 스타팅 포켓몬 획득 이벤트가 아직 발생하지 않은 경우 
-		if (false == UUserData::IsAchieved(EAchievement::GetStarterEventStart))
+		if (false == UPlayerData::IsAchieved(EAchievement::GetStarterEventStart))
 		{
 			// 대화창만 대충 띄운다.
 			State = EState::NonEventMessage;
@@ -107,8 +107,8 @@ void AStarterBall::CheckEventOccur()
 			return;
 		}
 		// 스타팅 포켓몬을 획득해야 하는 경우
-		else if ((true == UUserData::IsAchieved(EAchievement::GetStarterEventStart))
-			&& (false == UUserData::IsAchieved(EAchievement::SelectFirstPokemon)))
+		else if ((true == UPlayerData::IsAchieved(EAchievement::GetStarterEventStart))
+			&& (false == UPlayerData::IsAchieved(EAchievement::SelectFirstPokemon)))
 		{
 			// 스타팅 포켓몬 선택 대화창을 띄운다.
 			USoundManager::PlaySE(RN::SEClick);
@@ -252,8 +252,8 @@ void AStarterBall::ProcessSelectMessage2()
 	{
 		// 플레이어 포켓몬 획득
 		UPokemon Starter = UPokemon(PokemonId, 5);
-		UUserData::AddPokemonToEntry(Starter);
-		UUserData::Achieve(EAchievement::SelectFirstPokemon);
+		UPlayerData::AddPokemonToEntry(Starter);
+		UPlayerData::Achieve(EAchievement::SelectFirstPokemon);
 
 		// 라이벌 포켓몬 획득
 		ATrainer* Rival = UEventManager::FindCurLevelTarget<ATrainer>(EN::RivalGreen);

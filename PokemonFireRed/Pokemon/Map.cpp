@@ -2,7 +2,7 @@
 
 #include <EngineCore/EngineResourcesManager.h>
 #include "Global.h"
-#include "Player.h"
+#include "PlayerCharacter.h"
 
 AMap::AMap()
 {

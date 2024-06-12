@@ -20,11 +20,11 @@ void AExteriorDoor::RegisterPredefinedEvent()
 	Cond.RegisterCheckFunc(ToCheckFunc(CheckPlayerDirection));
 
 	UEventStream& Stream = ES::Start(true)
-		>> ES::Move(Global::Player, { FTileVector::Zero }, 7.2f) // 제자리 걷기 동작으로 문을 여는 동작을 표현
+		>> ES::Move(Global::PlayerCharacter, { FTileVector::Zero }, 7.2f) // 제자리 걷기 동작으로 문을 여는 동작을 표현
 		>> ES::PlaySE(RN::SEDoorOpen)
 		>> ES::PlayAnimation(GetName(), "DoorOpen")
-		>> ES::Move(Global::Player, { TargetDirection })
-		>> ES::HideActor(Global::Player)
+		>> ES::Move(Global::PlayerCharacter, { TargetDirection })
+		>> ES::HideActor(Global::PlayerCharacter)
 		>> ES::PlayAnimation(GetName(), "DoorClose")
 		>> ES::FadeOut(0.75f);
 
@@ -35,11 +35,11 @@ void AExteriorDoor::RegisterPredefinedEvent()
 
 	Stream = Stream
 		>> ES::Wait(0.75f)
-		>> ES::ShowActor(Global::Player)
+		>> ES::ShowActor(Global::PlayerCharacter)
 		>> ES::ChangeLevel(TargetMapName)
-		>> ES::ChangePoint(TargetMapName, Global::Player, TargetPoint)
-		>> ES::ChangeDirection(TargetMapName, Global::Player, TargetDirection)
-		>> ES::CameraFocus(Global::Player);
+		>> ES::ChangePoint(TargetMapName, Global::PlayerCharacter, TargetPoint)
+		>> ES::ChangeDirection(TargetMapName, Global::PlayerCharacter, TargetDirection)
+		>> ES::CameraFocus(Global::PlayerCharacter);
 
 	if (false == TargetBgm.empty())
 	{

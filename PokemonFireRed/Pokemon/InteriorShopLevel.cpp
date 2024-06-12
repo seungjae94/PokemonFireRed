@@ -14,8 +14,8 @@ void UInteriorShopLevel::BeginPlay()
 	UMapLevel::BeginPlay();
 
 	// (디버깅) 플레이어 시작 위치 설정
-	UEventManager::SetPoint(GetName(), Global::Player, { 4, 5 });
-	UEventManager::SetDirection(GetName(), Global::Player, FTileVector::Up);
+	UEventManager::SetPoint(GetName(), Global::PlayerCharacter, { 4, 5 });
+	UEventManager::SetDirection(GetName(), Global::PlayerCharacter, FTileVector::Up);
 
 	MakeDoor();
 }

@@ -3,7 +3,7 @@
 #include "EventCondition.h"
 #include "EventStream.h"
 #include "Text.h"
-#include "Player.h"
+#include "PlayerCharacter.h"
 #include "PokemonLevel.h"
 
 ADialogueActor::ADialogueActor()

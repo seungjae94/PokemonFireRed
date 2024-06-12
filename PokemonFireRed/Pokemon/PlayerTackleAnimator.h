@@ -1,7 +1,7 @@
 #pragma once
 #include "Animator.h"
 
-class APlayerTackleAnimator : public AAnimator
+class APlayerCharacterTackleAnimator : public AAnimator
 {
 private:
 	enum class EState
@@ -16,14 +16,14 @@ private:
 	};
 public:
 	// constructor destructor
-	APlayerTackleAnimator();
-	~APlayerTackleAnimator();
+	APlayerCharacterTackleAnimator();
+	~APlayerCharacterTackleAnimator();
 
 	// delete Function
-	APlayerTackleAnimator(const APlayerTackleAnimator& _Other) = delete;
-	APlayerTackleAnimator(APlayerTackleAnimator&& _Other) noexcept = delete;
-	APlayerTackleAnimator& operator=(const APlayerTackleAnimator& _Other) = delete;
-	APlayerTackleAnimator& operator=(APlayerTackleAnimator&& _Other) noexcept = delete;
+	APlayerCharacterTackleAnimator(const APlayerCharacterTackleAnimator& _Other) = delete;
+	APlayerCharacterTackleAnimator(APlayerCharacterTackleAnimator&& _Other) noexcept = delete;
+	APlayerCharacterTackleAnimator& operator=(const APlayerCharacterTackleAnimator& _Other) = delete;
+	APlayerCharacterTackleAnimator& operator=(APlayerCharacterTackleAnimator&& _Other) noexcept = delete;
 
 	void Start() override;
 	bool IsEnd() override;

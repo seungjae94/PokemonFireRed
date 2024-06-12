@@ -5,7 +5,7 @@
 #include "DialogueActor.h"
 #include "ItemBall.h"
 #include "Text.h"
-#include "UserData.h"
+#include "PlayerData.h"
 #include "Pokemon.h"
 #include "SoundManager.h"
 
@@ -27,8 +27,8 @@ void UExteriorPalletTownLevel::BeginPlay()
 	//UEventManager::SetPoint(GetName(), Global::Player, { 74, 90 });			// 상록시티 - 1번 도로 입구
 	//UEventManager::SetPoint(GetName(), Global::Player, { 82, 80 });			// 상록시티 - 포켓몬 센터 근처
 	//UEventManager::SetPoint(GetName(), Global::Player, { 69, 27 });			// 상록숲 앞
-	UEventManager::SetPoint(GetName(), Global::Player, { 77, 136 });		// 태초마을 - 1번 도로 입구 
-	UEventManager::SetDirection(GetName(), Global::Player, FTileVector::Down);
+	UEventManager::SetPoint(GetName(), Global::PlayerCharacter, { 77, 136 });		// 태초마을 - 1번 도로 입구 
+	UEventManager::SetDirection(GetName(), Global::PlayerCharacter, FTileVector::Down);
 
 	// 마을 생성
 	MakePalletTown();
@@ -141,7 +141,7 @@ void UExteriorPalletTownLevel::MakePTGetStarterEventTriggers()
 {
 	UEventCondition Cond = UEventCondition(EEventTriggerAction::StepOn);
 	CheckFunc Func = []() {
-		return false == UUserData::IsAchieved(EAchievement::GetStarterEventStart);
+		return false == UPlayerData::IsAchieved(EAchievement::GetStarterEventStart);
 		};
 	Cond.RegisterCheckFunc(Func);
 
@@ -177,30 +177,30 @@ void UExteriorPalletTownLevel::SpawnPTGetStarterEventTrigger(UEventTargetSetting
 		>> ES::PlayBgm(RN::BgmOaksTheme)
 		>> ES::FadeInBgm(0.5f)
 		>> ES::Chat({ L"OAK: Hey! Wait!\nDon't go out!" }, EFontColor::Blue, 16)
-		>> ES::ChangeDirection(Global::ExteriorPalletTownLevel, EN::Player, FTileVector::Down)
+		>> ES::ChangeDirection(Global::ExteriorPalletTownLevel, EN::PlayerCharacter, FTileVector::Down)
 		>> ES::PlaySE(RN::SESurprise)
-		>> ES::Surprise(EN::Player)
+		>> ES::Surprise(EN::PlayerCharacter)
 		>> ES::Move(EN::Oak, _OakComePath, 3.6f, false)
 		>> ES::Chat({
 	   L"OAK: It's unsafe!\nWild POKéMON live in tall grass!",
 	   L"You need your own POKéMON for\nyour protection.",
 	   L"I know!\nHere, come with me!" }, EFontColor::Blue, 16)
-	   >> ES::Move({ EN::Oak, EN::Player }, { _OakGoToLabPath, _PlayerGoToLabPath })
+	   >> ES::Move({ EN::Oak, EN::PlayerCharacter }, { _OakGoToLabPath, _PlayerGoToLabPath })
 		>> ES::ChangeDirection(Global::ExteriorPalletTownLevel, EN::Oak, Up)
 		>> ES::PlaySE(RN::SEDoorOpen)
 		>> ES::PlayAnimation(EN::OaksLabDoor, "DoorOpen")
 		>> ES::Move(EN::Oak, {Up})
 		>> ES::SetActive(GetName(), EN::Oak, false)
-		>> ES::Move(EN::Player, { Right, Up })
-		>> ES::HideActor(Global::Player)
+		>> ES::Move(EN::PlayerCharacter, { Right, Up })
+		>> ES::HideActor(Global::PlayerCharacter)
 		>> ES::PlayAnimation(EN::OaksLabDoor, "DoorClose")
 		>> ES::FadeOut(0.5f)
 		>> ES::Wait(0.5f)
 		>> ES::SetActive(Global::InteriorOaksLabLevel, EN::Oak, true)
 		>> ES::ChangePoint(Global::InteriorOaksLabLevel, EN::Oak, { 6, 11 })
 		>> ES::ChangeDirection(Global::InteriorOaksLabLevel, EN::Oak, Up)
-		>> ES::ChangePoint(Global::InteriorOaksLabLevel, EN::Player, { 6, 12 })
-		>> ES::ChangeDirection(Global::InteriorOaksLabLevel, EN::Player, Up)
+		>> ES::ChangePoint(Global::InteriorOaksLabLevel, EN::PlayerCharacter, { 6, 12 })
+		>> ES::ChangeDirection(Global::InteriorOaksLabLevel, EN::PlayerCharacter, Up)
 		>> ES::ChangeLevel(Global::InteriorOaksLabLevel)
 		>> ES::FadeIn(0.5f)
 		>> ES::Wait(0.5f)
@@ -209,7 +209,7 @@ void UExteriorPalletTownLevel::SpawnPTGetStarterEventTrigger(UEventTargetSetting
 		>> ES::ChangeDirection(Global::InteriorOaksLabLevel, EN::Oak, Down)
 		>> ES::ChangePoint(Global::InteriorOaksLabLevel, EN::RivalGreen, { 5, 4 })
 		>> ES::ChangeDirection(Global::InteriorOaksLabLevel, EN::RivalGreen, Up)
-		>> ES::Move(EN::Player, { Up, Up, Up, Up, Up, Up, Up, Up })
+		>> ES::Move(EN::PlayerCharacter, { Up, Up, Up, Up, Up, Up, Up, Up })
 		>> ES::FadeOutBgm(0.25f)
 		>> ES::Wait(0.25f)
 		>> ES::PlayBgm(RN::BgmOaksLab)
@@ -424,9 +424,9 @@ void UExteriorPalletTownLevel::MakeVCForestEntrances()
 			>> ES::FadeOut(0.75f)
 			>> ES::Wait(0.75f)
 			>> ES::ChangeLevel(Global::ExteriorViridianForestLevel)
-			>> ES::ChangePoint(Global::ExteriorViridianForestLevel, EN::Player, {35, 62})
-			>> ES::ChangeDirection(Global::ExteriorViridianForestLevel, Global::Player, FTileVector::Up)
-			>> ES::CameraFocus(Global::Player)
+			>> ES::ChangePoint(Global::ExteriorViridianForestLevel, EN::PlayerCharacter, {35, 62})
+			>> ES::ChangeDirection(Global::ExteriorViridianForestLevel, Global::PlayerCharacter, FTileVector::Up)
+			>> ES::CameraFocus(Global::PlayerCharacter)
 			>> ES::ShowMapName(L"VIRIDIAN FOREST")
 			>> ES::PlayBgm(RN::BgmViridianForest)
 			>> ES::FadeInBgm(0.75f)
@@ -635,7 +635,7 @@ void UExteriorPalletTownLevel::MakeRoute2ToViridianAreaChanger()
 
 std::string UExteriorPalletTownLevel::GetAreaNameStatic()
 {
-	APlayer* Player = UEventManager::FindCurLevelTarget<APlayer>(EN::Player);
+	APlayerCharacter* Player = UEventManager::FindCurLevelTarget<APlayerCharacter>(EN::PlayerCharacter);
 	UExteriorPalletTownLevel* CurLevel = dynamic_cast<UExteriorPalletTownLevel*>(Player->GetWorld());
 	if (nullptr == CurLevel)
 	{

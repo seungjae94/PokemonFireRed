@@ -4,7 +4,7 @@
 #include <EngineCore/EngineResourcesManager.h>
 #include "PokemonLevel.h"
 
-class APlayer;
+class APlayerCharacter;
 class AMap;
 class AMenuCanvas;
 class ADialogueWindow;
@@ -39,7 +39,7 @@ protected:
 
 	// 하위 클래스에서 너무 많이 사용할 것 같아서 protected로 설정
 	AMap* Map = nullptr;
-	APlayer* Player = nullptr;
+	APlayerCharacter* Player = nullptr;
 	AEventTrigger* FadeInTrigger = nullptr;
 
 	std::string AreaName = "";

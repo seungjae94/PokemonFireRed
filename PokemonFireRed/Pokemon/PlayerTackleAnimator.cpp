@@ -2,15 +2,15 @@
 #include "BlinkEffectAnimator.h"
 #include "ShakeEffectAnimator.h"
 
-APlayerTackleAnimator::APlayerTackleAnimator() 
+APlayerCharacterTackleAnimator::APlayerCharacterTackleAnimator() 
 {
 }
 
-APlayerTackleAnimator::~APlayerTackleAnimator() 
+APlayerCharacterTackleAnimator::~APlayerCharacterTackleAnimator() 
 {
 }
 
-void APlayerTackleAnimator::Start()
+void APlayerCharacterTackleAnimator::Start()
 {
 	AAnimator::Start();
 
@@ -22,17 +22,17 @@ void APlayerTackleAnimator::Start()
 	PlayerRightPos = PlayerInitPos + UPokemonUtil::PixelVector(10, 0);
 }
 
-bool APlayerTackleAnimator::IsEnd()
+bool APlayerCharacterTackleAnimator::IsEnd()
 {
 	return State == EState::End;
 }
 
-void APlayerTackleAnimator::SetTypeVs(ETypeVs _TypeVs)
+void APlayerCharacterTackleAnimator::SetTypeVs(ETypeVs _TypeVs)
 {
 	TypeVs = _TypeVs;
 }
 
-void APlayerTackleAnimator::BeginPlay()
+void APlayerCharacterTackleAnimator::BeginPlay()
 {
 	AAnimator::BeginPlay();
 
@@ -40,7 +40,7 @@ void APlayerTackleAnimator::BeginPlay()
 	TackleEffect->SetImage(RN::TackleEffect);
 }
 
-void APlayerTackleAnimator::Tick(float _DeltaTime)
+void APlayerCharacterTackleAnimator::Tick(float _DeltaTime)
 {
 	AAnimator::Tick(_DeltaTime);
 
@@ -72,7 +72,7 @@ void APlayerTackleAnimator::Tick(float _DeltaTime)
 	}
 }
 
-void APlayerTackleAnimator::ProcessPlayerMoveRight()
+void APlayerCharacterTackleAnimator::ProcessPlayerMoveRight()
 {
 	FVector Pos = UPokemonMath::Lerp(PlayerRightPos, PlayerInitPos, Timer / MoveTime);
 	GetPlayer()->SetRelativePosition(Pos);
@@ -84,7 +84,7 @@ void APlayerTackleAnimator::ProcessPlayerMoveRight()
 	}
 }
 
-void APlayerTackleAnimator::ProcessShowTackleEffect()
+void APlayerCharacterTackleAnimator::ProcessShowTackleEffect()
 {
 	State = EState::PlayerMoveLeft;
 	Timer = MoveTime;
@@ -92,7 +92,7 @@ void APlayerTackleAnimator::ProcessShowTackleEffect()
 	ShakeEffectAnimator->Start(false);
 }
 
-void APlayerTackleAnimator::ProcessPlayerMoveLeft()
+void APlayerCharacterTackleAnimator::ProcessPlayerMoveLeft()
 {
 	FVector Pos = UPokemonMath::Lerp(PlayerInitPos, PlayerRightPos, Timer / MoveTime);
 	GetPlayer()->SetRelativePosition(Pos);
@@ -104,7 +104,7 @@ void APlayerTackleAnimator::ProcessPlayerMoveLeft()
 	}
 }
 
-void APlayerTackleAnimator::ProcessHideTackleEffect()
+void APlayerCharacterTackleAnimator::ProcessHideTackleEffect()
 {
 	if (true == ShakeEffectAnimator->IsEnd())
 	{
@@ -116,7 +116,7 @@ void APlayerTackleAnimator::ProcessHideTackleEffect()
 	}
 }
 
-void APlayerTackleAnimator::ProcessWaitBlinkEffectEnd()
+void APlayerCharacterTackleAnimator::ProcessWaitBlinkEffectEnd()
 {
 	if (false == IsDamageSoundPlayed && Timer <= 0.0f)
 	{

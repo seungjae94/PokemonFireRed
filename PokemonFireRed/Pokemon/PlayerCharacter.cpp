@@ -1,4 +1,4 @@
-#include "Player.h"
+#include "PlayerCharacter.h"
 #include "PokemonInput.h"
 #include "Map.h"
 #include "Global.h"
@@ -9,27 +9,27 @@
 #include "Pokemon.h"
 #include "SoundManager.h"
 
-APlayer::APlayer()
+APlayerCharacter::APlayerCharacter()
 {
 }
 
-APlayer::~APlayer()
+APlayerCharacter::~APlayerCharacter()
 {
 }
 
-void APlayer::BeginPlay()
+void APlayerCharacter::BeginPlay()
 {
 	AEventTarget::BeginPlay();
 }
 
-void APlayer::Tick(float _DeltaTime)
+void APlayerCharacter::Tick(float _DeltaTime)
 {
 	AEventTarget::Tick(_DeltaTime);
 	UpdateInputState(_DeltaTime);
 	StateUpdate(_DeltaTime);
 }
 
-void APlayer::StateUpdate(float _DeltaTime)
+void APlayerCharacter::StateUpdate(float _DeltaTime)
 {
 	switch (State)
 	{
@@ -53,7 +53,7 @@ void APlayer::StateUpdate(float _DeltaTime)
 	}
 }
 
-void APlayer::StateChange(EPlayerState _State, bool _Restart)
+void APlayerCharacter::StateChange(EPlayerState _State, bool _Restart)
 {
 	if (false == _Restart && State == _State)
 	{
@@ -82,12 +82,12 @@ void APlayer::StateChange(EPlayerState _State, bool _Restart)
 	State = _State;
 }
 
-bool APlayer::HasControl() const
+bool APlayerCharacter::HasControl() const
 {
 	return State != EPlayerState::OutOfControl;
 }
 
-void APlayer::ChangeAnimation(EPlayerState _State, FTileVector _Direction)
+void APlayerCharacter::ChangeAnimation(EPlayerState _State, FTileVector _Direction)
 {
 	std::string UpperAniName = GetName();
 	std::string LowerAniName = GetName();
@@ -121,12 +121,12 @@ void APlayer::ChangeAnimation(EPlayerState _State, FTileVector _Direction)
 	LowerBodyRenderer->ChangeAnimation(LowerAniName);
 }
 
-void APlayer::IdleStart()
+void APlayerCharacter::IdleStart()
 {
 	ChangeAnimation(EPlayerState::Idle, Direction);
 }
 
-void APlayer::Idle(float _DeltaTime)
+void APlayerCharacter::Idle(float _DeltaTime)
 {
 	// 0. 회전중일 경우 다른 입력은 무시한다.
 	if (true == IsRotating)
@@ -209,7 +209,7 @@ void APlayer::Idle(float _DeltaTime)
 
 }
 
-void APlayer::TryWalk()
+void APlayerCharacter::TryWalk()
 {
 	// e.g. 표지판 앞에서 표지판을 보고 서있다가 표지판 쪽 방향키를 누르는 경우 
 	bool ReadResult = TryReadEvent();
@@ -243,7 +243,7 @@ void APlayer::TryWalk()
 	StateChange(EPlayerState::Walk);
 }
 
-void APlayer::WalkStart()
+void APlayerCharacter::WalkStart()
 {
 	ChangeAnimation(EPlayerState::Walk, Direction);
 	MemoryDirection = FTileVector::Zero;
@@ -252,7 +252,7 @@ void APlayer::WalkStart()
 	NextPoint = PrevPoint + Direction;
 }
 
-void APlayer::Walk(float _DeltaTime)
+void APlayerCharacter::Walk(float _DeltaTime)
 {
 	// 0. 아직 이동 중이다.
 	if (CurWalkTime > 0.0f)
@@ -339,12 +339,12 @@ void APlayer::Walk(float _DeltaTime)
 	WalkStart();
 }
 
-void APlayer::WalkInPlaceStart()
+void APlayerCharacter::WalkInPlaceStart()
 {
 	ChangeAnimation(EPlayerState::WalkInPlace, Direction);
 }
 
-void APlayer::WalkInPlace(float _DeltaTime)
+void APlayerCharacter::WalkInPlace(float _DeltaTime)
 {
 	CollisionSETimer -= _DeltaTime;
 
@@ -425,7 +425,7 @@ void APlayer::WalkInPlace(float _DeltaTime)
 	StateChange(EPlayerState::Walk);
 }
 
-void APlayer::JumpStart()
+void APlayerCharacter::JumpStart()
 {
 	USoundManager::PlaySE(RN::SELedgeJump);
 	ChangeAnimation(EPlayerState::Jump, Direction);
@@ -435,7 +435,7 @@ void APlayer::JumpStart()
 	NextPoint = PrevPoint + Direction.ToFVector() * 2;
 }
 
-void APlayer::Jump(float _DeltaTime)
+void APlayerCharacter::Jump(float _DeltaTime)
 {
 	// 0. 아직 점프 중이다.
 	if (CurJumpTime > 0.0f)
@@ -518,17 +518,17 @@ void APlayer::Jump(float _DeltaTime)
 	StateChange(EPlayerState::Walk);
 }
 
-bool APlayer::IsZDown()
+bool APlayerCharacter::IsZDown()
 {
 	return UEngineInput::IsDown('Z');
 }
 
-bool APlayer::IsEnterDown()
+bool APlayerCharacter::IsEnterDown()
 {
 	return UEngineInput::IsDown(VK_RETURN);
 }
 
-bool APlayer::TryZClickEvent()
+bool APlayerCharacter::TryZClickEvent()
 {
 	// 클릭 이벤트 = 플레이어가 트리거에 인접 and 트리거를 바라봄 and Z키 입력
 	FTileVector CurPoint = FTileVector(GetActorLocation());
@@ -551,7 +551,7 @@ bool APlayer::TryZClickEvent()
 	return RunResult;
 }
 
-bool APlayer::TryReadEvent()
+bool APlayerCharacter::TryReadEvent()
 {
 	// Read 이벤트 = 플레이어가 트리거에 인접 and 트리거를 바라봄
 	FTileVector CurPoint = FTileVector(GetActorLocation());
@@ -569,7 +569,7 @@ bool APlayer::TryReadEvent()
 	return RunResult;
 }
 
-bool APlayer::TryArrowClickEvent()
+bool APlayerCharacter::TryArrowClickEvent()
 {
 	// Push 이벤트 = 플레이어가 트리거에 인접 and 트리거가 있는 방향의 방향키 입력
 	FTileVector CurPoint = FTileVector(GetActorLocation());
@@ -587,7 +587,7 @@ bool APlayer::TryArrowClickEvent()
 	return RunResult;
 }
 
-bool APlayer::TryStepOnEvent()
+bool APlayerCharacter::TryStepOnEvent()
 {
 	// StepOn 이벤트 = 플레이어가 트리거와 같은 위치에 있음
 
@@ -605,7 +605,7 @@ bool APlayer::TryStepOnEvent()
 	return RunResult;
 }
 
-bool APlayer::TryBattleEvent()
+bool APlayerCharacter::TryBattleEvent()
 {
 	if (false == IsGrass())
 	{
@@ -632,7 +632,7 @@ bool APlayer::TryBattleEvent()
 	return true;
 }
 
-Color8Bit APlayer::GetPointColor(FTileVector _RelativePoint)
+Color8Bit APlayerCharacter::GetPointColor(FTileVector _RelativePoint)
 {
 	// 맵을 이미지 좌상단을 기준으로 계산한 타겟의 상대 좌표
 	FVector MapRelativeTargetPos = (GetActorLocation() - Map->GetActorLocation()) + _RelativePoint.ToFVector();
@@ -644,7 +644,7 @@ Color8Bit APlayer::GetPointColor(FTileVector _RelativePoint)
 	return Color;
 }
 
-bool APlayer::IsLedge(FTileVector _Direction)
+bool APlayerCharacter::IsLedge(FTileVector _Direction)
 {
 	Color8Bit Color = GetPointColor(_Direction);
 
@@ -656,13 +656,13 @@ bool APlayer::IsLedge(FTileVector _Direction)
 	return false;
 }
 
-bool APlayer::IsGrass()
+bool APlayerCharacter::IsGrass()
 {
 	Color8Bit Color = GetPointColor();
 	return Color.G == 255 && Color.B == 0;
 }
 
-bool APlayer::IsPixelCollider(FTileVector _Direction)
+bool APlayerCharacter::IsPixelCollider(FTileVector _Direction)
 {
 	FVector MapRelativeCurPos = GetActorLocation() - Map->GetActorLocation();
 	FVector MapRelativeTargetPos = MapRelativeCurPos + _Direction.ToFVector();
@@ -698,7 +698,7 @@ bool APlayer::IsPixelCollider(FTileVector _Direction)
 	return TargetColor == Global::PixelColliderBlock || (TargetColor.R == 255 && TargetColor.G == 255);
 }
 
-bool APlayer::IsComponentCollider(FTileVector _Direction)
+bool APlayerCharacter::IsComponentCollider(FTileVector _Direction)
 {
 	std::vector<UCollision*> CollisionResult;
 
@@ -724,14 +724,14 @@ bool APlayer::IsComponentCollider(FTileVector _Direction)
 	return false;
 }
 
-bool APlayer::IsCollider(FTileVector _Direction)
+bool APlayerCharacter::IsCollider(FTileVector _Direction)
 {
 	return true == IsPixelCollider(_Direction) || true == IsComponentCollider(_Direction);
 }
 
 
 
-void APlayer::UpdateInputState(float _DeltaTime)
+void APlayerCharacter::UpdateInputState(float _DeltaTime)
 {
 	InputStatus.SinceLastZKeyDown += _DeltaTime;
 	InputStatus.SinceLastArrowKeyDown += _DeltaTime;

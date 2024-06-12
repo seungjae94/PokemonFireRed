@@ -23,7 +23,7 @@ void AInteriorDoor::RegisterPredefinedEvent()
 	Cond.RegisterCheckFunc(ToCheckFunc(CheckPlayerDirection));
 
 	UEventStream& Stream = ES::Start(true)
-		>> ES::PlayAnimation(Global::Player, Global::Player + "Idle" + TargetDirection.ToDirectionString())
+		>> ES::PlayAnimation(Global::PlayerCharacter, Global::PlayerCharacter + "Idle" + TargetDirection.ToDirectionString())
 		>> ES::PlaySE(RN::SEExitMap);
 
 	if (false == TargetBgm.empty())
@@ -35,10 +35,10 @@ void AInteriorDoor::RegisterPredefinedEvent()
 		>> ES::FadeOut(0.5f)
 		>> ES::Wait(0.5f)
 		>> ES::ChangeLevel(TargetMapName)
-		>> ES::ChangePoint(TargetMapName, Global::Player, TargetPoint - TargetDirection)
-		>> ES::ChangeDirection(TargetMapName, Global::Player, TargetDirection)
-		>> ES::CameraFocus(Global::Player)
-		>> ES::HideActor(Global::Player)
+		>> ES::ChangePoint(TargetMapName, Global::PlayerCharacter, TargetPoint - TargetDirection)
+		>> ES::ChangeDirection(TargetMapName, Global::PlayerCharacter, TargetDirection)
+		>> ES::CameraFocus(Global::PlayerCharacter)
+		>> ES::HideActor(Global::PlayerCharacter)
 		>> ES::ShowMapName(TargetMapNameText)
 		>> ES::FadeIn(0.75f, EFadeType::HCurtain)
 		>> ES::Wait(0.25f);
@@ -54,8 +54,8 @@ void AInteriorDoor::RegisterPredefinedEvent()
 		>> ES::Wait(0.5f)
 		>> ES::PlaySE(RN::SEDoorOpen)
 		>> ES::PlayAnimation(ExteriorDoorName, "DoorOpen")
-		>> ES::ShowActor(Global::Player)
-		>> ES::Move(Global::Player, { TargetDirection }, 1.8f)
+		>> ES::ShowActor(Global::PlayerCharacter)
+		>> ES::Move(Global::PlayerCharacter, { TargetDirection }, 1.8f)
 		>> ES::PlayAnimation(ExteriorDoorName, "DoorClose")
 		>> ES::End(true);
 

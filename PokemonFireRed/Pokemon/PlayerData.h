@@ -25,13 +25,13 @@ public:
 	int Count = 0;
 };
 
-class UUserData
+class UPlayerData
 {
-	friend class UserDataReleaser;
+	friend class PlayerDataReleaser;
 public:
 	// constructor destructor
-	UUserData();
-	~UUserData();
+	UPlayerData();
+	~UPlayerData();
 
 	// ¿£Æ®¸®
 	static UPokemon& GetPokemonInEntry(int _Index);

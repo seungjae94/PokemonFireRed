@@ -17,7 +17,7 @@ void UExteriorViridianForestLevel::BeginPlay()
 	AreaBgm = RN::BgmViridianForest;
 
 	// (디버깅) 플레이어 시작 위치 설정
-	UEventManager::SetPoint(GetName(), Global::Player, { 10, 20 });				// 회색시티 앞
+	UEventManager::SetPoint(GetName(), Global::PlayerCharacter, { 10, 20 });				// 회색시티 앞
 	//UEventManager::SetPoint(GetName(), Global::Player, { 35, 62 });			// 상록시티 앞
 
 	MakeBugCatcher0();
@@ -174,7 +174,7 @@ void UExteriorViridianForestLevel::MakeExitToR2()
 {
 	UEventCondition Cond = UEventCondition(EEventTriggerAction::ArrowClick);
 	Cond.RegisterCheckFunc([]() {
-		const APlayer* Player = UEventManager::FindCurLevelTarget<APlayer>(EN::Player);
+		const APlayerCharacter* Player = UEventManager::FindCurLevelTarget<APlayerCharacter>(EN::PlayerCharacter);
 		return Player->GetDirection() == FTileVector::Down;
 		});
 
@@ -194,9 +194,9 @@ void UExteriorViridianForestLevel::MakeExitToR2()
 			>> ES::Wait(0.75f)
 			>> ES::ChangeLevel(Global::ExteriorPalletTownLevel)
 			>> ES::ChangeArea("ROUTE 2", RN::BgmRoute2)
-			>> ES::ChangePoint(Global::ExteriorPalletTownLevel, EN::Player, { 69, 26 })
-			>> ES::ChangeDirection(Global::ExteriorPalletTownLevel, Global::Player, FTileVector::Down)
-			>> ES::CameraFocus(Global::Player)
+			>> ES::ChangePoint(Global::ExteriorPalletTownLevel, EN::PlayerCharacter, { 69, 26 })
+			>> ES::ChangeDirection(Global::ExteriorPalletTownLevel, Global::PlayerCharacter, FTileVector::Down)
+			>> ES::CameraFocus(Global::PlayerCharacter)
 			>> ES::ShowMapName(L"ROUTE 2")
 			>> ES::PlayBgm(RN::BgmRoute2)
 			>> ES::FadeInBgm(0.75f)
@@ -227,9 +227,9 @@ void UExteriorViridianForestLevel::MakeExitsToPewter()
 			>> ES::Wait(0.75f)
 			>> ES::ChangeLevel(Global::ExteriorPewterCityLevel)
 			>> ES::ChangeArea("ROUTE 2", RN::BgmRoute2)
-			>> ES::ChangePoint(Global::ExteriorPewterCityLevel, EN::Player, { 22, 57 })
-			>> ES::ChangeDirection(Global::ExteriorPewterCityLevel, Global::Player, FTileVector::Up)
-			>> ES::CameraFocus(Global::Player)
+			>> ES::ChangePoint(Global::ExteriorPewterCityLevel, EN::PlayerCharacter, { 22, 57 })
+			>> ES::ChangeDirection(Global::ExteriorPewterCityLevel, Global::PlayerCharacter, FTileVector::Up)
+			>> ES::CameraFocus(Global::PlayerCharacter)
 			>> ES::ShowMapName(L"ROUTE 2")
 			>> ES::PlayBgm(RN::BgmRoute2)
 			>> ES::FadeInBgm(0.75f)
@@ -257,17 +257,17 @@ void UExteriorViridianForestLevel::MakeAntidoteBall()
 
 bool UExteriorViridianForestLevel::FightWithBugCatcher0Checker()
 {
-	return false == UUserData::IsAchieved(EAchievement::FightWithBugCatcher0);
+	return false == UPlayerData::IsAchieved(EAchievement::FightWithBugCatcher0);
 }
 
 bool UExteriorViridianForestLevel::FightWithBugCatcher1Checker()
 {
-	return false == UUserData::IsAchieved(EAchievement::FightWithBugCatcher1);
+	return false == UPlayerData::IsAchieved(EAchievement::FightWithBugCatcher1);
 }
 
 std::vector<FTileVector> UExteriorViridianForestLevel::BugCatcher0PathGenerator()
 {
-	const AEventTarget* Player = UEventManager::FindCurLevelTarget<AEventTarget>(EN::Player);
+	const AEventTarget* Player = UEventManager::FindCurLevelTarget<AEventTarget>(EN::PlayerCharacter);
 	const AEventTarget* BugCatcher0 = UEventManager::FindCurLevelTarget<AEventTarget>(EN::BugCatcher0);
 
 	int DiffX = BugCatcher0->GetPoint().X - Player->GetPoint().X;
@@ -284,7 +284,7 @@ std::vector<FTileVector> UExteriorViridianForestLevel::BugCatcher0PathGenerator(
 
 std::vector<FTileVector> UExteriorViridianForestLevel::BugCatcher1PathGenerator()
 {
-	const AEventTarget* Player = UEventManager::FindCurLevelTarget<AEventTarget>(EN::Player);
+	const AEventTarget* Player = UEventManager::FindCurLevelTarget<AEventTarget>(EN::PlayerCharacter);
 	const AEventTarget* BugCatcher1 = UEventManager::FindCurLevelTarget<AEventTarget>(EN::BugCatcher1);
 
 	int DiffX = BugCatcher1->GetPoint().X - Player->GetPoint().X;

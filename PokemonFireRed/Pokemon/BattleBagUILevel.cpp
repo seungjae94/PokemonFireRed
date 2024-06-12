@@ -46,7 +46,7 @@ void UBattleBagUILevel::LevelStart(ULevel* _PrevLevel)
 
 void UBattleBagUILevel::SelectTarget()
 {
-	int RecordCount = UUserData::GetRecordCount(GetCurItemType());
+	int RecordCount = UPlayerData::GetRecordCount(GetCurItemType());
 	int TargetIndex = TargetIndexMemory[Page];
 
 	// 취소 버튼을 누른 경우
@@ -88,7 +88,7 @@ void UBattleBagUILevel::SelectAction()
 	if (GetCurItemType() == EItemType::PokeBall)
 	{
 		State = EBagUIState::TargetSelect;
-		UUserData::LoseItem(GetTargetItem()->Id);
+		UPlayerData::LoseItem(GetTargetItem()->Id);
 		PlayerBattler->SelectItem(GetTargetItem());
 		PlayerBattler->SetItemSelectState(EItemSelectState::BallSelected);
 		UEventManager::FadeChangeLevel(Global::BattleLevel);

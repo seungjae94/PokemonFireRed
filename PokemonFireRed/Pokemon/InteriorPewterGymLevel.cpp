@@ -21,8 +21,8 @@ void UInteriorPewterGymLevel::BeginPlay()
 	UEngineResourcesManager::GetInst().CuttingImage(RN::EndingRunner, 6, 1);
 
 	// (디버깅) 플레이어 시작 위치 설정
-	UEventManager::SetPoint(GetName(), Global::Player, { 6, 14 });			// 회색시티 앞
-	UEventManager::SetDirection(GetName(), Global::Player, FTileVector::Up);
+	UEventManager::SetPoint(GetName(), Global::PlayerCharacter, { 6, 14 });			// 회색시티 앞
+	UEventManager::SetDirection(GetName(), Global::PlayerCharacter, FTileVector::Up);
 
 	Canvas = SpawnActor<AEndingCanvas>();
 	Canvas->SetActive(false);
@@ -39,7 +39,7 @@ void UInteriorPewterGymLevel::Tick(float _DeltaTime)
 	switch (State)
 	{
 	case EState::None:
-		if (true == UUserData::IsAchieved(EAchievement::FightWithPewterGymLeader) && true == Player->HasControl())
+		if (true == UPlayerData::IsAchieved(EAchievement::FightWithPewterGymLeader) && true == Player->HasControl())
 		{
 			State = EState::Ending;
 			UEventManager::DeactivatePlayer();
@@ -218,17 +218,17 @@ void UInteriorPewterGymLevel::MakeGymLeader()
 
 bool UInteriorPewterGymLevel::FightWithCamperChecker()
 {
-	return false == UUserData::IsAchieved(EAchievement::FightWithPewterGymCamper);
+	return false == UPlayerData::IsAchieved(EAchievement::FightWithPewterGymCamper);
 }
 
 bool UInteriorPewterGymLevel::FightWithBrockChecker()
 {
-	return false == UUserData::IsAchieved(EAchievement::FightWithPewterGymLeader);
+	return false == UPlayerData::IsAchieved(EAchievement::FightWithPewterGymLeader);
 }
 
 std::vector<FTileVector> UInteriorPewterGymLevel::CamperPathGenerator()
 {
-	const AEventTarget* Player = UEventManager::FindCurLevelTarget<AEventTarget>(EN::Player);
+	const AEventTarget* Player = UEventManager::FindCurLevelTarget<AEventTarget>(EN::PlayerCharacter);
 	const AEventTarget* Camper = UEventManager::FindCurLevelTarget<AEventTarget>(EN::Camper);
 
 	int DiffX = Player->GetPoint().X - Camper->GetPoint().X;

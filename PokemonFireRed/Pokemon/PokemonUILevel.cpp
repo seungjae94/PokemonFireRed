@@ -87,7 +87,7 @@ void UPokemonUILevel::LevelStart(ULevel* _PrevLevel)
 
 void UPokemonUILevel::ProcessTargetSelectionWait()
 {
-	int EntrySize = UUserData::GetPokemonEntrySize();
+	int EntrySize = UPlayerData::GetPokemonEntrySize();
 
 	// 타겟 선택 단계에서 취소 버튼을 누를 때의 행동
 	if (true == UEngineInput::IsDown('X'))
@@ -182,12 +182,12 @@ bool UPokemonUILevel::IsTargetCursorOnFirst() const
 
 bool UPokemonUILevel::IsTargetCursorOnEntry() const
 {
-	return TargetCursor > 0 && TargetCursor < UUserData::GetPokemonEntrySize();
+	return TargetCursor > 0 && TargetCursor < UPlayerData::GetPokemonEntrySize();
 }
 
 bool UPokemonUILevel::IsTargetCursorOnCancel() const
 {
-	return TargetCursor == UUserData::GetPokemonEntrySize();
+	return TargetCursor == UPlayerData::GetPokemonEntrySize();
 }
 
 void UPokemonUILevel::PlaySEClick()

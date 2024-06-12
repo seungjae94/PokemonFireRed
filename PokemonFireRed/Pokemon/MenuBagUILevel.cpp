@@ -37,7 +37,7 @@ void UMenuBagUILevel::LevelStart(ULevel* _PrevLevel)
 
 void UMenuBagUILevel::SelectTarget()
 {
-	int RecordCount = UUserData::GetRecordCount(GetCurItemType());
+	int RecordCount = UPlayerData::GetRecordCount(GetCurItemType());
 	int TargetIndex = TargetIndexMemory[Page];
 
 	// 취소 버튼을 누른 경우
@@ -77,7 +77,7 @@ void UMenuBagUILevel::SelectAction()
 	}
 
 	// 포켓몬이 없는 경우 액션 선택을 막아둔다.
-	if (UUserData::GetPokemonEntrySize() == 0)
+	if (UPlayerData::GetPokemonEntrySize() == 0)
 	{
 		State = EBagUIState::TargetSelect;
 	}

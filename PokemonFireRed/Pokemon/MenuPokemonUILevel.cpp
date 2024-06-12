@@ -124,7 +124,7 @@ void UMenuPokemonUILevel::ProcessSwitchSelectionWait()
 		return;
 	}
 
-	int EntrySize = UUserData::GetPokemonEntrySize();
+	int EntrySize = UPlayerData::GetPokemonEntrySize();
 	if (true == UEngineInput::IsDown(VK_LEFT)
 		&& true == IsTargetCursorOnEntry())
 	{
@@ -222,7 +222,7 @@ void UMenuPokemonUILevel::ProcessSwitchMoveOut()
 		State = EMenuPokemonUIState::SwitchMoveWait;
 		Timer = SwitchMoveWaitTime;
 
-		UUserData::SwapEntry(SwitchFromCursor, TargetCursor);
+		UPlayerData::SwapEntry(SwitchFromCursor, TargetCursor);
 		Canvas->SetBoxState(SwitchFromCursor, APokemonCanvas::EBoxState::To);
 		Canvas->SetBoxState(TargetCursor, APokemonCanvas::EBoxState::From);
 
@@ -261,7 +261,7 @@ void UMenuPokemonUILevel::ProcessSwitchMoveIn()
 void UMenuPokemonUILevel::SelectTarget()
 {
 	// 취소 버튼을 선택한 경우
-	if (TargetCursor == UUserData::GetPokemonEntrySize())
+	if (TargetCursor == UPlayerData::GetPokemonEntrySize())
 	{
 		CancelTargetSelection();
 		return;

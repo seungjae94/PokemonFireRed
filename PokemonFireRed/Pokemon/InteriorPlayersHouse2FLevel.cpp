@@ -20,8 +20,8 @@ void UInteriorPlayersHouse2FLevel::BeginPlay()
 	UMapLevel::BeginPlay();
 
 	// 플레이어 시작 위치 설정
-	UEventManager::SetPoint(GetName(), Global::Player, { 5, 6 });
-	UEventManager::SetDirection(GetName(), Global::Player, FTileVector::Up);
+	UEventManager::SetPoint(GetName(), Global::PlayerCharacter, { 5, 6 });
+	UEventManager::SetDirection(GetName(), Global::PlayerCharacter, FTileVector::Up);
 
 	// 이벤트 트리거 생성
 	MakeStair();

@@ -3,7 +3,7 @@
 #include "EventStream.h"
 #include "EventTarget.h"
 #include "EventTrigger.h"
-#include "Player.h"
+#include "PlayerCharacter.h"
 #include "DialogueWindow.h"
 #include "MapNameCanvas.h"
 #include "FadeCanvas.h"
@@ -163,7 +163,7 @@ void UEventProcessor::Tick(float _DeltaTime)
 
 void UEventProcessor::ActivatePlayerControl()
 {
-	APlayer* CurPlayer = UEventManager::FindCurLevelTarget<APlayer>(Global::Player);
+	APlayerCharacter* CurPlayer = UEventManager::FindCurLevelTarget<APlayerCharacter>(Global::PlayerCharacter);
 
 	// 맵 레벨이 아닌 경우 플레이어의 상태를 바꾸려고 하지 않는다.
 	if (nullptr == CurPlayer)
@@ -176,7 +176,7 @@ void UEventProcessor::ActivatePlayerControl()
 
 void UEventProcessor::DeactivatePlayerControl()
 {
-	APlayer* CurPlayer = UEventManager::FindCurLevelTarget<APlayer>(Global::Player);
+	APlayerCharacter* CurPlayer = UEventManager::FindCurLevelTarget<APlayerCharacter>(Global::PlayerCharacter);
 
 	// 맵 레벨이 아닌 경우 플레이어의 상태를 바꾸려고 하지 않는다.
 	if (nullptr == CurPlayer)
@@ -360,7 +360,7 @@ bool UEventProcessor::SubprocessMove(const std::vector<std::string>& _TargetName
 		FVector TargetPos = UPokemonMath::Lerp(MoveNextPoints[i].ToFVector(), MovePrevPoints[i].ToFVector(), t);
 		Target->SetActorLocation(TargetPos);
 
-		if (true == _CameraFollow && TargetName == ToUpper(EN::Player))
+		if (true == _CameraFollow && TargetName == ToUpper(EN::PlayerCharacter))
 		{
 			Target->GetWorld()->SetCameraPos(Target->GetActorLocation() - Global::HalfScreen);
 		}
@@ -790,7 +790,7 @@ bool UEventProcessor::ProcessStarePlayer()
 	ES::StarePlayer* Data = dynamic_cast<ES::StarePlayer*>(CurStream->EventCommands[CurCommandIndex]);
 
 	std::string CurLevelName = UEventManager::GetCurLevelName();
-	APlayer* Player = UEventManager::FindCurLevelTarget<APlayer>(Global::Player);
+	APlayerCharacter* Player = UEventManager::FindCurLevelTarget<APlayerCharacter>(Global::PlayerCharacter);
 	UEventManager::SetDirection(CurLevelName, Data->TargetName, -Player->Direction);
 	return true;
 }
@@ -864,21 +864,21 @@ bool UEventProcessor::ProcessTrainerBattle()
 bool UEventProcessor::ProcessAchieve()
 {
 	ES::Achieve* Data = dynamic_cast<ES::Achieve*>(CurStream->EventCommands[CurCommandIndex]);
-	UUserData::Achieve(Data->Achievement);
+	UPlayerData::Achieve(Data->Achievement);
 	return true;
 }
 
 bool UEventProcessor::ProcessUnachieve()
 {
 	ES::Unachieve* Data = dynamic_cast<ES::Unachieve*>(CurStream->EventCommands[CurCommandIndex]);
-	UUserData::Unachieve(Data->Achievement);
+	UPlayerData::Unachieve(Data->Achievement);
 	return true;
 }
 
 bool UEventProcessor::ProcessGainItem()
 {
 	ES::GainItem* Data = dynamic_cast<ES::GainItem*>(CurStream->EventCommands[CurCommandIndex]);
-	UUserData::GainItem(Data->ItemId, Data->Count);
+	UPlayerData::GainItem(Data->ItemId, Data->Count);
 	return true;
 }
 

@@ -4,9 +4,6 @@
     <Filter Include="Core">
       <UniqueIdentifier>{8d77ac80-c255-418f-8c3e-06569a2c5dfc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="0. Player">
-      <UniqueIdentifier>{303e1108-7ab1-4371-9aaa-464f75f69743}</UniqueIdentifier>
-    </Filter>
     <Filter Include="2. Level">
       <UniqueIdentifier>{c65502e2-f0b1-44bb-b6d8-55257fcad413}</UniqueIdentifier>
     </Filter>
@@ -145,6 +142,9 @@
     <Filter Include="2. Level\7. BattleLevel\Animator\CommonAnimator">
       <UniqueIdentifier>{c78de811-44cd-48a1-b813-c99c0416f124}</UniqueIdentifier>
     </Filter>
+    <Filter Include="0. PlayerCharacter">
+      <UniqueIdentifier>{303e1108-7ab1-4371-9aaa-464f75f69743}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PokemonCore.h">
@@ -204,8 +204,8 @@
     <ClInclude Include="Map.h">
       <Filter>2. Level\2. MapLevel\2. Map</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>0. Player</Filter>
+    <ClInclude Include="PlayerCharacter.h">
+      <Filter>0. PlayerCharacter</Filter>
     </ClInclude>
     <ClInclude Include="EventTrigger.h">
       <Filter>4. Event</Filter>
@@ -231,7 +231,7 @@
     <ClInclude Include="Pokemon.h">
       <Filter>6. Data\Pokemon</Filter>
     </ClInclude>
-    <ClInclude Include="UserData.h">
+    <ClInclude Include="PlayerData.h">
       <Filter>6. Data</Filter>
     </ClInclude>
     <ClInclude Include="FadeLevelChanger.h">
@@ -570,8 +570,8 @@
     <ClCompile Include="Map.cpp">
       <Filter>2. Level\2. MapLevel\2. Map</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>0. Player</Filter>
+    <ClCompile Include="PlayerCharacter.cpp">
+      <Filter>0. PlayerCharacter</Filter>
     </ClCompile>
     <ClCompile Include="EventTrigger.cpp">
       <Filter>4. Event</Filter>
@@ -597,7 +597,7 @@
     <ClCompile Include="Pokemon.cpp">
       <Filter>6. Data\Pokemon</Filter>
     </ClCompile>
-    <ClCompile Include="UserData.cpp">
+    <ClCompile Include="PlayerData.cpp">
       <Filter>6. Data</Filter>
     </ClCompile>
     <ClCompile Include="FadeLevelChanger.cpp">

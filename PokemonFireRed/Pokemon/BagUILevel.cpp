@@ -206,7 +206,7 @@ void UBagUILevel::ScrollUp()
 {
 	int& StartIndex = StartIndexMemory[Page];
 	int& TargetIndex = TargetIndexMemory[Page];
-	int RecordCount = UUserData::GetRecordCount(PageToItemType(Page));
+	int RecordCount = UPlayerData::GetRecordCount(PageToItemType(Page));
 
 	// 0. 커서를 더 올릴 수 없는 경우
 	if (TargetIndex == 0)
@@ -245,7 +245,7 @@ void UBagUILevel::ScrollDown()
 {
 	int& StartIndex = StartIndexMemory[Page];
 	int& TargetIndex = TargetIndexMemory[Page];
-	int RecordCount = UUserData::GetRecordCount(PageToItemType(Page));
+	int RecordCount = UPlayerData::GetRecordCount(PageToItemType(Page));
 
 	// 0. 커서를 더 내릴 수 없는 경우
 	if (TargetIndex == RecordCount)
@@ -286,7 +286,7 @@ void UBagUILevel::FixIndexes()
 	EItemType ItemType = PageToItemType(Page);
 	int& StartIndex = StartIndexMemory[Page];
 	int& TargetIndex = TargetIndexMemory[Page];
-	int RecordCount = UUserData::GetRecordCount(ItemType);
+	int RecordCount = UPlayerData::GetRecordCount(ItemType);
 
 	if (TargetIndex < 0)
 	{
@@ -331,7 +331,7 @@ void UBagUILevel::RefreshPage()
 	EItemType ItemType = PageToItemType(Page);
 	int& StartIndex = StartIndexMemory[Page];
 	int& TargetIndex = TargetIndexMemory[Page];
-	int RecordCount = UUserData::GetRecordCount(ItemType);
+	int RecordCount = UPlayerData::GetRecordCount(ItemType);
 
 	if (RecordCount == 0)
 	{
@@ -348,11 +348,11 @@ void UBagUILevel::RefreshPage()
 	int EndIndex = UPokemonMath::Min(StartIndex + 5, RecordCount - 1);
 	int TargetCursor = TargetIndex - StartIndex;
 
-	std::list<FInventoryRecord> Records = UUserData::GetItemList(ItemType, StartIndex, EndIndex);
+	std::list<FInventoryRecord> Records = UPlayerData::GetItemList(ItemType, StartIndex, EndIndex);
 
 	if (TargetIndex < RecordCount)
 	{
-		const FItem* TargetItem = UUserData::GetItem(ItemType, TargetIndex);
+		const FItem* TargetItem = UPlayerData::GetItem(ItemType, TargetIndex);
 		Canvas->SetItemImage(TargetItem->ImageName);
 		Canvas->SetItemExplain(TargetItem->Explain);
 	}
@@ -399,5 +399,5 @@ const FItem* UBagUILevel::GetTargetItem()
 {
 	EItemType ItemType = PageToItemType(Page);
 	int TargetIndex = TargetIndexMemory[Page];
-	return UUserData::GetItem(ItemType, TargetIndex);
+	return UPlayerData::GetItem(ItemType, TargetIndex);
 }

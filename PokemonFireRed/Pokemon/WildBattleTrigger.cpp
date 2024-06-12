@@ -1,5 +1,5 @@
 #include "WildBattleTrigger.h"
-#include "UserData.h"
+#include "PlayerData.h"
 
 AWildBattleTrigger::AWildBattleTrigger()
 {

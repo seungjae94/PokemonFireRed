@@ -99,9 +99,9 @@ void UPokemonLevel::Tick(float _DeltaTime)
 	{
 		USoundManager::PlayBgm(RN::BgmPalletTown);
 		UEventManager::FadeChangeLevel(Global::ExteriorPalletTownLevel, true);
-		UEventManager::SetPoint(Global::ExteriorPalletTownLevel, EN::Player, { 77, 137 });
-		UEventManager::SetDirection(Global::ExteriorPalletTownLevel, EN::Player, FTileVector::Down);
-		UEventManager::SetActive(Global::ExteriorPalletTownLevel, EN::Player, true);
+		UEventManager::SetPoint(Global::ExteriorPalletTownLevel, EN::PlayerCharacter, { 77, 137 });
+		UEventManager::SetDirection(Global::ExteriorPalletTownLevel, EN::PlayerCharacter, FTileVector::Down);
+		UEventManager::SetActive(Global::ExteriorPalletTownLevel, EN::PlayerCharacter, true);
 	}
 
 	// 상록 시티로 이동
@@ -109,9 +109,9 @@ void UPokemonLevel::Tick(float _DeltaTime)
 	{
 		USoundManager::PlayBgm(RN::BgmViridianCity);
 		UEventManager::FadeChangeLevel(Global::ExteriorPalletTownLevel, true);
-		UEventManager::SetPoint(Global::ExteriorPalletTownLevel, EN::Player, { 82, 80 });
-		UEventManager::SetDirection(Global::ExteriorPalletTownLevel, EN::Player, FTileVector::Down);
-		UEventManager::SetActive(Global::ExteriorPalletTownLevel, EN::Player, true);
+		UEventManager::SetPoint(Global::ExteriorPalletTownLevel, EN::PlayerCharacter, { 82, 80 });
+		UEventManager::SetDirection(Global::ExteriorPalletTownLevel, EN::PlayerCharacter, FTileVector::Down);
+		UEventManager::SetActive(Global::ExteriorPalletTownLevel, EN::PlayerCharacter, true);
 	}
 
 	// 상록숲으로 이동
@@ -119,9 +119,9 @@ void UPokemonLevel::Tick(float _DeltaTime)
 	{
 		USoundManager::PlayBgm(RN::BgmViridianForest);
 		UEventManager::FadeChangeLevel(Global::ExteriorViridianForestLevel, true);
-		UEventManager::SetPoint(Global::ExteriorViridianForestLevel, EN::Player, { 35, 60 });
-		UEventManager::SetDirection(Global::ExteriorViridianForestLevel, EN::Player, FTileVector::Down);
-		UEventManager::SetActive(Global::ExteriorViridianForestLevel, EN::Player, true);
+		UEventManager::SetPoint(Global::ExteriorViridianForestLevel, EN::PlayerCharacter, { 35, 60 });
+		UEventManager::SetDirection(Global::ExteriorViridianForestLevel, EN::PlayerCharacter, FTileVector::Down);
+		UEventManager::SetActive(Global::ExteriorViridianForestLevel, EN::PlayerCharacter, true);
 	}
 
 	// 회색 시티로 이동
@@ -129,9 +129,9 @@ void UPokemonLevel::Tick(float _DeltaTime)
 	{
 		USoundManager::PlayBgm(RN::BgmPewterCity);
 		UEventManager::FadeChangeLevel(Global::ExteriorPewterCityLevel, true);
-		UEventManager::SetPoint(Global::ExteriorPewterCityLevel, EN::Player, { 19, 21 });
-		UEventManager::SetDirection(Global::ExteriorPewterCityLevel, EN::Player, FTileVector::Down);
-		UEventManager::SetActive(Global::ExteriorPewterCityLevel, EN::Player, true);
+		UEventManager::SetPoint(Global::ExteriorPewterCityLevel, EN::PlayerCharacter, { 19, 21 });
+		UEventManager::SetDirection(Global::ExteriorPewterCityLevel, EN::PlayerCharacter, FTileVector::Down);
+		UEventManager::SetActive(Global::ExteriorPewterCityLevel, EN::PlayerCharacter, true);
 	}
 }
 

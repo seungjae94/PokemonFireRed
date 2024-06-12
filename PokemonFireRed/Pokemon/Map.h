@@ -1,7 +1,7 @@
 #pragma once
 #include <EngineCore/Actor.h>
 
-class APlayer;
+class APlayerCharacter;
 
 enum class EMapLedgeType
 {
@@ -25,7 +25,7 @@ public:
 	AMap& operator=(const AMap& _Other) = delete;
 	AMap& operator=(AMap&& _Other) noexcept = delete;
 
-	void SetPlayer(APlayer* _Player)
+	void SetPlayer(APlayerCharacter* _Player)
 	{
 		Player = _Player;
 	}
@@ -68,6 +68,6 @@ private:
 	UImageRenderer* CollisionRenderer = nullptr;
 
 	// 플레이어
-	APlayer* Player = nullptr;
+	APlayerCharacter* Player = nullptr;
 };
 

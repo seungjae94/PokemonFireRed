@@ -1,5 +1,5 @@
 #include "Battler.h"
-#include "UserData.h"
+#include "PlayerData.h"
 #include "EventManager.h"
 #include "EventTrigger.h"
 #include "Trainer.h"
@@ -42,10 +42,10 @@ void UBattler::InitPlayer()
 {
 	IsPlayerValue = true;
 
-	int PlayerEntrySize = static_cast<int>(UUserData::GetPokemonEntrySize());
+	int PlayerEntrySize = static_cast<int>(UPlayerData::GetPokemonEntrySize());
 	for (int i = 0; i < PlayerEntrySize; ++i)
 	{
-		Entry.push_back(&UUserData::GetPokemonInEntry(i));
+		Entry.push_back(&UPlayerData::GetPokemonInEntry(i));
 	}
 }
 

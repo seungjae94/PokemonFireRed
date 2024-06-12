@@ -1,7 +1,7 @@
 #include "TrainerCardCanvas.h"
 #include <EnginePlatform/EngineInput.h>
 #include "SoundManager.h"
-#include "UserData.h"
+#include "PlayerData.h"
 #include "TrainerCardUILevel.h"
 #include "PokemonUtil.h"
 
@@ -28,10 +28,10 @@ void ATrainerCardCanvas::BeginPlay()
 
 void ATrainerCardCanvas::RefreshAll()
 {
-	IdNo->SetText(std::to_wstring(UUserData::GetIdNo()));
-	Nickname->SetText(UUserData::GetNickNameW());
-	Money->SetText(std::to_wstring(UUserData::GetMoney()) + L"G");
-	PokedexOwned->SetText(std::to_wstring(UUserData::GetOwnedPokemonCount()));
+	IdNo->SetText(std::to_wstring(UPlayerData::GetIdNo()));
+	Nickname->SetText(UPlayerData::GetNickNameW());
+	Money->SetText(std::to_wstring(UPlayerData::GetMoney()) + L"G");
+	PokedexOwned->SetText(std::to_wstring(UPlayerData::GetOwnedPokemonCount()));
 }
 
 void ATrainerCardCanvas::Tick(float _DeltaTime)

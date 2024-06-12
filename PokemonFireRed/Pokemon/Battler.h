@@ -4,7 +4,7 @@
 #include "BattleEnums.h"
 #include "StatStage.h"
 
-class UUserData;
+class UPlayerData;
 class AEventTrigger;
 
 enum class EItemSelectState

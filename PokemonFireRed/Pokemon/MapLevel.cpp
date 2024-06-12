@@ -9,7 +9,7 @@
 #include "EventManager.h"
 #include "EventCondition.h"
 #include "EventStream.h"
-#include "Player.h"
+#include "PlayerCharacter.h"
 #include "Map.h"
 #include "Surprise.h"
 #include "MenuCanvas.h"
@@ -129,7 +129,7 @@ void UMapLevel::Tick(float _DeltaTime)
 	// 플레이어 위치 확인
 	if (UEngineInput::IsDown('P'))
 	{
-		PokemonDebug::ReportPosition(Player, Global::Player);
+		PokemonDebug::ReportPosition(Player, Global::PlayerCharacter);
 	}
 
 	// 콜리전 맵 확인
@@ -177,9 +177,9 @@ void UMapLevel::LoadCharacterResources()
 
 	// Idle 애니메이션을 로드할 캐릭터 리소스 이름을 정의
 	std::vector<std::string> IdleCharacterNames = {
-		EN::Player,
+		EN::PlayerCharacter,
 		EN::TechMan,
-		EN::PlayersMom,
+		EN::Mom,
 		EN::RivalGreen,
 		EN::Oak,
 		EN::Nurse,
@@ -197,7 +197,7 @@ void UMapLevel::LoadCharacterResources()
 
 	// Walk 애니메이션을 로드할 캐릭터 이름을 정의
 	std::vector<std::string> WalkCharacterNames = {
-		EN::Player,
+		EN::PlayerCharacter,
 		EN::TechMan,
 		EN::RivalGreen,
 		EN::Oak,
@@ -216,7 +216,7 @@ void UMapLevel::LoadCharacterResources()
 
 	// 플레이어 점프 애니메이션 리소스 로드
 	// - 상체 53개 프레임 + 하체 53개 프레임
-	UEngineResourcesManager::GetInst().CuttingImage("PlayerJumpDown.png", 53, 2);
+	UEngineResourcesManager::GetInst().CuttingImage("PlayerCharacterJumpDown.png", 53, 2);
 
 	CurDir.MoveParent();
 }

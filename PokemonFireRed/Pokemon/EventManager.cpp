@@ -7,7 +7,7 @@
 #include "EventProcessor.h"
 #include "EventCondition.h"
 #include "EventStream.h"
-#include "Player.h"
+#include "PlayerCharacter.h"
 #include "MapLevel.h"
 #include "MenuCanvas.h"
 #include "DialogueWindow.h"
@@ -270,7 +270,7 @@ void UEventManager::AddTarget(AEventTarget* _Target, const UEventTargetSetting& 
 	{
 		ECollisionOrder Order = ECollisionOrder::NPC;
 
-		if (nullptr != dynamic_cast<APlayer*>(_Target))
+		if (nullptr != dynamic_cast<APlayerCharacter*>(_Target))
 		{
 			Order = ECollisionOrder::Player;
 		}
@@ -302,10 +302,10 @@ void UEventManager::AddTrigger(AEventTrigger* _Trigger, const UEventTargetSettin
 	AllProcessors[_Trigger] = NewProcessor;
 }
 
-void UEventManager::AddPlayer(APlayer* _Player, const FTileVector& _Point)
+void UEventManager::AddPlayer(APlayerCharacter* _Player, const FTileVector& _Point)
 {
 	UEventTargetSetting PlayerSetting;
-	PlayerSetting.SetName(Global::Player);
+	PlayerSetting.SetName(Global::PlayerCharacter);
 	PlayerSetting.SetPoint(_Point);
 	PlayerSetting.SetDirection(FTileVector::Down);
 	PlayerSetting.SetCollidable(true);
@@ -323,10 +323,10 @@ void UEventManager::AddPlayer(APlayer* _Player, const FTileVector& _Point)
 
 	// 애니메이션 - 점프
 	float JumpInterval = Global::CharacterJumpAnimFrameLength;
-	_Player->UpperBodyRenderer->CreateAnimation("PlayerJumpDown" + Global::SuffixUpperBody,
-		"PlayerJumpDown.png", 0, 52, JumpInterval, false);
-	_Player->LowerBodyRenderer->CreateAnimation("PlayerJumpDown" + Global::SuffixLowerBody,
-		"PlayerJumpDown.png", 53 + 0, 53 + 52, JumpInterval, false);
+	_Player->UpperBodyRenderer->CreateAnimation("PlayerCharacterJumpDown" + Global::SuffixUpperBody,
+		"PlayerCharacterJumpDown.png", 0, 52, JumpInterval, false);
+	_Player->LowerBodyRenderer->CreateAnimation("PlayerCharacterJumpDown" + Global::SuffixLowerBody,
+		"PlayerCharacterJumpDown.png", 53 + 0, 53 + 52, JumpInterval, false);
 
 	// 애니메이션 - 느리게 걷기
 	float WalkInterval = 1.0f / Global::CharacterWalkSpeed / 2;
@@ -334,13 +334,13 @@ void UEventManager::AddPlayer(APlayer* _Player, const FTileVector& _Point)
 
 	for (std::string& DirectionName : AllDirectionNames)
 	{
-		std::string ImageName = Global::Player + "Walk" + DirectionName + ".png";
+		std::string ImageName = Global::PlayerCharacter + "Walk" + DirectionName + ".png";
 
-		std::string UpperBodyAnimName = Global::Player + "SlowWalk" + DirectionName + Global::SuffixUpperBody;
+		std::string UpperBodyAnimName = Global::PlayerCharacter + "SlowWalk" + DirectionName + Global::SuffixUpperBody;
 		_Player->UpperBodyRenderer->CreateAnimation(UpperBodyAnimName + "0", ImageName, { 0, 1 }, SlowWalkInterval, false); // 오른발
 		_Player->UpperBodyRenderer->CreateAnimation(UpperBodyAnimName + "1", ImageName, { 2, 3 }, SlowWalkInterval, false); // 왼발
 
-		std::string LowerBodyAnimName = Global::Player + "SlowWalk" + DirectionName + Global::SuffixLowerBody;
+		std::string LowerBodyAnimName = Global::PlayerCharacter + "SlowWalk" + DirectionName + Global::SuffixLowerBody;
 		_Player->LowerBodyRenderer->CreateAnimation(LowerBodyAnimName + "0", ImageName, { 4, 5 }, SlowWalkInterval, false); // 오른발
 		_Player->LowerBodyRenderer->CreateAnimation(LowerBodyAnimName + "1", ImageName, { 6, 7 }, SlowWalkInterval, false); // 왼발
 	}
@@ -378,7 +378,7 @@ void UEventManager::AddDialogueWindow(ADialogueWindow* _Window)
 
 void UEventManager::ChangeArea(std::string_view _AreaName, std::string_view _AreaBgm)
 {
-	APlayer* Player = FindCurLevelTarget<APlayer>(EN::Player);
+	APlayerCharacter* Player = FindCurLevelTarget<APlayerCharacter>(EN::PlayerCharacter);
 
 	if (nullptr == Player)
 	{
@@ -480,13 +480,13 @@ void UEventManager::SetActive(std::string_view _MapName, std::string_view _Targe
 
 void UEventManager::SetCurLevelPlayerState(EPlayerState _State)
 {
-	APlayer* Player = FindCurLevelTarget<APlayer>(Global::Player);
+	APlayerCharacter* Player = FindCurLevelTarget<APlayerCharacter>(Global::PlayerCharacter);
 	Player->StateChange(_State);
 }
 
 void UEventManager::FadeChangeLevel(std::string_view _TargetMapName, bool _PlayerControl, float _FadeInTime, float _FadeOutTime, bool _IsFadeBgm, std::string_view _NewBgm)
 {
-	if (true == UUserData::IsAchieved(EAchievement::Fading))
+	if (true == UPlayerData::IsAchieved(EAchievement::Fading))
 	{
 		return;
 	}
@@ -525,7 +525,7 @@ void UEventManager::OpenMenuWindow()
 		return;
 	}
 
-	APlayer* CurLevelPlayer = FindCurLevelTarget<APlayer>(Global::Player);
+	APlayerCharacter* CurLevelPlayer = FindCurLevelTarget<APlayerCharacter>(Global::PlayerCharacter);
 	CurLevelPlayer->StateChange(EPlayerState::OutOfControl);
 	USoundManager::PlaySE(RN::SEMenu);
 	Canvas->Open();
@@ -541,20 +541,20 @@ void UEventManager::OpenDialogueWindow(const std::vector<std::wstring>& _Dialogu
 		return;
 	}
 
-	APlayer* CurLevelPlayer = FindCurLevelTarget<APlayer>(Global::Player);
+	APlayerCharacter* CurLevelPlayer = FindCurLevelTarget<APlayerCharacter>(Global::PlayerCharacter);
 	CurLevelPlayer->StateChange(EPlayerState::OutOfControl);
 	Window->Open(_Dialogue, _Color, _LineSpace);
 }
 
 void UEventManager::ActivatePlayer()
 {
-	APlayer* CurLevelPlayer = FindCurLevelTarget<APlayer>(Global::Player);
+	APlayerCharacter* CurLevelPlayer = FindCurLevelTarget<APlayerCharacter>(Global::PlayerCharacter);
 	CurLevelPlayer->StateChange(EPlayerState::Idle);
 }
 
 void UEventManager::DeactivatePlayer()
 {
-	APlayer* CurLevelPlayer = FindCurLevelTarget<APlayer>(Global::Player);
+	APlayerCharacter* CurLevelPlayer = FindCurLevelTarget<APlayerCharacter>(Global::PlayerCharacter);
 	CurLevelPlayer->StateChange(EPlayerState::OutOfControl);
 }
 

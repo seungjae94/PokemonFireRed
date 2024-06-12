@@ -23,8 +23,8 @@ void UInteriorOaksLabLevel::BeginPlay()
 	AreaBgm = RN::BgmOaksLab;
 
 	// 플레이어 시작 위치 설정
-	UEventManager::SetPoint(GetName(), Global::Player, { 6, 6 });
-	UEventManager::SetDirection(GetName(), Global::Player, FTileVector::Up);
+	UEventManager::SetPoint(GetName(), Global::PlayerCharacter, { 6, 6 });
+	UEventManager::SetDirection(GetName(), Global::PlayerCharacter, FTileVector::Up);
 
 	// 몬스터 볼 액터 구현
 	// - 스타팅 포켓몬을 고를 때 대화창이 뜨는데 대화의 2번째 문장에 선택지를 넣어야 한다. 
@@ -122,7 +122,7 @@ void UInteriorOaksLabLevel::MakeRivalGreen()
 	// 1. 스타팅 포켓몬 획득 이벤트가 아예 시작되기 전 상황 (대화 이벤트)
 	UEventCondition BeforeGetStarterEventCond = UEventCondition(EEventTriggerAction::ZClick);
 	BeforeGetStarterEventCond.RegisterCheckFunc([]() {
-		return false == UUserData::IsAchieved(EAchievement::GetStarterEventStart);
+		return false == UPlayerData::IsAchieved(EAchievement::GetStarterEventStart);
 	});
 
 	UEventManager::RegisterEvent(Green, BeforeGetStarterEventCond,
@@ -135,8 +135,8 @@ void UInteriorOaksLabLevel::MakeRivalGreen()
 	// 2. 스타팅 포켓몬 획득 이벤트는 시작했지만 아직 플레이어가 포켓몬을 고르지 않은 상황 (대화 이벤트)
 	UEventCondition BeforePlayerSelectStarterCond = UEventCondition(EEventTriggerAction::ZClick);
 	BeforePlayerSelectStarterCond.RegisterCheckFunc([]() {
-		return true == UUserData::IsAchieved(EAchievement::GetStarterEventStart)
-			&& false == UUserData::IsAchieved(EAchievement::SelectFirstPokemon);
+		return true == UPlayerData::IsAchieved(EAchievement::GetStarterEventStart)
+			&& false == UPlayerData::IsAchieved(EAchievement::SelectFirstPokemon);
 	});
 
 	UEventManager::RegisterEvent(Green, BeforePlayerSelectStarterCond,
@@ -151,15 +151,15 @@ void UInteriorOaksLabLevel::MakeRivalGreen()
 	UEventCondition PlayerSelectSquirtleCond = UEventCondition(EEventTriggerAction::Direct);
 	UEventCondition PlayerSelectCharmanderCond = UEventCondition(EEventTriggerAction::Direct);
 	PlayerSelectBulbasaurCond.RegisterCheckFunc([]() {
-		const UPokemon& PlayerSelectPokemon = UUserData::GetPokemonInEntry(0);
+		const UPokemon& PlayerSelectPokemon = UPlayerData::GetPokemonInEntry(0);
 		return PlayerSelectPokemon.GetPokedexNo() == EPokemonId::Bulbasaur;
 	});
 	PlayerSelectSquirtleCond.RegisterCheckFunc([]() {
-		const UPokemon& PlayerSelectPokemon = UUserData::GetPokemonInEntry(0);
+		const UPokemon& PlayerSelectPokemon = UPlayerData::GetPokemonInEntry(0);
 		return PlayerSelectPokemon.GetPokedexNo() == EPokemonId::Squirtle;
 	});
 	PlayerSelectCharmanderCond.RegisterCheckFunc([]() {
-		const UPokemon& PlayerSelectPokemon = UUserData::GetPokemonInEntry(0);
+		const UPokemon& PlayerSelectPokemon = UPlayerData::GetPokemonInEntry(0);
 		return PlayerSelectPokemon.GetPokedexNo() == EPokemonId::Charmander;
 	});
 
@@ -198,8 +198,8 @@ void UInteriorOaksLabLevel::MakeRivalGreen()
 	// 라이벌이 포켓몬은 골랐지만 아직 배틀은 하지 않은 상황
 	UEventCondition BeforeBattleCond = UEventCondition(EEventTriggerAction::ZClick);
 	BeforeBattleCond.RegisterCheckFunc([]() {
-		return true == UUserData::IsAchieved(EAchievement::SelectFirstPokemon)
-			&& false == UUserData::IsAchieved(EAchievement::FightWithGreen);
+		return true == UPlayerData::IsAchieved(EAchievement::SelectFirstPokemon)
+			&& false == UPlayerData::IsAchieved(EAchievement::FightWithGreen);
 	});
 
 	UEventManager::RegisterEvent(Green, BeforeBattleCond,
@@ -218,15 +218,15 @@ void UInteriorOaksLabLevel::MakeSpecialTriggers()
 {
 	UEventCondition BlockCond = UEventCondition(EEventTriggerAction::StepOn);
 	CheckFunc BlockChecker = []() {
-		return (true == UUserData::IsAchieved(EAchievement::GetStarterEventStart))
-			&& (false == UUserData::IsAchieved(EAchievement::SelectFirstPokemon));
+		return (true == UPlayerData::IsAchieved(EAchievement::GetStarterEventStart))
+			&& (false == UPlayerData::IsAchieved(EAchievement::SelectFirstPokemon));
 	};
 	BlockCond.RegisterCheckFunc(BlockChecker);
 
 	UEventCondition RivalBattleCond = UEventCondition(EEventTriggerAction::StepOn);
 	CheckFunc RivalBattleChecker = []() {
-		return (true == UUserData::IsAchieved(EAchievement::SelectFirstPokemon))
-			&& (false == UUserData::IsAchieved(EAchievement::FightWithGreen));
+		return (true == UPlayerData::IsAchieved(EAchievement::SelectFirstPokemon))
+			&& (false == UPlayerData::IsAchieved(EAchievement::FightWithGreen));
 		};
 	RivalBattleCond.RegisterCheckFunc(RivalBattleChecker);
 
@@ -254,14 +254,14 @@ void UInteriorOaksLabLevel::SpawnSpecialTrigger(UEventTargetSetting _Setting, UE
 	UEventManager::RegisterEvent(Trigger, _BlockCond,
 		ES::Start(true)
 		>> ES::Chat({ L"OAK: Hey!\nDon't go away yet!" }, EFontColor::Blue, 16)
-		>> ES::Move(EN::Player, {Up})
+		>> ES::Move(EN::PlayerCharacter, {Up})
 		>> ES::End(true)
 	);
 
 	UEventManager::RegisterEvent(Trigger, _RivalBattleCond,
 		ES::Start(true)
 		>> ES::ChangeDirection(Global::InteriorOaksLabLevel, EN::RivalGreen, Down)
-		>> ES::ChangeDirection(Global::InteriorOaksLabLevel, EN::Player, Up)
+		>> ES::ChangeDirection(Global::InteriorOaksLabLevel, EN::PlayerCharacter, Up)
 		>> ES::PlayBgm(RN::BgmRivalAppears)
 		>> ES::Chat({ L"GREEN: Wait, RED!\nLet's check out our POKéMON!", L"Come on, I'll take you on!" }, EFontColor::Blue, 16)
 		>> ES::MoveDynamicPath(EN::RivalGreen, BeforeRivalBattlePathGenerator, 3.6f, false)
@@ -352,7 +352,7 @@ void UInteriorOaksLabLevel::MakeDecorations()
 
 std::vector<FTileVector> UInteriorOaksLabLevel::BeforeRivalBattlePathGenerator()
 {
-	const APlayer* Player = UEventManager::FindCurLevelTarget<APlayer>(EN::Player);
+	const APlayerCharacter* Player = UEventManager::FindCurLevelTarget<APlayerCharacter>(EN::PlayerCharacter);
 	const ATrainer* Green = UEventManager::FindCurLevelTarget<ATrainer>(EN::RivalGreen);
 
 	std::vector<FTileVector> DynamicPath;

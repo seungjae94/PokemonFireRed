@@ -5,7 +5,7 @@
 #include "PokemonMath.h"
 #include "EventCondition.h"
 #include "EventStream.h"
-#include "Player.h"
+#include "PlayerCharacter.h"
 
 AWarp::AWarp() 
 {
@@ -22,6 +22,6 @@ void AWarp::SetTargetBgm(std::string_view _TargetBgm)
 
 bool AWarp::CheckPlayerDirection()
 {
-	FTileVector CurPlayerDirection = UEventManager::FindCurLevelTarget<APlayer>(Global::Player)->GetDirection();
+	FTileVector CurPlayerDirection = UEventManager::FindCurLevelTarget<APlayerCharacter>(Global::PlayerCharacter)->GetDirection();
 	return CurPlayerDirection == TargetDirection;
 }

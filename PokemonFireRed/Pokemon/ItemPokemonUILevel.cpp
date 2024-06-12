@@ -63,7 +63,7 @@ void UItemPokemonUILevel::Tick(float _DeltaTime)
 
 void UItemPokemonUILevel::ProcessTestItemUse()
 {
-	UPokemon* SelectedPokemon = &UUserData::GetPokemonInEntry(TargetCursor);
+	UPokemon* SelectedPokemon = &UPlayerData::GetPokemonInEntry(TargetCursor);
 	EUseEffect UseEffect = UseItem->UseEffect;
 
 	if (EUseEffect::Hp == UseEffect)
@@ -158,12 +158,12 @@ void UItemPokemonUILevel::ProcessTestItemUse()
 	ItemUseResult = true;
 	USoundManager::StopSE();
 	USoundManager::PlaySE(RN::SERecover);
-	UUserData::LoseItem(UseItem->Id);
+	UPlayerData::LoseItem(UseItem->Id);
 }
 
 void UItemPokemonUILevel::ProcessHpUpEffect()
 {
-	const UPokemon* SelectedPokemon = &UUserData::GetPokemonInEntry(TargetCursor);
+	const UPokemon* SelectedPokemon = &UPlayerData::GetPokemonInEntry(TargetCursor);
 	Canvas->LerpHeal(TargetCursor, PrevHealHp, NextHealHp, SelectedPokemon->GetHp(), Timer / HealTime);
 
 	if (Timer <= 0.0f)
@@ -178,7 +178,7 @@ void UItemPokemonUILevel::ProcessHpUpEffect()
 void UItemPokemonUILevel::SelectTarget()
 {
 	// 취소 버튼을 선택한 경우
-	if (TargetCursor == UUserData::GetPokemonEntrySize())
+	if (TargetCursor == UPlayerData::GetPokemonEntrySize())
 	{
 		CancelTargetSelection();
 		return;

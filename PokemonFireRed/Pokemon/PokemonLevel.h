@@ -2,7 +2,7 @@
 #include <EngineCore/Level.h>
 #include "EventManager.h"
 #include "EventTrigger.h"
-#include "Player.h"
+#include "PlayerCharacter.h"
 #include "MenuCanvas.h"
 #include "DialogueWindow.h"
 #include "FadeLevelChanger.h"
@@ -32,9 +32,9 @@ public:
 		return EventTarget;
 	}
 
-	APlayer* SpawnPlayer(const FTileVector& _Point)
+	APlayerCharacter* SpawnPlayer(const FTileVector& _Point)
 	{
-		APlayer* Player = SpawnActor<APlayer>();
+		APlayerCharacter* Player = SpawnActor<APlayerCharacter>();
 		UEventManager::AddPlayer(Player, _Point);
 		return Player;
 	}

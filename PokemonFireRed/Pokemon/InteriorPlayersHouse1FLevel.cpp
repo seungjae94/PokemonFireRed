@@ -19,13 +19,13 @@ void UInteriorPlayersHouse1FLevel::BeginPlay()
 	UMapLevel::BeginPlay();
 
 	// 플레이어 시작 위치 설정
-	UEventManager::SetPoint(GetName(), Global::Player, { 7, 5 });
-	UEventManager::SetDirection(GetName(), Global::Player, FTileVector::Up);
+	UEventManager::SetPoint(GetName(), Global::PlayerCharacter, { 7, 5 });
+	UEventManager::SetDirection(GetName(), Global::PlayerCharacter, FTileVector::Up);
 
 	// 이벤트 트리거 생성
 	MakeStair();
 	MakeDoor();
-	MakePlayersMom();
+	MakeMom();
 	MakeDecorations();
 }
 
@@ -59,27 +59,27 @@ void UInteriorPlayersHouse1FLevel::MakeDoor()
 	PalletTownDoor->RegisterPredefinedEvent();
 }
 
-void UInteriorPlayersHouse1FLevel::MakePlayersMom()
+void UInteriorPlayersHouse1FLevel::MakeMom()
 {
-	UEventTargetSetting PlayersMomSetting;
-	PlayersMomSetting.SetName("PlayersMom");
-	PlayersMomSetting.SetPoint({ 7, 4 });
-	PlayersMomSetting.SetDirection(FTileVector::Left);
-	PlayersMomSetting.SetCollidable(true);
-	PlayersMomSetting.SetRotatable(true);
-	PlayersMomSetting.SetWalkable(false);
-	PlayersMomSetting.SetImageNameAuto();
+	UEventTargetSetting MomSetting;
+	MomSetting.SetName("Mom");
+	MomSetting.SetPoint({ 7, 4 });
+	MomSetting.SetDirection(FTileVector::Left);
+	MomSetting.SetCollidable(true);
+	MomSetting.SetRotatable(true);
+	MomSetting.SetWalkable(false);
+	MomSetting.SetImageNameAuto();
 
-	ADialogueActor* PlayersMom = SpawnEventTrigger<ADialogueActor>(PlayersMomSetting);
-	PlayersMom->SetDialogue({
+	ADialogueActor* Mom = SpawnEventTrigger<ADialogueActor>(MomSetting);
+	Mom->SetDialogue({
 		LR"(MOM: …Right.
 			All boys leave home someday.
 			It said so on TV.)",
 		LR"(Oh, yes. PROF. OAK, next door, was
 			looking for you.)"
 		});
-	PlayersMom->SetTextColor(EFontColor::Red);
-	PlayersMom->RegisterPredefinedEvent();
+	Mom->SetTextColor(EFontColor::Red);
+	Mom->RegisterPredefinedEvent();
 }
 
 void UInteriorPlayersHouse1FLevel::MakeDecorations()

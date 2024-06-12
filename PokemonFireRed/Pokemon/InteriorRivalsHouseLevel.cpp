@@ -15,8 +15,8 @@ void UInteriorRivalsHouseLevel::BeginPlay()
 	UMapLevel::BeginPlay();
 
 	// 플레이어 시작 위치 설정
-	UEventManager::SetPoint(GetName(), Global::Player, { 3, 3 });
-	UEventManager::SetDirection(GetName(), Global::Player, FTileVector::Up);
+	UEventManager::SetPoint(GetName(), Global::PlayerCharacter, { 3, 3 });
+	UEventManager::SetDirection(GetName(), Global::PlayerCharacter, FTileVector::Up);
 
 	// 이벤트 트리거 생성
 	UEventTargetSetting PalletTownDoorSetting;
