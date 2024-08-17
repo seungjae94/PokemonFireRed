@@ -22,8 +22,7 @@ void AEventTrigger::RegisterEvent(EEventTriggerAction _Action, const std::functi
         AllStreams.emplace(_Action, std::list<FCondAndStream>());
     }
 
-    UEventStream* NewStream = new UEventStream(_Stream);
-    AllStreams[_Action].push_back(FCondAndStream( _Cond, NewStream));
+    AllStreams[_Action].push_back(FCondAndStream( _Cond, &_Stream));
 }
 
 bool AEventTrigger::TriggerEvent(EEventTriggerAction _Action)
@@ -49,12 +48,6 @@ void AEventTrigger::UnregisterEvents()
 {
     for (std::pair<const EEventTriggerAction, std::list<FCondAndStream>>& Streams : AllStreams)
     {
-        for (FCondAndStream& CondAndStream : Streams.second)
-        {
-            delete CondAndStream.Stream;
-            CondAndStream.Stream = nullptr;
-        }
-
         Streams.second.clear();
     }
 

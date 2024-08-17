@@ -100,7 +100,7 @@ void UInteriorPewterGymLevel::MakeCamper()
 
 	AEventTrigger* WinTrigger = SpawnEventTrigger<AEventTrigger>("CamperWinTrigger");
 	WinTrigger->RegisterEvent(
-		EEventTriggerAction::ZClick,
+		EEventTriggerAction::Direct,
 		SKIP_CHECK,
 		ES::Start(false)
 		>> ES::Achieve(EAchievement::FightWithPewterGymCamper)

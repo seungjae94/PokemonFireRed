@@ -40,11 +40,11 @@ private:
 	struct FCondAndStream
 	{
 	public:
-		FCondAndStream(const std::function<bool()>& _Cond, UEventStream* _Stream)
+		FCondAndStream(const std::function<bool()>& _Cond, const UEventStream* _Stream)
 			: Cond(_Cond), Stream(_Stream) {};
 
 		std::function<bool()> Cond;
-		UEventStream* Stream = nullptr;
+		const UEventStream* Stream = nullptr;
 	};
 
 	// AllProcessors[액션] = { (조건, 스트림), ... }

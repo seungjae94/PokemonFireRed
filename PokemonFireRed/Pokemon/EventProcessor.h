@@ -33,7 +33,7 @@ public:
 	/// <summary>
 	/// 이벤트 실행을 시도한다.
 	/// 조건을 만족하는 이벤트 그룹이 없을 경우 false를 반환한다.
-	static void Run(AEventTrigger* _Trigger, UEventStream* _Stream);
+	static void Run(AEventTrigger* _Trigger, const UEventStream* _Stream);
 
 	static bool IsRunning()
 	{
@@ -45,7 +45,7 @@ protected:
 private:
 	inline static AEventTrigger* Trigger = nullptr;
 	inline static bool IsRunningValue = false;
-	inline static UEventStream* Stream = nullptr;
+	inline static const UEventStream* Stream = nullptr;
 	inline static int CurCommandIndex = 0;
 	
 	static void Tick(float _DeltaTime);

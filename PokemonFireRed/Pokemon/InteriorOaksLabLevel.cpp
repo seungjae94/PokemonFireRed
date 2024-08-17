@@ -302,7 +302,7 @@ void UInteriorOaksLabLevel::MakeAfterRivalBattleTrigger()
 	AfterRivalBattleTrigger = SpawnEventTrigger<AEventTrigger>(EN::AfterRivalBattleTrigger);
 	Green->SetAfterBattleTrigger(AfterRivalBattleTrigger);
 
-	Green->RegisterEvent(
+	AfterRivalBattleTrigger->RegisterEvent(
 		EEventTriggerAction::Direct,
 		SKIP_CHECK,
 		ES::Start(false)

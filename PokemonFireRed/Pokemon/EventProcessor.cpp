@@ -19,7 +19,7 @@ UEventProcessor::~UEventProcessor()
 {
 }
 
-void UEventProcessor::Run(AEventTrigger* _Trigger, UEventStream* _Stream)
+void UEventProcessor::Run(AEventTrigger* _Trigger, const UEventStream* _Stream)
 {
 	Trigger = _Trigger;
 	Stream = _Stream;
