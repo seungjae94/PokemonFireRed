@@ -34,7 +34,7 @@ private:
 	void MakePTGetStarterEventTriggers();
 	void SpawnPTGetStarterEventTrigger(
 		UEventTargetSetting _Setting,
-		UEventCondition _Cond,
+		const std::function<bool()>& _Cond,
 		const std::vector<FTileVector>& _OakComePath, 
 		const std::vector<FTileVector>& _OakGoToLabPath, 
 		const std::vector<FTileVector>& _PlayerGoToLabPath);

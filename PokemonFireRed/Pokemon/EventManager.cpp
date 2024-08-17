@@ -5,7 +5,6 @@
 #include "EventTarget.h"
 #include "EventTrigger.h"
 #include "EventProcessor.h"
-#include "EventCondition.h"
 #include "EventStream.h"
 #include "PlayerCharacter.h"
 #include "MapLevel.h"
@@ -20,7 +19,6 @@ std::map<std::string, std::map<std::string, ACanvas*>> UEventManager::AllCommonC
 std::map<std::string, ADialogueWindow*> UEventManager::AllDialogueWindows;
 std::map<std::string, std::map<std::string, AEventTarget*>> UEventManager::AllTargets;
 std::map<std::string, std::map<FTileVector, std::list<AEventTrigger*>>> UEventManager::AllTriggers;
-std::map<AEventTrigger*, UEventProcessor*> UEventManager::AllProcessors;
 bool UEventManager::IsWildPokemon = false;
 std::vector<UPokemon>* UEventManager::EnemyEntry;
 ATrainer* UEventManager::Trainer;
@@ -94,33 +92,10 @@ void UEventManager::Tick(float _DeltaTime)
 
 	USoundManager::Tick(_DeltaTime);
 
-	for (std::pair<AEventTrigger* const, UEventProcessor*>& Pair : AllProcessors)
+	if (true == UEventProcessor::IsRunning())
 	{
-		UEventProcessor* Processor = Pair.second;
-
-		if (Processor->IsRunning())
-		{
-			Processor->Tick(_DeltaTime);
-		}
+		UEventProcessor::Tick(_DeltaTime);
 	}
-}
-
-void UEventManager::RegisterEvent(AEventTrigger* _Trigger, const UEventCondition& _Condition, UEventStream& _Stream)
-{
-	UEventProcessor* Processor = AllProcessors[_Trigger];
-	Processor->RegisterStream(_Condition, _Stream);
-}
-
-void UEventManager::UnregisterEvent(AEventTrigger* _Trigger, const UEventCondition& _Condition)
-{
-	UEventProcessor* Processor = AllProcessors[_Trigger];
-	Processor->UnregisterStream(_Condition);
-}
-
-bool UEventManager::TriggerEvent(AEventTrigger* _Trigger, EEventTriggerAction _Action)
-{
-	UEventProcessor* Processor = AllProcessors[_Trigger];
-	return Processor->TryRun(_Action);
 }
 
 void UEventManager::SaveEnemyEntry(std::vector<UPokemon>* _Entry)
@@ -290,16 +265,6 @@ void UEventManager::AddTrigger(AEventTrigger* _Trigger, const UEventTargetSettin
 	std::string LevelName = _Trigger->GetWorld()->GetName();
 
 	AllTriggers[LevelName][Point].push_back(_Trigger);
-
-	if (true == AllProcessors.contains(_Trigger))
-	{
-		MsgBoxAssert("이미 등록된 이벤트 트리거 " + TriggerName + "을 다시 등록하려고 했습니다.");
-		return;
-	}
-
-	UEventProcessor* NewProcessor = new UEventProcessor();
-	NewProcessor->Trigger = _Trigger;
-	AllProcessors[_Trigger] = NewProcessor;
 }
 
 void UEventManager::AddPlayer(APlayerCharacter* _Player, const FTileVector& _Point)
@@ -570,34 +535,3 @@ ADialogueWindow* UEventManager::FindCurLevelDialogueWindow()
 	ADialogueWindow* Window = AllDialogueWindows[LevelName];
 	return Window;
 }
-
-// 메모리 릴리즈
-
-void UEventManager::Release()
-{
-	for (std::pair<AEventTrigger* const, UEventProcessor*>& Pair : AllProcessors)
-	{
-		UEventProcessor* Processor = Pair.second;
-
-		if (nullptr == Processor)
-		{
-			MsgBoxAssert("이벤트 프로세서가 이미 삭제되어 있습니다.");
-			return;
-		}
-
-		delete Processor;
-		Pair.second = nullptr;
-	}
-
-	AllProcessors.clear();
-}
-
-class UEventManagerReleaser
-{
-public:
-	~UEventManagerReleaser()
-	{
-		UEventManager::Release();
-	}
-};
-UEventManagerReleaser UEventManagerReleaserObject;

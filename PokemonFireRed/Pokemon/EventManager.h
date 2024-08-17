@@ -6,7 +6,7 @@
 #include <EngineBase/EngineString.h>
 #include <EngineCore/Level.h>
 #include "PokemonMath.h"
-#include "EventCondition.h"
+#include "EventEnums.h"
 #include "Pokemon.h"
 
 class UPokemonLevel;
@@ -37,13 +37,6 @@ public:
 	UEventManager(UEventManager&& _Other) noexcept = delete;
 	UEventManager& operator=(const UEventManager& _Other) = delete;
 	UEventManager& operator=(UEventManager&& _Other) noexcept = delete;
-
-	// 이벤트 등록
-	static void RegisterEvent(AEventTrigger* _Trigger, const UEventCondition& _Condition, UEventStream& _Stream);
-	static void UnregisterEvent(AEventTrigger* _Trigger, const UEventCondition& _Condition);
-
-	// 이벤트 트리거
-	static bool TriggerEvent(AEventTrigger* _Trigger, EEventTriggerAction _Action = EEventTriggerAction::Direct);
 
 	// 배틀 Enemy 데이터 세이브 로드
 	static void SaveEnemyEntry(std::vector<UPokemon>* _Entry);
@@ -245,12 +238,6 @@ private:
 	// - 플레이어가 특정 위치에 트리거가 있는지 확인할 때 사용
 	// - 해당 트리거를 동작시킬 때 사용
 	static std::map<std::string, std::map<FTileVector, std::list<AEventTrigger*>>> AllTriggers;
-
-	// AllProcessors[Trigger]
-	// - 이벤트 매니저는 레벨 변경과 무관하게 계속 존재할 수 있지만 모든 트리거의 콜백(이벤트)을 저장하기에 적합하지는 않다.
-	// - 트리거와 일대일로 대응해서 콜백을 기억하고 레벨 변경과 무관하게 존재하면서 실행해주는 객체가 필요하다.
-	// - 이벤트 프로세서가 바로 이 역할을 맡게 된다.
-	static std::map<AEventTrigger*, UEventProcessor*> AllProcessors;
 	
 	// 배틀 정보 저장
 	static bool IsWildPokemon;
@@ -269,7 +256,4 @@ private:
 
 	// DeltaTime 기록
 	static float DeltaTime;
-
-	// 이벤트 프로세서 릴리즈
-	static void Release();
 };

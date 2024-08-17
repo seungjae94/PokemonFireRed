@@ -3,6 +3,8 @@
 #include <EngineBase/EngineFile.h>
 #include <EngineCore/EngineResourcesManager.h>
 #include "TutorialLevelManager.h"
+#include "EventMacros.h"
+#include "EventStream.h"
 
 UTutorialLevel::UTutorialLevel()
 {
@@ -31,10 +33,10 @@ void UTutorialLevel::BeginPlay()
 	Manager = SpawnActor<ATutorialLevelManager>();
 
 	// 중간 전환자
-	UEventCondition DefaultCondition;
-
 	AEventTrigger* Fader = SpawnEventTrigger<AEventTrigger>(Global::TutorialLevelFader);
-	UEventManager::RegisterEvent(Fader, DefaultCondition,
+	Fader->RegisterEvent(
+		EEventTriggerAction::Direct,
+		SKIP_CHECK,
 		ES::Start(false)
 		>> ES::FadeOut(0.5f)
 		>> ES::Wait(0.5f)
@@ -47,7 +49,9 @@ void UTutorialLevel::BeginPlay()
 	UEventTargetSetting LevelChangerInit; 
 	LevelChangerInit.SetName("MapLevelChanger");
 	MapLevelChanger = SpawnEventTrigger<AEventTrigger>(LevelChangerInit);
-	UEventManager::RegisterEvent(MapLevelChanger, DefaultCondition,
+	MapLevelChanger->RegisterEvent(
+		EEventTriggerAction::Direct,
+		SKIP_CHECK,
 		ES::Start(false)
 		>> ES::FadeOut(1.0f)
 		>> ES::FadeOutBgm(1.0f)
@@ -66,5 +70,5 @@ void UTutorialLevel::BeginPlay()
 
 void UTutorialLevel::LevelChange()
 {
-	UEventManager::TriggerEvent(MapLevelChanger);
+	MapLevelChanger->TriggerEvent(EEventTriggerAction::Direct);
 }

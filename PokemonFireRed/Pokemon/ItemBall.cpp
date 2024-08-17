@@ -1,4 +1,5 @@
 #include "ItemBall.h"
+#include "EventMacros.h"
 
 AItemBall::AItemBall() 
 {
@@ -18,11 +19,11 @@ void AItemBall::RegisterPredefinedEvent()
 {
 	AEventTrigger::RegisterPredefinedEvent();
 
-	UEventCondition Cond = UEventCondition(EEventTriggerAction::ZClick);
-
 	const FItem* Item = UGameData::FindItem(ItemId);
 
-	UEventManager::RegisterEvent(this, Cond,
+	RegisterEvent(
+		EEventTriggerAction::ZClick,
+		SKIP_CHECK,
 		ES::Start(true)
 		>> ES::PlaySE(RN::SEItemObtained, Global::LevelUpFanfareTime)
 		>> ES::Chat({ L"RED found " + std::to_wstring(Count) + L" " + Item->Name + L"!"}, EFontColor::Gray, 16)

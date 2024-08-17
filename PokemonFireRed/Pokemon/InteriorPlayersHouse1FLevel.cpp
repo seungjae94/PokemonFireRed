@@ -3,7 +3,6 @@
 #include "InteriorDoor.h"
 #include "DialogueActor.h"
 #include "Text.h"
-#include "EventCondition.h"
 #include "EventStream.h"
 
 UInteriorPlayersHouse1FLevel::UInteriorPlayersHouse1FLevel()

@@ -1,10 +1,10 @@
 #include "DialogueActor.h"
 #include "EventManager.h"
-#include "EventCondition.h"
 #include "EventStream.h"
 #include "Text.h"
 #include "PlayerCharacter.h"
 #include "PokemonLevel.h"
+#include "EventMacros.h"
 
 ADialogueActor::ADialogueActor()
 {
@@ -23,11 +23,11 @@ void ADialogueActor::RegisterPredefinedEvent()
 {
 	AEventTrigger::RegisterPredefinedEvent();
 
-	UEventCondition Cond1 = UEventCondition(EEventTriggerAction::ZClick);
-
 	if (false == Rotatable)
 	{
-		UEventManager::RegisterEvent(this, Cond1,
+		RegisterEvent(
+			EEventTriggerAction::ZClick,
+			SKIP_CHECK,
 			ES::Start(true)
 			>> ES::Chat(Dialogue, TextColor, 16, true)
 			>> ES::End(true)
@@ -35,7 +35,9 @@ void ADialogueActor::RegisterPredefinedEvent()
 		return;
 	}
 
-	UEventManager::RegisterEvent(this, Cond1,
+	RegisterEvent(
+		EEventTriggerAction::ZClick,
+		SKIP_CHECK,
 		ES::Start(true)
 		>> ES::StarePlayer(GetName())
 		>> ES::Chat(Dialogue, TextColor, 16, true)
@@ -55,5 +57,4 @@ ADialogueActor* ADialogueActor::GenerateObject(UPokemonLevel* _Level, std::strin
 	DA->RegisterPredefinedEvent();
 
 	return DA;
-
 }

@@ -2,11 +2,13 @@
 #include <EngineBase/EngineDirectory.h>
 #include <EngineBase/EngineFile.h>
 #include <EngineCore/EngineResourcesManager.h>
+#include "EventMacros.h"
 #include "InteriorDoor.h"
 #include "DialogueActor.h"
 #include "Trainer.h"
 #include "StarterBall.h"
 #include "SoundManager.h"
+#include "EventStream.h"
 
 UInteriorOaksLabLevel::UInteriorOaksLabLevel()
 {
@@ -120,12 +122,13 @@ void UInteriorOaksLabLevel::MakeRivalGreen()
 	// 이벤트 등록
 
 	// 1. 스타팅 포켓몬 획득 이벤트가 아예 시작되기 전 상황 (대화 이벤트)
-	UEventCondition BeforeGetStarterEventCond = UEventCondition(EEventTriggerAction::ZClick);
-	BeforeGetStarterEventCond.RegisterCheckFunc([]() {
+	std::function<bool()> BeforeGetStarterEventCond = []() {
 		return false == UPlayerData::IsAchieved(EAchievement::GetStarterEventStart);
-	});
+	};
 
-	UEventManager::RegisterEvent(Green, BeforeGetStarterEventCond,
+	Green->RegisterEvent( 
+		EEventTriggerAction::ZClick,
+		BeforeGetStarterEventCond,
 		ES::Start(true)
 		>> ES::StarePlayer(EN::RivalGreen)
 		>> ES::Chat({ L"GREEN: What, it's only RED?\nGramps isn't around." }, EFontColor::Blue, 16)
@@ -133,13 +136,14 @@ void UInteriorOaksLabLevel::MakeRivalGreen()
 	);
 
 	// 2. 스타팅 포켓몬 획득 이벤트는 시작했지만 아직 플레이어가 포켓몬을 고르지 않은 상황 (대화 이벤트)
-	UEventCondition BeforePlayerSelectStarterCond = UEventCondition(EEventTriggerAction::ZClick);
-	BeforePlayerSelectStarterCond.RegisterCheckFunc([]() {
+	std::function<bool()> BeforePlayerSelectStarterCond = []() {
 		return true == UPlayerData::IsAchieved(EAchievement::GetStarterEventStart)
 			&& false == UPlayerData::IsAchieved(EAchievement::SelectFirstPokemon);
-	});
+	};
 
-	UEventManager::RegisterEvent(Green, BeforePlayerSelectStarterCond,
+	Green->RegisterEvent( 
+		EEventTriggerAction::ZClick,
+		BeforePlayerSelectStarterCond,
 		ES::Start(true)
 		>> ES::StarePlayer(EN::RivalGreen)
 		>> ES::Chat({ L"GREEN: Heh, I don't need to be\ngreedy like you. I'm mature!", L"Go ahead and choose, RED!" }, EFontColor::Blue, 16)
@@ -147,23 +151,24 @@ void UInteriorOaksLabLevel::MakeRivalGreen()
 	);
 
 	// 3. 라이벌이 포켓몬을 고르는 이벤트
-	UEventCondition PlayerSelectBulbasaurCond = UEventCondition(EEventTriggerAction::Direct);
-	UEventCondition PlayerSelectSquirtleCond = UEventCondition(EEventTriggerAction::Direct);
-	UEventCondition PlayerSelectCharmanderCond = UEventCondition(EEventTriggerAction::Direct);
-	PlayerSelectBulbasaurCond.RegisterCheckFunc([]() {
+	std::function<bool()> PlayerSelectBulbasaurCond = []() {
 		const UPokemon& PlayerSelectPokemon = UPlayerData::GetPokemonInEntry(0);
 		return PlayerSelectPokemon.GetPokedexNo() == EPokemonId::Bulbasaur;
-	});
-	PlayerSelectSquirtleCond.RegisterCheckFunc([]() {
+	};
+
+	std::function<bool()> PlayerSelectSquirtleCond = []() {
 		const UPokemon& PlayerSelectPokemon = UPlayerData::GetPokemonInEntry(0);
 		return PlayerSelectPokemon.GetPokedexNo() == EPokemonId::Squirtle;
-	});
-	PlayerSelectCharmanderCond.RegisterCheckFunc([]() {
+	};
+
+	std::function<bool()> PlayerSelectCharmanderCond = []() {
 		const UPokemon& PlayerSelectPokemon = UPlayerData::GetPokemonInEntry(0);
 		return PlayerSelectPokemon.GetPokedexNo() == EPokemonId::Charmander;
-	});
+	};
 
-	UEventManager::RegisterEvent(Green, PlayerSelectBulbasaurCond,
+	Green->RegisterEvent(
+		EEventTriggerAction::Direct,
+		PlayerSelectBulbasaurCond,
 		ES::Start(true)
 		>> ES::Move(EN::RivalGreen, { Down, Down, Right, Right, Right, Right, Right, Up }, Global::CharacterWalkSpeed, false)
 		>> ES::Chat({ L"GREEN: I'll take this one, then!" }, EFontColor::Blue, 16)
@@ -173,7 +178,9 @@ void UInteriorOaksLabLevel::MakeRivalGreen()
 		>> ES::End(true)
 	);
 
-	UEventManager::RegisterEvent(Green, PlayerSelectSquirtleCond,
+	Green->RegisterEvent(
+		EEventTriggerAction::Direct, 
+		PlayerSelectSquirtleCond,
 		ES::Start(true)
 		>> ES::Move(EN::RivalGreen, { Down, Down, Right, Right, Right, Up }, Global::CharacterWalkSpeed, false)
 		>> ES::Chat({ L"GREEN: I'll take this one, then!" }, EFontColor::Blue, 16)
@@ -184,7 +191,9 @@ void UInteriorOaksLabLevel::MakeRivalGreen()
 		>> ES::End(true)
 	);
 
-	UEventManager::RegisterEvent(Green, PlayerSelectCharmanderCond,
+	Green->RegisterEvent(
+		EEventTriggerAction::Direct,
+		PlayerSelectCharmanderCond,
 		ES::Start(true)
 		>> ES::Move(EN::RivalGreen, { Down, Down, Right, Right, Right, Right, Up }, Global::CharacterWalkSpeed, false)
 		>> ES::Chat({ L"GREEN: I'll take this one, then!" }, EFontColor::Blue, 16)
@@ -196,13 +205,14 @@ void UInteriorOaksLabLevel::MakeRivalGreen()
 	);
 
 	// 라이벌이 포켓몬은 골랐지만 아직 배틀은 하지 않은 상황
-	UEventCondition BeforeBattleCond = UEventCondition(EEventTriggerAction::ZClick);
-	BeforeBattleCond.RegisterCheckFunc([]() {
+	std::function<bool()> BeforeBattleCond = []() {
 		return true == UPlayerData::IsAchieved(EAchievement::SelectFirstPokemon)
 			&& false == UPlayerData::IsAchieved(EAchievement::FightWithGreen);
-	});
+	};
 
-	UEventManager::RegisterEvent(Green, BeforeBattleCond,
+	Green->RegisterEvent(
+		EEventTriggerAction::ZClick,
+		BeforeBattleCond,
 		ES::Start(true)
 		>> ES::StarePlayer(EN::RivalGreen)
 		>> ES::Chat({ L"GREEN: My POKéMON looks a lot\ntougher than yours." }, EFontColor::Blue, 16)
@@ -216,19 +226,15 @@ void UInteriorOaksLabLevel::MakeRivalGreen()
 */
 void UInteriorOaksLabLevel::MakeSpecialTriggers()
 {
-	UEventCondition BlockCond = UEventCondition(EEventTriggerAction::StepOn);
-	CheckFunc BlockChecker = []() {
+	std::function<bool()> BlockCond = []() {
 		return (true == UPlayerData::IsAchieved(EAchievement::GetStarterEventStart))
 			&& (false == UPlayerData::IsAchieved(EAchievement::SelectFirstPokemon));
 	};
-	BlockCond.RegisterCheckFunc(BlockChecker);
 
-	UEventCondition RivalBattleCond = UEventCondition(EEventTriggerAction::StepOn);
-	CheckFunc RivalBattleChecker = []() {
+	std::function<bool()> RivalBattleCond = []() {
 		return (true == UPlayerData::IsAchieved(EAchievement::SelectFirstPokemon))
 			&& (false == UPlayerData::IsAchieved(EAchievement::FightWithGreen));
-		};
-	RivalBattleCond.RegisterCheckFunc(RivalBattleChecker);
+	};
 
 	UEventTargetSetting Setting0;
 	Setting0.SetName(EN::SpecialTrigger + "0");
@@ -247,18 +253,25 @@ void UInteriorOaksLabLevel::MakeSpecialTriggers()
 	SpawnSpecialTrigger(Setting2, BlockCond, RivalBattleCond);
 }
 
-void UInteriorOaksLabLevel::SpawnSpecialTrigger(UEventTargetSetting _Setting, UEventCondition _BlockCond, UEventCondition _RivalBattleCond)
+void UInteriorOaksLabLevel::SpawnSpecialTrigger(
+	UEventTargetSetting _Setting, 
+	const std::function<bool()>& _BlockCond, 
+	const std::function<bool()>& _RivalBattleCond)
 {
 	AEventTrigger* Trigger = SpawnEventTrigger<AEventTrigger>(_Setting);
 
-	UEventManager::RegisterEvent(Trigger, _BlockCond,
+	Trigger->RegisterEvent(
+		EEventTriggerAction::StepOn,
+		_BlockCond,
 		ES::Start(true)
 		>> ES::Chat({ L"OAK: Hey!\nDon't go away yet!" }, EFontColor::Blue, 16)
 		>> ES::Move(EN::PlayerCharacter, {Up})
 		>> ES::End(true)
 	);
 
-	UEventManager::RegisterEvent(Trigger, _RivalBattleCond,
+	Trigger->RegisterEvent(
+		EEventTriggerAction::StepOn,
+		_RivalBattleCond,
 		ES::Start(true)
 		>> ES::ChangeDirection(Global::InteriorOaksLabLevel, EN::RivalGreen, Down)
 		>> ES::ChangeDirection(Global::InteriorOaksLabLevel, EN::PlayerCharacter, Up)
@@ -286,11 +299,12 @@ void UInteriorOaksLabLevel::SpawnSpecialTrigger(UEventTargetSetting _Setting, UE
 
 void UInteriorOaksLabLevel::MakeAfterRivalBattleTrigger()
 {
-	UEventCondition Cond;
 	AfterRivalBattleTrigger = SpawnEventTrigger<AEventTrigger>(EN::AfterRivalBattleTrigger);
 	Green->SetAfterBattleTrigger(AfterRivalBattleTrigger);
 
-	UEventManager::RegisterEvent(AfterRivalBattleTrigger, Cond,
+	Green->RegisterEvent(
+		EEventTriggerAction::Direct,
+		SKIP_CHECK,
 		ES::Start(false)
 		>> ES::FadeOutBgm(FadeOutTime)
 		>> ES::FadeOut(FadeOutTime)

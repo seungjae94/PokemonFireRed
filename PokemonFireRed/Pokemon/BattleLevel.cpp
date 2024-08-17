@@ -329,7 +329,7 @@ void UBattleLevel::ProcessWaitBeforeReturn()
 			}
 			else
 			{
-				UEventManager::TriggerEvent(AfterBattleTrigger, EEventTriggerAction::Direct);
+				AfterBattleTrigger->TriggerEvent(EEventTriggerAction::Direct);
 				State = EState::End;
 			}
 		}

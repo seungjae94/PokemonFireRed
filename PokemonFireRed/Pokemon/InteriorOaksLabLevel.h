@@ -43,7 +43,13 @@ private:
 	void MakeOak();
 	void MakeRivalGreen();
 	void MakeSpecialTriggers();
-	void SpawnSpecialTrigger(UEventTargetSetting _Setting, UEventCondition _BlockCond, UEventCondition _RivalBattleCond);
+
+	void SpawnSpecialTrigger(
+		UEventTargetSetting _Setting, 
+		const std::function<bool()>& _BlockCond, 
+		const std::function<bool()>& _RivalBattleCond
+	);
+
 	void MakeAfterRivalBattleTrigger();
 	void MakeDecorations();
 

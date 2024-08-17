@@ -8,7 +8,6 @@
 #include "Text.h"
 #include "MapLevel.h"
 #include "EventTrigger.h"
-#include "EventCondition.h"
 #include "EventStream.h"
 #include "PlayerData.h"
 

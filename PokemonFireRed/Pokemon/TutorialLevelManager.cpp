@@ -179,7 +179,7 @@ void ATutorialLevelManager::Tick(float _DeltaTime)
 				return;
 			}
 
-			UEventManager::TriggerEvent(Fader, EEventTriggerAction::Direct);
+			Fader->TriggerEvent(EEventTriggerAction::Direct);
 			FadeCheckState = EFadeCheckState::Start;
 			Timer = 0.5f;
 			return;

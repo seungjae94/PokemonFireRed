@@ -12,16 +12,15 @@ void AStair::RegisterPredefinedEvent()
 {
 	AEventTrigger::RegisterPredefinedEvent();
 
-	UEventCondition StairCond = UEventCondition(EEventTriggerAction::ArrowClick);
-	StairCond.RegisterCheckFunc(ToCheckFunc(CheckPlayerDirection));
-
 	FVector TargetPosition = TargetPoint.ToFVector();
 	for (FVector MoveDirection : SecondPath)
 	{
 		TargetPosition -= MoveDirection;
 	}
 
-	UEventManager::RegisterEvent(this, StairCond,
+	RegisterEvent(
+		EEventTriggerAction::ArrowClick,
+		std::bind(&AWarp::CheckPlayerDirection, this),
 		ES::Start(true)
 		>> ES::PlaySE(RN::SEExitMap)
 		>> ES::FadeOut(0.5f)

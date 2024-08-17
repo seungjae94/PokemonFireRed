@@ -12,15 +12,12 @@ void AInteriorDoor::RegisterPredefinedEvent()
 {
 	AEventTrigger::RegisterPredefinedEvent();
 
-	if (true == IsRegistered)
-	{
-		UEventManager::UnregisterEvent(this, Cond);
-	}
+	//if (true == IsRegistered)
+	//{
+	//	UEventManager::UnregisterEvent(this, Cond);
+	//}
 
-	IsRegistered = true;
-
-	Cond = UEventCondition(EEventTriggerAction::ArrowClick);
-	Cond.RegisterCheckFunc(ToCheckFunc(CheckPlayerDirection));
+	//IsRegistered = true;
 
 	UEventStream& Stream = ES::Start(true)
 		>> ES::PlayAnimation(Global::PlayerCharacter, Global::PlayerCharacter + "Idle" + TargetDirection.ToDirectionString())
@@ -59,5 +56,9 @@ void AInteriorDoor::RegisterPredefinedEvent()
 		>> ES::PlayAnimation(ExteriorDoorName, "DoorClose")
 		>> ES::End(true);
 
-	UEventManager::RegisterEvent(this, Cond, Stream);
+	RegisterEvent(
+		EEventTriggerAction::ArrowClick,
+		std::bind(&AWarp::CheckPlayerDirection, this),
+		Stream
+	);
 }

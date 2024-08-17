@@ -21,13 +21,12 @@ public:
 		Entry.clear();
 		Entry.push_back(UPokemon(_ConstructorParam.Id, _ConstructorParam.Level));
 		UEventManager::SaveEnemyEntry(&Entry);
-		UEventManager::TriggerEvent(this, EEventTriggerAction::Direct);
+		TriggerEvent(EEventTriggerAction::Direct);
 	}
 
 protected:
-
+	
 private:
-	UEventCondition Cond;
 	const float FadeOutTime = 0.25f;
 	const float FadeInTime = 0.15f;
 
@@ -35,6 +34,5 @@ private:
 
 	void Update(const FWildPokemonConstructorParam & _ConstructorParam);
 	void RegisterPredefinedEvent() override;
-	void UnregisterEvent();
 };
 

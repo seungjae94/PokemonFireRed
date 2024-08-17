@@ -30,9 +30,10 @@ public:
 	}
 
 	void SetTargetBgm(std::string_view _TargetBgm);
+	
+	bool CheckPlayerDirection();
 
 protected:
-	bool CheckPlayerDirection();
 	std::string TargetMapName;
 	FTileVector TargetPoint;
 	FTileVector TargetDirection;

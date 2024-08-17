@@ -1,5 +1,6 @@
 #include "WildBattleTrigger.h"
 #include "PlayerData.h"
+#include "EventMacros.h"
 
 AWildBattleTrigger::AWildBattleTrigger()
 {
@@ -11,7 +12,7 @@ AWildBattleTrigger::~AWildBattleTrigger()
 
 void AWildBattleTrigger::Update(const FWildPokemonConstructorParam& _ConstructorParam)
 {
-	UnregisterEvent();
+	UnregisterEvents();
 
 	Entry.clear();
 	Entry.push_back(UPokemon(_ConstructorParam.Id, _ConstructorParam.Level));
@@ -24,7 +25,10 @@ void AWildBattleTrigger::Update(const FWildPokemonConstructorParam& _Constructor
 void AWildBattleTrigger::RegisterPredefinedEvent()
 {
 	AEventTrigger::RegisterPredefinedEvent();
-	UEventManager::RegisterEvent(this, Cond,
+
+	RegisterEvent(
+		EEventTriggerAction::Direct,
+		SKIP_CHECK,
 		ES::Start(true)
 		>> ES::PlayBgm(RN::BgmWildBattle)
 		// 2¹ø ±ôºý°Å¸®±â
@@ -44,9 +48,4 @@ void AWildBattleTrigger::RegisterPredefinedEvent()
 		>> ES::Wait(0.5f)
 		>> ES::End(false)
 	);
-}
-
-void AWildBattleTrigger::UnregisterEvent()
-{
-	UEventManager::UnregisterEvent(this, Cond);
 }

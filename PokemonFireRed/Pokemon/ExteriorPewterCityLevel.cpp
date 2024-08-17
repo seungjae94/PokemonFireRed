@@ -1,6 +1,7 @@
 #include "ExteriorPewterCityLevel.h"
 #include "ExteriorDoor.h"
 #include "ClosedDoor.h"
+#include "EventStream.h"
 
 UExteriorPewterCityLevel::UExteriorPewterCityLevel()
 {
@@ -34,11 +35,10 @@ void UExteriorPewterCityLevel::BeginPlay()
 
 void UExteriorPewterCityLevel::MakeForestEntrances()
 {
-	UEventCondition Cond = UEventCondition(EEventTriggerAction::ArrowClick);
-	Cond.RegisterCheckFunc([]() {
+	std::function<bool()> Cond = []() {
 		const APlayerCharacter* Player = UEventManager::FindCurLevelTarget<APlayerCharacter>(EN::PlayerCharacter);
 		return Player->GetDirection() == FTileVector::Down;
-		});
+	};
 
 	for (int i = 0; i < 2; ++i)
 	{
@@ -49,7 +49,9 @@ void UExteriorPewterCityLevel::MakeForestEntrances()
 
 		AEventTrigger* Trigger = SpawnEventTrigger<AEventTrigger>(Setting);
 
-		UEventManager::RegisterEvent(Trigger, Cond,
+		Trigger->RegisterEvent(
+			EEventTriggerAction::ArrowClick,
+			Cond,
 			ES::Start(true)
 			>> ES::FadeOutBgm(0.75f)
 			>> ES::FadeOut(0.75f)
@@ -173,10 +175,9 @@ void UExteriorPewterCityLevel::MakePewterToRoute2AreaChanger()
 
 		AEventTrigger* Changer = SpawnEventTrigger<AEventTrigger>(Setting);
 
-		UEventCondition Cond = UEventCondition(EEventTriggerAction::StepOn);
-		Cond.RegisterCheckFunc(IsPlayerNotInRoute2);
-
-		UEventManager::RegisterEvent(Changer, Cond,
+		Changer->RegisterEvent(
+			EEventTriggerAction::StepOn,
+			IsPlayerNotInRoute2,
 			ES::Start(false)
 			>> ES::ChangeArea("ROUTE 2", RN::BgmRoute2)
 			>> ES::ShowMapName(L"ROUTE 2")
@@ -199,10 +200,9 @@ void UExteriorPewterCityLevel::MakeRoute2ToPewterAreaChanger()
 
 		AEventTrigger* Changer = SpawnEventTrigger<AEventTrigger>(Setting);
 
-		UEventCondition Cond = UEventCondition(EEventTriggerAction::StepOn);
-		Cond.RegisterCheckFunc(IsPlayerNotInPewterCity);
-
-		UEventManager::RegisterEvent(Changer, Cond,
+		Changer->RegisterEvent(
+			EEventTriggerAction::StepOn,
+			IsPlayerNotInPewterCity,
 			ES::Start(false)
 			>> ES::ChangeArea("PEWTER CITY", RN::BgmPewterCity)
 			>> ES::ShowMapName(L"PEWTER CITY")

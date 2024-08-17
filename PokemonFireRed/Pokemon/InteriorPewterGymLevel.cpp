@@ -1,6 +1,9 @@
 ﻿#include "InteriorPewterGymLevel.h"
 #include "InteriorDoor.h"
 #include "Trainer.h"
+#include "EventMacros.h"
+#include "EventStream.h"
+
 #include <EnginePlatform/EngineInput.h>
 #include <EngineCore/EngineCore.h>
 
@@ -95,9 +98,10 @@ void UInteriorPewterGymLevel::MakeCamper()
 	Camper->AddPokemonToEntry(UPokemon(EPokemonId::Sandshrew, 11));
 	Camper->SetRegionGrass(false);
 
-	UEventCondition Cond;
 	AEventTrigger* WinTrigger = SpawnEventTrigger<AEventTrigger>("CamperWinTrigger");
-	UEventManager::RegisterEvent(WinTrigger, Cond,
+	WinTrigger->RegisterEvent(
+		EEventTriggerAction::ZClick,
+		SKIP_CHECK,
 		ES::Start(false)
 		>> ES::Achieve(EAchievement::FightWithPewterGymCamper)
 		>> ES::FadeOutBgm(0.5f)
@@ -119,11 +123,10 @@ void UInteriorPewterGymLevel::MakeCamper()
 		BattleTileSetting.SetName("CamperBattleTile" + std::to_string(i));
 		BattleTileSetting.SetPoint({ CamperX + 1 + i, CamperY });
 
-		UEventCondition BattleCond = UEventCondition(EEventTriggerAction::StepOn);
-		BattleCond.RegisterCheckFunc(FightWithCamperChecker);
-
 		AEventTrigger* BattleTile = SpawnEventTrigger<AEventTrigger>(BattleTileSetting);
-		UEventManager::RegisterEvent(BattleTile, BattleCond,
+		BattleTile->RegisterEvent(
+			EEventTriggerAction::StepOn,
+			FightWithCamperChecker,
 			ES::Start(true)
 			>> ES::PlayBgm(RN::BgmEncounterBoy)
 			>> ES::Surprise(EN::Camper)
@@ -159,9 +162,6 @@ void UInteriorPewterGymLevel::MakeGymLeader()
 	Setting.SetWalkable(false);
 	Setting.SetImageNameAuto();
 
-	UEventCondition BattleCond = UEventCondition(EEventTriggerAction::ZClick);
-	BattleCond.RegisterCheckFunc(FightWithBrockChecker);
-
 	ATrainer* Brock = SpawnEventTrigger<ATrainer>(Setting);
 	Brock->SetBattler("LEADER BROCK", RN::LeaderBrockBattler);
 	Brock->SetPlayerWinMessage({ L"I took you for granted, and so\nlost.", L"As proof of your victory, I confer\non you this…", L"The official POKéMON LEAGUE\nBOULDERBADGE."});
@@ -170,7 +170,9 @@ void UInteriorPewterGymLevel::MakeGymLeader()
 	Brock->SetGymLeader(true);
 	Brock->SetRegionGrass(false);
 
-	UEventManager::RegisterEvent(Brock, BattleCond,
+	Brock->RegisterEvent(
+		EEventTriggerAction::ZClick,
+		FightWithBrockChecker,
 		ES::Start(true)
 		>> ES::Chat({ L"So, you're here. I'm BROCK.\nI'm PEWTER's GYM LEADER.",
 			L"My rock-hard willpower is evident\neven in my POKéMON.",
@@ -197,9 +199,10 @@ void UInteriorPewterGymLevel::MakeGymLeader()
 		>> ES::End(true)
 	);
 
-	UEventCondition EndingCond;
 	AEventTrigger* EndingTrigger = SpawnEventTrigger<AEventTrigger>("EndingTrigger");
-	UEventManager::RegisterEvent(EndingTrigger, EndingCond,
+	EndingTrigger->RegisterEvent(
+		EEventTriggerAction::Direct,
+		SKIP_CHECK,
 		ES::Start(false)
 		>> ES::Achieve(EAchievement::FightWithPewterGymLeader)
 		>> ES::FadeOutBgm(0.5f)

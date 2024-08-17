@@ -259,7 +259,7 @@ void AStarterBall::ProcessSelectMessage2()
 		ATrainer* Rival = UEventManager::FindCurLevelTarget<ATrainer>(EN::RivalGreen);
 		UPokemon RivalStarter = PickRivalPokemon();
 		Rival->AddPokemonToEntry(RivalStarter);
-		UEventManager::TriggerEvent(Rival, EEventTriggerAction::Direct);
+		Rival->TriggerEvent(EEventTriggerAction::Direct);
 
 		// 이벤트 삭제
 		MsgBox->SetActive(false);

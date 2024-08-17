@@ -1,6 +1,8 @@
 ﻿#include "ExteriorViridianForestLevel.h"
 #include "Trainer.h"
 #include "ItemBall.h"
+#include "EventMacros.h"
+#include "EventStream.h"
 
 UExteriorViridianForestLevel::UExteriorViridianForestLevel()
 {
@@ -45,9 +47,10 @@ void UExteriorViridianForestLevel::MakeBugCatcher0()
 	BugCatcher0->AddPokemonToEntry(UPokemon(EPokemonId::Weedle, 6));
 	BugCatcher0->AddPokemonToEntry(UPokemon(EPokemonId::Caterpie, 6));
 
-	UEventCondition Cond;
 	AEventTrigger* WinTrigger = SpawnEventTrigger<AEventTrigger>("BugCatcher0WinTrigger");
-	UEventManager::RegisterEvent(WinTrigger, Cond,
+	WinTrigger->RegisterEvent(
+		EEventTriggerAction::Direct,
+		SKIP_CHECK,
 		ES::Start(false)
 		>> ES::Achieve(EAchievement::FightWithBugCatcher0)
 		>> ES::FadeOutBgm(0.5f)
@@ -69,11 +72,11 @@ void UExteriorViridianForestLevel::MakeBugCatcher0()
 		BattleTileSetting.SetName("BugCatcher0BattleTile" + std::to_string(i));
 		BattleTileSetting.SetPoint({ 45 + i, 45 });
 		
-		UEventCondition BattleCond = UEventCondition(EEventTriggerAction::StepOn);
-		BattleCond.RegisterCheckFunc(FightWithBugCatcher0Checker);
-
 		AEventTrigger* BattleTile = SpawnEventTrigger<AEventTrigger>(BattleTileSetting);
-		UEventManager::RegisterEvent(BattleTile, BattleCond,
+
+		BattleTile->RegisterEvent(
+			EEventTriggerAction::StepOn,
+			FightWithBugCatcher0Checker,
 			ES::Start(true)
 			>> ES::PlayBgm(RN::BgmEncounterBoy)
 			>> ES::Surprise(EN::BugCatcher0)
@@ -116,9 +119,10 @@ void UExteriorViridianForestLevel::MakeBugCatcher1()
 	BugCatcher1->SetPlayerWinMessage({ L"I give!\nYou're good at this!" });
 	BugCatcher1->AddPokemonToEntry(UPokemon(EPokemonId::Weedle, 10));
 
-	UEventCondition Cond;
 	AEventTrigger* WinTrigger = SpawnEventTrigger<AEventTrigger>("BugCatcher1WinTrigger");
-	UEventManager::RegisterEvent(WinTrigger, Cond,
+	WinTrigger->RegisterEvent(
+		EEventTriggerAction::Direct,
+		SKIP_CHECK,
 		ES::Start(false)
 		>> ES::Achieve(EAchievement::FightWithBugCatcher1)
 		>> ES::FadeOutBgm(0.5f)
@@ -140,11 +144,10 @@ void UExteriorViridianForestLevel::MakeBugCatcher1()
 		BattleTileSetting.SetName("BugCatcher1BattleTile" + std::to_string(i));
 		BattleTileSetting.SetPoint({ 9 + i, 22 });
 
-		UEventCondition BattleCond = UEventCondition(EEventTriggerAction::StepOn);
-		BattleCond.RegisterCheckFunc(FightWithBugCatcher1Checker);
-
 		AEventTrigger* BattleTile = SpawnEventTrigger<AEventTrigger>(BattleTileSetting);
-		UEventManager::RegisterEvent(BattleTile, BattleCond,
+		BattleTile->RegisterEvent(
+			EEventTriggerAction::StepOn,
+			FightWithBugCatcher1Checker,
 			ES::Start(true)
 			>> ES::PlayBgm(RN::BgmEncounterBoy)
 			>> ES::Surprise(EN::BugCatcher1)
@@ -172,11 +175,10 @@ void UExteriorViridianForestLevel::MakeBugCatcher1()
 
 void UExteriorViridianForestLevel::MakeExitToR2()
 {
-	UEventCondition Cond = UEventCondition(EEventTriggerAction::ArrowClick);
-	Cond.RegisterCheckFunc([]() {
+	std::function<bool()> Cond = []() {
 		const APlayerCharacter* Player = UEventManager::FindCurLevelTarget<APlayerCharacter>(EN::PlayerCharacter);
 		return Player->GetDirection() == FTileVector::Down;
-		});
+	};
 
 	for (int i = 0; i < 3; ++i)
 	{
@@ -187,7 +189,9 @@ void UExteriorViridianForestLevel::MakeExitToR2()
 
 		AEventTrigger* Trigger = SpawnEventTrigger<AEventTrigger>(Setting);
 
-		UEventManager::RegisterEvent(Trigger, Cond,
+		Trigger->RegisterEvent(
+			EEventTriggerAction::ArrowClick,
+			Cond,
 			ES::Start(true)
 			>> ES::FadeOutBgm(0.75f)
 			>> ES::FadeOut(0.75f)
@@ -209,8 +213,6 @@ void UExteriorViridianForestLevel::MakeExitToR2()
 
 void UExteriorViridianForestLevel::MakeExitsToPewter()
 {
-	UEventCondition Cond = UEventCondition(EEventTriggerAction::StepOn);
-
 	for (int i = 0; i < 3; ++i)
 	{
 		UEventTargetSetting Setting;
@@ -220,7 +222,9 @@ void UExteriorViridianForestLevel::MakeExitsToPewter()
 
 		AEventTrigger* Trigger = SpawnEventTrigger<AEventTrigger>(Setting);
 
-		UEventManager::RegisterEvent(Trigger, Cond,
+		Trigger->RegisterEvent(
+			EEventTriggerAction::StepOn,
+			SKIP_CHECK,
 			ES::Start(true)
 			>> ES::FadeOutBgm(0.75f)
 			>> ES::FadeOut(0.75f)

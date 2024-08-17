@@ -7,7 +7,6 @@
 #include <EnginePlatform/EngineSound.h>
 #include "PokemonDebug.h"
 #include "EventManager.h"
-#include "EventCondition.h"
 #include "EventStream.h"
 #include "PlayerCharacter.h"
 #include "Map.h"
@@ -18,6 +17,7 @@
 #include "AnimatedFlower.h"
 #include "AnimatedSea.h"
 #include "WildBattleTrigger.h"
+#include "EventMacros.h"
 
 UMapLevel::UMapLevel()
 {
@@ -118,8 +118,11 @@ void UMapLevel::BeginPlay()
 	Setting.SetName("FadeInTrigger");
 	FadeInTrigger = SpawnEventTrigger<AEventTrigger>(Setting);
 
-	UEventCondition Cond = UEventCondition(EEventTriggerAction::Direct);
-	UEventManager::RegisterEvent(FadeInTrigger, Cond, ES::Start(false) >> ES::FadeIn(0.75f) >> ES::End(false));
+	FadeInTrigger->RegisterEvent(
+		EEventTriggerAction::Direct,
+		SKIP_CHECK,
+		ES::Start(false) >> ES::FadeIn(0.75f) >> ES::End(false)
+	);
 }
 
 void UMapLevel::Tick(float _DeltaTime)

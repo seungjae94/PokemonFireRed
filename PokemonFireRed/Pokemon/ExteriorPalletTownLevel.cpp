@@ -8,6 +8,8 @@
 #include "PlayerData.h"
 #include "Pokemon.h"
 #include "SoundManager.h"
+#include "EventMacros.h"
+#include "EventStream.h"
 
 UExteriorPalletTownLevel::UExteriorPalletTownLevel()
 {
@@ -139,11 +141,9 @@ and POKéMON as data via PC.)"
 
 void UExteriorPalletTownLevel::MakePTGetStarterEventTriggers()
 {
-	UEventCondition Cond = UEventCondition(EEventTriggerAction::StepOn);
-	CheckFunc Func = []() {
+	std::function<bool()> Cond = []() {
 		return false == UPlayerData::IsAchieved(EAchievement::GetStarterEventStart);
-		};
-	Cond.RegisterCheckFunc(Func);
+	};
 
 	UEventTargetSetting Setting0;
 	Setting0.SetName(EN::GetStarterEventTrigger + "0");
@@ -166,10 +166,12 @@ void UExteriorPalletTownLevel::MakePTGetStarterEventTriggers()
 	SpawnPTGetStarterEventTrigger(Setting1, Cond, OakComePath1, OakGoToLabPath1, PlayerGoToLabPath1);
 }
 
-void UExteriorPalletTownLevel::SpawnPTGetStarterEventTrigger(UEventTargetSetting _Setting, UEventCondition _Cond, const std::vector<FTileVector>& _OakComePath, const std::vector<FTileVector>& _OakGoToLabPath, const std::vector<FTileVector>& _PlayerGoToLabPath)
+void UExteriorPalletTownLevel::SpawnPTGetStarterEventTrigger(UEventTargetSetting _Setting, const std::function<bool()>& _Cond, const std::vector<FTileVector>& _OakComePath, const std::vector<FTileVector>& _OakGoToLabPath, const std::vector<FTileVector>& _PlayerGoToLabPath)
 {
 	AEventTrigger* Trigger = SpawnEventTrigger<AEventTrigger>(_Setting);
-	UEventManager::RegisterEvent(Trigger, _Cond,
+	Trigger->RegisterEvent(
+		EEventTriggerAction::StepOn,
+		_Cond,
 		ES::Start(true)
 		>> ES::FadeOutBgm(0.25f)
 		>> ES::Wait(0.25f)
@@ -407,8 +409,6 @@ void UExteriorPalletTownLevel::MakeVCAnimatedTiles()
 
 void UExteriorPalletTownLevel::MakeVCForestEntrances()
 {
-	UEventCondition Cond = UEventCondition(EEventTriggerAction::StepOn);
-
 	for (int i = 0; i < 2; ++i)
 	{
 		UEventTargetSetting Setting;
@@ -418,7 +418,9 @@ void UExteriorPalletTownLevel::MakeVCForestEntrances()
 
 		AEventTrigger* Trigger = SpawnEventTrigger<AEventTrigger>(Setting);
 
-		UEventManager::RegisterEvent(Trigger, Cond,
+		Trigger->RegisterEvent(
+			EEventTriggerAction::StepOn,
+			SKIP_CHECK,
 			ES::Start(true)
 			>> ES::FadeOutBgm(0.75f)
 			>> ES::FadeOut(0.75f)
@@ -482,9 +484,6 @@ void UExteriorPalletTownLevel::MakePalletToRoute1AreaChanger()
 	AEventTrigger* Changer0 = SpawnEventTrigger<AEventTrigger>(Setting0);
 	AEventTrigger* Changer1 = SpawnEventTrigger<AEventTrigger>(Setting1);
 
-	UEventCondition Cond = UEventCondition(EEventTriggerAction::StepOn);
-	Cond.RegisterCheckFunc(IsPlayerNotInRoute1);
-
 	UEventStream& Stream = ES::Start(false)
 		>> ES::ChangeArea("ROUTE 1", RN::BgmRoute1)
 		>> ES::ShowMapName(L"ROUTE 1")
@@ -494,8 +493,8 @@ void UExteriorPalletTownLevel::MakePalletToRoute1AreaChanger()
 		>> ES::FadeInBgm(0.25f)
 		>> ES::End(false);
 
-	UEventManager::RegisterEvent(Changer0, Cond, Stream);
-	UEventManager::RegisterEvent(Changer1, Cond, Stream);
+	Changer0->RegisterEvent(EEventTriggerAction::StepOn, IsPlayerNotInRoute1, Stream);
+	Changer1->RegisterEvent(EEventTriggerAction::StepOn, IsPlayerNotInRoute1, Stream);
 }
 
 void UExteriorPalletTownLevel::MakeRoute1ToPalletAreaChanger()
@@ -513,9 +512,6 @@ void UExteriorPalletTownLevel::MakeRoute1ToPalletAreaChanger()
 	AEventTrigger* Changer0 = SpawnEventTrigger<AEventTrigger>(Setting0);
 	AEventTrigger* Changer1 = SpawnEventTrigger<AEventTrigger>(Setting1);
 
-	UEventCondition Cond = UEventCondition(EEventTriggerAction::StepOn);
-	Cond.RegisterCheckFunc(IsPlayerNotInPalletTown);
-
 	UEventStream& Stream = ES::Start(false)
 		>> ES::ChangeArea("PALLET TOWN", RN::BgmPalletTown)
 		>> ES::ShowMapName(L"PALLET TOWN")
@@ -525,8 +521,8 @@ void UExteriorPalletTownLevel::MakeRoute1ToPalletAreaChanger()
 		>> ES::FadeInBgm(0.25f)
 		>> ES::End(false);
 
-	UEventManager::RegisterEvent(Changer0, Cond, Stream);
-	UEventManager::RegisterEvent(Changer1, Cond, Stream);
+	Changer0->RegisterEvent(EEventTriggerAction::StepOn, IsPlayerNotInPalletTown, Stream);
+	Changer1->RegisterEvent(EEventTriggerAction::StepOn, IsPlayerNotInPalletTown, Stream);
 }
 
 void UExteriorPalletTownLevel::MakeViridianToRoute1AreaChanger()
@@ -540,10 +536,9 @@ void UExteriorPalletTownLevel::MakeViridianToRoute1AreaChanger()
 
 		AEventTrigger* Changer = SpawnEventTrigger<AEventTrigger>(Setting);
 
-		UEventCondition Cond = UEventCondition(EEventTriggerAction::StepOn);
-		Cond.RegisterCheckFunc(IsPlayerNotInRoute1);
-
-		UEventManager::RegisterEvent(Changer, Cond,
+		Changer->RegisterEvent(
+			EEventTriggerAction::StepOn, 
+			IsPlayerNotInRoute1,
 			ES::Start(false)
 			>> ES::ChangeArea("ROUTE 1", RN::BgmRoute1)
 			>> ES::ShowMapName(L"ROUTE 1")
@@ -566,10 +561,9 @@ void UExteriorPalletTownLevel::MakeRoute1ToViridianAreaChanger()
 
 		AEventTrigger* Changer = SpawnEventTrigger<AEventTrigger>(Setting);
 
-		UEventCondition Cond = UEventCondition(EEventTriggerAction::StepOn);
-		Cond.RegisterCheckFunc(IsPlayerNotInViridianCity);
-
-		UEventManager::RegisterEvent(Changer, Cond,
+		Changer->RegisterEvent(
+			EEventTriggerAction::StepOn,
+			IsPlayerNotInViridianCity,
 			ES::Start(false)
 			>> ES::ChangeArea("VIRIDIAN CITY", RN::BgmViridianCity)
 			>> ES::ShowMapName(L"VIRIDIAN CITY")
@@ -592,10 +586,9 @@ void UExteriorPalletTownLevel::MakeViridianToRoute2AreaChanger()
 
 		AEventTrigger* Changer = SpawnEventTrigger<AEventTrigger>(Setting);
 
-		UEventCondition Cond = UEventCondition(EEventTriggerAction::StepOn);
-		Cond.RegisterCheckFunc(IsPlayerNotInRoute2);
-
-		UEventManager::RegisterEvent(Changer, Cond,
+		Changer->RegisterEvent(
+			EEventTriggerAction::StepOn,
+			IsPlayerNotInRoute2,
 			ES::Start(false)
 			>> ES::ChangeArea("ROUTE 2", RN::BgmRoute2)
 			>> ES::ShowMapName(L"ROUTE 2")
@@ -618,10 +611,9 @@ void UExteriorPalletTownLevel::MakeRoute2ToViridianAreaChanger()
 
 		AEventTrigger* Changer = SpawnEventTrigger<AEventTrigger>(Setting);
 
-		UEventCondition Cond = UEventCondition(EEventTriggerAction::StepOn);
-		Cond.RegisterCheckFunc(IsPlayerNotInViridianCity);
-
-		UEventManager::RegisterEvent(Changer, Cond,
+		Changer->RegisterEvent(
+			EEventTriggerAction::StepOn,
+			IsPlayerNotInViridianCity,
 			ES::Start(false)
 			>> ES::ChangeArea("VIRIDIAN CITY", RN::BgmViridianCity)
 			>> ES::ShowMapName(L"VIRIDIAN CITY")

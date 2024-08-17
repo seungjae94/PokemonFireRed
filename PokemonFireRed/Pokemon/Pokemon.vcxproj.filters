@@ -177,7 +177,7 @@
     <ClInclude Include="EventManager.h">
       <Filter>4. Event</Filter>
     </ClInclude>
-    <ClInclude Include="EventCondition.h">
+    <ClInclude Include="EventEnums.h">
       <Filter>4. Event</Filter>
     </ClInclude>
     <ClInclude Include="PokemonUtil.h">
@@ -514,6 +514,9 @@
       <Filter>2. Level</Filter>
     </ClInclude>
     <ClInclude Include="GameData.h" />
+    <ClInclude Include="EventMacros.h">
+      <Filter>4. Event</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PokemonCore.cpp">
@@ -541,9 +544,6 @@
       <Filter>4. Event</Filter>
     </ClCompile>
     <ClCompile Include="EventManager.cpp">
-      <Filter>4. Event</Filter>
-    </ClCompile>
-    <ClCompile Include="EventCondition.cpp">
       <Filter>4. Event</Filter>
     </ClCompile>
     <ClCompile Include="PokemonUtil.cpp">

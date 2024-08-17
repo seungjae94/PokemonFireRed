@@ -296,6 +296,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="EventMacros.h" />
     <ClInclude Include="ExpCalculator.h">
       <SubType>
       </SubType>
@@ -456,7 +457,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="EventCondition.h">
+    <ClInclude Include="EventEnums.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -937,10 +938,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="InteriorDoor.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="EventCondition.cpp">
       <SubType>
       </SubType>
     </ClCompile>

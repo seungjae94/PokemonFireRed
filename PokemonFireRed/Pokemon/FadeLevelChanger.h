@@ -1,5 +1,6 @@
 #pragma once
 #include "EventTrigger.h"
+#include "EventEnums.h"
 
 class AFadeLevelChanger : public AEventTrigger
 {
@@ -17,7 +18,7 @@ public:
 	void Trigger(std::string_view _TargetLevelName, bool _PlayerControl, float _FadeInTime, float _FadeOutTime, bool _IsFadeBgm, std::string_view _NewBgm)
 	{
 		Update(_TargetLevelName, _PlayerControl, _FadeInTime, _FadeOutTime, _IsFadeBgm, _NewBgm);
-		UEventManager::TriggerEvent(this, EEventTriggerAction::Direct);
+		TriggerEvent(EEventTriggerAction::Direct);
 	}
 
 protected:

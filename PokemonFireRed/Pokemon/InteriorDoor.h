@@ -29,7 +29,6 @@ public:
 protected:
 
 private:
-	UEventCondition Cond;
 	bool IsRegistered = false;
 
 	std::string ExteriorDoorName;

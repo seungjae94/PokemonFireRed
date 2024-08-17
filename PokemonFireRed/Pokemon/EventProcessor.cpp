@@ -19,6 +19,32 @@ UEventProcessor::~UEventProcessor()
 {
 }
 
+void UEventProcessor::Run(AEventTrigger* _Trigger, UEventStream* _Stream)
+{
+	Trigger = _Trigger;
+	Stream = _Stream;
+	IsRunningValue = true;
+	CurCommandIndex = 0;
+
+	if (true == Stream->DeactivatePlayer)
+	{
+		IsPlayerActivated = false;
+		DeactivatePlayerControl();
+	}
+}
+
+void UEventProcessor::EndRun()
+{
+	ES::End* Data = dynamic_cast<ES::End*>(Stream->EventCommands[CurCommandIndex]);
+
+	if (true == Data->ActivatePlayer)
+	{
+		ActivatePlayerControl();
+	}
+
+	IsRunningValue = false;
+}
+
 void UEventProcessor::Tick(float _DeltaTime)
 {
 	while (true)
@@ -28,13 +54,13 @@ void UEventProcessor::Tick(float _DeltaTime)
 			return;
 		}
 
-		if (CurCommandIndex >= CurStream->EventCommands.size())
+		if (CurCommandIndex >= Stream->EventCommands.size())
 		{
 			MsgBoxAssert(Trigger->GetName() + "의 이벤트를 실행하는 중 에러가 발생했습니다. 이벤트 프로세서의 명령 인덱스가 이벤트 개수보다 크거나 같습니다. 이벤트 스트림은 항상 ES::End로 끝나야 합니다.");
 			return;
 		}
 
-		EEventType CurEventType = CurStream->EventCommands[CurCommandIndex]->EventType;
+		EEventType CurEventType = Stream->EventCommands[CurCommandIndex]->EventType;
 
 		if (CurEventType == EEventType::End)
 		{
@@ -189,7 +215,7 @@ void UEventProcessor::DeactivatePlayerControl()
 
 bool UEventProcessor::ProcessSetActive()
 {
-	ES::SetActive* Data = dynamic_cast<ES::SetActive*>(CurStream->EventCommands[CurCommandIndex]);
+	ES::SetActive* Data = dynamic_cast<ES::SetActive*>(Stream->EventCommands[CurCommandIndex]);
 
 	std::string MapName = ToUpper(Data->MapName);
 	std::string TargetName = ToUpper(Data->TargetName);
@@ -209,7 +235,7 @@ bool UEventProcessor::ProcessSetActive()
 
 bool UEventProcessor::ProcessDestroy()
 {
-	ES::Destroy* Data = dynamic_cast<ES::Destroy*>(CurStream->EventCommands[CurCommandIndex]);
+	ES::Destroy* Data = dynamic_cast<ES::Destroy*>(Stream->EventCommands[CurCommandIndex]);
 
 	AActor* Actor = Data->Actor;
 
@@ -248,7 +274,7 @@ bool UEventProcessor::ProcessDestroy()
 
 bool UEventProcessor::ProcessMove(float _DeltaTime)
 {
-	ES::Move* Data = dynamic_cast<ES::Move*>(CurStream->EventCommands[CurCommandIndex]);
+	ES::Move* Data = dynamic_cast<ES::Move*>(Stream->EventCommands[CurCommandIndex]);
 
 	// 이동 준비
 	if (MoveState == EMoveState::None)
@@ -262,7 +288,7 @@ bool UEventProcessor::ProcessMove(float _DeltaTime)
 
 bool UEventProcessor::ProcessMoveDynamicPath(float _DeltaTime)
 {
-	ES::MoveDynamicPath* Data = dynamic_cast<ES::MoveDynamicPath*>(CurStream->EventCommands[CurCommandIndex]);
+	ES::MoveDynamicPath* Data = dynamic_cast<ES::MoveDynamicPath*>(Stream->EventCommands[CurCommandIndex]);
 
 	// 이동 준비
 	if (MoveState == EMoveState::None)
@@ -412,7 +438,7 @@ bool UEventProcessor::SubprocessMove(const std::vector<std::string>& _TargetName
 bool UEventProcessor::ProcessMoveWithoutRestriction()
 {
 	float DeltaTime = UEventManager::GetDeltaTime();
-	ES::MoveWithoutRestriction* Data = dynamic_cast<ES::MoveWithoutRestriction*>(CurStream->EventCommands[CurCommandIndex]);
+	ES::MoveWithoutRestriction* Data = dynamic_cast<ES::MoveWithoutRestriction*>(Stream->EventCommands[CurCommandIndex]);
 
 	std::string MapName = ToUpper(UEventManager::CurLevelName);
 	std::string TargetName = ToUpper(Data->TargetName);
@@ -475,7 +501,7 @@ bool UEventProcessor::ProcessMoveWithoutRestriction()
 
 bool UEventProcessor::ProcessSurprise()
 {
-	ES::Surprise* Data = dynamic_cast<ES::Surprise*>(CurStream->EventCommands[CurCommandIndex]);
+	ES::Surprise* Data = dynamic_cast<ES::Surprise*>(Stream->EventCommands[CurCommandIndex]);
 
 	if (true == SurpriseFirstTick)
 	{
@@ -514,7 +540,7 @@ bool UEventProcessor::ProcessFadeIn()
 	std::string CurLevelName = UEventManager::GetCurLevelName();
 	AFadeCanvas* Canvas = UEventManager::FindCurLevelCommonCanvas<AFadeCanvas>(Global::FadeCanvas);
 
-	ES::FadeIn* Data = dynamic_cast<ES::FadeIn*>(CurStream->EventCommands[CurCommandIndex]);
+	ES::FadeIn* Data = dynamic_cast<ES::FadeIn*>(Stream->EventCommands[CurCommandIndex]);
 
 	switch (Data->FadeType)
 	{
@@ -543,7 +569,7 @@ bool UEventProcessor::ProcessFadeOut()
 	std::string CurLevelName = UEventManager::GetCurLevelName();
 	AFadeCanvas* Canvas = UEventManager::FindCurLevelCommonCanvas<AFadeCanvas>(Global::FadeCanvas);
 
-	ES::FadeOut* Data = dynamic_cast<ES::FadeOut*>(CurStream->EventCommands[CurCommandIndex]);
+	ES::FadeOut* Data = dynamic_cast<ES::FadeOut*>(Stream->EventCommands[CurCommandIndex]);
 
 	switch (Data->FadeType)
 	{
@@ -563,14 +589,14 @@ bool UEventProcessor::ProcessFadeOut()
 
 bool UEventProcessor::ProcessFadeInBgm()
 {
-	ES::FadeInBgm* Data = dynamic_cast<ES::FadeInBgm*>(CurStream->EventCommands[CurCommandIndex]);
+	ES::FadeInBgm* Data = dynamic_cast<ES::FadeInBgm*>(Stream->EventCommands[CurCommandIndex]);
 	USoundManager::FadeBgm(Data->TargetVolume, Data->Time);
 	return true;
 }
 
 bool UEventProcessor::ProcessFadeOutBgm()
 {
-	ES::FadeOutBgm* Data = dynamic_cast<ES::FadeOutBgm*>(CurStream->EventCommands[CurCommandIndex]);
+	ES::FadeOutBgm* Data = dynamic_cast<ES::FadeOutBgm*>(Stream->EventCommands[CurCommandIndex]);
 	USoundManager::FadeBgm(0.0f, Data->Time);
 	return true;
 }
@@ -582,7 +608,7 @@ bool UEventProcessor::ProcessWait()
 
 	float DeltaTime = UEventManager::GetDeltaTime();
 
-	ES::Wait* Data = dynamic_cast<ES::Wait*>(CurStream->EventCommands[CurCommandIndex]);
+	ES::Wait* Data = dynamic_cast<ES::Wait*>(Stream->EventCommands[CurCommandIndex]);
 
 	if (true == IsBegin)
 	{
@@ -603,7 +629,7 @@ bool UEventProcessor::ProcessWait()
 
 bool UEventProcessor::ProcessPlayAnimation()
 {
-	ES::PlayAnimation* Data = dynamic_cast<ES::PlayAnimation*>(CurStream->EventCommands[CurCommandIndex]);
+	ES::PlayAnimation* Data = dynamic_cast<ES::PlayAnimation*>(Stream->EventCommands[CurCommandIndex]);
 
 	AEventTarget* Target = UEventManager::FindCurLevelTarget<AEventTarget>(Data->TargetName);
 
@@ -679,14 +705,14 @@ bool UEventProcessor::ProcessPlayAnimation()
 
 bool UEventProcessor::ProcessPlayBgm()
 {
-	ES::PlayBgm* Data = dynamic_cast<ES::PlayBgm*>(CurStream->EventCommands[CurCommandIndex]);
+	ES::PlayBgm* Data = dynamic_cast<ES::PlayBgm*>(Stream->EventCommands[CurCommandIndex]);
 	USoundManager::PlayBgm(Data->Name);
 	return true;
 }
 
 bool UEventProcessor::ProcessPlaySE()
 {
-	ES::PlaySE* Data = dynamic_cast<ES::PlaySE*>(CurStream->EventCommands[CurCommandIndex]);
+	ES::PlaySE* Data = dynamic_cast<ES::PlaySE*>(Stream->EventCommands[CurCommandIndex]);
 
 	USoundManager::PlaySE(Data->Name, Data->MuteTime);
 	return true;
@@ -696,7 +722,7 @@ bool UEventProcessor::ProcessChat()
 {
 	ADialogueWindow* CurDialogueWindow = UEventManager::FindCurLevelDialogueWindow();
 
-	ES::Chat* Data = dynamic_cast<ES::Chat*>(CurStream->EventCommands[CurCommandIndex]);
+	ES::Chat* Data = dynamic_cast<ES::Chat*>(Stream->EventCommands[CurCommandIndex]);
 
 	// 아직 대화창을 켜지 않은 경우
 	if (true == CurDialogueWindow->IsHide())
@@ -732,7 +758,7 @@ bool UEventProcessor::ProcessShowMapName()
 {
 	AMapNameCanvas* MapNameCanvas = UEventManager::FindCurLevelCommonCanvas<AMapNameCanvas>(Global::MapNameWindow);
 
-	ES::ShowMapName* Data = dynamic_cast<ES::ShowMapName*>(CurStream->EventCommands[CurCommandIndex]);
+	ES::ShowMapName* Data = dynamic_cast<ES::ShowMapName*>(Stream->EventCommands[CurCommandIndex]);
 	MapNameCanvas->SetActive(true);
 	MapNameCanvas->AllRenderersActiveOn();
 	MapNameCanvas->Open(Data->MapName);
@@ -741,14 +767,14 @@ bool UEventProcessor::ProcessShowMapName()
 
 bool UEventProcessor::ProcessChangeArea()
 {
-	ES::ChangeArea* Data = dynamic_cast<ES::ChangeArea*>(CurStream->EventCommands[CurCommandIndex]);
+	ES::ChangeArea* Data = dynamic_cast<ES::ChangeArea*>(Stream->EventCommands[CurCommandIndex]);
 	UEventManager::ChangeArea(Data->AreaName, Data->AreaBgm);
 	return true;
 }
 
 bool UEventProcessor::ProcessChangeLevel()
 {
-	ES::ChangeLevel* Data = dynamic_cast<ES::ChangeLevel*>(CurStream->EventCommands[CurCommandIndex]);
+	ES::ChangeLevel* Data = dynamic_cast<ES::ChangeLevel*>(Stream->EventCommands[CurCommandIndex]);
 
 	std::string PrevLevelName = UEventManager::CurLevelName;
 	std::string NextLevelName = ToUpper(Data->LevelName);
@@ -764,14 +790,14 @@ bool UEventProcessor::ProcessChangeLevel()
 
 bool UEventProcessor::ProcessChangePoint()
 {
-	ES::ChangePoint* Data = dynamic_cast<ES::ChangePoint*>(CurStream->EventCommands[CurCommandIndex]);
+	ES::ChangePoint* Data = dynamic_cast<ES::ChangePoint*>(Stream->EventCommands[CurCommandIndex]);
 	UEventManager::SetPoint(Data->LevelName, Data->TargetName, Data->Point);
 	return true;
 }
 
 bool UEventProcessor::ProcessChangePosition()
 {
-	ES::ChangePosition* Data = dynamic_cast<ES::ChangePosition*>(CurStream->EventCommands[CurCommandIndex]);
+	ES::ChangePosition* Data = dynamic_cast<ES::ChangePosition*>(Stream->EventCommands[CurCommandIndex]);
 
 	AEventTarget* Target = UEventManager::FindTarget<AEventTarget>(Data->LevelName, Data->TargetName);
 	Target->SetActorLocation(Data->Position);
@@ -780,14 +806,14 @@ bool UEventProcessor::ProcessChangePosition()
 
 bool UEventProcessor::ProcessChangeDirection()
 {
-	ES::ChangeDirection* Data = dynamic_cast<ES::ChangeDirection*>(CurStream->EventCommands[CurCommandIndex]);
+	ES::ChangeDirection* Data = dynamic_cast<ES::ChangeDirection*>(Stream->EventCommands[CurCommandIndex]);
 	UEventManager::SetDirection(Data->LevelName, Data->TargetName, Data->Direction);
 	return true;
 }
 
 bool UEventProcessor::ProcessStarePlayer()
 {
-	ES::StarePlayer* Data = dynamic_cast<ES::StarePlayer*>(CurStream->EventCommands[CurCommandIndex]);
+	ES::StarePlayer* Data = dynamic_cast<ES::StarePlayer*>(Stream->EventCommands[CurCommandIndex]);
 
 	std::string CurLevelName = UEventManager::GetCurLevelName();
 	APlayerCharacter* Player = UEventManager::FindCurLevelTarget<APlayerCharacter>(Global::PlayerCharacter);
@@ -797,7 +823,7 @@ bool UEventProcessor::ProcessStarePlayer()
 
 bool UEventProcessor::ProcessHideActor()
 {
-	ES::HideActor* Data = dynamic_cast<ES::HideActor*>(CurStream->EventCommands[CurCommandIndex]);
+	ES::HideActor* Data = dynamic_cast<ES::HideActor*>(Stream->EventCommands[CurCommandIndex]);
 
 	AEventTarget* Target = UEventManager::FindCurLevelTarget<AEventTarget>(Data->TargetName);
 	Target->AllRenderersActiveOff();
@@ -806,7 +832,7 @@ bool UEventProcessor::ProcessHideActor()
 
 bool UEventProcessor::ProcessShowActor()
 {
-	ES::ShowActor* Data = dynamic_cast<ES::ShowActor*>(CurStream->EventCommands[CurCommandIndex]);
+	ES::ShowActor* Data = dynamic_cast<ES::ShowActor*>(Stream->EventCommands[CurCommandIndex]);
 
 	AEventTarget* Target = UEventManager::FindCurLevelTarget<AEventTarget>(Data->TargetName);
 	Target->AllRenderersActiveOn();
@@ -815,7 +841,7 @@ bool UEventProcessor::ProcessShowActor()
 
 bool UEventProcessor::ProcessCameraFocus()
 {
-	ES::CameraFocus* Data = dynamic_cast<ES::CameraFocus*>(CurStream->EventCommands[CurCommandIndex]);
+	ES::CameraFocus* Data = dynamic_cast<ES::CameraFocus*>(Stream->EventCommands[CurCommandIndex]);
 
 	AEventTarget* Target = UEventManager::FindCurLevelTarget<AEventTarget>(Data->TargetName);
 	ULevel* CurLevel = Target->GetWorld();
@@ -825,7 +851,7 @@ bool UEventProcessor::ProcessCameraFocus()
 
 bool UEventProcessor::ProcessWildBattle()
 {
-	ES::WildBattle* Data = dynamic_cast<ES::WildBattle*>(CurStream->EventCommands[CurCommandIndex]);
+	ES::WildBattle* Data = dynamic_cast<ES::WildBattle*>(Stream->EventCommands[CurCommandIndex]);
 
 	UEventManager::SaveEnemyEntry(Data->Entry);
 	UEventManager::SetAsWildPokemonBattle();
@@ -844,7 +870,7 @@ bool UEventProcessor::ProcessWildBattle()
 
 bool UEventProcessor::ProcessTrainerBattle()
 {
-	ES::TrainerBattle* Data = dynamic_cast<ES::TrainerBattle*>(CurStream->EventCommands[CurCommandIndex]);
+	ES::TrainerBattle* Data = dynamic_cast<ES::TrainerBattle*>(Stream->EventCommands[CurCommandIndex]);
 
 	UEventManager::SaveEnemyEntry(Data->Trainer->GetEntry());
 	UEventManager::SetAsTrainerBattle(Data->Trainer);
@@ -863,21 +889,21 @@ bool UEventProcessor::ProcessTrainerBattle()
 
 bool UEventProcessor::ProcessAchieve()
 {
-	ES::Achieve* Data = dynamic_cast<ES::Achieve*>(CurStream->EventCommands[CurCommandIndex]);
+	ES::Achieve* Data = dynamic_cast<ES::Achieve*>(Stream->EventCommands[CurCommandIndex]);
 	UPlayerData::Achieve(Data->Achievement);
 	return true;
 }
 
 bool UEventProcessor::ProcessUnachieve()
 {
-	ES::Unachieve* Data = dynamic_cast<ES::Unachieve*>(CurStream->EventCommands[CurCommandIndex]);
+	ES::Unachieve* Data = dynamic_cast<ES::Unachieve*>(Stream->EventCommands[CurCommandIndex]);
 	UPlayerData::Unachieve(Data->Achievement);
 	return true;
 }
 
 bool UEventProcessor::ProcessGainItem()
 {
-	ES::GainItem* Data = dynamic_cast<ES::GainItem*>(CurStream->EventCommands[CurCommandIndex]);
+	ES::GainItem* Data = dynamic_cast<ES::GainItem*>(Stream->EventCommands[CurCommandIndex]);
 	UPlayerData::GainItem(Data->ItemId, Data->Count);
 	return true;
 }
@@ -893,58 +919,4 @@ bool UEventProcessor::ProcessDeactivatePlayerControl()
 std::string UEventProcessor::ToUpper(std::string_view _Name)
 {
 	return UEngineString::ToUpper(_Name);
-}
-
-
-// 시작 및 종료 함수
-
-bool UEventProcessor::TryRun(EEventTriggerAction _TriggerAction)
-{
-	for (std::pair<const UEventCondition, UEventStream*>& Pair : AllStreams)
-	{
-		const UEventCondition& Condition = Pair.first;
-
-		// 조건을 만족하고 현재 실행중이 아닐 때만 실행
-		bool CheckResult = Condition.Check(_TriggerAction);
-		if (true == CheckResult && false == IsRunningValue)
-		{
-			CurCommandIndex = 0;
-			CurStream = Pair.second;
-			if (true == CurStream->DeactivatePlayer)
-			{
-				IsPlayerActivated = false;
-				DeactivatePlayerControl();
-			}
-			IsRunningValue = true;		// 실행
-			return true;
-		}
-	}
-
-	return false;
-}
-
-void UEventProcessor::EndRun()
-{
-	ES::End* Data = dynamic_cast<ES::End*>(CurStream->EventCommands[CurCommandIndex]);
-
-	if (true == Data->ActivatePlayer)
-	{
-		ActivatePlayerControl();
-	}
-
-	IsRunningValue = false;
-}
-
-
-void UEventProcessor::RegisterStream(const UEventCondition& _Condition, UEventStream& _Stream)
-{
-	AllStreams[_Condition] = &_Stream;
-}
-
-void UEventProcessor::UnregisterStream(const UEventCondition& _Condition)
-{
-	if (true == AllStreams.contains(_Condition))
-	{
-		AllStreams.erase(_Condition);
-	}
 }

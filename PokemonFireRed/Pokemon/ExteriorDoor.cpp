@@ -16,9 +16,6 @@ void AExteriorDoor::RegisterPredefinedEvent()
 	LowerBodyRenderer->CreateAnimation("DoorOpen", ImageName, { 0, 1, 2, 3 }, 0.1f, false);
 	LowerBodyRenderer->CreateAnimation("DoorClose", ImageName, { 3, 2, 1, 0 }, 0.1f, false);
 
-	UEventCondition Cond = UEventCondition(EEventTriggerAction::ArrowClick);
-	Cond.RegisterCheckFunc(ToCheckFunc(CheckPlayerDirection));
-
 	UEventStream& Stream = ES::Start(true)
 		>> ES::Move(Global::PlayerCharacter, { FTileVector::Zero }, 7.2f) // 제자리 걷기 동작으로 문을 여는 동작을 표현
 		>> ES::PlaySE(RN::SEDoorOpen)
@@ -53,5 +50,8 @@ void AExteriorDoor::RegisterPredefinedEvent()
 		>> ES::Wait(0.75f)
 		>> ES::End(true);
 
-	UEventManager::RegisterEvent(this, Cond, Stream);
+	RegisterEvent(
+		EEventTriggerAction::ArrowClick, 
+		std::bind(&AWarp::CheckPlayerDirection, this),
+		Stream);
 }

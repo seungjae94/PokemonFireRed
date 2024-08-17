@@ -1,4 +1,6 @@
 #include "FadeLevelChanger.h"
+#include "EventMacros.h"
+#include "EventStream.h"
 
 AFadeLevelChanger::AFadeLevelChanger() 
 {
@@ -13,7 +15,8 @@ void AFadeLevelChanger::Update(std::string_view _TargetLevelName, bool _PlayerCo
 	FadeInTime = _FadeInTime;
 	FadeOutTime = _FadeOutTime;
 
-	UnregisterEvent();
+	UnregisterEvents();
+
 	TargetLevelName = _TargetLevelName;
 	PlayerControl = _PlayerControl;
 
@@ -30,7 +33,10 @@ void AFadeLevelChanger::Update(std::string_view _TargetLevelName, bool _PlayerCo
 void AFadeLevelChanger::RegisterPredefinedEvent()
 {
 	AEventTrigger::RegisterPredefinedEvent();
-	UEventManager::RegisterEvent(this, Cond,
+	
+	RegisterEvent(
+		EEventTriggerAction::Direct,
+		SKIP_CHECK,
 		ES::Start(false)
 		>> ES::Achieve(EAchievement::Fading)
 		>> ES::FadeOut(FadeOutTime)
@@ -46,7 +52,10 @@ void AFadeLevelChanger::RegisterPredefinedEvent()
 void AFadeLevelChanger::RegisterPredefinedEventWithBgm(std::string_view _NewBgm)
 {
 	AEventTrigger::RegisterPredefinedEvent();
-	UEventManager::RegisterEvent(this, Cond,
+	
+	RegisterEvent(
+		EEventTriggerAction::Direct,
+		SKIP_CHECK,
 		ES::Start(false)
 		>> ES::Achieve(EAchievement::Fading)
 		>> ES::FadeOut(FadeOutTime)

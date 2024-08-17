@@ -541,7 +541,7 @@ bool APlayerCharacter::TryZClickEvent()
 		return false;
 	}
 
-	bool RunResult = UEventManager::TriggerEvent(Trigger, EEventTriggerAction::ZClick);
+	bool RunResult = Trigger->TriggerEvent(EEventTriggerAction::ZClick);
 
 	if (true == RunResult)
 	{
@@ -564,7 +564,7 @@ bool APlayerCharacter::TryReadEvent()
 		return false;
 	}
 
-	bool RunResult = UEventManager::TriggerEvent(Trigger, EEventTriggerAction::Read);
+	bool RunResult = Trigger->TriggerEvent(EEventTriggerAction::Read);
 
 	return RunResult;
 }
@@ -582,7 +582,7 @@ bool APlayerCharacter::TryArrowClickEvent()
 		return false;
 	}
 
-	bool RunResult = UEventManager::TriggerEvent(Trigger, EEventTriggerAction::ArrowClick);
+	bool RunResult = Trigger->TriggerEvent(EEventTriggerAction::ArrowClick);
 
 	return RunResult;
 }
@@ -600,7 +600,7 @@ bool APlayerCharacter::TryStepOnEvent()
 		return false;
 	}
 
-	bool RunResult = UEventManager::TriggerEvent(Trigger, EEventTriggerAction::StepOn);
+	bool RunResult = Trigger->TriggerEvent(EEventTriggerAction::StepOn);
 
 	return RunResult;
 }
