@@ -55,9 +55,9 @@ void UEngineCore::CoreTick()
 	{
 		std::string UpperName = UEngineString::ToUpper(DestroyLevelName[i]);
 
-		ULevel* Level = AllLevel[UpperName];
+		ULevel* Level = Levels[UpperName];
 
-		AllLevel.erase(DestroyLevelName[i]);
+		Levels.erase(DestroyLevelName[i]);
 
 		if (Level == CurLevel)
 		{
@@ -121,7 +121,7 @@ void UEngineCore::EngineTick()
 
 void UEngineCore::EngineEnd()
 {
-	for (std::pair<const std::string, ULevel*>& _Pair : GEngine->AllLevel)
+	for (std::pair<const std::string, ULevel*>& _Pair : GEngine->Levels)
 	{
 		if (nullptr == _Pair.second)
 		{
@@ -132,7 +132,7 @@ void UEngineCore::EngineEnd()
 		_Pair.second = nullptr;
 	}
 
-	GEngine->AllLevel.clear();
+	GEngine->Levels.clear();
 }
 
 void UEngineCore::EngineStart(HINSTANCE _hInstance)
@@ -185,12 +185,12 @@ void UEngineCore::ChangeLevel(std::string_view _Name)
 {
 	std::string UpperName = UEngineString::ToUpper(_Name);
 
-	if (false == AllLevel.contains(UpperName))
+	if (false == Levels.contains(UpperName))
 	{
 		MsgBoxAssert(std::string(_Name) + "라는 존재하지 않는 레벨로 체인지 하려고 했습니다");
 	}
 
-	NextLevel = AllLevel[UpperName];
+	NextLevel = Levels[UpperName];
 }
 
 void UEngineCore::LevelInit(ULevel* _Level, std::string_view _Name)
@@ -203,7 +203,7 @@ void UEngineCore::DestroyLevel(std::string_view _Name)
 {
 	std::string UpperName = UEngineString::ToUpper(_Name);
 
-	if (false == AllLevel.contains(UpperName))
+	if (false == Levels.contains(UpperName))
 	{
 		MsgBoxAssert(std::string(_Name) + "존재하지 않는 레벨을 파괴할수는 없습니다");
 	}

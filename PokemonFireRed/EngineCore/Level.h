@@ -50,7 +50,7 @@ public:
 	{
 		ActorType* NewActor = new ActorType();
 		ActorInit(NewActor);
-		AllActor[_Order].push_back(NewActor);
+		Actors[_Order].push_back(NewActor);
 		return NewActor;
 	}
 
@@ -112,7 +112,7 @@ public:
 protected:
 
 private:
-	std::map<int, std::list<AActor*>> AllActor;
+	std::map<int, std::list<AActor*>> Actors;
 
 	// 액터의 월드를 현재 레벨로 설정하고, 액터의 BeginPlay를 호출한다.
 	void ActorInit(AActor* _Actor);

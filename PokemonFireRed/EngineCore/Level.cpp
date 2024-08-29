@@ -11,7 +11,7 @@ ULevel::ULevel()
 
 ULevel::~ULevel()
 {
-	for (std::pair<const int, std::list<AActor*>>& OrderListPair : AllActor)
+	for (std::pair<const int, std::list<AActor*>>& OrderListPair : Actors)
 	{
 		std::list<AActor*>& ActorList = OrderListPair.second;
 		for (AActor* Actor : ActorList)
@@ -25,13 +25,13 @@ ULevel::~ULevel()
 			Actor = nullptr;
 		}
 	}
-	AllActor.clear();
+	Actors.clear();
 }
 
 
 void ULevel::LevelTick(float _DeltaTime)
 {
-	for (std::pair<const int, std::list<AActor*>>& OrderListPair : AllActor)
+	for (std::pair<const int, std::list<AActor*>>& OrderListPair : Actors)
 	{
 		int Order = OrderListPair.first;
 
@@ -143,7 +143,7 @@ void ULevel::LevelRelease(float _DeltaTime)
 		}
 	}
 
-	for (std::pair<const int, std::list<AActor*>>& OrderListPair : AllActor)
+	for (std::pair<const int, std::list<AActor*>>& OrderListPair : Actors)
 	{
 		std::list<AActor*>& ActorList = OrderListPair.second;
 

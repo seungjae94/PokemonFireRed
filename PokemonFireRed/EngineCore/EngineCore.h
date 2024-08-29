@@ -47,14 +47,14 @@ public:
 	{
 		std::string UpperName = UEngineString::ToUpper(_Name);
 
-		if (true == AllLevel.contains(UpperName))
+		if (true == Levels.contains(UpperName))
 		{
 			MsgBoxAssert(std::string(_Name) + "이라는 이름의 Level을 또 만들려고 했습니다");
 		}
 
 		LevelType* NewLevel = new LevelType();
 		LevelInit(NewLevel, _Name);
-		AllLevel.insert(std::pair<std::string, ULevel*>(UpperName, NewLevel));
+		Levels.insert(std::pair<std::string, ULevel*>(UpperName, NewLevel));
 	}
 
 	virtual void WindowOpen(std::string& _OutWindowTitle, std::string& _SmallIconPath) {}
@@ -95,7 +95,7 @@ private:
 
 	// 레벨 관련
 	bool EngineInit = false;
-	std::map<std::string, ULevel*> AllLevel;
+	std::map<std::string, ULevel*> Levels;
 	ULevel* CurLevel = nullptr;
 	ULevel* NextLevel = nullptr;
 	std::vector<std::string> DestroyLevelName;
