@@ -36,8 +36,8 @@ void ASurprise::BeginPlay()
 	}
 
 	Renderer = CreateImageRenderer(ERenderingOrder::UI0);
-	Renderer->SetImage(RN::Surprise);
-	Renderer->CreateAnimation("Surprise", RN::Surprise, Indexes, 1.0f / 30, false);
+	Renderer->SetImage(RN::SurpriseIcon);
+	Renderer->CreateAnimation("Surprise", RN::SurpriseIcon, Indexes, 1.0f / 30, false);
 	Renderer->SetTransform({ {0, 0}, {Global::FloatTileSize, 2 * Global::FloatTileSize } });
 }
 

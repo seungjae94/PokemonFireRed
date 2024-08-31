@@ -296,6 +296,14 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="EventCommand.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="EventCommand_ProcessingData.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="EventMacros.h" />
     <ClInclude Include="ExpCalculator.h">
       <SubType>
@@ -777,6 +785,14 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="EnemyTackleAnimator.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="EventCommand.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="EventCommand_ProcessingData.cpp">
       <SubType>
       </SubType>
     </ClCompile>

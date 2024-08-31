@@ -8,3 +8,57 @@ enum class EEventTriggerAction
 	StepOn,		// 플레이어가 트리거와 같은 위치에 있음 (태초마을 처음 나갈 때 이벤트를 발생시키는 발판 등)
 	Direct		// 이벤트를 직접 발생시키는 경우 (타이틀 레벨 페이드 아웃 트리거 등)
 };
+
+
+enum class EEventType
+{
+	SetActive,
+	Destroy,
+	Move,
+	MoveDynamicPath,
+	MoveWithoutRestriction,
+	Surprise,
+	FadeIn,
+	FadeOut,
+	FadeInBgm,
+	FadeOutBgm,
+	Wait,
+	Chat,
+	ShowMapName,
+	ChangeArea,
+	ChangeLevel,
+	ChangePoint,
+	ChangePosition,
+	ChangeDirection,
+	StarePlayer,
+	PlayAnimation,
+	PlayBgm,
+	PlaySE,
+	PauseBgm,
+	ResumeBgm,
+	HideActor,
+	ShowActor,
+	CameraFocus,
+	DeactivatePlayerControl,
+	WildBattle,
+	TrainerBattle,
+	Achieve,
+	Unachieve,
+	GainItem,
+	End,
+};
+
+enum class EFadeType
+{
+	Black,
+	White,
+	HCurtain,
+	VCurtain
+};
+
+enum class EAnimTarget
+{
+	All,
+	UpperBodyOnly,
+	LowerBodyOnly,
+};

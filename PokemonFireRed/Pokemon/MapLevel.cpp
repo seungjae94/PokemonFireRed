@@ -83,11 +83,11 @@ void UMapLevel::BeginPlay()
 	Map = SpawnActor<AMap>();
 
 	UEventTargetSetting SurpriseSetting;
-	SurpriseSetting.SetName(EN::Surprise);
+	SurpriseSetting.SetName(EN::SurpriseIcon);
 	SurpriseSetting.SetDirection(FTileVector::Down);
 	SurpriseSetting.SetPoint({10000, 10000});
 	SurpriseSetting.SetCollidable(false);
-	ASurprise* Surprise = SpawnEventTarget<ASurprise>(SurpriseSetting);
+	ASurprise* SurpriseIcon = SpawnEventTarget<ASurprise>(SurpriseSetting);
 
 	// 플레이어 데이터 바인딩
 	Player->SetMap(Map);
@@ -251,7 +251,7 @@ void UMapLevel::LoadObjectResources()
 
 	// BallHeal, Surprise 로드
 	UEngineResourcesManager::GetInst().CuttingImage(RN::BallHeal, 5, 1);
-	UEngineResourcesManager::GetInst().CuttingImage(RN::Surprise, 8, 1);
+	UEngineResourcesManager::GetInst().CuttingImage(RN::SurpriseIcon, 8, 1);
 
 	CurDir.MoveParent();
 }

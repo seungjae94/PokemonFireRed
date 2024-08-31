@@ -517,6 +517,12 @@
     <ClInclude Include="EventMacros.h">
       <Filter>4. Event</Filter>
     </ClInclude>
+    <ClInclude Include="EventCommand.h">
+      <Filter>4. Event</Filter>
+    </ClInclude>
+    <ClInclude Include="EventCommand_ProcessingData.h">
+      <Filter>4. Event</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PokemonCore.cpp">
@@ -874,5 +880,11 @@
       <Filter>2. Level</Filter>
     </ClCompile>
     <ClCompile Include="GameData.cpp" />
+    <ClCompile Include="EventCommand.cpp">
+      <Filter>4. Event</Filter>
+    </ClCompile>
+    <ClCompile Include="EventCommand_ProcessingData.cpp">
+      <Filter>4. Event</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

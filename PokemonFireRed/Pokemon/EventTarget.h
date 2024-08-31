@@ -109,6 +109,11 @@ public:
 
 	void ChangeMoveAnimation(ETargetMoveState _State, const FTileVector& _Direction);
 
+	int GetHeight() const
+	{
+		return Height;
+	}
+
 	FTileVector GetPoint() const
 	{
 		return Point;
@@ -134,6 +139,21 @@ public:
 		return MoveState;
 	}
 
+	void ResetFootOrder()
+	{
+		FootOrder = 0;
+	}
+
+	UImageRenderer* GetUpperBodyRenderer()
+	{
+		return UpperBodyRenderer;
+	}
+
+	UImageRenderer* GetLowerBodyRenderer()
+	{
+		return LowerBodyRenderer;
+	}
+
 protected:
 	// 이벤트 타겟 초기 세팅
 	FTileVector Point = FTileVector::Zero;
@@ -156,12 +176,6 @@ protected:
 	{
 		FootOrder = (FootOrder + 1) % 2;
 	}
-
-	void ResetFootOrder()
-	{
-		FootOrder = 0;
-	}
-
 
 	// 렌더러
 	UImageRenderer* UpperBodyRenderer = nullptr;
