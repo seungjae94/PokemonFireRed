@@ -16,7 +16,7 @@ UEngineCore::~UEngineCore()
 {
 }
 
-void UEngineCore::CoreTick()
+void UEngineCore::EngineTick()
 {
 	float DeltaTime = MainTimer.TimeCheck();
 	double dDeltaTime = MainTimer.GetDeltaTime();
@@ -114,11 +114,6 @@ void UEngineCore::CoreTick()
 	CurLevel->LevelRelease(DeltaTime);
 }
 
-void UEngineCore::EngineTick()
-{
-	GEngine->CoreTick();
-}
-
 void UEngineCore::EngineEnd()
 {
 	for (std::pair<const std::string, ULevel*>& _Pair : GEngine->Levels)
@@ -148,7 +143,7 @@ void UEngineCore::EngineStart(HINSTANCE _hInstance)
 	BeginPlay();
 
 	// 메시지 루프 시작
-	UEngineWindow::WindowMessageLoop(EngineTick, EngineEnd);
+	UEngineWindow::WindowMessageLoop(std::bind(&UEngineCore::EngineTick, this), std::bind(&UEngineCore::EngineEnd, this));
 }
 
 void UEngineCore::CoreInit(HINSTANCE _HINSTANCE)

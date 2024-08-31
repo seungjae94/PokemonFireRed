@@ -101,9 +101,8 @@ private:
 	std::vector<std::string> DestroyLevelName;
 
 	// 메시지 루프 콜백 함수
-	static void EngineTick();
-	void CoreTick();
-	static void EngineEnd();		// 코어가 레벨을 생성했기 때문에 코어가 레벨을 릴리즈해야 한다.
+	void EngineTick();
+	void EngineEnd();		// 코어가 레벨을 생성했기 때문에 코어가 레벨을 릴리즈해야 한다.
 
 	void LevelInit(ULevel* _Level, std::string_view _Name); // 레벨의 BeginPlay 함수를 호출해주는 함수
 };

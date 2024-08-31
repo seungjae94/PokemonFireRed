@@ -2,6 +2,7 @@
 #include <Windows.h>
 #include <string>
 #include <EngineBase\EngineMath.h>
+#include <functional>
 
 class UWindowImage;
 
@@ -34,7 +35,7 @@ public:
 	/// <param name="_EndCallback">
 	///		루프가 종료된 뒤 호출할 콜백
 	/// </param>
-	static unsigned __int64 WindowMessageLoop(void(*_Update)(), void(*_End)());
+	static void WindowMessageLoop(std::function<void()> _Update, std::function<void()> _End);
 
 	UWindowImage* GetWindowImage()
 	{

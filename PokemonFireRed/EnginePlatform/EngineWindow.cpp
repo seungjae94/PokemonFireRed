@@ -120,7 +120,7 @@ void UEngineWindow::Open(std::string_view _Title /*= "Title"*/, std::string_view
 	UpdateWindow(hWnd);
 }
 
-unsigned __int64 UEngineWindow::WindowMessageLoop(void(*_Update)(), void(*_End)())
+void UEngineWindow::WindowMessageLoop(std::function<void()> _Update, std::function<void()> _End)
 {
 	MSG msg = {};
 
@@ -159,8 +159,6 @@ unsigned __int64 UEngineWindow::WindowMessageLoop(void(*_Update)(), void(*_End)(
 	{
 		_End();
 	}
-
-	return msg.wParam;
 }
 
 FVector UEngineWindow::GetMousePosition()
