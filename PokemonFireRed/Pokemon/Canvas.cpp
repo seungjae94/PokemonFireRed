@@ -25,13 +25,13 @@ AText* ACanvas::CreateText(AUIParent* _Parent, ERenderingOrder _Order, EPivotTyp
 	return Text;
 }
 
-AScrollBar* ACanvas::CreateScrollBar(AUIParent* _Parent, ERenderingOrder _Order, EPivotType _PivotType, int _RelativePixelX, int _RelativePixelY, EScrollType _ScrollType)
+ABar* ACanvas::CreateBar(AUIParent* _Parent, ERenderingOrder _Order, EPivotType _PivotType, int _RelativePixelX, int _RelativePixelY, EBarType _BarType)
 {
-	AScrollBar* Bar = GetWorld()->SpawnActor<AScrollBar>();
+	ABar* Bar = GetWorld()->SpawnActor<ABar>();
 	Bar->SetParent(_Parent);
 	Bar->SetRenderingOrder(_Order);
 	Bar->SetPivotType(_PivotType);
-	Bar->SetScrollType(_ScrollType);
+	Bar->SetBarType(_BarType);
 	Bar->SetRelativePosition(UPokemonUtil::PixelVector(_RelativePixelX, _RelativePixelY));
 	_Parent->AppendChild(Bar);
 	return Bar;

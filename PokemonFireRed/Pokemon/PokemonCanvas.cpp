@@ -89,7 +89,7 @@ void APokemonCanvas::BeginPlay()
 	FirstLevelText = CreateText(FirstBox, ERenderingOrder::UI2, EPivotType::RightBot, -37, -19, EAlignType::Left, EFontColor::WhiteGray, EFontSize::Mini);
 	FirstHpText = CreateText(FirstBox, ERenderingOrder::UI2, EPivotType::RightBot, -5, -3, EAlignType::Right, EFontColor::WhiteGray, EFontSize::Mini);
 	FirstCurHpText = CreateText(FirstBox, ERenderingOrder::UI2, EPivotType::RightBot, -25, -3, EAlignType::Right, EFontColor::WhiteGray, EFontSize::Mini);
-	FirstHpBar = CreateScrollBar(FirstBox, ERenderingOrder::UI2, EPivotType::RightBot, -53, -15, EScrollType::Hp);
+	FirstHpBar = CreateBar(FirstBox, ERenderingOrder::UI2, EPivotType::RightBot, -53, -15, EBarType::Hp);
 	FirstPokemonIcon = CreateImageElement(FirstBox, ERenderingOrder::UI2, EPivotType::LeftBot, -2, -23, EImageElementType::PokemonMiniMove);
 	FirstGender = CreateImageElement(FirstBox, ERenderingOrder::UI2, EPivotType::RightBot, -9, -19);
 	FirstStatus = CreateImageElement(FirstBox, ERenderingOrder::UI3, EPivotType::RightBot, -28, -19);
@@ -100,7 +100,7 @@ void APokemonCanvas::BeginPlay()
 		AText* LevelText = CreateText(EntryBoxes[i - 1], ERenderingOrder::UI2, EPivotType::LeftBot, 48, 0, EAlignType::Left, EFontColor::WhiteGray, EFontSize::Mini);
 		AText* HpText = CreateText(EntryBoxes[i - 1], ERenderingOrder::UI2, EPivotType::RightBot, -5, 0, EAlignType::Right, EFontColor::WhiteGray, EFontSize::Mini);
 		AText* CurHpText = CreateText(EntryBoxes[i - 1], ERenderingOrder::UI2, EPivotType::RightBot, -25, 0, EAlignType::Right, EFontColor::WhiteGray, EFontSize::Mini);
-		AScrollBar* HpBar = CreateScrollBar(EntryBoxes[i - 1], ERenderingOrder::UI2, EPivotType::RightBot, -53, -13, EScrollType::Hp);
+		ABar* HpBar = CreateBar(EntryBoxes[i - 1], ERenderingOrder::UI2, EPivotType::RightBot, -53, -13, EBarType::Hp);
 		AImageElement* Icon = CreateImageElement(EntryBoxes[i - 1], ERenderingOrder::UI2, EPivotType::LeftBot, -3, 3, EImageElementType::PokemonMiniMove);
 		AImageElement* Gender = CreateImageElement(EntryBoxes[i - 1], ERenderingOrder::UI2, EPivotType::RightBot, -72, 0);
 		AImageElement* Status = CreateImageElement(EntryBoxes[i - 1], ERenderingOrder::UI3, EPivotType::RightBot, -91, 0);
@@ -186,7 +186,7 @@ void APokemonCanvas::LerpPokemonBox(int _Index, const FVector& _Before, const FV
 
 void APokemonCanvas::LerpHeal(int _Index, int _PrevHp, int _NextHp, int _MaxHp, float _t)
 {
-	AScrollBar* HpBar = FirstHpBar;
+	ABar* HpBar = FirstHpBar;
 	AText* CurHpText = FirstCurHpText;
 
 	if (_Index > 0)

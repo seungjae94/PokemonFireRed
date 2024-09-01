@@ -30,13 +30,13 @@ public:
 		EFontSize _Size = EFontSize::Normal
 	);
 
-	AScrollBar* CreateScrollBar(
+	ABar* CreateBar(
 		AUIParent* _Parent,
 		ERenderingOrder _Order,
 		EPivotType _PivotType,
 		int _RelativePixelX,
 		int _RelativePixelY,
-		EScrollType _ScrollType
+		EBarType _BarType
 	);
 
 	ACursor* CreateCursor(

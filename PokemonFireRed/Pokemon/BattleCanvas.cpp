@@ -92,7 +92,7 @@ void ABattleCanvas::BeginPlay()
 	// EnemyPokemonBox ¿ä¼Ò
 	EnemyPokemonNameText = CreateText(EnemyPokemonBox, ERenderingOrder::UI4, EPivotType::LeftTop, 7, 12, EAlignType::Left, EFontColor::Black, EFontSize::Mini);
 	EnemyPokemonLevelText = CreateText(EnemyPokemonBox, ERenderingOrder::UI4, EPivotType::LeftTop, 85, 12, EAlignType::Right, EFontColor::Black, EFontSize::Mini);
-	EnemyPokemonHpBar = CreateScrollBar(EnemyPokemonBox, ERenderingOrder::UI4, EPivotType::LeftTop, 39, 17, EScrollType::Hp);
+	EnemyPokemonHpBar = CreateBar(EnemyPokemonBox, ERenderingOrder::UI4, EPivotType::LeftTop, 39, 17, EBarType::Hp);
 	EnemyPokemonGenderMark = CreateImageElement(EnemyPokemonBox, ERenderingOrder::UI4, EPivotType::LeftTop, 10, 5);
 	EnemyPokemonStatusMark = CreateImageElement(EnemyPokemonBox, ERenderingOrder::UI4, EPivotType::LeftTop, 7, 14);
 
@@ -101,8 +101,8 @@ void ABattleCanvas::BeginPlay()
 	PlayerPokemonLevelText = CreateText(PlayerPokemonBox, ERenderingOrder::UI5, EPivotType::RightTop, -9, 12, EAlignType::Right, EFontColor::Black, EFontSize::Mini);
 	PlayerPokemonCurHpText = CreateText(PlayerPokemonBox, ERenderingOrder::UI5, EPivotType::RightBot, -29, -6, EAlignType::Right, EFontColor::Black, EFontSize::Mini);
 	PlayerPokemonHpText = CreateText(PlayerPokemonBox, ERenderingOrder::UI5, EPivotType::RightBot, -9, -6, EAlignType::Right, EFontColor::Black, EFontSize::Mini);
-	PlayerPokemonHpBar = CreateScrollBar(PlayerPokemonBox, ERenderingOrder::UI5, EPivotType::RightTop, -55, 17, EScrollType::Hp);
-	PlayerPokemonExpBar = CreateScrollBar(PlayerPokemonBox, ERenderingOrder::UI5, EPivotType::RightTop, -71, 33, EScrollType::Exp);
+	PlayerPokemonHpBar = CreateBar(PlayerPokemonBox, ERenderingOrder::UI5, EPivotType::RightTop, -55, 17, EBarType::Hp);
+	PlayerPokemonExpBar = CreateBar(PlayerPokemonBox, ERenderingOrder::UI5, EPivotType::RightTop, -71, 33, EBarType::Exp);
 	PlayerPokemonGenderMark = CreateImageElement(PlayerPokemonBox, ERenderingOrder::UI5, EPivotType::LeftTop, 10, 5);
 	PlayerPokemonStatusMark = CreateImageElement(PlayerPokemonBox, ERenderingOrder::UI5, EPivotType::RightTop, -65, 22);
 

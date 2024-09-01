@@ -1,15 +1,15 @@
 #include "ScrollBar.h"
 #include "PokemonUtil.h"
 
-AScrollBar::AScrollBar() 
+ABar::ABar() 
 {
 }
 
-AScrollBar::~AScrollBar() 
+ABar::~ABar() 
 {
 }
 
-void AScrollBar::DrawHp(int _Value)
+void ABar::DrawHp(int _Value)
 {
 	float Prop = _Value / static_cast<float>(MaxValue);
 	float TotalWidth = 48 * Global::FloatPixelSize;		// 빈 영역을 포함한 전체 영역의 너비
@@ -59,7 +59,7 @@ void AScrollBar::DrawHp(int _Value)
 	}
 }
 
-void AScrollBar::DrawExp(int _Value)
+void ABar::DrawExp(int _Value)
 {
 	float Prop = _Value / static_cast<float>(MaxValue);
 	int TotalPixelWidth = 64;

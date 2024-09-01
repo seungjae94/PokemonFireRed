@@ -195,7 +195,7 @@ private:
 	// EnemyPokemonBox ¿ä¼Ò
 	AText* EnemyPokemonNameText = nullptr;
 	AText* EnemyPokemonLevelText = nullptr;
-	AScrollBar* EnemyPokemonHpBar = nullptr;
+	ABar* EnemyPokemonHpBar = nullptr;
 	AImageElement* EnemyPokemonGenderMark = nullptr;
 	AImageElement* EnemyPokemonStatusMark = nullptr;
 
@@ -204,8 +204,8 @@ private:
 	AText* PlayerPokemonLevelText = nullptr;
 	AText* PlayerPokemonCurHpText = nullptr;
 	AText* PlayerPokemonHpText = nullptr;
-	AScrollBar* PlayerPokemonHpBar = nullptr;
-	AScrollBar* PlayerPokemonExpBar = nullptr;
+	ABar* PlayerPokemonHpBar = nullptr;
+	ABar* PlayerPokemonExpBar = nullptr;
 	AImageElement* PlayerPokemonGenderMark = nullptr;
 	AImageElement* PlayerPokemonStatusMark = nullptr;
 

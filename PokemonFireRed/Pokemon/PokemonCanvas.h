@@ -79,7 +79,7 @@ private:
 	AText* FirstLevelText = nullptr;
 	AText* FirstHpText = nullptr;
 	AText* FirstCurHpText = nullptr;
-	AScrollBar* FirstHpBar = nullptr;
+	ABar* FirstHpBar = nullptr;
 	AImageElement* FirstGender = nullptr;
 	AImageElement* FirstStatus = nullptr;
 
@@ -89,7 +89,7 @@ private:
 	std::vector<AText*> EntryLevelTexts;
 	std::vector<AText*> EntryHpTexts;
 	std::vector<AText*> EntryCurHpTexts;
-	std::vector<AScrollBar*> EntryHpBars;
+	std::vector<ABar*> EntryHpBars;
 	std::vector<AImageElement*> EntryGenders;
 	std::vector<AImageElement*> EntryStatuses;
 

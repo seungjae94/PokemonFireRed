@@ -86,8 +86,8 @@ private:
 	AText* NextLevelExpText = nullptr;
 	AText* AbilityText = nullptr;
 	AText* AbilityExplainText = nullptr;
-	AScrollBar* HpBar = nullptr;
-	AScrollBar* ExpBar = nullptr;
+	ABar* HpBar = nullptr;
+	ABar* ExpBar = nullptr;
 
 	// MovesBox ¿ä¼Ò
 	std::vector<AText*> MoveNameTexts;

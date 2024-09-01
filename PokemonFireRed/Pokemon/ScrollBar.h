@@ -2,28 +2,28 @@
 #include "UIElement.h"
 #include "Global.h"
 
-enum class EScrollType
+enum class EBarType
 {
 	Hp,
 	Exp,
 };
 
-class AScrollBar : public AUIElement
+class ABar : public AUIElement
 {
 public:
 	// constructor destructor
-	AScrollBar();
-	~AScrollBar();
+	ABar();
+	~ABar();
 
 	// delete Function
-	AScrollBar(const AScrollBar& _Other) = delete;
-	AScrollBar(AScrollBar&& _Other) noexcept = delete;
-	AScrollBar& operator=(const AScrollBar& _Other) = delete;
-	AScrollBar& operator=(AScrollBar&& _Other) noexcept = delete;
+	ABar(const ABar& _Other) = delete;
+	ABar(ABar&& _Other) noexcept = delete;
+	ABar& operator=(const ABar& _Other) = delete;
+	ABar& operator=(ABar&& _Other) noexcept = delete;
 
-	void SetScrollType(EScrollType _ScrollType)
+	void SetBarType(EBarType _BarType)
 	{
-		ScrollType = _ScrollType;
+		BarType = _BarType;
 	}
 
 	void SetMaxValue(int _MaxValue)
@@ -33,12 +33,12 @@ public:
 
 	void SetValue(int _Value)
 	{
-		switch (ScrollType)
+		switch (BarType)
 		{
-		case EScrollType::Hp:
+		case EBarType::Hp:
 			DrawHp(_Value);
 			break;
-		case EScrollType::Exp:
+		case EBarType::Exp:
 			DrawExp(_Value);
 			break;
 		default:
@@ -52,7 +52,7 @@ private:
 	std::vector<UImageRenderer*> Renderers;
 
 	int MaxValue = 0;
-	EScrollType ScrollType = EScrollType::Hp;
+	EBarType BarType = EBarType::Hp;
 	void DrawHp(int _Value);
 	void DrawExp(int _Value);
 };

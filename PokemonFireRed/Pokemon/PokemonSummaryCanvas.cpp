@@ -76,8 +76,8 @@ void APokemonSummaryCanvas::BeginPlay()
 	NextLevelExpText = CreateText(SkillsBox, ERenderingOrder::UI2, EPivotType::RightTop, -3, 111, EAlignType::Right, EFontColor::Black2);
 	AbilityText = CreateText(SkillsBox, ERenderingOrder::UI2, EPivotType::LeftBot, 73, -19, EAlignType::Left, EFontColor::Black2);
 	AbilityExplainText = CreateText(SkillsBox, ERenderingOrder::UI2, EPivotType::LeftBot, 10, -5, EAlignType::Left, EFontColor::Black2);
-	HpBar = CreateScrollBar(SkillsBox, ERenderingOrder::UI2, EPivotType::RightTop, -55, 18, EScrollType::Hp);
-	ExpBar = CreateScrollBar(SkillsBox, ERenderingOrder::UI2, EPivotType::RightBot, -71, -29, EScrollType::Exp);
+	HpBar = CreateBar(SkillsBox, ERenderingOrder::UI2, EPivotType::RightTop, -55, 18, EBarType::Hp);
+	ExpBar = CreateBar(SkillsBox, ERenderingOrder::UI2, EPivotType::RightBot, -71, -29, EBarType::Exp);
 
 	// MovesBox ¿ä¼Ò
 	for (int i = 0; i < 4; ++i)
